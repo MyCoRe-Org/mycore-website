@@ -50,14 +50,14 @@ main:
 -       {identifier: mcrobj_store, 		parent: mcrobject, 			name: Metadatenspeicher, 			weight: -95, url: /documentation/basics/mcrobject/mcrobj_store}
 -       {identifier: mcrobj_commands, 	parent: mcrobject, 			name: Kommandos, 					weight: -94, url: /documentation/basics/mcrobject/mcrobj_commands}
 -     {identifier: mcrderivate, 		parent: basics, 			name: Derivate, 					weight: -97, url: /documentation/basics/mcrderivate}
--       {identifier: mcrder_xml, 		parent: mcrderivate, 		name: XML-Format, 					weight: -99, url: /documentation/basics/mcrderivate_ifs/mcrder_xml}
--       {identifier: mcrder_commands, 	parent: mcrderivate, 		name: Kommandos, 					weight: -98, url: /documentation/basics/mcrderivate_ifs/mcrder_commands}
--       {identifier: mcrder_ifs, 		parent: mcrderivate, 		name: IFS / IFS2, 					weight: -96, url: /documentation/basics/mcrderivate_ifs/mcrder_ifs}
--       {identifier: mcrder_zip, 		parent: mcrderivate, 		name: ZIP-Dateien, 					weight: -95, url: /documentation/basics/mcrderivate_ifs/mcrder_zip}
--       {identifier: mcrder_streaming, 	parent: mcrderivate, 		name: StreamingServer, 				weight: -94, url: /documentation/basics/mcrderivate_ifs/mcrder_streaming}
--       {identifier: mcrder_fileupload, parent: mcrderivate, 		name: File-Upload, 					weight: -93, url: /documentation/basics/mcrderivate_ifs/mcrder_fileupload}
--       {identifier: iview2, 			parent: mcrderivate, 		name: IView2, 						weight: -92, url: /documentation/basics/mcrderivate_ifs/iview2}
--       {identifier: mcrderiv_mets, 	parent: mcrderivate, 		name: METS, 						weight: -91, url: /documentation/basics/mcrderivate_ifs/mcrderiv_mets}
+-       {identifier: mcrder_xml, 		parent: mcrderivate, 		name: XML-Format, 					weight: -99, url: /documentation/basics/mcrderivate/mcrder_xml}
+-       {identifier: mcrder_commands, 	parent: mcrderivate, 		name: Kommandos, 					weight: -98, url: /documentation/basics/mcrderivate/mcrder_commands}
+-       {identifier: mcrder_ifs, 		parent: mcrderivate, 		name: IFS / IFS2, 					weight: -96, url: /documentation/basics/mcrderivate/mcrder_ifs}
+-       {identifier: mcrder_zip, 		parent: mcrderivate, 		name: ZIP-Dateien, 					weight: -95, url: /documentation/basics/mcrderivate/mcrder_zip}
+-       {identifier: mcrder_streaming, 	parent: mcrderivate, 		name: StreamingServer, 				weight: -94, url: /documentation/basics/mcrderivate/mcrder_streaming}
+-       {identifier: mcrder_fileupload, parent: mcrderivate, 		name: File-Upload, 					weight: -93, url: /documentation/basics/mcrderivate/mcrder_fileupload}
+-       {identifier: iview2, 			parent: mcrderivate, 		name: IView2, 						weight: -92, url: /documentation/basics/mcrderivate/iview2}
+-       {identifier: mcrderiv_mets, 	parent: mcrderivate, 		name: METS, 						weight: -91, url: /documentation/basics/mcrderivate/mcrderiv_mets}
 -     {identifier: classifications, 	parent: basics, 			name: Klassifikationen, 			weight: -96, url: /documentation/basics/classifications}
 -       {identifier: classif_index, 	parent: classifications, 	name: Übersicht, 					weight: -99, url: /documentation/basics/classifications/classif_index}
 -       {identifier: classif_xml, 		parent: classifications, 	name: Datenmodell, 					weight: -98, url: /documentation/basics/classifications/classif_xml}
