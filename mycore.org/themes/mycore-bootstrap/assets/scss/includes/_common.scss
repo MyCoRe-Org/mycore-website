@@ -104,6 +104,10 @@ a.latestnews {
   margin-right: -10px;
 }
 
+.mcr-news div:last-child a.latestnews {
+  border-right: 0px;
+}
+
 a.latestnews:hover {
   background-image: url("../images/start/icon_arrow_orange.png");
   background-repeat: no-repeat;
