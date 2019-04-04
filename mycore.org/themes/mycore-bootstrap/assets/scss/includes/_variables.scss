@@ -1,0 +1,18 @@
+/* for bootstrap theme building see https://bootstrap.build/app */
+$dark:                      #343a40;
+$link-color:                $dark;
+$body-color:                #444;
+$primary:                   rgba(210, 157, 77, 1);
+
+$font-family-base:         "Open Sans", Helvetica, Arial, sans-serif;
+$headings-font-family:     "Sintony", Verdana, sans-serif;
+$headings-font-weight:     700;
+
+$font-size-base:            1rem;
+$h1-font-size:              $font-size-base * 2;
+$h2-font-size:              $font-size-base * 1.5;
+$h3-font-size:              $font-size-base * 1.25;
+$h4-font-size:              $font-size-base;
+$h5-font-size:              $font-size-base;
+
+$link-hover-decoration:     none;
