@@ -1,0 +1,64 @@
+
+---
+
+title: "File Upload für digitale Objekte"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt']
+description: "
+      Im Rahmen des Workfolw wird der Upload mittels eines implementierten Mechanismus realisiert. Dabei wird
+      Wert auf die Kompatibilität zu Standardverfahren gelegt.
+    "
+date: "2018-07-04"
+
+---
+
+    <div>
+      <h2>Das MCRUploadViaFormServlet</h2>
+      <p>Dieses Servlet nimmt Daten aus einem Upload Formular entgegen und legt die digitalen Objekte im MyCoRe-System
+        als Derivate ab. Um ganze Verzeichnisse abzulegen, sind diese in ein Zip-File zu packen. Selbiges wird dann
+        automatisch ausgepackt. Um Zip-Files direkt abzulegen ist unten stehendes Property zu setzten.
+      </p>
+      <p>Syntax des Servlet-Aufrufes:</p>
+      {{< highlight xml "linenos=table">}}
+{$WebApplicationBaseURL}servlets/MCRUploadViaFormServlet?uploadId={$uploadId}&amp;method=formBasedUpload&amp;cancelUrl={cancelUrl}&amp;parentObjectID={$parentObjectID}&amp;derivateID={$derivateID}{{< /highlight >}}
+      <ul>
+        <li>
+          <code>uploadId</code>
+          - eine eindeutige ID für den Upload. Diese wird beim Aufruf der Upload-Seite generiert.
+        </li>
+        <li>
+          <code>method</code>
+          - hier ist derzeit nur die Methode
+          <code>formBasedUpload</code>
+          definiert.
+        </li>
+        <li>
+          <code>cancelURL</code>
+          - die URL für den Cancel Button.
+        </li>
+        <li>
+          <code>parentObjectID</code>
+          - Die MyCoRe ID des Objektes.
+        </li>
+        <li>
+          <code>derivateID</code>
+          - Die MyCoRe ID des zugehörigen Derivates.
+        </li>
+        <li>
+          <code>filename[]</code>
+          - liste der Einzeldateien.
+        </li>
+      </ul>
+      <p>Properties:</p>
+      <ul>
+        <li>
+          <code>MCR.FileUpload.DecompressZip=[true|false]</code>
+          -
+          <code>true</code>
+          bedeutet das Dekomprimieren der Zip-Dateien,
+          <code>false</code>
+          unterdrückt das.
+        </li>
+      </ul>
+    </div>
+  

@@ -1,0 +1,31 @@
+<aside class="mcr-toc pl-5">
+	<h6 class="js-toc-ignore">auf dieser Seite ...</h6>
+	<div id="js-toc">
+	</div>      
+</aside> 
+
+
+<script src='{{relURL "js/tocbot/4.5.0/tocbot.min.js"}}'></script>
+<script>
+var content = document.querySelector('body')
+var headings = content.querySelectorAll('h2, h3, h4, h5, h6, h7')
+var headingMap = {}
+
+Array.prototype.forEach.call(headings, function(heading) {
+  var id = heading.id ? heading.id : heading.textContent.toLowerCase().replace(/[^a-z0-9\s]/ig, '')
+      .split(' ').join('-') //.replace(/[\!\@\#\$\%\^\&\*\(\)\:]/ig, '');
+  headingMap[id] = !isNaN(headingMap[id]) ? ++headingMap[id] : 0;
+  if (headingMap[id]) {
+    heading.id = id + '-' + headingMap[id]
+  } else {
+    heading.id = id
+  }
+});
+
+tocbot.init({
+  tocSelector: '#js-toc',   // Where to render the table of contents.
+  contentSelector: 'body', // Where to grab the headings to build the table of contents.
+  headingSelector: 'h2, h3, h4, h5, h6, h7',  // Which headings to grab inside of the contentSelector element.
+  orderedList: false  // Render as <ul>
+});
+</script>

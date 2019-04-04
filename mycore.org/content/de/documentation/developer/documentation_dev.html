@@ -1,0 +1,99 @@
+
+---
+
+title: "Dokumentation"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+date: "2016-05-26"
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p> Die Dokumentation von MyCoRe und die Unterstützung der Entwickler erfolgt über mehrere Medien.</p>
+      <ol>
+        <li>
+          Die MyCoRe-Dokumentation wird mit Apache Forrest erstellt.
+          <a href="{{< ref overview >}}">http://www.mycore.de/documentation/index.html</a>
+        </li>
+        <li>
+          Die Know-How- und Dokumentationsseiten der MyCoRe-Wiki-Installation
+          <a href="http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation">http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation</a>
+          dient als Platform für ein Wissensforum zum Erfahrungsaustausch der Anwender.
+        </li>
+        <li>Die Mailing-Listen für Benutzer und Entwickler zur direkten Kommunikation.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>An der Dokumentation mitarbeiten</h2>
+      <p>
+        Für die Mitarbeit an der Dokumentation ist ein checkout von
+        <strong>documentation</strong>
+        vom SVN-Trunk erforderlich.
+        Um die Dokumentation lokal zu aktivieren, ist die Installation von Apache Forrest v0.9
+        erforderlich. Es muss die Environment-Variable FORREST_HOME gesetzt werden. Für den Start ist in das
+        root-Verzeichnis der Dokumentation zu wechseln. Vor der ersten Nutzung muss das Kommando <strong>ant config-fop</strong>
+        aufgerufen werden. Danach kann mit <strong>forrest run</strong> eine lokale Dokumentation gebaut und über
+        <a href="http://localhost:8888">http://localhost:8888</a> im Browser aufgerufen werden. Änderungen sind dabei
+        immer sofort sichtbar, es ist kein erneuter Aufruf nötig.
+      </p>
+      <p>
+        Die Sprache der Dokumente ist wahlweise Deutsch oder Englisch.
+      </p>
+    </div>
+    <div>
+      <h2>Inhalte erstellen</h2>
+      <div>
+        <h3>Aufbau des Seiten-Header</h3>
+        <p>
+          Um auf der Webseite Seitenautor und letzte Änderung ausgeben zu lassen, sind die header-tags <code>&lt;authors</code> und
+          <code>&lt;version&gt;</code> zu verwenden. Die Angabe der Personennamen erfolgt in der Form "Vorname Nachname", die Version
+          enthält das Datum der aktuellen Änderung in ISO-Form: YYYY-MM-DD. Weiterhin ist anzugeben, für welcher Releases diese
+          Seite Gültigkeit hat. Dabei können auch, wie im Beispiel, mehrere Release-Stände angegeben werden, wenn dies zutrifft.
+        </p>
+        {{< highlight xml "linenos=table">}}
+  <header>
+    <title>Meine Testseite</title>
+    <release>2015.05</release>
+    <release>2016.06</release>
+    <version>2016-11-11</version>
+    <authors>
+      <person email="[EMAIL PROTECTED]" name="Max Mustermann" />
+    </authors>
+  </header>{{< /highlight >}}
+      </div>
+      
+      <div>
+        <h3>Code-Beispiele mit Syntax-Highlighting</h3>
+        <p>
+          Für eine gut lesbare Darstellung der Code-Beispiele nutzen wir den <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>,
+          eine JavaScript-Entwicklung. Dazu muss ein <code>&lt;pre&gt;</code>-Tag mit der CSS-Klasse <code>brush: [language];</code> definiert werden:
+        </p>
+        {{< highlight xml "linenos=table">}}
+<pre class="brush: xml;"><![CDATA[
+  <example>Dies ist ein XML-Codebeispiel</example>
+</pre>{{< /highlight >}}
+        <p>
+          Standardmäßig stehen die Layouts <code>brush: xml</code>, <code>brush: bash</code> und <code>brush: java</code>
+          zur Verfügung. Sollten weitere Layouts benötigt werden, können diese wie folgt eingebunden werden, z.B. <code>brush: sql</code>,:
+        </p>
+        {{< highlight xml "linenos=table">}}
+   <!--
+    You need to include a brush for every language you want to highlight
+    -->
+   <script type="text/javascript" src="/documentation/skin/shBrushSql.js"></script>
+
+   <pre class="brush: sql; gutter: false;">
+     SELECT * FROM mcrcategory;
+   </pre>
+   {{< /highlight >}}
+      </div>
+      
+      <div>
+        <h3>Markieren von Funktionen, die bei folgenden Releases entfallen</h3>
+        <p>
+          Um zu markieren, dass die beschriebene Funktion beim nächsten Release entfällt, ist folgender Codeabschnitt vorgesehen.
+        </p>
+      </div>
+      {{< highlight xml "linenos=table">}}<span class="label label-danger">deprecate</span>{{< /highlight >}}
+    </div>
+  

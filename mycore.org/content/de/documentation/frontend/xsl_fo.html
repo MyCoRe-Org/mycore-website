@@ -1,0 +1,34 @@
+
+---
+
+title: "XSL-FO"
+
+---
+     <div>
+       <h2>XSL-FO</h2>
+       <p>
+         Im LayoutService von MyCoRe ist es neben der Umsetzung von
+         XML-Dateien via XSLT und dem Durchreichen von Daten auch möglich einen
+         XSL:FO-Formatter anzusprechen. Dazu muss das eingehende XML den
+         Content-Type "application/pdf" haben. Dann wird ein Spezialzweig
+         angefaßt, bei dem eine spezielle Java-Klasse aufgerufen wird, die
+         org.mycore.common.fo.MCRFoFormatterInterface implementiert. Im
+         MyCoRe-Kern ist dies eine Klasse, welche den FOP aufruft und das
+         Ergebnis ausliefert. Dazu muss dann eine anwenungspeziefische Klasse
+         implementiert werden, die den gewünschten XSL:FO-Formatter (z.B.
+         Antenna House) aufruft. Konfiguriert wird dies über:
+       </p>
+       {{< highlight bash "linenos=table">}}
+##############################################################################
+# XSL-FO Formatter
+##############################################################################
+
+  # Class that implements MCRFoFormatterInterface
+  MCR.LayoutService.FoFormatter.class=org.mycore.common.fo.MCRFoFormatterFOP
+  # Configuration file for FOP in classpath
+  MCR.LayoutService.FoFormatter.FOP.config=myConfigFile
+      {{< /highlight >}}
+      <p>
+        Für FOP kann noch eine Konfigurationsdatei im Classpath angegeben werden, die
+        z. B. andere Fonts einsetzt.</p>
+     </div>

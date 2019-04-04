@@ -1,0 +1,80 @@
+
+---
+
+title: "Standardzugriffsrechte"
+mcr_version: ['2015.05','2016.06']
+author: ['Jens Kupferschmidt']
+description: "Beschreibung der benötigten Standardrechte"
+date: "2016-05-17"
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p>MyCoRe kennt eine ganze Reihe festgelegter Privilegien und Zugriffsrechte, welche auf dieser Seite beschrieben
+        werden. Bei den meißten ist es empfehlenswert, diese nur für den Systemadministrator freizuschalten.
+      </p>
+    </div>
+
+    <div>
+      <h2>Zugriffsrechte</h2>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Recht</th>
+            <th>Typ</th>
+            <th>Beschreibung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>administrate-users</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer lokale Benutzer administrieren darf.</td>
+          </tr>
+          <tr>
+            <td>create-class</td>
+            <td>Priv.</td>
+            <td>Legt fest, welcher Benutzer eine Klasssifikation anlegen darf.</td>
+          </tr>
+          <tr>
+            <td>create-users</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer neue lokale Benutzer anlegen darf.</td>
+          </tr>
+          <tr>
+            <td>manage-sessions</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer das Session Listing benutzen darf.</td>
+          </tr>
+          <tr>
+            <td>use-aclEditor</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer berechtigt ist, den ACL-Editor zu nutzen. Dieses Privileg sollte gut geschützt sein!</td>
+          </tr>
+          <tr>
+            <td>use-wcms</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer mit dem Web Content Management arbeiten und Seiteninhalte verändern darf.</td>
+          </tr>
+          <tr>
+            <td>use-webcli</td>
+            <td>Priv.</td>
+            <td>Legt fest, wer Kommandos über das WebCLI ausführen darf. Dieses Privileg sollte gut geschützt sein!</td>
+          </tr>
+          <tr>
+            <td>writedb</td>
+            <td>default-class</td>
+            <td>Legt fest, wer an dem Rollensystem arbeiten darf, also auch neue Rollen anlegen oder löschen kann.
+              Achtung, für die Klassifikation mcr-roles muss ein spezielles Recht gesetzt werden!</td>
+          </tr>
+          <tr>
+            <td>writedb</td>
+            <td>mcr-roles</td>
+            <td>Legt fest, wer an dem Rollensystem arbeiten darf, also auch neue Rollen anlegen oder löschen kann.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  

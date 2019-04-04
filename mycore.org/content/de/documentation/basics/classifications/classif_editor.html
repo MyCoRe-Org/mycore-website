@@ -1,0 +1,121 @@
+
+---
+
+title: "Klassifikationseditor"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Kathleen Neumann']
+description: "Funktionsweise des Klassifikationseditors"
+date: "2016-05-26"
+
+---
+    <div>
+      <h2>Klassifikationseditor </h2>
+      <p>
+        Mit dem Klassifikationseditors als Webinterface, gibt es neben der Kommandozeilen-Schnittstelle eine weitere
+        Möglichkeit, Klassifikationen im System zu erzeugen, zu bearbeiten und zu löschen.
+        Im Unterschied zum ersten Klassifikationseditor bietet die neue Version eine vollständig überarbeitete, auf
+        JavaScript basierende Oberfläche.
+      </p>
+
+      <h4>Konfiguration</h4>
+      <p>
+        Der Aufruf erfolgt bei einer lokalen Beispiel-Installation über folgende URL:
+        <br />
+        <code>http://localhost:8291/modules/classeditor/classificationEditor.xml</code>
+      </p>
+      <p>
+        Weiterhin können verschiedene XSL-Parameter übergeben werden. Die Parameter starten alle mit XSL.classeditor.
+        Zum Beispiel:
+        <br />
+        <code>http://localhost:8291/modules/classeditor/classificationEditor.xml?XSL.classeditor.debug=true&amp;XSL.classeditor.showId=true</code>
+      </p>
+      <table>
+        <tr>
+          <th>Parameter</th>
+          <th>Werte</th>
+          <th>Beschreibung</th>
+        </tr>
+        <tr>
+          <td>debug</td>
+          <td>true | false</td>
+          <td>Stellt den Debug-Modus ein. Damit wird die ausführliche statt die komprimierte JS-Datei geladen.</td>
+        </tr>
+        <tr>
+          <td>class</td>
+          <td>
+            Klassifikations-ID
+            <br />
+            z.B. DocPortal_class_1
+          </td>
+          <td>Gibt die Klassifikation an welche geladen werden soll. Wird dieser Parameter weggelassen werden alle
+            Klassifikationen angezeigt.</td>
+        </tr>
+        <tr>
+          <td>categ</td>
+          <td>Kategorie-ID</td>
+          <td>Die ID einer Kategorie welche geladen werden soll. Dieser Parameter wird ignoriert wenn keine
+            Klassifikations-ID angegeben wurde.</td>
+        </tr>
+        <tr>
+          <td>showId</td>
+          <td>true | false</td>
+          <td>IDs werden angezeigt und können bearbeitet werden.</td>
+        </tr>
+      </table>
+      <p>
+        Unter
+        <code>http://localhost:8291/modules/classeditor/classificationEditorDiag.xml</code>
+        kann
+        zusätzlich ein Dialog basierender Klassifikationseditor aufgerufen werden.
+      </p>
+
+      <h4>ACL</h4>
+      <p>
+        Um Anwendern die Möglichkeit zu geben mit dem Klassifikationseditor zu arbeiten müssen vorher
+        entsprechende Rechte vergeben werden. Da der Klassifikationseditor auf Jersey basiert wird als
+        ID der Klassenpfad der Resource verwendet. Das Zugriffsrecht entspricht der aufgerufenen Methode
+        kombiniert mit der HTTP Anfrage Methode (GET, POST, HEAD...).
+      </p>
+      {{< highlight shell "linenos=table">}}
+        Speichern:
+        Objekt ID: org.mycore.frontend.classeditor.resources.MCRClassificationEditorResource
+        Zugriffsrecht: /classifications/save_POST
+      {{< /highlight >}}
+      {{< highlight shell "linenos=table">}}
+        Import:
+        Objekt ID: org.mycore.frontend.classeditor.resources.MCRClassificationEditorResource
+        Zugriffsrecht: /classifications/import_POST
+      {{< /highlight >}}
+
+      <h4>Anpassung</h4>
+      <p>
+        Gestartet wird der Editor mithilfe der JavaScript Klasse classeditor.Editor. Als einziger Parameter wird ein JSON-Objekt
+        erwartet welches die Einstellungen für den Editor bereithält. Die genauen Attribute können aus der
+        Klassenbeschreibung entnommen werden.
+      </p>
+      <p>
+        Um den Editor einzubinden sollten die Templates der XSL-Datei classificationEditorBase.xsl verwendet werden. Die
+        Templates sind modular gestaltet um jeden Entwickler selbst entscheiden zu lassen was er benötigt. Wird das
+        dojo-Framework z.B. schon im Layoutprozess eingebunden muss classeditor.includeDojoJS nicht mehr aufgerufen
+        werden. Der Entwickler muss dann natürlich dafür Sorge tragen das alle notwendigen dojo und dijit Resourcen
+        verfügbar sind.
+      </p>
+      <p>
+        Ein Beispiel in dem das dojo-Framework und der Klassifikationseditor erst per Anwenderklick geladen wird findet sich im
+        Zeitschriftenserver der ThULB:
+        svn.thulb.uni-jena.de/viewvc/jportal2/trunk/jportal_mcr_module/src/main/resources/web/classification/ClassificationEditor.js
+      </p>
+
+      <h4>Hinweise</h4>
+      <p>
+        Um alle css Formatierungen korrekt anzuzeigen muss der Body-Tag die Klasse des aktuellen dojo-Themes erhalten, in der
+        Regel 'claro'. Dazu sollte die JavaScript Methode updateBodyTheme() vor dem laden des Klassifikationseditors
+        aufgerufen werden.
+      </p>
+      <p>
+        Die Handhabung des Klassifikationseditors ist im
+        <a href="classif_editor_ug22#TODO">UserGuide</a>
+        beschrieben.
+      </p>
+    </div>
+  

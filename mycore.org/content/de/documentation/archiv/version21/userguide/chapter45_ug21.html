@@ -1,0 +1,273 @@
+
+---
+
+title: "Konfiguration von DocPortal"
+
+---
+
+   <div>
+    <h2>Grundlegendes zur Konfiguration</h2>
+    <p>
+    Die Konfiguration der Beispielanwendung ist im Verzeichnis <code>$DOCPORTAL_HOME/config</code> zu finden. Hier 
+    sind alle Dateien untergebracht, die Sie für eine erste oder einfache Installation der Anwendung nicht ändern müssen. 
+    Nach der Installation via <code>install.xml</code> sind die Standardkonfigurationen bereits vorgenommen worden.
+    Es geht nun also darum, davon ausgehend zur eigenen Anwendung zu gelangen.
+    
+    Die wichtigste Datei hierfür ist die 
+    <code>mycore.private.properties</code>. Diese Datei enthält für den Anfang alle einzustellenden Werte, die an Ihre 
+    spezielle Systemumgebung angepasst werden müssen. Damit diese privaten Einstellungen nicht durch ein Update 
+    überschrieben werden, gibt es daneben die <code>mycore.private.properties.template</code>.
+    </p>
+    <note label="Hinweis">    
+    Achten Sie bei Updates stets darauf, ob sich im Template etwas geändert hat und übernehmen Sie diese Änderungen ggf. angepasst in Ihre Datei!
+    </note>
+    
+    <div>
+      <h3>mycore.private.properties</h3>
+    <p>    
+    Die Datei <code>mycore.private.properties</code> enthält eine ganze Reihe von Konfigurationswerten. Fürs erste 
+    sollten Sie folgende Werte anpassen:
+    </p>
+    <ul>
+    <li>
+    <code>MCR.Modules.Application </code> – Diesen Wert sollten Sie ändern, wenn sie eigene Module einbinden wollen oder
+     das <code>docportal</code>-Modul deaktivieren möchten.
+    </li>
+    <li>
+    <code>MCR.basedir</code> – Pfad zur DocPortal-Root bzw. entspricht <code>DOCPORTAL_HOME</code>
+    </li>  
+    <li>
+   <code>MCR.Mail.Address</code> – Mail-Adresse, an die alle Nachrichten gehen sollen
+   </li> 
+   <li>
+   <code>MCR.Mail.Server</code> – SMTP-Server für ausgehende Mail
+   </li>
+   <li>
+   <code>MCR.WebService.Admin</code> – Kennung des Axis-Admins zum deploy des WebService (selbst zu definieren)
+   </li>
+   <li>
+   <code>MCR.WebService.AdminPasswd</code> – und das dafür erforderliche Passwort (selbst zu definieren)
+   </li>
+   </ul>
+   </div>
+
+   <div>
+     <h3>hibernate.cfg.xml</h3>
+   <p>
+   MyCoRe verwendet Hibernate als Schnittstelle zwischen der Java-Anwendung und der verwendeten relationalen Datenbank. 
+   Die Konfiguration dazu ist ebenfalls als Template vorhanden und wird bei der Erstinstallation via install.xml kopiert, von
+   </p>
+   <p class="break">
+   <code>docportal/config/hibernate/hibernate.cfg.xml.template</code> 
+   </p>
+   <p>nach </p>
+   <p class="break">
+   <code>docportal/config/hibernate/hibernate.cfg.xml</code>.
+   </p>
+   <p>
+   Für Anpassungen finden Sie unter <a title="" href="http://www.hibernate.org/">www.hibernate.org</a> ggf. weitere Hinweise.
+   Diese sind vor allem sinnvoll, wenn Sie zu einem späteren Zeitpunkt die Hibernate-Anbindung für Ihre Datenbank optimieren wollen, oder besonderen Funktionen 
+   wie Statistiken, Caches und Logging nutzen wollen.
+   </p>
+   </div>
+   </div>
+
+
+   <div>
+   <h2>Initialisieren von DocPortal</h2>
+   <p>
+   Das Installationsskript install.xml hat Ihr DocPortal bereits mit Beispieldaten befüllt. Dabei wurden auch
+   mehrere Verzeichnisse angelegt, die generierte Daten enthalten.
+   </p>
+   <table>
+   <tr>
+   <th>Verzeichnis</th>
+   <th>Beschreibung</th>
+   </tr>
+   <tr>
+   <td>build</td>
+   <td>In diesem Verzeichnis werden alle für die Kommandozeilenarbeit und die Webanwendung 
+   erforderlichen Daten abgelegt.</td>
+   </tr>
+   <tr>
+   <td>data</td>
+   <td>In diesem Verzeichnis sind standardmäßig alle Daten, Indizes und Objektdateien abgelegt.</td>
+   </tr>
+   <tr>
+   <td>save</td>
+   <td>In diesem Verzeichnis befinden sich alle Sicherungen. Es wird durch Anwendung des MCR-Kommandos save ... bzw. 
+   ant saveWebContent gefüllt.</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 4.1:</strong> Verzeichnisse des Build-Prozesses</p>
+   
+   
+   <p>
+   Die nachfolgenden Kommandos wurden ebenfalls bereits von dem Installationsskript install.xml
+   ausgeführt. Um für eine eigene Anwendung, spätere Änderungen etc. nachvollziehen zu können, was
+   im Einzelnen warum getan werden muss, hier nochmal eine Auflistung der Kommandos, die im DOCPORTAL_HOME
+   schrittweise auszuführen sind.
+   </p>
+   <ol>
+   <li>
+   Prüfen der Systemumgebung in DocPortal mit
+   <p class="break"><code>ant info</code></p>
+   </li>
+   <li>
+   Generieren der XML-Schema-Dateien für das Datenmodell mit dem Kommando
+   <p class="break"><code>ant create.schema</code></p>
+   </li>
+   <li>
+   Compilieren der zusätzlichen Java-Klassen und kopieren der notwendigen Java Bibliotheken 
+   mit dem Kommando
+   <p class="break"><code>ant create.jar</code></p>
+   </li>
+   <li>
+   Erzeugen der CommandLineTools mit Hilfe des Kommandos
+   <p class="break"><code>ant create.scripts</code></p>
+   </li>
+   <li>
+   Starten der HSQLDB (wenn kein anderes Datenbanksystem verwendet wird)
+   <p class="break"><code>build/bin/hsqldbstart.sh</code> bzw. <code>build/bin/hsqldbstart.cmd</code></p>
+   </li>
+   <li>
+   Laden der Standard-ACL's, Gruppen und Benutzer für die Beispielanwendung mit den Kommandos
+   <p class="break"><code>ant create.users</code> und <code>ant create.default-rules</code></p>
+   </li>
+   <li>
+   Laden aller mitgelieferten Klassifikationen. Diese werden für ein reibungsloses 
+   Funktionieren der Anwendung sowie zum Einspielen der Beispieldaten benötigt.
+   <p class="break"><code>ant create.class</code></p>
+   </li>
+   </ol>
+   <p>
+   Nach diesen Schritten steht eine leere (bis auf Nutzer und Klassifikationen), aber vollständige Beispielanwendung
+   zur Verfügung, in welche per CommandLineInterface Daten eingestellt werden können. Wie dies geht, wird im Kapitel <a href="/documentation/version21/userguide/06_use_docportal.html#Kommandos+zur+Verwaltung+der+Objekte">Kommandos zur Verwaltung der Objekte</a> beschrieben.
+   </p>
+   </div>
+   <div>
+   <h2>Starten der MyCoRe-Kommandozeile</h2>
+   <p>
+   Starten Sie die MyCoRe-Kommandozeile, auch CommandLineInterface genannt, durch Aufruf 
+   von <code>build/bin/mycore.sh</code> (UNIX/MacOS) bzw. <code>build\bin\mycore.cmd</code> (Windows). 
+   Eine kurze Übersicht aller Befehle erhalten Sie durch Eingabe von <code>help</code>. 
+   Sie verlassen die MyCoRe-Kommandozeile durch Eingabe von <code>quit</code> oder <code>exit</code>. 
+   Mit <code>help [Kommandoteil]</code> erhalten Sie einen kurzen Hilfetext. 
+   Eine ausführliche Dokumentation enthält der Abschnitt Das <a href="/documentation/version21/userguide/06_use_docportal.html#Die+Verwendung+der+Kommandozeilenschnittstelle">Die Verwendung der Kommandozeilenschnittstelle</a>.
+   </p>
+   <p>Sie können natürlich auch die Aufrufe in beliebige Skripte usw. einbinden, um eine Batch-Verarbeitung zu 
+   organisieren.
+   </p>
+   </div>
+   <div>
+   <h2>Erzeugen der Web-Anwendung</h2>
+   <p>
+   Dieser Abschnitt beschäftigt sich mit der Inbetriebnahme der DocPortal-Anwendung als Web-Applikation. Um den 
+   Installationsaufwand in Grenzen zu halten, enthält der DocPortal-Code-Baum schon eine fertige Servlet-Engine 
+   namens Jetty. Diese ist zwar nicht so mächtig wie Tomcat, ist aber für die Entwicklung und 
+   Demonstrationszwecke sehr gut geeignet. Für den Produktionsbetrieb empfehlen wir jedoch dringend die Verwendung
+   von Tomcat oder Websphere oder ähnlichen Servlet-Engines.</p>
+   
+   <p>
+   Das Installationsskript install.xml hat bereits alle Schritte für die Erzeugung der Webanwendung übernommen.
+   Für eine Installation ohne dieses Skript oder spätere Änderungen an den Webinhalten, sind folgende Schritte
+   zu tun, bevor Jetty gestartet werden kann:
+   </p>
+   <ol>
+   <li>
+   Erstellen der Webanwendung mit
+   <p class="break"><code>ant create.webapp</code></p>
+   </li>
+   <li>
+   Alternativ können Sie auch ein Web Application Archive (war) erzeugen.
+   <p class="break"><code>ant war</code></p>
+   </li>
+   </ol>
+   <p>
+   Das MyCoRe Build-Skript kopiert beim Erzeugen der Web Applikation auch alle externen, 
+   erforderlichen <code>*.jar</code>-Dateien Ihrer verwendeten Datenbank-Systeme (DB2, MySQL, ...) in 
+   das Verzeichnis <code>WEB-INF/lib</code>, entsprechend den Vorgaben Ihrer Konfiguration 
+   in <code>build.properties</code>. 
+   </p>
+   <p>
+   Nun können Sie die Webanwendung ein erstes Mal starten. Benutzen Sie dazu das generierte Skript, welches die 
+   Servlet-Engine Jetty aktiviert.
+   </p>
+   <p class="break"><code>build/bin/jettystart.sh</code> bzw. <code>build\bin\jettystart</code></p>
+   <p>
+   Starten Sie nun einen Web-Browser der URL <a href="http://localhost:8291/">http://localhost:8291/</a>
+   </p>
+   <p>
+   Damit Ihre Anwendung auch über die WebServices erreichbar ist (entfernte Anfragen), müssen Sie diese 
+   Funktionalität noch gesondert aktivieren. Nachdem Sie mit den Properties MCR.WebServices.Admin 
+   und MCR.WebServices.AdminPasswd Kennung und Passwort für den Administrator des Webservice gesetzt haben, 
+   verwenden Sie hierzu bei laufender Servlet Engine das Kommando
+   </p>
+   <p class="break"><code>ant webservice.deploy</code></p>
+   <p>
+   Die nun verfügbaren WebService-Dienste sehen Sie bei Eingabe der 
+   URL <a href="http://localhost:8291/">http://localhost:8291/servlets/AxisServlet</a> in Ihrem Web-Browser. 
+   </p>
+   <p>
+   Um den Dienst abzuschalten muss ebenfalls unter laufendem Jetty das folgende Kommando gegeben werden.
+   </p>
+   <p class="break"><code>ant webservice.undeploy</code></p>
+      <note label="Gratulation">Sie haben nun DocPortal erfolgreich installiert!</note>
+   </div>   
+
+  <div>
+    <h2>Laden der Beispieldaten</h2>
+    <p>
+    MyCoRe stellt eine umfangreiche Sammlung von Beispieldaten bereit. Diese wurde aus Performance-Gründen in ein 
+    extra Paket gepackt. Sie können diese als Distribution in Form von <code>*.jar</code>-Dateien von 
+    <a href="http://sourceforge.net/" title="SourceForge">SourceForge</a> beziehen und in Ihre 
+    fertige Anwendung laden. Alternativ ist auch ein Download vom MyCoRe-Subversion-Server möglich. 
+    Die Beispieldaten sind in mehrere Blöcke gegliedert, welche einzeln geladen werden 
+    können und bestimmte Aspekte des MyCoRe-Projektes verdeutlichen sollen. Wenn Sie DocPortal via
+    install.xml installiert haben, ist bereits das "defaultsample", ein kleiner Satz an Beispieldaten, vorhanden.
+    </p>
+   <code class="code">svn checkout http://server.mycore.de/svn/content/trunk content</code>
+    <table>
+    <tr>
+    <th>Zweig</th>
+    <th>Beschreibung</th>
+    </tr>
+    <tr>
+    <td>audiosample</td>
+    <td>Einige größere Audiodateien</td>
+    </tr>
+    <tr>
+    <td>defaultsample</td>
+    <td>Ein kleineres Beispiel mit Bildern, HTML-Seiten, Text</td>
+    </tr>
+    <tr>
+    <td>theses</td>
+    <td>Einige Diplomarbeiten im Zusammenhang mit MyCoRe</td>
+    </tr>
+    <tr>
+    <td>video</td>
+    <td>Einige größere Videosequenzen</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 4.2:</strong> Beispieldaten im SVN</p>
+    <p>
+    Das Laden der Daten einer Beispielgruppe in die DocPortal-Anwendung geht wie folgt:
+    </p>
+    <code class="code">java -jar -Xmx1024m -Xms1024m ...-installable.jar</code>
+    <p>
+    Alternativ können die Beispiele auch nach dem Download vom SVN-Server mit <code>ant load</code>
+    in die Anwendung eingebracht werden. Es ist jedoch in beiden Fällen wichtig, dass die
+    Anwendung <strong>NICHT</strong> interaktiv läuft (kein Jetty!).
+    </p>
+  </div>
+  <div>
+   <h2>Sonstiges</h2>
+   <p>
+   Mit Hilfe des Build-Prozesses können Sie auch gezielt die erzeugte Anwendung und/oder die Daten entfernen. 
+   Während das Kommando <code>ant clean</code> bzw. <code>ant clean.system</code> alle generierten Anwendungsdaten 
+   (standardmäßig im <code>build</code>-Verzeichnis) entfernt, löscht <code>ant clean.data</code> das Verzeichnis 
+   der geladenen Daten.
+   </p>
+   
+   <note label="Hinweis">Bitte gehen Sie mit diesen Kommandos sorgfältig um.</note>
+  </div>

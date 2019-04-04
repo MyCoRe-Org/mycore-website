@@ -1,0 +1,98 @@
+
+---
+
+title: "Migration MIR Release 2017.06 nach 2018.08"
+mcr_version: ['2018.06']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+description: "
+      Diese Seite fasst Informationen für die Migration vom MIR-Release 2017.06 zum MIR-Release 2018.08
+      zusammen. Diese Informationen können auch bei der Nutzung von Skeleton adaptiert werden.
+    "
+date: "2018-10-17"
+
+---
+
+    <div>
+      <h2>Voraussetzungen für das Release</h2>
+      <p>
+        Die Systemanforderungen für die Nutzung des MyCoRe LTS 2018.06 sind
+        <a href="{{< ref migrate_mcr2018_06 >}}">auf dieser Seite</a>
+        beschieben.
+        MyCoRe LTS 2018.06 ist die Voraussetzung für die Nutzung von MIR 2018.08.
+      </p>
+    </div>
+
+    <div>
+      <h2>Migrationsschritte</h2>
+
+      <div>
+        <h3>Download und Installation</h3>
+        <p>
+          Die Quellen für die Installation des aktuellen Release 2018.08 sind auf der
+          <a href="{{< ref mir_release_2018 >}}">Seite</a>
+          beschrieben.
+        </p>
+      </div>
+
+      <div>
+        <h3>Umstieg auf SOLR 7.4</h3>
+        <p>Die Nutzung von MIR 2018.08 setzt die Nutung von SOLR 7.4 voraus. Dazu ist der entsprechende SOLR-Server
+          gemäß den Anleitungen in dieser Dokumentation aufzusetzen. MIR Benötigt dabei auch die beschriebenen
+          Anpassungen der TIKA-Komponente.
+        </p>
+        <p>
+          Zur Nutzung sind im SOLR-Server 2 Cores anzulegen, welche zum einen den Standardindex und zum anderen den
+          Index für Klassifikationen enthalten. Hierfür sind die Typen
+          <em>main</em>
+          und
+          <em>classification</em>
+          vorzusehen. Nach dem Anlegen der Cores im SOLR müssen die MIR-Konfigurationen dahin geladen werden. Dies
+          geschieht mit
+        </p>
+        <p>
+          <code>mycore.sh reload solr configuration main in core main</code>
+        </p>
+        <p>
+          <code>mycore.sh reload solr configuration classification in core classification</code>
+        </p>
+        <p>Anschließend sind die beiden Indizes zu füllen / zu aktualisieren.</p>
+        <p>
+          <code>mycore.sh rebuild solr metadata and content index in core main</code>
+        </p>
+        <p>
+          <code>mycore.sh rebuild solr classification index in core classification</code>
+        </p>
+      </div>
+
+      <div>
+        <h3>Key für REST erzeugen</h3>
+        <p>
+          Für die Kommunikation von REST ist es erforderlich, einen SSL-Schlüssel zu generieren. Dieser steht dann im
+          MyCoRe-Applikationsverzeichnis
+          <em>$HOME/.mycore/mir</em>
+          .
+        </p>
+        <p>
+          <code>openssl rand 4096 &gt; $HOME/.mycore/mir/jwt.secret
+          </code>
+        </p>
+      </div>
+
+      <div>
+        <h3>Migration auf MCRMetadataHistoryManager</h3>
+        <p>
+          Die "Deletion Policy“ braucht man zwingend für DINI-Repositorien und OAI2. Daher muss der
+          MCRMetadataHistoryManager im Einsatz seien.
+          Initial erfolgt dies über die beiden Kommandos
+          <code>mycore.sh clear metadata history completely</code>
+          und
+          <code>mycore.sh build metadata history completely</code>
+          . Weiterhin muss der
+          <strong>MCRMetadataHistoryManager</strong>
+          als EventHandler aktiv sein.
+        </p>
+      </div>
+
+    </div>
+
+  

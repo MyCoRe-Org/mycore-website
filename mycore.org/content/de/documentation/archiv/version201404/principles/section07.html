@@ -1,0 +1,57 @@
+
+---
+
+title: "Die Link Tabellen"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+
+   <div>
+    <h2>Allgemeines</h2>
+    <p>
+    Neben der Indizierung der Metadaten zur Suche wird auch über einen entsprechenden Event-Handler
+    (<strong>MCRLinkTableEventHandler</strong>) dafür gesorgt, dass Verweise zwischen den einzelnen Metadaten-Objekten
+    gesondert in einer Datenbanktabelle gespeichert werden. Über entsprechende Zugriffe sind so Abfragen von
+    Referenzen und Zählungen möglich. Die Definition des Tabellennamens erfolgt in der Konfigurationsdatei
+    <code>mycore.private.properties</code>
+    </p>
+
+    {{< highlight xml "linenos=table">}}MCR.Persistence.LinkTable.Store.Table=MCRLINKHREF{{< /highlight >}}
+
+    <p>Die Tabelle enthält die Spalten MCRFROM, MCRTO, MCRTYPE, MCRATTR.</p>
+    <ul>
+    <li>MCRFROM enthält die Quelladresse (Source) des Link (i.d.R. eine MCRObjectID).</li>
+    <li>MCRTO enthält die Zieladresse (Target/Destination) des Link. Dies kann u. a. eine MCRObjectID sein. Links auf
+    Kategorien von Klassifikationen werden in der Form {classid}##{categid} abgespeichert.</li>
+    <li>MCRTYPE enthält den Typ des Links. Derzeit sind folgende Typen vorgesehen:
+    <ul><li>parent – Link zu einem Elternobjekt</li>
+        <li>child – Link zu einem Kindobjekt</li>
+        <li>derivate – Link zu einem Derivate</li>
+        <li>classid – Link zu einer Kategorie einer Klassifikation</li>
+        <li>reference – Link zu einem anderen Metadaten-Objekt</li>
+    </ul>
+    </li>
+    <li>MCRATTR – derzeit nicht belegt</li>
+    </ul>
+   </div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_linktable.jpg" class="border border-secondary" label="" caption="" alt="Klassendiagramm" width="" height="" />}}</div>
+
+   <div>
+    <h3>Zugriff über die Web-Schnittstellen</h3>
+    <p>
+    Für den Zugriff via Web stellt das System ein Servlet bereit. Dieses liefert als Rückgabewert ein
+    mcr.results-XML-Objekt. Abhängig von der Angabe der Parameter from oder to enthält das Ergebnis die ID's der
+    Ziel- oder Quellobjekte. Wird der Parameter type weggelassen, so ist 'reference' der Standardwert.
+    </p>
+    <p>
+    {{< highlight xml "linenos=table">}}http://myhost/servlets/MCRLinkServlet?XSL.Style=xml&amp;from=DocPortal_Document_00000001&amp;type=derivate{{< /highlight >}}
+    </p>
+    <p>
+    Alternativ kann der Zugriff über den WebService erfolgen. Dies geschieht entweder über den URIResolver
+    (Siehe Beschreibung des URIResolvers in diesem Handbuch) oder direkt als URL. Die WebService URL
+    lautet dazu beispielsweise:
+    </p>
+    {{< highlight xml "linenos=table">}}http://localhost:8481/services/MCRWebService?method=MCRDoRetrieveLinks&amp;
+        to=TestPapyri_schrift_00000001{{< /highlight >}}
+   </div>

@@ -1,0 +1,168 @@
+
+---
+
+title: "Das MyCoRe Datenmodell"
+
+---
+
+    <div>
+      <h2>Objekte, Datentypen und Beziehungen</h2>
+      <p>
+        Statt ein fixes Datenmodell wie Dublin Core vorzugeben, lässt sich das Metadatenmodell einer
+        MyCoRe Anwendung frei konfigurieren:
+      </p>
+      <ul>
+        <li>
+          <strong>Datentypen</strong>
+          definieren Art und mögliche Werte der Felder eines Objektes.
+          Vordefinierte Datentypen sind z. B. Text, Zahl, Boolean (Ja/Nein), Datum, Name, Verweis (Link), Kategorie, XML.
+        </li>
+        <li>
+          <strong>Objekttypen</strong>
+          definieren, welche Felder zur Beschreibung gleichartiger Objekte verwendet werden,
+          welchen Datentyps diese sind, und ob sie verpflichtend oder wiederholbar sind.
+        </li>
+        <li>
+          Objekte können untereinander in einer <strong>Beziehung</strong> stehen.
+          Dies kann ein Verweis sein (z. B. "Publikation" verweist auf "Person"),
+          oder eine Vater-Kind-Beziehung ("ist-Teil-von", "besteht aus") mit Existenzabhängigkeit
+          (z. B. Objekt "Zeitschrift" enthält "Artikel").
+        </li>
+        <li>
+          <strong>Beispiel:</strong>
+          <ul>
+            <li>
+              Objekttyp "Publikation" mit den Feldern
+              "Titel" (Text, mehrsprachig, verpflichtend, wiederholbar),
+              "Autor" (Verweis auf "Person", optional, wiederholbar)...
+            </li>
+            <li>
+              Objekttyp "Person" mit den Feldern
+              "Name", "Geburtsdatum" (Datum, optional, nicht wiederholbar), ...
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p>
+        Für Vater-Kind-Beziehungen zwischen Objekten bietet MyCoRe einen <strong>Vererbungsmechanismus</strong> für Metadaten.
+        Kindobjekte können dabei über mehrere Hierarchiestufen hinweg Werte bestimmter Felder
+        von den übergeordneten Objkten erben.
+        Ein Zeitschriftenartikel könnte z. B. das Veröffentlichungsdatum des Heftes erben, in dem der
+        Artikel erschienen ist.
+        Vererbung bezieht sich hier also auf die Werte der Metadaten, nicht auf die Datenmodelldefinition.
+      </p>
+    </div>
+    <div>
+      <h2>Metadaten mit beliebigem XML Schema</h2>
+      <p>
+        Neben den vordefinierten Datentypen können <strong>eigene Datentypen</strong> als Java-Klassen implementiert werden.
+      </p>
+      <p>
+        Alternativ kann auch der XML-Datentyp für eigene Erweiterungen verwendet werden.
+        Felder dieses Typs können eine beliebige XML-Struktur enthalten,
+        die ggf. durch ein <strong>XML Schema</strong> spezifiziert wird.
+        So können beliebige XML-basierte Datenmodelle wie z. B. MODS direkt in MyCoRe
+        zur Beschreibung von Objekten verwendet werden.
+      </p>
+      <p>
+        <a href="http://www.loc.gov/standards/mods/" title="zur MODS-Homepage">MODS</a> (Metadata Object Description Schema)
+        ist ein XML-basiertes Metadatenschema der Library of Congress, für das MyCoRe bereits eine
+        spezielle Unterstützung mit vordefinierter Funktionalität bietet.
+        Dazu gehören etwa der direkte Import von MODS-Metadaten als MyCoRe-Objekte
+        und die Abbildung auf MyCoRe-Klassifikationen.
+      </p>
+      <p>
+        MODS ist das von MyCoRe empfohlene Metadatenformat für Publikationsserver,
+        dem wir besondere Aufmerksamkeit und Funktionalität widmen. So ist die MyCoRe-Beispielanwendung "MIR" eine auf MODS basierende Anwendung.
+      </p>
+    </div>
+    <div>
+      <h2>Internes Speicherformat der Metadaten</h2>
+      <p>
+        Die Metadaten aller MyCoRe-Objekte werden intern als XML-Dokumente gespeichert.
+        Dies unterstützt Strategien der Langzeitarchivierung und stellt sicher,
+        dass Metadaten auch unabhängig von MyCoRe zu einem späteren Zeitpunkt
+        weiter verarbeitet werden können.
+      </p>
+      <p>
+        Intern ist jedes MyCoRe-Objekt dabei in drei Bereiche unterteilt:
+      </p>
+      <dl>
+        <dt>
+          <code>metadata</code>
+        </dt>
+        <dd>
+          im metadata-Teil werden die Werte der Datenfelder gespeichert, die das Objekt beschreiben,
+          die eigentlichen Metadaten.
+        </dd>
+        <dt>
+          <code>structure</code>
+        </dt>
+        <dd>
+          im structure-Teil werden die Vater-Kind-Beziehungen zwischen Objekten gespeichert,
+          die Verweise auf übergeordnete Objekte.
+        </dd>
+        <dt>
+          <code>service</code>
+        </dt>
+        <dd>
+          im service-Teil werden administrative und teils automatisch generierte Metadaten gespeichert,
+          z. B. das Änderungsdatum und (beim Import) Verweise auf Access Control Listen zur Zugriffssteuerung.
+        </dd>
+      </dl>
+    </div>
+
+    <div>
+      <h2>Hierarchisches Klassifikationssystem</h2>
+      <p>
+        Klassifikationssysteme finden in vielen internationalen Metadaten-Standards Verwendung, um Datenbestände
+        sachlich zu erschließen und Inhalte zu strukturieren. Beispiele für solche Klassifikationen sind
+        die <strong>Dewey-Dezimalklassifikation (DDC)</strong>, oder das <strong>"Gemeinsame Vokabular"</strong>
+        von DINI und Deutscher Nationalbibliothek zur Einordnung von Publikationstypen.
+        Auch fach- oder anwendungsspezifische Klassifikationsysteme werden
+        verwendet, z. B. die Organisationsstruktur der eigenen Einrichtung.
+      </p>
+      <p>
+        MyCoRe kann beliebige solcher Klassifikationssysteme unterstützen. Eine Klassifikation besteht in MyCoRe aus
+        einer Liste oder Hierarchie von Kategorien. Jede Kategorie besitzt eine eindeutige ID, eine mehrsprachige Bezeichnung,
+        sowie optional ein Kommentarfeld und einen weiterführenden Link.
+      </p>
+      <p>
+        Klassifikationen können über eine XML-Struktur über Kommandozeilen-Befehle <strong>importiert und exportiert</strong> werden.
+        Darüber hinaus gibt es auch einen <strong>Online-Klassifikationseditor</strong>, um Klassifikationen anzulegen und Kategorien zu bearbeiten.
+        Mehrere in Publikationsservern häufig verwendete Klassifikationen stehen vordefiniert zur Verfügung, z. B.
+        die ersten Ebenen der DDC, das Gemeinsame Vokabular, eine Liste der Sprachen nach RFC4646 und weitere.
+      </p>
+      <p>
+        MyCoRe-Objekte können beliebigen Klassifikationskategorien zugewiesen werden.
+        Bei der <strong>Recherche</strong> kann über Kategorien gesucht werden, wobei auch die Hierarchie von Kategorien berücksichtigt wird.
+        Über einen <strong>Klassifikationsbrowser</strong> kann der Bestand nach Kategorien strukturiert präsentiert werden.
+      </p>
+    </div>
+
+    <div>
+      <h2>Persistente Identifikatoren (Persistent Identifier)</h2>
+      <p>
+        Persistent-Identifier-Systeme wie <strong>URN, DOI und Handle</strong> dienen in Online-Repositorien
+        der dauerhaften Referenzierung von Ressourcen. Elektronische Publikationen und Digitalisate
+        erhalten so eine dauerhafte, standardisierte und weltweit eindeutige Adresse, unter der sie erreichbar sind
+        und mit der sie zitiert werden können. Alle Formen von „Persistent Identifiern“ können in den MyCoRe-Metadaten
+        gespeichert werden.
+      </p>
+      <p>
+        MyCoRe unterstützt direkt die Generierung, Vergabe und Verwaltung von
+        <a href="http://www.persistent-identifier.de/">URNs</a>,
+         Persistent Identifiern im Namensraum urn:nbn:de,
+        wie sie die Deutsche Nationalbibliothek für E-Publikationen einsetzt. Für die Generierung
+        von URNs stehen verschieden Algorithmen zur Verfügung, etwa auf Basis von Zeitstempeln oder fortlaufenden
+        Zählern, die auch miteinander kombiniert werden können. MyCoRe speichert die URN, berechnet und testet
+        ggf. die zugehörige Prüfsumme und implementiert einen lokalen URN-Resolver.
+        Zugewiesene URNs können über die <strong>OAI-Schnittstelle</strong> im Datenformat <strong>Epicur</strong> an die
+        Deutsche Nationalbibliothek gemeldet werden.
+      </p>
+      <p>
+        Eine vergleichbare, direktere Unterstützung für das Handle-System ist in Entwicklung.
+      </p>
+    </div>
+
+  

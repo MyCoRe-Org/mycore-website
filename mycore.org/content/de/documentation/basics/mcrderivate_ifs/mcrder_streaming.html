@@ -1,0 +1,40 @@
+
+---
+
+title: "Unterstützung von Streaming-Verfahren als digitale MyCoRe-Objekte"
+mcr_version: ['2016.06','2017.06']
+author: ['René Adler', 'Jens Kupferschmidt']
+date: "2017-06-26"
+
+---
+
+    <div>
+      <h2>Streaming-Server</h2>
+      <p>
+        Es besteht die Möglichkeit einen Wowza-Streamingserver an ein MyCoRe-System anzubinden.
+      </p>
+      <p>
+        Folgende Quellen sind dafür ganz hilfreich:
+        <a target="_blank" href="https://github.com/MyCoRe-Org/mycore/blob/master/mycore-base/src/main/java/org/mycore/frontend/support/MCRSecureTokenV2.java">MCRSecureTokenV2</a>
+        um den Wowza-Secure-Token zu erzeugen (gilt jeweils für den Abruf des Videos) und einen Filter der den
+        gesendeten Token überprüft
+        <a target="_blank" href="https://github.com/MyCoRe-Org/mycore/blob/master/mycore-base/src/main/java/org/mycore/frontend/support/MCRSecureTokenV2Filter.java">MCRSecureTokenV2Filter</a>
+        +
+        <a target="_blank" href="https://github.com/MyCoRe-Org/mycore/blob/master/mycore-base/src/main/java/org/mycore/frontend/support/MCRSecureTokenV2FilterConfig.java">MCRSecureTokenV2FilterConfig</a>
+        .
+      </p>
+      <p>
+        Im Module
+        <strong>mycore-media</strong>
+        im Package
+        <a target="_blank" href="">MCRXMLFunctions#getSources</a>
+        gibt es dann die XSL-Funktionen um sich die möglichen Quellen des Videos ausgeben zu lassen.
+        Die einzige
+        Implementierung ist „nur“ in MIR unter
+        <a target="_blank" href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/xsl/metadata/mir-video.js.xsl">mir-video.js.xsl</a>
+        zu finden, dort wird der VideoJS-Player mit diesen paar Klassen gefüttert.
+      </p>
+      <p>Somit ist eigentlich kein (direkter) Streaming-Support in MyCoRe enthalten, aber man könnte mit diesem Wissen
+        zumindest den Streaming-Support in einer eigenen Anwendung nachbauen.</p>
+    </div>
+  

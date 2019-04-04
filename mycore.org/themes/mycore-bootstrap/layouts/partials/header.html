@@ -1,0 +1,44 @@
+{{ $currentPage := . }}
+<div class="container-fluid">
+	{{ $backImg := (absURL "images/_site/background_header_blue_xml.png")}}
+	
+	<div class="row" style="min-height:75px;background-image: url('{{ $backImg }}'); background-size:100% 100%;">
+		<div class="col-3">
+			<img alt="MyCoRe Logo" src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'>
+			{{if hasPrefix $currentPage.URL (relLangURL "/blog/")}} 
+			<span class="blog-header h1" style="color:white;opacity:0.75;position:relative;top:20px">BLOG</span>
+			{{end}}
+		</div>
+
+		<div class="col-6" >
+			<nav class="navbar mcr-navbar-top navbar-expand-md">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavTop" aria-controls="navbarNavTop" aria-expanded="false" aria-label="Toggle navigation">
+    				<span class="navbar-toggler-icon"></span>
+ 			 	</button>
+ 			 	<div class="collapse navbar-collapse" id="navbarNavTop">
+    				<div class="navbar-nav">
+			
+		        	{{ $currentPage := . }}
+		       		{{ range .Site.Menus.main }}
+						<a class='nav-item nav-link {{ if (or (eq $currentPage.URL (print (relLangURL .URL))) (hasPrefix $currentPage.URL (print (relLangURL .URL) "/") ))}} active {{ end }}'
+						href="{{ relLangURL .URL }}">{{ .Name }}</a>
+					{{ end }}
+					</div>
+				</div>
+			</nav>
+		</div>
+		
+		<div class="col-3" >
+			<nav class="navbar mcr-navbar-top navbar-expand-md float-right">
+				<div class="navbar-nav">
+					{{ range $.Site.Home.AllTranslations }}
+						<a class="nav-item nav-link"  href="{{ .RelPermalink }}" 
+						   title="{{ .Language.LanguageName }}">
+						   <img src="{{relURL .Language.Params.flag}}" class="mcr-flag {{if eq .Language.LanguageName $.Site.Language.LanguageName }} active {{ end }}" />
+						</a>
+					{{ end }}
+				</div>
+			</nav>
+		</div>
+	</div>
+</div>

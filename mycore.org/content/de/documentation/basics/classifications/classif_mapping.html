@@ -1,0 +1,95 @@
+
+---
+
+title: "Mapping von Klassifikationen"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "2016-05-26"
+
+---
+     <div>
+    <h2>Allgemein</h2>
+    <p>Wenn Metadaten z.B. über die OAI-Schnittstelle an externe Services ausgeliefert werden sollen,
+       werden häufige andere Klassifikationseinträge benötigt.
+       Um Mehrfacheingaben zu vermeiden, bietet MyCoRe mit dem <em>Klassifikationsmapping</em> die Möglichkeit,
+       dass nur eine primäre Klassifikation erfasst werden muss.
+       MyCoRe ergänzt dann die äquivalenten Einträge der anderen Klassifikationen automatisch.<br />
+    </p>
+  <p>
+    Für einen DINI-konformen Betrieb der OAI-Schnittstelle müssen verschiedene Sets unterstützt werden. Sets werden im OAI-PMH Standard
+    verwendet, um Dokumente zu gruppieren. Sie ermöglichen selektives Harvesting und entsprechen konzeptionell den Klassifikationen in
+    MyCoRe. Deshalb wurden zunächst Klassifikationen für die Sets erstellt, die für das DINI-Zertifikat zu implementieren sind. Sie
+    stehen auf <a href="http://mycore.de/classifications/">mycore.de/classifications</a> als <a href="http://mycore.de/classifications/ddc.xml">ddc.xml</a>, <a href="http://mycore.de/classifications/diniPublType.xml">diniPublType.xml</a> und
+    <a href="http://mycore.de/classifications/diniVersion.xml">diniVersion.xml</a> zur Verfügung und müssen in die eigene Anwendung
+    übernommen werden.
+    </p>
+  <p>
+    Sollen Dokumente im xMetaDissPlus-Format ausgeliefert werden, sind weitere Klassifikationen zu verwenden:
+    <a href="http://mycore.de/classifications/dctermsDCMIType.xml">dctermsDCMIType.xml</a> und
+    <a href="http://mycore.de/classifications/XMetaDissPlusThesisLevel.xml">XMetaDissPlusThesisLevel.xml</a>
+    </p>
+  <p>
+    Im einfachsten Fall lassen sich diese Klassifikationen direkt in einem MyCoRe-Datenmodell verwenden. Allerdings werden die meisten
+    MyCoRe-Anwendungen eigene Klassifikationen besitzen, z.B eine detaillierte DDC oder detailliertere Klassifikation für
+    Dokumententypen. Für solche Fälle wurde das <em>Klassifikationsmapping</em> implementiert.
+    </p>
+    </div>
+     <div>
+      <h2>Anreicherung der Klassifikation</h2>
+      <p>
+        Die Definition des Mappings erfolgt, indem die Klassifikationseinträge um ein Label mit dem künstlichen Sprach-Attribut
+        <code>x-mapping</code> erweitert werden.
+        Als Wert wird <em>Klassifikations-ID</em> und <em>Kategorie-ID</em> getrennt durch einen Doppelpunkt dort eingetragen.
+        Mehre Werte können durch Leerzeichen getrennt werden. z.B.:
+      </p>
+      {{< highlight xml "linenos=table">}}
+  <category ID="TYPE0003.006">
+         <label xml:lang="de" text="Dissertation" />
+         <label xml:lang="en" text="dissertation" />
+         <label xml:lang="x-mapping"
+                text="diniPublType:doctoralThesis dctermsDCMIType:Text
+    XmetaDissPlusThesisLevel:thesis.doctoral diniVersion:publishedVersion" />
+  </category>{{< /highlight >}}
+   </div>
+   <div><h2>Technische Umsetzung</h2>
+
+    <div><h3>in einer "klassischen" MyCoRe-Anwendung</h3>
+      <p>Das Datenmodell wird um ein Datenfeld <tt>mappings/mapping</tt> ergänzt werden. Dieses Feld wird dann beim Einfügen oder Aktualisieren
+         der Dokumente automatisch befüllt.
+      </p>
+      {{< highlight xml "linenos=table">}}
+    <element name="mappings" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="mapping"
+        class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>{{< /highlight >}}
+      <p>Das Mapping wird per <a href="{{< ref eventhandler >}}">EventHandler</a> aktiviert und sollte möglichst früh aufgerufen werden,
+         zumindest noch vor dem Start der Indexierung.
+      </p>
+    {{< highlight shell "linenos=table">}}
+  MCR.EventHandler.MCRObject.015.Class
+      =org.mycore.oai.classmapping.MCRClassificationMappingEventHandler
+    {{< /highlight >}}
+  </div>
+  <div>
+    <h3>in einer MyCoRe-Anwendung mit MODS-Datenmodell</h3>
+    <p>Wird das MODS-Datenmodell genutzt, muss kein zusätzlichen Datenfeld ergänzt werden. In diesem Fall werden die
+       generierten Einträge als zusätzliche <code>mods:classification</code> Elemente abgespeichert.
+       </p>
+    <p>Für dieses Verhalten wurde ein weiterer <a href="{{< ref eventhandler >}}">Eventhandler</a> implementiert:</p>
+    {{< highlight shell "linenos=table">}}
+  MCR.EventHandler.MCRObject.016.Class
+      =org.mycore.mods.classification.MCRClassificationMappingEventHandler
+    {{< /highlight >}}
+    <p>
+      Im resultierenden MODS wird der Eintrag durch das Attribut <code>generator</code>
+      eindeutig identifizierbar. Dieses enthält immer das Suffix <tt>-mycore</tt> und setzt sich weiterhin aus Quell-Klassifikations-ID und
+      Ziel-Klassifikations-ID zusammen. Siehe dazu nachfolgendes Beispiel:
+    </p>
+    {{< highlight xml "linenos=table">}}
+  <mods:classification
+    generator="mir_genres2diniPublType-mycore"
+    authorityURI="http://localhost:8291/mir/classifications/diniPublType"
+    valueURI="http://localhost:8291/mir/classifications/diniPublType#doctoralThesis"/>{{< /highlight >}}
+    </div>
+  </div>
+  

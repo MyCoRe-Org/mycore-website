@@ -1,0 +1,151 @@
+
+---
+
+title: "Arbeiten mit Git"
+mcr_version: ['2016.06','2017.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler']
+date: "2018-08-16"
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        Mit Release 2016.06 ist
+        <strong>MyCoRe</strong>
+        im September 2016 auf
+        <a href="https://github.com/MyCoRe-Org/">GitHub</a>
+        als Versionierungssystem umgezogen.
+        Die soll sowohl die Wahrnehmung des Projektes in der Open Source Gemeinde
+        begünstigen wie auch Verbesserungen bei der
+        Arbeit an neuen Funktionen und gemeldeten Bus bringen. MyCoRe erhofft
+        sich damit auch eine größere Zahl
+        mitwirkender Codeentwickler. Zum Einrichten der Git-Umgebung und der Arbeit sei
+        auf unsere
+        <a href="{{< ref eclipse >}}">Eclipse-Dokumentation</a>
+        verwiesen.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/developer/mycore_git-structure.png" class="border border-secondary" label="Abbildung 1" caption="Übersicht der MyCoRe-Git-Prozesse" alt="Übersicht der MyCoRe-Git-Prozesse" width="550px" height="" />}}</div>
+    </div>
+
+    <div>
+      <h2>Bearbeiten eines Bugs</h2>
+      <p>
+        Für die Bearbeitung eines Bugs muss zuerst dieser bei
+        <a href="{{< ref jira >}}">MyCoRe-Jira</a>
+        gemeldet werden.
+      </p>
+      <p>
+        Zuerst ist ist je nach dem, wo der Fehler aufgetreten ist, der
+        <code>master</code>
+        und die entsprechenden LTS-Branches auszuchecken. Bei Fehlern im LTS erfolgt am Ende ein merge in den Master. Dies und alle weiteren Schritte in
+        <strong>Git</strong>
+        sollten wegen der sichereren Verarbeitung auf der Kommandozeile ausgeführt werden.
+      </p>
+      <p>
+        <code>mkdir -p git; cd ~/git; git clone https://github.com/MyCoRe-Org/mycore.git</code>
+      </p>
+      <p>
+        Mit
+        <code>git status</code>
+        kann man sich jederzeit den eigenen Arbeitsstatus anzeigen lassen.
+      </p>
+      <p>
+        Die Liste der vorhandenen Branches bekommt man mit
+        <code>git branch -v</code>
+      </p>
+      <p>
+        Je nach dem, ob der Bug im
+        <em>master</em>
+        (unter SVN truck) oder in einem Branch ist, muss in selbigen gewchselt werden.
+        <code>git checkout [master | LTS-Branch]</code>
+      </p>
+      <p>
+        Es ist sinnvoll nun noch einmal den eigenen Codestand mit
+        <code>git pull -r</code>
+        zu aktualisieren.
+      </p>
+      <p>
+        Nun ist zum Zwecke der Bearbeitung des Tickets ein eigener Branch dafür zu erstellen. Dieser
+        <strong>MUSS</strong>
+        für MyCoRe zwingend die Form haben
+        <em>issues/{JIRA-Ticket}-{Ticket Summary}</em>
+        !!! Dies wird mit
+        <code>git checkout -b issues/{JIRA-Ticket}-{Ticket Summary}</code>
+        erzeugt. Im Ticket Summary dürfen
+        <strong>keine Leerzeichen</strong>
+        stehen. Beispiel:
+        <em>git checkout -b issues/MCR-1428-delete_in_SVN_store</em>
+      </p>
+      <p>Nun sind die gewünschten Änderungen in den Code einzuarbeiten und lokal zu testen. Um Probleme mit
+      dem CI im GitHub zu vermeiden, sollten folgende Tests erfolgreich sein:</p>
+      <ul>
+        <li><code>export CI=true; mvn clean install</code></li>
+        <li><code>mvn javadoc:javadoc</code></li>
+      </ul>
+      <p>
+        Mit
+        <code>git diff [--index | --cached]</code>
+        werden diese angezeigt.
+      </p>
+      <p>
+        Geänderte Dateien können Git mit
+        <code>git add {path to file}</code>
+        bekannt gemacht werden.
+      </p>
+      <p>
+        Ist alles fertig erfolgt im lokalen System ein
+        <code>git commit</code>
+        . Im Commit-Text muss in der ersten Zeile die Ticket-Nummer und ein sehr kurzer beschreibender Text stehen.
+        Ausführlichere Erläuterungen folgen dann in den folgenden Zeilen.
+      </p>
+      <p>
+        Mit
+        <code>git push --set-upstream origin issues/{JIRA-Ticket}-{Ticket Summary}</code>
+        wird nun die Änderung Richtung GitHub befördert.
+      </p>
+      <p>
+        Da in MyCoRe vor der Aufnahme eines Fixes noch ein Code-Review steht, welches nur wenige Kern-Entwickler
+        bearbeiten, muss nun ein Pull-Request gestellt werden. Hierfür ist auf die
+        <a href="https://github.com/MyCoRe-Org/mycore">
+          MyCoRe-Git-Seite</a>
+        zu gehen.
+        <ul>
+          <li>
+            Dort steht unter dem Button
+            <strong>Branch: Master</strong>
+            der eigene Bugfix.
+          </li>
+          <li>
+            Dieser ist auszuwählen und in der nun erscheinenden Ansicht ist
+            <strong>New pull request</strong>
+            anzuklicken.
+          </li>
+          <li>
+            Hier nun unter
+            <strong>base</strong>
+            das Release bzw. den Master auswählen, für den der Fix ist
+          </li>
+          <li>Weiterhin ist die Commit-Nachricht auf Logik und Aussagekräftigkeit zu prüfen. Es gelten die Regeln wie
+            beim Commit!</li>
+          <li>
+            Zum Schluss ist die Anforderung mittes
+            <strong>Create pull request</strong>
+            abzusenden.
+          </li>
+        </ul>
+      </p>
+      <p>
+        Ist mit dem Pull request alles klar gegangen, kann der Branch für den Fix mit
+        <code>git checkout [master | release]</code>
+        und
+        <code>git branch -d issues/{JIRA-Ticket}-{Ticket Summary}</code>
+        vom lokalen System gelöscht werden.
+      </p>
+    </div>
+    
+    <div>
+      <h2>Wenn ein Pull Request nicht angenommen wird</h2>
+      <p>[ToDo]</p>
+    </div>
+    
+  

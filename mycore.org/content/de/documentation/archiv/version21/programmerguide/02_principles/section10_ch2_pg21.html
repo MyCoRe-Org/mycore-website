@@ -1,0 +1,147 @@
+
+---
+
+title: "Das Backend"
+description: "
+      Im Backend-Bereich muss zwischen den verschieden Aufgaben unterschieden werden. Für die
+      Speicherung organisatorischer Informationen (Nutzerdaten, Klassifikationen, etc.) wird ein
+      relationales Datenbanksystem über Hibernate verwendet. Für die Suche liefert MyCoRe Apache
+      Lucene mit. Die Ablage der eigentlichen digitalen Objekte und deren Volltexte geschieht im
+      Filesystem. Optional kann für Audio- und Video-Streaming ein Helix-Server angebunden werden.
+    "
+
+---
+   <div>
+    <h2>Hibernate</h2>
+    <p>
+    ToDo
+    </p>
+   </div>
+
+   <div>
+    <h2>Lucene </h2>
+    <p>
+    ToDo
+    </p>
+   </div>
+
+   <div>
+    <h2>Filesystem</h2>
+  <p>
+    Das IFS2 (Internal Filesystem Version 2) ist eine neue Implementierung
+    für die Persistenz
+    von Metadaten, Derivaten und Dateien. IFS2 bietet gegenüber der
+    bisherigen Persistenzschicht
+    eine Reihe von Vorteilen, u.a. eine einfachere Struktur, die auch mit
+    externen Werkzeugen
+    ausserhalb von MyCoRe bearbeitbar ist, eine einfachere Möglichkeit der
+    Datensicherung und
+    Synchronisierung und eine gesteigerte Performance. Die Implementierung für Dateien ist
+    derzeit noch nicht vollständig.
+    </p>
+  <p>
+    Zur Speicherung von Objekt-Metadaten wird IFS2 zur Zeit in der Form
+    genutzt,
+    dass je Projekt-ID und Objekttyp ein eigener IFS2 Metadata Store angelegt
+    wird. In der
+    Konfiguration muss dazu nur das Basisverzeichnis angegeben werden.
+    {{< highlight shell "linenos=table">}}MCR.Metadata.Store.BaseDir=%MCR.datadir%/metadata{{< /highlight >}}
+  </p>
+  <p>
+    Je Projekt und Objekttyp entsteht ein separates Unterverzeichnis.
+    Die Standardkonfiguration speichert dann z. B. die Metadaten des Objektes
+    DocPortal_document_07910403 in der Datei
+    <code>%MCR.datadir%/metadata/DocPortal/document/0791/04/DocPortal_document_07910403.xml</code>
+  </p>
+  <p>
+    IFS2 Stores bilden Unterverzeichnisse (Slots), um die Dateien
+    gleichmässiger im
+    Filesystem zu verteilen. Diese Unterverzeichnisse werden aus der ID abgeleitet,
+    anhand des vorkonfigurieren Slot Layouts. Das Standard Slot Layout ist
+    {{< highlight shell "linenos=table">}}
+      n-2-2
+    {{< /highlight >}}
+    wobei n die Anzahl der Stellen in der MyCoRe Object ID - 4 ist. Bei
+    {{< highlight shell "linenos=table">}}
+      MCR.Metadata.ObjectID.NumberPattern=00000000
+    {{< /highlight >}}
+    ist das Standard Layout 4-2-2, achtstellige Objekt-IDs (4+2+2=8),
+    die ersten vier Ziffern der ID bilden die erste Verzeichnisebene,
+    die nächsten zwei Ziffern der ID bilden die zweite Verzeichnisebene
+    unterhalb des Ordners für Projekt-ID und Objekttyp.
+  </p>
+  <p>
+    Es gibt verschiedene Implementierungen eines IFS2 Metadata Stores.
+    Die einfachste und schnellste Implementierung ist
+    {{< highlight shell "linenos=table">}}
+      MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRMetadataStore
+    {{< /highlight >}}
+    Sie bietet keine Versionierung der Metadaten, ist aber auch bei
+    create/update/delete
+    Operationen schnell. Eine Alternative ist
+    {{< highlight shell "linenos=table">}}
+      MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRVersioningMetadataStore
+    {{< /highlight >}}
+    Dies ist zur Zeit die Default-Einstellung, die zusätzlich Änderungen
+    an Metadaten-Objekten in internen Subversion Repositories versioniert.
+    D.h. mit dieser
+    Implementierung lassen sich Änderungen an Metadaten-Objekten verfolgen, alte
+    und gelöschte Versionen der Metadaten wiederherstellen. Diese
+    Implementierung
+    ist bei Leseoperationen auf die aktuellste Version der Metadaten genau so
+    schnell,
+    bei create/update/delete Operationen aber deutlich langsamer.
+  </p>
+  <p>
+    Zur Verwaltung der Metadatenversionen werden je Projekt-ID und
+    Objekttyp separate Subversion
+    Repositories unterhalb eines Basisverzeichnisses angelegt:
+    {{< highlight xml "linenos=table">}}
+      MCR.Metadata.Store.SVNBase=file\:///%MCR.datadir%/versions-metadata
+    {{< /highlight >}}
+    Diese SVN Repositories können wie andere auch mit externen
+    Subversion Kommandos befragt werden, aber es ist keine lokale Subversion
+    Installation erforderlich. Die benötigte Funktionalität wird von
+    MyCoRe mitgeliefert.
+  </p>
+  <p>
+    Es ist möglich, die Einstellungen zum verwendeten Store, Basisverzeichnis
+    und Slot Layout individuell für einzelne Objekttypen und Projekt-IDs zu
+    überschreiben.
+  </p>
+  <p>
+    So könnte z. B. für einen bestimmten Objekttyp (hier DocPortal document)
+    Versionierung aktiviert werden, für andere Objekttypen aber der schnellere
+    MCRMetadataStore:
+    {{< highlight xml "linenos=table">}}
+      MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRMetadataStore
+
+      MCR.IFS2.Store.DocPortal_document.Class=org.mycore.datamodel.ifs2.MCRVersioningMetadataStore
+      MCR.IFS2.Store.DocPortal_document.SlotLayout=4-2-2
+      MCR.IFS2.Store.DocPortal_document.BaseDir=/path/to/metadata/store/
+      MCR.IFS2.Store.DocPortal_document.SVNRepositoryURL=file:///path/to/local/svn/repository/
+    {{< /highlight >}}
+  </p>
+  <p>
+    In älteren MyCoRe Versionen wurden die Metadaten der Objekte in einer
+    Datenbanktabelle
+    (BLOB-Spalte) gespeichert. Eine besondere Implementierung ist
+    {{< highlight shell "linenos=table">}}
+      MCR.Metadata.Store.DefaultClass=org.mycore.migration20_21.datamodel.MCRMigratingXMLStore
+    {{< /highlight >}}
+    Diese verhält sich wie ein MCRVersioningMetadataStore, bietet jedoch
+    zusätzlich eine
+    live Migration der alten Daten aus der Tabelle. Beim ersten Zugriff auf
+    ein Objekt wird
+    dieses ggf. aus der Datenbanktabelle gelesen und in den IFS2 Store kopiert,
+    sofern es
+    nicht schon dort gespeichert ist.
+  </p>
+   </div>
+
+   <div>
+    <h2>Streaming-Server</h2>
+    <p>
+    ToDo
+    </p>
+   </div>&gt;

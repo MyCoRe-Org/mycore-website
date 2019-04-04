@@ -1,0 +1,60 @@
+
+---
+
+title: "XML-Syntax eines MyCoRe-Derivates"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des Syntax
+    ist notwendig, um eigene Datensätze für zu erstellen."
+date: "2018-07-03"
+
+---
+  <div>
+   <h2>Das Speichermodell für die Multimediadaten (IFS)</h2>
+   <p>
+   Im bisherigen Verlauf dieses Kapitels wurden nur die beschreibenden Daten des multimedialen Objektes erläutert.
+   Dieser Abschnitt beschäftigt sich damit, wie die eigentlichen Objekte dem Gesamtsystem hinzugefügt werden können.
+   Im MyCoRe Projekt wurde zur Ablage der digitalen Objekte das Konzept des IFS entwickelt. Hier ist es möglich, über
+   spezielle Konfigurationen festzulegen, in welchen Speicher (Store) die einzelnen Dateien gespeichert werden sollen.
+   </p>
+   <p class="Standard">Das Laden von Objekten erfolgt mittels einer Metadaten-Datei, welche alle Informationen über die
+   zu speichernde(n) Datei(en) und ihre Beziehung(en) zu den Metadaten enthält. Die zu speichernden multimedialen
+   Objekte werden im Weiteren als Derivate, also Abkömmlinge, bezeichnet, da ein Objekt in mehreren Formen,
+   Grafikformaten, auftreten kann. Die Struktur der XML-Datei für Derivate ist fest vorgegeben, alle Felder, die
+   nutzerseitig geändert werden können, sind unten beschrieben.
+   </p>
+   <p>Syntax des Derivate-Datenmodells:</p>
+   {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+  <mycorederivate
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="....xsd"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    ID="..."
+    label="..."
+  >
+    <derivate>
+      <linkmetas class="MCRMetaLinkID">
+        <linkmeta xlink:type="locator" xlink:href="..." />
+      </linkmetas>
+      <internals class="MCRMetaIFS">
+        <internal sourcepath="..." maindoc="..."/>
+      </internals>
+    </derivate>
+    <service>
+      ...
+    </service>
+  </mycorederivate>{{< /highlight >}}
+
+   <ul>
+   <li>Für xsi:noNamespaceSchemaLocation ist die entsprechende XML Schema-Datei anzugeben (Derivate.xsd)</li>
+   <li>Die ID ist die eindeutige MCRObjectID.</li>
+   <li>Der label ist ein kurzer Text-String, der bei administrativen Arbeiten an der Datenbasis das Identifizieren
+       einzelner Datensätze erleichtern soll. Er kann maximal 256 Zeichen lang sein.</li>
+   <li>Die Referenz in linkmeta ist die MCRObjectID des Metadatensatzes, an den das/die Objekte angehängt werden sollen.</li>
+   <li>Das Attribut sourcepath enthält die Pfadangabe zu einer Datei oder zu einem Verzeichnis, welches als Quelle
+       dienen soll. Aus diesen Dateien kann nun eine Datei ausgewählt werden, welche den Einstiegspunkt bei HTML-Seiten
+       darstellen soll. Bei einzelnen Bildern ist hier noch einmal der Dateiname anzugeben. Ist nichts angegeben, so
+       wird versucht Dateien wie index.html usw. zu finden.</li>
+   </ul>
+  </div>

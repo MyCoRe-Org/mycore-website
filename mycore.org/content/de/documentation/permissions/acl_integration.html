@@ -1,0 +1,58 @@
+
+---
+
+title: "Integration in die Applikationen"
+mcr_version: ['2015.05','2016.06']
+author: ['Kathleen Neumann']
+description: "
+      Dieser Abschnitt beschreibt, wie für die Präsentation der Daten die Integration der Zugriffstest erfolgen kann.
+    "
+date: "2015-09-23"
+
+---
+  <div>
+   <h2>Allgemeines</h2>
+   <p>
+     ...
+   </p>
+  </div>
+
+  <div>
+    <h2>Rechte in Skeleton und MIR</h2>
+    <p>
+      Für MyCoRe-Objekte können folgende Rechte spezifiziert werden:
+    </p>
+    <ul>
+      <li>read             -&gt; Nutzer darf dieses Objekt lesen</li>
+      <li>view             -&gt; Nutzer darf das Elternobjekt dieses Objektes lesen </li>
+      <li>write            -&gt; Nutzer darf dieses Objekt bearbeiten</li>
+      <li>delete           -&gt; Nutzer darf Objekt mit dieser ID löschen</li>
+      <li>addurn           -&gt; Nutzer hat das Recht eine URN für dieses Objekt zu erzeugen</li>
+      <li>accKeyEnabled    -&gt; Zugriffsschlüssel-Strategie wird verwendet</li>
+      <li>readKey          -&gt; Leseschlüssel für dieses Objekt ist hinterlegt</li>
+      <li>writeKey         -&gt; Schreibschlüssel für dieses Objekt ist hinterlegt</li>
+    </ul>
+    <p>
+      Aktuell nur in der MIR-Anwendung verfügbar gibt es ein Stylesheet (mir-rights.xsl), das diese Informationen sammelt
+      und in XML-Form an die Metadaten anhängt.
+    </p>
+    {{< highlight xml "linenos=table">}}<mycoreobject xsi:noNamespaceSchemaLocation="datamodel-mods.xsd" ID="mir_mods_00000005" label="mir_mods_00000005" version="2015.03-SNAPSHOT">
+  [...]
+  <rights>
+    <right id="mir_mods_00000005" view="" read=""/>
+    <right id="mir_mods_00000006" read=""/>
+    <right id="Document_derivate_00000008" view="" read=""/>
+  </rights>
+</mycoreobject>
+    {{< /highlight >}}
+    <p>
+      So wird für das Objekt selbst und alle Kind- und Elternobjekte ein Eintrag angefügt, der wenn das jeweilige Recht
+      verfügbar ist, dies als Attribut mit leerem Wert enthält. Dieses XML kann dann in den Stylesheets ausgewertet werden,
+      ohne jedesmal über einen URI-Aufruf die ACL erneut abzufragen.
+    </p>
+    {{< highlight xml "linenos=table">}}<xsl:key use="@id" name="rights" match="/mycoreobject/rights/right" />
+[...]
+<xsl:param name="accessedit" select="key('rights', $id)/@write" />
+<xsl:param name="accessdelete" select="key('rights', $id)/@delete" />
+    {{< /highlight >}}
+  </div>

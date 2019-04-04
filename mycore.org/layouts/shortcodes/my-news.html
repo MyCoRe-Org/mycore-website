@@ -1,0 +1,18 @@
+<div id="news_down" class="container mt-5">
+	<div class="row mcr-news mt-5">
+	
+	{{ range (index $.Site.Data.news_yaml .Site.Language.Lang)}}
+		<div class="col">
+			<a class="latestnews" href="{{.url}}">
+				<h5>{{.title}}</h5>
+				<span class="message">{{.message}}</span>
+				<div class="small text-right mt-2">
+				   <em>von <span class="author">{{.author}}</span>,
+					<span class="date">{{.date}}</span></em>
+					
+				</div>
+			</a>
+		</div>
+	{{ end }}
+	</div>
+</div>

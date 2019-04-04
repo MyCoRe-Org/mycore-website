@@ -1,0 +1,685 @@
+
+---
+
+title: "Suchen und Finden: MyCoRe Query Service"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+
+    <div>
+     <h2>Datenmodell der Suche</h2>
+     <p>
+     Aufgabe des MyCoRe Query Service ist es, gespeicherte Daten durchsuchbar zu machen. MyCoRe Anwendungen suchen
+     dabei nicht direkt in den Metadaten von Dokumenten bzw. deren XML-Darstellung, oder den Volltexten der zugehörigen
+     Dateien, sondern in daraus abgeleiteten Suchfeldern. Die Definition dieser Suchfelder wird für jede MyCoRe
+     Anwendung in der Konfigurationsdatei <code>searchfields.xml</code> vorgenommen
+     (vgl. <code>docportal/config/searchfields.xml</code>). Das XML Schema dieser Datei ist in der
+     Datei <code>searchfields.xsd</code> definiert.
+     </p>
+     <p>
+     Mehrere Suchfelder werden zu einem Index logisch zusammengefasst. In DocPortal fasst z.B. der Index
+     <code>metadata</code> alle Felder zusammen, die Dokumenten- und Personen-Metadaten durchsuchbar machen. Der
+     Index <code>content</code> enthält alle Felder, die Dateien (deren Volltexte, Dateinamen, Dateigröße etc.)
+     durchsuchbar machen. In jeder MyCoRe Anwendung ist ein Index oder mehrere solcher Indizes in der Datei
+     <code>searchfields.xml</code> definiert. Jeder Index besitzt eine eindeutige ID und besteht aus einem oder mehreren
+     Suchfeldern, die jeweils einen innerhalb der Datei <code>searchfields.xml</code> eindeutigen Namen besitzen.
+     </p>
+
+     {{< highlight xml "linenos=table">}}
+<searchfields>
+  <index id="metadata">
+    <field name="title" ... />
+    <field name="dateCreated" ... />
+    ...
+  </index>
+  <index id="content">
+    <field name="fulltext" ... />
+    <field name="size" ... />
+    <field name="numPages" ... />
+  </index>
+</searchfields>{{< /highlight >}}
+
+     <p>
+     Jedem Index muss ein Searcher zugeordnet werden, der die Felder dieses Index mit Hilfe eines zugrundeliegenden
+     Datenbanksystems (z.B. SQL) oder einer Suchmaschine (z.B. Lucene) durchsuchbar macht. Ein
+     Searcher wird durch eine Java-Klasse implementiert und ist somit zur Laufzeit eine Instanz dieser Klasse.
+     </p>
+
+      <div>{{< mcr-figure src="/images/documentation/archiv/searcher.png" class="border border-secondary" label="Abbildung 2.5.1" caption="Klasse Searcher" alt="Searcher" width="90%" height="" />}}</div>
+
+     <p>
+     Searcher und Index sind prinzipiell unabhängig, d.h. es ist möglich, je nach Anwendung für den gleichen Index
+     zwischen verschiedenen Searcher-Implementierungen zu wählen, die jeweils Vor- und Nachteile besitzen. Die gleiche
+     Java-Klasse, z.B. die auf Apache Lucene basierende Implementierung eines Searchers, kann auch für mehrere Indizes
+     verwendet werden, so dass zur Laufzeit mehrere Instanzen der Java-Klasse verwendet werden.
+     </p>
+     <p>
+     Die Zuordnung von Searchern zu Indizes wird in den <code>mycore.properties</code>-Konfigurationsdateien vorgenommen.
+     Jedem Index wird ein Searcher zugeordnet. Jeder Searcher besitzt wiederum eine eindeutige ID. Dazu ein Beispiel:
+     </p>
+
+     <p class="kasten">
+     # Searcher mit ID <code>'jdom-metadata'</code> sucht im Index <code>'metadata'</code><br />
+     <code>MCR.Searcher.jdom-metadata.Index=metadata</code><br />
+     # Searcher mit ID <code>'lucene-content'</code> sucht im Index <code>'content'</code><br />
+     <code>MCR.Searcher.lucene-content.Index=content</code><br />
+     also allgemein<br />
+     <code>MCR.Searcher.[SearcherID].Index=[IndexID]</code>
+     </p>
+     <p>
+     Durch die Trennung von Searcher und Index kann man den für einen bestimmten Index verwendeten Searcher durch
+     Änderung nur einer Konfigurationszeile wechseln (z.B. von Lucene auf JDOM). Sie können so in Ihrer Anwendung
+     zu einem späteren Zeitpunkt die Suchimplementierung wechseln, ohne die Daten neu laden zu müssen.
+     </p>
+    </div>
+
+    <div>
+     <h2>Implementierungen der Suche</h2>
+     <p>
+     Jeder Searcher wird durch eine bestimmte Java-Klasse implementiert.
+     </p>
+     <ul>
+     <li><strong><code>org.mycore.backend.lucene.MCRLuceneSearcher</code></strong><br />
+     verwendet die Apache Lucene Suchmaschine. Dies ist die für Produktionssysteme derzeit empfohlene Implementierung,
+     die sich sowohl für die Metadatensuche, als auch für die Suche in Volltexten eignet.</li>
+     <li><strong><code>org.mycore.backend.jdom.MCRJDOMSearcher</code></strong><br />
+     verwendet einen Suchindex im Hauptspeicher, so dass keinerlei Daten auf der Festplatte bzw. einem Datenbanksystem
+     gespeichert werden. Diese Implementierung dient als Referenz zur Entwicklung eigener Suchimplementierungen und hat
+     den Vorteil, dass niemals Daten neu indiziert oder geladen werden müssen, eine Änderung der Suchfeld-Konfiguration
+     ist nach Neustart der Anwendung unmittelbar wirksam. Gut geeignet für die Suche in Metadaten bei der Entwicklung
+     einer Anwendung.</li>
+     </ul>
+     <note label="Hinweis">Die JDOM-Implementierung der Suche gibt es in Version 2.1 nicht mehr!</note>
+     <p>
+     Die gleiche Implementierung (Java-Klasse) kann auch für verschiedene Searcher-Instanzen mit unterschiedlicher
+     Konfiguration verwendet werden. Jeder Searcher kann eine eigene, individuelle Konfiguration haben, deren Parameter
+     abhängig von der Implementierung sind. Im folgenden Beispiel wird der Searcher mit der ID <code>lucene-content</code>
+     durch die Klasse <code>MCRLuceneSearcher</code> implementiert. Diese Searcher-Instanz verwendet das Verzeichnis
+     <code>lucene-index4content/,</code> um die Daten des Suchindex zu speichern:
+     </p>
+     <p class="kasten">
+     # Konfiguration des Searchers <code>'lucene-content'</code><br />
+     <code>MCR.Searcher.lucene-content.Class= </code><br />
+     <code>org.mycore.backend.lucene.MCRLuceneSearcher</code><br />
+     <code>MCR.Searcher.lucene-content.IndexDir=/repository/lucene-index4content/</code><br />
+     <br />
+     # Konfiguration des Searchers <code>'jdom-metadata'</code><br />
+     <code>MCR.Searcher.jdom-metadata.Class=</code><br />
+     <code>org.mycore.backend.jdom.MCRJDOMSearcher</code><br />
+     <code>MCR.Searcher.jdom-metadata.Index=metadata</code><br />
+     also allgemein<br />
+     <code>MCR.Searcher.[SearcherID].Class=[ImplementierendeJavaKlasse]</code><br />
+     <code>MCR.Searcher.[SearcherID].[KonfigurationsEigenschaft]=[Wert]</code>
+     </p>
+    </div>
+
+    <div>
+     <h2>Abbildung von Daten auf Suchfelder</h2>
+     <p>
+     Damit die Metadaten bzw. die Dateien der in einer MyCoRe Anwendung gespeicherten Dokumente durchsuchbar sind,
+     müssen diese Daten auf logische Suchfelder abgebildet werden. Diese Abbildung kann je nach Implementierung an sich
+     auf beliebige Weise erfolgen, in der Regel werden aber aus den XML-Darstellungen der Daten die Inhalte der
+     Suchfelder mittels XPath-Anweisungen abgeleitet. Die hierarchische XML-Struktur wird dabei quasi „verflacht“.
+     Mittels Filter (PDF, HTML,OpenOffice etc.) können die Volltexte aus Textdateien extrahiert und einem logischen
+     Suchfeld zugeordnet werden.
+     </p>
+     <p>
+     Typischerweise werden nicht alle Inhalte auf Suchfelder abgebildet. Ein Suchfeld kann auch eine Aggregation von
+     Daten mehrerer Metadatenfelder sein. Suchfelder sind grundsätzlich auch wiederholbar, da evtl. die zugrunde
+     liegenden Metadatenfelder oder Inhalte wiederholt auftreten. Auch kann das gleiche Metadatenfeld auf mehrere
+     Suchfelder abgebildet werden. Dazu einige Beispiele:
+     </p>
+     <table>
+     <tr>
+     <th>Suchfeld</th>
+     <th>Entsprechung in den Metadaten bzw. Dateien</th>
+     </tr>
+     <tr>
+     <td>title</td>
+     <td>/mycoreobject/metadata/titles/title</td>
+     </tr>
+     <tr>
+     <td>creator</td>
+     <td>/mycoreobject/metadata/creators/creator</td>
+     </tr>
+     <tr>
+     <td>author</td>
+     <td>/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher</td>
+     </tr>
+     <tr>
+     <td>content</td>
+     <td>Volltext der Dateien des Dokumentes</td>
+     </tr>
+     <tr>
+     <td>fileSize</td>
+     <td>/file/@size </td>
+     </tr></table>
+     <p>
+     Suchfelder können nicht nur aus Dokument-Metadaten und Volltexten gebildet werden. Derzeit werden die folgenden
+     Datenquellen unterstützt:
+     </p>
+     <p class="break">
+     <strong>Metadaten der Dokumente</strong> (Titel, Autor usw. je nach Datenmodell)
+     </p>
+     <p class="break"><strong>Metadaten der Dateien</strong> (Dateiname, Größe, Typ etc.)
+     </p>
+     <p class="break">
+     <strong>Volltext der Dateien:</strong><br />
+     Dabei wird mittels der in MyCoRe bereitgestellten Filter der Volltext extrahiert und indiziert (z.B. OpenOffice,
+     TXT, HTML, PDF Dateien).
+     </p>
+     <p class="break">
+     <strong>XML-Inhalt der Dateien: </strong><br />
+     Wenn eine gespeicherte Datei eine XML-Datei ist (z.B. eine Excel-Tabelle, als XML gespeichert, oder eine
+     SCORM-Manifest-Datei eines E-Learning Moduls), können deren XML-Elemente qualifiziert durchsuchbar gemacht
+     werden.</p>
+     <p class="break"><strong>Zusatzdaten der Dateien:</strong><br />
+     In speziellen Anwendungen können damit z.B. extrahierte ID3-Tags aus MP3-Dateien, EXIF-Daten aus Bildern und
+     ähnliche Quellen durchsucht werden).
+     </p>
+     <p class="break">
+     <strong>Beliebige XML-Quellen:</strong><br />
+     Eigene Anwendungen können die Inhalte beliebiger XML-Quellen indizieren, ohne dass diese XML-Quellen Teil des
+     MyCoRe Datenmodells sein müssen.
+     </p>
+     <p>
+     In der Datei <code>searchfields.xml</code> wird für jedes Feld über das Attribut <code>source</code> angegeben, aus
+     welcher Quelle es gebildet wird:</p>
+     <table>
+     <tr>
+     <th><code>source = </code></th>
+     <th><code>MCRFieldDef</code> Konst.</th>
+     <th>Quelle der Feldwerte</th>
+     </tr>
+     <tr>
+     <td><code>objectMetadata</code></td>
+     <td><code>OBJECT_METADATA</code></td>
+     <td><code>MCRObject.createXML()</code></td>
+     </tr>
+     <tr>
+     <td><code>objectCategory</code></td>
+     <td><code>OBJECT_CATEGORY</code></td>
+     <td>alle Klassifikationskategorien</td>
+     </tr>
+     <tr>
+     <td><code>fileMetadata</code></td>
+     <td><code>FILE_METADATA</code></td>
+     <td><code>MCRFile.createXML()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileAdditionalData</code></td>
+     <td><code>FILE_ADDITIONAL_DATA</code></td>
+     <td><code>MCRFile.getAdditionalData()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileXMLContent</code></td>
+     <td><code>FILE_XML_CONTENT</code></td>
+     <td><code>MCRFile.getContentAsJDOM()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileTextContent</code></td>
+     <td><code>FILE_TEXT_CONTENT</code></td>
+     <td><code>MCRFile.getContent()</code> &amp; PlugIn</td>
+     </tr>
+     <tr>
+     <td><code>xml</code></td>
+     <td><code>XML</code></td>
+     <td>beliebiges <code>org.jdom.Document</code></td>
+     </tr>
+     <tr>
+     <td><code>searcherHitMetadata</code></td>
+     <td><code>SEARCHER_HIT_METADATA</code></td>
+     <td>durch <code>MCRSearcher</code> ergänzt</td>
+     </tr>
+     </table>
+     <p>
+     In allen Fällen außer <code>fileTextContent</code> und <code>searcherHitMetadata</code> (also immer, wenn der
+     Feldwert aus einer XML-Quelle abgeleitet wird) wird über die Attribute <code>xpath</code> und <code>value</code>
+     definiert, wie der Feldwert zustande kommt. Beispiele:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<field name="title" type="text" source="objectMetadata"
+  xpath="/mycoreobject/metadata/titles/title" value="text()" />
+<field name="fileSize" type="integer" source="fileMetadata"
+  xpath="file/@size" value="." />
+<field name="content" type="text" source="fileTextContent" />{{< /highlight >}}
+     <p>
+     Das Attribut <strong>xpath</strong> kann Werte enthalten, wie sie in einem <strong>xsl:select</strong>- oder
+     <strong>xsl:match</strong>- Attribut erlaubt sind. Die in <code>searchfields.xml</code> definierten Felder sind
+     grundsätzlich wiederholbar, d. h. wenn etwa ein Objekt mehrere Titel enthält, werden auch mehrere Feldwerte erzeugt
+     und einzeln indiziert.
+     </p>
+     <p>
+     Ein Sonderfall stellt die Quelle <code>objectCategory</code> dar. Sie muss verwendet werden, wenn nach den
+     Kategorien einer Klassifikation gesucht werden soll. In diesem Fall gibt das <code>xpath</code>-Attribut an,
+     welches Element in den Objektmetadaten den Link auf die Klassifikationskategorien enthält. Das
+     <code>value</code>-Attribut gibt an, ob die ID oder die Labels der Klassifikationskategorie indiziert werden
+     sollen. Beispiel:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<field name="origin" type="identifier" source="objectCategory"
+  objects="document" xpath="/mycoreobject/metadata/origins/origin"
+  value="@ID" />{{< /highlight >}}
+     <p>
+     Felder mit der Quellangabe <code>searcherHitMetadata</code> werden nicht aus den gespeicherten Daten gebildet,
+     sondern erst bei Zusammenstellen der Trefferliste der Suche von der Suchimplementierung dynamisch ergänzt. Dieser
+     Feldtyp ist für technische Metadaten eines Treffers (score, rank etc.) gedacht. Damit dieses Feld z.B. auch
+     sortierbar ist, muss es in der Datei <code>searchfields.xml</code> definiert sein.
+     </p>
+     <p>
+     In der Weboberfläche einer MyCoRe-Anwendung kann man sich auf der Metadaten-Detailansicht zu jedem MCRObject über
+     den Parameter <code>?XSL.Style=searchfields</code> die aus den Metadaten generierten Suchfelder anzeigen lassen.
+     Diese Funktion wird durch den <code>fieldXSL:</code>-URIResolver implementiert und hilft beim Debuggen und
+     Entwickeln der Suchfelddefinitionen einer Anwendung.
+     </p>
+     {{< highlight xml "linenos=table">}}
+http://www.mycore.de:8291/receive/DocPortal_document_07910403?XSL.Style=searchfields{{< /highlight >}}
+    </div>
+
+    <div>
+     <h2>Die Attribute sortable und objects</h2>
+     <p>
+     Suchfelder, nach denen man die Trefferliste der Suche sortieren können möchte, müssen explizit über das
+     Attribut <code>sortable='true'</code> gekennzeichnet werden.
+     </p>
+     <p>
+     Manche Suchfelder sollen bzw. können nur für bestimmte Objekttypen oder Dateitypen gebildet werden. Über das
+     Attribut <code>objects</code> kann definiert werden, dass ein Suchfeld nur für bestimmte Typen von
+     Metadatenobjekten oder für bestimmte Typen von Dateien (z.B nur denen, für die ein Volltextfilter vorliegt)
+     gebildet werden. Beispiel:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<field name="title" type="text" source="objectMetadata"
+  objects="document" sortable="true"
+  xpath="/mycoreobject/metadata/titles/title" value="text()" /&gt;
+
+  field name="content" type="text" source="fileTextContent"
+  objects="html pdf ps txt xml msword95 msword97 msppt rtf otd sxw" />{{< /highlight >}}
+    </div>
+
+    <div>
+     <h2>Datentypen und Operatoren</h2>
+     <p>
+     Jedem Suchfeld ist ein definierter Datentyp zugeordnet. Der Datentyp bestimmt die möglichen Operatoren für
+     Suchanfragen und legt implizit fest, wie Inhalte dieses Typs behandelt werden (Normalisierung von Umlauten,
+     Stammwortbildung statt exakter Suche etc.). Für jeden Datentyp gibt es eine festgelegte Menge vordefinierter
+     Standard-Operatoren, die jede Searcher-Implementierung unterstützen muss. Darüber hinaus kann eine Implementierung
+     aber auch eigene Datentypen und eigene Operatoren mit erweiterten Suchmöglichkeiten definieren.
+     </p>
+     <p>
+     Die Definition der Standard-Datentypen und Operatoren erfolgt in der Datei <code>mycore/config/fieldtypes.xml</code>.
+     Das XML Schema dieser Datei befindet sich in <code>mycore/schema/fieldtypes.xsd</code>. Hier ein Auszug als
+     Beispiel:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<fieldtypes>
+  <type name="text">
+    <operator token="="/>
+    <operator token="&gt;"/>
+    <operator token="&lt;"/>
+    <operator token="&gt;="/>
+    <operator token="&lt;="/>
+    <operator token="like"/>        <!-- wildcard search using * and ? -->
+    <operator token="contains"/>    <!-- words at any position -->
+    <operator token="phrase"/>      <!-- a phrase at any position -->
+  </type/>
+  ...
+</fieldtypes>{{< /highlight >}}
+     <p>
+     In zukünftigen Versionen von MyCoRe wird diese Datei auch proprietäre Datentypen (etwa GIS-Koordinaten) und
+     Operatoren (z.B. proximity-Suche in Lucene) definieren und diese als nur durch bestimmte Implementierungen
+     unterstützte Operatoren kennzeichnen. Diese Funktionalität ist derzeit noch nicht implementiert.
+     </p>
+     <p>
+     Bei der Konfiguration der Suchfelder ist insbesondere auf die richtige Wahl der Textdatentypen zu achten. Es wird
+     zwischen drei verschiedenen Datentypen für Textfelder unterschieden: <code>identifier</code>, <code>name</code>
+     und <code>text</code>. Die folgenden Standard-Datentypen sind derzeit implementiert:
+     </p>
+     <table>
+     <tr>
+     <th>Datentyp</th>
+     <th>Suchoperatoren</th>
+     <th>Beschreibung</th>
+     </tr>
+     <tr>
+     <td><code>identifier</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code></td>
+     <td>ID, URN, Dateiname etc., also für exakte Werte, keine Normalisierung oderStemming</td>
+     </tr>
+     <tr>
+     <td><code>name</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code></td>
+     <td>Personen- oder Ortsnamen etc., Umlautnormalisierung, aber kein Stemming</td>
+     </tr>
+     <tr>
+     <td><code>text</code></td><td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code>,<code>phrase</code></td>
+     <td>Volltext, Abstract, freier Text, Umlautnormalisierung, Stemming </td>
+     </tr>
+     <tr>
+     <td><code>date</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Datum, vollständig im Format yyyy-MM-dd</td>
+     </tr>
+     <tr>
+     <td><code>time</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Uhrzeit oder zeitliche Dauer, im Format HH:mm:ss</td>
+     </tr>
+     <tr>
+     <td><code>timestamp</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Zeitpunkt, im Format 'yyyy-MM-dd HH:mm:ss'</td>
+     </tr>
+     <tr>
+     <td><code>boolean</code></td>
+     <td>=</td><td>'true' oder 'false' </td>
+     </tr>
+     <tr>
+     <td><code>decimal</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Gleitkommazahl,"." als Trennzeichen </td>
+     </tr>
+     <tr>
+     <td><code>integer</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Ganzzahl</td>
+     </tr>
+     </table>
+     <p>
+     Es ist Aufgabe der Suchimplementierung, diese Datentypen auf möglichst geeignete Suchstrukturen (Lucene-/SQL-Typen
+     etc) abzubilden und die Standard-Operatoren in der späteren Suche umzusetzen. Zu beachten ist, dass für Datums-,
+     Zeit- und Boolean-Werte das Format für die Indizierung (wie werden die Felder zur Indizierung übergeben) und die
+     spätere Suche (wie wird ein Wert in einer Query formatiert) exakt festgelegt ist (siehe Formate in obiger Tabelle).
+     </p>
+    </div>
+
+    <div>
+     <h2>Suchanfragen formulieren</h2>
+     <p>
+     Eine Suchanfrage kann als XML-Dokument oder als Textausdruck formuliert werden. Für Programmierer besteht weiterhin
+     die Möglichkeit, eine Suche als zusammengesetztes Java-Objekt zu formulieren.
+     </p>
+     <p>
+     Eine einfache Suchbedingung enthält das zu durchsuchende Feld, einen Suchoperator und den Vergleichswert, z.B.
+     Suche nach dem Wort „Optik“ im Titel:
+     </p>
+     {{< highlight xml "linenos=table">}}
+title contains "Optik"
+
+<condition field="title" operator="contains" value="Optik" />
+
+MCRFieldDef titleField = MCRFieldDef.getDef("title");
+new MCRQueryCondition( titleField, "contains", "Optik" );{{< /highlight >}}
+     <p>
+     Die Klassen <code>MCRQueryParser</code> und <code>MCRQueryCondition</code> implementieren die Java-Darstellung einer
+     Query bzw. den Parser, um aus der String- oder XML-Darstellung die Java-Darstellung zu gewinnen und zwischen den
+     Darstellungen zu wechseln.
+     </p>
+     <p>
+     Einfache Suchbedingungen können über <code>and/or/not</code>-Ausdrücke miteinander verknüpft und so zu komplexeren
+     Suchanfragen zusammengesetzt werden:
+     </p>
+     {{< highlight xml "linenos=table">}}
+( not (title contains "Optik") ) and ( date &gt; "2006-02-22" )
+
+<boolean operator="AND">
+  <boolean operator="NOT">
+    <condition field="title" operator="contains" value="Optik" />
+  </boolean>
+  <condition field="date" operator="&amp;gt;" value="2006-02-22" />
+</boolean>{{< /highlight >}}
+     <p>
+     Solche komplexen Suchbedingungen können über die Klassen <code>MCRAndCondition</code>, <code>MCROrCondition</code>
+      und <code>MCRNotCondition</code> aus dem Paket <code>org.mycore.parsers.bool</code> auch als Java-Objekte gebildet
+      werden.
+      </p>
+     </div>
+
+     <div>
+      <h2>Normalisierung von Suchanfragen</h2>
+      <p>
+      Suchanfragen werden vor der Ausführung normalisiert. Insbesondere werden Datumsangaben in Suchausdrücken vom
+      eingegebenen Format z.B. 22.04.1971 automatisch in das ISO8601-Format transformiert also 1971-04-22.
+      </p>
+      <p>
+      Suchbedingungen, die den Operator <code>contains</code> verwenden, werden automatisch in einzelne
+      <code>contains/like/phrase/not-</code>Bedingungen zerlegt. Beispiel:
+      </p>
+      {{< highlight xml "linenos=table">}}
+title contains "-Optik Mecha* 'Lineare Algebra'"
+
+  wird normalisiert zu
+
+(not (title contains Optik)) and (title like Mech*)
+and (title phrase 'Lineare Algebra'){{< /highlight >}}
+
+      <p>
+      In der Konsequenz bedeutet das, dass man bei der Textsuche in aller Regel den Operator <code>contains</code>
+      verwenden kann. Die Umwandlung in eine <code>like</code>- und/oder <code>contains</code>- und/oder
+      <code>phrase</code>-Suche erfolgt automatisch.
+      </p>
+      <ul>
+      <li>Worte beginnend mit einem Minuszeichen werden zu einer <code>not</code>-Bedingung.</li>
+      <li>Worte, die <code>*</code> oder <code>?</code> enthalten, werden zu einer <code>like</code>-Bedingung.</li>
+      <li>Wortgruppen in einfachen Anführungszeichen werden zu einer <code>phrase</code>-Bedingung.</li>
+      </ul>
+      <p>
+      Eine Suchbedingung kann auch gleichzeitig für mehrere Suchfelder definiert werden. Dazu werden die einzelnen
+      Feldnamen durch Kommata getrennt. Beispiel:
+      </p>
+      {{< highlight xml "linenos=table">}}
+title,author contains Goethe
+
+  entspricht
+
+(title contains Goethe) or (author contains Goethe){{< /highlight >}}
+
+      <p>
+      Diese Funktionalität kann z.B. verwendet werden, um in einer Suchmaske über nur ein Eingabefeld parallel in
+      mehreren Suchfeldern suchen zu können.<br />
+      Für ein besseres Verständnis der Normalisierung, hier nochmal eine schematische Darstellung zum Ablauf der
+      Textnormalisierung.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/archiv/progguide_normalization_schema.png" class="border border-secondary" label="Abbildung 2.5.2" caption="Ablauf Textnormalisierung" alt="Ablauf Textnormalisierung" width="" height="" />}}</div>
+     </div>
+
+     <div>
+     <h2>Suchen mit MCRSearchServlet</h2>
+     <p>
+     Das Servlet MCRSearchServlet führt Suchanfragen aus und stellt die resultierenden Trefferlisten dar. Die
+     Suchanfrage wird auf verschiedene Weisen akzeptiert:
+     </p>
+     <ul>
+     <li><strong>Suche in einem vordefinierten Feld:</strong><br />
+     In diesem Fall wird nur ein Parameter übergeben, z.B. <code>search=Optik</code>.<br />
+     Es wird in einem vordefiniertem Feld mit vordefiniertem Operator gesucht, entsprechend der Konfiguration in
+     <code>mycore.properties</code>:<br />
+     <code>MCR.SearchServlet.DefaultSearchField=allMeta</code><br />
+     <code>MCR.SearchServlet.DefaultSearchOperator=contains</code><br />
+     Ein Aufruf mit <code>search=Optik</code> sucht dann nach <code>allMeta contains Optik</code>.</li>
+     <li><strong>Suche mit komplexem Suchausdruck:</strong><br />
+     Die Suchanfrage wird dabei im Parameter <code>query</code> übergeben, z.B. <br />
+     <code>query=title contains Optik</code></li>
+     <li><strong>Suche über Namens- und Operator-Parametern:</strong><br />
+     Es können mehrere Parameter übergeben werden, deren Namen den definierten Suchfeldern entsprechen müssen. Die
+     einzelnen Bedingungen werden mit UND verknüpft. Beispiel:<br />
+     <code>title=Optik&amp;author=Kupferschmidt</code><br />
+     entspricht einer Suche nach<br />
+     <code>(title contains Optik) and (author contains Kupferschmidt)</code>.<br />
+     Wenn, wie im obigen Beispiel, kein Suchoperator angegeben ist, wird der in
+     <code>MCR.SearchServlet.DefaultSearchOperator</code> definierte Wert verwendet. Alternativ kann auch ein Operator
+     angegeben werden:<br />
+     <code>title=Opti*&amp;title.operator=like</code><br />
+     entspricht einer Suche nach<br />
+     <code>title like Opti*</code><br />
+     Wenn mehrere Werte für ein Suchfeld angegeben werden, werden diese mit dem Operator <code>or</code> verknüpft:<br />
+     <code>title=Optik&amp;title=Magnetismus</code><br />
+     entspricht einer Suche nach<br />
+     <code>(title contains Optik) or (title contains Magnetismus)</code></li>
+     </ul>
+     <p>
+     Mit den drei zuvor beschriebenen Methoden kann jede Suche als statischer Link in einer Webseite eingebunden werden.
+     Als weitere HTTP-Request-Parameter können die Anzahl Treffer pro Seite (<code>numPerPage</code>) und die maximale
+     Anzahl auszugebender Treffer (<code>maxResults</code>) angegeben werden. Beispiel:
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;maxResults=100&amp;numPerPage=5</code></p>
+     <p>
+     Die maximale Zahl der gleichzeitig anzuzeigenden Treffer pro Seite kann durch das Konfigurations-Property
+     <code>MCR.SearchServlet.MaxPerPage</code> limitiert werden, und bildet dann eine Obergrenze für <code>numPerPage</code>.
+     </p>
+     <p>
+     Die Sortierung der Trefferliste kann über einen weiteren Parameter festgelegt werden, durch Anhängen des
+     Suffixes <code>.sortField</code> an den Feldnamen, mit den möglichen Werten <code>ascending</code> und <code>descending</code>:
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;...&amp;created.sortField=descending</code></p>
+     <p>
+     Wenn Sie nach mehr als einem Kriterium sortieren möchten, können Sie die sortField Parameter im Suffix nummerieren, um die
+     Sortierreihenfolge zu bestimmen, z. B.
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;...&amp;created.sortField.1=descending&amp;author.sortField.2=ascending</code></p>
+     <ul>
+     <li><strong>Suchanfrage als XML-Dokument:</strong><br />
+     Hier ist dem <code>MCRSearchServlet</code> ein MyCoRe Editor-Formular vorgeschaltet, das eine Suchmaske darstellt.
+     Nach Abschicken der Suchmaskeneingaben durch den Benutzer generiert das Editor Framework daraus ein XML-Dokument,
+     das die Suchanfrage enthält. Die Syntax dieses XML-Dokumentes entspricht der im vorangehenden Kapitel beschriebenen
+     Syntax für Suchanfragen. Das Wurzelelement <code>query</code> enthält drei Attribute:
+     <dl>
+     <dt><code>mask</code></dt>
+     <dd> Dateiname der Suchmaske</dd>
+     <dt><code>maxResults</code></dt>
+     <dd> maximale Trefferzahl</dd>
+     <dt><code>numPerPage</code></dt>
+     <dd>Anzahl Treffer pro Seite</dd>
+     </dl>
+     Das Element <code>conditions</code> enthält die eigentliche Suchbedingung, entweder formuliert als Menge von
+     verschachtelten XML-Elementen (<code>format=xml</code>) oder als textueller Suchausdruck (<code>format=text</code>).
+     Beispiel:</li>
+     </ul>
+     {{< highlight xml "linenos=table">}}
+<query
+  mask='editor_form_search-simpledocument.xml'
+  maxResults='100' numPerPage='10'>
+  <conditions format='xml'>
+    <boolean operator='and'>
+      <condition field='title' operator='contains' value='Optik' />
+      <condition field='author'
+            operator='contains' value='Kupferschmidt' />
+    </boolean>
+  </conditions>
+</query>{{< /highlight >}}
+      <p>
+        Nach Ausführung der Suche leitet MCRSearchServlet den Browser direkt zur ersten Trefferseite, es sei denn der Request-Paramter <code>redirect=false</code> wird
+        mitgegeben. In diesem Fall wird direkt die Trefferliste als Response gesendet.
+      </p>
+    </div>
+
+    <div><h2>Indizierung von Feldern</h2>
+    <p>Der Query Service ist logisch von der Speicherung der Inhalte unabhängig, so dass Persistenz- und
+    Suchimplementierungen sehr flexibel kombinierbar und austauschbar sind. Dies bedeutet jedoch nicht, dass eine
+    bestimmte Implementierung nicht dennoch beide Dienste gemeinsam realisieren kann. In einer reinen Open Source
+    Umgebung kann z.B. zur Speicherung von Metadaten und Dateien ein lokales Dateisystem dienen, zur Suche in Metadaten
+    und Dateien kann Lucene verwendet werden.
+    </p>
+    <p>
+    Jedem Index (Menge von Suchfeldern) ist ein <code>Searcher</code> zugeordnet, der diese Felder durchsuchbar macht.
+    Es gibt nun drei Fälle, auf welche Weise diese Felder für eine spezielle Implementierung des Searchers durchsuchbar
+    werden:
+    </p>
+    <ul>
+    <li>
+    Es ist keine separate Indizierung notwendig, weil schon durch die Art und Weise der Speicherung der Daten
+    automatisch eine Durchsuchbarkeit gegeben ist (Ausnahmefall), oder: </li>
+    <li>Wenn sich ein <code>MCRObject</code> (Metadaten eines Dokumentes) oder <code>MCRFile</code> (Datei mit Volltext)
+    ändert, wird bei diesem Ereignis über einen speziellen <code>EventHandler</code>, dem <code>Indexer</code>, die
+    Feldwerte aus den Daten extrahiert und in einer eigenen Struktur zwecks Durchsuchbarkeit abgelegt. In der
+    Implementierung gibt es dann zwei Varianten:
+    <ul><li>Der <code>Indexer</code> tut dies selbst, indem er die entsprechenden Event-Methoden überschreibt
+        (Ausnahmefall), oder: </li>
+        <li>Der <code>Indexer</code> wird als Unterklasse von <code>MCRSearcher</code> implementiert und überschreibt
+        die Methoden <code>addToIndex</code> und <code>removeFromIndex</code> (Regelfall). Alle Feldwerte werden dann
+        automatisch durch die Hilfsklasse <code>MCRData2Fields</code> anhand der Konfiguration aus den Daten gebildet. </li>
+        </ul>
+    </li>
+    </ul>
+    <p>Aufgabe eines <code>Indexers</code> ist es also, Inhalte auf Suchfelder abzubilden und diese in geeigneten
+    Strukturen in einer Datenbank oder einer Suchmaschine durchsuchbar zu machen. Im Regelfall ist daher nach der
+    Speicherung der Inhalte eine Abbildung von Suchfeldinhalten auf geeignete Backend-Strukturen (SQL-Tabellen,
+    Lucene Index etc). erforderlich. Die Trennung von Such- und Persistenzdiensten und der Aufruf der Indexer erfolgt
+    über den MyCoRe-EventManager. Bei <code>create/update/delete</code> Operationen auf <code>MCRObject</code>
+    (Metadaten) und <code>MCRFile</code> (Dateien) Objekte wird über den Event Manager ein Ereignis ausgelöst, das ein
+    oder mehrere konfigurierte <code>Indexer</code> aufruft. Der <code>Indexer</code> ist dafür verantwortlich, auf die
+    für ihn relevanten Änderungen an Inhalten zu reagieren und ggf. seine Suchfeldeinträge zu aktualisieren.
+    </p>
+    <p>Jeder <code>Searcher</code> muss als Unterklasse der abstrakten Klasse <code>MCRSearcher</code> implementiert
+    werden. <code>MCRSearcher</code> implementiert bereits das <code>MCREventHandler</code> Interface. Es sind daher
+    drei Fälle realisierbar:
+    </p>
+    <ul>
+    <li>Searcher ohne Indexer: Es ist nichts weiter zu tun </li>
+    <li>Searcher mit Indexer, wobei die Indizierung mit eigenen Mitteln erfolgt:<br />
+    Die MCRSearcher-Unterklasse überschreibt dann die <code>MCREventHandlerBase</code> Methoden </li>
+    <li>Searcher mit Indexer, wobei die Feldwerte automatisch gebildet werden sollen: Die MCRSearcher-Unterklasse
+    überschreibt die Methoden <code>addToIndex()</code> und <code>removeFromIndex()</code>. </li>
+    </ul>
+    <p>Eine Searcher-Implementierung mit Indexer (die also Event Handler ist) kann z.B. wie folgt in den
+    Event-Mechanismus eingebunden werden:
+    </p>
+    {{< highlight xml "linenos=table">}}
+MCR.EventHandler.MCRFile.1.Indexer=lucene-content
+MCR.EventHandler.MCRObject.4.Indexer=lucene-metadata
+
+also allgemein:
+
+MCR.EventHandler.[MCRObject|MCRFile].[Nr].Indexer=[SearcherID]{{< /highlight >}}
+    <p>
+    Nun werden bei <code>create/update/&gt;delete</code> Ereignissen auf Metadaten bzw. Dateien die
+    EventHandler-Methoden der implementierenden Klassen aufgerufen. Der typische Ablauf sieht dann in der
+    Implementierung wie in Abbildung 2.5.3 dargestellt aus.
+    </p>
+
+      <div>{{< mcr-figure src="/images/documentation/archiv/event.png" class="border border-secondary" label="Abbildung 2.5.3" caption="Typischer Event-Ablauf bei der Suche" alt="Event-Ablauf" width="90%" height="" />}}</div>
+
+   </div>
+
+   <div>
+     <h2>Suchfeld-Statistiken</h2>
+     <p>
+       In einer Anwendung werden die konfigurierten Suchfelder typischerweise unterschiedlich stark genutzt.
+       Um etwa wenig genutzte Suchfelder gezielt identifizieren zu können, kann man die integrierte Statistik-Funktion
+       verwenden. Diese zählt je Suchfeld die Häufigkeit der Nutzung dieses Feldes in Suchanfragen.
+       Um die Statistik-Funktion zu aktivieren, muss für den jeweiligen Suchindex ein Property gesetzt werden, z. B.
+     </p>
+     {{< highlight xml "linenos=table">}}
+  MCR.Searcher.lucene-metadata.StoreQueryFields=true
+     {{< /highlight >}}
+     <p>
+       Beim Beenden der Anwendung werden die Statistiken in eine Property-Datei
+       im "data"-Verzeichnis geschrieben und beim Start wieder eingelesen. Durch die oben beschriebene Konfiguration für
+       DocPortal wird z. B. so die Datei <code>/data/lucene-index4metadata-usage.properties</code> erzeugt.
+     </p>
+   </div>
+
+   <div>
+    <h2>Suche über Referenzen</h2>
+    <p>
+    In diesem Abschnitt geht es um die Rückgabe von Suchergebnissen über interne Referenzen. Damit ist gemeint, dass in
+    einem Datensatz vom Typ B ein Verweis in Form des Datentyps <code>MCRMetaLinkID</code> auf den Datensatz vom Typ
+    A vorhanden ist. Wird nun im Datensatz B z.B. über eine Klassifikation gesucht, so sollen in der Trefferliste die
+    ID's des referenzierten Datensätze vom Typ A erscheinen.
+    </p>
+    <p>Um dies zu realisieren, muss die Klasse <code>org.mycore.services.fieldquery.MCRSearcher</code> in den
+    Source-Zweig der betreffenden Applikation kopiert werden. Dort sind die Methoden <code>handleObjectCreated</code>
+    und <code>handleObjectUpdated</code> wie folgend umzugestalten.
+    </p>
+    {{< highlight xml "linenos=table">}}
+...
+ String returnID = entryID;
+ if (obj.getId().getTypeId().equals("text")) {
+   MCRMetaInterface inter =
+           obj.getMetadataElement("te43s").getElement(0);
+   if (inter != null) {
+     returnID = ((MCRMetaLinkID)inter).getXLinkHref();
+   }
+ addToIndex(entryID, returnID, fields);
+ ...{{< /highlight >}}
+   </div>

@@ -1,0 +1,88 @@
+
+---
+
+title: "Statische Webinhalte verwalten"
+author: ['Thomas Scheffler', 'Jens Kupferschmidt']
+description: "Über die Gestaltung statischer Webseiten in MyCoRe-Projekten"
+date: "2015-06-18"
+
+---
+    <div>
+      <h2>MyCoRe-WebPage</h2>
+      <div>
+        <h3>Aufbau</h3>
+        {{< highlight xml "linenos=table">}}
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE MyCoReWebPage>
+          <MyCoReWebPage title="{i18n}">
+            <section xml:lang="de" title="Kontakt">
+              <div ...>
+                <h2>Kontakt</h2>
+                [...]
+              </div>
+            </section>
+            <section xml:lang="en" title="Contact">
+              <div ...>
+                <h2>Contact</h2>
+                [...]
+              </div>
+            </section>
+            <section xml:lang="all" i18n="page.contact.title">
+              <div ...>
+                <h1><i18n key="mycore.component.title"></h1>
+                [...]
+              </div>
+            </section>
+            <section direction="ltr" i18n="page.contact.title">
+              <div ...>
+                [...]
+              </div>
+            </section>
+          <meta>
+            <log date="2015-02-19" time="10:00"
+                 labelPath="Kontakt" lastEditor="Max Mustermann" />
+          </meta>
+        </MyCoReWebPage>
+        {{< /highlight >}}
+      </div>
+      <div>
+        <h3>Elemente</h3>
+        <table class="table">
+          <tr>
+            <td>section</td>
+            <td>Abschnitt, welcher entsprechend der Attribute xml:lang oder direction ausgewählt wird. Er kann
+              beliebiges HTML inklusive XEditor-Tags enthalten.
+            </td>
+          </tr>
+          <tr>
+            <td>xml:lang</td>
+            <td>
+              Über Attribut xml.lang wird die Auswahl der Sektion entsprechend der aktuellen Sprache gesteuert. Mögliche
+              Werte sind ein ISO-Sprachcode oder
+              <em>all</em>
+              .
+            </td>
+          </tr>
+          <tr>
+            <td>direction</td>
+            <td>
+              Über das Attribut direction kann auch eine Auswahl der Sektion erfolgen. Die Schriftrichtung wird von der
+              aktuellen Sprache festgelegt. Mögliche Werte sind
+              <em>ltr</em>
+              und
+              <em>rtl</em>
+              .
+            </td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>Das Attribut legt den Titel der Sektion als Text fest.</td>
+          </tr>
+          <tr>
+            <td>i18n</td>
+            <td>Das Attribut beschreint einen i18n-Schlüssel, welcher als Titel substituiert wird.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  

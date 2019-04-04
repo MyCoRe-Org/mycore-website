@@ -1,0 +1,40 @@
+
+---
+
+title: "Tipps und Problembehebung"
+author: ['Jens Kupferschmidt']
+date: "2015-08-11"
+
+---
+
+    <div>
+      <h2>Nutzung Content Store IFS 2</h2>
+      <p>
+        Viele ältere Anwendungen nutzen noch den ursprünglichen Content Store IFS1. Dieser hat den Nachteil, dass die
+        Dateinamen der digitalen Objekte nur eine eindeutigen Nummer haben und die Zuordnung zu den originalen
+        Dateinamen nur in der Tabelle MCRFSNODES verankert ist. Der moderne Content Store IFS2 hält die digitalen
+        Objekte in ihrem originalen Namen in den Verzeichnissen der Derivate vor. Somit ist ein besseres Backup und
+        Recovery im Fehlerfalle möglich. Gleichzeitig kann die volle Kontrollfunktionalität wie im Abschnitt
+        <strong>Konsistenzprüfung</strong>
+        beschrieben genutzt werden.
+      </p>
+      <p>Folgende Kommandos gestatten eine Migration von einem Content Store zu einem anderen. Damit kann auch die
+        Migration von IFS1 zu IFS2 vorgenommen werden.
+      </p>
+      <dl>
+        <dt>
+          <code>move derivates from content store {0} to content store {1} for filetype {2}</code>
+        </dt>
+        <dd>Moves all files of derivates from content store {0} (a. e. FS) to content store {1} (a. e. IFS2) for a
+          special file type (a. e. jpeg).
+        </dd>
+        <dt>
+          <code>move derivates from content store {0} to content store {1} for owner {2}</code>
+        </dt>
+        <dd>Moves all files of derivates from content store {0} (a. e. FS) to content store {1} (a. e. IFS2) for a
+          special derivate owner ID (a. e. Project_derivate_00000001).
+        </dd>
+      </dl>
+    </div>
+
+  

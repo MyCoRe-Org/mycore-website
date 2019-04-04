@@ -1,0 +1,13 @@
+{{ $currentPage := . }}
+{{ if or .Params.author .Params.date }}
+<div class="mcr-footer-authors">
+	<span class="mcr-authors">
+		{{range .Params.author }}
+		<span class="mcr-author">{{.}}</span>
+		{{end}}
+	</span>
+	{{if .Params.date}}
+	<span class="mcr-date"> - {{ .Date.Format "02.01.2006" }}</span>
+	{{end }}
+</div>
+{{end}}

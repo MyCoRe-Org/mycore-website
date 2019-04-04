@@ -1,0 +1,38 @@
+
+---
+
+title: "Tipps und Problembehebung"
+
+---
+ 
+  <div>
+   <h2>XSLT in ANT geht nicht</h2>
+   <p>
+   Beim Einsatz von SuSE Linux 10.1 kann es vorkommen, dass die Erstellung der MyCoRe-Schema-Dateien aus ANT heraus 
+   scheitert. In diesem Falle sollte ant-trax-1.6.5.x nachinstalliert werden. Es ist darauf zu achten, dass trax ANT in 
+   der Datei <em>/etc/ant.conf</em> bekannt gemacht wird.
+   </p>
+   <p>   OPT_JAR_LIST="$OPT_JAR_LIST regexp ant/ant-apache-regexp" # RPM package regexp</p>
+   <p>OPT_JAR_LIST="$OPT_JAR_LIST jaxp_transform_impl ant/ant-trax" # RPM package trax</p>
+  </div>
+  
+  <div>
+   <h2>Das Kommando 'ant create.schema' geht nicht</h2>
+   <p>
+   Beim Einsatz von SuSE Linux 10.x gibt es ein Problem mit der Einbindung des Serializers in ANT. Zeile 157 ist um 
+   <code>xalan-j2-serializer</code> zu ergänzen.
+   </p>
+   <p class="kasten">
+   <code>157: LOCALCLASSPATH="$(/usr/bin/build-classpath ant ant-launcher jax p_parser_impl xml-commons-apis 
+   xalan-j2-serializer)"</code>
+   </p>
+  </div>
+  
+  <div>
+   <h2>Java Console unter Linux Firefox</h2>
+   <p>
+   Unter der Linux-Version des Firefox wird die Java Console nicht direkt angeboten. Diese ist aber zur Fehlersuche im 
+   Applet recht hilfreich. Sie kann gesondert gestartet werden mit:
+   </p>
+   <p class="break"><code>/usr/lib/jvm/java-1.5.0-sun-1.5.0_07/bin/ControlPanel</code></p>
+  </div>

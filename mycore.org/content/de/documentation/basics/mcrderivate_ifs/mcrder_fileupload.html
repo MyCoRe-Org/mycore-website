@@ -1,0 +1,61 @@
+
+---
+
+title: "FileUpload in MyCoRe"
+mcr_version: ['2016.06','2017.06']
+author: ['Jens Kupferschmidt']
+date: "26.06.2017"
+
+---
+    <div>
+      <h2>FileUpload mit MyCoRe</h2>
+      <p>
+        Neben der Methode Bilder und andere digitale Objekte über die Kommandozeile via derivate-Import in die
+        Anwendung einzubringen, biete MyCoRe die Möglichkeit, diese Objekte auch über ein Web-Frontend hochzuladen.
+        Diese Schnittstelle arbeite auf den Techniken von HTML5. neben der Drag-and-Drop-Methode wird seitens MyCoRe
+        noch ein Upload einzelner Dateien (maximal 3) in einem Formular angeboten.
+      </p>
+      <p>
+        <strong>Bitte Beachten Sie, dass immer nur Dateien verarbeitet werden können!</strong>
+        Um ein Verzeichneis zu laden, muss dieses vorher in das zip-Format gepackt werden. MyCoRe entpackt dieses dann
+        selbstständig.
+      </p>
+    </div>
+
+    <div>
+      <h2>Integration in die eigene Webseite</h2>
+      <p>
+        Derzeit gibt es keine direkten Vorlagen im MyCoRe-Kern. Daher seine an dieser Stelle zwei Codeschnippsel
+        angeführt, die in die eigene
+        <code>fileupload.xml</code>
+        einzubauen sind. Dabei stellt
+        <strong>modern</strong>
+        die moderne HTML5 Variante dar, während
+        <strong>classic</strong>
+        die dateiweise Variante ist.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8" ?>
+<div>
+  <div id="modern">
+    <fileupload_html5 />
+  </div>
+  <div id="classic">
+    <fileupload_classic />
+  </div>
+</div> {{< /highlight >}}
+      <p>
+        Nun muss noch das Stylesheet an die entsprechende Stelle im Suchpfad. Da die Gestaltung der Uploads
+        Anwendungsspezifisch ist, soll an dieser Stelle auf eine
+        <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/xsl/fileupload.xsl?view=markup&amp;pathrev=12812" target="_blank">Beispielimplementation</a>
+        verweisen werden. Weiterhin sind noch zwei JavaScript-Files notwendig, die unter dem folgenden
+        <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/META-INF/resources/js/fileupload/" target="_blank">Verzeichnis</a>
+        beispielhaft liegen. Natürlich fehlt hier noch die Gestaltung, die jedoch dem Anwender überlassen werden soll.
+      </p>
+    </div>
+ 
+   <!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+  

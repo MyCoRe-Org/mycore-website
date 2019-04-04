@@ -1,0 +1,125 @@
+
+---
+
+title: "Die Kommandos über die Web Schnittstelle (WebCli)"
+mcr_version: ['2016.06','2017.06']
+author: ['Thomas Scheffler', 'Paul.Borchert', 'Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Der Abschnitt beschreibt die Arbeit mit Kommandos direkt aus der Web-Kommandozeilenschnittstelle heraus.
+    "
+date: "2016-11-08"
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p> Das Command Line Interface (CLI) wurde ja bereits beschrieben. MyCoRe gestattet neben der Arbeit über die
+        System-Kommandozeile auch die Arbeit direkt über ein Web-Interface. Es stehen dabei auch alle Kommandos bereit,
+        welche via Cli genutzt werden können. WebCli ist eine Komponente in MyCoRe.
+        Für die Nutzung ist ein Servlet-Container mit Unterstützung für die Servlet-API 3.1 erfordelich.
+        Dafür eignet sich also ein Tomcat ab Version 8 oder Jetty ab Version 9.1.
+      </p>
+    </div>
+
+    <div>
+      <h2>Integration in die Web-Anwendung</h2>
+      <p>
+        Die Integration der Komponente ist recht einfach. Natürlich muss selbige im benutzten MyCore-Code enthalten
+        sein. In der Anwendung ist einfach die folgende Web-Seite aufzurufen, welche natürlich vorher in die Anwendung
+        kopiert wurde. Das WebCLI-Modul kommuniziert über WebSockets mit der Anwendung. Weiterhin ist für die Nutzung
+        die Permission
+        <code>use-webcli</code>
+        erforderlich.
+      </p>
+      <p>
+        <code>/modules/webcli/launchpad.xml</code>
+      </p>
+    </div>
+
+    <div>
+      <h2>Besonderheiten bei Verwendung von AJP</h2>
+      <p>
+        Betreibt man die MyCoRe-Anwendung hinter einem Apache-Web-Server, so bindet man diesen in der Regel per
+        <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_ajp.html">AJP-Protokoll</a> an den Servlet-Container.
+        Das AJP-Protokoll unterstützt keine Web-Sockets, die für die Funktion des WebCLI notwendig sind.
+        Für die Nutzung des WebCLI wird daher sowohl der AJP-Connector als auch der HTTP-Connector von Tomcat benötigt.
+        Dabei wird davon ausgegangen, dass Apache und Tomcat auf einem Host liegen und intern unverschlüsselt über
+        <em>localhost</em> kommunizieren. Beide Konnektoren müssen in der
+        <code>server.xml</code>
+        für unterschiedliche Ports definiert werden. Hier ein Beispiel:
+      </p>
+      {{< highlight xml "linenos=table">}}...
+    <Connector port="{HTTP-Port}" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+...
+    <Connector port="{AJP-Port}" protocol="AJP/1.3"
+               redirectPort="8443" />
+...
+{{< /highlight >}}
+      <p>
+        Nun folgt die Konfiguration des Apache-Webservers. Hier ist als erstes das Modul
+        <strong>proxy_wstunnel</strong>
+        erforderlich (ab Apache httpd 2.4.5). Dies erfolgt je nach OS in der entsprechenden Konfigurationsdatei durch Hinzufügen des Moduls
+        <code>a2enmod proxy_wstunnel</code>
+        .
+      </p>
+      <p>
+        unter SuSE:
+        <code>/etc/sysconfig/apache2</code>
+      </p>
+      <p>
+        unter Ubuntu:
+        <code>/etc/apache2</code>
+      </p>
+      <p>Nun ist noch die Konfiguration im virtuellen Host erforderlich.</p>
+      {{< highlight xml "linenos=table">}}...
+        <Location />
+             ProxyPass ajp://localhost:{AJP-Port}/
+             ProxyPassReverse ajp://localhost:{AJP-Port}/
+             Require all granted
+        </Location>
+
+        <Location /ws/>
+             ProxyPass ws://localhost:{HTTP-Port}/ws/
+             Require all granted
+        </Location>
+...
+{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Verschlüsselte Verbindung zwischen Apache und Tomcat</h2>
+      <p>
+        Für den Fall, dass die Kommunikation zwischen Apache und Tomcat über
+        eine gesicherte Verbindung stattfinden soll,
+        müssen noch folgende Schritte/Änderungen erledigt werden:
+      </p>
+      <p>
+        1. Es ist ein unsigniertes Zertifikat mit
+        <code>keytool -genkey -alias generic -keyalg RSA</code>
+        zu erzeugen und unter
+        <code>$HOME/.keystore</code>
+        zu speichern.
+      </p>
+      <p>
+        2. Der Connector im
+        <code>server.xml</code>
+        ist anzupassen.
+      </p>
+      {{< highlight xml "linenos=table">}}...
+    <Connector port="{HTTPS-Port}" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               scheme="https" SSLEnabled="true"
+               secure="true" clientAuth="false" sslProtocol="TLS" keyAlias="generic"
+               keystoreFile="${user.home}/.keystore" keystorePass="{AJP-Port}"  />
+...
+{{< /highlight >}}
+      <p>3. Der Eintrag für den WebSocket ist anzupassen.</p>
+      {{< highlight xml "linenos=table">}}...
+      <Location /ws/>
+           ProxyPass wss://{Tomcat-Host}:{HTTPS-Port}/ws/
+           Require all granted
+      </Location>
+...
+{{< /highlight >}}
+    </div>
+  

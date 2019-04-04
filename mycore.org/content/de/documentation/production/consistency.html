@@ -1,0 +1,434 @@
+
+---
+
+title: "Konsistenzprüfung"
+author: ['Jens Kupferschmidt']
+description: "
+      Der Abschnitt beschreibt Vorgehensweisen zur Prüfung der Daten einer MyCoRe-Anwendung und deren
+      Korrekturmöglichkeiten.
+    "
+date: "2016-05-11"
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        Diese Abschnitt beschreibt Kommandos für die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a>,
+        um die Konsistenz der eigenen Anwendung zu prüfen und ggf. Korrekturen vorzunehmen. Dabei wird vor allem 
+        von den flach auf der Platte gespeicherten Metadaten und Bildern
+        ausgegangen. Diese stellen die Grundlage für eventuelle Korrekturen dar, da in MyCoRe einige Datenteile nur
+        sekundär wirken bzw. für eine akzeptable Performacne-Verbesserung existieren. Ein Überblick dazu ist auf der
+        Seite <strong><a href="{{< ref backup >}}">Backup und Recovery</a></strong> zu finden.
+      </p>
+    </div>
+
+    <div>
+      <h2>MyCoRe-Objects und -Derivates</h2>
+      <p>
+        MyCoRe-Objekte können innerhalb der Metadatenstrukturen Verweise auf externe URLs aber auch auf andere
+        MyCoRe-Objekte innerhalb der Anwendung enthalten. Ein Spezialfall sind dabei Verweise auf Kindobjekte innerhalb
+        der Metadatenstruktur
+        <code>&lt;structure /&gt;</code>
+        .
+      </p>
+      <div>
+        <h3>Test der Derivate-Einträge in den Objekten</h3>
+        <p>
+          In
+          <code>&lt;structure /&gt;</code>
+          sind auch Verweise auf die angefügten Derivate abgelegt. Mit dem nachfolgenden Kommando aus der Kommandogruppe
+          MCRObjectCommands kann geprüft werden, ob alle eingetragenen Derivate auch
+          <strong>als XML-Metadaten</strong>
+          vorhanden sind. Dies sagt noch nichts über die innere Konsistenz des Derivates aus!!!
+        </p>
+        <p>
+          <code>mycore.sh check derivate entries in objects for base {mcr_base_id des Objektes}</code>
+        </p>
+        <p>
+          <strong>Reparaturhinweis:</strong>
+          Es ist abzuklären wohin und warum die Derivate verschwunden sind. Ist klar, dass das Derivate nicht mehr
+          existiert, so sollte der Eintrag in den Objektdaten entfernt werden. Am sinnvollsten ist der direkte Zugriff
+          auf das MCRObject unter data/metadata mittels geeignetem XML-Editor z.
+          B.
+          <strong>vi</strong>
+          .
+        </p>
+      </div>
+      <div>
+        <h3>Test der Objekt-Einträge in den Derivaten</h3>
+        <p>Nun kann auch der umgekehrte Weg geprüft werden.
+        </p>
+        <p>
+          <code>mycore.sh check object entries in derivates for base {mcr_base_id des Objektes}</code>
+        </p>
+        <p>
+          <strong>Reparaturhinweis:</strong>
+          Offensichtlich sind die fehlerhaften Derivate nicht mehr verknüpft. Es ist abzuklären, ob nur der Verweis im
+          Objekt fehlt oder das Derivat nicht mehr zugeordnet werden kann. In diesem Fall kann das Derivate gelöscht
+          werden.
+          Hierfür sollte
+          zuerst das Kommando
+        </p>
+        <p>
+          <code>mycore.sh delete derivate {derivate_id}</code>
+        </p>
+        <p>versucht werden. Hilft dies nicht, müssen die Restfragmente aus dem Metadaten-Store auf der Platte sowie auf
+          dem File-Store händisch entfernt werden. Weiterhin sollten die Einträge in der SQL-Tabelle MCRFSNODES entfernt
+          werden:
+        </p>
+        <p>
+          <code>echo "use {xyz}; delete from MCRFSNODES where OWNER = '{derivate_id}'" | mysql</code>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h2>MyCoRe-Derivate Store-unabhängig</h2>
+      <p>
+        Nachdem die XML-Seite der Anwendungsdaten getestet wurde, soll nun der Inhalt der Derivate näher untersucht
+        werden. Hierbei
+        ist zu unterscheiden zwischen Tests, welche unabhängig vom verwendeten Store-Modell sind und
+        speziellen Test für
+        einzelne Stores. Die MCRFSNODES-Tabelle kann aus Sicht der Derivate mit folgendem Kommando
+        auf Konsistenz
+        geprüft werden:
+      </p>
+      <p>
+        <code>mycore.sh check derivates of mcrfsnodes with project id {project_id}</code>
+      </p>
+      <p>Hier wird geprüft, ob für ein Verzeichnetes Derivate Einträge in der MCRFSNODES hat und ob diese korrekte
+        Verweise auf existierende Dateien haben.
+      </p>
+      <p>Im Gegenzug kann auch geprüft werden, ob in der Tabelle MCRFSNODES Einträge sind, welche keine existierenden
+        Derivate mehr haben. Hierfür dient das Kommando:
+      </p>
+      <p>
+        <code>mycore.sh check mcrfsnodes of derivates with project id {project_id}</code>
+      </p>
+      <p>
+        <strong>Reparaturhinweis:</strong>
+        Die Reparatur ist abhängig vom verwendete Store. Für den Store IFS2 sind in den folgenden Abschitten Wege
+        aufgezeigt.
+      </p>
+    </div>
+
+    <div>
+      <h2>MyCoRe-Derivate des IFS2-Store</h2>
+      <p>Der IFS2 Store zeichnet sich dadurch aus, dass alle zum Wiederherstellen benötigten Daten direkt auf der Platte
+        stehen. Somit kann aus einer einfachen File-Sicherung das Speichersystem wieder hergestellt werden. Derzeit
+        enthält jedes Derivate-Verzeichnis im IFS2-Store zusätzlich eine Datei mcrdata.xml. Diese beinhaltet eine
+        Beschreibung der abgelegten Daten. Sie wird aber im aktuellen Codestand noch nicht genutzt, jedoch existieren
+        bereits Kommandos, welche diese Datei mit dem aktuellen Stand in Verzeichnis zu synchronisieren.
+      </p>
+      <p>
+        <strong>Reparaturhinweis:</strong>
+        Die Synchronisation der Daten kann mittels folgender Kommandos wieder hergestellt werden.
+      </p>
+      <p>
+        <code>mycore.sh repair mcrdata.xml for project id {project_id} in content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh repair mcrdata.xml for object {object_id} in content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh repair mcrdata.xml for derivate {derivate_id} in content store {store_id}</code>
+      </p>
+      <p>Um die Konsistenz zwischen den Derivate-Verzeichnissen auf der Platte und der Tabelle MCRFSNODES zu prüfen 
+        sind die nachfolgenden Kommandos entwickelt worden. Hierbei ist zu beachten, dass
+        eine Reparatur für ein ganzes Projekt nur bedingt sinnvoll ist. Vorher sollten auf jeden Fall mit den
+        Check-Kommandos die fehlerhaften Tabelleneinträge ausgelistet und verifiziert sein! 
+      </p>        
+      <p>
+        <code>mycore.sh check mcrfsnodes for project id {project_id} of content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh check mcrfsnodes for object {object_id} of content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh check mcrfsnodes for derivate {derivate_id} of content store {store_id}</code>
+      </p>
+      <p>
+        <strong>Reparaturhinweis:</strong>
+        Die Repair-Kommandos leisten folgende Dinge:
+      </p>
+      <ul>
+        <li>Prüfen, ob es einen Eintrag für Dateien und Verzeichnisse der im Derivate vorhandenen Daten in der
+          MCRFSNODES gibt. Repair legt fehlende Einträge neu an.
+        </li>
+        <li>Prüfen, ob die Dateigröße und die MD5 Summe in der MCRFSNODES korrekt sind und bei repair diese
+          aktualisieren.
+        </li>
+      </ul>
+      <p>
+        <code>mycore.sh repair mcrfsnodes for project id {project_id} of content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh repair mcrfsnodes for object {object_id} of content store {store_id}</code>
+      </p>
+      <p>
+        <code>mycore.sh repair mcrfsnodes for derivate {derivate_id} of content store {store_id}</code>
+      </p>
+    </div>
+
+    <div>
+      <h2>Bilddaten</h2>
+      <p>Unter den Derivaten nehmen die Bilddaten eine besondere Rolle ein. Über den in MyCoRe integrierten
+        IView2-Bildbetrachter werden die Bilder in gekachelter Form dargestellt. Dieser wie auch das DFGViwerServlet
+        nutzen außerdem mets.xml-Dateien.
+      </p>
+      <div>
+        <h3>IView2-Daten</h3>
+        <p>Der IView2 arbeite mit dem Tiler-Konzept. Hier werden die Bilder in Kacheln verschiedener Zoom-Stufen zerlegt
+          und in einem speziellen Store abgelegt. Maßgeblich ist die SQL-Tabelle MCRTileJob hier ausschlaggebend.
+          Grundsätzlich könne sowohl die Tabelle wie auch das Verzeichnis mit den Kacheln gelöscht und neu angelegt
+          werden. Es sei jedoch darauf hingewiesen, dass dies je nach Bildumfang SEHR lange dauern kann, bis alle Bilder
+          wieder neu gekachelt sind!!!
+        </p>
+        <p>Das Kommando prüft alle Kacheln und veranlasst das Bauen fehlender.</p>
+        <p>
+          <code>mycore.sh check tiles of all derivates</code>
+        </p>
+        <p>Detaillierter kann Derivat-bezogen vorgegangen werden.</p>
+        <p>
+          <code>mycore.sh check tiles of derivate {derivate_id}</code>
+        </p>
+        <p>Gelöscht werden kann das gesamte Kachelsystem mit</p>
+        <p>
+          <code>mycore.sh delete all tiles</code>
+        </p>
+        <p>wobei auch ein dediziertes Arbeiten mit</p>
+        <p>
+          <code>mycore.sh delete tiles of object {object_id}</code>
+        </p>
+        <p>oder</p>
+        <p>
+          <code>mycore.sh delete tiles of derivate {derivate_id}</code>
+        </p>
+        <p>möglich ist. Das Wiederherstellen erfolgt dann mit</p>
+        <p>
+          <code>mycore.sh tile images of all derivates</code>
+        </p>
+        <p>sowie wieder in kleinen Teilen mit</p>
+        <p>
+          <code>mycore.sh tile images of object {object_id}</code>
+        </p>
+        <p>oder</p>
+        <p>
+          <code>mycore.sh tile images of derivate {derivate_id}</code>
+        </p>
+      </div>
+      <div>
+        <h3>METS-Daten</h3>
+        <!-- to implement -->
+        <!-- 
+        <p>Auch die angelegten mets.xml-Dateien können auf Konsistenz geprüft werden. Besonders ist zu prüfen, ob die
+          Einträge in den mets.xml-Dateien mit denen in der Tabelle MCRFSNODES übereinstimmen. Das folgende Kommando
+          sucht alle Mets-Dateien in Derivaten für eine Projekt-ID und prüft diese mit dem Inhalt der
+          MCRFSNODES-Tabelle.
+        </p>
+        <p>
+          <code>mycore.sh check mets.xml against mcrfsnodes for base id {base_id}</code>
+        </p>
+        -->
+        <p>
+          Für bereits bestehende mets.xml-Dateien kann auch eine Validierung erfolgen. Dabei ist aber ein vorheriges
+          <em>select</em>
+          -Kommando vorher erforderlich.
+        </p>
+        <p>
+          <code>mycore.sh validate selected mets</code>
+        </p>
+        <p>Sind noch keine mets.xml-Dateien vorhanden und sollen diese schon mal in ihrer Grundform angelegt werden, so
+          generiert das nacholgende Kommando diese für ein einzelnes Derivat {0} oder eine Derivatgruppe einer
+          angegebenen
+          Projekt-ID {0}
+        </p>
+        <p>
+          <code>mycore.sh add mets files for derivate {0}</code>
+        </p>
+        <p>
+          <code>mycore.sh add mets files for project id {0}</code>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Klassifikationen</h2>
+      <p>Bei der Frage des Umgangs und der Wiederherstellung von Klassifikationen müssen drei Ansätze zu deren
+        Handhabung unterschieden werden:
+      </p>
+      <ol>
+        <li>Ausschließliche Bearbeitung über Eclipse oder ähnliche Werkzeuge im Quellcode der Anwendung</li>
+        <li>Nutzung des Klassifikationseditors</li>
+        <li>Rollen des Nutzer- und Rechtesystems von MyCoRe</li>
+      </ol>
+      <p>
+        Beginnen wir mit dem letzten Punkt. Mit Umstieg auf das User2-Modul werden alle Rollen (früher Gruppen) und ihre
+        Struktur in der Klassifikation
+        <strong>mcr-roles</strong>
+        abgespeichert. Die Bearbeitung erfolgt direkt über den Klassifikationseditor. Daher ist es wichtig, nach jeder
+        Änderung diese Klassifikation zu sichern, um sie ggf. wieder neu laden zu können. Ähnlich verhält es sich mit
+        den Klassifikationen, welche über den Editor online änderbar sind. Je nach Häufigkeit der Änderungen müssen hier
+        Exporte der Klassifikation(en) ggf. zyklisch durchgeführt werden. Vorher ist es angeraten, die Klassifikationen
+        noch auf Datenfehler zu prüfen.
+      </p>
+      <p>
+        <code>mycore.sh check all classifications</code>
+      </p>
+      <p>
+        <code>mycore.sh export all classifications to directory {dir} with save</code>
+      </p>
+      <p>Die so erzeugten Dateien können nun mittels Load/Update-Kommando wiederhergestellt werden. Ggf. sind vorher die
+        SQL-Tabellen MCRCategory, MCRCategoryLabel und MCRCategoryLink zu löschen und mit
+      </p>
+      <p>
+        <code>mycore.sh init hibernate</code>
+      </p>
+      <p>neu anzulegen. Das Einspielen erfolgt dann mit</p>
+      <p>
+        <code>mycore.sh update all classifications from directory {dir}</code>
+      </p>
+      <p>
+        Um Inkonsistenzen in den Daten zu vermeiden, sollte immer die letzte Sicherung nach Änderungen am
+        Klassifikationssystem verwendet werden! Im Falle einzelner beschädigter Klassifikationen können diese mit dem
+        Commandline-Tool (CLI)
+        <strong>mycore.sh</strong>
+        auch einzeln eingespielt werden.
+      </p>
+      <p>Wenn es "Lücken" gibt bei der <code>positionInParent</code> Angabe, dann werden diese mit folgendem Kommando entfernt. Das
+        kann durch alte inzwischen behobene Fehler entstehen.
+      </p>
+      <p>
+        <code>mycore.sh repair position in parent</code>
+      </p>
+      <p>Durch (alte) Fehler können die Links- und Rechte-Werte falsch sein. Diese sind aber erforderlich, um schnell zu
+        überprüfen, ob ein Objekt in einer bestimmten Kategorie enthalten ist. Fehler werden behoben mit
+      </p>
+      <p>
+        <code>mycore.sh repair left right values for classification {classification}</code>
+      </p>
+      <p>
+        Kategorien, die kein Label haben, verursachen Probleme (bei Anzeige etc.). Das Kommando findet alle Label-losen
+        Kategorien und hängt ein Label mit <code>@text=@id</code> in der Standard-Sprache an.
+      </p>
+      <p>
+        <code>mycore.sh repair category with empty labels</code>
+      </p>
+      <p>
+        <code>mycore.sh check all classifications</code>
+      </p>
+      <p>überprüft die letzten beiden Probleme.</p>
+    </div>
+
+    <div>
+      <h2>Nutzerdaten und Zugriffsrechte</h2>
+      <p>Die Daten der einzelnen Anwendungsnutzer können mit den nachfolgenden Kommandos gesichert und bei Bedarf wieder
+        geladen werden. Die erforderlichen Rollen sind bereits über die Klassifikationen vorher zu laden. Es gibt auch
+        Kommandos für die Arbeit mit einzelnen Nutzern.
+      </p>
+      <p>
+        <code>mycore.sh export all users to directory {dir}</code>
+      </p>
+      <p>
+        <code>mycore.sh import all users from directory {dir}</code>
+      </p>
+      <p>Die Zugriffsrechte sind differenziert zu betrachten. Es können folgende Gruppen ausgemacht werden:</p>
+      <ol>
+        <li>Zugriffsrecht eines einzelnen Objektes oder Derivates</li>
+        <li>Zugriffsrechte für eine MCR-Base-ID für Objekte und Derivate</li>
+        <li>Zugriffsrechte für einen MCR-Type für Objekte und Derivate</li>
+        <li>Standardzugriffsrechte für Objekte und Derivate</li>
+        <li>globale Privilegien</li>
+      </ol>
+      <p>In den meisten Anwendungen werden die Typen 2-5 bei der Initialisierung einmalig geladen oder einmalig händisch
+        nachgetragen. Somit bilden diese Informationen einen Teil der Anwendungsquelle und können z. B. im build-Prozess
+        mit ant create.default-rules in die Tabellen MCRACCESS und MCRACCESSRULES jederzeit geladen werden. Dieses
+        Vorgehen erfordert die Zugriffsstrategien MCRObjectTypeStrategy oder MCRObjectBaseStrategy.
+      </p>
+      <p>Kritisch ist der 1. Typ. Dieser wird bei der Standardzugriffsstrategie verwendet und erfordert das Auslesen der
+        gesamten Metadaten für Objekte und Derivate mit den save-Kommandos. Ein Recovery kann nur über ein erneutes
+        Laden der Daten erfolgen (kein update!). Hier bleibt nichts weiter, als die entsprechenden SQL-Tabellen separat
+        zu sichern und mit dem Datenbestand konsistent zu halten.
+      </p>
+    </div>
+
+    <div>
+      <h2>Reparatur der Such- und Verweisindizes</h2>
+      <p>Eine wichtige Gruppe bei der Reparatur einer beschädigten Anwendung ist die Wiederherstellung von Verweisen und
+        Suchindizes. Alle Verweise zwischen MCRObjects, MCRDerivates und MCRClassifications werden in der Tabelle
+        MCRLINKHREFgespeichert. Dies ist eine sekundäre Tabelle. Sie kann gelöscht und wieder hergestellt werden.
+        Gleiches gilt für den SOLR Suchindex. Auch er kann per Kommando gelöscht und neu aufgebaut werden.
+      </p>
+      <div>
+        <h3>Arbeiten am SOLR-Index</h3>
+        <p>Die unten vorgestellten Kommandos gestatten ein reinidzieren des SOLR-Suchindex. Dies kann bei laufender
+          Anwendung erfolgen, da der SOLR-Server eine applikationsunabhängige Instanz darstellt. Ein teilweises
+          Reinidizieren
+          erfolgt mit:
+        </p>
+        <p>
+          <code>mycore.sh rebuild solr metadata index</code>
+        </p>
+        <p>
+          <code>mycore.sh rebuild solr content index</code>
+        </p>
+        <p>
+          <code>mycore.sh restricted rebuild solr metadata index for objecttype {0}</code>
+        </p>
+        <p>
+          <code>mycore.sh restricted rebuild solr metadata index for object {0}</code>
+        </p>
+        <p>
+          <code>mycore.sh restricted synchronize metadata index for objecttype {0}</code>
+        </p>
+        <p>Anschließend kann der SOLR-Index wieder optimiert werden.</p>
+        <p>
+          <code>mycore.sh optimize solr index</code>
+        </p>
+        <p>
+          <code>mycore.sh synchronize metadata index</code>
+        </p>
+        <p>Ggf. kann dieser auch komplett gelöscht und dann neu angelegt werden. Die dazu erforderlichen Kommandos sind:
+        </p>
+        <p>
+          <code>mycore.sh drop solr index</code>
+        </p>
+        <p>
+          <code>mycore.sh rebuild solr metadata and content index</code>
+        </p>
+        <p>
+          <code>mycore.sh drop solr classification index</code>
+        </p>
+        <p>
+          <code>mycore.sh rebuild solr classification index</code>
+        </p>
+        <p>Auch einzelne Teile des Index können per Kommando gezielt gelöscht werden.</p>
+        <p>
+          <code>mycore.sh delete from solr index for type {0}</code>
+        </p>
+        <p>
+          <code>mycore.sh delete from solr index by id {0}</code>
+        </p>
+        <p>Neben den Auswahlmöglichkeiten über MyCoRe-ID und Objekt-Type besteht auch die Möglichkeit eines Selects über
+          eine SOLR-Suche und die Nutzung des Ergebnisses zur Weiterverarbeitung.
+        </p>
+        <p>
+          <code>mycore.sh select objects with solr query {0}</code>
+        </p>
+        <p>
+          <code>mycore.sh restricted rebuild solr metadata index for selected</code>
+        </p>
+        <p>
+          <code>mycore.sh restricted rebuild solr content index for selected</code>
+        </p>
+        <p>Zum Schluss noch die Möglichkeit, eine neue URL für den SOLR-Server zu setzen.</p>
+        <p>
+          <code>mycore.sh set solr server {0}</code>
+        </p>
+        <p>Diese Möglichkeit sollte jedoch nur in Ausnahmefällen genutzt werden, da sie ggf. je nach Datenmenge länger
+          dauern könnte.
+        </p>
+      </div>
+    </div>
+  

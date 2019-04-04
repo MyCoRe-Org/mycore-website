@@ -1,0 +1,28 @@
+<figure class="{{- if .Get "src" -}}text-center{{ end }} {{ with .Get "class" -}}{{ . }}{{ end }}">
+     {{- if .Get "src" -}}
+    <img src="{{ .Get "src" }}" 
+         {{- with .Get "alt" }} alt="{{ . }}"{{ end -}}
+         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
+         {{- with .Get "height" }} height="{{ . }}"{{ end -}}
+    /> <!-- Closing img tag -->
+    {{- end }}
+    {{- with .Inner }}
+      {{ . | markdownify}}
+    {{- end -}}
+    {{- if or (.Get "label") (.Get "caption") (.Get "attr") -}}
+        <figcaption>
+         {{- with .Get "attr" -}}
+         <span class="mcr-fig-attribution float-right text-muted" data-container="body" data-toggle="popover" data-placement="left" data-content="{{ . | markdownify }}">
+			<i class="far fa-copyright"></i>
+		</span>
+		{{ end -}}
+  		  {{- if or (.Get "label") (.Get "caption") -}}
+        	<p class="text-center mt-3 mb-0">
+            {{ with (.Get "label") -}}
+                <strong>{{ . }}: </strong>
+            {{- end -}}
+            {{- with .Get "caption" -}} {{ . }} {{ end }}
+            </p>
+    	  {{end}}
+        </figcaption>
+    {{- end }}</figure>

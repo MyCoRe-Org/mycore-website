@@ -1,0 +1,87 @@
+
+---
+
+title: "Webservices"
+
+---
+
+    <div>
+      <h2>Die Zusammenarbeit mit anderen DocPortal-Installationen</h2>
+      <note>
+        Seit 2014.04 markiert als deprecated!
+      </note>
+     <p>
+     Das MyCoRe-System ist so konzipiert, dass hinsichtlich der Metadaten gleichartige Installationen miteinander
+     arbeiten und von einer gemeinsamen Oberfläche (Frontend) abgefragt werden können. Hierzu müssen die Remote-Instanzen
+     definiert werden. Auch die eigene Installation kann über diesen Weg abgefragt werden. Das ist in der
+     Beispielinstallation auch schon vorgesehen. Die Remote-Suche nutzt dabei die WebServices Komponenten von MyCoRe.
+     Das installiert DocPortal-Sample gestattet grundsätzlich auch eine Suche über den WebService-Dienst gegen den
+     localhost.
+     </p>
+     <p>
+     Die Konfiguration ist denkbar einfach, es sind alle Hosts, für die eine Remote-Abfrage angeboten werden soll,
+     in die Datei <code>$DOCPORTAL_HOME/config/hosts.xml</code> einzutragen. Nach einem <code>ant webapps</code> sind die
+     Hosts dann mittels der Suchmasken durchsuchbar.
+     </p>
+     {{< highlight xml "linenos=table">}}
+   <?xml version="1.0" encoding="UTF-8"?>
+   <hosts xmlns="http://www.mycore.org/">
+    <host alias="remote"
+      url="http://localhost:8291/"
+      class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+      access="webservice"
+      servicepath="services/MCRWebService"
+      staticpath="receive/">
+      <label xml:lang="de">Lokal via WebService</label>
+      <label xml:lang="en">Local via WebService</label>
+    </host>
+    <host alias="Demo"
+      url="http://www.mycore.de:8291/"
+      class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+      access="webservice"
+      servicepath="services/MCRWebService"
+      staticpath="receive/">
+      <label xml:lang="de">Demo-Version</label>
+      <label xml:lang="en">Demo Version</label>
+    </host>
+   </hosts>{{< /highlight >}}
+
+     <p>
+     Von den Entwicklern des MyCoRe-Projektes wird exemplarisch eine DocPortal-Installation bereitgehalten. Diese ist im
+     Konfigurationsfile <code>hosts.xml</code> notiert und sollten in der Regel verfügbar sein. Die Attribute für einen
+     Host bedeuten im Einzelnen:
+     </p>
+     <ul>
+     <li>alias – der im MyCoRe-System zu verwendende Alias für einen externen Host</li>
+     <li>url – die Basis-URL eines externen Hosts</li>
+     <li>class – die MyCoRe-Java-Klasse, die den externen Zugriff realisiert</li>
+     <li>access – einen Typ-String für die Zugriffsform</li>
+     <li>servicepath – die URL-Erweiterung als Pfad auf dem externen Systembibliotheken</li>
+     <li>staticpath – die URL-Erweiterung für die Darstellung der statischen URL des Objektes auf dem entfernten Rechner</li>
+     </ul>
+
+     <table>
+     <tr>
+     <th>Alias</th>
+     <th>URL</th>
+     <th>Port</th>
+     <th>Standort</th>
+     </tr>
+     <tr>
+     <td>remote</td>
+     <td>http://localhost:8291/</td>
+     <td>8291</td>
+     <td>lokale Installation</td>
+     </tr>
+     <tr>
+     <td>demo</td>
+     <td>http://www.mycore.de:8291/</td>
+     <td>8291</td>
+     <td>Demo-Version</td>
+     </tr>
+     </table>
+     <p class="klein"><strong>Tabelle 7.1:</strong> Feste Test-Instanzen für das MyCoRe-Beispiel</p>
+
+    </div>
+
+  

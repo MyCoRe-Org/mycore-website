@@ -1,0 +1,89 @@
+
+---
+
+title: "Der Bildbetrachter Version 2 (iview2)"
+description: "Beschreibung der Komponente iview2"
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        MyCoRe bietet einen Bildbetrachter, „Image-Viewer“ genannt, für das komfortable Betrachten von Bilddaten an. Dieser
+        eignet
+        sich sehr gut für Bildarchive oder jegliche Content-Repositories in denen Bilddaten verwaltet und angezeigt werden
+        müssen. Der Bildbetrachter basiert (wie MyCoRe) auf Java und XML/XSL. Die Benutzerschnittstelle ist mit
+        Javascript
+        unter Verwendung der Frameworks PanoJS und jQuery realisiert.
+      </p>
+    </div>
+
+    <div>
+      <h2>Komponente IView2 – API zur Bildbearbeitung</h2>
+      <p>
+        Die IView2-Komponente befindet sich im MyCoRe-Kern und bietet eine API um Bilddaten in MyCoRe abzuspeichern,
+        performant zu laden und gegebenenfalls zu verändern (Skalierung).
+      </p>
+      <h4>Bilder speichern</h4>
+      <p>
+        Für jedes (unterstützte) Bildformat wird beim Einstellen der Datei in MyCoRe ein asynchroner Kachelvorgang
+        gestartet. Dabei wird das Bild in Kacheln à 256x256 Pixel zerlegt und so lange herunterskaliert und erneut gekachelt,
+        bis das Thumbnail (x&lt;=256 und y&lt;=256) erstellt ist. Alle so entstanden Kacheln und Auflösungen werden für die
+        spätere
+        Verwendung gespeichert. Durch diese redundante Speicherung der Bilddaten verdreifacht sich schlimmsten Falls (wenn original
+        JPEG ist) die
+        Datenmenge. Bei unkomprimierten TIFF-Bildern liegt der Overhead bei ca. 10-15 Prozent.
+      </p>
+      <h4>Bilder ausgeben</h4>
+      <p>
+        Bilder können über den Image-Viewer angezeigt werden oder in festen Auflösungsstufen ausgegeben werden.
+        Beim Image-Viewer wird entsprechend der Ausgabegröße wird entschieden, welche Kacheln für die Darstellung
+        verwendet werden.
+      </p>
+      <h4>Schnittstellen</h4>
+      <p>
+        Hier nun eine Übersicht der Möglichkeiten die verschiedenen Kacheln/Darstellungen in die eigene
+        Anwendung einzubinden. Der jeweilige Pfad muss dann im Zuge der Anwendungsentwicklung im gewünschten
+        Stylesheet an der richtigen Stelle platziert werden.
+      </p>
+      <dl>
+        <dt>Thumbnails (immer PNG 256x256 mit transparenten Rahmen):</dt>
+        <dd>
+          {{< highlight shell "linenos=table">}}/servlets/MCRThumbnailServlet/{derivateID}/{pfadZumBild}{{< /highlight >}}
+        </dd>
+        <dt>Thumbnails original (immer JPEG und mit Kantenlänge &lt;=256):</dt>
+        <dd>
+          {{< highlight shell "linenos=table">}}/servlets/MCRTileServlet/{derivateID}/{pfadZumBild}/0/0/0.jpg{{< /highlight >}}
+        </dd>
+        <dt>Zusammengefügte Bilder in verschieden Auflösungen (immer JPEG):</dt>
+        <dd>
+          {{< highlight shell "linenos=table">}}/servlets/MCRTileCombineServlet/{Auflösung}/{derivateID}/{pfadZumBild}{{< /highlight >}}
+          Auflösung:
+          <ul style="list-style-type:none;">
+            <li>"MIN" - 256 &lt; Kantenlänge &lt;=512</li>
+            <li>"MID" - 512 &lt; Kantenlänge &lt;= 1024</li>
+            <li>"MAX" - 1024 &lt; Kantenlänge &lt;= 2048</li>
+          </ul>
+          pfadZumBild: relativer Pfad innerhalb des Derivats inklusive der original Endung (z.B.: .tiff)
+          <br />
+          <br />
+        </dd>
+
+        <dt>Einbinden des Bildbetrachters mittels XSLT (kompatibel mit IView1):</dt>
+        <dd>
+          {{< highlight xml "linenos=table">}}
+            &lt;xsl:call-template name="derivateView"&gt;
+            &lt;xsl:with-param name="derivateID" select="{derivateID}" /&gt;
+            &lt;/xsl:call-template&gt;{{< /highlight >}}
+        </dd>
+
+        <dt>IView2-Metadaten eines Bildes:</dt>
+        <dd>
+          {{< highlight shell "linenos=table">}}/servlets/MCRTileServlet/{derivateID}/{pfadZumBild}/imageinfo.xml{{< /highlight >}}
+          ergibt:
+          {{< highlight xml "linenos=table">}}
+            &lt;imageinfo derivate="{derivateID}"path="/{pfadZumBild}"tiles="{AnzahlAllerKacheln}"
+            width="{BreiteInPixeln}"height="{HöheInPixel}"zoomLevel="{maximalerZoomlevel}"//&gt;{{< /highlight >}}
+        </dd>
+      </dl>
+    </div>
+  

@@ -1,0 +1,68 @@
+
+---
+
+title: "Die SolR-Komponente (solr)"
+description: "Dieser Abschnitt beschreibt die Integrationsmöglichkeiten von SolR in MyCoRe und die bereitgestellten
+      Schnittstellen
+    "
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        Die MyCoRe-Anwendungen benötigen einen Leistungsstarken Indexer für die vielfältigsten Suchoperationen
+        innerhalb
+        der Applikationen. daher hat sich das MyCoRe-Team für die einbindung von
+        <a href="https://lucene.apache.org/solr/">Apache-Solr</a>
+        entschieden.
+        Inzwischen gibt es eine ganze Reihe hilfreicher Webseiten und Publikationen zu diesem Thema. MyCoRe
+        bietet mit
+        dieser Komponente dem Anwender die Möglichkeit, seine Daten auf einem SolR-Server abzulegen und zu
+        indizieren.
+        Die MyCore-Anwendung geht davon aus, dass ein solcher Server vom Anwender angelegt und betrieben
+        wird. Hinweise
+        dazu enthält diese Anleitung.
+      </p>
+    </div>
+
+    <div>
+      <h2>Aufbau eines SolR-Servers</h2>
+      <p>
+        Der SolR-Server wird in Form eines
+        <code>solr-{version}.war</code>
+        Archives ausgeliefert. Da MyCoRe noch einige zusätzliche Bibliotheken benötigt, wird ein seziell konfiguriertes
+        <code>solr.war</code>
+        über MyCoRe bereitgestellt. Aktuell gibt es zwei Wege, dieses File zu bekommen:
+        <ol>
+          <li>
+            Das
+            <code>solr.war</code>
+            -File wird aus dem MyCoRe-Artifactory bezogen. Dies geht mit über den Link
+            <a href="http://artifactory.mycore.de/libs-snapshots-local/org/mycore/solr/solr/4.7.2-SNAPSHOT/solr-4.7.2-20140415.133151-1.war">Downlod von solr.war</a>
+          </li>
+          <li>
+            Alternativ ist die alte
+            <em>docportal</em>
+            -Anwendung auszuchecken. hier ist dann das folgende Kommando zu geben:
+            <code>mvn -f config/solr_pom.xml package</code>
+            . Die fertigen
+            <code>solr.war</code>
+            findet sich dann unter
+            <code>build/solr/solr-{version}.war</code>
+            .
+          </li>
+        </ol>
+      </p>
+      <p>
+        Nun ist mittels einer Servlet-Engine (z. B. Tomcat oder Jetty) der Server zu initieren. Dabei ist es wichtig, zu
+        definieren, wo die Daten des SolR-Servers liegen. Unter Tomcat ist dabei folgende Code-Sequenz unter
+        <code>{tomcat_home}/conf/Catalina/{hostname|localhost}/solr.xml</code>
+        abzulegen. Das angegebene Datenverzeichnis muss dabei existieren.
+      </p>
+     {{< highlight xml "linenos=table">}}<Context docBase="/home/user/solr/solr.war" debug="0" crossContext="true" >
+     <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="127\.0\.0\.1|139\.2\.0\.1" />
+     <Environment name="solr/home" type="java.lang.String" value="/home/user/solr/data" overwrite="true"/>
+</Context>{{< /highlight >}}
+    </div>
+
+  

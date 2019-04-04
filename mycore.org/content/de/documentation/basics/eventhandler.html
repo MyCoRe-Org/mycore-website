@@ -1,0 +1,361 @@
+
+---
+
+title: "Das EventHandler-Modell"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Funktionsprinzipien und Implementierungen der EventHandler"
+date: "2018-10-11"
+
+---
+    <div>
+     <h2>Allgemein</h2>
+     <p>
+     Das EventHandler-Basispaket realisiert eine bessere Trennung der Code-Schichten des Datenmodells und der
+     Backends. Im Datenmodell werden nur Ereignisse ausgelöst werden (z.B. create, delete usw.), welche dann
+     bestimmt durch die Konfiguration in den
+     Property-Dateien verarbeitet werden. Es existiert ein allgemein gültiges Template-Modell, welches für die
+     erforderlichen Anwendungsfälle ausgebaut wird. Ein singleton-Manager-Prozess nimmt nur ein Ereignis
+     entgegen, wählt die dafür bestimmte Konfiguration aus und startet die Methode
+     <code>doHandleEvent(MCREvent evt)</code>. Dies geschieht in der Reihenfolge, welche in der Konfiguration angegeben
+     ist und stellt ein Pipeline-Verfahren dar. Das Event-Objekt wird dabei nacheinander an die Handler durchgereicht.
+     Änderungen an den im Event-Objekt gespeicherten Daten werden also für alle folgenden Handler wirksam. Kommt es bei
+     einem Handler zu einer Ausnahme, so wird diese vom Manager aufgefangen und es wird für alle in der Pipeline davor
+     liegenden Handler die Methode <code>undoHandleEvent(MCREvent evt)</code> initiiert. Somit ist ein Rollback möglich.
+     Je nach Anwendung ist es möglich, verschiedene Pipelines für unterschiedliche Abläufe unabhängig voneinander zu
+     implementieren, z.B. eine Pipeline für die Verarbeitung der Metadaten und eine andere für die Volltextindizierung
+     der Dokumente. Die Pipelines und die damit verbundenen Ereignisse unterscheiden sich am Namen der jeweiligen
+     Pipeline.
+     </p>
+   </div>
+
+     <div>
+      <h2>Das EventHandler-Modell (Bsp. Metadaten-Objekte)</h2>
+      <p>
+      Das EventHandler-Modell wird beispielsweise eingesetzt, um Objekte vom Typ MCRObject persistent zu speichern.
+      Das Klassendiagramm (Abbildung 1.6) verdeutlicht die Zusammenhänge.
+      </p>
+      <ol>
+      <li>Das <code>MCRObject</code> erzeugt ein neues Ereignis, welches in diesem Fall die
+      vordefinierte Pipeline <code>OBJECT_TYPE</code> und das vordefinierte Ereignis <code>CREATE_EVENT</code> nutzt.
+      Es können aber auch beliebige Strings eingetragen werden. Dabei ist aber auf die Konsistenz zu achten.<br />
+      <code>MCREvent evt = new MCREvent(MCREvent.OBJECT_TYPE, MCREvent.CREATE_EVENT);</code></li>
+      <li>Nun wird dem neuen Ereignis das Datum übergeben, welches an die Handler weitergereicht werden soll. Ein
+      Ereignis kann auch mehrere Daten beinhalten.<br />
+      <code>evt.put("object",this);</code><br />
+      <img src="/images/documentation/basics/progguide_eventhandler.png" alt="Klassendiagramm" title="Klassendiagramm" />
+      <p class="klein"><strong>Abbildung:</strong> Klassendiagramm des EventHandler-Modells</p>
+      </li>
+      <li>Die folgende Zeile ruft abschließend den MCREventManager auf und stößt die Handler für die Pipeline an.<br />
+      <code>MCREventManager.instance().handleEvent(evt);</code></li>
+      </ol>
+     </div>
+
+     <div>
+      <h2>Die Konfiguration des EventHandler-Managers</h2>
+      <p>
+      Für die Nutzung des EventHandler-Konzeptes gib es in der vom Kern mitgelieferten Konfiguration <em>mycore.properties</em>
+      eine Reihe von Voreinstellungen, welche im Standardfall vollständig funktionieren. Sollen davon abweichende
+      Implementierungen zum Einsatz kommen, so sind die entsprechenden Properies in den lokalen Property-Dateien zu
+      überschreiben. Sollen Schritte zwischen zwei Handlern durch eigene Handler durchgeführt werden, können diese
+      über das Nummernschema an die entsprechende Stelle eingefügt werden.
+      </p>
+      <p>
+      Für jeden Event-Typ (in diesem Fall ist es <code>MCRObject = MCREvent.OBJECT_TYPE</code>) ist eine Kette von Handlern
+      in der folgenden Form definiert. Jeder Standard-Handler bekommt dabei eine aufsteigende Nummer in Zehnerschritten.
+      Einige EventHandler enthalten die Implementation sowohl für MCRObjecte wie auch MCRDerivate.
+      </p>
+      {{< highlight xml "linenos=table">}}MCR.EventHandler.MCRObject.010.class=org.mycore.access.MCRAccessEventHandler{{< /highlight >}}
+      <p>
+      Wollen Sie eigene EventHandler schreiben und diese einbinden, so ist es ratsam diese direkt von
+      <code>MCREventHandler</code> abzuleiten und analog zu den bestehenden Handlern einzubinden. Sie können dafür auch
+      neue Pipelines und Ereignisse definieren. Den <code>MCREventManager</code> können Sie nun an beliebiger
+      Code-Stelle einbauen und ihm ein von Ihnen definiertes Ereignis übergeben. Diese Komponente ist allgemein
+      verwendbar und nicht auf das MyCoRe-Datenmodell festgelegt.
+      </p>
+     </div>
+
+     <div>
+      <h2>Liste der verfügbaren EventHandler</h2>
+
+      <div>
+        <h3>EventHandler für MCRClassification</h3>
+        <table class="table table-striped event-handler-table">
+          <tbody>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRAccessEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRAccessEventHandler liest die Sektion <em>/mycore.../services/servacls</em> des eingehenden Objektes und
+            trägt die gelesenen ACL-Informationen in die ACL-Komponente von MyCoRe ein. Anschließend wird diese
+            Datensektion aus dem in der pipeline weiterzurechenden Datensatz entfernt.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">Alternative<br />zu 010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRRemoveAclEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRRemoveAclEventHandler entfernt alle ACL-Informationen aus dem Objekt. Er ist für Access-Strategien
+            gedacht, welche von globalen Zugriffsrechten für Objektgruppen von MCR-Projekten oder MCR-Typen implementieren.
+            Dieser Handler sollte in dem Fall den MCRAccessEventHandler überlagern.
+            </td>
+           </tr>
+         </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>EventHandler für MCRObject</h3>
+        <table class="table table-striped event-handler-table">
+          <tbody>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRAccessEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRAccessEventHandler liest die Sektion <em>/mycore.../services/servacls</em> des eingehenden Objektes und
+            trägt die gelesenen ACL-Informationen in die ACL-Komponente von MyCoRe ein. Anschließend wird diese
+            Datensektion aus dem in der pipeline weiterzurechenden Datensatz entfernt.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">Alternative<br />zu 010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRRemoveAclEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRRemoveAclEventHandler entfernt alle ACL-Informationen aus dem Objekt. Er ist für Access-Strategien
+            gedacht, welche von globalen Zugriffsrechten für Objektgruppen von MCR-Projekten oder MCR-Typen implementieren.
+            Dieser Handler sollte in dem Fall den MCRAccessEventHandler überlagern.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />013</td>
+            <td title="Klasse">Enthalten in mycore-mods<br />org.mycore.mods.MCRExtractRelatedItemsEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Nur relevant für die MODS Unterstützung.
+            Der MCRExtractRelatedItemsEventHandler extrahiert mods:relatedItem Elemente und speichert sie als separate MyCoRe Objekte,
+            die dann miteinander verlinkt werden.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />015</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.oai.classmapping.MCRClassificationMappingEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRClassificationMappingEventHandler setzt MyCoRe-Klassifikationen in spezielle Klassifikationen
+            für z.B. für DINI um.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />016</td>
+            <td title="Klasse">Enthalten in mycore-mods<br />org.mycore.mods.classification.MCRClassificationMappingEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRClassificationMappingEventHandler für MODS setzt MyCoRe-Klassifikationen
+            in spezielle Klassifikationen im MODS-Datenmodell für z.B. für DINI um.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />017</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.datamodel.common.MCRServiceFlagEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRServiceFlagEventHandler setzt im Service-Bereich <em>/mycore.../services/servflags</em> je ein Flag
+            mit dem aktuellen Nutzer und den Typen createdby und/oder modifiedby an und leitet das modifizierte Objekt
+            in der Pipeline weiter. Die geschieht nur, wenn der <em>ImportMode</em> des Objektes <em>false</em> ist.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">020</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.datamodel.common.MCRXMLMetadataEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRXMLMetadataEventHandler speichert das XML des Objektes gemäß dem IFS2 Speicherkonzept für Metadaten ab.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">030</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.datamodel.common.MCRLinkTableEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRLinkTableEventHandler speichert alle Referenzen des Objektes zu anderen MyCoRe-Objekten in die
+            SQL-MCRLINKTABLE. Grundlage dafür sind Datenelemente vom Datenmodelltyp MCRMetaLinkID. Dies betrifft auch
+            Verweise aus dem <em>/mycore.../structure</em>-Bereich. Weiterhin werden die Referenzen auf Klassifikationen
+            gespeichert.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">optional<br />040</td>
+            <td title="Klasse">Enthalten in mycore-mods<br />org.mycore.mods.MCRMODSLinksEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Nur relevant für die MODS Unterstützung.
+            Speichert verwendete Klassifikationskategorien von MODS-Dokumenten. <!-- Später kommen hier noch die Verweise von
+            MODS-Dokumenten untereinander dazu, damit verlinkte Dokumente nicht mehr gelöscht werden können. -->
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">060</td>
+            <td title="Klasse"> Enthalten in mycore-base<br />org.mycore.datamodel.metadata.history.MCRMetadataHistoryManager</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRMetadataHistoryManager ersetzt den MCRDeleteObjectEventHandler und führt eine History über den Stand der
+            vorhandenen Objekte und ggf. deren Löschung.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />071</td>
+            <td title="Klasse">Enthalten in mycore-pi<br />org.mycore.pi.MCRPersistentIdentifierEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Die Beschreibung zum MCRPersistentIdentifierEventHandler folgt.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">100</td>
+            <td title="Klasse">Enthalten in mycore-solr; erforderlich bei Nutzung von SOLR<br />org.mycore.solr.index.MCRSolrIndexEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRSolrIndexEventHandler indexiert die Metadatenobjekte für Solr, sofern diese von einem passenden
+            Datentyp sind.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">optional<br />900</td>
+            <td title="Klasse">Enthalten in mycore-wfc; erforderlich bei Nutzung der MyCoRe-Workflow-Komponente<br />org.mycore.wfc.mail.MCRMailEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+              Wenn die MyCoRe-Workflow-Komponente (wfc) genutzt wird, sorgt dieser EventHandler dafür, dass entsprechende Mails an Bearbeiter etc.
+              gesendet werden. Dazu wird die Konfiguration in e-mail-events.xsl herangezogen.
+            </td>
+           </tr>
+         </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>EventHandler für MCRDerivate</h3>
+        <table class="table table-striped event-handler-table">
+          <tbody>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRAccessEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRAccessEventHandler liest die Sektion <em>/mycore.../services/servacls</em> des eingehenden Derivates und
+            trägt die gelesenen ACL-Informationen in die ACL-Komponente von MyCoRe ein. Anschließend wird diese
+            Datensektion aus dem in der pipeline weiterzurechenden Datensatz entfernt.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">Alternative<br />zu 010</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRRemoveAclEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRRemoveAclEventHandler entfernt alle ACL-Informationen aus dem Objekt. Er ist für Access-Strategien
+            gedacht, welche von globalen Zugriffsrechten für Objektgruppen von MCR-Projekten oder MCR-Typen implementieren.
+            Dieser Handler sollte in dem Fall den MCRAccessEventHandler überlagern.
+            </td>
+           </tr>
+           <tr>
+            <td valign="top" title="Nr. in Pipeline">020</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.datamodel.common.MCRXMLMetadataEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRXMLMetadataEventHandler speichert das XML des Objektes gemäß dem IFS2-Speicherkonzept für Metadaten ab.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />050</td>
+            <td title="Klasse">Enthalten in mycore-mets<br />org.mycore.mets.events.MCRUpdateMetsOnDerivateChangeEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRUpdateMetsOnDerivateChangeEventHandler aktualisiert die bereits bestehende mets.xml-Datei nach Update
+            eines Derivates.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">070</td>
+            <td title="Klasse"> Enthalten in mycore-base<br />org.mycore.datamodel.metadata.history.MCRMetadataHistoryManager</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRMetadataHistoryManager ersetzt den MCRDeleteObjectEventHandler und führt eine History über den Stand der
+            vorhandenen Objekte und ggf. deren Löschung.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />100</td>
+            <td title="Klasse">Enthalten in mycore-solr; erforderlich bei Nutzung von SOLR<br />org.mycore.solr.index.MCRSolrIndexEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRSolrIndexEventHandler indexiert die Metadatenobjekte für Solr, sofern diese von einem passenden
+            Datentyp sind.
+            </td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+
+     <div>
+        <h3>EventHandler für MCRPath</h3>
+        <table class="table table-striped event-handler-table">
+          <tbody>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />020</td>
+            <td title="Klasse">Enthalten in mycore-iview2; erforderlich bei Nutzung von IView2<br />org.mycore.iview2.events.MCRImageTileEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRImageTileEventHandler initialisiert das Kacheln der Datenobjekte, sofern diese von einem passenden
+            Bildtyp sind.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />060</td>
+            <td title="Klasse">Enthalten in mycore-mets; erforderlich bei Nutzung von mets<br />org.mycore.mets.events.MCRUpdateMetsOnDerivateChangeEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRUpdateMetsOnDerivateChangeEventHandler aktualisiert die bereits bestehende mets.xml-Datei nach Update
+            eines Derivates.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional<br />100</td>
+            <td title="Klasse">Enthalten in mycore-solr; erforderlich bei Nutzung von SOLR<br />org.mycore.solr.index.MCRSolrIndexEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRSolrIndexEventHandler indexiert die Volltexte für Solr, sofern diese von einem passenden
+            MimeType sind.
+            </td>
+           </tr>
+          </tbody>
+        </table>
+     </div>
+   </div>
+  

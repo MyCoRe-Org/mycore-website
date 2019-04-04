@@ -1,0 +1,113 @@
+
+---
+
+title: "Nützliche Klassen"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+    <div>
+      <h2>MCRTextResolver</h2>
+      <p>
+      Ab MyCoRe 2.1 gibt es die neue Klasse MCRTextResolver. Diese ermöglicht es frei definierbare Variablen
+      und MyCoRe-Properties (im folgenden unter dem Begriff Variablen zusammengefasst) in Texten aufzulösen.
+      Hierzu ein kleines Beispiel:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+  
+  „Ich programmiere in {MCR.NameOfProject}.“
+      {{< /highlight >}}
+
+      <p>
+      Würde man diesen Text innerhalb des DocPortal Projekts mit dem MCRTextResolver auflösen, entsteht
+      folgender Text: „Ich programmiere in DocPortal“. Inhalte in geschweiften Klammern werden vom
+      MCRTextResolver als Variablen erkannt und entsprechend aufgelöst.
+      </p>
+      <p class="fett">Bedingungen – eckige Klammern []</p>
+      <p>
+      Eckige Klammern ermöglichen es Variablenbedingung zu definieren. Der gesamte Inhalt in eckigen Klammern
+      wird nur dann verwendet, wenn alle enthaltenen Variablen nicht null und nicht leer sind. Als Beispiel soll
+      „[Mein Nachname ist {lastname}].“ dienen. Der gesamte Inhalt wird nur aufgelöst, wenn die Variable lastname
+      existiert. Andernfalls wird der Inhalt ignoriert.
+      </p>
+      <p>
+      Eine valide Datums Angabe könnte damit zum Beispiel folgendermaßen realisiert werden: „{year}[-{month}[-{day}]]“.
+      </p>
+      <p class="fett">Escaping - \</p>
+      <p>
+      Der MCRTextResolver unterstützt Escaping um vordefinierte Symbole wie {}[] zu maskieren.
+      </p>
+      <p class="fett">API</p>
+      <p>
+      Der Zugriff über die API ist denkbar einfach:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+  
+  MCRTextResolver resolver=new MCRTextResolver();
+  String result=resolver.resolve("Ich programmiere in {MCR.NameOfProject}.");
+      {{< /highlight >}}
+
+      <p>
+      Variablen können entweder mit Hilfe einer Map an den Konstruktor übergeben, oder per
+      addVariable(name, value) gesetzt werden.
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+  
+  Map<String, String> vars=new Hashtable<String, String>();
+  vars.put("firstname", "Max");
+  vars.put("lastname", "Mustermann");
+  MCRTextResolver resolver=new MCRTextResolver(vars);
+  resolver.addVariable("birthdate", "1977-04-04");
+  String result=resolver.resolve("Name: {firstname} {lastname}; Geburtstag: {birthdate}");
+      {{< /highlight >}}
+
+    </div>
+
+<!--
+TODO: Input von Matthias einarbeiten
+
+ursprünglich wurde er fürs MyCoRe-Importer-Framework
+verwendet was inzwischen aus dem Core rausgeflogen ist.
+
+Der Resolver ist zum ersetzen von Variablen in Strings entwickelt wurden
+z.B.:
+"Mein Vorname ist {firstName}[ und mein Nachname ist {lastName}]."
+
+"firstName" und "lastName" sind Variablen die ersetzt werden würden.
+Gibt es keine Variable "lastName", würde der gesamte String in den
+eckigen Klammern ignoriert werden.
+
+Im Unterschied zu den Standard-Java Klassen die sowas machen ist der
+Text Resolver in seiner Funktionalität erweiterbar. Das heißt, es können
+relativ einfach neue Ersetzungsregeln hinzugefügt werden. Simples
+Beispiel, alles was zwischen zwei Pipes steht soll hochgestellt werden:
+
+class UppercaseTerm extends Term {
+   public String getEndEnclosingString() {
+     return "|";
+   }
+   public String getStartEnclosingString() {
+     return "|";
+   }
+   public boolean resolveInternal(String text, int pos) {
+     termBuffer.append(Character.toUpperCase(text.charAt(pos)));
+     return false;
+   }
+}
+
+Inzwischen gibt es eine Klasse MCRPropertiesResolver die von
+MCRTextResolver abgeleitet ist um die Property Substitution in
+MCRConfiguration vorzunehmen. Damit können Properties mit %xxx% jetzt
+korrekt zur Laufzeit geändert werden.
+
+Weitere Features:
+-Circular Dependency Tracker -> schaut ob sich Substitutionen "im Kreis
+drehen" z.B.: %a% -> %b% -> %c% -> %a% wirft eine
+CircularDependencyExecption und keine StackOverflowException
+-sehr performant, jedes Character Zeichen wird nur einmal angefasst und
+ausgewertet
+-innere Variablen können ausgewertet werden {MCR.Property.{MyVar}.xxx}
+
+ -->

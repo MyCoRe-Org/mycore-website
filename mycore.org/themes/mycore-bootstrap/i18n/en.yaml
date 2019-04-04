@@ -1,0 +1,9 @@
+# I18N - the German translations
+footer_contact: {other: "contact"}
+footer_privacy: {other: "privacy"}
+footer_imprint: {other: "imprint"}
+
+blog_calendar: {other: "calendar"}
+blog_category: {other: "category"}
+blog_tags: {other: "tags"}
+blog_news: {other: "news"}

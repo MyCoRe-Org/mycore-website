@@ -1,0 +1,77 @@
+
+---
+
+title: "Datenbank / Hibernate"
+mcr_version: ['2015.05']
+author: ['Robert Stephan']
+description: "
+      Konfiguration der Datenbank via Hibernate.
+    "
+date: "2015-09-30"
+
+---
+    <div id="database">
+      <h2>Relationale Datenbank</h2>
+      <p>
+        In MyCoRe werden sämtliche Zugriffe auf die relationale Datenbank über das Object/Relational-Mapping-Framework
+        <a title="Hibernate" href="http://www.hibernate.org/">Hibernate</a> realisiert.
+      </p>
+      <p>
+        Dieses garantiert eine einheitliche Programmierschnittstelle gegenüber der Anwendung und gestattet die Nutzung aller
+        durch Hibernate unterstützten relationalen Datenbanksysteme wie
+        <a title="H2" href="http://www.h2database.com">H2 Database</a>,
+        <a title="PostgreSQL" href="http://www.postgresql.org/">PostgreSQL</a>,
+        <a title="MySQL" href="http://dev.mysql.com/">MySQL</a>,
+        <a title="IBM DB2" href="http://www-306.ibm.com/software/data/db2/">IBM DB2</a> und
+        <a title="Oracle" href="http://www.oracle.com/lang/de/database/index.html">Oracle</a>.
+      </p>
+      <p>
+        Standardmäßig wird H2 vorkonfiguriert. H2 ist ein "leichtgewichtiges", Java-basiertes Datenbanksystem
+        und erfordert keine zusätzlichen Installationen. Der erforderliche Code ist im MyCoRe-Paket bereits enthalten.
+        Für produktive Anwendungsinstallationen sollte jedoch ein den Erfordernissen entsprechendes Datenbanksystem gewählt werden.
+      </p>
+    </div>
+
+
+   <div>
+     <h2>hibernate.cfg.xml</h2>
+     <p>Die Datenbank konfigurieren sie in der Datei <code>hibernate.cfg.xml</code>
+     im <a href="{{< ref properties >}}">MyCoRe-Konfigurationsverzeichnis</a>.</p>
+     <p>
+       Soll H2 als Standardvariante verwendet werden,
+       ist zumindest die Connection URL für das eigene System anzupassen.
+     </p>
+     {{< highlight xml "linenos=table">}}
+<property name="connection.url">
+  jdbc:h2:file:c:/Users/mcradmin/AppData/Local/MyCoRe/skeleton/data;AUTO_SERVER=TRUE
+</property>{{< /highlight >}}
+   <p>
+     Hinweise für weitere Anpassungen finden Sie unter <a title="" href="http://www.hibernate.org/">http://www.hibernate.org</a>.
+     Diese sind vor allem sinnvoll, wenn Sie zu einem späteren Zeitpunkt die Hibernate-Anbindung für Ihre Datenbank optimieren wollen,
+     oder besonderen Funktionen wie Statistiken, Caches und Logging nutzen wollen.
+   </p>
+   </div>
+   <div>
+     <h2>Nutzung eines anderen Datenbanksystems</h2>
+     <p><strong>1. Binden Sie den JDBC-Treiber in Ihre Anwendung ein.</strong></p>
+     <p>
+       Das kann durch einen Maven-Dependency-Eintrag in der Datei <code>pom.xml</code> (im <a href="{{< ref skeleton >}}">Skeleton</a>
+       ist dies die <code>skeleton-module/pom.xml</code>) erfolgen:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <version>9.4-1203-jdbc4</version>
+</dependency>{{< /highlight >}}
+    <p>
+      Die passende Version des Datenbanktreibers findet man z.B. unter <a href="http://mvnrepository.com/artifact/org.postgresql/postgresql">http://mvnrepository.com/artifact/org.postgresql/postgresql</a>. Alternativ kann die JAR-Datei des Datenbanktreibers in das
+      Unterverzeichnis <code>lib</code> im <a href="{{< ref properties >}}">MyCoRe-Konfigurationsverzeichnis</a> kopiert werden.
+    </p>
+    <p><strong>2. Passen Sie die Hibernate-Konfiguration für das gewählt Datenbanksystem an.</strong></p>
+    <p>
+      In der Datei <code>hibernate.cfg.xml</code> im <a href="{{< ref properties >}}">MyCoRe-Konfigurationsverzeichnis</a> finden Sie
+      schon einige Beispielkonfigurationen für die gängigen Datenbanksysteme.
+    </p>
+   </div>
+  

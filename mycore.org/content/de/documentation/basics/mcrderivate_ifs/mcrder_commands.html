@@ -1,0 +1,49 @@
+
+---
+
+title: "Kommandos zum Verwalten der Derivate"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+date: "2018-07-03"
+
+---
+   <div id="mcrderivate_commands">
+    <h2>Kommandos zur Verwaltung der Derivate</h2>
+         <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können folgende Befehle zur Verwaltung von 
+            MyCoRe Derivaten ausgeführt werden:
+        </p>
+    <dl>
+    <dt><code>load derivate from file {0}</code></dt>
+    <dd />
+    <dt><code>load all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer
+    Quelldatei oder einem Quellverzeichnis in das System.</dd>
+    <dt><code>update derivate from file {0}</code></dt>
+    <dd />
+    <dt><code>update all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer
+    Quelldatei oder einem Quellverzeichnis in das System. Dabei werden die bestehenden Daten bis auf
+    Strukturinformationen überschrieben. Strukturinformationen sind ggf. Daten über Vater-Kind- oder
+    Objekt-Derivate-Beziehungen.</dd>
+    <dt><code>export derivate of {0} to directory {1}</code></dt>
+    <dd />
+    <dt><code>export derivate from {0} to {1} to directory {2}</code></dt>
+    <dd />
+    <dt><code>export all derivates to directory {0} with {1}</code></dt>
+    <dd>die Kommandos speichern ein oder mehrere Metadaten-Objekte oder Derivate in ein Verzeichnis ab. Für die
+    Parameter <code>{0}</code> und <code>{1}</code> bzw. <code>{0}</code> sind <code>MCRObjectIDs</code> anzugeben.
+    Es werden zur Transformation der zu speichernden Daten die Stylesheets <code>{3}-object.xsl</code> und
+    <code>{3}-derivate.xsl</code> unter <code>$DOCPORTAL_HOME/stylesheets</code> verwendet.
+    Standard ist <code>save-object.xsl </code> bzw. <code>save-derivate.xsl.</code></dd>
+    <dt><code>delete derivate {0}</code></dt>
+    <dd />
+    <dt><code>delete derivate from {0} to {1}</code></dt>
+    <dd>die Kommandos löschen einzelnen Metadaten-Objekte oder Derivate oder ganze Gruppen von selbigen.
+    Alle Parameter müssen dabei <code>MCRObjectID</code>'s sein.</dd>
+    <dt><code>delete all derivates</code></dt>
+    <dd>das Kommando löscht alle eingestellten Derivate.</dd>
+    <dt><code>show loadable derivate of {0} to directory {1}</code></dt>
+    <dd>das Kommando speichert den Content des Derivates vom Objekt mit der <code>MCRObjectID {0}</code> in das
+    Verzeichnis <code>{1}</code>.</dd>
+    </dl>
+   </div>

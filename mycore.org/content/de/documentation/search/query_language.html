@@ -1,0 +1,207 @@
+
+---
+
+title: "Die MyCoRe-Anfragesprache MCR-QL"
+mcr_version: ['2016.06','2015.05']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Der MyCoRe-Kern stellt eine eigene, backend-unabhängige Anfragesprache zur Verfügung,
+      die als einfacher String, im XML-Format oder als Java-Objekt formuliert werden kann.
+    "
+date: "2017-04-05"
+
+---
+    <div>
+      <h2>Datentypen und Operatoren</h2>
+      <p>
+        Jedem Suchfeld ist ein definierter Datentyp zugeordnet. Der Datentyp bestimmt die möglichen Operatoren für
+        Suchanfragen und legt implizit fest, wie Inhalte dieses Typs behandelt werden (Normalisierung von Umlauten,
+        Stammwortbildung statt exakter Suche etc.). Für jeden Datentyp gibt es eine festgelegte Menge vordefinierter
+        Standard-Operatoren, die jede Searcher-Implementierung unterstützen muss. Darüber hinaus kann eine Implementierung
+        aber auch eigene Datentypen und eigene Operatoren mit erweiterten Suchmöglichkeiten definieren.
+     </p>
+     <p>
+       Die nachfolgende Tabelle zeigt alle Standard-Operatoren, die für die MCR-QL zur Verfügung stehen:
+     </p>
+     <table class="table">
+       <tr>
+         <th>Operator</th>
+         <th>Beschreibung</th>
+       </tr>
+       <tr>
+         <td>=</td>
+         <td>exakter Wertvergleich</td>
+       </tr>
+       <tr>
+         <td>&gt;</td>
+         <td>größer</td>
+       </tr>
+       <tr>
+         <td>&lt;</td>
+         <td>kleiner</td>
+       </tr>
+       <tr>
+         <td>&gt;=</td>
+         <td>größer oder gleich</td>
+       </tr>
+       <tr>
+         <td>&lt;=</td>
+         <td>kleiner oder gleich</td>
+       </tr>
+       <tr>
+         <td>like</td>
+         <td>Wildcard-Suche mittels <code>*</code> und <code>?</code></td>
+       </tr>
+       <tr>
+         <td>contains</td>
+         <td>Wort an beliebiger Stelle im Text</td>
+       </tr>
+       <tr>
+         <td>phrase</td>
+         <td>Wortgruppe an beliebiger Stelle im Text</td>
+       </tr>
+     </table>
+
+     <p>
+       Bei der Konfiguration der Suchfelder ist insbesondere auf die richtige Wahl der Textdatentypen zu achten. Es wird
+       zwischen drei verschiedenen Datentypen für Textfelder unterschieden: <code>identifier</code>, <code>name</code>
+       und <code>text</code>. Die folgenden Standard-Datentypen sind derzeit implementiert:
+     </p>
+     <table class="table">
+       <tr>
+         <th>Datentyp</th>
+         <th>Suchoperatoren</th>
+         <th>Beschreibung</th>
+       </tr>
+       <tr>
+         <td><code>identifier</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code></td>
+         <td>ID, URN, Dateiname etc., also für exakte Werte, keine Normalisierung oderStemming</td>
+       </tr>
+       <tr>
+         <td><code>name</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code></td>
+         <td>Personen- oder Ortsnamen etc., Umlautnormalisierung, aber kein Stemming</td>
+       </tr>
+       <tr>
+         <td><code>text</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code>,<code>phrase</code></td>
+         <td>Volltext, Abstract, freier Text, Umlautnormalisierung, Stemming </td>
+       </tr>
+       <tr>
+         <td><code>date</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+         <td>Datum, vollständig im Format yyyy-MM-dd</td>
+       </tr>
+       <tr>
+         <td><code>time</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+         <td>Uhrzeit oder zeitliche Dauer, im Format HH:mm:ss</td>
+       </tr>
+       <tr>
+         <td><code>timestamp</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+         <td>Zeitpunkt, im Format 'yyyy-MM-dd HH:mm:ss'</td>
+       </tr>
+       <tr>
+         <td><code>boolean</code></td>
+         <td>=</td>
+         <td>'true' oder 'false' </td>
+       </tr>
+       <tr>
+         <td><code>decimal</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+         <td>Gleitkommazahl,"." als Trennzeichen </td>
+       </tr>
+       <tr>
+         <td><code>integer</code></td>
+         <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+         <td>Ganzzahl</td>
+       </tr>
+       </table>
+       <p>
+         Es ist Aufgabe der Suchimplementierung, diese Datentypen auf möglichst geeignete Suchstrukturen abzubilden und die
+         Standard-Operatoren in der späteren Suche umzusetzen. Zu beachten ist, dass für Datums-,
+         Zeit- und Boolean-Werte das Format für die Indizierung (wie werden die Felder zur Indizierung übergeben) und die
+         spätere Suche (wie wird ein Wert in einer Query formatiert) exakt festgelegt ist (siehe Formate in obiger Tabelle).
+       </p>
+      </div>
+
+      <div>
+        <h2>Sortierkriterien festlegen</h2>
+        <p>
+          Sortierkriterien kann man mit dem Tag <code>&lt;sortBy /&gt;</code> festlegen. Darin können beliebig
+          viele Felder und die jeweilige Reihenfolge (<code>ascending</code> oder <code>descending</code>)
+          festgelegt werden.
+        </p>
+        {{< highlight xml "linenos=table">}}
+<sortBy>
+  <field name="title" order="descending" />
+  <field name="dateCreated" order="ascending" />
+</sortBy>{{< /highlight >}}
+      </div>
+
+
+      <div>
+       <h2>Suchanfragen formulieren</h2>
+       <p>
+       Eine Suchanfrage kann als XML-Dokument oder als Textausdruck formuliert werden. Für Programmierer besteht weiterhin
+       die Möglichkeit, eine Suche als zusammengesetztes Java-Objekt zu formulieren.
+       </p>
+       <p>
+       Eine einfache Suchbedingung enthält das zu durchsuchende Feld, einen Suchoperator und den Vergleichswert, z.B.
+       Suche nach dem Wort „Optik“ im Titel:
+       </p>
+       {{< highlight xml "linenos=table">}}
+  title contains "Optik"
+
+  <condition field="title" operator="contains" value="Optik" />
+
+  MCRFieldDef titleField = MCRFieldDef.getDef("title");
+  new MCRQueryCondition( titleField, "contains", "Optik" );{{< /highlight >}}
+       <p>
+       Die Klassen <code>MCRQueryParser</code> und <code>MCRQueryCondition</code> implementieren die Java-Darstellung einer
+       Query bzw. den Parser, um aus der String- oder XML-Darstellung die Java-Darstellung zu gewinnen und zwischen den
+       Darstellungen zu wechseln.
+       </p>
+       <p>
+       Einfache Suchbedingungen können über <code>and/or/not</code>-Ausdrücke miteinander verknüpft und so zu komplexeren
+       Suchanfragen zusammengesetzt werden:
+       </p>
+       {{< highlight xml "linenos=table">}}
+  ( not (title contains "Optik") ) and ( date &gt; "2006-02-22" )
+
+  <boolean operator="AND">
+    <boolean operator="NOT">
+      <condition field="title" operator="contains" value="Optik" />
+    </boolean>
+    <condition field="date" operator="&amp;gt;" value="2006-02-22" />
+  </boolean>{{< /highlight >}}
+       <p>
+       Solche komplexen Suchbedingungen können über die Klassen <code>MCRAndCondition</code>, <code>MCROrCondition</code>
+        und <code>MCRNotCondition</code> aus dem Paket <code>org.mycore.parsers.bool</code> auch als Java-Objekte gebildet
+        werden.
+        </p>
+
+        <p>
+          Hier eine vollständige Beispiel-Anfrage in MCR-QL:
+        </p>
+        {{< highlight xml "linenos=table">}}
+<query maxResults="100" numPerPage="10" mask="editor_form_search-cite-a.xml">
+  <conditions format="xml">
+    <boolean operator="and">
+      <boolean operator="and">
+        ...
+        <condition3 operator="contains" value="Trappe" field="citeDocCreaName" />
+        ...
+        <condition7 field="citeNumPages" operator="=" value="2" />
+        ...
+      </boolean>
+      <condition94 field="objectType" operator="=" value="cite" />
+    </boolean>
+  </conditions>
+  <sortBy>
+    <field name="citeCategory" order="ascending" />
+  </sortBy>
+</query>{{< /highlight >}}
+       </div>

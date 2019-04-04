@@ -1,0 +1,144 @@
+
+---
+
+title: "Die Kommandozeilenschnittstelle (CLI)"
+mcr_version: ['2015.05','2016.06','2016.07']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Der Abschnitt beschreibt die Arbeit mit der Kommandozeilenschnittstelle. Die hier beschiebenen Teile
+      beziehen sich auf die Arbeit auf der Kommandozeile des jeweiligen OS. Für die Nutzung via Web gibt es eine
+      gesonderte Beschreibung.
+    "
+date: "2016-05-17"
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p> Das Command Line Interface (CLI) soll dem Administrator von MyCoRe Anwendungen gestatten, via Batch-Betrieb
+        Daten und Systemeinträge zu behandeln. Die eignet sich besonders für Massenverarbeitungen, wie sie
+        beispielsweise in Migrationen vorkommen.
+      </p>
+    </div>
+
+    <div>
+      <h2>Aufruf des CLI</h2>
+      <p>
+        Die MyCoRe-CLI wird in der Regel in einem komplexeren Script, welches alle erforderlichen Pfadeinstellungen
+        vornimmt, aufgerufen. Hier das Beispiel von
+        <a href="mycore.sh" target="_blank">mycore.sh</a>
+        in der Linux-Version. Diese Datei wird z. B. auch mit der aktuellen MIR-CLI ausgeliefert. Entscheidend ist dabei
+        der Aufruf der Klasse
+        <code>org.mycore.frontend.cli.MCRCommandLineInterface</code>
+        . In diese Grundklasse werden per Konfiguration alle weiteren Kommandoklassen, welche die MyCoRe-Module
+        mitbringen, integriert. Auf dem selben Weg lassen sich eigene Kommandos dem System hinzufügen.
+      </p>
+    </div>
+
+    <div>
+      <h2>Die Grundkommandos</h2>
+      <dl>
+        <dt>
+          <code>help</code>
+        </dt>
+        <dd>Das Kommando listet alle zur Verfügung stehenden Kommandos aus.</dd>
+        <dt>
+          <code>help {0}</code>
+        </dt>
+        <dd>
+          Das Kommando listet alle zur Verfügung stehenden Kommandos mit dem Anfang
+          <code>{0}</code>
+          aus.
+        </dd>
+        <dt>
+          <code>process {0} oder ! {0}</code>
+        </dt>
+        <dd>
+          Das Kommando führt die Kommandodatei
+          <code>{0}</code>
+          aus.
+        </dd>
+        <dt>
+          <code>exit oder quit</code>
+        </dt>
+        <dd>Das Kommando beendet die Stapelverarbeitung mit dem CLI.</dd>
+        <dt>
+          <code>show file {0}</code>
+        </dt>
+        <dd>
+          Das Kommando mach ein 'cat' der Datei
+          <code>{0}</code>
+          auf die für das Logging definierte Ausgabe.
+        </dd>
+        <dt>
+          <code>whoami</code>
+        </dt>
+        <dd>Das Kommando zeigt den aktuellen Benutzer an.</dd>
+        <dt>
+          <code>show command statistics</code>
+        </dt>
+        <dd>Das Kommando zeigt eine aktuelle Statistik der verwendeten Kommandos an.</dd>
+        <dt>
+          <code>cancel on error</code>
+        </dt>
+        <dd>Das Kommando setzt einen Schalter, welcher die Stapelverarbeitung abbricht, wenn ein Fehler aufgetreten ist.
+        </dd>
+        <dt>
+          <code>skip on error</code>
+        </dt>
+        <dd>Das Kommando setzt einen Schalter, welcher die Stapelverarbeitung fortsetzt, wenn ein Fehler aufgetreten
+          ist.
+        </dd>
+      </dl>
+    </div>
+
+    <div>
+      <h2>Anfragen an das System per Kommandozeile</h2>
+      <p>Es ist über das CLI auch möglich, Queries gegen die Anwendung abzusetzen und die Resultate im Batch-Betrieb zu
+        verarbeiten.</p>
+      <dl>
+        <dt>
+          <code>run query from file {0}</code>
+        </dt>
+        <dd>
+          das Kommando startet eine Anfrage mit einer Query, welche im File
+          <code>{0}</code>
+          steht.
+        </dd>
+        <dt>
+          <code>run local query {0}</code>
+        </dt>
+        <dd>
+          das Kommando startet eine Anfrage gegen das lokale System mit einer Query, welche im String
+          <code>{0}</code>
+          steht.
+        </dd>
+        <dt>
+          <code>run distributed query {0}</code>
+        </dt>
+        <dd>
+          das Kommando startet eine Anfrage gegen alle bekannten Systeme mit einer Query, welche im String
+          <code>{0}</code>
+          steht.
+        </dd>
+      </dl>
+    </div>
+    
+    <div>
+      <h2>Übersicht der weiteren MyCoRe Kommandos</h2>
+      <p>Weitere Kommandos werden in den Abschnitten dokumentiert, die die entsprechende Kompontente oder Funktionalität beschreiben.
+      </p>
+      	<ul>
+      		<li><a href="mcrobj_commands__mcrobject_commands#TODO">Kommandos zur Verwaltung von MyCoRe Objekten</a></li>
+       		<li><a href="mcrder_commands__mcrderivate_commands#TODO">Kommandos zur Verwaltung von MyCoRe Derivaten</a></li>
+      		<li><a href="classif_commands__class_commands#TODO">Kommandos zur Verwaltung von Klassifikationen</a></li>
+            <li><a href="using_solr__solr_commands#TODO">Kommandos zur Arbeit mit Solr</a></li>
+      		<li><a href="user_management__user_commands#TODO">Kommandos zur Verwaltung von Nutzern</a></li>
+        	<li><a href="user_management__role_commands#TODO">Kommandos zur Verwaltung von Nutzerrollen</a></li>
+        	<li><a href="acl_permissions__acl_commands#TODO">Kommandos für die Verwaltung der Zugriffskontrolle über ACL</a></li>
+  			<li><a href="backup__backup_commands#TODO">Kommandos zum Backup von MyCoRe Daten</a></li>
+        	<li><a href="backup__recovery_commands#TODO">Kommandos zum Wiederherstellen von MyCoRe Daten</a></li>
+  			<li><a href="{{< ref consistency >}}">Kommandos für die Überprüfung und Wiederherstellung der Konsistenz</a></li>
+            <li><a href="{{< ref batch >}}">Kommandos für den Batchbetrieb</a></li>
+        </ul>
+    
+  	</div>
+  

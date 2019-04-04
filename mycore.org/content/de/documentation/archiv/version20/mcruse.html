@@ -1,0 +1,4067 @@
+
+---
+
+title: "MyCoRe User Guide 2.0"
+
+---    
+  
+  <div id="chapter_01">
+   <h2>Allgemeines zu MyCoRe</h2>
+   <div id="preface">
+    <h3>Vorbemerkungen</h3>
+    <p>
+    MyCoRe bietet die Möglichkeit verschiedene Softwarekomponenten für die Speicherung und Verarbeitung der Daten 
+    (digitale Objekte und zugehörige Beschreibungsdaten) zu verwenden. Dabei spielt das verwendete 
+    Betriebssystem eine wesentliche Rolle. Jedes System hat Vor- und Nachteile, die an dieser Stelle kurz aufgezeigt 
+    werden sollen. Wir wollen es abschließend dem Anwender überlassen, in welchem System er für seine Anwendung die 
+    größten Vorteile sieht.
+    </p>
+    <div id="system">
+    <h4>Betriebssysteme</h4>
+    <p>
+    MyCoRe ist auf Grund seiner vollständigen Implementation in Java unabhängig vom Betriebssystem. Innerhalb der 
+    MyCoRe-Community gibt es Installationen unter Unix (Linux, AIX, Solaris) wie auch unter MS Windows und Tests 
+    unter Mac OS. Die Entscheidung für ein bestimmtes Betriebssystem ist stark vom Einsatzzweck und der Verfügbarkeit der 
+    zusätzlich benötigten Komponenten abhängig. 
+    </p>
+    </div>
+    <div id="database">
+    <h4>Relationale Datenbanken</h4>
+    <p>
+    Im Bereich der SQL Datenbasis werden ab MyCoRe 1.3 alle Zugriffe über die Datenbank-Mapping-Sprache 
+    <a title="Hibernate Home" href="http://www.hibernate.org/" target="_blank">Hibernate</a> realisiert. Dieses 
+    garantiert eine einheitliche Programmierschnittstelle gegenüber der Anwendung und gestattet die Nutzung aller durch 
+    Hibernate unterstützten relationalen Datenbanksysteme wie <a target="_blank" title="HSQLDB Home" href="http://hsqldb.org/">HSQLDB</a>, 
+    <a target="_blank" title="MySQL Home" href="http://dev.mysql.com/">MySQL</a>, 
+    <a target="_blank" title="PostgeSQL Home" href="http://www.postgresql.org/">PostgreSQL</a>, 
+    <a target="_blank" title="IBM DB2 Software" href="http://www-306.ibm.com/software/data/db2/">IBM DB2</a> und 
+    <a target="_blank" title="Oracle Datenbank" href="http://www.oracle.com/lang/de/database/index.html">Oracle</a>. 
+    Über die Konfiguration von MyCoRe gibt der Administrator der Anwendung an, welche Datenbank konkret zum Einsatz 
+    kommt. Standardmäßig wird für DocPortal die HSQLDB verwendet. Dies ist ein sogenanntes leichtgewichtiges, 
+    Java-basiertes Datenbanksystem und erfordert keine zusätzlichen Installationen. Der erforderliche Code ist im 
+    MyCoRe-Paket bereits enthalten. Für produktive Anwendungsinstallationen sollte jedoch ein den Erfordernissen 
+    entsprechendes Datenbanksystem gewählt werden.
+    </p>
+    </div>
+    <div>
+    <h4>Suchindex</h4>
+    <p>
+    Für die Suche in den abgelegten Daten wurden verschiedene Ansätze realisiert. Mit Hilfe einer simplen 
+    JDOM-Suchmaschine über XPath-Ausdrücke kann auf einfache Art in den beschreibenden Daten der digitalen Objekte 
+    (Metadaten) gesucht werden. Dieser Ansatz ist für Entwicklungszwecke konzipiert. Standard ist der Einsatz einer 
+    Volltextsuchmaschine für Metadaten und Texte auf Basis des 
+    <a title="Apache-Projekt Lucene" href="http://lucene.apache.org/" target="_blank">Apache-Projektes Lucene</a>. 
+    Lucene ist ebenfalls in MyCoRe integriert und bedarf keiner zusätzlichen Installation. Darüber hinaus kann die 
+    Volltextsuche des verwendeten relationalen Datenbanksystems eingesetzt werden. Bisher sind hinsichtlich der 
+    Leistungsfähigkeit von Lucene in einer Produktionsumgebung keine Einschränkungen bekannt.
+    </p>
+    </div>
+    <div>
+    <h4>Textextraktion</h4>
+    <p>
+    Zum Extrahieren von durchsuchbaren Volltexten aus Dokumenten werden seitens MyCoRe eine Reihe von externen 
+    Anwendungen genutzt. Welche davon bei einer konkreten MyCoRe-Installation zum Einsatz kommen, entscheidet der jeweilige 
+    Administrator selbst. Über eigene Plugins lassen sich weitere Komponenten problemlos einbinden. Die jeweilige Software 
+    (ps2ascii, pdftotext usw.) muss zusätzlich zu den MyCoRe-Komponenten installiert werden. Derzeit sind für folgende 
+    Objekttypen Plugins in MyCoRe integriert: xml, html, txt, ps, pdf, doc, xls, ppt, odt und sxw.
+    </p>
+    </div>
+    <div>
+    <h4>Streaming Server</h4>
+    <p>
+    MyCoRe kann alternativ für die Speicherung von Audio- und Video-Daten Streaming-Server integrieren und zur 
+    Datenhaltung nutzen. Vorgesehen ist der Einsatz eines <a title="Helix-Server" href="https://helix-server.helixcommunity.org/" target="_blank">Helix-Servers</a>
+    oder des <a title="IBM VideoCharger" href="http://www-306.ibm.com/software/data/videocharger/" target="_blank">IBM VideoChargers</a>. 
+    Beide Produkte müssen extern installiert und dann über die Anwendungskonfiguration eingebunden werden.
+    </p>
+    </div>
+    <div>
+    <h4>Webanwendungs-Server</h4>
+    <p>
+    MyCoRe benötigt für die interaktive Arbeit eine Servlet-Engine. Bekanntester Vertreter hier ist 
+    <a title="Apache Tomcat" href="http://tomcat.apache.org/" target="_blank">Tomcat</a>. Alternativ bietet die MyCoRe-Beispielanwendung DocPortal die Nutzung 
+    von <a title="Jetty" href="http://jetty.mortbay.org/jetty/" target="_blank">Jetty</a> an. Besonders für kleinere Anwendungen stellt es eine interessante 
+    Alternative dar. Jetty ist eine javabasierte und leichtgewichtige Anwendung, die ebenfalls in der DocPortal-Distribution 
+    enthalten ist. Eine weitere Alternative ist der <a title="IBM Application Server" href="http://www-306.ibm.com/software/websphere/" target="_blank">IBM Application Server</a>. 
+    Für Produktionsumgebungen mit einer Apache-Proxy-Anbindung empfiehlt sich jedoch der Einsatz von Tomcat oder WebSphere.
+    </p>
+    </div>
+    <div>
+    <h4>Web-Server</h4>
+    <p>
+    Zur Arbeit mit MyCoRe in Produktionsumgebungen empfehlen wir die Nutzung des 
+    <a title="Apache Web-Server" href="http://httpd.apache.org/" target="_blank">Apache-Web-Servers</a>. 
+    Damit ist es möglich der Anwendung eine URL auf Port 80 ohne weitere 
+    Portangaben zuzuweisen (virtuelle Hosts). Bei der Verwendung des IBM WebSphere Application Servers 
+    ist ein IBM Webserver (basierend auf Apache) bereits integriert.
+    </p>
+    </div>
+   </div>
+   <div>
+   <h3>Die Beispielanwendung</h3>
+   <p>
+   Zur Demonstration des Leistungsumfangs von MyCoRe wird eine Beispielanwendung mitgeliefert. Diese soll anschaulich 
+   die Funktionalitäten von MyCoRe aufzeigen und gleichzeitig eine praxisnahe Anwendung darstellen. Als Anwendungsszenario 
+   haben die Entwickler einen Dokumenten-Server mit Namen 
+   <a href="http://www.mycore.de:8291/" target="_blank" title="Link zu DocPortal">DocPortal</a> gewählt. Die Installation und 
+   Nutzung von MyCoRe und der darauf aufbauenden Anwendung <em>DocPortal</em> wird im Verlauf dieser 
+   Dokumentation in allen Einzelheiten besprochen. Ziel ist es, Interessierten von Anfang an einen 
+   vollständigen und sofort nutzbaren Dokumenten-Server an die Hand zu geben.</p>
+   </div>
+   <div>
+   <h3>Installationswege</h3>
+   <p>
+   Für die Installation der Beispielanwendung DocPortal gibt es drei Wege. 
+   Die erste Möglichkeit, die Installation einer Binärdistribution, steht zur Zeit leider nicht zur Verfügung.
+   <!-- Um einen ersten Eindruck vom System zu erhalten, wird von der Entwicklergruppe eine 
+   <a title="Binärdistribution" href="site:binary">Binärdistribution</a> auf den MyCoRe-Webseiten bereitgestellt. 
+   Dabei handelt es sich um eine mit der Software IZPack generierte jar-Datei. Durch die Ausführung der Datei wird die 
+   Installation von DocPortal gestartet. Als Ergebnis erhält man eine leere Anwendung, deren Daten in der HSQLDB 
+   verwaltet werden. Als Webanwendungs-Server wird Jetty verwendet. Beispieldaten sind in Distributionen thematisch 
+   zusammengestellt und können analog zu DocPortal zu installiert werden. -->
+   </p>
+   <p>
+   Die folgende Dokumentation beschäftigt sich damit, den zweiten (Download eines fertigen Source-Zweiges) und den 
+   dritten (Download vom Subversion-System) Installationsweg zu beschreiben. Es wird erklärt, wie die Beispielanwendung 
+   DocPortal schrittweise zu installieren ist und wie der Administrator per Konfiguration diese Anwendung in seine 
+   Umgebung einpasst. Hierbei ist zu unterscheiden, ob das Zielsystem unter den Betriebssystemen UNIX (Linux) oder 
+   MS Windows arbeitet. Auf die jeweiligen Unterschiede wird in den einzelnen Installationsschritten ggf. näher 
+   eingegangen. DocPortal kann auch unter Mac OS installiert werden, ein Referenz- und Testsystem in der Community steht 
+   momentan jedoch nicht zur Verfügung.
+   </p>
+   <p>
+   Die Release-Stände sowie aktuelle Snapshots können von der Download-Seite des Projektes unter <a title="MyCoRe Download" href="howtoget#NOT_FOUND" target="_blank">http://www.mycore.de/download/index.html</a> als *.zip bzw *.tar Datei heruntergeladen werden. 
+   Eine weitere Möglichkeit besteht in der Nutzung der Subversion Quellen. Hier erfolgt die Auswahl der Release-Stände 
+   mittels Tags. Für den aktuellen Entwicklerstand ist der Zweig 'trunk' auszuwählen. Verwiesen sei in diesem Zusammenhang 
+   auch auf die Projektseite bei <a title="Sourceforge.net" href="http://sourceforge.net/projects/mycore" target="_blank">Sourceforge</a>.
+   </p>
+   </div>
+  </div>
+   
+  <anchor id="chapter_2" />
+  <div id="chapter_02">  
+   <h2>Allgemeine Umgebungs- und Softwarevoraussetzungen</h2>
+   <p>
+   In der nachfolgenden Beschreibung wird davon ausgegangen, dass alle Arbeiten unter UNIX/Mac OS 
+   durch einen anzulegenden Benutzer <code>mcradmin</code> ausgeführt werden. Für die Benutzung von 
+   MyCoRe/DocPortal muss der Benutzer die nachfolgend gelistete Software verwenden können. Die in MyCoRe enthaltenen 
+   UNIX-Skripte erwarten die <code>bash</code>-Shell unter <code>/bin/bash</code>. 
+   Diese muss entsprechend zur Verfügung stehen oder die Skripte müssen von Hand angepasst werden. Für den Benutzer 
+   definiert der Administrator weiterhin einige Umgebungsvariablen. Hinzu kommen eine Reihe von optionalen Anwendungen, 
+   die dem MyCoRe-Benutzer bei Bedarf ebenfalls zu Verfügung stehen sollten. 
+   </p>
+   <p>
+   Unter MS Windows ist kein spezieller Benutzer vorgesehen. Trotzdem sind eine Reihe von Softwareprodukten erforderlich. 
+   Umgebungsvariablen sind ebenfalls in diesem Zusammenhang zu definieren. Für die Nutzung alternativer Komponenten gibt 
+   es in diesem Kapitel (wie zu allen anderen Punkten) Hinweise.
+   </p>   
+   <div>  
+  <h3>Erforderliche und zusätzliche Softwareprodukte</h3>  
+  <table>  
+  <tr>
+  <th>Produkt</th>
+  <th>UNIX/MacOS/MS Windows</th>
+  </tr>
+  <tr>
+  <td><a title="Java" href="http://java.sun.com/" target="_blank">Java 2 Plattform, SE, 1.5.x (J2SE)</a> oder höher </td>
+  <td>erforderlich</td>
+  </tr>
+  <tr>
+  <td><a title="Apache Ant" href="http://ant.apache.org/" target="_blank">ANT 1.7.1</a> oder höher inklusive 'regular expression'- und 'trax'- Erweiterung</td>
+  <td>erforderlich</td>
+  </tr>
+  <tr>
+  <td>Relationales Datenbanksystem (MySQL, PostgreSQL, DB2, Oracle)</td>
+  <td>optional, kann die mitgelieferte HSQLDB ersetzen</td>
+  </tr>
+  <tr>
+  <td>Tomcat 5.5.x</td>
+  <td>optional, kann das mitge-lieferte Jetty ersetzen</td>
+  </tr>
+  <tr>
+  <td>Apache 2.2.x</td>
+  <td>optional, wird zur Umsetzung virtueller Host-Namen verwendet</td>
+  </tr>
+  <tr>
+  <td><a href="http://java.sun.com/" target="_blank" title="Java.sun.com">JAI</a>, 1.1.2 oder höher</td>
+  <td>optional, wenn Sie die MyCoRe-IView-Komponente einsetzen wollen</td>
+  </tr>
+  </table>
+  <p class="klein"><strong>Tabelle 2.1:</strong> Softwarevoraussetzungen</p>
+  <p>
+  Unter Linux sind die meisten Programme in den gängigen Distributionen enthalten. 
+  Unter SuSE fehlt nur 
+  <a title="Wiki-Seite zu JAI und SuSE" href="http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation/HowTo/SuSe10-3" target="_blank">JAI</a>. 
+  Für das Betriebssystem AIX stellt die Firma IBM verschiedene Software-Downloads unter 
+  <a title="IBM Support &amp; Downloads" href="http://www.ibm.com/support/de/de/" target="_blank">http://www.ibm.com/support/de/de/</a> bereit.  
+  Unter MS Windows können die Installationspakete von den angegebenen Webseiten geholt werden.
+  </p>
+  </div>
+  <div>
+  <h3>Setzen der Umgebungsvariablen</h3>
+    <p>
+    Folgende Umgebungsvariablen können für die Arbeit mit MyCoRe definiert werden:
+    </p>
+    <table>    
+    <tr>
+    <th>Variable</th>
+    <th>Verweis auf ...</th>
+    </tr>
+    <tr>
+    <td>MYCORE_HOME</td>
+    <td>... das Basisverzeichnis des MyCoRe-Quellzweiges
+    (z.B. <strong>Windows:</strong> D:\mycore; <strong>Linux:</strong> /home/mcradmin/mycore)</td>
+    </tr>
+    <tr>
+    <td>DOCPORTAL_HOME</td>
+    <td>... das Basisverzeichnis des DocPortal-Quellzweiges
+    (z.B. <strong>Windows:</strong> D:\docportal; <strong>Linux:</strong> /home/mcradmin/docportal)</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 2.2:</strong> Umgebungsvariablen</p>
+    <p>Wenn diese Variablen nicht definiert werden, wird die Anwendung im aktuellen Basisverzeichnis (z.B. 'docportal') vermutet
+    und MyCoRe in '../mycore' erwartet. </p>
+   </div>
+    <div>
+    <h3>Hinweise zur Installation von Apache Tomcat</h3>
+      <p>
+      Tomcat kann als Alternative zum in DocPortal mitgelieferten Jetty eingesetzt werden. Tomcat ist ebenfalls ein 
+      Webanwendungs-Server, der besonders bei größeren Installationen Verwendung findet.
+      </p>
+      <p>
+      MyCoRe arbeitet beim Encoding der Zeichen standardmäßig mit UTF-8. Für eine korrekte Darstellung passen Sie die 
+      Datei <code>%CATALINA_HOME%/conf/server.xml</code> an, indem Sie das Tag für den Connector um das Attribut 
+      <code>URIEncoding='UTF-8' </code>ergänzen.
+      </p>
+   </div>    
+  </div>
+  
+  <div id="chapter_003">
+   <h2>Installation der MyCoRe-Anwendung DocPortal für Eilige</h2>
+   <p>
+   Sind Java 1.5, Ant 1.7.1 und ein svn-Client auf Ihrem Rechner installiert, können
+   Sie mit wenigen Schritten ein MyCoRe/DocPortal installieren. Die Installation holt 
+   alle erforderlichen Daten und Programme für eine Beispielanwendung von www.mycore.de. 
+   Zur Speicherung der Metadaten wird HSQLDB, für die Inhalte (Bilder, Texte, etc.) das lokale 
+   Dateisystem verwendet. Und hier sind die durchzuführenden Schritte:<br /><br />
+
+   Legen Sie ein Verzeichnis mit dem absoluten Pfad &lt;pfad&gt; an und führen Sie in dem 
+   Verzeichnis die folgenden Kommandos aus:
+   </p>
+   <ol>
+   <li><code>svn export http://server.mycore.de/svn/mycore/branches/release_2_0_fixes/install.xml</code></li>
+   <li><code>ant -Ddestdir=&lt;pfad&gt; -f install.xml</code></li>
+   </ol>
+   <p> 
+   Den <code>&lt;pfad&gt;</code> auf einem Windows-System bitte in dem Format <code>C:/install</code> angeben. 
+   Das zweite Kommando dauert etwa 10 Minuten. Die Installation war erfolgreich, wenn sich im Verzeichnis
+   <code>&lt;pfad&gt;</code> die Datei <code>homepage.html</code> befindet. 
+   Die Datenbank HSQLDB und und der Jetty-Webserver werden vom Installationsskript (<code>install.xml</code>) gestartet, so dass die 
+   MyCoRe-Anwendung <a href="http://localhost:8291/" alt="Link zur lokalen MyCoRe-Anwendung DocPortal" title="Link zur lokalen MyCoRe-Anwendung DocPortal" target="_blank">DocPortal</a> 
+   jetzt im Browser aufgerufen werden kann. 
+   </p> 
+
+   <p class="fett">
+   Start von DocPortal
+   </p>
+   <p>
+   Wechseln Sie ins Verzeichnis <code>&lt;pfad&gt;/docportal/build/bin</code> und rufen Sie unter Windows die Kommandos<br />
+   <code>hsqldbstart.cmd </code> und <code>jettystart.cmd </code> auf<br /><br />
+
+   und unter Linux<br />
+   <code>hsqldbstart.sh </code> und <code>jettystart.sh </code><br /><br />
+
+   Geben Sie als Adresse in einem Browser <a href="http://localhost:8291/" alt="Link zur MyCoRe-Anwendung DocPortal" title="Link zur MyCoRe-Anwendung DocPortal" target="_blank">http://localhost:8291</a> ein
+   </p>
+   <p class="fett">
+   Stop von DocPortal
+   </p>
+   <p>
+   Wechseln Sie ins Verzeichnis <code>&lt;pfad&gt;/docportal/build/bin </code> und rufen Sie unter Windows die Kommandos<br />
+   <code>jettystop.cmd </code> und <code>hsqldbstop.cmd </code> auf<br /><br />
+
+   und unter Linux<br />
+   <code>jettystop.sh </code> und <code>hsqldbstop.sh </code>
+   </p>
+   <p>
+   Hiermit erhalten Sie einen ersten Eindruck von MyCoRe/DocPortal. Sollten Sie eine eigene Anwendung mit einem
+   eigenen Datenmodell planen, führen Sie die im folgenden beschriebene Installation durch. 
+   </p>
+   
+   </div>
+   
+  <div id="chapter_03">
+   <h2>Download und Installation des MyCoRe-Kerns</h2>
+    <anchor id="chapter_3.1" />
+    <p>
+    <strong>Achtung: </strong>Die Entwicklung des MyCoRe-Kerns (im Trunk) wird auf das Apache-Tool 
+    <a href="http://maven.apache.org/" alt="Apache Maven Projekt" title="Apache Maven Projekt" target="_blank">Maven</a> umgestellt. 
+    Die folgende Anleitung bezieht sich auf das Release 2.0 Fixes von MyCoRe und DocPortal. 
+    </p>
+    <div>
+    <h3>Download des MyCoRe-Kerns als Source-Paket</h3>
+    <p>
+    Für eine Step-by-Step Installation der DocPortal-Anwendung benötigen Sie zuerst das MyCoRe-Basissystem (den MyCoRe Kern). 
+    DocPortal wird sich im weiteren Verlauf der Installation darauf beziehen und die erforderlichen Komponenten daraus 
+    verwenden. Der Kern muss in dem Verzeichnis zu finden sein, das unter der Umgebungsvariablen <code>MYCORE_HOME</code> 
+    angegebene wurde bzw. muss der Wert von <code>MYCORE_HOME</code> dem Installationsverzeichnis des Kerns entsprechen.
+    </p>
+    <p>
+    Auf der <a title="MyCoRe SourceForge" href="http://sourceforge.net/project/showfiles.php?group_id=92005" target="_blank">SourceForge-Seite</a> 
+    wird der MyCoRe-Kern als Download des Source-Paketes 
+    angeboten. Da sich die folgende Anleitung auf das Release 2.0.x bezieht, sollten Sie dieses oder einen 
+    weiterentwickelten Snapshot auswählen. Packen Sie das erhaltene *.zip bzw. *.tar Verzeichnis auf einem Plattenbereich 
+    aus und setzen Sie die <code>MYCORE_HOME</code> Umgebungsvariable wie oben angegeben. 
+    </p>
+    <p>Nach dem erfolgreichem Auspacken des Source-Codes bzw. erfolgreichem Checkout (siehe unten) erhalten Sie unter dem 
+    Verzeichnis <code>~/mycore</code> folgende Dateistruktur.</p>
+    <table> 
+    <tr>
+    <th>Relativer Pfad</th>
+    <th>Inhalt</th>
+    </tr>
+    <tr>
+    <td>build.xml</td>
+    <td>Das Steuer-Script für ANT.</td>
+    </tr>
+    <tr>
+    <td>changelog.txt</td>
+    <td>Enthält Hinweise zu Produktänderungen.</td>
+    </tr>
+    <tr>
+    <td>components</td>
+	<td>Zusätzliche modulare Programmkomponenten.</td>
+    </tr>
+    <tr>
+    <td>config</td>
+    <td>Einige wenige Konfigurationsdateien für den Kern</td>
+    </tr>
+    <tr>
+    <td>install.xml</td>
+    <td>Das ANT-Steuer-Script für die Komplettinstallation.</td>
+    </tr>
+    <tr>
+    <td>integrate.xml</td>
+    <td>Steuert die Integration der Components in die Anwendung.</td>
+    </tr>
+    <tr>
+    <td>lib</td><td>Java-Archive von Komponenten, welche in MyCoRe genutzt werden.</td>
+    </tr>
+    <tr>
+    <td>license.txt</td>
+    <td>Die verbindliche Lizenz von MyCoRe.</td>
+    </tr>
+    <tr>
+    <td>resources</td>
+    <td>Erforderliche allgemeine Steuerdateien für MyCoRe.</td>
+    </tr>
+    <tr>
+    <td>schema</td>
+    <td>XML Schema Dateien des MyCoRe-Kerns.</td>
+    </tr>
+    <tr>
+    <td>sources</td>
+    <td>Verzeichnis des Java-Quellcodes. </td>
+    </tr>
+    <tr>
+    <td>tests</td>
+    <td>Spezielle Klassen für JUnit-Test</td>
+    </tr>
+    <tr>
+    <td>xsl</td>
+    <td>XSLT Stylesheets des MyCoRe-Kerns.</td>
+    </tr>
+    </table>
+     <p class="klein"><strong>Tabelle 3.1:</strong> Inhalt des MyCoRe-Kerns</p>
+     <p>Das Einspielen von Updates erfolgt dann durch überschreiben der Quellen mit dem neuen Release / Snapshot.</p>
+    </div>
+    <div>
+   <h3>Download des MyCoRe-Kerns via Subversion</h3>
+   <p>
+   Alternativ können Sie auch direkt aus dem Subversion-Repository die Programmdaten auschecken. Lesender Zugriff erfolgt 
+   über einen Subversion Client und den Apache+WebDAV Zugang. Es werden drei Zweige angeboten:
+   </p>
+   <ol>
+   <li>tags – hier finden Sie Snapshots</li>
+   <li>trunk – dies ist der aktuelle Entwicklungszweig (HEAD)</li>
+   <li>branches – sowie Releases inklusiver ergänzender Fixes</li>
+   </ol>
+   <p class="kasten">svn checkout 
+   <a title="MyCoRe Subversion Repository" href="http://server.mycore.de/svn/mycore/branches/release_2_0_fixes/" target="_blank">http://server.mycore.de/svn/mycore/branches/release_2_0_fixes/</a> mycore
+   </p>
+   <p>Bugfixes und Korrekturen können bei Bedarf über ein Update direkt eingespielt werden. 
+   </p> 
+   </div>
+   <div>
+   <h3>Konfiguration und Übersetzung des Kerns</h3>
+   <div class="png">{{< mcr-figure src="/images/documentation/archiv/config.png" class="border border-secondary" label="" caption="" alt="Grafik" width="" height="" />}}</div>
+   <ol>   
+   <li>   
+     MyCoRe verwendet Apache Ant (Version 1.7 oder höher erforderlich), um den Quellcode zu übersetzen und eine vollständige 
+     Beispiel-Applikation zu erzeugen. Entsprechend der Installations-anleitung sollten Sie zunächst diese Software 
+     installieren. Der Aufruf <code>ant usage</code> im <code>mycore</code>-Verzeichnis zeigt bei richtiger Konfiguration, 
+     welche Aufrufe möglich sind.
+   </li>
+   <li>Es ist nicht nötig, weitere Umgebungsvariablen wie etwa den Java <code>CLASSPATH</code> zu setzen. Das Skript ignoriert den lokal 
+     gesetzten <code>CLASSPATH</code> und generiert stattdessen einen eigenen <code>CLASSPATH</code> entsprechend Ihrer Konfiguration. Somit kann 
+     sichergestellt werden, dass nur die erforderlichen Pakete und Klassen in der richtigen Version verwendet werden. Die Konfiguration der 
+     Systemumgebung verwendeter Systeme für die XML-Speicherung (Lucene, SQL oder JDOM) und die Speicherung von Tabellen über JDBC in einer relationalen 
+     Datenbank (Hibernate, IBM DB2, MySQL, optional auch andere) wird in der Datei <code>config/build.properties</code> festgelegt. Nach dem erstmaligen 
+     Checkout des Kerns befindet sich im <code>config</code>-Verzeichnis nur das Template <code>build.properties.template</code>. Diese Datei muss 
+     nach <code>build.properties</code> kopiert werden.
+   </li>
+   <li>
+     Sollten Sie die IView-Komponente nutzen wollen, so muss JAI (siehe <a href="#chapter_2" title="Allgemeine Umgebungs- und Softwarevoraussetzungen">Softwarevoraussetzungen</a>) installiert sein und
+     Sie müssen die für die Properties
+	 <code>MCR.System.SharedJarsDir</code> und <code>MCR.System.Jars</code> die
+     entsprechende Konfigurationszeile in der Datei <code>build.properties</code> auswählen. Die Library libmlib_jai.so muss vom System
+	 korrekt gefunden werden (z. B. als Link in /usr/lib).
+   </li>
+   <li>
+     Sie sollten zunächst prüfen, ob ihre Systemumgebung korrekt eingerichtet ist, indem Sie <code>ant info</code>
+     ausführen. Ant zeigt Ihnen daraufhin die verwendeten JDK- und Ant-Software-Versionen und den generierten 
+     <code>CLASSPATH</code> und <code>LIBPATH</code> (für Unix Systeme) an.
+   </li>
+   <li>     
+     Eine Übersicht über alle wesentlichen Build-Ziele erhalten Sie mit          
+     <p class="break"><code>ant usage</code></p>    
+    </li>
+    <li>      
+      Übersetzen Sie alle MyCoRe Quellcode-Dateien mit dem Befehl             
+      <p class="break"><code>ant jar</code></p>            
+      Das Kommando erzeugt ein Verzeichnis <code>build</code>, in welches alle weiter zu verwendenden
+      Teile kopiert werden. Dabei entsteht auch die <code>jar</code>-Datei <code>mycore.jar</code>, welche den Kern enthält.            
+    </li>
+    <li>      
+      Optional können Sie auch JavaDoc Quellcode-Dokumentation im HTML-Format generieren lassen, indem Sie             
+      <p class="break"><code>ant javadocs</code></p>      
+      aufrufen       
+      Dabei entstehen HTML-Dateien im Verzeichnis <code>build/javadocs</code>.
+    </li>
+    </ol>
+    <p>
+    Damit sind alle Arbeiten im Kernsystem abgeschlossen und Sie können nun die eigentliche Anwendung, in diesem 
+    Fall die Beispiel-Applikation DocPortal installieren.
+    </p>
+ </div>
+ 
+ </div>
+ 
+ <anchor id="chapter_4" />
+ <div id="chapter_04">
+  <h2>Die MyCoRe-Beispielanwendung DocPortal</h2>
+  <div>
+   <h3>Grundlegender Aufbau und Ziel der Beispielanwendung</h3>
+  <div>{{< mcr-figure src="/images/documentation/archiv/schicht.png" class="border border-secondary" label="" caption="" alt="Grafik" width="" height="" />}}</div>
+  </div>
+  <div>
+   <h4>Download der Beispielanwendung als Source-Paket</h4>
+   <p>
+   Nachdem Sie den MyCoRe-Kern erfolgreich installiert haben, ist nun die Installation der mitgelieferten 
+   Beispielanwendung sinnvoll. Hier können Sie ein erstes Gefühl dafür gewinnen, wie eine eigene Anwendung gestaltet 
+   sein könnte.
+   </p>
+   <p>Die entsprechenden *.zip bzw. *.tar Dateien finden Sie analog zum MyCoRe-Kern auf der Web-Seite des Projektes. 
+   Packen Sie diese einfach aus und weisen Sie die Umgebungsvariable <code>DOCPORTAL_HOME</code> entsprechend zu. Für 
+   Updates dieser Komponenten verfahren Sie wie in <a href="#chapter_3.1" title="Download des MyCoRe-Kerns als Source-Paket">Download und Installation des MyCoRe-Kerns</a> beschrieben.
+   </p>
+  </div>
+  <div>
+   <h4>Download der Beispielanwendung via Subversion</h4>
+   <p>
+   Der Download von DocPortal mittels Subversion erfolgt analog zu dem des MyCoRe-Kerns. 
+   </p>
+   <p class="kasten">svn checkout 
+   <a title="MyCoRe Subversion Repository" href="http://server.mycore.de/svn/docportal/branches/release_2_0_fixes/" target="_blank">http://server.mycore.de/svn/docportal/branches/release_2_0_fixes/</a> docportal
+   </p>
+  </div> 
+  <div>
+   <h4>Konfiguration und Installation von DocPortal</h4>
+   <div>
+    <h5>Grundlegendes zur Konfiguration</h5>
+    <p>
+    Die Konfiguration der Beispielanwendung ist im Verzeichnis <code>$DOCPORTAL_HOME/config</code> zu finden. Hier 
+    sind alle Dateien untergebracht, die Sie für eine erste oder einfache Installation der Anwendung nicht ändern müssen. 
+    Die Voreinstellungen entsprechen dem Standard und sollten ohne Probleme für die Nutzung der HSQLDB funktionieren. 
+    Kopieren Sie <strong>als erstes</strong> die Datei <code>mycore.properties.private.template</code> nach 
+    <code>mycore.properties.private</code>. Diese Datei enthält für den Anfang alle einzustellenden Werte, die an Ihre 
+    spezielle Systemumgebung angepasst werden müssen. Damit dies privaten Einstellungen nicht durch ein Update 
+    überschrieben werden, wurde auf die Template-Variante zurückgegriffen.
+    </p>
+    <note label="Hinweis">    
+    Achten Sie bei Updates stets darauf, ob sich im Template etwas geändert hat!
+    </note>
+    <anchor id="mpp" />
+    <p class="fett">   
+    mycore.properties.private
+    </p>
+    <p>    
+    Die Datei <code>mycore.properties.private</code> enthält eine ganze Reihe von Konfigurationswerten. Für ein erstes 
+    System müssen Sie nur folgende Werte anpassen:
+    </p>
+    <ul>
+    <li>
+    <code>MCR.Modules.Application </code> – Diesen Wert sollten Sie ändern, wenn sie eigene Module einbinden wollen oder
+     das <code>docportal</code>-Modul deaktivieren möchten.
+    </li>
+    <li>
+    <code>MCR.basedir</code> – Pfad zur DocPortal-Root bzw. entspricht <code>DOCPORTAL_HOME</code>
+    </li>  
+    <li>
+   <code>MCR.Mail.Address</code> – Mail-Adresse, an die alle Nachrichten gehen sollen
+   </li> 
+   <li>
+   <code>MCR.Mail.Server</code> – SMTP-Server für ausgehende Mail
+   </li>
+   <li>
+   <code>MCR.WebService.Admin</code> – Kennung des Axis-Admins zum deploy des WebService
+   </li>
+   <li>
+   <code>MCR.WebService.AdminPasswd</code> – und das dafür erforderliche Passwort
+   </li>
+   </ul>
+   <p class="fett">
+   mycore.properties.wcms
+   </p>
+   <p>
+   DocPortal enthält ein WCMS-Modul (Web Content Management System) für die webbasierte Pflege der statischen 
+   Webseiten.
+   </p>
+   <p>Die Konfiguration des WCMS wird in folgender Datei vorgenommen:</p>
+   <p class="break">
+   <code>mycore/components/wcms/config/mycore.properties</code>
+   </p>
+   <ul>
+   <li>
+   Die Datei wird ggf. automatisch durch „<code>ant webapps</code>“ angelegt.
+   </li>
+   </ul>
+   <p class="fett">
+   hibernate.cfg.xml
+   </p>
+   <p>
+   DocPortal verwendet Hibernate als Schnittstelle zwischen der Java-Anwendung und der verwendeten relationalen Datenbank. 
+   Kopieren Sie zunächst die Datei
+   </p>
+   <p class="break">
+   <code>docportal/config/hibernate/hibernate.cfg.xml.template</code> 
+   </p>
+   <p>nach </p>
+   <p class="break">
+   <code>docportal/config/hibernate/hibernate.cfg.xml</code>.
+   </p>
+   <p>
+   Unter <a title="Hibernate Home" href="http://www.hibernate.org/" target="_blank">www.hibernate.org</a> finden Sie ggf. weitere Hinweise, wenn Sie 
+   zu einem späteren Zeitpunkt die Hibernate-Anbindung für Ihre Datenbank optimieren wollen, oder besonderen Funktionen 
+   wie Statistiken, Caches und Logging nutzen wollen.
+   </p>
+   <p class="fett">
+   document.xsl
+   </p>
+   <p>Um den Image-Viewer nun in der DocPortal-Anwendung zu sehen, muss dieser noch in der Dokumenten-Darstellung 
+   integriert werden. Dazu sind in der Datei <code>$DOCPORTAL_HOME/modules/docportal/xsl/document.xsl</code> 
+   nur die Kommentarzeichen von <code>&lt;xsl:include href="mcr-module-startIview.xsl"/&gt;</code> sowie dem
+   Darstellungsblock zu entfernen. 
+   </p>
+   </div>
+   <div>
+   <h5>Initialisieren von DocPortal</h5>
+   <p>
+   Nun gilt es, die Beispielanwendung mit Leben zu füllen. Gehen Sie nacheinander folgende Arbeitsschritte durch. 
+   Sollte ein Fehler auftreten, beseitigen Sie diesen, bevor sie weiter arbeiten. Es werden standardmäßig drei 
+   Verzeichnisse angelegt, welche generierte Daten enthalten.
+   </p>
+   <table>
+   <tr>
+   <th>Verzeichnis</th>
+   <th>Beschreibung</th>
+   </tr>
+   <tr>
+   <td>build</td>
+   <td>In diesem Verzeichnis werden alle für die Kommandozeilenarbeit und die Webanwendung 
+   erforderlichen Daten abgelegt.</td>
+   </tr>
+   <tr>
+   <td>data</td>
+   <td>In diesem Verzeichnis sind standardmäßig alle Daten, Inizes und Objektdateien abgelegt.</td>
+   </tr>
+   <tr>
+   <td>save</td>
+   <td>In diesem Verzeichnis befinden sich alle Sicherungen. Es wird durch Anwendung des Kommandos Save... bzw. 
+   ant saveWebContent gefüllt.</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 4.1:</strong> Verzeichnisse des Build-Prozesses</p>
+   <p>
+   Führen Sie die nachfolgenden Kommandos nun schrittweise aus.
+   </p>
+   <ol>
+   <li>
+   Prüfen Sie die Systemumgebung in DocPortal mit
+   <p class="break"><code>ant info</code></p>
+   </li>
+   <li>
+   Erzeugen aller erforderlichen Anwendungsverzeichnisse
+   <p class="break"><code>ant create.directories</code></p>
+   </li>
+   <li>
+   Generieren Sie die XML Schema Dateien für das Datenmodell mit dem Kommando
+   <p class="break"><code>ant create.schema</code></p>
+   </li>
+   <li>
+   Compilieren Sie die zusätzlichen Java-Klassen und kopieren Sie die notwendigen Java Bibliotheken 
+   mit dem Kommando
+   <p class="break"><code>ant create.jar</code></p>
+   </li>
+   <li>
+   Erzeugen Sie die CommandLineTools mit Hilfe des Kommandos
+   <p class="break"><code>ant create.scripts</code></p>
+   </li>
+   <li>
+   Starten der HSQLDB (wenn kein anderes Datenbanksystem verwendet wird)
+   <p class="break"><code>build/bin/hsqldbstart.sh</code> bzw. <code>build/bin/hsqldbstart.cmd</code></p>
+   </li>
+   <li>
+   Laden Sie die Standard-ACL's, Gruppen und Benutzer für die Beispielanwendung mit den Kommandos
+   <p class="break"><code>ant create.users</code> und <code>ant create.default-rules</code></p>
+   </li>
+   <li>
+   Laden Sie abschließend noch alle mitgelieferten Klassifikationen. Diese werden für ein reibungsloses 
+   Funktionieren der Anwendung sowie zum Einspielen der Beispieldaten benötigt.
+   <p class="break"><code>ant create.class</code></p>
+   </li>
+   </ol>
+   <p>
+   Sie sollten nun eine leere, aber vollständige Beispielanwendung haben, in welche per CommandLineInterface 
+   Daten eingestellt werden könnten. Wie dies geht, wird weiter hinten beschrieben. Die Inbetriebnahme der 
+   Web-Anwendung ist in einem der nächsten Kapitel detailiert erklärt.
+   </p>
+   </div>
+   <div>
+   <h5>Starten der MyCoRe-Kommandozeile</h5>
+   <p>
+   Starten Sie die MyCoRe-Kommandozeile, auch CommandLineInterface genannt, durch Aufruf 
+   von <code>build/bin/mycore.sh</code> (UNIX/MacOS) bzw. <code>build\bin\mycore.cmd</code> (Windows). 
+   Eine kurze Übersicht aller Befehle erhalten Sie durch Eingabe von <code>help</code>. 
+   Sie verlassen die MyCoRe-Kommandozeile durch Eingabe von <code>quit</code> oder <code>exit</code>. 
+   Mit <code>help [Kommandoteil]</code> erhalten Sie einen kurzen Hilfetext. 
+   Eine ausführliche Dokumentation enthält der Abschnitt <a href="#Klass" title="Datenmodell">Das Klassifikationen-Datenmodell</a>.
+   </p>
+   <p>Sie können natürlich auch die Aufrufe in beliebige Skripte usw. einbinden, um eine Batch-Verarbeitung zu 
+   organisieren. Das Laden der Beispieldaten erfolgte auf diese Weise.
+   </p>
+   </div>
+   <div>
+   <h5>Erzeugen der Web-Anwendung</h5>
+   <p>
+   Dieser Abschnitt beschäftigt sich mit der Inbetriebnahme der DocPortal-Anwendung als Web-Applikation. Um den 
+   Installationsaufwand in Grenzen zu halten, enthält der DocPortal-Code-Baum schon eine fertige Servlet-Engine 
+   namens Jetty. Diese ist zwar nicht so mächtig wie Tomcat, ist aber für kleinere und mittlere Anwendungen und 
+   Demonstrationszwecke sehr gut geeignet. Bevor Sie jedoch die Jetty-Engine starten sind noch diese Schritte 
+   zu tun:
+   </p>
+   <ol>
+   <li>
+   Nun kann die Webanwendung erstellt werden.
+   <p class="break"><code>ant create.webapp</code></p>
+   </li>
+   <li>
+   Alternativ können Sie auch ein Web Application Archive (war) erzeugen.
+   <p class="break"><code>ant war</code></p>
+   </li>
+   </ol>
+   <p>
+   Das MyCoRe Build-Skript kopiert beim Erzeugen der Web Applikation auch alle externen, 
+   erforderlichen <code>*.jar</code>-Dateien Ihrer verwendeten Datenbank-Systeme (DB2, MySQL, ...) in 
+   das Verzeichnis <code>WEB-INF/lib</code>, entsprechend den Vorgaben Ihrer Konfiguration 
+   in <code>build.properties</code>. 
+   </p>
+   <p>
+   Nun können Sie die Webanwendung ein erstes Mal starten. Benutzen Sie dazu das generierte Skript, welches die 
+   Servlet-Engine Jetty aktiviert.
+   </p>
+   <p class="break"><code>build/bin/jettystart.sh</code> bzw. <code>build\bin\jettystart</code></p>
+   <p>
+   Starten Sie nun einen Web-Browser der URL <a href="http://localhost:8291/" title="Link zur lokalen Webanwendung" target="_blank">http://localhost:8291/</a>
+   </p>
+   <p>
+   Damit Ihre Anwendung auch über die WebServices erreichbar ist (entfernte Anfragen), müssen Sie diese 
+   Funktionalität noch gesondert aktivieren. Nachdem Sie mit den Properties MCR.WebServices.Admin 
+   und MCR.WebServices.AdminPasswd Kennung und Passwort für den Administrator des Webservice gesetzt haben, 
+   verwenden Sie hierzu bei laufender Servlet Engine das Kommando
+   </p>
+   <p class="break"><code>ant webservice.deploy</code></p>
+   <p>
+   Die nun verfügbaren WebService-Dienste sehen Sie bei Eingabe der 
+   URL <a href="http://localhost:8291/AxisServlet" title="WebService-Dienste" target="_blank">http://localhost:8291/servlets/AxisServlet</a> in Ihrem Web-Browser. 
+   </p>
+   <p>
+   Um den Dienst abzuschalten muss ebenfalls unter laufendem Jetty das folgende Kommando gegeben werden.
+   </p>
+   <p class="break"><code>ant webservice.undeploy</code></p>
+   <p class="kasten">GRATULATION,<br />
+   SIE HABEN NUN ERFOLGREICH DocPortal INSTALLIERT!</p>
+   </div>   
+  </div>
+  <div>
+    <h4>Laden der Beispieldaten</h4>
+    <p>
+    MyCoRe stellt eine umfangreiche Sammlung von Beispieldaten bereit. Diese wurde aus Performance-Gründen in ein 
+    extra Paket gepackt. Sie können diese als Distribution in Form von <code>*.jar</code>-Dateien von 
+	<a href="http://sourceforge.net/" title="SourceForge" target="_blank">SourceForge</a> beziehen und in Ihre 
+    fertige Anwendung laden. Alternativ ist auch ein Download vom MyCoRe-Subversion-Server möglich. 
+	Die Beispieldaten sind in mehrere Blöcke gegliedert, welche einzeln geladen werden 
+    können und bestimmte Aspekte des MyCoRe-Projektes verdeutlichen sollen.
+    </p>
+   <p class="kasten">svn checkout 
+   <a title="MyCoRe Subversion Repository" href="http://server.mycore.de/svn/content/trunk" target="_blank">http://server.mycore.de/svn/content/trunk</a> content
+   </p>
+    <table>
+    <tr>
+    <th>Zweig</th>
+    <th>Beschreibung</th>
+    </tr>
+    <tr>
+    <td>audiosample</td>
+    <td>Einige größere Audiodateien</td>
+    </tr>
+    <tr>
+    <td>defaultsample</td>
+    <td>Ein kleineres Beispiel mit Bildern, HTML-Seiten, Text</td>
+    </tr>
+		<!--
+    <tr>
+    <td>kochbuch</td>
+    <td>Teddies Kochbuch von Ursula Reber als hierarchischer Content</td>
+    </tr>
+			-->
+    <tr>
+    <td>theses</td>
+    <td>Einige Diplomarbeiten im Zusammenhang mit MyCoRe</td>
+    </tr>
+    <tr>
+    <td>video</td>
+    <td>Einige größere Videosequenzen</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 4.2:</strong> Beispieldaten im SVN</p>
+    <p>
+    Das Laden der Daten einer Beispielgruppe in die DocPortal-Anwendung geht wie folgt:
+    </p>
+    <p class="kasten"><code>java -jar -Xmx1024m -Xms1024m ...-installable.jar</code></p>
+	<p>
+	Alternativ können die Beispiele auch nach dem Download vom SVN-Server mit <code>ant load</code>
+	in die Anwendung eingebracht werden. Es ist jedoch in beiden Fällen wichtig, dass die
+	Anwendung <strong>NICHT</strong> interaktiv läuft (kein Jetty!).
+	</p>    
+  </div>
+  <div>
+   <h4>Sonstiges</h4>
+   <p>
+   Mit Hilfe des Build-Prozesses können Sie auch gezielt die erzeugte Anwendung und/oder die Daten entfernen. 
+   Während das Kommando <code>ant clean</code> bzw. <code>ant clean.system</code> alle generierten Anwendungsdaten 
+   (standardmäßig im <code>build</code>-Verzeichnis) entfernt, löscht <code>ant clean.data</code> das Verzeichnis 
+   der geladenen Daten. Bitte gehen Sie mit diesen Kommandos sorgfältig um. 
+   </p>
+  </div>
+ </div> 
+ 
+ <div id="chapter_05">
+   <h3>Das Datenmodell</h3>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/mcruse_metadata.png" class="border border-secondary" label="" caption="" alt="Metadaten" width="" height="" />}}</div>
+   
+   <div>
+    <h5>Die Document-Daten</h5>
+    <p>
+    Das Datenmodell der Dokumente ist ein Kompromiss zwischen den einzelnen abzubildenden Datenmodellen bisher 
+    bestehender Projekte. Gleichzeitig sollen auch Anforderungen an die Zukunft, wie das <strong>xMetaDiss</strong> 
+    Datenmodell oder OAI berücksichtigt werden. Entscheidend für die Gestaltung der Daten mit MyCoRe sind vor allem 
+    die MyCoRe-Datentypen. Die Festlegungen zur Wiederholbarkeit der Angaben bezieht sich immer 
+    auf <strong>eine</strong> Sprache. Die meisten Felder sind optional und können bei Bedarf verwendet werden.
+    </p>
+    <p>
+    Einzelne Applikationen werden nur einen Teil der angegebenen Felder ausfüllen. Es ist daher sinnvoll sich auf 
+    eine allgemeine Mindestmenge von Pflichtfeldern zu einigen, um eine korrekte Suche über mehrere Instanzen und 
+    Projekte zu gestatten. Bei einigen Feldern ist dies aber von den Spezifika des jeweiligen Projektes abhängig.
+    </p>
+    <p>Die Suchmöglichkeiten (parametrisch/Freitext) beziehen sich auf die Metadaten. Hinzu kommt die Volltextsuche 
+    im Dokument. Die Felder des <strong>Dublin Core Datenmodells</strong> sollten immer implementiert und wenn möglich 
+    mit Daten gefüllt sein. Auf sie beziehen sich auch die Suchen externer Datenanbieter bzw. Teilnehmer am MyCoRe- 
+    oder OAI Datenverbund. Um späteren Problemen mit nicht-Latin1-Sprachen aus dem Weg zu gehen sollen alle 
+    Metadatensätze und die Internet-Anwendung UTF-8 als Codierung verwenden. 
+    </p>
+    
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Bemerkung</th>
+    <th>Pfl.</th>
+    <th>wied.</th>
+    <th>Suche</th>
+    <th>MCR-Type</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Titel (DC)</td>
+    <td>Haupttitel und ggf. weitere Titel</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Creator (DC)</td>
+    <td>Name eines Autors ohne Verweis</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>Param. Freitext</td>
+    <td>MCRMentLangText</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>CreatorLink</td>
+    <td>Daten des Autor oder Schöpfer des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Subject (DC)</td>
+    <td>Ordnungskriterien in Klassifikationen</td>
+    <td>ggf.</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Origin</td>
+    <td>Zugehörigkeit zu einer Einrichtung als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Description (DC)</td>
+    <td>Kurzbeschreibung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>DescriptURL</td>
+    <td>Link zu Kurzbeschreibungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>Publisher (DC)</td>
+    <td>Name des Veröffentlichers des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>PublisherLink</td>
+    <td>Daten des Veröffentlichers des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>Contributor (DC)</td>
+    <td>Name des Beteiligten an der Erstellung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>ContribLink</td>
+    <td>Daten des Beteiligten an der Erstellung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Date (DC)</td>
+    <td>Datumsangaben zum Objekt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaISO8601</td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Type (DC)</td>
+    <td>Typ des Objektes als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Format (DC)</td>
+    <td>Format des Objektes als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>15</td>
+    <td>Identifier (DC)</td>
+    <td>Angaben zur Identifikation des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>16</td>
+    <td>Source (DC)</td>
+    <td>Angaben zu den Quellen des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>17</td>
+    <td>SourceLink</td>
+    <td>Link zu Angaben zu den Quellen des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>18</td>
+    <td>Languages (DC)</td>
+    <td>Sprache als Klassifikation</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRClassification</td>
+    </tr>
+    <tr>
+    <td>19</td>
+    <td>Keywords </td>
+    <td>Schlüsselworte als verbaler Text</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>20</td>
+    <td>Coverage (DC)</td>
+    <td>Angaben zu der Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext </td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>21</td>
+    <td>CoverageLink</td>
+    <td>Link zu Angaben zu der Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>22</td>
+    <td>CoverageDate</td>
+    <td>Datumsangaben zur Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaDate</td>
+    </tr>
+    <tr>
+    <td>23</td>
+    <td>Relation (DC)</td>
+    <td>Textlicher Verweis auf externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext </td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>24</td>
+    <td>RelationLink</td>
+    <td>Verweise auf externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>25</td>
+    <td>RelationISBN</td>
+    <td>ISBN als Relation.</td>
+    <td>nein</td><td>nein</td>
+    <td>param.</td>
+    <td>MCRMetaISBN</td>
+    </tr>
+    <tr>
+    <td>26</td>
+    <td>Rights (DC)</td>
+    <td>Angaben zu den Rechten des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>27</td>
+    <td>RightsLink</td>
+    <td>Link zu Angaben zu den Rechten des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>28</td>
+    <td>Size</td>
+    <td>Angaben zu Seitenanzahl, Bilder, Tabellen usw.</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>29</td>
+    <td>Place</td>
+    <td>Erscheinungsort</td>
+    <td>nein</td>
+    <td>nein</td>
+    <td>param.Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>30</td>
+    <td>ISBN</td>
+    <td>eindeutige ISBN</td>
+    <td>nein</td><td>nein</td>
+    <td>param.</td><td>MCRMetaISBN</td>
+    </tr><tr><td>31</td><td>NBN</td>
+    <td>eindeutige NBN</td>
+    <td>nein</td>
+    <td>nein</td>
+    <td>param.</td>
+    <td>MCRMetaNBN</td>
+    </tr>
+    <tr>
+    <td>32</td>
+    <td>URN</td>
+    <td>eindeutige URN</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr><tr><td>33</td>
+    <td>DDBContact</td>
+    <td>Eindeutiger Identifizierer der DB</td>
+    <td>nein</td><td>nein</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>34</td>
+    <td>Notes</td>
+    <td>Anmerkungen zum Objekt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>35</td>
+    <td>Citation</td>
+    <td>Zitierweise</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.1:</strong> Das neue Metadaten-Modell der Dokumente</p>
+    
+    <p>Ausfüllhinweise:</p>
+    <p>
+    Die Zahlen in Klammern geben die maximale Zeichenlänge pro Kardinalität an.
+    </p>
+    
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Ausfüllhinweis</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Titel(1024)</td>
+    <td><ul>
+        <li>Pro Titeltyp können mehrere Sprachen benutzt werden.</li>
+        <li>Haupttitel werden mit <strong>type=“main“</strong> markiert.</li>
+        <li>Alternative Titel werden mit <strong>type=“alt“</strong> markiert.</li>
+        <li>Untertitel werden mit <strong>type=“subtitle“</strong> markiert.</li>    
+    </ul></td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Creator(128)</td>
+    <td><ul>
+        <li>Für Habilitationen und Dissertationen Verfasser in Vorlageform.</li>
+        <li>Sonst Autorname als Text.</li>
+    </ul></td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>CreatorLink</td>
+    <td>Verweis auf einen Personen-Datensatz.</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Subject</td>
+    <td><ul>
+        <li>Verweise auf Kategorien von Klassifikationen, in die das Dokument eingeordnet ist.</li>
+        <li>Für  Habilitationen und Dissertationen in Leipzig --&gt; Regensburger Systematik (ID der RS)</li>
+        <li>Weitere bibliotheksinterne Sachgruppen</li>
+    </ul></td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Origin</td>
+    <td>Auswahlliste, zu welcher Einrichtung das Objekt gehört.</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Description(4096)</td>
+    <td>Beschreibende Informationen.
+        <ul><li>Für den Beschreibungstext <strong>type=“description“</strong>.</li>
+            <li>Für Abstract <strong>type=“abstract“</strong>.</li>
+            <li>Für die Inhaltsangabe <strong>type=“content“</strong>.</li>        
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>DescriptURL</td>
+    <td>Vereis auf externe Beschreibungstexte.
+        <ul><li>Für den Beschreibungstext <strong>type=“description“</strong>.</li>
+            <li>Für Abstract <strong>type=“abstract“</strong>.</li>
+            <li>Für die Inhaltsangabe <strong>type=“content“</strong>.</li>        
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>Publisher(128)</td>
+    <td>Textliche Bezeichnung des/derHerausgeber(s).</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>PublisherLink</td>
+    <td>Verweis auf einen Personen- oder Institutionen-Datensatz.</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>Contributor(128)</td>
+    <td>Textliche Bezeichnung des/der Beteiligten.
+        <ul>
+        <li>Für den Typ können Informationen wie <strong>„advisor“</strong> , <strong>„mentor“</strong>, 
+        <strong>„drawer“</strong> usw. angegeben werden.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>ContributorLink</td>
+    <td>Verweis auf einen Personen- oder Institutionen-Datensatz.
+        <ul>
+        <li>Für den Typ können Informationen wie <strong>„advisor“</strong> , <strong>„mentor“</strong>, 
+        <strong>„drawer“</strong> usw. angegeben werden.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Date</td>
+    <td><ul><li>Für allgemeine Dokumente Datum der Einstellung <strong>type=“create“</strong>.</li>
+            <li>Für das Datum der Einreichung zur Dis./Habil.der Arbeit <strong>type=“submit“</strong>.</li>
+            <li>Für das Datum der Verteidigung zur Dis./Habil.der Arbeit <strong>type=“accept“</strong>.</li>
+            <li>Für das Datum der Beschlussfassung zur Dis./Habil. der Arbeit <strong>type=“decide“</strong>.</li>
+        </ul>           
+    </td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Type</td>
+    <td>Auswahlliste inkusive „Dissertation“ und „Habilitation“</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Format</td>
+    <td>Auswahlliste </td>
+    </tr>
+    <tr>
+    <td>15</td>
+    <td>Identifier(128)</td>
+    <td>ggf. Bibliothekssignatur</td>
+    </tr>
+    <tr>
+    <td>16</td>
+    <td>Source(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>17</td>
+    <td>SourceLink</td>
+    <td />
+    </tr>
+    <tr>
+    <td>18</td>
+    <td>Language</td>
+    <td>Siehe Anmerkungen zur Sprachnotation.</td>
+    </tr>
+    <tr>
+    <td>19</td>
+    <td>Keywords(128)</td>
+    <td>Verbal anzugebende Schlüsselworte / Stichworte.</td>
+    </tr>
+    <tr>
+    <td>20</td>
+    <td>Coverage(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>21</td>
+    <td>CoverageLink</td>
+    <td />
+    </tr>
+    <tr>
+    <td>22</td>
+    <td>CoverageDate</td>
+    <td />
+    </tr>
+    <tr>
+    <td>23</td>
+    <td>Relation(1024)</td>
+    <td><ul><li>Angabe zum Erscheinen des Werkes.</li>
+            <li>Verbaler Verweis auf vorangegangene Versionen.</li>
+       </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>24</td>
+    <td>RelationLink</td>
+    <td>Link auf vorangegangene Versionen.</td>
+    </tr>
+    <tr>
+    <td>25</td>
+    <td>RelationISBN</td>
+    <td>Verweis auf eine ISBN Nummer.</td>
+    </tr>
+    <tr>
+    <td>26</td>
+    <td>Right(1024)</td>
+    <td>Verbale Beschreibung der Urheberrechte.</td>
+    </tr>
+    <tr>
+    <td>27</td><td>RightsLink</td>
+    <td>Verweis auf eine URL mit den Lizenz- und/oder Urheberrechten.</td>
+    </tr>
+    <tr>
+    <td>28</td><td>Size(1024)</td>
+    <td>Verbale Aufzählung von Seite, Abbildungen, usw. lt. Vorgabe der Bibliothek.<br />
+        Für Leipzig z. B. : xxx S. : Ill., graph. Darst.</td>
+    </tr>
+    <tr>
+    <td>29</td>
+    <td>Place(1024)</td>
+    <td>Erscheinungsort</td>
+    </tr>
+    <tr>
+    <td>30</td>
+    <td>ISBN(32)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>31</td>
+    <td>NBN(256)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>32</td>
+    <td>URN(256)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>33</td>
+    <td>DDBContact(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>34</td>
+    <td>Notes(4096)</td>
+    <td><ul><li>Für SWB Fußnoten <strong>type=“feet“</strong>.</li>
+            <li>Für SWB Kommentare <strong>type=“coment“</strong>.</li>
+       </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>35</td>
+    <td>Citation4096)</td>
+    <td>Verbale Angabe der Zitierweise.</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.2:</strong> Ausfüllhinweise zum neuen Datenmodell der Dokumente</p>
+    
+   </div>
+   
+   <div>
+    <h5>Das Datenmodell für Institutionen</h5>
+    <p>
+    Für Institutionen wurde ein Datenmodell entwickelt, welches sich hauptsächlich an dem Einsatz im dienstlichen 
+    Gebrauch orientiert.
+    </p>
+    
+    <table>
+    <tr>
+    <td>Nr.</td>
+    <td>Bezeichner</td>
+    <td>Bemerkung</td>
+    <td>Pfl.</td>
+    <td>wied.</td>
+    <td>Suche</td>
+    <td>MCR-Type</td>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td>Angaben zum Namen einer Institution</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaCorporationName</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Address</td>
+    <td>Angaben zur Adresse</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaAddress</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Phone</td>
+    <td>Telefonnummern / Fax</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>URL</td>
+    <td>URL’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>eMail</td>
+    <td>eMails’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Note</td>
+    <td>Bemerkungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.3:</strong> Das neue Metadaten-Modell für Institutionen</p>
+    
+    <p>Ausfüllhinweise:</p>
+    
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th><th>Ausfüllhinweis</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td />
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Address</td>
+    <td />
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Phone</td>
+    <td><ul>
+            <li>für Telefonnummern <strong>type="phone"</strong></li>
+            <li>für Faxe <strong>type="fax"</strong></li>
+        </ul></td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>URL</td>
+    <td />
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>eMail</td>
+    <td />
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Note</td>
+    <td />
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.4:</strong> Ausfüllhinweise für das neue Metadaten-Modell für Institutionen</p>
+    
+   </div>
+   <div>
+    <h5>Das Datenmodell für natürliche Personen</h5>
+    <p>
+    Für natürliche <strong>Personen</strong> hingegen ist ein umfangreicheres Datenmodell erforderlich. 
+    Dieses ist in der angebotenen Variante vor allem auf dienstliche Belange abgestimmt.
+    </p>
+    
+    <table>
+    <tr>
+    <td>Nr.</td>
+    <td>Bezeichner</td>
+    <td>Bemerkung</td>
+    <td>Pfl.</td>
+    <td>wied.</td>
+    <td>Suche</td>
+    <td>MCR-Type</td>
+    </tr>    
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td>Angaben zum Namen einer Person</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaPersonName</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Female</td>
+    <td>Angaben zum Geschlecht der Person</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. </td>
+    <td>MCRMetaBoolean</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Institution</td>
+    <td>Verweis auf die Institution, zu der die Person gehört</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Address</td>
+    <td>Angaben zur Adresse</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaAddress</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Phone</td>
+    <td>Telefonnummern</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Date</td>
+    <td>Datumsangeben wie Geburtsdatum, usw.</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaISO8601</td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>Profession</td>
+    <td>Berufsbezeichnung / Amt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>ProfClass</td>
+    <td>Berufsbezeichnung / Amt als Klassifikationseintrag</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>National</td>
+    <td>Nationalität</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>URL</td>
+    <td>URL’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>eMail</td>
+    <td>eMails’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Reference</td>
+    <td>Externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Note</td>
+    <td>Anmerkungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Publications</td>
+    <td>Publikationen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.5:</strong> Das neue Metadaten-Modell für Personen</p>
+    
+    <p>Ausfüllhinweise:</p>
+    
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Ausfüllhinweise</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td />
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Female</td>
+    <td><ul>
+        <li>weiblich ist <strong>true</strong>; männlich ist <strong>false</strong></li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Institution</td>
+    <td />
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Address</td>
+    <td><ul>
+        <li>Für das Büro ist <strong>type=“office“</strong> anzugeben.</li>
+        <li>Für die private Adresse ist <strong>type=“private“</strong> anzugeben.</li>
+        </ul></td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Phone</td>
+    <td />
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Date</td>
+    <td><ul>
+        <li>Für das Geburtsdatum ist <strong>type=“birth“</strong> anzugeben.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>Profession</td>
+    <td><ul>
+        <li>Für den Beruf ist <strong>type=“profession“</strong> anzugeben.</li>
+        <li>Für die Tätigkeit ist <strong>type=“job“</strong> anzugeben.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>ProfClass</td>
+    <td />
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>National</td>
+    <td />
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>URL</td>
+    <td />
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>eMail</td>
+    <td />
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Reference</td>
+    <td />
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Note</td>
+    <td />
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Publications</td>
+    <td />
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.6:</strong> Ausfüllhinweise für das neue Metadaten-Modell für Personen</p>
+    
+   </div>
+   
+   <anchor id="chapter_5.5" />
+   <div>
+    <h5>Klassifikationen</h5>
+    <p>
+    Klassifikationen sollen eine Suche / Präsentation von einheitlichen Begriffen gewährleisten. 
+    Da letztendlich jede Einrichtung selbst für die Auswahl der verwendeten Klassifikation verantwortlich ist, 
+    können hier nur Empfehlungen ausgesprochen werden, um eine gemeinsame Instanzen-übergreifende Suche zu ermöglichen. 
+    Achtung, in einem Verbund sollte man sich darüber im Klaren sein, dass Streichungen von Kategorien einer 
+    Klassifikation zu Fehlern führen können! Ergänzungen hingegen sind unkritisch.
+    </p>
+   
+    <div>
+     <h6>Subjekte</h6>
+     <p>
+     Die Klassifikationen der Subjekte sind wohl das größte Problem bei der Suche nach einem gemeinsamen Nenner. 
+     Andererseits kann hier auch toleriert werden, das eine große Individualität der einzelnen Anwendungen herrscht, 
+     wenn man bereit ist, Diskrepanzen bei der Suche hinzunehmen bzw. dieses Feld von einer <strong>gemeinsamen 
+     übergreifenden</strong> Suche auszuschließen. Einige Klassifikationen sind schon für MyCoRe realisiert, andere 
+     bedürfen noch einer Umsetzung. Eine Übersicht gibt die folgende Tabelle.
+     </p>
+     
+     <table>
+     <tr>
+     <th>Klassifikation</th>
+     <th>in DocPortal</th>
+     <th>MCRObjectID</th>
+     <th>im Sample</th>
+     </tr>
+     <tr>
+     <td>Basisklassifikation (GBV)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Sachgruppen der Deutschen Nationalbibliographie (DNB)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000007</td>
+     <td>ja</td>
+     </tr>
+     <tr>
+     <td>Dewey Decimal Classifikation (DDC)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000009</td>
+     <td />
+     </tr>
+     <tr>
+     <td>Regensburger Verbundklassifikation (RKV)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Mathematics Subject Classifikation (msc1991)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Physics and Astronomy Classification Scheme (pacs2003)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000010</td>
+     <td />
+     </tr>
+     <tr>
+     <td>ACM Computing Classification System (ccs1998)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Zentralblatt für Didaktik der Mathematik (zdm)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Library of Congress Classification Scheme (LCC)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Universam Decimal Classification Scheme (UDC)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>National Library of Medicine Classification Scheme (NLM)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Mathematics Subject Classifikation (msc2000)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Schlagwortnormdatei (SWD)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Library of Congress Subject Headings Scheme (LCSH)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Medical Subject Headings Scheme (MeSH)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Unified Medical Language System Scheme (UMLS)</td>
+     <td>nein</td>
+     <td />
+     <td />     
+     </tr>
+     </table>
+     <p class="klein"><strong>Tabelle 5.7:</strong> Potentielle Klassifikationen für DocPortal</p>
+     
+    </div>
+    
+    <div>
+     <h6>Herkunft</h6>
+     <p>
+     Diese Klassifikation beinhaltet eine Liste von Grundeinträgen für die beteiligten Einrichtungen. Diese 
+     Grundeinträge sind durch den jeweiligen DocPortal-Anwender für sich um eine weitere Untergliederung näher zu 
+     spezifizieren. Ziel dieser Grundeinrichtung ist eine grobe Suchbarkeit der Daten auch von Anwendungen anderer 
+     Portal-Teilnehmer aus (Beispiel: Suche von Objekten aus Leipzig in Jena). Es erscheint sinnvoll, für die 
+     Herkunft die Möglichkeit einer Anbindung von URL's an die jeweilige Kategorie, wie sie MyCoRe bietet, 
+     auszunutzen, somit kann direkt auf die Web-Seite eines Institutes oder einer Einrichtung referenziert werden. 
+     </p>
+    </div>
+    
+    <div>
+     <h6>Typ</h6>
+     <p>
+     Da sich das xMetaDiss Konzept nur für Dissertation und Habilitationen verantwortlich fühlt, ist eine Integration 
+     in MILESS/MyCoRe relativ einfach möglich. DocPortal sieht daher alle in MILESS bisher verwendeten Typen vor. 
+     Ergänzungen durch die Anwender von DocPortal können problemlos durchgeführt werden.
+     </p>
+    </div>
+    
+    <div>
+     <h6>Format</h6>
+     <p>
+     Die Festlegung der Format-Klassifikation ist sehr schwierig. METADISS sieht hier zum Beispiel die MIME-Types vor. 
+     In MILESS/MyCoRe werden hier verbale Einstufungen benutzt. Dabei sollten wir auch bleiben, da wir ja ggf. eine 
+     Menge von Objekten mit einem Metadatensatz versehen (Derivate). Aus der Speichertabelle dieser Derivate können 
+     die erforderlichen Mime-Types gewonnen werden. 
+     </p>
+    </div>
+    
+    <div>
+     <h6>Sprache</h6>
+     <p>
+     Die Language Klassifikation ist eine Abbildung der Sprachen nach ISO-639-1. Ggf. werden diese Sprachkürzel um 
+     Länderkürzel nach ISO Norm 3166 erweitert werden (z. B. eng-US). Um Konform zur XML-Notation zu sein, wird 
+     gemäß Spezifikation die Form <strong>...[-CC]</strong> gewählt, wobei ... der 3-stellige Sprachcode ist. Diesem 
+     kann sich das Länderkürzel mit Minuszeichen anschließen.
+     </p>
+    </div>
+   
+    <div>
+     <h6>Nationalität</h6>
+     <p>
+     Die Klassifikation der Nationalitäten umfasst eine einfache Liste der gängigsten Nationalitäten. 
+     Eine Ergänzung ist jederzeit möglich.
+     </p>
+    </div>
+    
+    <div>
+     <h6>Übersicht der DocPortal-Klassifikationen</h6>
+     <p>
+     Die nachfolgende Tabelle gibt eine Übersicht der mitgelieferten Klassifikationsmuster, wie sie Verwendung finden. 
+     Diese Muster müssen für eine Nachnutzung entsprechend angepasst werden. Gleichzeitig erfolgt mit dem weiteren 
+     Projektausbau auch die Erweiterung dieser Klassifikationen.
+     </p>
+     
+     <table>
+     <tr>
+     <th>MCRObjectID</th>
+     <th>Inhalt der Klassifikation</th>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000001</td>
+     <td>Eine Liste der möglichen Nationalitäten.</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000002</td>
+     <td>Eine Grundliste der beteiligten Universitäten und Firmen. Diese Liste ist nicht fein struktueriert, dies müssen 
+         die Anwender selbst vornehmen. Im description Attribut der Kategorien können MCRObjectID's der Institutionen 
+         abgelegt werden.
+     </td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000003</td>
+     <td>Analog zu DocPortal_class_00000002..</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000004</td>
+     <td>Eine Liste der möglichen Sprachen.</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000005</td>
+     <td>Eine Liste der Typen</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000006</td>
+     <td>Eine Liste der Formate</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000007</td>
+     <td>Eine Liste der Sachgruppen DNB</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000008</td>
+     <td>Eine Liste der Berufe</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000009</td>
+     <td>Die DDC-Klassifikation</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000010</td>
+     <td>Die PACS-Klassifikation</td>
+     </tr>
+     </table>
+     <p class="klein"><strong>Tabelle 5.8:</strong> DocPortal-Klassifikationen</p>
+     
+    </div>
+   </div>
+  </div>
+  <div id="chapter_06">
+  <h4>Die Arbeit mit der Beispielanwendung</h4>
+  
+  <div>
+   <h5>Benutzer</h5>
+   <p>
+   Um nun eigene Dokumente einstellen zu können oder im WCMS Seiten verändern zu können, benötigen Sie entsprechende 
+   Logins. Einige sind schon bei dieser Installation eingerichtet worden.
+   </p>
+   
+   <div>
+    <h6>Benutzer der Beispielanwendung</h6>
+    <p>
+    Die Beispielanwendung bringt zur Demonstration bereits eine Reihe von Benutzern und Gruppen mit. Einer Gruppe 
+    können dabei mehrere Benutzer angehören. Die Vergabe von Rechten auf Objekte kann dann sowohl für einen einzelnen 
+    Benutzer als auch für eine ganze Gruppe erfolgen. Im <a href="#ACL" title="Zugriffsrechte auf Daten">Kapitel 6.2</a> wird dieses Zugriffssystem (ACL-System) näher 
+    erläutert.
+    </p>    
+    
+    <table>
+    <tr>
+    <th>Gruppe</th>    
+    <th>Beschreibung</th>
+    </tr>
+    <tr>
+    <td>root</td>
+    <td>Die Gruppe der Superuser</td>
+    </tr>
+    <tr>
+    <td>admingroup</td>
+    <td>Die Gruppe der Systemadministratoren</td>
+    </tr>
+    <tr>
+    <td>readergroup1</td>
+    <td>Eine Gruppe von Lesern der 1. Einrichtung (nur Leserechte für Objekte der Gruppe)</td>
+    </tr>
+    <tr>
+    <td>readergroup2</td>
+    <td>Eine Gruppe von Lesern der 2. Einrichtung (nur Leserechte für Objekte der Gruppe)</td>
+    </tr>
+    <tr>
+    <td>authorgroup1</td>
+    <td>Eine Gruppe von Autoren der 1. Einrichtung (Autorenrechte nur auf die eigenen Objekte)</td>
+    </tr>
+    <tr>
+    <td>authorgroup2</td>
+    <td>Eine Gruppe von Autoren der 2. Einrichtung (Autorenrechte nur auf die eigenen Objekte)</td>
+    </tr>
+    <tr>
+    <td>editorgroup1</td>
+    <td>Eine Gruppe von Editoren der 1. Einrichtung (Bearbeiter aller Objekte einer Einrichtung)</td>
+    </tr>
+    <tr>
+    <td>editorgroup2</td>
+    <td>Eine Gruppe von Editoren der 2. Einrichtung (Bearbeiter aller Objekte einer Einrichtung)</td>
+    </tr>
+    <tr>
+    <td>gastgroup</td>
+    <td>Die Gruppe der Gäste</td>
+    </tr>    
+    </table>
+    <p class="klein"><strong>Tabelle 6.1:</strong> Beispielgruppen in DocPortal</p>
+    
+    <table>
+    <tr>
+    <th>Benutzer</th>
+    <th>Gruppe</th>
+    <th>Passwort</th>
+    </tr>
+    <tr>
+    <td>root</td>
+    <td>rootgroup</td>
+    <td>alleswirdgut</td>
+    </tr>
+    <tr>
+    <td>administrator</td>
+    <td>admingroup</td>
+    <td>alleswirdgut</td>
+    </tr>
+    <tr>
+    <td>editor1A</td>
+    <td>editorgroup1</td>
+    <td>editor1A</td>
+    </tr>
+    <tr>
+    <td>editor1B</td>
+    <td>editorgroup1</td>
+    <td>editor1B</td>
+    </tr>
+    <tr>
+    <td>editor2A</td>
+    <td>editorgroup2</td>
+    <td>editor2A</td>
+    </tr><tr>
+    <td>editor2B</td>
+    <td>editorgroup2</td>
+    <td>editor2B</td>
+    </tr>
+    <tr>
+    <td>author1A</td>
+    <td>authorgroup1</td>
+    <td>author1A</td>
+    </tr>
+    <tr>
+    <td>author1B</td>
+    <td>authorgroup1</td>
+    <td>author1B</td>
+    </tr>
+    <tr>
+    <td>author2A</td>
+    <td>authorgroup2</td>
+    <td>author2A</td>
+    </tr>
+    <tr>
+    <td>author2B</td>
+    <td>authorgroup2</td>
+    <td>author2B</td>
+    </tr>
+    <tr>
+    <td>reader1A</td>
+    <td>readergroup1</td>
+    <td>reader1A</td>
+    </tr>
+    <tr>
+    <td>reader2A</td>
+    <td>readergroup2</td>
+    <td>reader2A</td>
+    </tr>
+    <tr>
+    <td>gast</td>
+    <td>gastgroup</td>
+    <td>gast</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 6.2:</strong> Beispielbenutzer in DocPortal</p>
+   
+   </div>
+   
+   <div>
+    <h6>Benutzer des WCMS</h6>
+    <p>
+    Aktuell ist nur der Benutzer admin mit dem Passwort wcms eingerichtet. 
+    </p>
+    <p>
+    Wenn sie weitere Nutzer anlegen wollen, führen sie bitte folgende Schritte aus:
+    </p>
+    <ul>
+    <li><code>mycore.jar</code> in den <code>CLASSPATH</code> aufnehmen</li>
+    <li>Aufruf von <code>java wcms.util.HashCipher neuesKennwort</code></li>
+    <li>den dann ausgegebenen Hashwert in Datei <code>docportal/modules/module-wcms/aif/config/WCMSUserDB.xml</code> 
+    eintragen</li>
+    </ul>
+   </div>
+   
+  </div>
+  
+  <anchor id="ACL" />
+  <div>
+   <h5>Zugriffsrechte auf Daten</h5>
+   <p>
+   Alle in MyCoRe gespeicherten Objekte besitzen einen Zugriffsschutz über Access Control Lists (ACL). 
+   Dieser Schutzmechanismus ordnet jedem Objekt eine Reihe von Attributen zu, welche als Bedingung erfüllt sein müssen, 
+   damit der Zugriff auf das Objekt gewährt wird. Der Vergleich der in den ACL's gespeicherten Voraussetzungen gegen 
+   den aktuellen Zustand des Zugriffs erfolgt mittels der Sitzung (Session). In ihr werden alle Umgebungsinformationen 
+   wie zugreifende IP, Benutzer, usw. gespeichert. Das für MyCoRe implementierte ACL-System kennt drei Attribute für die 
+   Auswertung.
+   </p>
+   <ul>
+   <li>Benutzer</li>
+   <li>Gruppen</li>
+   <li>Netzadressen in Form von IP's bzw. IP-Blöcken</li>
+   </ul>
+   <p>
+   Bei der interaktiven Eingabe neuer Daten werden standardmäßig im Projekt festgelegte Zugriffsregeln vorgegeben. 
+   Diese trennen sich in die Bereiche Lesen und Bearbeiten. Im Bereich des Bearbeitens wird wiederum in die Arbeit im 
+   Workflow und im Server-System unterschieden. Hier können jeweils die Arbeitsgänge Editieren und Löschen getrennt 
+   voneinander festgelegt werden. Für DocPortal sind folgende Berechtigungen (Permissions) definiert:
+   </p>
+   <ul>
+   <li>read – gestattet den lesenden Zugriff</li>
+   <li>writewf – gestattet das Schreiben bzw. Ändern, solange das Objekt im Simple Workflow (SWF) ist</li>
+   <li>deletewf – gestattet das Löschen, solange das Objekt im Simple Workflow (SWF) ist</li>
+   <li>writedb – gestattet das Schreiben bzw. Ändern, wenn das Objekt im Server ist</li>
+   <li>deletedb - gestattet das Löschen, wenn das Objekt im Server ist</li>
+   </ul>
+   <p>
+   Die Permissions werden in der Editor-Verarbeitung des Neuanlegens eines Datensatzes aus einem Standard-ACL-Datensatz 
+   erzeugt. Hierzu kommt die Berechtigung des aktuellen Autors zu allen Bearbeitungsfunktionen. Die Leserechte sind für 
+   alle Benutzer zugelassen. Diese Einstellung gilt konkret für die Docportal-Anwendung. Für eigene Projekte kann dies 
+   ganz anders definiert werden. Die Permissions werden im Workflow-Prozess direkt im Datensatz gespeichert. Die 
+   Notation der Zugriffsregeln im Datenabschnitt <em><strong>services</strong></em> ist als Datentyp 
+   <em><strong>MCRMetaAccessRule</strong></em> im <a href="#chapter_8" title="XML-Syntax des Datenmodells">Kapitel 8</a> näher beschrieben. Beim Einstellen (Hochladen) der Objekte 
+   in den Server werden die Regeln <strong>writewf</strong> und <strong>deletewf</strong> vollständig entfernt, da sie 
+   nicht mehr benötigt werden. Alle anderen Zugriffsregeln werden im MyCoRe-ACL-System in die Datenbank eingetragen 
+   und anschließend aus dem Originaldatensatz gelöscht. Damit ist das Objekt gesichert, ein Zugriff darauf benötigt 
+   nun immer die Zustimmung der ACL-Komponente. Eine Änderung der Permissions kann nun nur noch bei einer 
+   Schreibberechtigung erfolgen. Die interaktiven Komponenten von DocPortal bieten hier ein Aktionsfeld mit einem 
+   Editor-Formular an. <strong>Nutzer der Gruppe admingroup sind immer für den Zugriff berechtigt, auch wenn dies nicht 
+   explizit angegeben ist.</strong>
+   </p>
+   <p>
+   Um den einzelnen digitalen Objekten ggf. eine höhere Sicherheit zu geben, können ergänzende Permissions in den 
+   Derivate-XML-Daten angegeben werden. Bei einem Zugriff wird zuerst geprüft, ob Zugriffsrechte für den Metadatensatz 
+   bestehen, anschließend wird geprüft ob es zusätzliche Einschränkungen aus dem Derivate gibt. Standardmäßig ist im 
+   Derivate immer die Permission '<strong>true</strong>' gesetzt, was keinen weiteren Einschränkungen entspricht.
+   </p>
+   <p>
+   Das ACL-System gestattet prinzipiell eine beliebige Sicherung mit anwendungsspezifischen Kriterien. Im 
+   <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a> finden Sie 
+   detaillierte Informationen zu Weiterentwicklung Ihrer eigenen Applikationen. 
+   </p>
+  </div>
+  
+  <div>
+   <h5>Die Verwendung der Kommandozeilenschnittstelle </h5> 
+   <p>
+   Mit Hilfe der Kommandozeilenschnittstelle können Sie administrative Aufgaben für ihre MyCoRe-Anwendung auf 
+   Kommandozeilenebene durchführen. Dies ermöglicht auch die Abarbeitung von Scripts zu Massenverwaltung der 
+   eingestellten Daten. So können Sie etwa Objekte (Dokumente, Derivate, Personen, usw.) oder Klassifikationen in 
+   das Repository einlesen, aktualisieren und löschen, Suchen durchführen und Objekte in Dateien exportieren. Diese 
+   Funktionalitäten sind insbesondere bei einer Migration eines bestehenden Systems zur Sicherung der Daten sehr 
+   sinnvoll.
+   </p>
+   <p>
+   Die nachfolgenden Abschnitte sollen Ihnen eine Übersicht der möglichen Kommandos geben. Die einzelnen 
+   Kommandogruppen werden dabei intern in den Kommandokern importiert und stehen dem Benutzer zur Verfügung. Die mit 
+   dem MyCoRe-System ausgelieferten Kommandos können beliebig erweitert werden. Konsultieren Sie hierzu den 
+   MyCoRe <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a>.
+   </p>
+   
+   <div>
+    <h6>Basiskommandos des Kommandozeilensystems</h6>
+    <p>
+    Das Kommandozeilensystem enthält eine kleine Zahl an Basiskommandos. Diese sollen im folgenden Abschnitt 
+    beschrieben werden. Sie werden ergänzt durch weitere Kommandos für die einzelnen Bereiche der Arbeit mit MyCoRe. 
+    Es besteht auch die Möglichkeit, eigene Anwendungskommandos als Java-Klassen zu entwickeln und zu integrieren. 
+    Das Kommandozeilen-Tool ist <code>mycore.sh</code> bzw. <code>mycore.cmd</code> und steht nach dem Erzeugen 
+    mittels <code>ant create.scripts</code> im <code>bin</code>-Verzeichnis der Anwendung. In den unten stehenden 
+    Beschreibungen sind alle erforderlichen Parameter in der Form <code>{n}</code> notiert. <code>n</code> gibt dabei 
+    die Nummer des Parameters an. Die Zählung beginnt bei 0.
+    </p>
+    <p>
+    Basiskommandos sind:
+    </p>
+    
+    <dl class="kasten">
+    <dt><code>help</code></dt>
+    <dd>zeigt alle möglichen Kommandos, auch die von der Anwendung hinzugefügten.</dd>
+    <dt><code>help {0}</code> </dt>
+    <dd>zeigt alle Kommandos, die mit {0} beginnen</dd>
+    <dt><code>process {0}</code></dt>
+    <dd> führt das im Parameter 0 angegebene System-Shell-Kommando aus.</dd>
+    <dt><code>! {0}</code></dt>
+    <dd>führt das im Parameter 0 angegebene System-Shell-Kommando aus.</dd>   
+    <dt><code>whoami</code></dt>
+    <dd>zeigt den aktuellen Benutzer an.</dd>
+    <dt><code>login {0}</code></dt>
+    <dd>startet einen Benutzerwechsel-Dialog für den Benutzer {0}.</dd>
+    <dt><code>change to user {0} with {1}</code></dt>
+    <dd>wechselt den Benutzer {0} mit dem Passwort {1}.</dd>
+    <dt><code>exit</code></dt>
+    <dd>beendet das Kommandozeilensystem.</dd>
+    <dt><code>quit</code></dt>
+    <dd>beendet das Kommandozeilensystem.</dd>
+    </dl>
+        
+   </div>
+   
+   <div>
+    <h6>Kommandos zur Arbeit mit der Benutzerverwaltung </h6>
+    <p>    
+    Eine Gruppe der verfügbaren Kommandos der Kommandozeilenschnittstelle ermöglicht die Verwaltung von Benutzern und 
+    Gruppen. Diese Kommandos werden im folgenden vorgestellt. Oft werden bei den Kommandos XML-Dateien mit Definitionen 
+    von Benutzern oder Gruppen erwartet. Die Syntax dieser XML-Beschreibungen finden Sie im 
+    <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a>. Es werden derzeit nur die wichtigsten 
+    Geschäftsprozesse der Benutzerverwaltung in den folgenden Kommandos abgebildet. 
+    Der Schwerpunkt liegt auf einem Management-Interface für administrativen Zugriff. Die vollständige GUI der 
+    Benutzerverwaltung (geplant für eine spätere Version) wird die Möglichkeit einer Bearbeitung aller Geschäftsprozesse 
+    bieten.
+    </p>
+    <p class="fett">Allgemeine Verwaltungskommandos</p>
+    <p>Die folgenden Kommandos sind allgemeiner Natur:</p>
+    <anchor id="superuser" />
+    <dl>    
+    <dt><code>init superuser</code></dt> 
+    <dd>Dieses Kommando wird einmalig bei der Installation und Konfiguration des MyCoRe-Systems verwendet. Dabei werden 
+    Daten über den zu verwendenden Administrations-Account und den Gast-Account aus den Konfigurationsdateien gelesen, 
+    sowie das Benutzersystem initialisiert.</dd>    
+    <dt><code>check user data consistency</code></dt> 
+    <dd>Dieses Kommando dient zur Kontrolle der Konsistenz des Benutzersystems. Alle Verbindungen zwischen Benutzern 
+    und Gruppen werden kontrolliert und Unregelmäßigkeiten, die eventuell durch den Import von Daten (
+    siehe weiter unten) entstanden sind, werden ausgegeben.</dd>    
+    <dt><code>set user management to read only mode</code></dt>
+    <dd />    
+    <dt><code>set user management to read/write mode</code></dt>
+    <dd>Mit diesen Kommandos können die Daten der Benutzerverwaltung eingefroren werden. Dies sollte vor dem 
+    Exportieren von Daten in XML-Dateien geschehen, damit sich nicht während des Exports Daten geändert oder Objekte 
+    angelegt werden.</dd>
+    </dl>
+    <p class="fett">Kommandos zum Arbeiten mit XML-Dateien</p>
+    <p>
+    Diese Kommandos dienen dem Anlegen und Ändern von Gruppen und Benutzern aus XML-Dateien heraus:
+    </p>
+    <dl>
+    <dt><code>create user data from file {0}</code></dt>    
+    <dt><code>create group data from file {0}</code></dt> 
+    <dd>Diese Kommandos erwarten eine XML-Datei als Parameter. In der Datei müssen ein oder mehrere Definitionen von 
+    Benutzern oder Gruppen existieren, die dann in das System übernommen werden. Ein Benutzerpasswort muss im Klartext 
+    in der definierenden XML-Datei vorliegen (für die Syntax siehe den 
+    <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a>). 
+    Ist die Passwortverschlüsselung eingeschaltet 
+    (siehe <a href="#mpp" title="mycore.properties.private">mycore.properties.private</a>), so wird das Passwort bei der Ablage in 
+    der Datenbank verschlüsselt. Bei der Erzeugung der Objekte wird die Korrektheit der Eingaben bezüglich vorhandener 
+    Regeln überprüft. So wird z.B. getestet, ob IDs doppelt vergeben wurden.</dd>
+    <dt><code>import user system from files {0} {1}</code></dt>
+    <dd>Dieses Kommando dient der Rekonstruktion des User Systems aus den abgesicherten Daten der Benutzer und Gruppen. 
+	Da eine direkte Abhängigkeit zwischen beiden Teilen besteht werden alle Daten mittels eines gemeinsamen
+	Kommandos verarbeitet. Dabei ist {0} die Guppen- und {1} die Benutzerdatei der Sicherung.</dd>
+    <dt><code>update user data from file {0}</code></dt>
+    <dd>Mit diesen Befehlen werden bereits vorhandene Benutzer aktualisiert. Dabei ist zu bedenken, dass „update“ im 
+    Sinne von „festsetzen auf neue Werte“ zu verstehen ist, die Objekte also nach dem update genau die Definitionen 
+    haben, die in den XML-Dateien festgelegt werden. Einige der Attribute können allerdings nicht verändert werden, 
+    z.B. die Erzeuger-Accounts oder das Datum der Erzeugung. Sollen diese Daten unbedingt verändert werden, dann 
+    müssen die Objekte vorher gelöscht und neu angelegt werden.</dd>
+    <dt><code>export all users to file {0}</code></dt>
+    <dt><code>export all groups to file {0}</code></dt>
+    <dt><code>export user {0} to file {1}</code></dt>
+    <dt><code>export group {0} to file {1}</code></dt>
+    <dd>Mit diesen Kommandos werden alle oder einzelne Objekte der Benutzerverwaltung in XML-Dateien gespeichert. 
+    Passwörter von Benutzern werden bei eingeschalteter Verschlüsselung verschlüsselt abgelegt. Die so entstandenen 
+    Dateien können beispielsweise mit den import-Kommandos wieder geladen werden.</dd>
+    <dt><code>encrypt passwords in user xml file {0} to file {1}</code></dt>
+    <dd>Passwortverschlüsselung kann durch einen Konfigurationsparameter in der Datei mycore.properties.user aktiviert 
+    oder deaktiviert werden. Dieses Kommando wird benötigt, wenn man ein bestehendes System mit nicht eingeschalteter 
+    Verschlüsselung auf ein System mit Verschlüsselung migrieren will. Dabei verfährt man folgendermaßen: Zunächst 
+    werden alle Benutzer des alten Systems mit dem Kommando (siehe oben) export all users to file in eine XML-Datei 
+    exportiert. Daraufhin wendet man encrypt passwords in user xml file {0} to file {1} auf diese Datei an und erhält 
+    damit verschlüsselte Passwörter in den XML-Dateien. Mit dem Kommando (siehe oben) update user data from file 
+    können diese Daten in das System reintegriert werden. Danach muss die Kommandozeilenschnittstelle geschlossen und 
+    die Verschlüsselung in mycore.properties.user eingeschaltet werden.</dd>
+    </dl>
+    <p class="fett">Kommandos zum direkten Arbeiten mit Objekten der Benutzerverwaltung</p>
+    <dl>
+    <dt><code>delete user {0}</code></dt>
+    <dt><code>delete group {0}</code></dt>
+    <dd>Durch Angabe des Benutzer- oder Gruppennamens werden die Objekte mit diesen Kommandos aus dem System entfernt 
+    (und abhängige Objekte aktualisiert).</dd>
+    <dt><code>list all users</code></dt>
+    <dt><code>list user {0}</code></dt>
+    <dt><code>list all groups</code></dt>
+    <dt><code>list group {0}</code></dt>
+    <dd>Die Kommandos dienen dem Auflisten der Objekte der Benutzerverwaltung und sind selbsterklärend.</dd>
+    <dt><code>set password for user {0} to {1}</code></dt>
+    <dd>Mit Hilfe dieses Befehls kann das Passwort eines Benutzers direkt über die Kommandozeile gesetzt werden. 
+    Voraussetzung ist, dass die notwendigen Privilegien vorliegen.</dd>
+    <dt><code>enable user {0}</code></dt>
+    <dt><code>disable user {0}</code></dt>
+    <dd>Mit Hilfe dieser Kommandos können einzelne Benutzer temporär deaktiviert und wieder aktiviert werden. 
+    Ist ein Benutzer disabled, so kann er oder sie sich nicht mehr am System anmelden.</dd>
+    <dt><code>add user {0} as member to group {1}</code></dt>
+    <dt><code>remove user {0} as member from group {1}</code></dt>
+    <dd>Mit diesen Kommandos kann direkt auf die Mitgliederlisten von Gruppen zugegriffen werden, indem Mitglieder 
+    (sowohl Gruppen als auch Benutzer) hinzugefügt oder gelöscht werden können.</dd>
+    </dl>
+    <p class="fett">Das Sichern und Restaurieren der Benutzerverwaltungsdaten</p>
+    <p>
+    Während der Initialisierung eines MyCoRe-Systems werden ein Administrationsaccount und ein Gastzugang eingerichtet 
+    zusammen mit den zugehörigen primären Gruppen (siehe <a href="#superuser" title="Verwaltungskommando init superuser">Kommando <code>init superuser</code></a>). 
+    Dadurch ist das Sichern und Reimportieren der gesamten Daten der Benutzerverwaltung mit etwas mehr Handarbeit 
+    verbunden, weil der Administrationsaccount und Gastzugang zwar mit gesichert werden, aber vor einer Restauration der 
+    Daten z.B. nach einem Crash der SQL-Datenbank neu initialisiert werden müssen. Das bedeutet, dass sie bereits vorhanden sind und 
+    ein <code>import user data from file</code> deswegen nicht geht. Andererseits können sich die Daten dieser beiden 
+    Benutzer natürlich auch verändert haben, so dass die alten Daten wieder hergestellt werden müssen. Der folgende 
+    Ablauf führt zum Ziel. Dabei stehen <code>&lt;superuser&gt;</code> und <code>&lt;superuser-group&gt;</code> bzw. 
+    <code>&lt;guest&gt;</code> und <code>&lt;guest-group&gt;</code> für die in <code>mycore.properties.private</code> 
+    eingetragenen Parameter für den Administrations- und Gastzugang. In der MyCoRe-Kommandozeile werden die folgenden 
+    Befehle durchgeführt:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MyCoRe:> export user <superuser> to file <superuser.xml>
+    MyCoRe:> export user <guest> to file <guest.xml>
+    MyCoRe:> export group <superuser-group> to file 
+             <superuser-group.xml>
+    MyCoRe:> export group <guest-group> to file <guest-group.xml>
+    MyCoRe:> export all users to file <all-users.xml>
+    MyCoRe:> export all groups to file <all-groups.xml>
+    ]]>
+    </p>
+    {{< /highlight >}}    
+    <p>
+    Die Benutzer <code>&lt;superuser&gt;</code> und <code>&lt;guest&gt;</code> sowie die zugehörigen Gruppen müssen 
+    aus den Dateien <code>&lt;all-users.xml&gt;</code> bzw. <code>&lt;all-groups.xml&gt;</code> manuell entfernt 
+    werden. Dann können alle Daten in einer neu erstellten SQL-Datenbank folgendermaßen importiert werden:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MyCoRe:> init superuser
+    MyCoRe:> import user data from file <all-users.xml>
+    MyCoRe:> import group data from file <all-groups.xml>
+    MyCoRe:> update user data from file <superuser.xml>
+    MyCoRe:> update user data from file <guest.xml>
+    MyCoRe:> update group data from file <superuser-group.xml>
+    MyCoRe:> update group data from file <guest-group.xml>
+    MyCoRe:> check user data consistency
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h6>Kommandos zur Administration des ACL-Systems</h6>    
+    <dl>
+    <dt><code>load permissions data from file {0}</code></dt>
+    <dd>das Kommando lädt alle statischen Permissions.</dd>
+    <dt><code>update permissions data from file {0}</code></dt>
+    <dd>das Kommando ersetzt alle statischen Permissions.</dd>
+    <dt><code>list all permissions</code></dt>
+    <dd>das Kommando listet alle statischen Permissions.</dd>
+    <dt><code>delete all permissions</code></dt>
+    <dd>das Kommando löscht alle statischen Permissions.</dd>
+    <dt><code>export all permissions to file {0}</code></dt>
+    <dd>das Kommando sichert alle statischen Permissions.</dd>
+    <dt><code>update permission {0} for id {1} with rulefile {2}</code></dt>
+    <dt><code>update permission {0} for id {1} with rulefile {2} described by {3}</code></dt>
+    <dt><code>update permission {0} for documentType {1} with rulefile {2}</code></dt>
+    <dt><code>update permission {0} for documentType {1} with rulefile {2} described by {3}</code></dt>
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Kommandos zum Verwalten von Klassifikationen</h6>
+    <dl>
+    <dt><code>load classification from file {0}</code></dt>
+    <dd>es wird eine Klassifikation in Form einer XML-Definition gelesen und in das System geladen.</dd>
+    <dt><code>load all classifications from directory {0}</code></dt>
+    <dd>es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis gelesen und in das System geladen.</dd>
+    <dt><code>update classification from file {0}</code></dt>
+    <dd>es wird eine Klassifikation in Form einer XML-Definition gelesen. Diese überschreibt die im System bereits 
+    geladene Klassifikation. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation weg, da sonst Ihr 
+    System ggf. in einen inkonsistenten Zustand kommen kann!</dd>
+    <dt><code>update all classifications from directory {0}</code></dt>
+    <dd>es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis gelesen. Diese überschreiben die im 
+    System bereits geladenen Klassifikationen. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation 
+    weg, da sonst Ihr System ggf. in einen inkonsistenten Zustand kommen kann!</dd>
+    <dt><code>delete classification {0}</code></dt>
+    <dd>es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code> 
+    gelöscht.</dd>
+    <dt><code>export classification {0} to {1} with {2}</code></dt>
+    <dd>es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code> 
+    in eine Datei mit dem im Parameter <code>{1}</code> angegeben Namen gespeichert. Es wird zur Transformation 
+    der zu speichernden Daten das Stylesheet <code>{2}-classification.xsl</code> unter 
+    <code>$DOCPORTAL_HOME/stylesheets</code> verwendet.</dd>
+    <dt><code>export all classifications to directory {0} with {1}</code></dt>
+    <dd>es werden alle im System befindlichen Klassifikationen in Dateien des Verzeichnisses mit dem im Parameter 
+    <code>{0}</code> angegeben Namen gespeichert. Es wird zur Transformation der zu speichernden Daten das Stylesheet <code>{1}-classification.xsl</code> unter 
+    <code>$DOCPORTAL_HOME/stylesheets</code> verwendet.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Kommandos zur Verwaltung der Objekte</h6>
+    <dl>
+    <dt><code>load object from file {0}</code></dt>
+    <dt><code>load all objects from directory {0}</code></dt>
+    <dt><code>load derivate from file {0}</code></dt>
+    <dt><code>load all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer 
+    Quelldatei oder einem Quellverzeichnis in das System.</dd>
+    <dt><code>update object from file {0}</code></dt>
+    <dt><code>update all objects from directory {0}</code></dt>
+    <dt><code>update derivate from file {0}</code></dt>
+    <dt><code>update all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer 
+    Quelldatei oder einem Quellverzeichnis in das System. Dabei werden die bestehenden Daten bis auf 
+    Strukturinformationen überschrieben. Strukturinformationen sind ggf. Daten über Vater-Kind- oder 
+    Objekt-Derivate-Beziehungen.</dd>
+    <dt><code>export object {0} to directory {1} with {2}</code></dt>
+    <dt><code>export object from {0} to {1} to directory {2} with {3}</code></dt>
+    <dt><code>export all objects of type {0} to directory {1} with {2}</code></dt>
+    <dt><code>export derivate of {0} to directory {1}</code></dt>
+    <dt><code>export derivate from {0} to {1} to directory {2}</code></dt>
+    <dt><code>export all derivates to directory {0} with {1}</code></dt>
+    <dd>die Kommandos speichern ein oder mehrere Metadaten-Objekte oder Derivate in ein Verzeichnis ab. Für die 
+    Parameter <code>{0}</code> und <code>{1}</code> bzw. <code>{0}</code> sind <code>MCRObjectIDs</code> anzugeben. 
+    Es werden zur Transformation der zu speichernden Daten die Stylesheets <code>{3}-object.xsl</code> und 
+    <code>{3}-derivate.xsl</code> unter <code>$DOCPORTAL_HOME/stylesheets</code> verwendet. 
+    Standard ist <code>save-object.xsl </code> bzw. <code>save-derivate.xsl.</code></dd>
+    <dt><code>delete object {0}</code></dt>
+    <dt><code>delete object from {0} to {1}</code></dt>
+    <dt><code>delete derivate {0}</code></dt>
+    <dt><code>delete derivate from {0} to {1}</code></dt>
+    <dd>die Kommandos löschen einzelnen Metadaten-Objekte oder Derivate oder ganze Gruppen von selbigen. 
+    Alle Parameter müssen dabei <code>MCRObjectID</code>'s sein.</dd>
+    <dt><code>delete all objects of type {0}</code></dt>
+    <dd>das Kommando löscht alle eingestellten Objekte eines bestimmten Datentypes.</dd>
+    <dt><code>delete all derivates</code></dt>
+    <dd>das Kommando löscht alle eingestellten Derivate.</dd>
+    <dt><code>show loadable derivate of {0} to directory {1}</code></dt>
+    <dd>das Kommando speichert den Content des Derivates vom Objekt mit der <code>MCRObjectID {0}</code> in das 
+    Verzeichnis <code>{1}</code>.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Kommandos zur Arbeit mit dem ImageViewer</h6>
+    <dl>
+    <dt><code>clear image cache</code></dt>
+    <dd>das Kommando löscht den Image Cache.</dd>
+    <dt><code>create image cache for file {0}</code></dt>
+    <dd>das Kommando erzeugt den Image Cache für die Datei <code>{0}</code>.</dd>
+    <dt><code>remove image cache for file {0}</code></dt>
+    <dd>das Kommando löscht den Image Cache für die Datei <code>{0}</code>.</dd>
+    <dt><code>create image cache for derivate {0}</code></dt>
+    <dd>das Kommando erzeugt den Image Cache für das gesamte Derivate <code>{0}</code>.</dd>
+    <dt><code>remove image cache for derivate {0}</code></dt>
+    <dd>das Kommando löscht den Image Cache für das gesamte Derivate <code>{0}</code>.</dd>
+    </dl>
+    <note label="Hinweis">
+    Beachten Sie, dass diese Kommandos nur funktionieren, wenn Sie die notwendigen 
+    Schritte aus Kapitel 6.2.2 -&gt; „Aktivieren des Cache“ durchgeführt haben.</note>
+   </div>
+   
+   <div>
+    <h6>Anfragen an das System per Kommandozeile</h6>
+    <dl>
+    <dt><code>run query from file {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage mit einer Query, welche im File <code>{0}</code> steht.</dd>
+    <dt><code>run local query {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage gegen das lokale System mit einer Query, welche im String <code>{0}</code> 
+    steht.</dd>
+    <dt><code>run distributed query {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage gegen alle bekannten Systeme mit einer Query, welche im String <code>{0}</code> 
+    steht.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Sonstige Kommandos</h6>
+    <dl>
+    <dt><code>repair metadata search of type {0}</code></dt>
+    <dt><code>repair metadata search of ID {0}</code></dt>
+    <dd>die Kommandos lesen die XML-SQL-Tabellen und reparieren zerstörte Metadaten-Suchindizes. Das Kommando kann 
+    auch beim Wechsel eines <code>SearchStore</code> angewendet werden.</dd>
+    <dt><code>repair derivate search of type derivate</code></dt>
+    <dt><code>repair derivate search of ID {0}</code></dt>
+    <dd>die Kommandos lesen die gespeicherten Datenobjekte und reparieren zerstörte Volltext-Suchindizes. Das Kommando 
+    kann auch beim Wechsel eines <code>SearchStore</code> angewendet werden.</dd>
+    <dt><code>get last ID for base {0}</code></dt>
+    <dt><code>get next ID for base {0}</code></dt>
+    <dt><code>show last object ID for base {0}</code></dt>
+    <dt><code>show next object ID for base {0}</code></dt>
+    <dd>die Kommandos liefern die nächste freie oder die letzte <code>MCRObjectID</code> für eine vorgegeben 
+    <code>MCRObjectID</code>-Basis zurück. Die Basis besteht aus Projekt- und Type-String in der Form 
+    <code>project_type</code>. (Siehe Abschnitt zur <a href="#MCRO" title="Die MCRObjectID">MCRObjectID</a>)</dd>
+    <dt><code>check file {0}</code></dt>
+    <dd>prüft eine im Parameter <code>{0}</code> angegebene Datei mittels XML-Parser.</dd>
+    <dt><code>init hibernate</code></dt>
+    <dd>das Kommando initialisiert den Hibernate-SQL-Store. Das Kommando ist nur einmal erforderlich!</dd>
+    </dl>
+   </div>
+   
+  </div>
+  
+  <div>{{< mcr-figure src="/images/documentation/archiv/userguide_simpleworkflow_1.jpg" class="border border-secondary" label="" caption="" alt="Funktionsschema SimpleWorkflow" width="" height="" />}}</div>
+  
+  <div>{{< mcr-figure src="/images/documentation/archiv/classification.png" class="border border-secondary" label="" caption="" alt="Auswahl Klassifikationen" width="" height="" />}}</div>
+ 
+</div>
+
+<div id="chapter_07">
+  <h6>Möglichkeiten zur Nutzung optionaler Komponenten</h6>
+  <p>
+  MyCoRe bzw. DocPortal biete neben den in der Standardinstallation verwendeten Komponenten noch eine Reihe von 
+  optionalen Zusätzen. Auch der Einsatz von anderer externer Software wie Tomcat / Apache / Speicher-Backends u. v. m. 
+  soll in diesem Kapitel besprochen werden.
+  </p>
+  
+  <div>
+   <h6>Die Zusammenarbeit mit anderen DocPortal-Installationen</h6>
+   <p>
+   Das MyCoRe-System ist so konzipiert, dass hinsichtlich der Metadaten gleichartige Installationen miteinander 
+   arbeiten und von einer gemeinsamen Oberfläche (Frontend) abgefragt werden können. Hierzu müssen die Remote-Instanzen 
+   definiert werden. Auch die eigene Installation kann über diesen Weg abgefragt werden. Das ist in der 
+   Beispielinstallation auch schon vorgesehen. Die Remote-Suche nutzt dabei die WebServices Komponenten von MyCoRe. 
+   Das installiert DocPortal-Sample gestattet grundsätzlich auch eine Suche über den WebService-Dienst gegen den 
+   localhost.
+   </p>
+   <p>
+   Die Konfiguration ist denkbar einfach, es sind alle Hosts, für die eine Remote-Abfrage angeboten werden soll, 
+   in die Datei <code>$DOCPORTAL_HOME/config/hosts.xml</code> einzutragen. Nach einem <code>ant webapps</code> sind die 
+   Hosts dann mittels der Suchmasken durchsuchbar.
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+      <![CDATA[ 
+      <?xml version="1.0" encoding="UTF-8"?>
+       <hosts xmlns="http://www.mycore.org/">   
+        <host alias="remote" 
+          url=" <a title="" href="http://localhost:8291/">http://localhost:8291/</a></code><code>"
+          class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+          access="webservice"
+          servicepath="services/MCRWebService"
+          staticpath="receive/"> 
+          <label xml:lang="de">Lokal via WebService</label> 
+          <label xml:lang="en">Local via WebService</label> 
+        </host>
+        <host alias="leipzig" 
+          url="http://mycoresamplelinux.dl.uni-leipzig.de/"
+          class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+          access="webservice"
+          servicepath="services/MCRWebService"
+          staticpath="receive/"> 
+          <label xml:lang="de">Universität Leipzig</label> 
+          <label xml:lang="en">University of Leipzig</label> 
+        </host>
+       </hosts>
+   ]]>
+   </p>
+   {{< /highlight >}}
+   <p>
+   Von den Entwicklern des MyCoRe-Projektes wird exemplarisch eine DocPortal-Installation bereitgehalten. Diese ist im 
+   Konfigurationsfile <code>hosts.xml</code> notiert und sollten in der Regel verfügbar sein. Die Attribute für einen 
+   Host bedeuten im Einzelnen:
+   </p>
+   <ul>
+   <li>alias – der im MyCoRe-System zu verwendende Alias für einen externen Host</li>
+   <li>url – die Basis-URL eines externen Hosts</li>
+   <li>class – die MyCoRe-Java-Klasse, die den externen Zugriff realisiert</li>
+   <li>access – einen Typ-String für die Zugriffsform</li>
+   <li>servicepath – die URL-Erweiterung als Pfad auf dem externen Systembibliotheken</li>
+   <li>staticpath – die URL-Erweiterung für die Darstellung der statischen URL des Objektes auf dem entfernten Rechner</li>
+   </ul>
+   
+   <table>
+   <tr>
+   <th>Alias</th>
+   <th>URL</th>
+   <th>Port</th>
+   <th>Standort</th>
+   </tr>
+   <tr>
+   <td>remote</td>
+   <td>http://localhost:8291/</td>
+   <td>8291</td>
+   <td>lokale Installation</td>
+   </tr>
+   <tr>
+   <td>leipzig</td>
+   <td>http://mycoresamplelinux.dl.uni-leipzig.de/</td>
+   <td>8291</td>
+   <td>Uni Leipzig</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 7.1:</strong> Feste Test-Instanzen für das MyCoRe-Beispiel</p>
+   
+  </div>
+  
+  <div>
+   <h6>Die Integration des Bildbetrachter-Modules</h6>
+   <p>
+   DocPortal bietet einen komfortablen Bildbetrachter, um Dateien verschiedener Formate anzuzeigen. Dazu sind die 
+   beiden Module „Imaging“ aus dem MyCoRe-Kern und das Modul „IView“ aus DocPortal zu installieren. Dieser Abschnitt 
+   beschreibt die notwendigen Arbeiten, wenn Sie die Module nicht bei der Erstinstallation mit integriert haben.
+   </p>
+   
+   <note label="Hinweis"> Aus lizenzrechtlichen Gründen können die Module nicht direkt in die Distribution eingebunden 
+   werden, weil sie auf Sun's Java-Bibliothek JAI(JDK) beruhen. Der Download der Software muss vom jeweiligen Nutzer 
+   selbst durchgeführt werden. Eine direkte Integration der *.jar Files in MyCoRe ist leider nicht gestattet.</note>
+   
+   <p>
+   Die Einbindung des Bildbetrachters erfolgt in zwei Schritten:
+   </p>
+   <ol>
+   <li>Integration des „Module-Imaging“ im MyCoRe-Kern</li>
+   <li>Integration des „Module-IView“ in der DocPortal-Anwendung</li>
+   </ol>
+   <p>
+   Beide Phasen wurde bereits ausführlich in den Abschnitten des <a href="#chapter_4" title="Die MyCoRe-Beispielanwendung DocPortal">Kapitels 4</a> beschrieben. 
+   </p>
+   
+   <note label="Hinweis">Es wird empfohlen MCR-IView mit dem eingebauten Cache zu benutzen. So kann sichergestellt 
+   werden, dass hochaufgelöste Bilder ohne Verzögerungen betrachtet werden können.</note>
+   
+   <p>In der Datei <code>$DocPortal_HOME/modules/iview/config/mycore.iview.properties</code> sind die entsprechenden 
+   Entstellungen zur Nutzung des Cache per Standard schon vorgenommen. Änderungen können bei Bedarf durchgeführt 
+   werden (Detaillierte Informationen zur Cache-Konfiguration können im 
+   <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a> nachgelesen werden).
+   </p>   
+  </div>
+  
+  <div>
+   <h6>Nutzung der OAI Schnittstelle</h6> 
+   
+   <div>
+    <h6>Grundlagen</h6>
+    <p>
+    Die <a title="Open Archives Initiative (OAI) Home" href="http://www.openarchives.org/" target="_blank">Open Archives Initiative</a> hat 2001 ein offenes Protokoll für 
+    das Sammeln (Harvesting) von Metadaten vorgestellt. Dies geschah vor dem Hintergrund, dass gängige Suchmaschinen 
+    im WWW für die wissenschaftliche Nutzung wegen der i.d.R. unüberschaubaren Treffermenge und der fehlenden Qualität 
+    der angebotenen Treffer kaum nutzbar sind. Das Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH) 
+    liegt mittlerweile in der Version 2.0 vor. Das OAI-PMH dient zur Kommunikation zwischen Data Providern und Service 
+    Providern. Unter einem Data Provider versteht man hierbei ein Archivierungssystem, dessen Metadaten von einem 
+    (oder mehreren) Service Provider(n) abgerufen werden, der diese als Basis zur Bildung von Mehrwertdiensten benutzt 
+    (z. B. der Suche über viele Archive gleichzeitig).
+    </p>
+    <p>
+    Zum besseren Verständnis der weiteren Dokumentation führe ich hier die wichtigsten Definitionen kurz an:
+    </p>
+    <ul>
+    <li>Ein Harvester ist ein Client, der OAI-PMH Anfragen stellt. Ein Harvester wird von einem Service Provider 
+        betrieben, um Metadaten aus Repositories zu sammeln.</li>
+    <li>Ein Repository ist ein über das Netzwerk zugänglicher Server, der OAI-PMH Anfragen verarbeiten kann, wie sie 
+        im <a title="The OAI Protocol for Metadata Harvesting" target="_blank" href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
+        Open Archives Initiative Protocol for Metadata Harvesting 2.0</a> vom 2002-06-14 beschrieben werden. 
+        Ein Repository wird von einem Data Provider betrieben, um Harvestern den Zugriff auf Metadaten zu ermöglichen.</li>
+    </ul>
+    <p>
+    Der für MyCoRe und Miless implementierte OAI Data Provider ist zertifiziert und erfüllt den OAI-PMH 2.0 Standard.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Der OAI Data Provider</h6>
+    <p>
+    MyCoRe bietet ein extrem flexibles Klassifikations-/Kategoriensystem. Der MyCoRe OAI Data Provider benutzt eine 
+    frei definierbare Teilmenge dieser Klassifikationen zur Strukturierung der Metadaten gemäß der Definition von Sets 
+    in OAI 2.0. An den Harvester werden also nur Metadaten ausgeliefert, die in diesen Klassifikationen erfasst sind, 
+    wobei die Klassifikationen eine Set-Struktur erzeugen. Zur weiteren Einschränkung kann eine zusätzliche 
+    Klassifikation (restriction classification) angegeben werden, in der die Elemente klassifiziert sein müssen, die 
+    für den OAI Data Provider aber nicht strukturbildend ist.
+    </p>
+    <p>
+    Sollen weitere Daten über OAI zugänglich gemacht werden, so bietet der OAI Data Provider die Möglichkeit, unter 
+    verschiedenen Namen mehrere Servlet-Instanzen zu betreiben, wobei eine Instanz jeweils ein OAI-Repository darstellt.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Installation</h6>
+    <p>
+    Zur Einbindung des OAI Data Providers müssen Eintragungen in den Deployment Descriptor des Servlet-Containers und 
+    in die mycore.properties.private erfolgen.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Der Deployment Descriptor</h6>
+    <p>
+    Für jedes OAI-Repository muss eine Servlet-Instanz in den Deployment Descriptor nach folgendem Muster eingetragen 
+    werden:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+      <![CDATA[ 
+      <servlet id="OAIProvider">
+        <servlet-name>
+           MCROAIProvider
+        </servlet-name>
+        <servlet-class>
+           org.mycore.services.oai.MCROAIProvider
+        </servlet-class>
+      </servlet>
+      <servlet-mapping>
+        <servlet-name>
+          MCROAIProvider
+        </servlet-name>
+        <url-pattern>
+          /servlets/MCROAIProvider
+        </url-pattern>
+      </servlet-mapping>
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h6>Die Einstellungen in mycore.properties.private</h6>
+    <p>
+    Bei den einzurichtenden Properties ist zwischen <em>instanzunabhängigen</em> und <em>instanzabhängigen</em> 
+    Properties zu unterscheiden. Instanzunabhängige Properties sind hierbei für jedes angebotene OAI-Repository gültig, 
+    instanzabhängige Properties beziehen sich auf das jeweilige OAI-Repository.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Instanzunabhängige Properties</h6> 
+    <dl>
+    <dt><code>MCR.OAI.AdmineMail=admin@uni-irgendwo.de</code> (notwendig)</dt> 
+    <dd>Der Administrator der OAI-Repositories.</dd>
+    <dt><code>MCR.OAI.Resumptiontoken.Store
+     =org.mycore.backend.hibernate.MCRHIBResumptionTokenStore</code> (notwendig)</dt>
+    <dd>Die Klasse, die einen ResumptionTokenStore implementiert, der zur Speicherung der Resumption Token verwendet wird.</dd>
+    <dt><code>MCR.OAI.Resumptiontoken.Timeout=48</code> (notwendig)</dt>
+    <dd>Die Zeit (in Stunden), für die die Informationen über die Resumption Token nicht gelöscht werden. Da das 
+    Löschen nur erfolgt, wenn auf ein OAI-Repository zugegriffen wird, können die Dateien evtl. auch länger aufgehoben 
+    werden. </dd>
+    <dt><code>MCR.OAI.MaxReturns=50</code> (notwendig)</dt>
+    <dd>Die maximale Länge von Ergebnislisten, die an einen Harvester zurückgegeben werden. Überschreitet eine 
+    Ergebnisliste diesen Wert, so wird ein Resumption Token angelegt.</dd>
+    <dt><code>MCR.OAI.QueryService=org.mycore.services.oai.MCROAIQueryImpl </code>(notwendig)</dt>
+    <dd>Die Klasse, die für das Archiv das Query-Interface implementiert. Für Miless ist dies OAIService . </dd>
+    <dt><code>MCR.OAI.Metadata.Transformer.oai_dc=MyCoReOAI-mycore2dc.xsl</code> (notwendig)</dt>
+    <dd>Das Stylesheet, das die Transformation aus dem im Archiv benutzten Metadaten-Schema in das für OAI benutzte 
+    OAI Dublin Core Metadaten-Schema durchführt. Wenn sich das im Archiv benutzte Metadaten-Schema ändert, muss 
+    dieses Stylesheet angepasst werden. Optional können weitere Stylesheets angegeben werden, die einen Harvester 
+    mit anderen Metadaten-Formaten versorgen, hierbei muß aber auch jeweils ein Namensraum und ein Schema angegeben 
+    werden, z. B. <br />    
+      {{< highlight text "linenos=table">}}     
+       
+    MCR.OAI.Metadata.Transformer.xmetadiss=
+       MyCoReOAI-mycore2xmetadiss.xsl
+    MCR.OAI.Metadata.Namespace.xmetadiss=
+      http://www.ddb.de/standards/xMetaDiss/
+    MCR.OAI.Metadata..Schema.xmetadiss=
+      http://www.ddb.de/standards/xmetadiss/xmetadiss.xsd
+    
+    {{< /highlight >}}
+    Diese Stylesheets benutzen als Eingabe das Ergebnis des ersten Stylesheets. Weitere Transformer sind bereits im 
+    Projekt vorhanden.</dd>
+     <dt><code>MCR.OAI.Friends=miami.uni-muenster.de/servlets/OAIDataProvider</code> (optional) </dt>
+    <dd>Unter dieser Property können weitere (bekannte und zertifizierte) OAI-Repositories angegeben werden, um den 
+    Harvestern die Suche nach weiteren Datenquellen zu vereinfachen. </dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Instanzabhängige Properties</h6>
+    <p>
+    Bei instanzabhängigen Properties wird der im Deployment Descriptor verwendete Servletname zur Unterscheidung für 
+    die einzelnen Repositories verwendet.
+    </p>
+    <dl>
+    <dt><code>MCR.OAI.Repository.Name.MCROAIProvider=Test-Repository</code> (notwendig)</dt>
+    <dd>Der Name des OAI-Repositories.</dd>
+    <dt><code>MCR.OAI.Repository.Identifier.MCROAIProvider=mycore.de</code> (notwendig)</dt> 
+    <dd>Der Identifikator des OAI-Repositories (wird vom Harvester abgefragt). </dd>
+    <dt><code>MCR.OAI.Repository.URLPath.MCROAIProvider=oai</code> (notwendig)</dt>
+    <dd>Der Pfad (Teil nach der AnwendungsURL) unter dem der OAI Dataprovider Request annimmt.</dd>
+    <dt><code>MCR.OAI.Setscheme.Searchfields.MCROAIProvider=format,type, subject</code> (notwendig)</dt>
+    <dd>Die Suchindex-Felder, die zur Bildung der Struktur des OAI-Repositories verwendet wird. </dd>
+    <dt><code>MCR.OAI.Setscheme.Classids.MCROAIProvider.format=DocPortal_class_00000006</code> (optional)</dt> 
+    <dd>Mapping der Klassifikations-CategoryIDs auf international übliche Bezeichnungen in jeweils einer eigenen Zeile. 
+    Hier erscheint im OAI-Result <code>„doc-type:text“</code> statt <code>„FORMAT0001“</code>. Beachte hierzu die 
+    DINI-Empfehlungen zu OAI: <br />
+    <a title="DINI-Empfehlungen: Elektronisches Publizieren an Hochschulen: Inhaltliche Gestaltung der OAI-Schnittstelle" href="http://edoc.hu-berlin.de/series/dini-schriften/2005-2-de2/PDF/2-de2.pdf" target="_blank">
+    http://edoc.hu-berlin.de/series/dini-schriften/2005-2-de2/PDF/2-de2.pdf</a></dd>
+    <dt><code>MCR.OAI.QueryRestriction.MCROAIProvider=(objectType = document)</code> (optional)</dt>
+    <dd>Ein MyCoRe-Query-Ausdruck, der zur Beschränkung der Suche verwendet wird. </dd>
+    
+    </dl>
+   </div>
+   
+   <div>
+    <h6>Test</h6>
+    <p>
+    Um zu testen, ob das eigene OAI-Repository funktioniert, kann man sich des Tools bedienen, das von der Open 
+    Archives Initiative unter <a title="Open Archives Initiative Protocol for Metadata Harvesting" target="_blank" href="http://www.openarchives.org/pmh/tools/">http://www.openarchives.org/pmh/tools/</a> zur 
+    Verfügung gestellt wird. Hier wird der <a href="http://re.cs.uct.ac.za/" title="Open Archives Initiative - Repository Explorer" target="_blank">OAI Repository Explorer</a> angeboten.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Zertifizierung und Registrierung</h6>
+    <p>
+    Ebenfalls auf der oben angegebenen Website findet sich unter dem Menüpunkt Community der Eintrag <code>Register as 
+    a data provider</code>. Dort kann man anfordern, das eigene Repository zu zertifizieren und zu registrieren. Die 
+    Antwort wird an die in den Properties eingetragene Email-Adresse geschickt.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Formatierung der OAI-Ausgabe</h6>
+    <p>
+    Für die Ausgabe von OAI-Requests in Browsern wurde ein Stylesheet integriert. Damit kann der Browser die Rückgabe 
+    des OAI Providers in XHTML konvertieren. Es werden außerdem Links für weitere OAI-Anfragen generiert. Die 
+    Originaldatei steht auf <a href="http://www.eprints.org/software/xslt.php" title="OAI2 to HTML XSLT Style Sheet" target="_blank">
+    http://www.eprints.org/software/xslt.php</a> unter GPL zur Verfügung.
+    </p>
+   </div>
+  </div>
+  
+  <div>
+   <h6>Erzeugen einer Google Sitemap</h6>
+   <p>
+   In MyCoRe gibt es im Indexing-Module ein kleines Servlet, welches eine Datei erzeugt, die den Konventionen des 
+   <a href="https://www.google.com/webmasters/tools" target="_blank" title="Google webmaster-tools">Sitemap-Protokolls</a>
+   von Google entspricht. Der Zugriff vom Internet aus erfolgt mit der <em>URL http://myhost/sitemap_google.xml</em>. 
+   Für die Konfiguration dieser XML-Ausgabe stehen in den Property-Dateien zwei Werte zur Verfügung.
+   </p>
+   <dl>
+   <dt><code>MCR.GoogleSitemap.Types</code></dt> 
+   <dd>Liste von mit Komma getrennten MyCoRe-Objekttypen – Standard ist document</dd>
+   <dt><code>MCR.GoogleSitemap.Freq</code></dt> 
+   <dd>Zugriffsfrequenz von Google – Standard ist monthly – weiter möglich sind: allways / hourly / daily / weekly / 
+   monthly / yearly / never</dd>
+   <dt><code>MCR.GoogleSitemap.ObjectPath</code></dt> 
+   <dd>Pfad (Teil nach Anwendungs URL) unter dem die Detailansicht der Objekte abgerufen werden kann.
+   - Standard ist: <code>receive/</code></dd> 
+   <dt><code>MCR.GoogleSitemap.NumberOfURLs</code></dt> 
+   <dd>Maximale Anzahl der Einträge pro Sitemap Datei. - Standard ist: <code>5000</code></dd> 
+   </dl>
+   <p>
+   Um den Zugriff von Google gezielt anzufordern, sollten folgende Schritte durchgeführt werden:
+   </p>
+   <ul>
+   <li>Auf <a href="https://www.google.com/webmasters/tools" target="_blank" title="Google webmaster-tools">https://www.google.com/webmasters/tools</a> gehen.</li>
+   <li>Ein Google – Konto einrichten.</li>
+   <li>Die URL der Anwendung eintragen.</li>
+   <li>Die URL der zugehörigen <em>sitemap</em> eintragen.</li>
+   </ul>
+   <p>
+   Nun sollte Google die geladenen Datenobjekte gezielt indizieren und so eine gute Verfügbarkeit in den Suchmaschienen 
+   erreichen.
+   </p>
+  </div>
+  
+  <div>
+   <h6>Einbindung virtueller Host-Namen mit Hilfe des Apache-Web-Servers</h6>
+   <p>
+   Standardmäßig ist der Apache2 in den Installations-CDs aller gängigen Linux-Distributionen und in MacOS enthalten. 
+   Für Windows muss ein gesonderter Download erfolgen (<a href="#chapter_2">Kapitel 2</a>). Der Quellcode des Apache2 liegt auf 
+   <em>http://httpd.apache.org</em> für ein Download bereit. Die folgende Beschreibung bezieht sich auf die 
+   Apache-version 2.0.x. Die weitere Beschreibung bezieht sich hinsichtlich der Pfade auf ein UNIX/MacOS-System, für 
+   Windows sind die dazu korrespondierenden Pfade zu nutzen. 
+   </p>
+   
+   <div>
+    <h6>Einbindung des Proxy-Modules</h6>
+    <p>
+    Die Einbindung des Proxy-modules ist relativ einfach zu bewerkstelligen. In der Datei <em>/etc/sysconfig/apache2</em> 
+    sind in der Zeile der Variable <strong>APACHE_MODULES</strong> die Module <strong>proxy,proxy_http,proxy_connect</strong> 
+    hinzuzufügen. Nach der Änderung ist der Neustart des Apache-Servers erforderlich.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Die Verbindung von einer Servlet-Engine und Apache2</h6>
+    <p>
+    Die Verbindung zwischen dem Apache2 und der Servlet-Engine wird in den Konfigurationsfiles 
+    <em>/etc/apache2/httpd.conf</em> und <em>/etc/apache2/http-vhosts.conf</em> konfiguriert. 
+    </p>
+    <p>
+    In der Datei <em>/etc/apache2/httpd.conf</em> ist die Include-Anweisung für das Lesen der Zusatzkonfiguration 
+    <em>http-vhosts.conf</em> zu aktivieren. Anschließend wird der eigentliche virtuelle Host in dieser Datei definiert. 
+    Dabei sind natürlich die Pfade zu den einzelnen Verzeichnissen entsprechend den aktuellen Gegebenheiten anzupassen. 
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+      <![CDATA[ 
+      <VirtualHost mycoresample.dl.uni-leipzig.de:80>
+        ProxyPass / http://mycoresamplelinux.dl.uni-leipzig.de:8291/
+        ProxyPassReverse / 
+        http://mycoresamplelinux.dl.uni-leipzig.de:8291/
+    
+        ServerAdmin mcradmin@mycoresamplelinux.dl.uni-leipzig.de
+        DocumentRoot /home/mcradmin/docportal/webapps
+        ServerName mycoresamplelinux.dl.uni-leipzig.de
+        ErrorLog /var/log/apache2/mycoresample-error_log
+        CustomLog /var/log/apache2/mycoresample-access_log common
+        Alias /mycoresamplelinux "/home/mcradmin/docportal/webapps"
+    
+      <Directory "/home/mcradmin/docportal/webapps/" >
+        Options Indexes FollowSymLinks
+        DirectoryIndex
+        AddHandler jakarta-servlet2 .jsp
+        Order deny,allow
+        Deny from all
+        Allow from all
+      </Directory>
+    
+      <Directory "/mycoresamplelinux" >
+        Options Indexes FollowSymLinks
+        DirectoryIndex
+        AddHandler jakarta-servlet2 .jsp
+        Order deny,allow
+        Deny from all
+        Allow from all
+      </Directory>
+      </VirtualHost>    
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Nach dieser Änderung ist zuerst die Servlet-Engine zu starten. Anschließend kann der Apache-Server mit 
+    <code>/usr/sbin/rcapache2</code> neu gestartet werden.
+    </p>
+   </div>
+   
+  </div>
+  
+  <div>
+   <h6>Sicherung der Daten</h6>
+   <div>
+    <h6>Backup</h6>
+    <p>
+    Natürlich muss ein Dokumenten-Server im Produktionseinsatz auch ein Datensicherungskonzept haben. Je nach Einsatz 
+    der gewählten Datenbank ist der erste Schritt natürlich eine Sicherung der selben nach Backup-Vorgaben des 
+    Herstellers. Dazu kommt auch eine regelmäßige Backup-Strategie für das Server-System.
+    </p>
+    <p>
+    Ein weiterer Schritt ist das komplette Auslesen des Datenbestandes und die Speicherung auf einem externen 
+    (ggf. Netzwerk-) Filesystem. Mit dieser Methode lassen sich auch Migrationen durchführen. Die Distribution enthält 
+    im Verzeichnis bin Scripts für Windows und Linux, die diese Aufgabe realisieren. Gestartet wird jeweils das 
+    <code>Save.cmd</code> bzw. <code>Save.sh Script</code>. Diese Kommandodateien rufen dann weitere Scripts, welche 
+    mit <code>Save...</code> beginnen auf. Im Ergebnis des Kommandos werden alle Daten in das 
+    <code>$DOCPORTAL_HOME/save -Verzeichnis exportiert.</code>
+    </p>
+   </div>
+   
+   <div>
+    <h6>Recovery</h6>
+    <p>
+    Die mittels des Save-Kommandos exportierten Daten können im Bedarfsfall wieder in ein ggf. neu erstelltes System 
+    eingespielt werden. Sollte es nötig sein, einzelne Benutzer mit Ihren gesicherten Passworten neu zu laden, so ist 
+    vorher das im bin-Verzeichnis befindliche Script <code>SelectUserFromSave.sh</code> zu starten. Nach erfolgreichem 
+    Lauf befinden sich für jeden Benutzer / jede Gruppe Dateien im Verzeichnis <code>$DOCPORTAL_HOME/config/user</code>. 
+    Diese Daten können dann im MyCoRe-Kommandozeilen-Tool mit den Kommandos '<code>delete user ...</code>' und 
+    '<code>import user from file ...</code>' geladen werden.
+    </p>
+    <p>Sollte nur der Metadaten-Index (z. B. Lucene) defekt sein, so hilft das Script <code>RepairFromXMLStore.sh</code> 
+    diesen Index neu zu erstellen.
+    </p>
+    <p>
+    Sind die XML-Daten bzw. die Derivate defekt bzw. weg so könne die gesicherten Daten aus dem save-Verzeichnis in die 
+    Workflow-Directories kopiert werden. Mit dem Kommandozeile-Tool bzw. speziellen Scripts unter unixtools können 
+    diese Objekte nun wieder in das System eingebracht werden. 
+    </p>
+   </div>
+  </div>
+   
+   <div>
+    <h6>Erzeugen einer Distribution</h6>
+    
+    <div>
+     <h6>Installation von IzPack</h6>
+     <p>
+     <a title="izforge.com" href="http://www.izforge.com/izpack7" target="_blank">IzPack</a> ist eine Third-Party-Software, welche das generieren von 
+     Distributionen inklusive einer Vorort-Installationsroutine ermöglicht. Die Software ist für Open Source Projekte 
+     frei verfügbar. Die folgende Beschreibung bezieht sich auf die Arbeit unter Linux, sollte aber unter der anderen 
+     Betriebssystemen analog genauso funktionieren.
+     </p>
+     <p>
+     Die Software ist am günstigsten unter <code>/usr/local</code> als Verzeichnis IzPack zu installieren. Anschließend 
+     wurde noch die Umgebungsvariable <code>IZPACK_HOME</code> in die Datei <code>~/.bashrc</code> eingetragen. Nun kann 
+     die Software in den eigenen Build-Prozess eingebunden werden. Im Falle von MyCoRe ist das die Datei 
+     <code>DOCPORTAL_HOME/build.xml</code> (siehe Target izpack).
+     </p>
+     <p class="break"><code>export IZPACK_HOME=/usr/local/IzPack</code></p>
+    </div>
+    
+    <div>
+     <h6>Erstellen der Anwendungs-Distribution</h6>
+     <p>
+     Um eine eigene Distribution zu erstellen, ist es sinnvoll, in einer Sandbox ein leeres Docportal-System 
+     aufzusetzen. Dazu gehen Sie entsprechend der Anleitungen in den Kapiteln 2-4 vor. Wichtig ist, dass die 
+     Beispieldaten NICHT mit installiert werden, da sonst die Distribution sehr schnell extrem groß wird. Zum anderen 
+     will ggf. der Nutzer lieber ein leeres System um gleich eigene Dateien einstellen zu können. Auf jeden Fall 
+     sollten aber alle Beispielbenutzer und -klassifikationen mit geladen sein. Auch die Web-Anwendung sollte 
+     aufgebaut sein und funktionieren.
+     </p>
+     <p>
+     IzPack geht von einer Variable I<code>NSTALL_PATH</code> aus, welche die Installationswurzel seitens der späteren 
+     Nutzer definiert. Es müssen daher erst alle <code>MYCORE_HOME, DOCPORTAL_HOME</code>-Variablen sowie die 
+     <code>%basedir%</code>-Variablen dagegen ausgetauscht werden. Dies geschieht mit Hilfe eines ANT-Targets, 
+     welches in der Datei <code>docportal/build.xml</code> enthalten ist. Das Target setzt nach dem Bau der 
+     Distribution auch alle ersetzten Werte wieder auf ihren Ursprung zurück. Das betrifft jedoch nur das System auf 
+     dem Sie konkret die Distribution erstellen. Soll eine Distribution für mehrere Systeme erstellt werden, müssen die 
+     Scripts unter <code>.../bin</code> auf einem gesondert aufzusetzenden Zielsystem generiert werden. Die offizielle 
+     Distribution enthält als Zielsystem <strong>Windows und Linux</strong>.
+     </p>
+     <p>
+     Wenn die Installation in der Sandbox komplett funktioniert, muss noch die Datei <code>mycore.properties.private</code> 
+     in <code>mycore.properties.private.izpack</code> kopiert werden. Darin ist dann für den Eintrag <code>MCR.basedir</code> 
+     die Variable <code>$INSTALL_PATH</code> zu setzen. Sind alle Vorbereitungen abgeschlossen, so kann die Distribution 
+     mit folgendem Kommando gebaut werden:
+     </p>
+     <p class="break"><code>ant izpack</code></p>
+     <p>
+     Installiert wird diese Distribution mit java <code>-jar docportal-installable.jar</code>. 
+     </p>
+    </div>
+    
+    <div>
+     <h6>Erstellen einer Beispieldaten-Distribution </h6>
+     <p>
+     Auch die Beispieldaten sind in selbstinstallierenden Distributionen erhältlich. Um selbst eigene Daten in dieser 
+     Form verteilen zu können, müssen Sie nur ein existierendes Beispiel adaptieren und die dort verwendeten 
+     Steuerdateien entsprechend anpassen. Auch hier erzeugt ein <code>ant izpack</code> die gewünschte Distribution. 
+     Die Scripts unter <code>bin</code> sorgen für das laden der Daten zum Zeitpunkt der Installation.
+     </p>
+    </div>
+    
+   </div>
+   
+  </div> 
+  
+ <anchor id="chapter_8" />
+ <div id="chapter_08">
+ 
+ <h6>Weiterführende Informationen zum Aufbau von MyCoRe-Anwendungen</h6>
+ 
+ <div>  
+  <h6>XML-Syntax des Datenmodells</h6>
+  <p>
+  In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien und der MyCoRe-Standard-Datentypen näher 
+  beschrieben. Die Kenntnis des Syntax benötigen Sie um eigene Datensätze für Ihren Dokumenten-Server zu erstellen. 
+  Eine umfassende Beschreibung der zugehörigen Klassen finden Sie im 
+  <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a>. In den folgenden Abschnitten 
+  wird lediglich auf die XML-Syntax der Daten eingegangen.
+  </p>
+  
+  <anchor id="MCRO" />
+  <div>      
+   <h6>Die MCRObjectID</h6>
+   <p>
+   Die Identifikation eines jeden MyCoRe Objektes erfolgt grundsätzlich über eine eindeutige ID. 
+   Die ID kann per Hand vergeben oder auch automatisch via API generiert werden. Diese hat für alle Objekte einen 
+   einheitlichen Aufbau, dessen Inhalt für jedes Projekt und jeden Datentyp festzulegen ist:
+   </p>
+   <p class="break">ID = “projektkürzel_type_nummer”</p>
+   
+   <table>
+   <tr>
+   <td><strong>projektkürzel</strong></td>
+   <td>Dieses Element ist für ein Projekt und/oder eine Einrichtung / Datengruppe festzulegen, zum Beispiel UBLPapyri 
+       oder MyCoReDocument. In MyCoRe wird es teilweise auch zur Identifikation einzelner Konfigurationsdaten mit 
+       genutzt.
+   </td>
+   </tr>
+   <tr>
+   <td><strong>type</strong></td>
+   <td>Das Element beschreibt den Datenmodelltyp, d. h. der type verweist auf die zugehörige Datenmodell-Konfiguration, 
+       zum Beispiel datamodel-author oder datamodel-document. In MyCoRe wird es oft zur Identifikation einzelner 
+       Konfigurationsdaten im Zusammenhang mit der Verarbeitung dieses Datenmodells genutzt.
+   </td>
+   </tr>   
+   <tr>
+   <td><strong>nummer</strong></td>
+   <td>Ist eine frei wählbare positive Integerzahl. Diese Zahl kann in Verantwortung des Projektmanagers per Hand oder 
+       automatisch vergeben werden. Bei der Projektdefinition wird die Größe des Zahlenbereiches festgelegt. Es hat sich 
+       als sinnvoll erwiesen, nicht weniger als 8 Ziffern einzuplanen.
+   </td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 8.1:</strong> Aufbau der MCRObjectID</p>
+   
+   <p>
+   Im MyCoRe-Projekt sind zwei MCRObjectID-Typnamen reserviert und dürfen nicht für anderweitige Objekte genutzt werden. 
+   Der Typ <code>class</code> steht für Klassifikationen, der Typ <code>derivate</code> wird für Multimediaobjekte 
+   verwendet.
+   </p>
+   <p>
+   Es sei noch einmal ausdrücklich darauf hingewiesen, das die <code>MCRObjectID</code> eine zentrale Rolle im ganzen 
+   MyCoRe-Projekt spielt. Über sie werden alle Daten identifiziert und referenziert. Es sind daher die vorgegebenen 
+   Regeln streng einzuhalten. Da es derzeit für den Datentyp zum anhängen nur eine <code>type</code>-Bezeichnung gibt, 
+   kann es beim Design eines Projektes hilfreich sein, sich für eine Gruppe von Projektkürzeln zu entscheiden, z. B. 
+   <code>DOLAuthor_author_...</code>, <code>DOLDocument_document_...</code> usw. So kann jedem Datenmodell eine 
+   dedizierte Derivate-Gruppe zugeordnet werden z. B. <code>DOLAuthor_derivate_...</code> oder 
+   <code>DOLDocument_derivate_...</code>. Diese Trennung ist nicht zwingend, hat sich aber bei der Verwaltung großer 
+   Datenmengen als günstig erwiesen. Manchmal ist es sogar sinnvoll, hierzu noch mehrere Projektkürzel für ein 
+   Datenmodell zu verwenden, je nach Umfang des Datenbestandes und der Sicherungs- und Reparatur-Strategien des 
+   Projektes.
+   </p>
+  </div>
+  
+  <anchor id="Klass" />
+  <div>  
+   <h6>Das Klassifikationen-Datenmodell</h6>
+   <p>
+   Wie bereits erwähnt dienen Klassifikationen der einheitlichen Gliederung bestimmter Fakten. Sie sorgen dafür, 
+   dass eine einheitliche Schreibweise für bestimmte Begriffe verwendet wird. Diese Einzelbegriffe werden als 
+   Kategorien bezeichnet. Innerhalb einer Kategorie kann der Begriff in verschiedenen Sprachen aufgezeichnet sein. 
+   Die eindeutige Zuordnung zu einer Kategorie erfolgt über einen Bezeichner. Dieser besteht aus der Klassifikations- 
+   und Kategorie-ID und muss eindeutig sein.
+   </p>
+   <p>
+   Klassifikationen werden im DocPortal als extra XML-Datei erstellt, in die Anwendung importiert und in Form einer 
+   Datenbank gespeichert. Dies ist für den Nutzer transparent und erfolgt mittels Schnittstellen. Der Zugriff auf die 
+   Daten erfolgt dann durch den oben genannten Bezeichner. Die Klassifikations-ID ist eine <code>MCRObjectID</code> mit 
+   dem Typ <code>class</code>. Die Kategorie-ID ist dagegen frei wählbar. Sie darf mehrstufig sein, jede Stufe spiegelt 
+   eine Hierarchieebene wieder. Die Stufen in der ID werden mit einem Punkt voneinander getrennt, ’<code>Uni.URZ</code>’. 
+   Das wiederum gestattet eine Abfrage nach allen untergeordneten Stufen bzw. Sub-Kategorien wie ’<code>Uni.*</code>’.
+   </p>
+   <note label="Hinweis">
+   Sollten Sie Zahlen als Kategorie-IDs mit verwenden, so planen Sie entsprechende führende Nullen ein, andernfalls 
+   wird das Suchergebnis fehlerhaft! Weiterhin ist es sehr zu empfehlen, dieser Zahlenfolge einen Buchstaben voran 
+   zusetzen, damit die ID nicht als Zahl interpretiert wird.
+   </note>
+   <p>
+   Im ID Attribut einer <code>category</code> ist der eindeutige Bezeichner anzugeben. Das darunter befindliche label 
+   Tag bietet die Möglichkeit, eine Kurzbezeichnung anzugeben. Mehrsprachige Ausführungen sind erlaubt. Dasselbe gilt für 
+   das Tag <code>description</code>. Beide Werte werden als Strings aufgefasst. Eine category kann wiederum category 
+   Tags beinhalten.
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+      <![CDATA[ 
+      <?xml version="1.0" encoding="UTF-8" ?>
+        <mycoreclass
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          ID="..." >
+         <label xml:lang="..." text="..." description="..."/>
+         ...
+         <categories>
+          <category ID="...">
+             <label xml:lang="..." text="..." description="..."/>
+             ...
+             <category ID="...">
+               <label xml:lang="..." text="..." description="..."/>
+               ...
+             </category>
+             <category ID="...">
+               <label xml:lang="..." text="..." description="..."/>
+               ...
+             </category>
+           </category>
+         </category>
+       </categories>
+    </mycoreclass>
+   ]]>
+   </p>
+   {{< /highlight >}}
+  </div>
+  
+  <div>
+   <h6>Das Metadatenmodell</h6> 
+   <p>
+   Die zu speichernden Daten des Beispiels teilen sich in unserem Modell in Metadaten und digitale Objekte. Dies gilt 
+   auch für die vom Anwender entwickelten Applikationen. Digitale Objekte sind Gegenstand des Abschnitts ’IFS und 
+   Content Store’. Unter Metadaten verstehen wir in MyCoRe alle beschreibenden Daten des Objektes, die extern 
+   hinzugefügt, separat gespeichert und gesucht werden können. Dem gegenüber stehen Daten welche die digitalen Objekte 
+   selbst mitbringen. In diesem Abschnitt werden nur erstere behandelt. 
+   </p>
+   <p>
+   Um die Metadaten besser auf unterschiedlichen Datenspeichern ablegen zu können, wurde ein System von XML-Strukturen 
+   entwickelt, das es gestattet, neben den eigentlichen Daten wie Titel, Autor usw. auch Struktur- und 
+   Service-Informationen mit abzulegen. Die eigentlichen Nutzerdaten sind wiederum typisiert, was deren 
+   speicherunabhängige Aufzeichnung erheblich vereinfacht. Es steht dem Entwickler einer Anwendung jedoch frei, hier bei 
+   Bedarf weitere hinzuzufügen. Im Folgenden soll nun der Aufbau der Metadatenobjekte im Detail beschrieben werden. Zum 
+   Verständnis der MyCoRe-Beispielanwendung sei hier auch auf den vorigen Abschnitt verwiesen. Die Metadaten werden 
+   komplett in XML erfasst und verarbeitet. Für die Grundstrukturen und Standardmetadatentypen werden seitens MyCoRe 
+   bereits XMLSchema-Dateien mitgeliefert. 
+   </p>
+   <p class="fett">XML-Syntax eines Metadatenobjektes</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+      <![CDATA[ 
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <mycoreobject
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="....xsd"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          ID="..."
+          label="..." >
+       <structure>
+       ...
+       </structure>
+       <metadata xml:lang="de">
+       ...
+       </metadata>
+       <service>
+       ...
+       </service>
+      </mycoreobject>
+      ]]>
+    </p>
+   {{< /highlight >}}
+   <p>
+   Die oben gezeigte Syntax stellt den Rahmen eines jeden Metadaten-Objektes dar. Diese Struktur ist immer gleich und 
+   muss so eingehalten werden.
+   </p>
+   <ul>
+   <li>Für xsi:noNamespaceSchemaLocation ist das entsprechende XMLSchema-File des Metadatentyps anzugeben 
+   (document.xsd)</li>
+   <li>Die ID ist die eindeutige MCRObjectID.</li>
+   <li>Der label ist ein kurzer Text-String, der bei administrativen Arbeiten an der Datenbasis das Identifizieren 
+   einzelner Datensätze erleichtern soll. Er kann maximal 256 Zeichen lang sein.</li>
+   <li>Innerhalb der XML-Datenstruktur gibt es die Abschnitte structure, metadata und service zur Trennung von 
+   Struktur-, Beschreibungs- und Wartungsdaten. Diese Tag-Namen sind reserviert und dürfen NICHT anderweitig verwendet 
+   werden!</li>
+   </ul>
+   <p class="fett">XML-Syntax des XML-Knotens structure</p>
+   <p>
+   Im XML-Knoten structure sind alle Informationen über die Beziehung des Metadatenobjektes zu anderen Objekten abgelegt. 
+   Es werden derzeit die folgenden XML-Daten unter diesem Knoten abgelegt. Die Tag-Namen parents/parent, children/child 
+   und derobjects/derobject sind reserviert und dürfen NICHT anderweitig verwendet werden! Alle Sub-Knoten haben einen 
+   Aufbau wie für MCRMetaLinkID beschrieben.
+   </p>
+   <p>
+   In parents wird ein Link zu einem Elternobjekt gespeichert, sofern das referenzierende Objekt Eltern hat. Ob dies der 
+   Fall ist, bestimmt die Anwendung. Das Tag dient der Gestaltung von Vererbungsbäumen und kann durch den Anwender 
+   festgelegt werden. Siehe auch <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">
+   Programmer Guide</a>, Abschnitt Vererbung. Die Werte für xlink:title und xlink:label werden beim Laden der Daten 
+   automatisch ergänzt.
+   </p>
+   <p>
+   Die Informationen über die children hingegen werden durch das MyCoRe-System beim Laden der Daten automatisch erzeugt 
+   und dürfen nicht per Hand geändert werden, da sonst das Gesamtsystem nicht mehr konsistent ist. Werden die Metadaten 
+   eines Kindes oder eines Baumes von Kindern gelöscht, so wird in diesem Teil des XML-Knotens der Eintrag durch die 
+   Software entfernt.
+   </p>
+   <p>
+   Dasselbe gilt auch für den XML-Unterknoten <code>derobjects</code>. In diesem Bereich werden alle Verweise auf die an 
+   das Metadatenobjekt angehängten digitalen Objekte gespeichert. Jeder Eintrag verweist mittels einer Referenz auf ein 
+   Datenobjekt vom Typ mycorederivate, wie es im nachfolgenden Abschnitt ’IFS und Content Store’ näher erläutert ist.
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <structure>
+       <parents class="MCRMetaLinkID">
+         <parent xlink:type="locator" xlink:href="...mcr_id..." />
+       </parents>
+       <children class="MCRMetaLinkID">
+         <child xlink:type="locator" xlink:href="...mcr_id..." 
+             xlink:label="..." xlink:title="..." />
+         ...
+       </children>
+       <derobjects class="MCRMetaLinkID">
+         <derobject xlink:type="locator" xlink:href="...mcr_id..." 
+             xlink:label="..." xlink:title="..." />
+         ...
+       </derobjects>
+     </structure>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des XML-Knotens metadata</p>
+   <p>
+   Der Abschnitt metadata des MyCoRe-Metadatenobjektes nimmt alle Beschreibungsdaten des eigentlichen Datenmodells auf. 
+   Diese werden ihrerseits in vordefinierten Datentyp-Strukturen mit festgelegter Syntax abgelegt. Die Liste der 
+   Einzelelemente und die Reihenfolge der Typen ist dabei quasi beliebig in Anordnung und Länge. Wichtig ist nur, dass 
+   alle Datentypen bestimmte gemeinsame Eigenschaften haben. Es ist auch jederzeit möglich, weitere Typen den Projekten 
+   der Anwender hinzuzufügen (siehe dazu <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">
+   Programmer Guide</a>).
+   </p>
+   <p>
+   Die Metadaten bestehen aus einer Ansammlung von Informationen rund um das multimediale Objekt. Vorrangig wird dieser 
+   Teil in der Suche abgefragt. Jedes Metadatum (auch Metadaten-Tag) enthält im class Attribut den Namen des MCRMeta-Typs 
+   bzw. der gleichnamigen MCRMeta-Java Klasse. Daneben gibt es noch ein Attribut heritable, in dem festgelegt wird, ob 
+   diese Metadaten vererbbar sein sollen. Es sind jeweils die booleschen Werte true oder false möglich. Die mit der 
+   Vererbung verbundenen Mechanismen sind in dieser Dokumentation weiter hinten beschrieben. 
+   </p>
+   <p>
+   Für MyCoRe wurden einige Basismetadatentypen festgelegt, mit denen die Mehrzahl der bisher in Betracht kommenden 
+   Anwendungen gelöst werden können. Die einzelnen Daten treten dabei als Liste auf, in denen mehrere Elemente des 
+   gleichen Typs erscheinen können, beispielsweise ein Titel in verschiedenen Sprachen. Jedes Listenelement hat wiederum 
+   per Default ein type Attribut und eine gemäß W3C spezifizierte Sprache im Attribut xml:lang. Die Angabe der Sprache 
+   im Tag metadata ist für alle eingeschlossenen Metadatentypen der Default-Wert. Die Liste der aktuell unterstützten 
+   Sprach-Codes entnehmen Sie bitte der Java-Quelldatei 
+   </p>
+   <p class="break"><code>~/mycore/sources/org/mycore/common/MCRDefaults.java</code></p>
+   <p>
+   Für interne Zwecke wurde ein weiteres Attribut inherited eingeführt. Dieses ist NICHT durch den Anwender zu verändern! 
+   Es wird gesetzt, wenn das betreffende Metadatum von einem Elternteil geerbt wurde (siehe Vererbung). Diese 
+   Information ist für die Datenpräsentation sehr hilfreich. 
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <metadata xml:lang="...">
+       <... class="MCRMeta..." heritabel="...">
+        ...
+       </...>
+       ...
+     </metadata>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>
+   Für das MyCoRe-Beispiel mit einem Dublin Core Datenmodell werden bereits einige Metadatentypen verwendet, welche dem 
+   MyCoRe-Kern beigefügt sind. Die Syntax der einzelnen Typen wird in den nachfolgenden Absätzen genau beschrieben.
+   </p>
+   <p class="fett">MyCoRe Metadaten-Basistypen</p>
+   <p>
+   In MyCoRe gibt es eine Reihe von vordefinierten XML-Datenstrukturen zur Abbildung bestimmter mehr oder minder 
+   komplexer Daten. Diese Strukturen bilden die MyCoRe-Datentypen, welche von der Dateneingabe bis hin zur Validierung 
+   und Datenpräsentation für einen einheitlichen Umgang mit den Daten sorgen. Dabei ist zwischen einfachen, recht 
+   atomaren Typen und anwendungsspezifischen komplexen Typen zu unterscheiden. Eine Auflistung finden Sie in 
+   nachfolgender Tabelle.
+   </p>
+   <table>
+   <tr>
+   <th>Einfache Typen</th>
+   <th>Komplexe Typen</th>
+   </tr>
+   <tr>
+   <td>MCRMetaBoolean</td>
+   <td>MCRMetaAccessRule</td>
+   </tr>
+   <tr>
+   <td>MCRMetaClassification</td>
+   <td>MCRMetaAddress</td>
+   </tr>
+   <tr>
+   <td>MCRMetaISBN</td>
+   <td>MCRMetaHistoryDate</td>
+   </tr>
+   <tr>
+   <td>MCRMetaISO8601Date</td>
+   <td>MCRMetaInstitutionName</td>
+   </tr>
+   <tr>
+   <td>MCRMetsLangText</td>
+   <td>MCRMetaPersonName</td>
+   </tr>
+   <tr>
+   <td>MCRMetaLink</td>
+   <td>MCRMetaIFS</td>
+   </tr>
+   <tr>
+   <td>MCRMetaLinkID</td>
+   <td>MCRMetaXML</td>
+   </tr>
+   <tr>
+   <td>MCRMetaNBN</td>
+   <td />
+   </tr>
+   <tr>
+   <td>MCRMetaNumber</td>
+   <td />
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 8.2:</strong> MyCoRe-Basisdatentypen</p>
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaAccessRule</p>
+   <p>
+   Der Basistyp MCRMetaAccessRule ist für den Import/Export von Access Control Lists (ACL's) gedacht. Der Metadatentyp 
+   stellt einen Container für die entsprechenden Access-Conditions dar und wird nur im MCRService-Teil verwendet.
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <servacls class="MCRMetaAccessRule">
+       <servacl permission="...">
+         <condition format="xml">
+          ...
+         </condition>
+       </servacl>
+     </servacls>
+
+     <servacls class="MCRMetaAccessRule">
+       <servacl permission="read">
+         <condition format="xml">
+           <boolean operator="and">
+             <!-- USER OR GROUP -->
+           <boolean operator="or" />
+             <!-- DATE -->
+           <boolean operator="and" />
+             <!-- IP -->
+           <boolean operator="or" />
+             <!-- -->
+           </boolean>
+         </condition>
+       </servacl>
+     </servacls>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaAddress</p>
+   <p>
+   Der Basistyp MCRMetaAddress beinhaltet eine Liste von postalischen Anschriften in der Ausprägung eines 
+   XML-Abschnittes. Dabei wird berücksichtigt, dass die Anschrift in verschiedenen Sprachen und in international 
+   gängigen Formen gespeichert werden soll. Die einzelnen Subtags sind dabei selbsterklärend. Die Angaben zu type und 
+   xml:lang sind optional, ebenso die unter subtag liegenden Tags, jedoch muss mindestens eines ausgefüllt sein. Alle 
+   Werte werden als Text betrachtet. 
+   </p>
+   <p>XML-Syntax des Metadatentyps MCRMetaAddress:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaAddress">
+       <subtag type="..." xml:lang="...">
+         <country>...</country>
+         <state>...</state&gt;
+         <zipcode>...</zipcode>
+         <city>...</city>
+         <street>...</street>
+         <number>...</number>
+       </subtab>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}} 
+   <p>Beispiel des Metadatentyps MCRMetaAddress:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <addresses class="MCRMetaAddress">
+       <address type="Work" xml:lang="de">
+         <country>Deutschland</country>
+         <state>Sachsen</state>
+         <zipcode>04109</zipcode>
+         <city>Leipzig</city>
+         <street>Augustuspaltz</street>
+         <number>10/11</number>
+       </address>
+       ...
+     </addresses>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaBoolean</p>
+   <p>
+   Der Basistyp MCRMetaBoolean beinhaltet eine Liste von Wahrheitswerten mit zugehörigen type Attributen. Folgende Werte 
+   sind zulässig:
+   </p>
+   <ul>
+   <li>für true - ’true’, ’yes’, ’wahr’ und ’ja’</li>
+   <li>für false - ’false’, ’no’, ’falsch’ und ’nein’</li>
+   </ul>
+   <p>XML-Syntax des Metadatentyps MCRMetaBoolean:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaBoolean">
+       <subtag type="..." xml:lang="..." >
+       ... 
+       </subtab>
+       ... 
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadatentyps MCRMetaBoolean:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <publishes class="MCRMetaBoolean">
+       <publish type="Ausgabe_1" xml:lang="de">ja</publish>
+       <publish type="Ausgabe_2" xml:lang="de">nein</publish>
+       ...
+     </publishes>
+     ]]>
+     </p>
+    {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadaten-Basistyps MCRMetaClassification</p>
+   <p>
+   Der Basistyp MCRMetaClassification dient der Einbindung von Klassifikationen und deren Kategorien in die Metadaten. 
+   Beide Identifizierer zusammen beschreiben einen Kategorieeintrag vollständig. Dabei ist für die categid eine, ggf. 
+   mehrstufige, Kategorie-ID einzutragen. Die classid muss vom Typ MCRObjectID sein. Bitte beachten Sie die Hinweise 
+   zur Gestaltung der Kategorie-IDs im vorigen Kapitel!
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaClassification:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaClassification">
+       <subtag classid="..." categid="..."/>
+       ... 
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaClassification:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <origins class="MCRMetaClassification" heritable="false">
+       <origin classid="MyCoReDemoDC_class_1" categid="Unis.Leipzig.URZ"/>
+       ...
+     </origins>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadaten-Basistyps MCRMetaHistoryDate</p>
+   <p>
+   Der Basistyps MCRMetaHistoryDate ist speziell kreiert, um Datumsangaben für historische Projekte speichern und suchen 
+   zu können. Dabei wird sowohl ein verbaler Text wie eine konkrete Datumskonvertierung mit dem dazugehörigen Kalender 
+   gespeichert. Das Datum wird im Format des angegebenen Kalenders abgelegt, auch für die Zeit vor Einführung des selben. 
+   Zur Implementierung des Datentyps wurde die frei verfügbare ICU-Library der Firma IBM genutzt. Sie bietet eine Reihe 
+   von Kalendern an, die so für diesen Datentyp nun verfügbar sind. Alle Datumsangaben werden zur internen Verarbeitung 
+   in MyCoRe in eine Julian Day Number, also eine fortlaufende Tageszahl, umgerechnet. Diese wird neben einer Lesbaren 
+   Form in dem Datentyp MCRMetaHistoryDate gespeichert.
+   </p>
+   <p>
+   Somit ist eine scharfe Datumssuche mit Hilfe der Integer-Daten möglich. Die Eingabe der Daten erfolgt nach den Regeln:
+   </p>
+   <ul>
+   <li>Im text-Feld steht ein beliebiger String gemäß den Projektvorgaben</li>
+   <li>Die Felder von und bis enthalten gregorianische Datumsangaben.</li>
+   <li>Ist für von und/oder bis nichts angegeben, werden Standardwerte genommen. Das sind 1..1.4713 BC und 31.12.3999 
+       AD.</li>
+   <li>Die Felder ivon bzw. ibis enthalten die korrespondierenden Werte zu von bzw. bis.</li>
+   <li>Das calendar-Feld kann die Werte <strong>gregorian</strong> oder <strong>islamic</strong> 
+   enthalten.</li>
+   <li>Mögliche Notationen für die Datumsangaben sind 01.01.1999 / -01.12.200 / 1035 / 133 BC.</li>
+   </ul>
+   <p>Syntax des Metadaten-Basistyps MCRMetaHistoryDate:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaHistoryDate" heritable="...">
+       <subtag type="..." xml:lang="...">
+         <text>...</text>
+         <von>...</von>
+         <ivon>...</ivon>
+         <bis>...</bis>
+         <ibis>...</ibis>
+         <calendar>...</calendar>
+       </subtab>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaHistoryDate:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <date class="MCRMetaHistoryDate" heritable="...">
+       <dates type="written" xml:lang="de">
+         <text>4. Jh. v. Chr.</text>
+         <von>BC01.01.399</von>
+         <ivon>1575694</ivon>
+         <bis>BC31.12.300</bis>
+         <ibis>1830997</ibis>
+         <calendar>gregorian</calendar>
+       </dates>
+     </date>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaInstitutionName</p>
+   <p>
+   Der Basistyp MCRMetaInstitutionName beinhaltet eine Liste der Namen einer Firma oder Einrichtung oder eines Bereiches 
+   der selben. Dabei soll berücksichtigt werden, dass die Name in verschiedenen Sprachen und in international gängigen 
+   Formen gespeichert werden sollen. Über das Attribut type ist eine zusätzliche Differenzierung der verschiedenen Namen 
+   möglich. 
+   </p>
+   <ul>
+   <li>name beinhaltet den vollständigen Namen (Pflicht)</li>
+   <li>nickname das Pseudonym (z. B. UBL) (optional)</li>
+   <li>property den rechtlichen Stand, GmbH (optional</li>
+   </ul>
+   <p>Syntax des Metadaten-Basistyps MCRMetaInstitutionName:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaInstitutionName" heritable="...">
+       <subtag xml:lang="...">
+         <fullname>...</fullname>
+         <nickname>...</nickname>
+         <property>...</property>
+       </subtab>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaInstitutionName:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <insts class="MCRMetaInstitutionName" heritable="...">
+       <inst xml:lang="de">
+         <fullname>Obelix &amp; Co. KG</fullname>
+         <nickname>O. &amp;. Co.</nickname>
+         <property>KG</property>
+       </inst>
+     </insts>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaISBN</p>
+   <p>
+   Dieser Metadatentyp ist ganz speziell zur <span class="T4">Speicherung</span> einer ISBN gedacht. Er gestattet nur 
+   eine Kardinalität.
+   </p>
+   <p>Syntax des Metadaten-Basistyps MCRMetaISBN:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaISBN" heritable="..."> 
+       <subtag>ISBN</subtag>
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Syntax des Metadaten-Basistyps MCRMetaISBN:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <isbns class="MCRMetaISBN" heritable="..." >
+       <isbn>1-234-56567-4</isbn>
+     </isbn>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaISO8601Date</p>
+   <p>
+   Dieser Metadatentyp ist wie MCRMetaDate für das Speichern von Zeitangaben gedacht. Er bietet jedoch eine höhere 
+   zeitliche Auflösung, bis in den Millisekundenbereich. Unterstützt werden alle Formate der Informationsseite des W3C 
+   (http://www.w3.org/TR/NOTE-datetime). Sie enthält nähere Informationen zu den Formaten und zur ISO-Norm:ISO 8601 : 
+   1998 (E)
+   </p>
+   <p>
+   Wie MCRMetaDate unterstützt MCRMetaISO8601Date die Verwendung des type-Attributs, auf Grund seiner 
+   Sprachunabhängigkeit in der Formatierung der Datumsangabe fehlt die Unterstützung für das lang-Attribut. Das 
+   Verwenden von MCRMetaISO8601Date ermöglicht eine Syntaxprüfung der Datumsangabe bereits auf XMLSchema-Ebene, durch 
+   den dort definierten Datentyp xsd:duration, auf dem der MyCoRe-Datentyp abgebildet wird.
+   </p>
+   <p>
+   Optional kann ein format-Attribut verwendet werden. Dies erzwingt für das Datum das angegebene Format. So ist bei 
+   der Formatangabe „YYYY“ das Datum „2006-01“ ungültig. Ohne die Formatangabe hingegen ist das gleiche Datum gültig, 
+   weil es dem unterstützen Format „YYYY-MM“ entspricht.
+   </p>
+   <p>Syntax des Metadaten-Basistyps MCRMetaISO8601Date:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaISO8601Date" heritable="...">
+       <subtag type="..." format="...">YYYY-MM-DDThh:mm:ss.sTZD</subtag>
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaISO8601Date:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <dates class="MCRMetaISO8601Date" heritable="false">
+       <date type="sample">2006-01-16T13:20:30.85+01:00</date>
+     </dates>
+     ]]>
+    </p> 
+   {{< /highlight >}} 
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaLangText</p>
+   <p>
+   Der Basistyp MCRMetaLangText dient der Speicherung einer Liste von Textabschnitten mit zugehöriger Sprachangabe. Über 
+   das form Attribut kann noch spezifizier werden, in welcher Form der Text geschrieben ist.
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaLangText:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaLangText" heritable="...">
+       <subtag type="..." xml:lang="..." form="...">
+         ...
+       </subtab>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaLangText:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <titles class="MCRMetaLangText" heritable="true">
+       <title type="maintitle" xml:lang="de" form="plain">
+         Mein Leben als MyCoRe-Entwickler
+       </title>
+     </titles>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax der Metadatentypen MCRMetaLink und MCRMetaLinkID</p>
+   <p>
+   Der Basistyp MCRMetaLink wurde geschaffen, um eine Verknüpfung verschiedener MyCoRe-Objekte untereinander zu 
+   realisieren. Außerdem können hier genauso Verweise auf beliebige externe Referenzen abgelegt werden. Der Typ 
+   MCRMetaLink ist eine Implementation des W3C XLink Standards (siehe ’XLM Linking Language (XLink) Version 1.0’).
+   Auf dieser Basis enthält der MyCoRe-Metadatentyp zwei Arten von Links - eine Referenz und einen bidirektionalen Link. 
+   Bei beiden werden jedoch in MCRMetaLink nicht alle Möglichkeiten der XLink Spezifikation ausgeschöpft, da dies für 
+   die in MyCoRe benötigten Funktionalitäten nicht erforderlich ist.
+   </p>
+   <p>
+   Im Referenztyp ist das Attribut xlink:type=’locator’ immer anzugeben. Die eigentliche Referenz wird im xlink:href 
+   Attribut notiert. Dabei kann die Referenz eine URL oder eine MCRObjectID sein. Daneben können noch weitere 
+   Informationen im xlink:label angegeben werden, die Rolle einer verlinkten Person. Der Referenztyp kommt im DocPortal 
+   bei der Verlinkung von Dokumenten und Personen zum Einsatz. Um den Update-Aufwand in Grenzen zu halten, wurde die 
+   genannte Verbindung als Referenz konzipiert. Somit weiß das referenzierte Objekt in der Beispielanwendung nichts über 
+   den Verweis.
+   </p>
+   <p>
+   Alternativ dazu besteht die Möglichkeit eines bidirektionalen Links. Dieser wird sowohl in der Link-Quelle wie auch 
+   im Link-Ziel eingetragen. Der Typ ist in diesem Fall xlink:type=’arc’. Weiterhin sind die Attribute xlink:from und 
+   xlink:to erforderlich. Optional kann noch ein Titel in xlink:title mitgegeben werden.
+   </p>
+   <p>
+   Der Basistyp MCRMetaLinkID entspricht im Aufbau dem MCRMetaLink. Der einzige Unterschied ist, dass die Attribute 
+   xlink:href, xlink:from und xlink:to nur mit MCRObjectIDs belegt werden dürfen.
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaLink:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaLink" heritable="...">
+       <subtag xlink:type="locator" xlink:href="..." xlink:label="..." xlink:title="..."/>
+       <subtag xlink:type="arc" xlink:from="..." xlink:to="..." xlink:title="..."/>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaLink:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <urls class="MCRMetaLink" heritable="false">
+       <url xlink:type="locator" xlink:href="http://www.zoje.de" xlink:label="ZOJE" xlink:title="Eine externe URL"/>
+       <url xlink:type="arc" xlink:from="mcr_object_id_1" xlink:to="mcr_object_id_2" xlink:title="Link zwischen Objekten"/>
+     </urls>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaNBN</p>
+   <p>
+   Diese Metadatentyp ist ganz speziell zur Speicherung einer NBN gedacht. Er gestattet nur eine Kardinalität.
+   </p>
+   <p>Syntax des Metadaten-Basistyps MCRMetaNBN:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaNBN" heritable="...">
+       <subtag>NBN</subtag>
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaNBN:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <nbns class="MCRMetaNBN" heritable="...">
+       <nbn>urn:nbn:1-2334</nbn>
+     </nbns>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaNumber</p>
+   <p>
+   Der Basistyp MCRMetaNumber ermöglicht das Speichern und Suchen von Zahlenwerten. Die Zahlendarstellung kann je nach 
+   Sprache, d. h. im Deutschen mit Komma und im Englischen mit Punkt, angegeben werden. Weiterhin sind die zusätzlichen 
+   Attribute dimension und measurement möglich. Beide Attribute sind optional, ebenso wie das Default-Attribut type. 
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaNumber:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaNumber" heritable="...">
+       <subtag xml:lang="..." dimension="..." mesurement="...">
+         ...
+       </subtag>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaNumber:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <masse class="MCRMetaNumber" heritable="false">
+       <mass xml:lang="de" dimension="Breite" mesurement="cm">12,1</mass>
+       <mass xml:lang="en" type="neu" dimension="width" mesurement="ft">12.2</mass>
+       ...
+    </masse>
+    ]]>
+   </p>
+  {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaPersonName</p>
+   <p class="Standard">Der Basistyp MCRMetaPerson beinhaltet eine Liste von Namen für natürliche Personen. Dabei wird 
+   berücksichtigt, dass die Namen in verschiedenen Sprachen und international gängigen Formen auftreten können. Das 
+   Attribut type dient der Differenzierung der verschiedenen Namen einer Person, Geburtsname, Synonym, Kosename usw. 
+   firstname repräsentiert den/die Vornamen, callname den Rufnamen, surname den Familiennamen, academic den akademischen 
+   Titel und peerage den Adelstitel und prefix Namenszusätze wie 'von', 'de' usw. fullname enthält nochmal den 
+   automatisch zusammengesetzten Namen.
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaPersonName:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaPersonName" heritable="...">
+       <subtag type="..." xml:lang="..">
+         <firstname>...</firstname>
+         <callname>...</callname>
+         <surname>...<surname>
+         <fullname>...</fullname>
+         <academic>...</academic>
+         <peerage>...</peerage>
+         <prefix>...</prefix>
+       </subtag>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel des Metadaten-Basistyps MCRMetaPersonName:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaPersonName" heritable="true">
+       <subtag type="geburtsname" xml:lang="de">
+         <firstname>Lisa Marie</firstname>
+         <callname>Lisa</callname>
+         <surname>Schnell<surname>
+         <fullname>Schnelle, Lisa</fullname>
+       </subtag>
+       <subtag type="familienname" xml:lang="de">
+         <firstname>Lisa Marie</firstname>
+         <callname>Lisa</callname>
+         <surname>Schmidt<surname>
+         <fullname>Dr. phil. Freifrau von Schnelle, Lisa</fullname>
+         <academic>Dr. phil.</academic>
+         <peerage>Freifrau</peerage>
+         <prefix>von</prefix>
+       </subtag>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des Metadatentyps MCRMetaXML</p>
+   <p>
+   Der Basistyp MCRMetaXML wurde zusätzlich als Container für einen beliebigen XML-Baum in das Projekt integriert. 
+   Dieser wird in den Textknoten des Subtags gestellt und kann dort theoretisch beliebig groß sein. Achten Sie aber 
+   darauf, dass entsprechend viel Speicherplatz in dem XML-SQL-Store vorgesehen wird. 
+   </p>
+   <p>XML-Syntax des Metadaten-Basistyps MCRMetaXML:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <tag class="MCRMetaXML" heritable="...">
+       <subtag type="..." >
+        ...
+       </subtag>
+       ...
+     </tag>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>Beispiel für die Definition dieses Datentyps in der Datamodel-Datei:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <-- beliebiges XML-Objekt --> 
+     <element name="teixmls" minOccurs="0" maxOccurs="1">
+       <mcrmetaxml name="teixml" class="MCRMetaXML" minOccurs="1" maxOccurs="1"/>
+     </element>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p>und ein Beispiel mit Metadaten zum Metadaten-Basistyp MCRMetaXML:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <teixmls class="MCRMetaXML"> 
+       <teixml inherited="0">
+         <TEI> 
+           <teiHeader> 
+             <title>
+               Text Encoding Initiative, ein Dokumentenformat zur Kodierung und den Austausch von Texten
+             </title> 
+           </teiHeader> 
+         </TEI> 
+       </teixml> 
+     </teixmls>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <p class="fett">XML-Syntax des XML-Knotens service</p>
+   <p>
+   Für die Einrichtung eines Workflow und um die Wartung großer Datenmengen zu vereinfachen sowie für den Import / 
+   Export der ACL's wurde der XML-Abschnitt service in das Metadatenobjekt integriert. Hier sind Informationen wie 
+   Datumsangaben, ACL's und Flags für die Verarbeitung im Batch-Betrieb enthalten. Achtung, die Tag-Namen sind fest 
+   vorgegeben und dürfen nicht anderweitig verwendet werden! 
+   </p>
+   <p>
+   Die Datumsangaben servdates verhalten sich analog zu denen in MCRMetaISO8601Date. Folgende Möglichkeiten für das 
+   Attribut type sind vorgesehen. Weitere Typen sind jedoch integrierbar.
+   </p>
+   <dl>
+   <dt><code>acceptdate</code></dt>
+   <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+   <dt><code>createdate</code></dt>
+   <dd>Das Erzeugungsdatum des Objektes, dieser Wert wird automatisch beim Anlegen des Objektes erzeugt und bleibt 
+       immer erhalten! </dd>
+   <dt><code>modifydate</code></dt>
+   <dd>Das Datum des letzten Update, dieser Wert wird automatisch beim Update des Objektes erzeugt und bleibt immer 
+       erhalten!</dd>
+   <dt><code>submitdate</code></dt>
+   <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+   <dt><code>validfromdate</code></dt>
+   <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+   <dt><code>validtodate</code></dt>
+   <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+   </dl>
+   <p>
+   Die servacls enthalten Access Control System Conditions für die genutzten Permissions wie read, writedb oder 
+   deletedb. Eine genaue Beschreibung ist dem Kapitel über ACL's 
+   des <a href="{{< ref appdev >}}" title="MyCoRe Programmer Guide 2.0" target="_blank">Programmer Guide</a> zu entnehmen. 
+   </p>
+   <p>
+   Im servflags Teil können kurze Texte untergebracht werden. Die Anzahl der servflag Elemente ist theoretisch 
+   unbegrenzt.
+   </p>
+   <p>XML-Syntax des service XML-Knotens:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <service>
+       <servdates class="MCRMetaISO8601Date">
+         <servdate type="...">...</servdate>
+         ...
+       </servdates>
+       <servacls class="MCRMetaAccessRule">
+         <servacl permission="...">
+         ...
+         </servacl>
+       </servacls>
+       <servflags class="MCRMetaLangText">
+         <servflag>...</servflag>
+         ...
+       </servflags>
+     </service>
+     ]]>
+    </p>
+   {{< /highlight >}}
+  </div>
+  
+  <div>
+   <h6>Das Speichermodell für die Multimediadaten (IFS)</h6>
+   <p>
+   Im bisherigen Verlauf dieses Kapitels wurden nur die beschreibenden Daten des multimedialen Objektes erläutert. 
+   Dieser Abschnitt beschäftigt sich damit, wie die eigentlichen Objekte dem Gesamtsystem hinzugefügt werden können. 
+   Im MyCoRe Projekt wurde zur Ablage der digitalen Objekte das Konzept des IFS entwickelt. Hier ist es möglich, über 
+   spezielle Konfigurationen festzulegen, in welchen Speicher (Store) die einzelnen Dateien gespeichert werden sollen. 
+   </p>
+   <p class="Standard">Das Laden von Objekten erfolgt mittels einer Metadaten-Datei, welche alle Informationen über die 
+   zu speichernde(n) Datei(en) und ihre Beziehung(en) zu den Metadaten enthält. Die zu speichernden multimedialen 
+   Objekte werden im Weiteren als Derivate, also Abkömmlinge, bezeichnet, da ein Objekt in mehreren Formen, 
+   Grafikformaten, auftreten kann. Die Struktur der XML-Datei für Derivate ist fest vorgegeben, alle Felder, die 
+   nutzerseitig geändert werden können, sind unten beschrieben.
+   </p>
+   <p>XML-Syntax des Derivate-Datenmodells:</p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+     <?xml version="1.0" cncoding="ISO-8859-1" ?>
+       <mycorederivate
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="....xsd"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         ID="..."
+         label="..."
+       >    
+         <derivate>
+           <linkmetas class="MCRMetaLinkID">
+             <linkmeta xlink:type="locator" xlink:href="..." />
+           </linkmetas>
+           <internals class="MCRMetaIFS">
+             <internal sourcepath="..." maindoc="..."/>
+           </internals>
+         </derivate>
+         <service>
+           ...
+         </service>
+       </mycorederivate>
+     ]]>
+    </p>
+   {{< /highlight >}}
+   <ul>
+   <li>Für xsi:noNamespaceSchemaLocation ist die entsprechende XML Schema-Datei anzugeben (Derivate.xsd)</li>
+   <li>Die ID ist die eindeutige MCRObjectID.</li>
+   <li>Der label ist ein kurzer Text-String, der bei administrativen Arbeiten an der Datenbasis das Identifizieren 
+       einzelner Datensätze erleichtern soll. Er kann maximal 256 Zeichen lang sein.</li>
+   <li>Die Referenz in linkmeta ist die MCRObjectID des Metadatensatzes, an den das/die Objekte angehängt werden sollen.</li>
+   <li>Das Attribut sourcepath enthält die Pfadangabe zu einer Datei oder zu einem Verzeichnis, welches als Quelle 
+       dienen soll. Aus diesen Dateien kann nun eine Datei ausgewählt werden, welche den Einstiegspunkt bei HTML-Seiten 
+       darstellen soll. Bei einzelnen Bildern ist hier noch einmal der Dateiname anzugeben. Ist nichts angegeben, so 
+       wird versucht Dateien wie index.html usw. zu finden.</li>
+   </ul>
+  </div>
+  
+ </div>
+ 
+</div>
+
+
+<div id="chapter_09">
+ <h6>Tipps und Problembehebung</h6>
+ 
+  <div>
+   <h6>XSLT in ANT geht nicht</h6>
+   <p>
+   Beim Einsatz von SuSE Linux 10.1 kann es vorkommen, dass die Erstellung der MyCoRe-Schema-Dateien aus ANT heraus 
+   scheitert. In diesem Falle sollte ant-trax-1.6.5.x nachinstalliert werden. Es ist darauf zu achten, dass trax ANT in 
+   der Datei <em>/etc/ant.conf</em> bekannt gemacht wird.
+   </p>
+   <p>   OPT_JAR_LIST="$OPT_JAR_LIST regexp ant/ant-apache-regexp" # RPM package regexp</p>
+   <p>OPT_JAR_LIST="$OPT_JAR_LIST jaxp_transform_impl ant/ant-trax" # RPM package trax</p>
+  </div>
+  
+  <div>
+   <h6>Das Kommando 'ant create.schema' geht nicht</h6>
+   <p>
+   Beim Einsatz von SuSE Linux 10.x gibt es ein Problem mit der Einbindung des Serializers in ANT. Zeile 157 ist um 
+   <code>xalan-j2-serializer</code> zu ergänzen.
+   </p>
+   <p class="kasten">
+   <code>157: LOCALCLASSPATH="$(/usr/bin/build-classpath ant ant-launcher jax p_parser_impl xml-commons-apis 
+   xalan-j2-serializer)"</code>
+   </p>
+  </div>
+  
+  <div>
+   <h6>Java Console unter Linux Firefox</h6>
+   <p>
+   Unter der Linux-Version des Firefox wird die Java Console nicht direkt angeboten. Diese ist aber zur Fehlersuche im 
+   Applet recht hilfreich. Sie kann gesondert gestartet werden mit:
+   </p>
+   <p class="break"><code>/usr/lib/jvm/java-1.5.0-sun-1.5.0_07/bin/ControlPanel</code></p>
+  </div>
+  
+ </div>

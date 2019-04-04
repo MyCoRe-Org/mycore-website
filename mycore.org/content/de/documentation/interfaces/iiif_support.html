@@ -1,0 +1,61 @@
+
+---
+
+title: "IIIF Unterstützung"
+mcr_version: ['2018.06']
+author: ['Jens Kupferschmidt', 'Sebastian Hofmann']
+description: "Der Artikel beschreibt die Funktionsunterstützung für IIIF"
+date: "2018-10-16"
+
+---
+    <div>
+      <h2>Allgemein</h2>
+      <p>
+        Mit dem MyCoRe-Modul
+        <code>mycore-iiif</code>
+        ist es möglich, auf Metadaten und Bilder im
+        <strong>IIIF</strong>
+        -Format zu referenzieren. Damit können die in den MyCoRe-Anwendungen gespeicherten Bilddaten auch über
+        IIIF-Viewer angezeit werden.
+      </p>
+    </div>
+
+    <div>
+      <h2>Konfiguration</h2>
+      <p>
+        Die Konfiguration ist recht einfach. Auf jeden Fall muss das Modul
+        <code>mycore-iiif</code>
+        in der
+        <em>pom.xml</em>
+        als Abhängigkeit eingetragen werden. Weiterhin sind folgende Properties in der
+        <em>mycore.properties</em>
+        zu setzten:
+      </p>
+      <ul>
+        <li>MCR.IIIFImage.IView=org.mycore.iview2.iiif.MCRIVIEWIIIFImageImpl</li>
+        <li>MCR.IIIFImage.IView.TransparentFormats=png,gif</li>
+      </ul>
+      <p>
+        Dabei gibt
+        <em>IView</em>
+        im Property-Namen den Typ der Implementierung an.
+        <code>MCRIVIEWIIIFImageImpl</code>
+        ist dann die Klasse der konkreten Implementierung. Die Lösung mit
+        <em>MCRIVIEWIIIFImageImpl</em>
+        benötigt das weitere Property
+        <em>TransparentFormats</em>
+        .
+      </p>
+    </div>
+
+    <div>
+      <h2>Nutzung</h2>
+      <p>Die Daten können nun wie folgen angesprochen werden. Dabei ist darauf zu achen, das der Pfad zu den Bildern
+        encoded ist (/ -&gt; %2F).</p>
+      <ul>
+        <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/image/IView/... (Image API)</li>
+        <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/presentation/IView/ (Presentation API)</li>
+      </ul>
+    </div>
+
+  

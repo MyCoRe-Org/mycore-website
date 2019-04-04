@@ -1,0 +1,47 @@
+# baseURL: "/data/temp/mycore-hugo/"
+baseURL: "/"
+canonifyURLs: true
+theme: "mycore-bootstrap"
+
+pygmentsUseClasses: true
+
+DefaultContentLanguage: de
+languages:
+    de:
+      params:
+        flag: "images/flags/iconfinder_Germany_92095.png"
+      title: "MyCoRe Webseite"
+      description: "Das Framework zur Pr&auml;sentation und Verwaltung digitaler Inhalte."
+      languageName: "Deutsch"
+      weight: 1
+      contentDir: content/de
+    en:
+      params:
+        flag: "images/flags/iconfinder_United-Kingdom_92403.png"
+      title: "MyCoRe Homepage"
+      description: "The Framework to present and manage digital contents."
+      languageName: "English"
+      weight: 2
+      contentDir: content/en
+    io:
+      params:
+        flag: "images/flags/iconcreated_MyCoRe_Construction.png"
+      title: "MyCoRe Webseite Entwurf / Testseite"
+      description: "Das Framework zur Pr&auml;sentation und Verwaltung digitaler Inhalte."
+      languageName: "Beispielseiten"
+      weight: 3
+      contentDir: content/io
+
+summaryLength: 37
+
+permalinks:
+  blog: /blog/:year/:month/:slug/
+  
+#Alternative. Permalinks für Taxonomien, die "/blog/" enthalten
+taxonomies:
+  period: "blog/periods"
+  category: "blog/categories"
+  tag: "blog/tags"
+  author: "blog/authors"
+
+preserveTaxonomyNames: true

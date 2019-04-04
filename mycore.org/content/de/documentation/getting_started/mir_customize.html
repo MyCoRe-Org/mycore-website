@@ -1,0 +1,100 @@
+
+---
+
+title: "MIR individualisieren"
+mcr_version: ['2016.12','2017.06']
+author: ['Paul Rochowski']
+description: "
+      Die eigene MyCoRe Anwendung auf MIR Basis ist gestartet. Wie geht es nun weiter? Wie kann MIR nun an die eigenen
+      Anforderungen angepasst werden? Mit diesem Thema soll sich der folgende Abschnitt befassen. Zunächst ist es
+      wichtig zu klären, was die eigenen Anforderungen sind und welchen Teil davon die MIR Anwendung bereits abdecken
+      kann? Probieren Sie die Anwendung aus, machen Sie sich mit den MyCoRe Grundlagen vertraut um die Konzepte hinter
+      den angebotenen Features zu verstehen.
+    "
+date: "2017-03-29"
+
+---
+    
+    <div>
+      <h2>Einleitung</h2>
+      <p>
+        Die ersten individuellen Änderungen bzgl. MIR könnten Inhalte innerhalb der Startseite, dem Kontaktformular und
+        Impressum betreffen. Hier bietet MIR mit dem sogenannten WCMS Editor direkt innerhalb der Anwendung eine
+        Anpassungsmöglichkeit für xml basierte Inhalte.
+        Schaut man sich die Ablagestruktur von WCMS innerhalb des MyCoRe Konfigurationsverzeichnisses an, erkennt man
+        die
+        Mächtigkeit dieser Struktur. Es ist möglich Webressourcen aus der MIR Anwendung zu überschreiben und um eigene
+        Webressourcen zu erweitern. Diese Ressourcen sind nicht wie bei WCMS Content beschränkt, sondern können
+        angefangen
+        von eigenen Styles, Layout Anpassungen bis hin zu eigenen Komponenten verschiedenste Codefragmente enthalten.
+        Mit
+        verschiedenen Beispielen soll schrittweise die Möglichkeitsvielfalt verdeutlicht werden.
+      </p>
+    </div>
+    <div>
+      <h2>Anpassung von Content mittels WCMS</h2>
+      <p>
+        Mit dem WCMS Editor stellt MyCoRe direkt innerhalb der MIR Anwendung ein Feature zur Verfügung um Content
+        anzupassen. Die Struktur dieses Editors basiert auf einem Baum, welcher über die <code>navigation.xml</code> innerhalb
+        des
+        mir-module Paketes definiert ist. Dieser Baum verknüpft die unterschiedlichen Navigationselemente von MIR mit
+        dem
+        Content Bereich. In welche Bereiche sich die Anwendung grob unterteilt zeigt die folgende Abbildung. Es ist also
+        möglich die hellblauen Bereiche mittels WCMS anzupassen, während die orangenen Bereiche Layout bezogen
+        sind und eine Anpassung im späteren Verlauf dieses Artikels beschrieben wird.
+        <div>{{< mcr-figure src="/images/documentation/getting_started/mir_customize_layeroverview.jpg" class="border border-secondary" label="Abbildung 1" caption="Übersicht der Anpassungsbereiche" alt="mir customize layeroverview" width="900px" height="" />}}</div>
+      </p>
+      <br />
+      <br />
+      <p>
+        An einem einfachen Beispiel soll nun gezeigt werden, welche Funktionen WCMS bietet, wie Content
+        bearbeitet und eine Speicherung von Änderungen intern gehandelt wird.
+      </p>
+      <br />
+      <p>
+        Um den WCMS Editor zu öffnen benötigen Sie in der Standardkonfiguration einen Benutzer, welcher der <em>admin
+      </em> Gruppe
+        zugeordnet ist. Wie innerhalb des <a href="http://www.mycore.org/documentation/getting_started/mir.html">Mit
+        MyCoRe starten – MIR Artikels
+      </a> bereits erwähnt, existiert ein automatisch
+        angelegter Administrator.
+        Falls neu angelegte Benutzer Zugriff für WCMS erhalten sollen, können diese entweder der <em>admin</em> Gruppe
+        zugeordnet
+        werden (<strong>empfohlen</strong>) oder mittels ACL Regelzuweisung der Gruppenkreis für WCMS erweitert werden (
+        <strong>fortgeschritten</strong>
+        – siehe hierzu den Artikel <a href="http://www.mycore.org/documentation/permissions/acl_permissions.html">
+        Zugriffskontrolle über ACL
+      </a>). Die ACL Regelzuweisung kann mittels
+        <code>POOLPRIVILEGE use-wcms</code>
+        zugeordnet werden.
+        <div>{{< mcr-figure src="/images/documentation/getting_started/wcms_navigation_view.jpg" class="border border-secondary" label="Abbildung 2" caption="Verbindung zwischen Navigation View und navigation.xml" alt="mir customize layeroverview" width="900px" height="" />}}</div>
+      </p>
+      <br />
+      <br />
+      <p>
+        <strong>Zusammenfassung WCMS</strong>
+        <br />
+        <br />
+        Vorteile:
+      </p>
+      <ul>
+        <li>Bearbeitung von Inhalten sogar ohne xml Kenntnisse möglich</li>
+        <li>Lese und Schreibberechtigungen auf die in WCMS verknüpften Seiteninhalte können mittels ACL Regeln
+          festgelegt werden
+        </li>
+        <li>Basierend auf einem mächtigen System um jegliche Webarchiv Ressourcen innerhalb des eigenen
+          Konfigurationsverzeichnisses anzulegen und zu überschreiben (siehe Anpassung für Fortgeschrittene)
+        </li>
+      </ul>
+      <p>
+        <br />
+        Nachteile:
+      </p>
+      <ul>
+        <li>
+          Derzeit beschränkt auf die Bearbeitung von Inhalten in xml Dateien, das heißt Inhalte die sich in xeditor
+          Formularen, Servlets, XSL Transformationssheets befinden können auf diesem Wege nicht bearbeitet werden
+        </li>
+      </ul>
+    </div>
+  

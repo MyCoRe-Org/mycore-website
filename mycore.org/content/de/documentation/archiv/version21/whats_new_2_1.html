@@ -1,0 +1,148 @@
+
+---
+
+title: "Was ist neu in Version 2.1?"
+description: "Mit der neuen MyCoRe- und DocPortal-Version kommen neben Optimierungen,
+        vielen Fehlerkorrekturen auch neue und überarbeitete Funktionen hinzu."
+
+---
+      <anchor id="imageviewer" />
+      <h3 class="underlined_5">Eine neue Version des integrierten Bildbetrachters</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>Durch eine vollständig gekachelte Ablage aller Bilder (Kachel à 256x256 Pixel)
+            und komplett neuer Benutzerschnittstelle ist der Bildbetrachter in Version 2
+            (IView2) deutlich performanter und bietet neue Funktionen. <br /><br /></dd>
+            <dt>Realisiert von:</dt>
+            <dd>Silvio Hermann, Thomas Scheffler</dd>
+      	</dl>
+
+
+      <h3 class="underlined_5">Modulkonzept und Maven</h3>
+		<dl>
+			<dt>Beschreibung:</dt>
+			<dd>
+				Die Aufräumarbeiten von MyCoRe 1.3 hin zu 2.0 wurden mit 2.1 weiter
+				vorangetrieben. So sind Beschreibungen, die das Datenmodell betreffen
+                nun noch strikter von den restlichen Dateien getrennt im DocPortal-Modul
+				abgelegt. Ein weiterer wichtiger Meilenstein ist die Umstellung
+				auf Maven. Dadurch ändert sich für die Anwendungsentwicklung auf den
+				ersten Blick nicht viel: Jetzt muss MyCoRe nicht mehr separat heruntergeladen
+				und kompiliert werden. Sondern MyCoRe wird nun bei der Installation automatisch 
+				als jar-Datei heruntergeladen, so wie alle anderen Bibliotheken auch.
+				<br />
+				<br />
+			</dd>
+			<dt>Realisiert von:</dt>
+			<dd>Thomas Scheffler</dd>
+		</dl>
+		
+		      	      
+      <h3 class="underlined_5">Eine überarbeitete OAI-Schnittstelle</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>In Version 2 steht die OAI-Schnittstelle mit MyCoRe 2.1 in neuer Implementierung
+            zur Verfügung. Die umfangreichen Überarbeitungen haben dazu geführt, dass die
+      		neue Version deutlich schneller und flexibler ist. Auch die Fehlerbehandlung
+      		ist nun vollständig. In DocPortal ist beispielhaft Epicur integriert.
+      		Auch xmetadiss+ ist möglich, wie es z.B. bereits in Rostock im Einsatz ist.<br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>Frank Lützenkirchen, Robert Stephan</dd>
+      	</dl>
+            
+      <h3 class="underlined_5">Metadatenversionierung in einer neuen Version des IFS</h3>
+		<dl>
+			<dt>Beschreibung:</dt>
+			<dd>
+				Das IFS2 (<em>Internal Filesystem</em> Version 2) ist eine neue
+				Implementierung für die Persistenz von Metadaten, Derivaten und
+				Dateien. Das IFS2 bietet gegenüber der bisherigen Persistenzschicht eine
+				Reihe von Vorteilen, u.a. eine einfachere Struktur, die auch mit
+				externen Werkzeugen ausserhalb von MyCoRe bearbeitbar ist, eine
+				einfachere Möglichkeit der Datensicherung und Synchronisierung und
+				eine gesteigerte Performance. Die Implementierung des IFS2 für Dateien
+				ist für ein kommendes Release in Vorbereitung.
+				<br />
+				<br />
+			</dd>
+			<dt>Realisiert von:</dt>
+			<dd>Frank Lützenkirchen</dd>
+		</dl>
+      	
+      <h3 class="underlined_5">METS-Editor</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>Mit Hilfe des MyCoRe-internen Mets-Editors ist es möglich,
+      		    DFG-Viewer-konforme Metsdokumente zu erzeugen. Neben dem in
+      		    DocPortal integrierten METS-Editor steht noch ein weiterer,
+      		    in Leipzig entwickelter Editor zur Verfügung. Beide Versionen
+      		    sollen zukünftig zu einer zusammengeführt werden. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>Silvio Hermann</dd>
+      	</dl>
+      	
+     <h3 class="underlined_5">Beschleunigter Klassifikationseditor / Klassifikationsbrowser</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>Auch Klassifikationseditor und Klassifikationsbrowser haben eine
+      		deutliche Überarbeitung erfahren, zugunsten deutlich besserer Performance. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>Hoo Chi Vu</dd>
+      	</dl>
+      	
+     <h3 class="underlined_5">Umstellung auf Java 1.6</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>Da Java 1.5 nicht mehr von Sun „supported“ wird, setzt
+            die MyCoRe-Community Java in der Version 1.6 ein. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>allen</dd>
+      	</dl>
+      	
+     <h3 class="underlined_5">Eine neue Authentifizierungs-Schnittstelle</h3>
+		<dl>
+			<dt>Beschreibung:</dt>
+			<dd>
+				Es können nun verschiedene Authentifizierungssysteme angebunden
+				werden. So ist beispielsweise in MILESS neben einer lokalen
+				Benutzerverwaltung die Authentifizierung über CAS (<em>Central
+				Authentication Service</em>) auf diese Basis realisiert. Dadurch ist ein
+				„Single Sign-On“ zwischen MILESS und anderen Diensten wie Moodle und
+				BSCW ermöglicht, die CAS ebenfalls unterstützen.
+				<br />
+				<br />
+			</dd>
+			<dt>Realisiert von:</dt>
+			<dd>Thomas Scheffler, Frank Lützenkirchen</dd>
+		</dl>
+      	
+      <h3 class="underlined_5">MODS-Import</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>MODS-3.4-Dokumente können nun direkt über die MyCoRe-Kommandozeile
+            importiert werden. Für die Ausgabe wird ein einfaches Stylesheet bereitgestellt. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>Thomas Scheffler</dd>
+      	</dl>
+      	
+      <h3 class="underlined_5">Multimedia-Komponente</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>Es wurde eine neue Komponente realisiert, die technische Metadaten aus Multimedia-Dokumenten
+      		extrahiert und <em>Thumbnails</em> von Videos erstellt. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>René Adler</dd>
+      	</dl>
+      	
+      <h3 class="underlined_5">SWORD-Schnittstelle</h3>
+      	<dl>
+      		<dt>Beschreibung:</dt>
+      		<dd>MyCoRe 2.1 unterstützt das SWORD (<em>Simple Web-service Offering Repository Deposit</em>)-Protokoll,
+      		    womit es beispielsweise möglich ist, Artikel aus OpenAccess-Zeitschriften wie <a href="http://www.biomedcentral.com/info/libraries/sword" title="link zur SWORD-Beschreibung bei BioMed Central">BioMed Central</a>
+      		    direkt und automatisiert nach Veröffentlichung ins eigene Repository übertragen zu lassen. <br /><br /></dd>
+      		<dt>Realisiert von:</dt>
+      		<dd>Nils Verheyen</dd>
+      	</dl>
+
+
+  

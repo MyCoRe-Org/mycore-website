@@ -1,0 +1,121 @@
+
+---
+
+title: "Die Broadcasting-Komponente (broadcasting)"
+description: "Beschreibung der Komponente zum Erzeugen von Nachrichtenfenstern in der Web-Anwendung"
+
+---
+   <div>
+    <h2>Allgemeines</h2>
+    <p>
+    Dieses Modul ergänzt die Anwendung um die Funktionalität einer Runtime-Anwenderinformation. Als berechtigter Nutzer 
+    oder Administrator können Sie Nachrichten online generieren und versenden.
+    </p>
+   </div>
+   
+   <div>
+    <h2>Konfiguration</h2>
+    <p>
+    In der konkreten Anwendung muss im Verzeichnis <em>modules</em> ein Unterverzeichnis <em>module-broadcasting</em> 
+    angelegt werden. Hier muss sich eine <em>build.xml</em>-Datei mit folgenden Targets befinden:</p>
+    <ul>
+    <li>create.default-rules – Es werden die erforderlichen Rechteeinträge erzeugt.</li>
+    <li>webapps – Der Modul wird in die Web-Applikation integriert.</li>
+    </ul>
+    <p>
+    Die Nutzung des Modules in mehreren Anwendungen macht weiterhin die Existenz eines config-Verzeichnisses 
+    erforderlich. Darin sind die Dateien <em>grant-broadcastinggroup.xml</em> und <em>mcr-module-broadcasting.xml</em> 
+    abzulegen. Die Datei <em>grant-broadcastinggroup.xml</em> beschreibt die Gruppen und Nutzer, welche Nachrichten an 
+    die Anwendung versenden dürfen. Im Beispiel sind das alle Mitglieder der Gruppe <strong>admingroup</strong>.
+    </p>
+    {{< highlight xml "linenos=table">}} 
+    <?xml version="1.0" encoding="utf-8"?>
+    <!-- this rule allways returns true -->
+    <condition format="xml"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+       xsi:noNamespaceSchemaLocation="MCRCondition.xsd">
+       <boolean operator="or">
+         <condition value="admingroup" operator="=" field="group" />
+       </boolean>
+    </condition>
+    
+    {{< /highlight >}}
+    <p>
+    Mit den folgenden MyCoRe-Kommandos werden die Rechte für die Nutzung des Modules eingetragen. Bei Nutzung des 
+    ANT-Tagets <strong>create.default-rules</strong> erfolgt dies automatisch.
+    </p>
+    {{< highlight shell "linenos=table">}}
+    mcrcmd&gt; update permission manage for id module-broadcasting with rulefile grant-broadcastinggroup.xml
+    
+    mcrcmd&gt; update permission read for id webpage:/servlets/MCRBroadcastingServlet?mode=getReceiverList with rulefile grant-broadcastinggroup.xml
+    &nbsp; 
+    {{< /highlight >}}
+    <p>
+    Die Grundkonfiguration zum Versenden der Nachrichten ist in der Datei <em>mcr-module-broadcasting.xml</em> 
+    gespeichert. Sie stellt eine Voreinstellung dar, welche zum Ausführungszeitpunkt interaktiv verändert werden kann.
+    </p>
+    {{< highlight xml "linenos=table">}} 
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <mcr-module-broadcasting>
+       <!-- on | off -->
+       <!-- on = client will autmatically listen for new messages by AJAX -->
+       <!-- off client won't listen for new messages -->
+       <power>on</power>
+   
+       <!-- Seconds, in which intervall the client will ask for new messages -->
+       <refreshRate>60</refreshRate>
+    
+       <!-- true | false -->
+       <!-- true = User will get the same message again, if a new session is opened, even though the user already received 
+            the message. This should be used, if a user login will be used by more than one person -->
+       <!-- false = Each user will get a message only on times, indepently on the session. -->
+       <sessionSensitive>false</sessionSensitive>
+    
+       <message.header>Sehr geehrte Mitarbeiter</message.header>
+       <message.tail>Ihr Administrator</message.tail>
+       <!-- <group/> &| <user> -->
+    
+       <!-- allowGuestGroup ("true|false")  if set to true all "gast" users are listen on the channel, if "false" only 
+            user != "gast" are listen -->
+       <receivers allowGuestGroup="false"/>
+    
+       <!-- <from> & <to> (ISO 8601) are NOT supported yet, -> use @send -->
+       <!-- @send = ever | never --><!-- ever = send continuasly -->
+       <!-- never = do NOT send -->
+       <onAirTime send="ever">
+          <from>2006-10-20T10:17:42.920Z</from>
+          <to>2006-10-20T10:17:42.920Z</to>
+       </onAirTime>
+    
+    </mcr-module-broadcasting>
+    
+    {{< /highlight >}}
+    
+    <p>    Einbinden in die Anwendung</p>
+    <p>
+    Der Aufruf des Broadcasting-Modules sollte aus der Navigation der Anwendung heraus erfolgen. Hierfür ist in der 
+    navigation.xml folgender Eintrag zu tätigen.
+    </p>
+    {{< highlight xml "linenos=table">}} 
+    <item 
+       href="/servlets/MCRBroadcastingServlet?mode=getReceiverList"
+       type="extern"
+       target="_self"
+       style="normal"
+       replaceMenu="false"
+       constrainPopUp="false">
+         <label xml:lang="de">Nachrichten</label>
+         <label xml:lang="en">Broadcasting</label>
+    </item>
+    
+    {{< /highlight >}}
+    <p>Der Include der benötigten XSLT-Stylesheets erfolgt in der Datei generatePage.xsl.</p>
+    {{< highlight xml "linenos=table">}}&lt;xsl:include href="mcr-module-broadcasting.xsl" /&gt;{{< /highlight >}}
+    <p>
+    Als letztes ist dafür zu sorgen, dass der Listener in alle Webseiten im HEAD-Bereich eingetragen wird. Dazu ist das 
+    head-HTML-Tag um diese Zeile zu ergänzen.
+    </p>
+    {{< highlight xml "linenos=table">}}&lt;xsl:call-template name="module-broadcasting.getHeader"/&gt;{{< /highlight >}}
+    <p>Informationen zu Benutzung des Modules finden Sie im MyCoRe User Guide.</p>
+   </div>
+  

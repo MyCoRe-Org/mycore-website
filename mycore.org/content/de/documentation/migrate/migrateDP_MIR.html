@@ -1,0 +1,73 @@
+
+---
+
+title: "Migrationsanleitung von DocPortal nach MIR"
+description: "
+      Seit 2014 wird DocPortal nicht mehr aktiv weiterentwickelt und mit erscheinen des ersten
+      MIR-LTS im Frühjahr 2016 wird DocPortal offiziell als deprecated behandelt. Die MyCoRe-Entwickler
+      empfehlen daher eine Migration der DocPortal-Anwendungen entweder zu Skeleton oder zu MIR.
+    "
+
+---
+    <div>
+      <h2>Allgemeine Informationen zur DocPortal-Migration</h2>
+      <p>
+        Diese Seite befindet sich noch im Aufbau. Sollten Sie bereits jetzt Fragen rund
+        um dieses Thema haben, wenden Sie sich an die <a href="mailto:mycore-user@lists.sourceforge.net">
+        MyCoRe-Userliste</a>.
+        <!-- Hier folgt eine Erklärung zu Skeleton vs. MIR -->
+      </p>
+
+    </div>
+
+    <div>
+      <h2>Datenex- und import</h2>
+      <p>
+        Für den Export der Daten aus einer bestehenden DocPortal-Anwendung mit gleichzeitiger
+        Konvertierung in ein MIR-kompatibles MyCoRe-Objekt stellen wir an dieser Stelle ein
+        <a href="/downloads/migrate2mods-object.xsl">Migrationsstylesheet</a> zur Verfügung.
+      </p>
+      <p>
+        Dieses muss in der DocPortal-Anwendung im Verzeichnis <code>docportal/build/classes</code>
+        abgelegt werden. Danach kann in der CLI der folgende Befehl ausgeführt werden.
+      </p>
+      {{< highlight bash "linenos=table">}}
+        &gt; export object {0} to directory {1} with migrate2mods
+
+        {0} ID des Objektes
+        {1} Zielverzeichnis
+      {{< /highlight >}}
+      <p>
+        Das Stylesheet kann dabei nur eine Basis sein. Es ist jeweils zu prüfen, ob die
+        Datenübernahme vollständig und inhaltlich korrekt ist.
+      </p>
+      <p>
+        Analog dazu müssen die Derivate exportiert werden und auch dabei muss ein speziell
+        angepasstest <a href="/downloads/migrate2mods-derivate.xsl">Migrationsstylesheet</a>
+        genutzt werden. Dieses Stylesheet passt jedoch nur die Objekt-ID an, da diese im
+        Rahmen der Objekttyp-Migration von <code>*_document_*</code> auf <code>*_mods_*</code>
+        umbenannt werden muss.
+      </p>
+      {{< highlight bash "linenos=table">}}
+        &gt; export derivate {0} to directory {1} with migrate2mods
+
+        {0} ID des Derivates
+        {1} Zielverzeichnis
+      {{< /highlight >}}
+      <p>
+        Zu guter Letzt müssen noch die Dateinamen angepasst werden. Aus beispielsweise DocPortal_document_00000001.xml wird dann
+        mir_mods_00000001.xml. Unter Linux kann das bequem über einen Shell-Befehl erfolgen, z.B.:
+      </p>
+      {{< highlight bash "linenos=table">}}
+        sudo rename 's/DocPortal_document_(\d{8}).xml/mir_mods_$1.xml/g' DocPortal_document_*.xml
+      {{< /highlight >}}
+      <p>
+        Analog kann der Befehl auch für die Derivate genutzt werden:
+      </p>
+      {{< highlight bash "linenos=table">}}
+        sudo rename 's/DocPortal_derivate_(\d{8}).xml/mir_derivate_$1.xml/g' DocPortal_derivate_*.xml
+        sudo rename 's/DocPortal_derivate_(\d{8})/mir_derivate_$1/' DocPortal_derivate_*
+      {{< /highlight >}}
+
+    </div>
+  

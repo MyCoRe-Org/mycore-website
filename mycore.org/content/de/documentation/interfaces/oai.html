@@ -1,0 +1,314 @@
+
+---
+
+title: "Schnittstellen - OAI"
+author: ['Robert Stephan', 'Kathleen Neumann']
+description: "In diesem Abschnitt wird die Nutzung der integrierten OAI-Schnittstelle erläutert. Diese Schnittstelle
+      liefert jedoch nicht die konkreten ausgelieferten Datenformate für das eigene Datenmodell wie Dublin Core, MODS,
+      LIDO usw. Die hierfür erforderlichen Stylesheets müssen selbst erstellt werden.
+    "
+date: "2016-02-15"
+
+---
+    <div>
+      <h2>Das Repository als OAI-Data-Provider</h2>
+      <p>
+        Im folgenden soll die Konfiguration der OAI-Schnittstelle beschrieben
+        werden. Zum Austausch von Metadaten unterstützt MyCoRe das Open Archives
+        Initiative Protocol for Metadata Harvesting (OAI-PMH). Die Beschreibung
+        des Standards finden Sie unter
+        <a href="http://www.openarchives.org/pmh/">http://www.openarchives.org/pmh/</a>.
+        Machen Sie sich zunächst grob mit diesem Standard vertraut. In die Implementierung
+        sind auch Anforderungen aus dem DINI-Zertifikat 2010 (
+        <a href="http://www.dini.de/dini-zertifikat/">http://www.dini.de/dini-zertifikat/</a>)
+        eingeflossen.
+      </p>
+      <p>
+        Die OAI-Schnittstelle ist auch in der MIR-Anwendung bereits integriert und kann
+        dort getestet werden:
+      </p>
+      <ul>
+        <li>
+          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=Identify">OAI 2.0 Request Results</a>
+        </li>
+        <li>
+          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=epicur">xEpicur als Ausgabeformat der OAI-Schnittstelle</a>
+        </li>
+        <li>
+          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=xMetaDissPlus">xMetaDiss als Ausgabeformat der OAI-Schnittstelle</a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Konfiguration des OAI-Providers</h2>
+      <h4>Mehrfache Verwendung</h4>
+      <p>
+        Es ist möglich mehrere OAI-Provider parallel zu betreiben. So kann man
+        beispielsweise einen OAIProvider für das
+        Melden der Dissertationen an
+        die Deutsche Nationalbibliothek verwenden und mit einem zweiten
+        OAIProvider den
+        gesamten Dokumentenbestand für OpenAccess-Portale wie
+        OAIster oder BASE bereit stellen.
+      </p>
+      <p>
+        Als Unterscheidungskriterium gilt der Servlet-Name, wie er in der web.xml
+        verwendet wird. Er ist auch
+        Bestandteil der Property-Namen in den
+        Konfigurationsdateien. Die Verwendung derselben Servletklasse ist
+        möglich.
+      </p>
+
+      <h4>Aktivierung des Servlets</h4>
+      <p>
+        Das OAI2 Servlet muss in der web.xml aktiviert werden:
+      </p>
+      {{< highlight xml "linenos=table">}}<servlet id="OAI2Provider">
+  <servlet-name>OAI2</servlet-name>
+  <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>OAI2</servlet-name>
+  <url-pattern>/oai2</url-pattern>
+</servlet-mapping>{{< /highlight >}}
+
+      <h4>Properties</h4>
+      <p>
+        Für die Konfiguration der Schnittstelle sind eine Reihe von Properties
+        notwendig. Viele können in der
+        Defaulteinstellung verwendet werden,
+        einige sind jedoch in der eigenen Anwendung zu überschreiben.
+      </p>
+
+      <h4>Property für die Ausgabeformatierung</h4>
+      <p>
+        Für die Visualisierung der OAI-Requests im Webbrowser wird das
+        <a href="http://www.eprints.org/software/xslt.php">OAI2 to
+          HTML XSLT Style Sheet
+        </a>
+        von Eprints verwendet.
+      </p>
+      <p>
+        Folgendes Property gibt den Pfad zu diesem Stylesheet in der eigenen
+        Anwendung an:
+      </p>
+      {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.ResponseStylesheet=oai/oai2.xsl{{< /highlight >}}
+
+      <h4>Properties für den Identify-Request</h4>
+      <p>
+        Für die genaue Bedeutung der Properties und ihre möglichen Werte sei
+        ein Blick in den
+        <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#Identify">OAI-Standard</a>
+        empfohlen:
+      </p>
+      {{< highlight shell "linenos=table">}}
+# Properties for OAI Identify Request:
+MCR.OAIDataProvider.OAI2.RepositoryName=MyCoRe Sample Repository
+MCR.OAIDataProvider.OAI2.RepositoryIdentifier=www.mycore.de
+MCR.OAIDataProvider.OAI2.AdminEmail=info@mycore.de
+
+MCR.OAIDataProvider.OAI2.EarliestDatestamp=1970-01-01
+MCR.OAIDataProvider.OAI2.RecordSampleID=DocPortal_document_07910403
+MCR.OAIDataProvider.OAI2.DeletedRecord=transient
+
+MCR.OAIDataProvider.OAI2.Friends.DuEPublico=http://duepublico.uni-duisburg-essen.de/servlets/OAIDataProvider
+MCR.OAIDataProvider.OAI2.Friends.DBThueringen=http://www.db-thueringen.de/servlets/OAIDataProvider
+      {{< /highlight >}}
+
+      <h4>Properties für Resumption Tokens</h4>
+      <p>
+        Mittels Resumption Tokens kann die Rückgabe großer Mengen an Dokumenten
+        partitioniert werden. Genauere Angaben entnehmen Sie der
+        <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl">OAI-Spezifikation</a>.
+      </p>
+      <p>
+        Für die Konfiguration werden folgende Properties verwendet:
+      </p>
+      {{< highlight shell "linenos=table">}}
+MCR.OAIDataProvider.ResumptionTokens.PartitionSize=100
+MCR.OAIDataProvider.ResumptionTokens.MaxAge=1440
+      {{< /highlight >}}
+
+      <h4>Properties für den OAIAdapter</h4>
+      <p>
+        Mit dem OAIAdapter wird der einheitliche, protokoll-spezifische Teil der
+        OAImplementierung von den konkreten
+        Anforderungen der Anwendung
+        (MIR, MILESS, PAPYRI usw.) getrennt. Für MyCoRe-Anwendungen steht die Klasse
+        <strong>MCROAIAdapter</strong>
+        zur Verfügung. In wenigen Ausnahmefällen kann es
+        notwendig sein, diese Klasse neu zu implementieren oder zu
+        erweitern.
+      </p>
+      {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.Adapter=org.mycore.oai.MCROAIAdapter{{< /highlight >}}
+      <p>
+        Die Erzeugung des Header- und des Metadatenteils eines OAI-Responses
+        erfolgt über Stylesheets, die über den
+        URI-Resolver aufgerufen werden.
+        Im DocPortal befinden sich eine beispielhafte Umsetzung für
+        document2header.xsl.
+        Für jedes Metadatenformat muss ebenfalls ein
+        Stylesheet erzeugt werden (siehe Properties für Metadatenformate).
+      </p>
+    <!-- use xml instead of shell here, because of 'false' syntax highlighting -->
+      {{< highlight xml "linenos=table">}}
+MCR.OAIDataProvider.OAI2.Adapter.HeaderURIPattern=xslStyle:document2header:mcrobject:{id}
+MCR.OAIDataProvider.OAI2.Adapter.RecordURIPattern=xslStyle:{mcrobject_type}2{format}:mcrobject:{id}
+      {{< /highlight >}}
+
+      <h4>Properties für die Suche</h4>
+      <p>
+        Mit den folgenden Properties lässt sich die Menge der Dokumente, die über
+        die OAI-Schnittstelle ausgeliefert
+        werden, einschränken und sortieren.
+      </p>
+      {{< highlight xml "linenos=table">}}
+MCR.OAIDataProvider.OAI2.Search.Restriction=objectType:document
+MCR.OAIDataProvider.OAI2.Search.SortBy=modified descending, id descending
+MCR.OAIDataProvider.OAI2.Search.FromUntil=modified
+      {{< /highlight >}}
+
+      <h4>Properties für Sets</h4>
+      <p>
+        Das Konzept der Sets im OAI-Standard lässt sich mit dem
+        Klassifikationskonzept von MyCoRe vergleichen. Daher bietet es sich an, Klassifikationen als Sets zu verwenden.
+      </p>
+      <p>
+        Mit dem Property FilterEmptySets kann bestimmt werden, ob auch leere Sets
+        bei einem List-Sets-Request
+        zurückgegeben werden.
+      </p>
+      {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.FilterEmptySets=true{{< /highlight >}}
+      <p>
+        Mit dem folgenden Property werden zunächst alle Sets definiert, die in
+        der Anwendung verwendet werden sollen:
+      </p>
+      {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.Sets=open_access,doc-type{{< /highlight >}}
+      <p>
+        Mit einem XSLT-Stylesheet und unter Verwendung des URI-Resolvers kann aus
+        einer MyCoRe-Klassifikation die
+        entsprechende Ausgabe für einen OAI-List-Sets-Request
+        generiert werden:
+      </p>
+      {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.Set.doc-type=xslStyle:classification2sets:classification:metadata:10:noEmptyLeaves:children:diniPublType{{< /highlight >}}
+      <p>
+      </p>
+      <p>
+        Für die Suche nach Dokumenten, die als Inhalt eines Sets zurückgegeben
+        werden sollen, kann einem Setnamen ein
+        Klassifikationsname zugeordnet
+        werden:
+      </p>
+      {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.MapSetToClassification.doc-type=diniPublType{{< /highlight >}}
+      <p>
+        Alternativ besteht auch die Möglichkeit, per URI-Resolver direkt
+        eine XML-Datei mit der Set-Konfiguration
+        anzugeben:
+      </p>
+      {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.Set.open_access=webapp:oai/set_open_access.xml{{< /highlight >}}
+      <p>Beispiel für eine statische Sets Datei im XML Format:</p>
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<ListSets xmlns="http://www.openarchives.org/OAI/2.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+  http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <set>
+    <setSpec>open_access</setSpec>
+    <setName>Open Access publications</setName>
+  </set>
+</ListSets>{{< /highlight >}}
+      <p>Zu Beachten ist hierbei die Verwendung des OAI Namensraumes.</p>
+      <p>
+        Bei statisch definierte Sets muss für jeden Eintrag ein Property gesetzt
+        werden, welches eine Suchanfrage auf
+        die Dokumente innerhalb des Sets
+        zurückliefert:
+      </p>
+      {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.MapSetToQuery.open_access=(objectType = *){{< /highlight >}}
+      <p>
+        Wenn die ID des Sets (setSpec) Doppelpunkte enthält, werden diese durch Unterstrich (_) ersetzt:
+      </p>
+      {{< highlight shell "linenos=table">}}
+#setName=Personen, setSpec=type:person
+MCR.OAIDataProvider.OAI2.MapSetToQuery.type_person=objectType:person
+      {{< /highlight >}}
+
+      <h4>Properties für Metadatenformate</h4>
+      <p>
+        Zunächst sind die unterstützten Metadatenformate aufzulisten und dann jeweils
+        Namensraum und URL der
+        XMLSchema-Definition anzugeben:
+      </p>
+      {{< highlight shell "linenos=table">}}
+MCR.OAIDataProvider.OAI2.MetadataFormats=oai_dc,epicur
+MCR.OAIDataProvider.MetadataFormat.oai_dc.Schema=http://www.openarchives.org/OAI/2.0/oai_dc.xsd
+MCR.OAIDataProvider.MetadataFormat.oai_dc.Namespace=http://www.openarchives.org/OAI/2.0/oai_dc/
+MCR.OAIDataProvider.MetadataFormat.epicur.Schema=http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd
+MCR.OAIDataProvider.MetadataFormat.epicur.Namespace=urn:nbn:de:1111-2004033116
+      {{< /highlight >}}
+
+      <p>
+        Für jedes Metadatenformat ist außerdem ein XSL-Stylesheet zu erstellen,
+        welches aus dem MyCoRe-Datenmodell das
+        entsprechende Ausgabeformat
+        erzeugt. Im MIR befinden sich beispielhafte Implementierungen
+        für
+        <em>document2oai_dc.xsl</em> und <em>document2epicur.xsl</em>. Diese sind jedoch in
+        der Regel an das eigene Datenmodell anzupassen.
+      </p>
+    </div>
+
+    <div>
+      <h2>OpenAIRE-Compliance</h2>
+      <p>
+        Damit das Repository OpenAIRE-compliant ist, müssen entsprechend der <a href="https://guidelines.openaire.eu/en/latest/literature/index.html">OpenAIRE-Spezifikation</a>
+        Informationen zum Forschungsprojekt erfasst werden. In der MIR-Anwendung stehen dafür die notwendigen
+        Formular-Templates bereit. Auch sind die nötigen Suchfelder und Stylesheets vorhanden, um ein OpenAIRE-kompatibles
+        DublinCore-Format aus dem MODS zu erzeugen. Wenn man dies nutzen und die OAI-Schnittstelle dafür konfigurieren
+        möchte, sind die nachfolgenden Properties zu setzen. Wobei der obere Block für alle Anwendungen gleich bleiben sollte -
+        hier werden nur die Sets an sich definiert. Der zweite Block zeigt die Solr-Anfragen, mit denen die Sets gebildet werden.
+        Diese sind natürlich stark von den Inhalten abhängig. Das hier gezeigte Beispiel gilt für MODS in der MIR-Anwendung.
+      </p>
+      {{< highlight shell "linenos=table">}}
+MCR.OAIDataProvider.OAI2.Sets=open_access,openaire,driver,ec_fundedresources
+MCR.OAIDataProvider.OAI2.Sets.open_access=webapp:oai/set_open_access.xml
+MCR.OAIDataProvider.OAI2.Sets.openaire=webapp:oai/set_openaire.xml
+MCR.OAIDataProvider.OAI2.Sets.driver=webapp:oai/set_driver.xml
+MCR.OAIDataProvider.OAI2.Sets.ec_fundedresources=webapp:oai/set_ec_fundedresources.xml
+
+MCR.OAIDataProvider.OAI2.MapSetToQuery.open_access=((derCount:[1 TO *] AND mods.embargo:[* TO NOW]) OR (derCount:[1 TO *] AND NOT mods.embargo:[* TO *])) AND NOT (mods.rights:"Alle Rechte vorbehalten" OR mods.rights:"All rights reserved")
+MCR.OAIDataProvider.OAI2.MapSetToQuery.driver=((derCount:[1 TO *] AND mods.embargo:[* TO NOW]) OR (derCount:[1 TO *] AND NOT mods.embargo:[* TO *])) AND NOT (mods.rights:"Alle Rechte vorbehalten" OR mods.rights:"All rights reserved")
+MCR.OAIDataProvider.OAI2.MapSetToQuery.openaire=((derCount:[1 TO *] AND mods.embargo:[* TO NOW]) OR (derCount:[1 TO *] AND NOT mods.embargo:[* TO *])) AND (mods.identifier:info\\:eu-repo/grantAgreement*)
+MCR.OAIDataProvider.OAI2.MapSetToQuery.ec_fundedresources=((derCount:[1 TO *] AND mods.embargo:[* TO NOW]) OR (derCount:[1 TO *] AND NOT mods.embargo:[* TO *])) AND (mods.identifier:info\\:eu-repo/grantAgreement*)
+      {{< /highlight >}}
+      <p>
+        Hat man auch Forschungsdaten im Repository, könnte das datacite-Format interessant werden, dass OpenAIRE von <a href="https://guidelines.openaire.eu/en/latest/data/index.html">Daten-Archiven</a> verlangt. Auch hierfür ist für MODS bereits alles vorbereitet. Es müssen nur die nachfolgend spezifizierten
+        properties gesetzt werden, um über die OAI-Schnittstelle auch das oai_datacite-Format auszuliefern.
+      </p>
+      {{< highlight shell "linenos=table">}}
+MCR.OAIDataProvider.OAI2.MetadataFormats=oai_dc,epicur,oai_datacite
+MCR.OAIDataProvider.MetadataFormat.oai_datacite.Namespace=http://schema.datacite.org/oai/oai-1.0/
+MCR.OAIDataProvider.MetadataFormat.oai_datacite.Schema=https://schema.datacite.org/oai/oai-1.0/oai.xsd
+      {{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>OAI-Validatoren</h2>
+      <p>Es gibt verschiedene Validatoren für die eigene OAI-Schnittstelle. Hier eine kurze Liste bekannter Seiten
+        (Stand 10/2015):
+      </p>
+      <ul>
+        <li>
+          <a href="http://oanet.cms.hu-berlin.de/validator/pages/validation_dini.xhtml">DINI Check 2010</a>
+        </li>
+        <li>
+          <a href="http://oval.base-search.net/">BASE OAI-PMH Validator: OVAL</a>
+        </li>
+        <li>
+          <a href="http://validator.oaipmh.com/">OAI-PMH Validator and data extractor Tool</a>
+        </li>
+      </ul>
+    </div>
+  

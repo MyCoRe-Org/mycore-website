@@ -1,0 +1,154 @@
+
+---
+
+title: "Das Konfigurationsverzeichnis"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt']
+description: "
+      MyCoRe sucht seine Konfigurationen invordefinierten Verzeichnissen. Dies wird hier beschieben.
+    "
+date: "2018-07-04"
+
+---
+    <div id="mcrconfigdir">
+      <h2>Das Basisverzeichnis</h2>
+      <p>Da MyCoRe sowohl als Web-Applikation wie auch als Commandline-Tool arbeiten (parallel zueinander) kann, muss
+        zwischen beiden Anwendungsteilen eine gemeinsame Konfiguration vorhanden sein. Hierfüpr haben die Entwickler die
+        nachfolgenden Festlegungen getroffen.
+      </p>
+      <p>
+        Über das System-Property
+        <code>MCR.Home</code>
+        kann beim Start der MyCoRe-CLI bzw. des Servlet-Containers gesetzt werden. Damit wird das
+        Konfigurations-Basisverzeichnis für die Anwendung expizit festgelegt.
+      </p>
+      <p>
+        Im Normalfall ist dies jedoch nicht erforderlich, da MyCoRe ein Standardverhalten mitbringt. Ist das Property
+        <code>MCR.Home</code>
+        nicht gesetzt, So wird geschaut, unter welchem OS die Anwendung läuft.
+      </p>
+      <div>
+        <h3>Für Windows</h3>
+        <p>
+          Unter Windows wird das Property
+          <code>LOCALAPPDATA</code>
+          verwendet. Ist dies nicht gesetzt, wird der Wert aus
+          <code>user.home</code>
+          verwendet. In diesem Directory wird als Grundverzeichnis für alle so konfigurierten Anwendungen das
+          Verzeichnis
+          <strong>MyCoRe</strong>
+          angelegt.
+        </p>
+      </div>
+      <div>
+        <h3>Für Linux</h3>
+        <p>
+          Unter Linux wird der Wert von
+          <code>user.home</code>
+          verwendet. In diesem Directory wird als Grundverzeichnis für alle so konfigurierten Anwendungen das
+          Verzeichnis
+          <strong>.mycore</strong>
+          angelegt.
+        </p>
+      </div>
+    </div>
+
+    <div id="appconfigdir">
+      <h2>Das Applikationsverzeichnis</h2>
+      <p>
+        Unterhalb des Basisverzeichnisses wird nun für jede Anwendung ein Konfigurationsverzeichnis bereitgestellt,
+        welches lokale Konfigurationen der Applikation enthält. Dieses Verzeichnis wird in der Form
+        <code>{prefix+'-'}{appName}</code>
+        gebildet. Dabei kann der
+        <em>prefix</em>
+        weggelassen werden. Die Werte für
+        <em>prefix</em>
+        und
+        <em>appName</em>
+        kommen aus folgenden Konfigurations-Properties:
+      </p>
+      <ul>
+        <li>
+          <code>{prefix}</code>
+          can be defined by setting System property
+          <code>MCR.DataPrefix</code>
+        </li>
+        <li>
+          <code>{appName}</code>
+          is always lowercase String determined using this
+          <ol>
+            <li>
+              System property
+              <code>MCR.AppName</code>
+            </li>
+            <li>
+              System property
+              <code>MCR.NameOfProject</code>
+            </li>
+            <li>Servlet Context Path (if not root context, {@link ServletContext#getContextPath()})</li>
+            <li>Servlet Context Name ({@link ServletContext#getServletContextName()}) with space characters removed</li>
+            <li>base name of jar including this class</li>
+            <li>
+              the String
+              <code>"default"</code>
+            </li>
+          </ol>
+        </li>
+      </ul>
+    </div>
+
+    <div id="structconfigdir">
+      <h2>Struktur für eine Anwendung</h2>
+      <p>
+        Im oben beschriebene Konfigurationsverzeichnis der Anwendung könne nun lokale Änderungen abgelegt werden.
+        Daneben speichert MyCoRe hier noch einige generierte Daten. Siehe dazu auch den Abschnitt zu
+        <strong>MIR</strong>
+        .
+      </p>
+      <div>
+        <h3>Generierte Daten</h3>
+        <p>Achtung: diese Dateien dürfen nicht geändert werden!</p>
+        <ul>
+          <li>
+            <strong>mycore.active</strong>
+            (nicht bearbeiten!)
+            listet alle verfügbaren (aktiven) Properties inkl. Kommentaren dazu und kann somit als
+            Vorlage zur Übernahme in die
+            eigenen Properties dienen
+          </li>
+          <li>
+            <strong>mycore.resolved</strong>
+            (nicht bearbeiten!)
+            die aufgelösten Properties, wie sie in der laufenden Anwendung genutzt werden
+          </li>
+          <li>
+            <strong>messages_{lang}.resolved.properties</strong>
+            enthält I18N Übersetzungen
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3>Eigene Daten</h3>
+        <p>In dem Verzeichnis könne wie beschieben auch Konfigurationen abgelegt werden, die beim Start von MyCoRe
+          Beachtung finden
+        </p>
+        <ul>
+          <li>
+            <strong>mycore.properties</strong>
+            enthält die lokalen Konfigurationen wie SOLR-URL usw.
+          </li>
+          <li>
+            <strong>jwt.secret</strong>
+            enthält den Schlüssel für der REST-Authentifizierung und kann mit
+            <code>openssl rand 4096 &gt; jwt.secret</code>
+            erzeugt werden.
+          </li>
+          <li>
+            <strong>lib</strong>
+            ist das Verzeichnis für zusätzliche Bibliotheken wie z. B. Datenbanktreiber
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  

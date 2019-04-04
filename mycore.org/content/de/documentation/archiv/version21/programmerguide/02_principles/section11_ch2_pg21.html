@@ -1,0 +1,49 @@
+
+---
+
+title: "Die Frontend-Komponenten"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten verschiedener Anwenderzugänge wie die MyCoRe-Kommandozeile und die Webanwendung."
+
+---
+   <div>
+   <h2>Der Layout-Service</h2>
+   <p>
+     ToDo: Allgemeine Beschreibung des Layout-Services
+   </p>
+   </div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2frontend_mcrservlet.jpg" class="border border-secondary" label="" caption="" alt="Java-Klassen" width="" height="" />}}</div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2frontend_mcrloginservletfluss.jpg" class="border border-secondary" label="" caption="" alt="MCRServlet.doGetPost()" width="" height="" />}}</div>
+
+   <div>
+    <h4>Generieren von Zip-Dateien</h4>
+    <p>
+    Das Zip-Servlet, implementiert durch die Klasse <code>MCRZipServlet</code>, dient dem Ausliefern der Derivate und
+    der Objektmetadaten als gepackte Zip-Datei. Aus der Konfigurationsdatei <code>mycore.properties.zipper</code> holt
+    sich das Servlet über die Variable <code>MCR.zip.metadata.transformer</code> den Namen des Stylesheets, welches die
+    Metadatentransformation in das gewünschte Auslieferungsformat vornimmt. In DocPortal verwenden wir hierfür Qualified
+    Dublin Core.
+    </p>
+    <p>Aufrufmöglichkeiten des Servlets:</p>
+    {{< highlight java "linenos=table">}}
+    $ServletsBaseURL/MCRZipServlet?id=MCRID
+
+    $ServletsBaseURL/MCRZipServlet?id=MCRID/foldername
+    {{< /highlight >}}
+    <p>
+    MCRID ist die ID eines Objekts vom Typ <code>&lt;mycoreobject&gt;</code> oder <code>&lt;mycorederivate&gt;</code>.
+    Im Fall von <code>&lt;mycoreobject&gt;</code> werden die Dateien aller dem Objekt zugeordneten Derivate und ein
+    XML-File mit den Metadaten des Objekts zusammengepackt. Im Fall von <code>&lt;mycorederivate&gt;</code> werden alle
+    Dateien des angegebenen Derivates zusammengepackt. Die Option <code>MCRID/foldername</code> ist nur zulässig, wenn
+    <code>MCRID</code> ein Objekt vom Typ <code>&lt;mycorederivate&gt;</code> bezeichnet. Dann wird nur der mit
+    <code>foldername</code> angegebene Ordner des betreffenden Derivats gezippt.
+    </p>
+    <p>
+    Wer geschützte Inhalte anbietet, sollte das Zip-Servlet erst dann in seine Anwendung integrieren, wenn die
+    Zugriffskontrolle in MyCoRe gewährleistet werden kann. Dies ist momentan (04.2005) noch nicht der Fall, das
+    Zip-Servlet lässt sich mit jeder MCRID aufrufen.
+    </p>
+   </div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_commandlinetool.jpg" class="border border-secondary" label="" caption="" alt="Java-Klassen" width="" height="" />}}</div>

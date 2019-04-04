@@ -1,0 +1,38 @@
+
+---
+
+title: "Benutzung von MyCoRe unter Gradle"
+mcr_version: ['2017.06']
+author: ['Huu Chi Vu', 'Jens Kupferschmidt']
+date: "2018-01-17"
+
+---
+    <div>
+      <h2>Einbindung unter Gradle</h2>
+      <p>
+      Neben Maven als Build-System wird auch <a target="_blank" href="https://gradle.org/">Gradle</a> immer beliebter.
+      Um den MyCoRe-Kern auch in dieser Umgebung einzubinden, kann der folgende Code-Baustein für die Konfiguration
+      wichtige Hinweise geben.
+      </p>
+      {{< highlight xml "linenos=table">}}
+allprojects {
+    def releaseURL = "http://artifactory.mycore.de/mycore-releases"
+    def snapshotsURL = "http://artifactory.mycore.de/mycore-snapshots"
+    def sonatypeSnapshotsURL = "https://oss.sonatype.org/content/repositories/snapshots"
+
+    repositories {
+        mavenLocal()
+
+        mavenCentral()
+
+        maven { url releaseURL }
+
+        maven { url sonatypeSnapshotsURL }
+        
+        maven { url snapshotsURL }
+    }
+}
+  
+      {{< /highlight >}}
+    </div>
+  

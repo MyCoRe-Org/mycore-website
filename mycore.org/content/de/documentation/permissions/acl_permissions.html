@@ -1,0 +1,196 @@
+
+---
+
+title: "Zugriffskontrolle über ACL"
+mcr_version: ['2015.05','2016.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Mit Hilfe sogenannter Access Control Lists (ACL, dt. Zugriffssteuerungslisten) kann der Zugriff auf
+      Daten
+      und Funktionen in MyCoRe-Anwendungen eingegrenzt werden. Eine ACL legt dabei fest, in welchem
+      Umfang einzelne
+      Nutzer oder Gruppen Zugriff auf bestimmte Objekte (Metadaten, Dateien, Webseiten ...)
+      haben. Diese können sehr
+      feingranular spezifiziert werden, z.B. lesen, erstellen, bearbeiten oder löschen.
+    "
+date: "2015-11-10"
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p>ACLs und Privilegien sind in MyCoRe in zwei SQL-Tabellen gespeichert. Die Tabelle MCRACCESS enthält die
+        Zugriffslisten und Privilegien. Ergänzt wird das system durch die Tabelle MCRACCESSRULES, welche die konkreten
+        Regeln für den Zugriff enthält.
+      </p>
+    </div>
+
+    <div>
+      <h2>Aufrufe</h2>
+      <p>Die Aufrufe von Zugriffsrechten können über verschiedene API erfolgen. Hier die Beispiele für JAVA und XSLT.
+      </p>
+      {{< highlight xml "linenos=table">}}boolean permission = MCRAccessManager.checkPermission("create-" + mycore_id.getBase());
+{{< /highlight >}}
+      {{< highlight xml "linenos=table">}}boolean permission = MCRAccessManager.checkPermission(mycore_id, PERMISSION_WRITE);
+{{< /highlight >}}
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:acl="xalan://org.mycore.access.MCRAccessManager" ...  exclude-result-prefixes="... acl">
+  ...
+  <xsl:if test="acl:checkPermission($obj_id,'readintern')">
+    ...
+  </xsl:if>
+  ...
+</xsl:stylesheet>
+{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Privilegien</h2>
+      <p>
+        Privilegien sind Zugriffsrechte, die sich nicht direkt auf ein einzelnes Datenobjekt beziehen. Vielmehr wird
+        der
+        Zugriff auf eine Funktionalität geregelt. Die kann die Erlaubnis für das Anlegen eines Datensatzes
+        <em>create-privileg</em>
+        sein oder das Recht, beispielsweise die
+        <em>WEB-CLI</em>
+        zu nutzen. Einige nötige Privilegien sind an den jeweiligen Stellen in dieser Dokumentation beschrieben.
+      </p>
+      <p>Privilegien werden in einer entsprechenden Datei definiert und mittels Kommando geladen.</p>
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<mcrpermissions
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRPermissions.xsd"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+>
+  <mcrpermission name="manage-sessions"
+    description="Administration rights for the session system"
+    ruledescription="For administrators only">
+    <condition format="xml">
+      <boolean operator="or">
+        <condition value="admingroup" operator="=" field="group"/>
+      </boolean>
+    </condition>
+  </mcrpermission>
+  <mcrpermission name="create-MyProject_mir" description="Create rights for datamodel mir of project MyProject">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admin" operator="=" field="group"/>
+     <condition value="authorgroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+</mcrpermissions>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Permissions</h2>
+      <p>Das Setzen der Permissions ist stark von der verwendeten Access-Strategie abhängig. So reicht die Palette von
+        Rechten für ganze Datenmodell-Typen über rechte für Datenmodell-Bases (Projekt_Typ) bis hin zu feingranularen
+        Rechten für jedes MCRObject und MCRDerivate. Je feiner die Rechtevergabe, um so größer wird auch die notwendige
+        Tabelle. Dabei wird für jedes Recht (z. B. read, write und delete) jeweils ein Eintrag vorgenommen. Für
+        Anwendungen mit vielen Datensätzen und einer kleinen Autorengruppe ist daher die Vergabe globalerer Permissions
+        (z. B. über ganze Datentypen) sinnvoll und effizient. Gesteuert wird die Nutzung durch die jeweilige Strategie.
+      </p>
+      <p>
+        Im MyCoRe-Datenmodell ist ein Abschnitt im Bereich
+        <strong>services</strong>
+        vorgesehen, welcher Zugriffsregeln für genau diesen datensatz enthalten kann. Je nach Strategie werden diese
+        Regeln genutzt und gespeichert. Auch die Java-API enthält eine entsprechende Klasse
+        <strong>MCRMetaAccessRule</strong>
+        .
+      </p>
+    </div>
+
+    <div>
+      <h2>Regeln</h2>
+      <p>Jede Permission beinhaltet Regeln (Conditions), die festlegen, wann das entsprechende Recht gegeben wird.In
+        MyCoRe sind drei Gruppen von Regeln vorgesehen:
+      </p>
+      <ul>
+        <li>für Nutzer</li>
+        <li>für Rollen</li>
+        <li>für IP-Adressbereiche</li>
+      </ul>
+      <p>
+        Es ist nicht notwendig, alle Gruppen von Regeln zu nutzen. Auch können Gruppen noch logische
+        <em>AND</em>
+        /
+        <em>OR</em>
+        -Container enthalten. Alle Regeln werden in der Tabelle MCRACCESSRULES einmalig abgelegt und von dort
+        referenziert. Eine Übersicht gibt der folgende XML-Ausschnitt:
+      </p>
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="utf-8"?>
+<condition format="xml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRCondition.xsd">
+  <boolean operator="or">
+    <boolean operator="or">
+      <condition value="ublauthor" operator="=" field="group" />
+      <condition value="admin" operator="=" field="group" />
+    </boolean>
+    <boolean operator="or">
+      <condition value="thomas" operator="=" field="user" />
+      <condition value="kathleen" operator="=" field="user" />
+    </boolean>
+    <condition value="192.168.2.0/255.255.255.0" operator="=" field="ip" />
+  </boolean>
+</condition>{{< /highlight >}}
+    </div>
+
+    <div id="acl_commands">
+      <h2>Kommandos</h2>
+      <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch alle administrativen Operationen für die 
+      Zugriffskontrolle ausgeführt werden.
+      </p>
+      <dl>
+        <dt>
+          <code>load permissions data from file {0}</code>
+        </dt>
+        <dd>Das Kommando läde Permissions aus einem vorgegeben File {0}.</dd>
+        <dt>
+          <code>update permission {0} for id {1} with rulefile {2}</code>
+        </dt>
+        <dd>Das Kommando aktualisiert eine bestimmte Permission {0} für eine MyCoRe-ID {1} entsprechend der Definition
+          im vorgegeben File {2}.
+        </dd>
+        <dt>
+          <code>update permission {0} for selected with rulefile {1}</code>
+        </dt>
+        <dd>Das Kommando aktualisiert eine bestimmte Permission {0} für ausgewählet IDs (siehe select-Kommando)
+          entsprechend der Definition im vorgegeben File {1}.
+        </dd>
+        <dt>
+          <code>list all permissions</code>
+        </dt>
+        <dd>Das Kommando listet alle gespeicherten Permissions.</dd>
+        <dt>
+          <code>export all permissions to file {0}</code>
+        </dt>
+        <dd>Das Kommando exportiert alle gespeicherten Permissions in das File {0}.</dd>
+        <dt>
+          <code>delete permission {0}</code>
+        </dt>
+        <dd>Das Kommando löscht die Permission {0}.</dd>
+        <dt>
+          <code>delete permission {0} for id {1}</code>
+        </dt>
+        <dd>Das Kommando löscht die Permission {0} für eine MyCoRe-ID {1}.</dd>
+        <dt>
+          <code>delete all permissions for id {1}</code>
+        </dt>
+        <dd>Das Kommando löscht alle Permissions für eine MyCoRe-ID {1}.</dd>
+        <dt>
+          <code>delete permission {0} for selected</code>
+        </dt>
+        <dd>Das Kommando löscht die Permission {0} für ausgewählet IDs (siehe select-Kommando).</dd>
+        <dt>
+          <code>delete all permissions for selected</code>
+        </dt>
+        <dd>Das Kommando löscht alle Permissions für ausgewählet IDs (siehe select-Kommando).</dd>
+        <dt>
+          <code>delete all permissions</code>
+        </dt>
+        <dd>Das Kommando löscht alle Permissions.</dd>
+      </dl>
+    </div>
+  

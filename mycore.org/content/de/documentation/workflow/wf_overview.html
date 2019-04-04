@@ -1,0 +1,178 @@
+
+---
+
+title: "Servlets zur Manipulation von MyCoRe-Objekten"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt']
+description: "
+      Neben kompletten Workflow-Szenarien gibt es auch eine Reihe einzelner Servlets, aus denen sich
+      Arbeitsabläufe zur Bearbeitung der Metadaten und digitalen Objekte ableiten lassen. Dieser Abschnitt beschäftigt
+      sich mit dem Aufruf dieser Servlets.
+    "
+date: "2018-07-04"
+
+---
+
+    <div>
+      <h2>Das MCRCreateObjectServlet / MCRUpdateObjectServlet / MCRDeleteObjectServlet</h2>
+      <p>
+        Als erste Funktionalitäten sollen
+        <em>Create</em>
+        ,
+        <em>Update</em>
+        und
+        <em>Delete</em>
+        von MyCoRe-Metadaten-Objekten
+        (
+        <em>MCRObject</em>
+        )
+        beschrieben werden.
+      </p>
+      <p>
+        <strong>CREATE</strong>
+      </p>
+      <p>
+        Für ein neu anzulegendes Objekt kann innerhalb der HTML-Navigation in der Anwendung die entsprechende
+        XEditor-Seite aufgerufen werden. Dabei ist es
+        möglich, dem Aufruf eine MyCoRe-ProjektID mitzugeben, welche dann
+        für das Generieren der
+        <em>MCRObjectID</em>
+        genutzt wird.
+      </p>
+      <p>
+        Der Codebaustein für
+        <em>Create</em>
+        <code>... href="/editor_form_my_xed.xed?origin={ProjectID}" ...</code>
+        ruft ein XEditor-Formular auf und übergibt die ProjectID.
+      </p>
+      <p>Innerhalb des Formulars sind dann Abschnitte für die Umsetzung der MCRObjectID und die Submit-Button
+        vorzusehen.
+      </p>
+      {{< highlight xml "linenos=table">}}
+...
+  <xed:choose>
+    <xed:when test="string-length($origin) &gt; 0">
+      <xed:bind xpath="@ID" initially="{$origin}_work_00000000" />
+    </xed:when>
+    <xed:when test="xed:call-java('org.mycore.common.xml.MCRXMLFunctions','getCurrentUserAttribute','origin')">
+      <xed:bind xpath="@ID" initially="{xed:call-java('org.mycore.common.xml.MCRXMLFunctions','getCurrentUserAttribute','origin')}_work_00000000" />
+    </xed:when>
+    <xed:otherwise>
+      <xed:bind xpath="@ID" initially="{$MIR.projectid.default}_work_00000000" />
+    </xed:otherwise>
+  </xed:choose>
+...
+  <button type="submit" class="btn btn-default" xed:target="cancel">
+    <xed:output i18n="button.cancel" />
+  </button>
+  <xed:choose>
+    <!-- xed:when test="/mycoreobject/@ID = 'BachDigital_work_00000000'" -->
+    <xed:when test="contains(/mycoreobject/@ID, '_00000000')">
+      <button type="submit" class="btn btn-primary" xed:target="servlet" xed:href="CreateObjectServlet">
+        <xed:output i18n="button.save" />
+      </button>
+    </xed:when>
+    <xed:otherwise>
+      <button type="submit" class="btn btn-primary" xed:target="servlet" xed:href="UpdateObjectServlet">
+        <xed:output i18n="button.save" />
+      </button>
+    </xed:otherwise>
+  </xed:choose>
+...{{< /highlight >}}
+      <p>
+        <strong>UPDATE</strong>
+      </p>
+      <p>
+        Der Codebaustein für
+        <em>Update</em>
+        <code>... href="/editor_form_my_xed.xed?id={MCRObjectID}" ...</code>
+        ruft ein XEditor-Formular auf und übergibt die MCRObjectID. Im
+        <em>editor_form_my_xed.xed</em>
+        sollten dann folgende Zeilen enthalten sein:
+      </p>
+      {{< highlight xml "linenos=table">}}
+...
+  <xed.cancel url="/receive/{$id}" />
+  <xed.cancel url="/" />
+  <xed.source url="mcrobject:{$id}" />
+...{{< /highlight >}}
+      <p>
+        <strong>DELETE</strong>
+      </p>
+      <p>
+        Der Codebaustein für
+        <em>Delete</em>
+        <code>... href="/servlets/object/delete?id={MCRObjectID}"</code>
+        ist recht simpel. Er ruft direkt das MCRDeletObjectServlet auf. Für Anwendunge ist es natürlich sinnvoll, hier
+        noch eine Sicherheitsabfrage einzubauen.
+      </p>
+    </div>
+
+    <div>
+      <h2>Das MCRLockServlet</h2>
+      <p>Das MCRLockServlet ist ein Wrapper um dem Update-Ablauf und soll sicher stellen, dass ein MyCoRe-Object nur von
+        einem Nutzer gleichzeitig verarbeitet werden kann. Der Aufruf ist:
+      </p>
+      {{< highlight xml "linenos=table">}}
+.../servlets/MCRLockServlet?url={my_update}.xed&amp;id={my_id}{{< /highlight >}}
+      <p>Folgende Parameter sind anzugeben:
+      </p>
+      <ul>
+        <li>url - die URL der XEditor-Seite, welche aufzurufen ist.
+        </li>
+        <li>id - MCRObjectID des Datenobjektes, welches verarbeitet werden soll.</li>
+        <li>
+          action - (optional)
+          <em>lock</em>
+          oder
+          <em>unlock</em>
+        </li>
+      </ul>
+      <p>
+        Ein
+        <em>unlock</em>
+        erfolgt unter den Bidingungen:
+      </p>
+      <ul>
+        <li>Das Submit war erfolgreich.</li>
+        <li>Es erfolgte ein Abbruch der Verarbeitung (cancel).</li>
+        <li>Die Session für die verrabeitung ist abgebrochen.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Das MCRDerivateServlet</h2>
+      <p>
+        Mit Hilfe des MCRDerivateServlet können Manipulationen an den Derivaten vorgenommen werden. Mit dem
+        <code>todo</code>
+        <em>ssetfile</em>
+        kann die Startdatei festgelegt werden. Mit
+        <em>sdelfile</em>
+        wird eine Datei aus dem Derivate gelöscht.
+      </p>
+      <p>Syntax des Servlet-Aufrufes:</p>
+      {{< highlight xml "linenos=table">}}
+{$WebApplicationBaseURL}servlets/MCRDerivateServlet?derivateid={$derId}&amp;objectid={$objID}&amp;todo=ssetfile&amp;file={$fileName}{{< /highlight >}}
+      <p>Beispiel des Servlet-Aufrufes:</p>
+      {{< highlight xml "linenos=table">}}
+http://localhost:8291/servlets/MCRDerivateServlet?derivateid=MIR_derivate_00000001&amp;objectid=MIR_mir_00000001&amp;todo=ssetfile&amp;file=myimage04.jpg{{< /highlight >}}
+      <ul>
+        <li>
+          <code>derivateid</code>
+          - die MyCoReID des derivates, welches bearbeitet werden soll.
+        </li>
+        <li>
+          <code>objectid</code>
+          - die MyCoReID des Metadatenobjektes, zu dem das Derivate gehört.
+        </li>
+        <li>
+          <code>todo</code>
+          - die Funktion, welche ausgeführt werden soll.
+        </li>
+        <li>
+          <code>file</code>
+          - der Pfad zu der Datei, auf welche die Funktion ausgeführt werden soll.
+        </li>
+      </ul>
+    </div>
+  

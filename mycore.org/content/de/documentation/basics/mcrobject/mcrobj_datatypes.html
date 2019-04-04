@@ -1,0 +1,525 @@
+
+---
+
+title: "Datentypen"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Beschreibung der MyCoRe Basis-Datentypen"
+date: "2018-07-03"
+
+---
+    <div>
+      <h2>MyCoRe Metadaten-Basistypen</h2>
+      <p>
+        In MyCoRe gibt es eine Reihe von vordefinierten XML-Datenstrukturen zur Abbildung bestimmter mehr oder minder
+        komplexer Daten. Diese Strukturen bilden die MyCoRe-Datentypen, welche von der Dateneingabe bis hin zur
+        Validierung
+        und Datenpräsentation für einen einheitlichen Umgang mit den Daten sorgen. Dabei ist zwischen einfachen, recht
+        atomaren Typen und anwendungsspezifischen, komplexen Typen zu unterscheiden. Eine Auflistung finden Sie in
+        nachfolgender Tabelle.
+      </p>
+      <table class="table">
+        <tr>
+          <th>Einfache Typen</th>
+          <th>Komplexe Typen</th>
+        </tr>
+        <tr>
+          <td>MCRMetaBoolean</td>
+          <td>MCRMetaAddress</td>
+        </tr>
+        <tr>
+          <td>MCRMetaClassification</td>
+          <td>MCRMetaDerivateLink</td>
+        </tr>
+        <tr>
+          <td>MCRMetaISO8601Date</td>
+          <td>MCRMetaHistoryDate</td>
+        </tr>
+        <tr>
+          <td>MCRMetsLangText</td>
+          <td>MCRMetaPersonName</td>
+        </tr>
+        <tr>
+          <td>MCRMetaLink</td>
+          <td>MCRMetaXML</td>
+        </tr>
+        <tr>
+          <td>MCRMetaLinkID</td>
+          <td />
+        </tr>
+        <tr>
+          <td>MCRMetaNumber</td>
+          <td />
+        </tr>
+      </table>
+      <p class="klein">Tabelle: MyCoRe-Basisdatentypen</p>
+
+    </div>
+
+    <div>
+      <h2>Adresse (MCRMetaAddress)</h2>
+      <p>
+        Der Basistyp MCRMetaAddress beinhaltet eine Liste von postalischen Anschriften in der Ausprägung eines
+        XML-Abschnittes. Dabei wird berücksichtigt, dass die Anschrift in verschiedenen Sprachen und in international
+        gängigen Formen gespeichert werden soll. Die einzelnen Subtags sind dabei selbsterklärend. Die Angaben zu type und
+        xml:lang sind optional, ebenso die unter subtag liegenden Tags, jedoch muss mindestens eines ausgefüllt sein. Alle
+        Werte werden als Text betrachtet.
+      </p>
+      <p>Syntax des Metadatentyps MCRMetaAddress:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaAddress">
+  <subtag type="..." xml:lang="...">
+    <country>...</country>
+    <state>...</state>
+    <zipcode>...</zipcode>
+    <city>...</city>
+    <street>...</street>
+    <number>...</number>
+  </subtab>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadatentyps MCRMetaAddress:</p>
+
+      {{< highlight xml "linenos=table">}}
+<addresses class="MCRMetaAddress">
+  <address type="Work" xml:lang="de">
+    <country>Deutschland</country>
+    <state>Sachsen</state>
+    <zipcode>04109</zipcode>
+    <city>Leipzig</city>
+    <street>Augustuspaltz</street>
+    <number>10/11</number>
+  </address>
+  ...
+</addresses>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Boolesche Werte (MCRMetaBoolean)</h2>
+      <p>
+        Der Basistyp MCRMetaBoolean beinhaltet eine Liste von Wahrheitswerten mit zugehörigen type Attributen. Folgende Werte
+        sind zulässig:
+      </p>
+      <ul>
+        <li>für true - ’true’, ’yes’, ’wahr’ und ’ja’</li>
+        <li>für false - ’false’, ’no’, ’falsch’ und ’nein’</li>
+      </ul>
+      <p>Syntax des Metadatentyps MCRMetaBoolean:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaBoolean">
+  <subtag type="..." xml:lang="..." >
+  ...
+  </subtab>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadatentyps MCRMetaBoolean:</p>
+
+      {{< highlight xml "linenos=table">}}
+<publishes class="MCRMetaBoolean">
+  <publish type="Ausgabe_1" xml:lang="de">ja</publish>
+  <publish type="Ausgabe_2" xml:lang="de">nein</publish>
+  ...
+</publishes>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Klassifikationen (MCRMetaClassification)</h2>
+      <p>
+        Der Basistyp MCRMetaClassification dient der Einbindung von Klassifikationen und deren Kategorien in die Metadaten.
+        Beide Identifizierer zusammen beschreiben einen Kategorieeintrag vollständig. Dabei ist für die categid eine,
+        ggf.
+        mehrstufige, Kategorie-ID einzutragen. Die classid muss vom Typ MCRObjectID sein. Bitte beachten Sie die Hinweise
+        zur Gestaltung der Kategorie-IDs im vorigen Kapitel!
+      </p>
+      <p>Syntax des Metadaten-Basistyps MCRMetaClassification:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaClassification">
+  <subtag classid="..." categid="..."/>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaClassification:</p>
+
+      {{< highlight xml "linenos=table">}}
+<origins class="MCRMetaClassification" heritable="false">
+  <origin classid="MyCoReDemoDC_class_1" categid="Unis.Leipzig.URZ"/>
+  ...
+</origins>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Historische Datumsangaben (MCRMetaHistoryDate)</h2>
+      <p>
+        Der Basistyps MCRMetaHistoryDate ist speziell kreiert, um Datumsangaben für historische Projekte speichern und suchen
+        zu können. Dabei wird sowohl ein verbaler Text, sowie eine konkrete Datumskonvertierung mit dem dazugehörigen
+        Kalender
+        gespeichert. Das Datum wird im Format des angegebenen Kalenders abgelegt, auch für die Zeit vor Einführung des selben.
+        Zur Implementierung des Datentyps wurde die frei verfügbare ICU-Library der Firma IBM genutzt. Sie bietet eine Reihe
+        von Kalendern an, die so für diesen Datentyp nun verfügbar sind. Alle Datumsangaben werden zur internen
+        Verarbeitung
+        in MyCoRe in eine Julian Day Number, also eine fortlaufende Tageszahl, umgerechnet. Diese wird neben einer lesbaren
+        Form in dem Datentyp MCRMetaHistoryDate gespeichert.
+      </p>
+      <p>
+        Somit ist eine scharfe Datumssuche mit Hilfe der Integer-Daten möglich. Die Eingabe der Daten erfolgt nach den Regeln:
+      </p>
+      <ul>
+        <li>
+          Im
+          <em>text</em>
+          -Feld steht ein beliebiger String gemäß den Projektvorgaben. Dieses Feld ist für verschiedene Sprachen
+          wiederholbar.
+        </li>
+        <li>
+          Die Felder
+          <em>von</em>
+          und
+          <em>bis</em>
+          enthalten gregorianische Datumsangaben.
+        </li>
+        <li>Ist für von und/oder bis nichts angegeben, werden Standardwerte genommen. Das sind 1.1.4713 BC und
+          31.12.3999
+          AD.
+        </li>
+        <li>
+          Die Felder
+          <em>ivon</em>
+          bzw.
+          <em>ibis</em>
+          enthalten die korrespondierenden Werte zu von bzw. bis.
+        </li>
+        <li>
+          Das
+          <em>calendar</em>
+          -Feld kann die Werte
+          <strong>gregorian</strong>
+          oder
+          <strong>islamic</strong>
+          enthalten.
+        </li>
+        <li>Mögliche Notationen für die Datumsangaben sind 01.01.1999 / -01.12.200 / 1035 / 133 BC.</li>
+      </ul>
+      <p>Syntax des Metadaten-Basistyps MCRMetaHistoryDate:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaHistoryDate" heritable="...">
+  <subtag type="...">
+    <text xml:lang="...">...</text>
+    <von>...</von>
+    <ivon>...</ivon>
+    <bis>...</bis>
+    <ibis>...</ibis>
+    <calendar>...</calendar>
+  </subtab>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaHistoryDate:</p>
+
+      {{< highlight xml "linenos=table">}}
+<date class="MCRMetaHistoryDate" heritable="...">
+  <dates type="written">
+    <text xml:lang="de">4. Jh. v. Chr.</text>
+    <von>BC01.01.399</von>
+    <ivon>1575694</ivon>
+    <bis>BC31.12.300</bis>
+    <ibis>1830997</ibis>
+    <calendar>gregorian</calendar>
+  </dates>
+</date>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Datumsangaben (MCRMetaISO8601Date)</h2>
+      <p>
+        Dieser Metadatentyp ist wie MCRMetaDate für das Speichern von Zeitangaben gedacht. Er bietet jedoch eine höhere
+        zeitliche Auflösung, bis in den Millisekundenbereich. Unterstützt werden alle Formate der Informationsseite des W3C
+        (http://www.w3.org/TR/NOTE-datetime). Sie enthält nähere Informationen zu den Formaten und zur ISO-Norm: ISO 8601
+        :
+        1998 (E).
+      </p>
+      <p>
+        Wie MCRMetaDate unterstützt MCRMetaISO8601Date die Verwendung des type-Attributs. Auf Grund seiner
+        Sprachunabhängigkeit in der Formatierung der Datumsangabe fehlt die Unterstützung für das lang-Attribut. Das
+        Verwenden von MCRMetaISO8601Date ermöglicht eine Syntaxprüfung der Datumsangabe bereits auf XMLSchema-Ebene, durch
+        den dort definierten Datentyp xsd:duration, auf dem der MyCoRe-Datentyp abgebildet wird.
+      </p>
+      <p>
+        Optional kann ein format-Attribut verwendet werden. Dies erzwingt für das Datum das angegebene Format. So ist bei
+        der Formatangabe „YYYY“ das Datum „2006-01“ ungültig. Ohne die Formatangabe hingegen ist das gleiche Datum gültig,
+        weil es dem unterstützen Format „YYYY-MM“ entspricht.
+      </p>
+      <p>Syntax des Metadaten-Basistyps MCRMetaISO8601Date:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaISO8601Date" heritable="...">
+  <subtag type="..." format="...">YYYY-MM-DDThh:mm:ss.sTZD</subtag>
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaISO8601Date:</p>
+
+      {{< highlight xml "linenos=table">}}
+<dates class="MCRMetaISO8601Date" heritable="false">
+  <date type="sample">2006-01-16T13:20:30.85+01:00</date>
+</dates>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Freier Text (MCRMetaLangText)</h2>
+      <p>
+        Der Basistyp MCRMetaLangText dient der Speicherung einer Liste von Textabschnitten mit zugehöriger Sprachangabe. Über
+        das form Attribut kann noch spezifiziert werden, in welcher Form der Text geschrieben ist.
+      </p>
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaLangText:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaLangText" heritable="...">
+  <subtag type="..." xml:lang="..." form="...">
+    ...
+  </subtab>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaLangText:</p>
+
+      {{< highlight xml "linenos=table">}}
+<titles class="MCRMetaLangText" heritable="true">
+  <title type="maintitle" xml:lang="de" form="plain">
+    Mein Leben als MyCoRe-Entwickler
+  </title>
+</titles>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Externe Links und interne Verknüpfungen (MCRMetaLink und MCRMetaLinkID)</h2>
+      <p>
+        Der Basistyp MCRMetaLink wurde geschaffen, um eine Verknüpfung  auf beliebige externe Referenzen zu realisieren.
+        Der Typ MCRMetaLink ist eine Implementation des W3C XLink Standards (siehe ’XLM Linking Language (XLink) Version 1.0’).
+        Auf dieser Basis können mit dem MyCoRe-Metadatentyp MCRMetaLink zwei Arten von Links - eine Referenz und ein 
+        bidirektionaler Link erstellt werden.
+        Bei beiden Arten werden jedoch in MCRMetaLink nicht alle Möglichkeiten der XLink Spezifikation ausgeschöpft, da dies für
+        die in MyCoRe benötigten Funktionalitäten nicht erforderlich ist.
+      </p>
+      <p>
+        Im Referenztyp ist das Attribut <em>xlink:type=’locator’</em> immer anzugeben. 
+        Die eigentliche Referenz wird im <em>xlink:href</em>
+        Attribut notiert. Dabei ist die Referenz eine URL. Daneben können noch weitere
+        Informationen im <em>xlink:label</em> angegeben werden, hier ist aber auf die in der Spezifikation von XLink definierte
+        Zeichenmenge zu achten! Weierhin kann ein <em>xlink:title</em> angegeben werden.
+      </p>
+      <p>
+        Alternativ dazu besteht die Möglichkeit eines bidirektionalen Links. Dieser wird sowohl in der Link-Quelle wie auch
+        im Link-Ziel eingetragen. Der Typ ist in diesem Fall <em>xlink:type=’arc’</em>. Weiterhin sind die Attribute <em>xlink:from</em> und
+        <em>xlink:to</em> erforderlich. Optional kann noch ein Titel in <em>xlink:title</em> mitgegeben werden.
+      </p>
+      <p>
+        Der Basistyp MCRMetaLinkID entspricht im Aufbau dem MCRMetaLink. Der einzige Unterschied ist, dass die Attribute
+        xlink:href, xlink:from und xlink:to nur mit MCRObjectIDs belegt werden dürfen. Dieser spezielle Datentyp wird zur Verknüpfung von
+        MyCoRe-Objekten untereinander verwendet. Dabei kommt in der Regel die Referenz-Variante, also <em>xlink:href</em>, zum Einsatz.
+      </p>
+      
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaLink:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaLink" heritable="...">
+  <subtag xlink:type="locator" xlink:href="..." xlink:label="..." xlink:title="..."/>
+  <subtag xlink:type="arc" xlink:from="..." xlink:to="..." xlink:title="..."/>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaLinkID:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaLink" heritable="...">
+  <subtag xlink:type="locator" xlink:href="..." xlink:title="..."/>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaLink:</p>
+      {{< highlight xml "linenos=table">}}
+<def.url class="MCRMetaLink" heritable="false">
+  <url xlink:type="locator" xlink:href="http://www.zoje.de" xlink:label="ZOJE"
+       xlink:title="Eine externe URL"/>
+  <url xlink:type="arc" xlink:from="mcr_object_id_1" xlink:to="mcr_object_id_2"
+       xlink:title="Link zwischen Objekten"/>
+</def.url>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaLinkID:</p>
+      {{< highlight xml "linenos=table">}}
+<def.ref class="MCRMetaLinkID" heritable="false">
+  <ref xlink:type="locator" xlink:href="MCR_mods_00000010" xlink:title="Document 20"/>
+</def.ref>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Zahlenwerte (MCRMetaNumber)</h2>
+      <p>
+        Der Basistyp MCRMetaNumber ermöglicht das Speichern und Suchen von Zahlenwerten. Die Zahlendarstellung kann je nach
+        Sprache, d. h. im Deutschen mit Komma und im Englischen mit Punkt, angegeben werden. Weiterhin sind die
+        zusätzlichen
+        Attribute dimension und measurement möglich. Beide Attribute sind optional, ebenso wie das Default-Attribut type.
+      </p>
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaNumber:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaNumber" heritable="...">
+  <subtag xml:lang="..." dimension="..." measurement="...">
+    ...
+  </subtag>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaNumber:</p>
+
+      {{< highlight xml "linenos=table">}}
+<masse class="MCRMetaNumber" heritable="false">
+   <mass xml:lang="de" dimension="Breite" measurement="cm">12,1</mass>
+   <mass xml:lang="en" type="neu" dimension="width" measurement="ft">12.2</mass>
+   ...
+</masse>{{< /highlight >}}
+    </div>
+
+
+    <div>
+      <h2>Verknüpfung zu Dateien (MCRMetaDerivateLink)</h2>
+      <p>
+        Der Basistyp MCRMetaDerivateLink ermöglicht auf konkrete Dateien in beliebigen Derivaten
+        zu verlinken.
+      </p>
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaDerivateLink:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRDerivateLink" heritable="...">
+  <subtag xlink:type="..." xlink:href="..." xlink:title="...">
+    ...
+  </subtag>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaDerivateLink:</p>
+
+      {{< highlight xml "linenos=table">}}
+<def.derivateLink class="MCRMetaDerivateLink" heritable="false" notinherit="true">
+  <derivateLink inherited="0" xlink:type="locator" xlink:href="HisBest_derivate_00000376/RN_0004_0001r.tif" xlink:title="HisBest_derivate_00000376/RN_0004_0001r.tif"/>
+</def.derivateLink>{{< /highlight >}}
+
+      <p>
+        Subselect:
+      </p>
+      {{< highlight xml "linenos=table">}}
+<subselect id="sub.derivate"
+         type="servlet"
+         href="servlets/MCRMetaDerivateLinkServlet"
+         i18n="editor.search.choose.derivate" />{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Namen natürlicher Personen (MCRMetaPersonName)</h2>
+      <p class="Standard">
+        Der Basistyp MCRMetaPerson beinhaltet eine Liste von Namen für natürliche oder juristische Personen. Dabei wird
+        berücksichtigt, dass die Namen in verschiedenen Sprachen und international gängigen Formen auftreten können. Das
+        Attribut
+        <em>type</em>
+        dient der Differenzierung der verschiedenen Namen einer Person, Geburtsname, Synonym, Kosename usw.
+        <em>firstname</em>
+        repräsentiert den/die Vornamen,
+        <em>callname</em>
+        den Rufnamen,
+        <em>surname</em>
+        den Familiennamen,
+        <em>academic</em>
+        den akademischen
+        Titel,
+        <em>peerage</em>
+        den Adelstitel,
+        <em>numeration</em>
+        die Zählnummer (der IIV.),
+        <em>titel</em>
+        zusätzliche Titel (Bischof von),
+        <em>affix</em>
+        und
+        <em>prefix</em>
+        Namenszusätze wie 'von', 'de' usw. <em>fullname</em> enthält nochmal den
+        automatisch zusammengesetzten Namen.
+      </p>
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaPersonName:</p>
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaPersonName" heritable="...">
+  <subtag type="..." xml:lang="..">
+    <firstname>...</firstname>
+    <callname>...</callname>
+    <surname>...<surname>
+    <fullname>...</fullname>
+    <academic>...</academic>
+    <peerage>...</peerage>
+    <numeration>...</numeration>
+    <title>...</title>
+    <prefix>...</prefix>
+    <affix>...</affix>
+  </subtag>
+  ...
+</tag>{{< /highlight >}}
+
+      <p>Beispiel des Metadaten-Basistyps MCRMetaPersonName:</p>
+
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaPersonName" heritable="true">
+  <subtag type="geburtsname" xml:lang="de">
+    <firstname>Lisa Marie</firstname>
+    <callname>Lisa</callname>
+    <surname>Schnell<surname>
+    <fullname>Schnell, Lisa</fullname>
+  </subtag>
+  <subtag type="familienname" xml:lang="de">
+    <firstname>Lisa Marie</firstname>
+    <callname>Lisa</callname>
+    <surname>Schmidt<surname>
+    <fullname>Dr. phil. Freifrau von Schnelle, Lisa</fullname>
+    <academic>Dr. phil.</academic>
+    <numeration>II.</numeration>
+    <title>Fürstin</title>
+    <peerage>Freifrau</peerage>
+    <prefix>von</prefix>
+  </subtag>
+  ...
+</tag>{{< /highlight >}}
+    </div>
+
+    <div>
+      <h2>Beliebiges XML (MCRMetaXML)</h2>
+      <p>
+        Der Basistyp MCRMetaXML wurde zusätzlich als Container für einen beliebigen XML-Baum in das Projekt integriert.
+        Dieser wird in den Textknoten des Subtags gestellt und kann dort theoretisch beliebig groß sein. Achten Sie aber
+        darauf, dass entsprechend viel Speicherplatz in dem XML-SQL-Store vorgesehen wird.
+      </p>
+      <p>XML-Syntax des Metadaten-Basistyps MCRMetaXML:</p>
+
+      {{< highlight xml "linenos=table">}}
+<tag class="MCRMetaXML" heritable="...">
+  <subtag type="..." >
+   ...
+  </subtag>
+  ...
+</tag>
+      {{< /highlight >}}
+
+      <p>Beispiel für die Definition dieses Datentyps in der Datamodel-Datei:</p>
+
+      {{< highlight xml "linenos=table">}}
+<-- beliebiges XML-Objekt -->
+<element name="teixmls" minOccurs="0" maxOccurs="1">
+  <mcrmetaxml name="teixml" class="MCRMetaXML" minOccurs="1" maxOccurs="1"/>
+</element>{{< /highlight >}}
+
+      <p>und ein Beispiel mit Metadaten zum Metadaten-Basistyp MCRMetaXML:</p>
+
+      {{< highlight xml "linenos=table">}}
+<teixmls class="MCRMetaXML">
+  <teixml inherited="0">
+    <TEI>
+      <teiHeader>
+        <title>
+          Text Encoding Initiative, ein Dokumentenformat
+          zur Kodierung und den Austausch von Texten
+        </title>
+      </teiHeader>
+    </TEI>
+  </teixml>
+</teixmls>{{< /highlight >}}
+    </div>
+  

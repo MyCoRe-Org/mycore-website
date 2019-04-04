@@ -1,0 +1,42 @@
+
+---
+
+title: "Die XSLT-Xalan-Erweiterungen"
+author: ['Jens Kupferschmidt']
+description: "Der Abschnitt beschreibt die Nutzung der Xalan-Erweiterungen für die Nutzung von MyCoRe in XSLT-Scripten.
+    "
+date: "2015-08-10"
+
+---
+    <div>
+      <h2>Xalan Erweiterungen</h2>
+      <p>MyCoRe nutzt an vielen Stellen für die Datentransformation XSLT-Prozesse. Um direkt auf nützliche
+        MyCoRe-Funktionen zugreifen zu können, wurden einige Xalan-Extensions entwickelt. Die Einbindung erfolgt wie
+        unten beschrieben.
+      </p>
+      <p class="break">
+        {{< highlight text "linenos=table">}}
+<xsl:stylesheet
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transformation"
+  xmlns:mcrxsl="xalan://org.mycore.common.xml.MCRXMLFunctions"
+  ...
+  exclude-result-prefixes="xalan ..." >
+  ...
+  <xsl:... select="mcrxml:{function}"/>
+  ...
+<xsl:stylesheet/>{{< /highlight >}}
+      </p>
+      <table>
+        <tr>
+          <th valign="top" align="left">Funktion</th>
+          <th valign="top" align="left">Parameter</th>
+          <th valign="top" align="left">Beschreibung</th>
+        </tr>
+        <tr>
+          <td valign="top">getISODateFromMCRHistoryDate</td>
+          <td valign="top">date_value = Datumsstring<br />field_name = 'von' oder 'bis'<br />calendar_name = Kalenderbezeichnung</td>
+          <td valign="top">Erzeugt einen ISO Datumsstring entsprechend der Funktionalität von MCRCalendar.</td>
+        </tr>
+      </table>
+    </div>
+  

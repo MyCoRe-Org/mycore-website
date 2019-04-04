@@ -1,0 +1,1183 @@
+
+---
+
+title: "Datenmodell und Aufbau von DocPortal"
+
+---
+
+   <div>{{< mcr-figure src="/images/documentation/old_components/mcruse_metadata.png" class="border border-secondary" label="" caption="" alt="Metadaten" width="" height="" />}}</div>
+
+   <div>
+    <h3>Die Document-Daten</h3>
+    <p>
+    Das Datenmodell der Dokumente ist ein Kompromiss zwischen den einzelnen abzubildenden Datenmodellen bisher
+    bestehender Projekte. Gleichzeitig sollen auch Anforderungen an die Zukunft, wie das <strong>xMetaDiss</strong>
+    Datenmodell oder OAI berücksichtigt werden. Entscheidend für die Gestaltung der Daten mit MyCoRe sind vor allem
+    die MyCoRe-Datentypen. Die Festlegungen zur Wiederholbarkeit der Angaben bezieht sich immer
+    auf <strong>eine</strong> Sprache. Die meisten Felder sind optional und können bei Bedarf verwendet werden.
+    </p>
+    <p>
+    Einzelne Applikationen werden nur einen Teil der angegebenen Felder ausfüllen. Es ist daher sinnvoll sich auf
+    eine allgemeine Mindestmenge von Pflichtfeldern zu einigen, um eine korrekte Suche über mehrere Instanzen und
+    Projekte zu gestatten. Bei einigen Feldern ist dies aber von den Spezifika des jeweiligen Projektes abhängig.
+    </p>
+    <p>Die Suchmöglichkeiten (parametrisch/Freitext) beziehen sich auf die Metadaten. Hinzu kommt die Volltextsuche
+    im Dokument. Die Felder des <strong>Dublin Core Datenmodells</strong> sollten immer implementiert und wenn möglich
+    mit Daten gefüllt sein. Auf sie beziehen sich auch die Suchen externer Datenanbieter bzw. Teilnehmer am MyCoRe-
+    oder OAI Datenverbund. Um späteren Problemen mit nicht-Latin1-Sprachen aus dem Weg zu gehen sollen alle
+    Metadatensätze und die Internet-Anwendung UTF-8 als Codierung verwenden.
+    </p>
+
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Bemerkung</th>
+    <th>Pfl.</th>
+    <th>wied.</th>
+    <th>Suche</th>
+    <th>MCR-Type</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Titel (DC)</td>
+    <td>Haupttitel und ggf. weitere Titel</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Creator (DC)</td>
+    <td>Name eines Autors ohne Verweis</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>Param. Freitext</td>
+    <td>MCRMentLangText</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>CreatorLink</td>
+    <td>Daten des Autor oder Schöpfer des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Subject (DC)</td>
+    <td>Ordnungskriterien in Klassifikationen</td>
+    <td>ggf.</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Origin</td>
+    <td>Zugehörigkeit zu einer Einrichtung als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Description (DC)</td>
+    <td>Kurzbeschreibung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>DescriptURL</td>
+    <td>Link zu Kurzbeschreibungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>Publisher (DC)</td>
+    <td>Name des Veröffentlichers des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>PublisherLink</td>
+    <td>Daten des Veröffentlichers des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>Contributor (DC)</td>
+    <td>Name des Beteiligten an der Erstellung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>ContribLink</td>
+    <td>Daten des Beteiligten an der Erstellung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaLinkID</td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Date (DC)</td>
+    <td>Datumsangaben zum Objekt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaISO8601</td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Type (DC)</td>
+    <td>Typ des Objektes als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Format (DC)</td>
+    <td>Format des Objektes als Klassifikation</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>15</td>
+    <td>Identifier (DC)</td>
+    <td>Angaben zur Identifikation des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>16</td>
+    <td>Source (DC)</td>
+    <td>Angaben zu den Quellen des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>17</td>
+    <td>SourceLink</td>
+    <td>Link zu Angaben zu den Quellen des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>18</td>
+    <td>Languages (DC)</td>
+    <td>Sprache als Klassifikation</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRClassification</td>
+    </tr>
+    <tr>
+    <td>19</td>
+    <td>Keywords </td>
+    <td>Schlüsselworte als verbaler Text</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>20</td>
+    <td>Coverage (DC)</td>
+    <td>Angaben zu der Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext </td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>21</td>
+    <td>CoverageLink</td>
+    <td>Link zu Angaben zu der Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>22</td>
+    <td>CoverageDate</td>
+    <td>Datumsangaben zur Erstreckung des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaDate</td>
+    </tr>
+    <tr>
+    <td>23</td>
+    <td>Relation (DC)</td>
+    <td>Textlicher Verweis auf externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext </td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>24</td>
+    <td>RelationLink</td>
+    <td>Verweise auf externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>25</td>
+    <td>RelationISBN</td>
+    <td>ISBN als Relation.</td>
+    <td>nein</td><td>nein</td>
+    <td>param.</td>
+    <td>MCRMetaISBN</td>
+    </tr>
+    <tr>
+    <td>26</td>
+    <td>Rights (DC)</td>
+    <td>Angaben zu den Rechten des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>27</td>
+    <td>RightsLink</td>
+    <td>Link zu Angaben zu den Rechten des Objektes</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>28</td>
+    <td>Size</td>
+    <td>Angaben zu Seitenanzahl, Bilder, Tabellen usw.</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>29</td>
+    <td>Place</td>
+    <td>Erscheinungsort</td>
+    <td>nein</td>
+    <td>nein</td>
+    <td>param.Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>30</td>
+    <td>ISBN</td>
+    <td>eindeutige ISBN</td>
+    <td>nein</td><td>nein</td>
+    <td>param.</td><td>MCRMetaISBN</td>
+    </tr><tr><td>31</td><td>NBN</td>
+    <td>eindeutige NBN</td>
+    <td>nein</td>
+    <td>nein</td>
+    <td>param.</td>
+    <td>MCRMetaNBN</td>
+    </tr>
+    <tr>
+    <td>32</td>
+    <td>URN</td>
+    <td>eindeutige URN</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaLink</td>
+    </tr><tr><td>33</td>
+    <td>DDBContact</td>
+    <td>Eindeutiger Identifizierer der DB</td>
+    <td>nein</td><td>nein</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>34</td>
+    <td>Notes</td>
+    <td>Anmerkungen zum Objekt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>Freitext</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>35</td>
+    <td>Citation</td>
+    <td>Zitierweise</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.1:</strong> Das neue Metadaten-Modell der Dokumente</p>
+
+    <p>Ausfüllhinweise:</p>
+    <p>
+    Die Zahlen in Klammern geben die maximale Zeichenlänge pro Kardinalität an.
+    </p>
+
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Ausfüllhinweis</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Titel(1024)</td>
+    <td><ul>
+        <li>Pro Titeltyp können mehrere Sprachen benutzt werden.</li>
+        <li>Haupttitel werden mit <strong>type=“main“</strong> markiert.</li>
+        <li>Alternative Titel werden mit <strong>type=“alt“</strong> markiert.</li>
+        <li>Untertitel werden mit <strong>type=“subtitle“</strong> markiert.</li>
+    </ul></td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Creator(128)</td>
+    <td><ul>
+        <li>Für Habilitationen und Dissertationen Verfasser in Vorlageform.</li>
+        <li>Sonst Autorname als Text.</li>
+    </ul></td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>CreatorLink</td>
+    <td>Verweis auf einen Personen-Datensatz.</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Subject</td>
+    <td><ul>
+        <li>Verweise auf Kategorien von Klassifikationen, in die das Dokument eingeordnet ist.</li>
+        <li>Für  Habilitationen und Dissertationen in Leipzig --&gt; Regensburger Systematik (ID der RS)</li>
+        <li>Weitere bibliotheksinterne Sachgruppen</li>
+    </ul></td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Origin</td>
+    <td>Auswahlliste, zu welcher Einrichtung das Objekt gehört.</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Description(4096)</td>
+    <td>Beschreibende Informationen.
+        <ul><li>Für den Beschreibungstext <strong>type=“description“</strong>.</li>
+            <li>Für Abstract <strong>type=“abstract“</strong>.</li>
+            <li>Für die Inhaltsangabe <strong>type=“content“</strong>.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>DescriptURL</td>
+    <td>Vereis auf externe Beschreibungstexte.
+        <ul><li>Für den Beschreibungstext <strong>type=“description“</strong>.</li>
+            <li>Für Abstract <strong>type=“abstract“</strong>.</li>
+            <li>Für die Inhaltsangabe <strong>type=“content“</strong>.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>Publisher(128)</td>
+    <td>Textliche Bezeichnung des/derHerausgeber(s).</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>PublisherLink</td>
+    <td>Verweis auf einen Personen- oder Institutionen-Datensatz.</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>Contributor(128)</td>
+    <td>Textliche Bezeichnung des/der Beteiligten.
+        <ul>
+        <li>Für den Typ können Informationen wie <strong>„advisor“</strong> , <strong>„mentor“</strong>,
+        <strong>„drawer“</strong> usw. angegeben werden.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>ContributorLink</td>
+    <td>Verweis auf einen Personen- oder Institutionen-Datensatz.
+        <ul>
+        <li>Für den Typ können Informationen wie <strong>„advisor“</strong> , <strong>„mentor“</strong>,
+        <strong>„drawer“</strong> usw. angegeben werden.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Date</td>
+    <td><ul><li>Für allgemeine Dokumente Datum der Einstellung <strong>type=“create“</strong>.</li>
+            <li>Für das Datum der Einreichung zur Dis./Habil.der Arbeit <strong>type=“submit“</strong>.</li>
+            <li>Für das Datum der Verteidigung zur Dis./Habil.der Arbeit <strong>type=“accept“</strong>.</li>
+            <li>Für das Datum der Beschlussfassung zur Dis./Habil. der Arbeit <strong>type=“decide“</strong>.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Type</td>
+    <td>Auswahlliste inkusive „Dissertation“ und „Habilitation“</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Format</td>
+    <td>Auswahlliste </td>
+    </tr>
+    <tr>
+    <td>15</td>
+    <td>Identifier(128)</td>
+    <td>ggf. Bibliothekssignatur</td>
+    </tr>
+    <tr>
+    <td>16</td>
+    <td>Source(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>17</td>
+    <td>SourceLink</td>
+    <td />
+    </tr>
+    <tr>
+    <td>18</td>
+    <td>Language</td>
+    <td>Siehe Anmerkungen zur Sprachnotation.</td>
+    </tr>
+    <tr>
+    <td>19</td>
+    <td>Keywords(128)</td>
+    <td>Verbal anzugebende Schlüsselworte / Stichworte.</td>
+    </tr>
+    <tr>
+    <td>20</td>
+    <td>Coverage(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>21</td>
+    <td>CoverageLink</td>
+    <td />
+    </tr>
+    <tr>
+    <td>22</td>
+    <td>CoverageDate</td>
+    <td />
+    </tr>
+    <tr>
+    <td>23</td>
+    <td>Relation(1024)</td>
+    <td><ul><li>Angabe zum Erscheinen des Werkes.</li>
+            <li>Verbaler Verweis auf vorangegangene Versionen.</li>
+       </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>24</td>
+    <td>RelationLink</td>
+    <td>Link auf vorangegangene Versionen.</td>
+    </tr>
+    <tr>
+    <td>25</td>
+    <td>RelationISBN</td>
+    <td>Verweis auf eine ISBN Nummer.</td>
+    </tr>
+    <tr>
+    <td>26</td>
+    <td>Right(1024)</td>
+    <td>Verbale Beschreibung der Urheberrechte.</td>
+    </tr>
+    <tr>
+    <td>27</td><td>RightsLink</td>
+    <td>Verweis auf eine URL mit den Lizenz- und/oder Urheberrechten.</td>
+    </tr>
+    <tr>
+    <td>28</td><td>Size(1024)</td>
+    <td>Verbale Aufzählung von Seite, Abbildungen, usw. lt. Vorgabe der Bibliothek.<br />
+        Für Leipzig z. B. : xxx S. : Ill., graph. Darst.</td>
+    </tr>
+    <tr>
+    <td>29</td>
+    <td>Place(1024)</td>
+    <td>Erscheinungsort</td>
+    </tr>
+    <tr>
+    <td>30</td>
+    <td>ISBN(32)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>31</td>
+    <td>NBN(256)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>32</td>
+    <td>URN(256)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>33</td>
+    <td>DDBContact(1024)</td>
+    <td />
+    </tr>
+    <tr>
+    <td>34</td>
+    <td>Notes(4096)</td>
+    <td><ul><li>Für SWB Fußnoten <strong>type=“feet“</strong>.</li>
+            <li>Für SWB Kommentare <strong>type=“coment“</strong>.</li>
+       </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>35</td>
+    <td>Citation4096)</td>
+    <td>Verbale Angabe der Zitierweise.</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.2:</strong> Ausfüllhinweise zum neuen Datenmodell der Dokumente</p>
+
+   </div>
+
+   <div>
+    <h3>Das Datenmodell für Institutionen</h3>
+    <p>
+    Für Institutionen wurde ein Datenmodell entwickelt, welches sich hauptsächlich an dem Einsatz im dienstlichen
+    Gebrauch orientiert.
+    </p>
+
+    <table>
+    <tr>
+    <td>Nr.</td>
+    <td>Bezeichner</td>
+    <td>Bemerkung</td>
+    <td>Pfl.</td>
+    <td>wied.</td>
+    <td>Suche</td>
+    <td>MCR-Type</td>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td>Angaben zum Namen einer Institution</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaCorporationName</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Address</td>
+    <td>Angaben zur Adresse</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaAddress</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Phone</td>
+    <td>Telefonnummern / Fax</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>URL</td>
+    <td>URL’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>eMail</td>
+    <td>eMails’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Note</td>
+    <td>Bemerkungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.3:</strong> Das neue Metadaten-Modell für Institutionen</p>
+
+    <p>Ausfüllhinweise:</p>
+
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th><th>Ausfüllhinweis</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td />
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Address</td>
+    <td />
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Phone</td>
+    <td><ul>
+            <li>für Telefonnummern <strong>type="phone"</strong></li>
+            <li>für Faxe <strong>type="fax"</strong></li>
+        </ul></td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>URL</td>
+    <td />
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>eMail</td>
+    <td />
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Note</td>
+    <td />
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.4:</strong> Ausfüllhinweise für das neue Metadaten-Modell für Institutionen</p>
+
+   </div>
+   <div>
+    <h3>Das Datenmodell für natürliche Personen</h3>
+    <p>
+    Für natürliche <strong>Personen</strong> hingegen ist ein umfangreicheres Datenmodell erforderlich.
+    Dieses ist in der angebotenen Variante vor allem auf dienstliche Belange abgestimmt.
+    </p>
+
+    <table>
+    <tr>
+    <td>Nr.</td>
+    <td>Bezeichner</td>
+    <td>Bemerkung</td>
+    <td>Pfl.</td>
+    <td>wied.</td>
+    <td>Suche</td>
+    <td>MCR-Type</td>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td>Angaben zum Namen einer Person</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. Freitext</td>
+    <td>MCRMetaPersonName</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Female</td>
+    <td>Angaben zum Geschlecht der Person</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>param. </td>
+    <td>MCRMetaBoolean</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Institution</td>
+    <td>Verweis auf die Institution, zu der die Person gehört</td>
+    <td>ja</td>
+    <td>ja</td>
+    <td>param. </td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Address</td>
+    <td>Angaben zur Adresse</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaAddress</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Phone</td>
+    <td>Telefonnummern</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Date</td>
+    <td>Datumsangeben wie Geburtsdatum, usw.</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaISO8601</td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>Profession</td>
+    <td>Berufsbezeichnung / Amt</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>ProfClass</td>
+    <td>Berufsbezeichnung / Amt als Klassifikationseintrag</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>National</td>
+    <td>Nationalität</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>param.</td>
+    <td>MCRMetaClassification</td>
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>URL</td>
+    <td>URL’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>eMail</td>
+    <td>eMails’s</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Reference</td>
+    <td>Externe Referenzen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLink</td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Note</td>
+    <td>Anmerkungen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Publications</td>
+    <td>Publikationen</td>
+    <td>nein</td>
+    <td>ja</td>
+    <td>nein</td>
+    <td>MCRMetaLangText</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.5:</strong> Das neue Metadaten-Modell für Personen</p>
+
+    <p>Ausfüllhinweise:</p>
+
+    <table>
+    <tr>
+    <th>Nr.</th>
+    <th>Bezeichner</th>
+    <th>Ausfüllhinweise</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Name</td>
+    <td />
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Female</td>
+    <td><ul>
+        <li>weiblich ist <strong>true</strong>; männlich ist <strong>false</strong></li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Institution</td>
+    <td />
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Address</td>
+    <td><ul>
+        <li>Für das Büro ist <strong>type=“office“</strong> anzugeben.</li>
+        <li>Für die private Adresse ist <strong>type=“private“</strong> anzugeben.</li>
+        </ul></td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Phone</td>
+    <td />
+    </tr>
+    <tr>
+    <td>6</td>
+    <td>Date</td>
+    <td><ul>
+        <li>Für das Geburtsdatum ist <strong>type=“birth“</strong> anzugeben.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>7</td>
+    <td>Profession</td>
+    <td><ul>
+        <li>Für den Beruf ist <strong>type=“profession“</strong> anzugeben.</li>
+        <li>Für die Tätigkeit ist <strong>type=“job“</strong> anzugeben.</li>
+        </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>8</td>
+    <td>ProfClass</td>
+    <td />
+    </tr>
+    <tr>
+    <td>9</td>
+    <td>National</td>
+    <td />
+    </tr>
+    <tr>
+    <td>10</td>
+    <td>URL</td>
+    <td />
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>eMail</td>
+    <td />
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>Reference</td>
+    <td />
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>Note</td>
+    <td />
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>Publications</td>
+    <td />
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 5.6:</strong> Ausfüllhinweise für das neue Metadaten-Modell für Personen</p>
+
+   </div>
+
+   <anchor id="chapter_5.5" />
+   <div>
+    <h3>Klassifikationen</h3>
+    <p>
+    Klassifikationen sollen eine Suche / Präsentation von einheitlichen Begriffen gewährleisten.
+    Da letztendlich jede Einrichtung selbst für die Auswahl der verwendeten Klassifikation verantwortlich ist,
+    können hier nur Empfehlungen ausgesprochen werden, um eine gemeinsame Instanzen-übergreifende Suche zu ermöglichen.
+    Achtung, in einem Verbund sollte man sich darüber im Klaren sein, dass Streichungen von Kategorien einer
+    Klassifikation zu Fehlern führen können! Ergänzungen hingegen sind unkritisch.
+    </p>
+
+    <div>
+     <h4>Subjekte</h4>
+     <p>
+     Die Klassifikationen der Subjekte sind wohl das größte Problem bei der Suche nach einem gemeinsamen Nenner.
+     Andererseits kann hier auch toleriert werden, das eine große Individualität der einzelnen Anwendungen herrscht,
+     wenn man bereit ist, Diskrepanzen bei der Suche hinzunehmen bzw. dieses Feld von einer <strong>gemeinsamen
+     übergreifenden</strong> Suche auszuschließen. Einige Klassifikationen sind schon für MyCoRe realisiert, andere
+     bedürfen noch einer Umsetzung. Eine Übersicht gibt die folgende Tabelle.
+     </p>
+
+     <table>
+     <tr>
+     <th>Klassifikation</th>
+     <th>in DocPortal</th>
+     <th>MCRObjectID</th>
+     <th>im Sample</th>
+     </tr>
+     <tr>
+     <td>Basisklassifikation (GBV)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Sachgruppen der Deutschen Nationalbibliographie (DNB)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000007</td>
+     <td>ja</td>
+     </tr>
+     <tr>
+     <td>Dewey Decimal Classifikation (DDC)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000009</td>
+     <td />
+     </tr>
+     <tr>
+     <td>Regensburger Verbundklassifikation (RKV)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Mathematics Subject Classifikation (msc1991)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Physics and Astronomy Classification Scheme (pacs2003)</td>
+     <td>ja</td>
+     <td>DocPortal_class_00000010</td>
+     <td />
+     </tr>
+     <tr>
+     <td>ACM Computing Classification System (ccs1998)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Zentralblatt für Didaktik der Mathematik (zdm)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Library of Congress Classification Scheme (LCC)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Universam Decimal Classification Scheme (UDC)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>National Library of Medicine Classification Scheme (NLM)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Mathematics Subject Classifikation (msc2000)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Schlagwortnormdatei (SWD)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Library of Congress Subject Headings Scheme (LCSH)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Medical Subject Headings Scheme (MeSH)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     <tr>
+     <td>Unified Medical Language System Scheme (UMLS)</td>
+     <td>nein</td>
+     <td />
+     <td />
+     </tr>
+     </table>
+     <p class="klein"><strong>Tabelle 5.7:</strong> Potentielle Klassifikationen für DocPortal</p>
+
+    </div>
+
+    <div>
+     <h4>Herkunft</h4>
+     <p>
+     Diese Klassifikation beinhaltet eine Liste von Grundeinträgen für die beteiligten Einrichtungen. Diese
+     Grundeinträge sind durch den jeweiligen DocPortal-Anwender für sich um eine weitere Untergliederung näher zu
+     spezifizieren. Ziel dieser Grundeinrichtung ist eine grobe Suchbarkeit der Daten auch von Anwendungen anderer
+     Portal-Teilnehmer aus (Beispiel: Suche von Objekten aus Leipzig in Jena). Es erscheint sinnvoll, für die
+     Herkunft die Möglichkeit einer Anbindung von URL's an die jeweilige Kategorie, wie sie MyCoRe bietet,
+     auszunutzen, somit kann direkt auf die Web-Seite eines Institutes oder einer Einrichtung referenziert werden.
+     </p>
+    </div>
+
+    <div>
+     <h4>Typ</h4>
+     <p>
+     Da sich das xMetaDiss Konzept nur für Dissertation und Habilitationen verantwortlich fühlt, ist eine Integration
+     in MILESS/MyCoRe relativ einfach möglich. DocPortal sieht daher alle in MILESS bisher verwendeten Typen vor.
+     Ergänzungen durch die Anwender von DocPortal können problemlos durchgeführt werden.
+     </p>
+    </div>
+
+    <div>
+     <h4>Format</h4>
+     <p>
+     Die Festlegung der Format-Klassifikation ist sehr schwierig. METADISS sieht hier zum Beispiel die MIME-Types vor.
+     In MILESS/MyCoRe werden hier verbale Einstufungen benutzt. Dabei sollten wir auch bleiben, da wir ja ggf. eine
+     Menge von Objekten mit einem Metadatensatz versehen (Derivate). Aus der Speichertabelle dieser Derivate können
+     die erforderlichen Mime-Types gewonnen werden.
+     </p>
+    </div>
+
+    <div>
+     <h4>Sprache</h4>
+     <p>
+     Die Language Klassifikation ist eine Abbildung der Sprachen nach ISO-639-1. Ggf. werden diese Sprachkürzel um
+     Länderkürzel nach ISO Norm 3166 erweitert werden (z. B. eng-US). Um Konform zur XML-Notation zu sein, wird
+     gemäß Spezifikation die Form <strong>...[-CC]</strong> gewählt, wobei ... der 3-stellige Sprachcode ist. Diesem
+     kann sich das Länderkürzel mit Minuszeichen anschließen.
+     </p>
+    </div>
+
+    <div>
+     <h4>Nationalität</h4>
+     <p>
+     Die Klassifikation der Nationalitäten umfasst eine einfache Liste der gängigsten Nationalitäten.
+     Eine Ergänzung ist jederzeit möglich.
+     </p>
+    </div>
+
+    <div>
+     <h4>Übersicht der DocPortal-Klassifikationen</h4>
+     <p>
+     Die nachfolgende Tabelle gibt eine Übersicht der mitgelieferten Klassifikationsmuster, wie sie Verwendung finden.
+     Diese Muster müssen für eine Nachnutzung entsprechend angepasst werden. Gleichzeitig erfolgt mit dem weiteren
+     Projektausbau auch die Erweiterung dieser Klassifikationen.
+     </p>
+
+     <table>
+     <tr>
+     <th>MCRObjectID</th>
+     <th>Inhalt der Klassifikation</th>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000001</td>
+     <td>Eine Liste der möglichen Nationalitäten.</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000002</td>
+     <td>Eine Grundliste der beteiligten Universitäten und Firmen. Diese Liste ist nicht fein struktueriert, dies müssen
+         die Anwender selbst vornehmen. Im description Attribut der Kategorien können MCRObjectID's der Institutionen
+         abgelegt werden.
+     </td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000003</td>
+     <td>Analog zu DocPortal_class_00000002..</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000004</td>
+     <td>Eine Liste der möglichen Sprachen.</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000005</td>
+     <td>Eine Liste der Typen</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000006</td>
+     <td>Eine Liste der Formate</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000007</td>
+     <td>Eine Liste der Sachgruppen DNB</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000008</td>
+     <td>Eine Liste der Berufe</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000009</td>
+     <td>Die DDC-Klassifikation</td>
+     </tr>
+     <tr>
+     <td>DocPortal_class_00000010</td>
+     <td>Die PACS-Klassifikation</td>
+     </tr>
+     </table>
+     <p class="klein"><strong>Tabelle 5.8:</strong> DocPortal-Klassifikationen</p>
+
+    </div>
+   </div>
+
+  

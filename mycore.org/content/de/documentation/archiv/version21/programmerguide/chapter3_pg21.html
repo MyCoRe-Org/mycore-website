@@ -1,0 +1,603 @@
+
+---
+
+title: "Komponenten"
+
+---
+  <p>
+  Eine allgemeine Beschreibung, was Komponenten in MyCoRe ausmachen, wie sie definiert sind und welche Struktur
+  sie haben, wurde bereits im Kapitel 1 ausführlich erläutert. Dieses Kapitel soll nun die Funktionalitäten der
+  einzelnen Komponenten und ihre Einbindung in die Gesamtapplikation näher beschreiben.
+  </p>
+
+  <div>
+   <h2>Das Session Listing (session-listing)</h2>
+
+   <div>
+    <h3>Allgemeines</h3>
+
+    <p>
+    Die Komponente Session Listing ist relativ klein und einfach. Sie stellt lediglich die
+    Möglichkeit bereit, in der interaktiven Sitzung angezeigt zu bekommen, welche Sitzungen
+    für die MyCoRe-Anwendung aktiv sind. Die Anfrage an das Servlet liefert eine XML-Datei
+    zurück, welche über das mitgelieferte Stylesheet angezeigt wird. Ggf. kann dieses Stylesheet
+    durch eine eigene Variante überschrieben werden.
+    </p>
+   </div>
+
+   <div>
+    <h3>Installation</h3>
+
+    <p>
+    Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
+    lediglich noch aufgerufen werden, z. B. in der navigation.xml mit <code>href="/servlets/MCRSessionListingServlet"</code>.
+    </p>
+   </div>
+
+  </div>
+
+  <div>
+   <h2>Die SimpleWorkflow-Komponente (swf)</h2>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_1.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow allgemein" width="" height="" />}}</div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_2.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow" width="" height="" />}}</div>
+
+   <div>
+    <h5>Installation</h5>
+    <p>
+    In DocPortal sind die Funktionen bereits standardmäßig integriert. Bei der Verwendung in anderen Applikationen
+    sind die nacholgenden Schritte auszuführen:
+    </p>
+    <ol>
+    <li>die folgende Zeile ist in das XSL-Stylesheet zu kopieren, welches die Auswertung Ihrer XML-Webseiten
+        realisiert (z.B. <code>MyCoReWebPage.xsl</code>).<br />
+        <code>&lt;xsl:include href="workflow.xsl" /&gt;</code>
+    </li>
+    <li>Weiterhin finden Sie im Kern unter <code>components/swf/xsl</code> das Stylesheet <code>mycoreobject-to-workflow.xsl</code>.
+        Dieses ist eine Transformationsvorlage für die Transformation von den XML-Objekt-Metadaten in eine
+        SimpleWorkflow-interne XML Struktur. Für jeden Ihrer Metadaten-Typen muss eine solche Konverter-Datei mit
+        Namen <code>mycoreobject-&lt;type&gt;-to-workflow.xsl</code> in Ihrer Anwendung vorhanden sein.
+    </li>
+    <li>Als letztes muss der Workflow in eine XML-Webseite integriert und diese entsprechend über Menüpunkte aufgerufen werden. Aufgerufen
+        wird ein Workbasket mit der eingebetteten Zeile<br />
+        <code>&lt;workflow base="MCRObjectID.Base" step="editor" /&gt;</code> oder <br />
+        <code>&lt;workflow type="MCRObjectID.Type" step="editor" /&gt;</code>
+    </li>
+    </ol>
+
+    <p>
+    Die Integration des SimpleWorkflow in die Präsentationsseiten erfolgt unter Einbeziehung der bereitgestellten Icons
+    und eines dahinter liegenden Links. Dieses kann an beliebiger Stelle in der Präsentation platziert werden. Da die
+    einzelnen Aktionsaufrufe sich in ihren Parametern doch erheblich unterscheiden sollten bei Bedarf die relevanten
+    die entsprechenden Aufrufe im DocPortal-Beispiel zu Rate gezogen werden.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <a href="{$ServletsBaseURL}MCRStartEditorServlet{$HttpSession}?
+       tf_mcrid={$mcrid}&amp;       - MCRObjectID
+       se_mcrid={$mcrid}&amp;       - MCRObjectID
+       re_mcrid={$mcrid}&amp;       - Return MCRObjectID, nur für Derivate-ToDo, optional
+       type={$type}&amp;            - MCRObjectID Typ, alte Variante, ggf. optional
+       project={$project}&amp;      - MCRObjectID Base, neu, überschreibt type
+       step=commit&amp;             - Arbeitsschritt
+       todo=seditobj&amp;           - ToDo
+       layout={$layout}"            - optional
+    >
+    <img
+       src="{$WebApplicationBaseURL}images/static/workflow_objedit.gif"
+       title="{$OMD.EditorEdit}"/>
+    </a>
+    
+    {{< /highlight >}}
+
+    <p>
+    Die Einbindung in den Editor erfolgt mit den folgenden Zeilen.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <target type="servlet" name="MCRCheckNewDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckCommitDataServlet" method="post" format="xml" />
+    
+    {{< /highlight >}}
+
+   </div>
+
+   <div>
+    <h5>Konfiguration</h5>
+    <p>
+    Die Konfiguration des SimpleWorkflow beschränkt sich auf einige wenige Dinge. Für MyCoRe 2.0
+    kann alternativ entweder auf den MCRObjectID.Type (alt) oder MCRObjectID.Base (neu)
+    referenziert werden. Für jede Installation können einige Werte different sein, so dass
+    es sich empfiehlt, diese in der <code>mycore.private.properties</code> abzulegen.
+    Ein großer Teil der vom <code>MCRStartEditorServlet</code> veranlassten Aktionen ist so
+    implementiert, dass Sie auf Wunsch eine E-Mail an eine oder mehrere E-Mail-Adressen schicken können. Wenn Sie für
+    den Konfigurationswert, welcher durch das Paar <code>[MCRObjectID.Base|MCRObjectID.Type].[todo]</code>
+    beschrieben wird, nichts angeben, so wird die E-Mail unterdrückt. Alle Angaben in diesem
+    Konfigurationsabschnitt sind selbsterklärend. Anzugeben sind:
+    </p>
+    <ul>
+    <li>allgemeine Angaben zur Mailverteilung</li>
+    <li>die Verzeichnisnamen des Plattenspeichers,</li>
+    <li>die Mail-Verteilung</li>
+    </ul>
+    {{< highlight shell "linenos=table">}}
+    ##################################################################
+    #  SimpleWorkflow                                                #
+    ##################################################################
+
+    # Generic mail configuration for MCRMailer
+    # The server for outgoing mails
+    MCR.Mail.Server=mail.mycore.de
+    # The mail protocol
+    MCR.Mail.Protocol=smtp
+    # The debug option
+    MCR.Mail.Debug=false
+    # Encoding for the mail
+    MCR.Mail.Encoding=UTF-8
+    # Number of send tries to send the mail : 0 – off or n tries
+    MCR.Mail.NumTries=1
+    # Editor Mail adresses for Messages add1@serv1,add2,@serv2,...
+    MCR.Mail.Address=mycore@mail.mycore.de
+
+    # Editor path for directories
+    MCR.SWF.Directory.base=%MCR.basedir%/data/workflow
+    MCR.SWF.Directory.[MCRObjectID.Base|MCRObjectID.Type]=%MCR.basedir%
+        /data/workflow/[MCRObjectID.Base|MCRObjectID.Type]
+    ...
+
+    # Editor flags for base/type and todo
+    MCR.SWF.Mail.[MCRObjectID.Base|MCRObjectID.Type].
+        [todo]=%MCR.Mail.Address%
+    ...
+
+    
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h5>Ergänzung eigener ToDo's</h5>
+    <p>
+    Das MCRStartEditorServlet gestattet eine Erweiterung mit eigenen Funktionen durch einfache Vererbung. Erstellen Sie
+    eine Klasse MCRStartEditorServletMyToDo als Ableitung des MCRStartEditorServlet. Hierin können Sie nun Methoden
+    definieren, welche als ToDo direkt aufgerufen werden können. Entsprechend der Konfiguration können dann auch Mails
+    versendet werden.
+    </p>
+    {{< highlight java "linenos=table">}}
+package org.mycore.frontend.servlets;
+
+import java.io.IOException;
+
+/**
+ * The class extends the MCRStartEditorServlet with a new method
+ *
+ * @author Jens Kupferschmidt
+ */
+public class MCRStartEditorServletMyToDo extends MCRStartEditorServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A new method. The access right is writedb.
+     *
+     * @param job
+     *            the MCRServletJob instance
+     * @param cd
+     *            the common data part
+     */
+    public void mytodo(MCRServletJob job, CommonData cd) throws IOException {
+        // access right
+        if (!MCRAccessManager.checkPermission(cd.mysemcrid, "writedb")) {
+            job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + usererrorpage));
+            return;
+        }
+
+        /** ToDo code */
+
+        // back to the metadata view
+        StringBuffer sb = new StringBuffer();
+        sb.append(getBaseURL()).append("receive/").append(cd.mysemcrid);
+        job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(sb.toString()));
+    }
+
+}
+    
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h5>Ergänzung eigener Datenmodell-Datentypen</h5>
+    <p>
+    Werden dem bereits vorhandenen allgemeinen Datenmodell neue bzw. ergänzende Typen
+    hinzugefügt, so muss die Prüfung und Vervollständigung des Output Validators für den Editor
+    erweitert werden. Dazu muss in der Klasse <code>MCREditorOutValidator</code> eine
+    Methode für die Klasse eingefügt werden. Die Klasse prüft den Output des Editor Framework
+    und ergänzt fehlende Namespaces (z. B. für xml:lang).
+    </p>
+    {{< highlight java "linenos=table">}}
+    /**
+     * @param datasubtag
+     */
+    boolean checkMCRMetaXYZ(Element datasubtag) {
+        return checkMetaObject...(datasubtag, MCRMetaXYZ.class);
+    }
+    
+    {{< /highlight >}}
+   </div>
+  </div>
+
+  <div>
+   <h4>Das Webservice-Modul</h4>
+
+   <div>
+    <h5>Allgemeines</h5>
+    <p>
+    Für das Webservice-Module wird das Axis-Framework verwendet (http://ws.apache.org/axis/). Über den Webservice können
+    MyCoRe-Objekte geholt und Queries in der neuen Abfragesprache ausgeführt werden. In dem Modul ist auch ein Beispiel
+    eines Clients enthalten, der den installierten Webservice von MyCoRe nutzt.
+    </p>
+   </div>
+
+   <div>
+    <h5>Installation des Webservices</h5>
+    <p>
+    Hierzu müssen in der mycore.private.properties die Properties für den Axis-Administrator gesetzt werden:
+    </p>
+    <p class="break"><code>MCR.ws_admin</code> =Kennung des Axis-Administrators</p>
+    <p class="break"><code>MCR.ws_adminpasswd</code> =und zugehöriges Passwort</p>
+    <p>
+    Von <code>ant webapps</code> werden Kennung und Passwort in die Datei webapps/WEB-INF/users.lst eingetragen.
+    Docportal wird wie gewohnt gestartet und durch Eingabe der Url
+    </p>
+    <p class="break"><code>http://localhost:8080/servlets/AxisServlet</code></p>
+    <p>
+    wird geprüft, ob Axis richtig konfiguriert ist. Danach wird das Deployment des Webservice mit
+    <code>ant webservice.deploy</code> (docportal/modules/module-webservices/build.xml) durchgeführt. Ein erneuter
+    Aufruf des AxisServlets zeigt den MyCoRe-Webservice mit dem Namen <code>MCRWebService</code> und den Methoden
+    <code>MCRDoRetrieveObject</code> und <code>MCRDoQuery</code> an. Ein Klick auf die <code>WSDL</code>
+    (Web Service Description Language) von <code>MCRWebService</code> zeigt die Parameter und Datentypen der
+    Rückgabewerte an.
+    </p>
+    <p>
+    Mit <code>ant webservice.undeploy</code> wird das Undeployment des Webservice <code>MCRWebService</code>
+    durchgeführt.
+    </p>
+    <p>Mit folgendem Aufruf kann überprüft werden, ob der <code>MCRWebService</code> Ergebnisse liefert: </p>
+    {{< highlight shell "linenos=table">}}
+    http://localhost:8080/services/MCRWebService?method=MCRDoRetrieveObject&id=<mcrid>
+    
+    {{< /highlight >}}
+
+    <p>
+    Sollten Sie beim Deploy/Undeploy die Meldung „Exception in axis-admin“ oder „axis-admin failed with
+    {http://xml.apache.org/axis/}HTTP (401)Unauthorized“ erhalten, setzen Sie wie am Anfang dieses Abschnittes
+    beschrieben, Kennung und Passwort des Axis-Administrators. Nach einem erneuten <code>ant webapps</code> führen
+    Sie <code>ant webservice.deploy</code> aus. Die Konfigurationsdatei für Axis ist
+    docportal/config/server-config.wsdd.
+    </p>
+   </div>
+
+   <div>
+    <h5>Client für den Webservice erzeugen </h5>
+    <p>
+    Mit '<code>ant client.cmd</code>' wird ein Webservice-Client erstellt, der den Webservice <code>MCRWebService</code>
+    nutzt. Hierzu werden WSDL-Informationen vom Server geholt und mittels Axis die Stubs generiert und im Verzeichnis
+    <code>module-webservices/build/src</code> gespeichert. Anschließend werden alle Daten kompiliert und
+    <code>module-webservices/build/bin/wsclient.cmd </code>(Windows) gebaut.
+    </p>
+    <p><code>[ToDo]: sh für Linux bauen]</code></p>
+   </div>
+  </div>
+
+  <div>
+   <h4>Bildbetrachter IView2</h4>
+
+   <div>
+    <h5>Allgemeines</h5>
+    <p>
+    MyCoRe bietet einen Bildbetrachter, „Image-Viewer“ genannt, für das komfortable Betrachten von Bilddaten an. Dieser eignet
+    sich sehr gut für Bildarchive oder jegliche Content-Repositories in denen Bilddaten verwaltet und angezeigt werden
+    müssen. Der Bildbetrachter basiert (wie MyCoRe) auf Java und XML/XSL. Die Benutzerschnittstelle ist mit Javascript
+    unter Verwendung der Frameworks PanoJS und jQuery realisiert.
+    </p>
+   </div>
+   <div>
+    <h5>Komponente IView2 – API zur Bildbearbeitung</h5>
+    <p>
+    Die IView2-Komponente befindet sich im MyCoRe-Kern und bietet eine API um Bilddaten in MyCoRe abzuspeichern,
+    performant zu laden und gegebenenfalls zu verändern (Skalierung).
+    </p>
+    <h4>Bilder speichern</h4>
+    <p>
+    Für jedes (unterstützte) Bildformat wird beim Einstellen der Datei in MyCoRe ein asynchroner Kachelvorgang
+    gestartet. Dabei wird das Bild in Kacheln à 256x256 Pixel zerlegt und so lange herunterskaliert und erneut gekachelt,
+    bis das Thumbnail (x&lt;=256 und y&lt;=256) erstellt ist. Alle so entstanden Kacheln und Auflösungen werden für die spätere
+    Verwendung gespeichert.  Durch diese redundante Speicherung der Bilddaten verdreifacht sich schlimmsten Falls (wenn original JPEG ist) die
+    Datenmenge. Bei unkomprimierten TIFF-Bildern liegt der Overhead bei ca. 10-15 Prozent.
+    </p>
+    <h4>Bilder ausgeben</h4>
+    <p>
+    Bilder können über den Image-Viewer angezeigt werden oder in festen Auflösungsstufen ausgegeben werden.
+    Beim Image-Viewer wird entsprechend der Ausgabegröße wird entschieden, welche Kacheln für die Darstellung
+    verwendet werden.
+    </p>
+    <h4>Schnittstellen</h4>
+    <p>
+    Hier nun eine Übersicht der Möglichkeiten die verschiedenen Kacheln/Darstellungen in die eigene
+    Anwendung einzubinden. Der jeweilige Pfad muss dann im Zuge der Anwendungsentwicklung im gewünschten
+    Stylesheet an der richtigen Stelle platziert werden.
+    </p>
+    <dl>
+      <dt>Thumbnails (immer PNG 256x256 mit transparenten Rahmen):</dt>
+      <dd>{{< highlight shell "linenos=table">}}/servlets/MCRThumbnailServlet/{derivateID}/{pfadZumBild}{{< /highlight >}}</dd>
+      <dt>Thumbnails original (immer JPEG und mit Kantenlänge &lt;=256):</dt>
+      <dd>{{< highlight shell "linenos=table">}}/servlets/MCRTileServlet/{derivateID}/{pfadZumBild}/0/0/0.jpg{{< /highlight >}}</dd>
+      <dt>Zusammengefügte Bilder in verschieden Auflösungen (immer JPEG):</dt>
+      <dd>{{< highlight shell "linenos=table">}}/servlets/MCRTileCombineServlet/{Auflösung}/{derivateID}/{pfadZumBild}{{< /highlight >}}
+      Auflösung: <ul style="list-style-type:none;"><li>"MIN" - 256 &lt; Kantenlänge &lt;=512</li>
+                     <li>"MID" - 512 &lt; Kantenlänge &lt;= 1024</li>
+                       <li>"MAX" - 1024 &lt; Kantenlänge &lt;= 2048</li></ul>
+        pfadZumBild: relativer Pfad innerhalb des Derivats inklusive der original Endung (z.B.: .tiff)<br /><br />
+      </dd>
+
+    <dt>Einbinden des Bildbetrachters mittels XSLT (kompatibel mit IView1):</dt>
+      <dd>{{< highlight xml "linenos=table">}}
+      &lt;xsl:call-template name="derivateView"&gt;
+          &lt;xsl:with-param name="derivateID" select="{derivateID}" /&gt;
+        </xsl:call-template>{{< /highlight >}}</dd>
+
+      <dt>IView2-Metadaten eines Bildes:</dt>
+      <dd>{{< highlight shell "linenos=table">}}/servlets/MCRTileServlet/{derivateID}/{pfadZumBild}/imageinfo.xml{{< /highlight >}}
+      ergibt: {{< highlight xml "linenos=table">}}
+      &lt;imageinfo  derivate="{derivateID}"path="/{pfadZumBild}"tiles="{AnzahlAllerKacheln}"
+               width="{BreiteInPixeln}"height="{HöheInPixel}"zoomLevel="{maximalerZoomlevel}"//&gt;{{< /highlight >}}
+      </dd>
+    </dl>
+   </div>
+   </div>
+
+   <div>
+     <h4>Der Zoomify-Bildbetrachter</h4>
+
+     <div><h5>Allgemein</h5>
+     <p>Die Firma Zoomify Inc. bietet einen Web-basierten Bildbetrachter an, der auf der Grundlage von gekachelten Bilder basiert
+     und diese "on-demand" nachlädt. Innerhalb des Bildausschnitt kann stufenlos gezoomt werden.
+     </p>
+     </div>
+
+     <div><h5>Grundlagen</h5>
+     <p>Um ein Bild über den Zoomify-Viewer anzeigen zu können, muss dieses zunächst aufbereitet werden. In Windows existiert dafür
+     ein Midlet, in Linux kann ein Phyton-Skript genutzt werden. Bei der Datenaufbereitung werden Ausschnittbilder in verschiedenen
+     Auflösungen erzeugt und in Ordnern abgelegt. Für das Zoomify-Servlet in MyCoRe kann der so entstandene Datenbestand in Zip-Archive
+     verpackt werden (jedoch ohne Archiv-Kompression!). Somit wird das Handling extrem vereinfacht. Die Zip-Dateien werden dann als Derivat hochgeladen.
+     </p>
+     </div>
+
+     <div><h5>Bilder anzeigen</h5>
+     <p>Für die Bildanzeige wird das Zoomify-Express-Plugin erwartet. Über das MCRStartZoomifyServlet wird die Anzeige der Bilder gesteuert.
+       Zur Zeit findet sich eine adäquate Navigation wie beim IView zur Bildsteuerung im Servlet-Menü. Die Bilder werden über das  MCRZipFileNodeServlet
+       automatisch an das Plugin übergeben. Die Anzeigereihenfolge wird über die Mets/Mods-Datei definiert und ist zwingend erforderlich (siehe dazu
+       den Abschnitt über das Mets/Mods-Modul).
+     </p>
+     </div>
+
+     <div><h5>Konfiguration</h5>
+     <p>In der mycore.properties-Datei kann über die folgende Variable der Titel des Bildes in Abhängigkeit des zugrunde gelegten Objektes
+       angezeigt werden:</p>
+     {{< highlight shell "linenos=table">}}MCR.Component.Zoomify.[type].identifier=[field of datamodel]{{< /highlight >}}
+     <p>
+       Hierbei steht [type] für den Objekttyp und [field of datamodel] für ein verknüpftes Feld aus dem Datenmodell.
+     </p>
+     </div>
+   </div>
+
+  <div>
+    <h4>Die Mets-Komponente</h4>
+    <div>
+      <h5>Allgemein</h5>
+      <p>
+        Das Mets-Format ist ein Austauschformat in XML für mediale Inhalte. Besonders für die Darstellung von Bildern im DFG-Viewer
+        wird das Format benötigt. Daneben nutzt der Zoomify-Bildbetrachter das Format als Reihenfolgenvorgabe bei Bilderserien.
+      </p>
+    </div>
+    <div>
+      <h5>Mets-Dateien erzeugen</h5>
+      <p>
+        Die Mets-Datei kann vom Derivat-Menü aus erzeugt werden und lässt sich via Java-Applet konfigurieren.
+      </p>
+    </div>
+
+    <div>
+        <h5>Konfiguration</h5>
+    <p>
+      Die Komponente kann über folgende Properties konfiguriert werden:
+    </p>
+    <table>
+      <tr><td>
+      MCR.Component.Mets.owner</td><td>Beschreibt den Eigentümer des Derivates</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.ownerLogo</td><td>Beschreibt das Logo des Eigentümers</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.ownerSiteURL</td><td>Beschreibt die URL des Eigentümers</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.referenceURL</td><td>Beschreibt die Referenz-URL</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.[type].title</td><td>Titel des Derivates in der Anzeige</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.[type].display</td><td>Anzeige des Derivates</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.[type].place</td><td>Ort des Derivates</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.[type].date</td><td>Datierung des Derivates</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.disallowed</td><td>Beschreibt die Endungen von Teilen in Derivaten, in denen keine Mets-Dateien gebaut werden dürfen.</td>
+      </tr>
+      <tr><td>
+      MCR.Component.Mets.activated</td><td>Beschreibt die Attribute, die in der Mets-Datei hinzugefügt werden sollen. Voreinstellung: CONTENTIDS</td>
+      </tr>
+    </table>
+      </div>
+
+      <div>
+        <h5>CommandLine-Befehle</h5>
+        <table>
+          <tr>
+            <td>build mets files</td><td>Erstellt zu jedem im System befindlichen Derivat eine Mets-Datei.</td>
+            </tr><tr>
+            <td>build mets files for type {0}</td><td>Erstellt zu jedem Derivat, welches sich an einem Objekt vom Typ 'type' befindet, eine Mets-Datei.</td>
+            </tr><tr>
+            <td>build mets files for derivate {0}</td><td>Erstellt zu einem Derivat eine Mets-Datei.</td>
+            </tr><tr>
+            <td>build mets files for object {0}</td><td>Erstellt zu allen Derivaten eines Objekts eine Mets-Datei.</td>
+            </tr><tr>
+            <td>remove mets files</td><td>Löscht von jedem Derivat die Mets-Datei.</td>
+            </tr><tr>
+            <td>remove mets files for type {0}</td><td>Löscht von jedem Derivat, welches sich an einem Object vom Typ 'type' befindet, die Mets-Datei.</td>
+            </tr><tr>
+            <td>check mets files</td><td>Überprüft das Vorhandensein einer Mets-Datei in jedem Derivat.</td>
+            </tr><tr>
+            <td>check mets files for type {0} with exclude label {1}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an Objekte vom
+             Typ 'type' gebunden sind, und die im Label einen Bezeichner besitzen, der <u>nicht</u> in {1} aufgeführt wurde.</td>
+            </tr><tr>
+            <td>check mets files for type {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an Objekte vom
+             Typ 'type' gebunden sind.</td>
+            </tr><tr>
+            <td>check mets files for Object {0} with exclude label {1}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an ein Objekt
+             gebunden sind, und die im Label einen Bezeichner besitzen, der <u>nicht</u> in {1} aufgeführt wurde.</td>
+            </tr><tr>
+             <td>check mets files for Object {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an ein Objekt
+             gebunden sind.</td>
+            </tr><tr>
+             <td>check mets files for Derivat {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an einem Derivat.</td>
+           </tr>
+          </table>
+         </div>
+  </div>
+
+
+  <div>
+   <h4>Das Broadcasting-Module</h4>
+
+   <div>
+    <h5>Allgemeines</h5>
+    <p>
+    Dieses Modul ergänzt die Anwendung um die Funktionalität einer Runtime-Anwenderinformation. Als berechtigter Nutzer
+    oder Administrator können Sie Nachrichten online generieren und versenden.
+    </p>
+   </div>
+
+   <div>
+    <h5>Konfiguration</h5>
+    <p>
+    In der konkreten Anwendung muss im Verzeichnis <em>modules</em> ein Unterverzeichnis <em>module-broadcasting</em>
+    angelegt werden. Hier muss sich eine <em>build.xml</em>-Datei mit folgenden Targets befinden:</p>
+    <ul>
+    <li>create.default-rules – Es werden die erforderlichen Rechteeinträge erzeugt.</li>
+    <li>webapps – Der Modul wird in die Web-Applikation integriert.</li>
+    </ul>
+    <p>
+    Die Nutzung des Modules in mehreren Anwendungen macht weiterhin die Existenz eines config-Verzeichnisses
+    erforderlich. Darin sind die Dateien <em>grant-broadcastinggroup.xml</em> und <em>mcr-module-broadcasting.xml</em>
+    abzulegen. Die Datei <em>grant-broadcastinggroup.xml</em> beschreibt die Gruppen und Nutzer, welche Nachrichten an
+    die Anwendung versenden dürfen. Im Beispiel sind das alle Mitglieder der Gruppe <strong>admingroup</strong>.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <?xml version="1.0" encoding="utf-8"?>
+    <!-- this rule allways returns true -->
+    <condition format="xml"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="MCRCondition.xsd">
+       <boolean operator="or">
+         <condition value="admingroup" operator="=" field="group" />
+       </boolean>
+    </condition>
+    
+    {{< /highlight >}}
+    <p>
+    Mit den folgenden MyCoRe-Kommandos werden die Rechte für die Nutzung des Modules eingetragen. Bei Nutzung des
+    ANT-Tagets <strong>create.default-rules</strong> erfolgt dies automatisch.
+    </p>
+    {{< highlight shell "linenos=table">}}
+    mcrcmd&gt; update permission manage for id module-broadcasting with rulefile grant-broadcastinggroup.xml
+
+    mcrcmd&gt; update permission read for id webpage:/servlets/MCRBroadcastingServlet?mode=getReceiverList with rulefile grant-broadcastinggroup.xml
+    &nbsp;
+    {{< /highlight >}}
+    <p>
+    Die Grundkonfiguration zum Versenden der Nachrichten ist in der Datei <em>mcr-module-broadcasting.xml</em>
+    gespeichert. Sie stellt eine Voreinstellung dar, welche zum Ausführungszeitpunkt interaktiv verändert werden kann.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <mcr-module-broadcasting>
+       <!-- on | off -->
+       <!-- on = client will autmatically listen for new messages by AJAX -->
+       <!-- off client won't listen for new messages -->
+       <power>on</power>
+
+       <!-- Seconds, in which intervall the client will ask for new messages -->
+       <refreshRate>60</refreshRate>
+
+       <!-- true | false -->
+       <!-- true = User will get the same message again, if a new session is opened, even though the user already received
+            the message. This should be used, if a user login will be used by more than one person -->
+       <!-- false = Each user will get a message only on times, indepently on the session. -->
+       <sessionSensitive>false</sessionSensitive>
+
+       <message.header>Sehr geehrte Mitarbeiter</message.header>
+       <message.tail>Ihr Administrator</message.tail>
+       <!-- <group/> &| <user> -->
+
+       <!-- allowGuestGroup ("true|false")  if set to true all "gast" users are listen on the channel, if "false" only
+            user != "gast" are listen -->
+       <receivers allowGuestGroup="false"/>
+
+       <!-- <from> & <to> (ISO 8601) are NOT supported yet, -> use @send -->
+       <!-- @send = ever | never --><!-- ever = send continuasly -->
+       <!-- never = do NOT send -->
+       <onAirTime send="ever">
+          <from>2006-10-20T10:17:42.920Z</from>
+          <to>2006-10-20T10:17:42.920Z</to>
+       </onAirTime>
+
+    </mcr-module-broadcasting>
+    
+    {{< /highlight >}}
+
+    <p>    Einbinden in die Anwendung</p>
+    <p>
+    Der Aufruf des Broadcasting-Modules sollte aus der Navigation der Anwendung heraus erfolgen. Hierfür ist in der
+    navigation.xml folgender Eintrag zu tätigen.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <item
+       href="/servlets/MCRBroadcastingServlet?mode=getReceiverList"
+       type="extern"
+       target="_self"
+       style="normal"
+       replaceMenu="false"
+       constrainPopUp="false">
+         <label xml:lang="de">Nachrichten</label>
+         <label xml:lang="en">Broadcasting</label>
+    </item>
+    
+    {{< /highlight >}}
+    <p>Der Include der benötigten XSLT-Stylesheets erfolgt in der Datei generatePage.xsl.</p>
+    {{< highlight xml "linenos=table">}}&lt;xsl:include href="mcr-module-broadcasting.xsl" /&gt;{{< /highlight >}}
+    <p>
+    Als letztes ist dafür zu sorgen, dass der Listener in alle Webseiten im HEAD-Bereich eingetragen wird. Dazu ist das
+    head-HTML-Tag um diese Zeile zu ergänzen.
+    </p>
+    {{< highlight xml "linenos=table">}}&lt;xsl:call-template name="module-broadcasting.getHeader"/&gt;{{< /highlight >}}
+    <p>Informationen zu Benutzung des Modules finden Sie im MyCoRe User Guide.</p>
+   </div>
+ </div>

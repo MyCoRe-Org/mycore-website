@@ -1,0 +1,96 @@
+
+---
+
+title: "Die MyCoRe-Objekt-ID"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt']
+date: "2018-07-03"
+
+---
+    <p>
+      Die Identifikation eines jeden MyCoRe-Objektes erfolgt grundsätzlich über eine eindeutige ID.
+      Die ID kann per Hand vergeben oder auch automatisch via API generiert werden. Diese hat für alle Objekte einen
+      einheitlichen Aufbau, dessen Inhalt für jedes Projekt und jeden Datentyp festzulegen ist:
+      <code>ID = “projektkürzel_type_nummer”</code>
+    </p>
+
+    <table>
+      <tr>
+        <td valign="top">
+          <strong>Projektkürzel</strong>
+        </td>
+        <td>Dieses Element ist für ein Projekt und/oder eine Einrichtung / Datengruppe festzulegen, zum Beispiel
+          UBLPapyri
+          oder MyCoReDocument. In MyCoRe wird es teilweise auch zur Identifikation einzelner Konfigurationsdaten mit
+          genutzt.
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <strong>Typ</strong>
+        </td>
+        <td>Das Element beschreibt den Datenmodelltyp, d. h. der type verweist auf die zugehörige
+          Datenmodell-Konfiguration,
+          zum Beispiel datamodel-author oder datamodel-document. In MyCoRe wird es oft zur Identifikation einzelner
+          Konfigurationsdaten im Zusammenhang mit der Verarbeitung dieses Datenmodells genutzt.
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <strong>Nummer</strong>
+        </td>
+        <td>Ist eine frei wählbare positive Integerzahl. Diese Zahl kann in Verantwortung des Projektmanagers per Hand
+          oder
+          automatisch vergeben werden. Bei der Projektdefinition wird die Größe des Zahlenbereiches festgelegt. Es hat sich
+          als sinnvoll erwiesen, nicht weniger als 8 Ziffern einzuplanen.
+        </td>
+      </tr>
+    </table>
+    <p class="klein">Tabelle: Aufbau der MCRObjectID</p>
+
+    <p>
+      Im MyCoRe-Projekt sind zwei MCRObjectID-Typnamen reserviert und dürfen nicht für anderweitige Objekte genutzt
+      werden.
+      Der Typ
+      <code>class</code>
+      steht für Klassifikationen, der Typ
+      <code>derivate</code>
+      wird für Multimediaobjekte
+      verwendet.
+    </p>
+    <p>
+      Das Property für die Länge der generierten Nummer lautet:
+      <code>MCR.Metadata.ObjectID.NumberPattern</code>
+      und ist mit dem Wert
+      <code>00000000</code>
+      initialisiert.
+      <br />
+      Mit dem Property
+      <code>MCR.Metadata.ObjectID.NumberDistance</code>
+      kann im ID-Generator der Abstand zwischen zwei IDs
+      definiert werden, falls diese nicht vorlaufend vergeben werden sollen.
+    </p>
+    <p>
+      Es sei noch einmal ausdrücklich darauf hingewiesen, das die
+      <code>MCRObjectID</code>
+      eine zentrale Rolle im ganzen
+      MyCoRe-Projekt spielt. Über sie werden alle Daten identifiziert und referenziert. Es sind daher die vorgegebenen
+      Regeln streng einzuhalten. Da es derzeit für den Datentyp zum Anhängen nur eine
+      <code>type</code>
+      -Bezeichnung gibt,
+      kann es beim Design eines Projektes hilfreich sein, sich für eine Gruppe von Projektkürzeln zu entscheiden, z. B.
+      <code>DOLAuthor_author_...</code>
+      ,
+      <code>DOLDocument_document_...</code>
+      usw. So kann jedem Datenmodell eine
+      dedizierte Derivate-Gruppe zugeordnet werden z. B.
+      <code>DOLAuthor_derivate_...</code>
+      oder
+      <code>DOLDocument_derivate_...</code>
+      . Diese Trennung ist nicht zwingend, hat sich aber bei der Verwaltung großer
+      Datenmengen als günstig erwiesen. Manchmal ist es sogar sinnvoll, hierzu noch mehrere Projektkürzel für ein
+      Datenmodell zu verwenden, je nach Umfang des Datenbestandes und der Sicherungs- und Reparatur-Strategien des
+      Projektes.
+    </p>
+
+  

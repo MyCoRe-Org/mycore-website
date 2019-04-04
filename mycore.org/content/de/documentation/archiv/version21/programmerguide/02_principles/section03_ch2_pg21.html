@@ -1,0 +1,77 @@
+
+---
+
+title: "Das EventHandler-Modell"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+    <div>
+     <h2>Allgemein</h2>
+     <p>
+     Mit Version 1.2 wurde in die MyCoRe-Implementierung ein EventHandler-Basispaket integriert. Ziel ist es, eine
+     bessere Trennung der Code-Schichten des Datenmodells und der Backends zu erreichen. Im Datenmodell sollen nur noch
+     Ereignisse ausgelöst werden (z.B. create, delete usw.), welche dann bestimmt durch die Konfiguration in den
+     Property-Dateien verarbeitet werden. Es soll ein allgemein gültiges Template-Modell existieren, welches für die
+     erforderlichen Anwendungsfälle ausgebaut werden kann. Ein singleton-Manager-Prozess nimmt nur ein Ereignis
+     entgegen, wählt die dafür bestimmte Konfiguration aus und startet die Methode
+     <code>doHandleEvent(MCREvent evt)</code>. Dies geschieht in der Reihenfolge, welche in der Konfiguration angegeben
+     ist und stellt ein Pipeline-Verfahren dar. Das Event-Objekt wird dabei nacheinander an die Handler durchgereicht.
+     Änderungen an den im Event-Objekt gespeicherten Daten werden also für alle folgenden Handler wirksam. Kommt es bei
+     einem Handler zu einer Ausnahme, so wird diese vom Manager aufgefangen und es wird für alle in der Pipeline davor
+     liegenden Handler die Methode <code>undoHandleEvent(MCREvent evt)</code> initiiert. Somit ist ein Rollback möglich.
+     Je nach Anwendung ist es möglich, verschiedene Pipelines für unterschiedliche Abläufe unabhängig voneinander zu
+     implementieren, z.B. eine Pipeline für die Verarbeitung der Metadaten und eine andere für die Volltextindizierung
+     der Dokumente. Die Pipelines und die damit verbundenen Ereignisse unterscheiden sich am Namen der jeweiligen
+     Pipeline.
+     </p>
+   </div>
+
+     <div>
+      <h2>Das EventHandler-Modell am Beispiel der Metadaten-Objekte</h2>
+      <p>
+      Das EventHandler-Modell wird beispielsweise eingesetzt, um Objekte vom Typ MCRObject persistent zu speichern.
+      Das Klassendiagramm (Abbildung 1.6) verdeutlicht die Zusammenhänge.
+      </p>
+      <ol>
+      <li>Das <code>MCRObject</code> ruft in MyCoRe-Version 1.2 zuerst eine Persistence-Layer-Implementierung nach alter
+      Konzeption auf. Hier wurde zur Nutzung des EventHandlers eine Dummy-Klasse <code>MCRDummySearchStore</code>
+      geschaffen, welche keine Funktionalität ausführt.</li>
+      <li>Anschließend wird von <code>MCRObject</code> ein neues Ereignis erzeugt, welches in diesem Fall die
+      vordefinierte Pipeline <code>OBJECT_TYPE</code> und das vordefinierte Ereignis <code>CREATE_EVENT</code> nutzt.
+      Es können aber auch beliebige Strings eingetragen werden. Dabei ist aber auf die Konsistenz zu achten.<br />
+      <code>MCREvent evt = new MCREvent(MCREvent.OBJECT_TYPE, MCREvent.CREATE_EVENT);</code></li>
+      <li>Nun wird dem neuen Ereignis das Datum übergeben, welches an die Handler weitergereicht werden soll. Ein
+      Ereignis kann auch mehrere Daten beinhalten.<br />
+      <code>evt.put("object",this);</code>
+      <img src="/images/documentation/archiv/progguide_eventhandler.png" alt="Klassendiagramm" title="Klassendiagramm" />
+      <p class="klein"><strong>Abbildung 1.6:</strong> Klassendiagramm des EventHandler-Modells</p>
+      </li>
+      <li>Die folgende Zeile ruft abschließend den MCREventManager auf und stößt die Handler für die Pipeline an.<br />
+      <code>MCREventManager.instance().handleEvent(evt);</code></li>
+      </ol>
+     </div>
+
+     <div>
+      <h2>Die Konfiguration des EventHandler-Managers</h2>
+      <p>
+      Alle Konfigurationen befinden sich im Verzeichnis der Applikation (z.B. DocPortal) in der Datei
+      mycore.private.properties (bzw. mycore.private.properties.template).
+      </p>
+      <p>
+      In der Version 1.2 von MyCoRe ist es noch erforderlich, für den jeweiligen SearchStore die dummy-Klasse anzugeben:
+      </p>
+      <p><code>MCR.persistence_jdom_class_name=org.mycore.common.events.MCRDummySearchStore</code></p>
+      <p>
+      Nun müssen noch die EventHandler für jede Pipeline (in diesem Fall ist es
+      <code>MCRObject = MCREvent.OBJECT_TYPE</code>) in der Reihenfolge ihrer Ausführung angegeben werden. Jeder
+      Handler bekommt dabei eine aufsteigende Nummer.
+      </p>
+      <p><code>MCR.EventHandler.MCRObject.1.class=org.mycore.backend.jdom.MCRJDOMEventHandlerIndexMeta</code></p>
+      <p>
+      Wollen Sie eigene EventHandler schreiben und diese einbinden, so ist es ratsam diese direkt von
+      <code>MCREventHandler</code> abzuleiten und analog zu den bestehenden Handlern einzubinden. Sie können dafür auch
+      neue Pipelines und Ereignisse definieren. Den <code>MCREventManager</code> können Sie nun an beliebiger
+      Code-Stelle einbauen und ihm ein von Ihnen definiertes Ereignis übergeben. Diese Komponente ist allgemein
+      verwendbar und nicht auf das MyCoRe-Datenmodell festgelegt.
+      </p>
+     </div>

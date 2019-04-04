@@ -1,0 +1,102 @@
+
+---
+
+title: "Die Link Tabellen"
+mcr_version: ['2016.06','2017.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Die Seite beschreibt die Möglichkeiten, aus MyCoRe heraus Mails zu versenden."
+date: "2017-02-13"
+
+---
+
+    <div>
+      <h2>MCRMailer</h2>
+      <p>
+        Die Klasse
+        <code>org.mycore.common.MCRMailer</code>
+        gestatte es, aus der MyCoRe-Anwendung heraus Mails zu generieren und zu versenden. Eine entsprechende API ist
+        implementiert. Dafür sind die folgenden Konfigurationsmaöglichkeiten vorgesehen:
+      </p>
+      <ul>
+        <li>
+          MCR.Mail.Debug=false - boolscher Wert zum Einschalten zusätzlicher Debug-Informationen; Standard ist
+          <strong>false</strong>
+        </li>
+        <li>
+          MCR.Mail.Encoding=UTF-8 - das Encoding für die Mail; Standard ist
+          <strong>UTF-8</strong>
+        </li>
+        <li>
+          MCR.Mail.NumTries=1 - Anzahl der Versuche, die mail abzuschicken; Standard ist
+          <strong>1</strong>
+        </li>
+        <li>MCR.Mail.Password={Passwort im Mailserver} - das Password für den Kontakt zum Mailserver - dieses Property
+          wird nur genutzt, wenn das Mail-Server-Konzept der Host-Einrichtung es für den Zugang zum Server erfordert.
+        </li>
+        <li>
+          MCR.Mail.Port=25 - Port des Mailers; Standard ist Port
+          <strong>25</strong>
+        </li>
+        <li>
+          MCR.Mail.Protocol=smtp - das Mail-Transportprotokoll; Standard ist
+          <strong>smtp</strong>
+        </li>
+        <li>MCR.Mail.Recipients={address@recipient1,...} - die Adresse(n) der Mail-Empfänger</li>
+        <li>MCR.Mail.Sender={address@sender} - die Adresse des Mail-Senders</li>
+        <li>MCR.Mail.Server={Hostname des Mail-Servers}</li>
+        <li>MCR.Mail.User={Benutzer im Mailserver} - Das Benutzer-Login für den Kontakt zum Mailserver - dieses Property
+          wird nur genutzt, wenn das Mail-Server-Konzept der Host-Einrichtung es für den Zugang zum Server erfordert.
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>MCRMailEventHandler</h2>
+      <p>
+        Der
+        <code>MCRMailEventHandler</code>
+        ist Bstandteil der MyCoRe-Workflow-Komponente (wfc). Er wird über die Index-Nummer 900 des EventHandlers
+        angesprochen. Die Konfiguration erfolgt einerseit über die oben genannten Properties, andererseits über eine
+        XML-Steue- und Nachrichtendatei,
+        welche über das Stylesheet
+        <code>e-mail-events.xsl</code>
+        generiert wird.
+        <strong>Diese Datei ist unbedingt erforderlich.</strong>
+      </p>
+      <p>Da es je nach Anwendung verschiedenste Szenarien für die Gestaltung der Mail gibt, soll an dieser Stelle nur
+        auf Lösungen verwiesen werden. Bedingt durch die Nutzung innerhalb der EventHandler-Kette sind folgende Aktionen
+        und Datentypen nutzbar:
+      </p>
+      <ul>
+        <li>Datentyp : mycoreobject, mycorederivate, mcrpath</li>
+        <li>Aktionen : create, update, delete, repair</li>
+      </ul>
+      
+      <div>
+        <h3>Generischer Ansatz</h3>
+        <p>
+          Unter den folgenden Referenzen ist ein generischer minimalistischer Ansatz für das Konfigurations-File zu
+          finden. Dabei erfolgt die Ergänzung für das konkrete Datenmodell über das Property
+          <code>MCR.URIResolver.xslIncludes.eventHandlerMailer=%MCR.URIResolver.xslIncludes.eventHandlerMailer%,e-mail-events-myihs2.xsl</code>
+        </p>
+        <p>
+          <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/xsl/e-mail-events.xsl?revision=12444&amp;view=markup" target="_blank">generisches Basis-Stylesheet</a>
+        </p>
+        <p>
+          <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/myihs/trunk/modules/myihs2/xsl/e-mail-events-myihs2.xsl?revision=12445&amp;view=markup" target="_blank">Ergänzung für ein konkretes Datenmodell</a>
+        </p>
+      </div>
+      
+      <div>
+        <h3>Spezielle Lösung für MIR und andere komplexe Systeme</h3>
+        <p>
+          Für die Anwendung
+          <strong>MIR</strong> wurde ein spezielles Stylesheet entwickelt, welches die vielen details der MIR-Applikation
+            berücksichtigt und einen dediziertem Mail-Versand gestattet.
+        </p>
+        <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/xsl/e-mail-events.xsl" target="_blank">Die unfangreiche Lösung in MIR</a>
+      </div>
+      
+    </div>
+
+  

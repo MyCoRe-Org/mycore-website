@@ -1,5 +1,7 @@
 /target/
 /bin/
+/mycore.org/themes/mycore-bootstrap/assets/_webjars
+/mycore.org/themes/mycore-bootstrap/static/_webjars
 
 .class
 

@@ -1,0 +1,237 @@
+
+---
+
+title: "XML Funktionalität"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+   <div>
+    <h2>URI-Resolver</h2>
+    <p>
+    Die Klasse <code>org.mycore.common.xml.MCRURIResolver</code> implementiert einen Resolver, mit dem an verschiedenen
+    Stellen im MyCoRe-System XML-Daten über URI's gelesen werden können. Der Resolver wird zur Zeit an folgenden Stellen
+    eingesetzt:
+    </p>
+    <ul>
+    <li>Bei der Verarbeitung von Stylesheets im LayoutServlet, wenn XML-Daten über die XSL-Funktion
+    <code>document()</code> in ein Stylesheet nachgeladen werden oder wenn ein untergeordnetes Stylesheet mittels
+    <code>xsl:include</code> nachgeladen wird.
+    </li>
+    <li>Beim Import von Editor-Definitionsteilen mittels des <code>include</code>-Elementes des Editor-Frameworks.
+    </li>
+    </ul>
+    <p>Der Resolver unterstützt die folgenden Schemata bzw. Protokolle:</p>
+    <p class="kasten"><code>file://[Pfad]</code></p>
+    <p>liest eine statische XML-Datei vom Dateisystem des Servers</p>
+    <p class="break">Beispiel:
+    {{< highlight text "linenos=table">}}
+    
+    file:///usr/local/tomcat/conf/server.xml
+
+    liest die Datei
+
+    /usr/local/tomcat/conf/server.xml
+    
+    {{< /highlight >}}
+    </p>
+    <p class="kasten"><code>webapp:[Pfad]</code></p>
+    <p>
+    liest eine statische XML-Datei vom Dateisystem der Web-Applikation. Im Gegensatz zur file()-Methode kann der Pfad
+    der zu lesenden Datei relativ zum Wurzelverzeichnis der Web-Applikation angegeben werden. Der Zugriff erfolgt
+    direkt, d.h. ohne HTTP Request oder Anwendung eines Stylesheets.
+    </p>
+    <p class="break">Beispiel: <br />
+    <code>webapp:config/labels.xml</code></p>
+    <p class="kasten"><code>http://[URL]</code> <br />
+    <code>https://[URL]</code></p>
+    <p>liest eine XML-Datei von einem lokalen oder entfernten Webserver</p>
+    <p class="kasten"><code>request:[Path]</code></p>
+    <p>
+    liest eine XML-Datei durch einen HTTP Request an ein Servlet oder Stylesheet innerhalb der aktuellen
+    MyCoRe-Anwendung. Im Gegensatz zur http/https Methode ist der Pfad relativ zur Basis-URL der Web-Applikation
+    anzugeben, die MCRSessionID wird automatisch als HTTP GET Parameter ergänzt.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>request:servlets/MCRLinkServlet?</code><br />
+    <code>XSL.Style=xml&amp;form=&amp;to=DocPortal_document_00000001&amp;type=derivate</code>
+    </p>
+    <p class="kasten"><code>resource:[Path]</code></p>
+    <p>
+    liest eine XML-Datei aus dem CLASSPATH der Web-Applikation, d.h. die Datei wird zunächst im Verzeichnis
+    <code>WEB-INF/classes/</code> und als nächstes in einer der jar-Dateien im Verzeichnis <code>WEB-INF/lib/</code> der
+    Web-Applikation gesucht. Diese Methode bietet sich an, um statische XML-Dateien zu lesen, die in einer jar-Datei
+    abgelegt sind.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>resource:ContentStoreSelectionRules.xml</code>
+    </p>
+    <p class="kasten"><code>session:[Key]</code></p>
+    <p>
+    liest ein XML-Element, das als JDOM-Element in der aktuellen MCRSession abgelegt ist. Mittels der <code>put()</code>
+    Methode der Klasse MCRSession kann analog zu einer Java-Hashtable unter einem Schlüssel ein Objekt abgelegt werden.
+    Ein Servlet kann so z.B. ein JDOM-Element in der <code>MCRSession</code> ablegen, den Schlüssel einem Stylesheet
+    über einen XSL-Parameter mitteilen. Der MyCoRe Editor kann dieses JDOM-Element dann mittels der <code>get()</code>
+    Methode aus der Session lesen.
+    </p>
+    <p class="break">Beispiel: <br />
+    <code>session:mylist</code><br />
+    liest das JDOM XML-Element, das als Ergebnis von <br />
+    <code>MCRSessionMgr.getCurrentSession().get("mylist");</code><br />
+    zurückgegeben wird.</p>
+    <p class="kasten"><code>mcrobject:[MCRObjectID]</code></p>
+    <p>liest die XML-Darstellung der Metadaten eines MCRObject aus.</p>
+    <p class="break">Beispiel:<br />
+    <code>mcrobject:DocPortal_document_07910401</code></p>
+    <p class="kasten"><code>classification:[Classification Query]</code></p>
+    <p>gibt eine Klassifikation in unterschiedlichen Formaten aus, wobei „Classification Query“ folgendes Format hat:</p>
+    <p class="break"><code>{editor['['formatAlias']']|metadata}:{Levels}[:noEmptyLeaves]:{parents|children}:{ClassID}[:CategID]</code></p>
+    <p>Die einzelnen Parameter sind durch Doppelpunkte getrennt.</p>
+    <ol>
+    <li>Rückgabetyp ist wahlweise im MyCoRe <code>metadata</code> Format oder für eine Editor-Selectbox
+    (<code>editor</code>). Letztere kann für den Label-Text noch unterschiedliche Formatanweisungen enthalten, die mit
+    <code>formatAlias</code> referenziert werden.<br />
+    Das Property <code>MCR.UriResolver.classification.format.{formatAlias}</code> enthält dann die Formatieranweisung.
+    Diese besteht aus beliebigem Text kombiniert mit Platzhaltern:
+    <ol><li><code>{id}</code> steht für die Kategorie-ID,</li>
+        <li><code>{count}</code> steht für die Zahl der zugeordneten MyCoRe-Objekte,</li>
+        <li><code>{text}</code> steht für das Attribut text im label-Tag der Klassifikationsdefinition,</li>
+        <li><code>{description}</code> steht für das Attribut description im label-Tag der Klassifikationsdefinition. </li>
+    </ol>
+    </li>
+    <li><code>Levels</code> gibt an, wieviel Hierarchiestufen dargestellt werden. Bei Angabe der CategID ist dies die
+    Anzahl der Kindkaterogiehierarchiestufen. Ist Levels „<code>-1</code>“ angegeben, so bedeutet dies „komplette
+    Hierarchie“.
+    </li>
+    <li><code>noEmptyLeaves</code> ist ein optionaler Parameter. Wenn angegeben, werden leere Kategorien ohne Objekte
+    nicht mit ausgegeben. Diese Funktion ist nur für den Rückgabetyp <code>editor</code>, d.h. sinnvollerweise in Suchmasken,
+    implementiert.</li>
+    <li><code>parents</code> oder <code>children</code> gibt an, ob bei Angabe einer <code>CategID</code> zusätzlich
+    alle übergeordneten Kategorien mit zurückgegeben werden (<code>parents</code>) oder ob nur die Kinder der Kategorie
+    berücksichtigt werden sollen. Bei Angabe eines positiven Levels und „<code>parents</code>“ werden sowohl die Eltern
+    ausgegeben, wie auch <code>{Levels}</code> Hierarchieebenen der Kinder.
+    </li>
+    <li><code>ClassID</code> ist die Klassifikations-ID</li>
+    <li><code>CategID</code> ist Kategorie-ID</li>
+    </ol>
+    <p class="break">Beispiele:
+    <ul>
+    <li><code>classification:editor:-1:children:DocPortal_class_00000001</code></li>
+    <li><code>classification:editor[CountDocument]:2:noEmptyLeaves:children:DocPortal_class_00000002</code></li>
+    <li><code>classification:metadata:0:parents:DocPortal_class_00000001:Unis.Jena</code></li>
+    </ul>
+    </p>
+    <p class="kasten"><code>mcrws:[WebService Request]</code></p>
+    <p>
+    fordert über einen WebService-Request XML-Darstellungen entfernter Hosts der Metadaten eines MCRObject, der einer
+    Klassifikation oder eines Links. Für den WebService request sind folgende Formen derzeit möglich:
+    </p>
+    <p class="break"><code>operation=MCRDoRetrieveObject&amp;ID={MCRObjectID}&amp;host={hostAlias}</code></p>
+    <p class="break"><code>operation=MCRDoRetrieveClassification&amp;level={level}&amp;type={type}
+    &amp;classid={classid}&amp;categid={categid}&amp;format={format}&amp;host={hostAlias}</code></p>
+    <p class="break"><code>operation=MCRDoRetrieveLinks&amp;from=[{MCRObjectID}]&amp;to=[{MCRObjectID}]
+    &amp;type=[{type}]&amp;host={hostAlias}</code></p>
+    <p>Die Werte from und to sind alternativ zu belegen, je nach dem, ob nach der Quelle oder dem Ziel eines Links
+    gefragt wird. (Siehe auch Kapitel zur Link Table)</p>
+    <p class="break">Beispiel:<br />
+    <code>mcrws:operation=MCRDoRetrieveObject&amp;ID=DocPortal_document_07910401&amp;host=remote</code>
+    </p>
+    <p class="break"><code>mcrws:MCRDoRetrieveClassification&amp;level=0&amp;type=parents&amp;classid=
+    DocPortal_class_00000001&amp;categid=Unis.Jena&amp;format=metadata&amp;host=remote</code></p>
+    <p class="break"><code>mcrws:MCRDoRetrieveLinks&amp;from=&amp;to=DocPortal_document_00000001&amp;
+    type=derivate&amp;host=remote</code></p>
+    <p class="kasten"><code>access:[ Access Value ]</code></p>
+    <p>liest die XML-Darstellung der ACL-Metadaten aus.</p>
+    <p><code>action=[all|{permision}&amp;object={MCRObjectID}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>access:action=all&amp;object=DocPortal_document_07910401</code><br />
+    <code>access:action=writedb&amp;object=DocPortal_document_07910401</code>
+    </p>
+    <p class="kasten"><code>query:[ Query Value ]</code></p>
+    <p>startet eine Query und liefert eine Liste der Treffer als mcr:results XML-Darstellung aus.</p>
+    <p><code>term={search_term}&amp;sortby={sort_term}&amp;order={order_term}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>query:term=objectType=document&amp;sortby=title</code>
+    </p>
+    <p>
+    Sie können mit diesem Resolver z.B. aus einem XSL Stylesheet heraus eine Suche in MyCoRe anstoßen und die
+    Suchergebnisse (Element mcr:results) in eine Variable ablegen:
+    </p>
+    <p>
+    <code>&lt;xsl:variable name="hits"</code><br />
+    &emsp;<code>xmlns:encoder="xalan://java.net.URLEncoder"</code><br />
+    &emsp;<code>select="document(concat('query:term=',encoder:encode(</code><br />
+    &emsp;&emsp;<code>'objectType = fodokperson')))/mcr:results" /&gt;</code>
+    </p>
+    <p>
+    Die Verwendung von java.net.URLEncoder ist notwendig, damit Leerzeichen, Sonderzeichen etc. in der eigentliche
+    Query codiert werden. Die einzelnen Suchtreffer werden als mcr:hit Elemente geliefert, die im wesentlichen nur die
+    IDs der gefundenen Objekte enthalten. Über diese IDs und z.B. das URIResolver Schema „mcrobject:ID“ können Sie dann
+    die Metadaten der gefundenen Objekte weiterverarbeiten. So geben Sie z.B. eine gefundene ID aus:
+    </p>
+    <p><code>&lt;xsl:value-of select="$hits/mcr:hit/@id" /&gt;</code></p><p class="Standard" />
+    <p class="kasten"><code>ifs:[ Derivate ID ]</code></p>
+    <p>startet den Abruf eines Derivate-Contents.</p>
+    <p><code>{MCRDerivateID}?host={hostAlias}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>ifs:DocPortal_derivate_00000001?host=remote</code>
+    </p>
+    <p class="kasten"><code>notnull:[uri]</code></p>
+    <p>
+    stellt sicher, dass es bei Aufruf der genannten URI keine NullPointerException gibt. Sollte es bei Verarbeitung der
+    anhängenden URI eine Exception geben, wird diese geloggt. Im Falle einer Exception oder wenn die URI den Wert NULL
+    zurückgibt, liefert dieser Resolver stattdessen eine leere XML-Datei. Dies ist z.B. hilfreich, um in XSL Stylesheets
+    URIs zu verwenden, aber gegen Fehler abzusichern.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>notnull:mcrobject:DocPortal_document_07910401</code></p>
+    <p class="kasten"><code>language:[code]</code></p>
+    <p>
+    kann verwendet werden, um zwischen verschiedenen Codes für die gleiche Sprache zu konvertieren. Das zurückgegebene XML
+    enthält die ISO 639-1 und ISO 639-2 Sprachcodes für die angefragte Sprache.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>language:de</code></p>
+    <p class="break">
+    <code>&lt;language xmlCode="de" biblCode="ger" termCode="deu" /&gt;</code></p>
+    <p class="kasten"><code>xslStyle:[stylesheet]:[URI-Resolver]</code></p>
+    <p>
+    wendet das Stylesheet [stylesheet] auf die XML-Datei des URI-Resolvers [URI-Resolver] an und gibt das Ergebnis als
+    XML zurück. Das Stylesheet befindet sich im Classpath der Anwendung. Die Extension .xsl entfällt im Parameter
+    [stylesheet].
+    </p>
+    <p class="break">Beispiel:<br />
+     <code>xslStyle:hosts:resource:hosts.xml</code>
+     </p>
+     <p>
+     Liest zunächst die Datei hosts.xml aus dem Classpath und wendet darauf das Stylesheet hosts.xsl aus dem Classpath
+     an.
+     </p>
+    <p>
+    Bei der Verarbeitung von <code>include</code>-Anweisungen in Editor-Definitionen dürfen die folgenden URI-Schemata
+    verwendet werden:
+    </p>
+    <p class="kasten"><code>classification file http https request resource session webapp mcrobject notnull language</code></p>
+    <p>
+    Beim Aufruf der XSL-Funktion <code>document()</code> innerhalb eines Stylesheets können die folgenden URI-Schemata
+    verwendet werden:
+    </p>
+    <p class="kasten">
+    <code>classification file http https resource session query webapp mcrobject query access mcrws notnull language</code>
+    </p>
+    </div>
+
+    <div>
+     <h2>Erweiterung des URI-Resolvers</h2>
+     <p>
+     Unter Umständen kann es nötig sein den URIResolver für eigene Anwendungen zu erweitern. Dabei ist es nicht möglich
+     vorhandene URI-Schemas zu überschreiben, jedoch neue den bereits vorhandenen hinzuzufügen. Für jedes Schema z.B.
+     <code>file</code> gibt es einen Resolver, der entsprechende URIs auflösen kann. Dieser Resolver muss die
+     Schnittstelle <code>MCRURIResolver.MCRResolver</code> im Paket <code>org.mycore.common.xml</code> implementieren.
+     Für die Zuweisung eines Schemas zur <code>MCRResolver</code>-Implementierung ist der
+     <code>MCRResolverProvider</code> verantwortlich, der diese Schnittstelle aus <code>MCRURIResolver</code>
+     implementiert. Letzterer stellt eine Abbildung von Schema-Strings zu <code>MCRResolver</code>-Instanzen zur
+     Verfügung. Der <code>MCRResolverProvider</code> kann also beliebig viele <code>MCRResolver</code> zu den bereits
+     in MyCoRe integrierten hinzufügen. Eingebunden wird ein zusätzlicher <code>MCRResolverProvider</code> mittels
+     folgendem Property:</p>
+     <p class="kasten">MCR.UriResolver.externalResolver.class = &lt;voller Klassenname&gt;</p>
+    </div>

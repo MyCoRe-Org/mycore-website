@@ -1,0 +1,38 @@
+{{- define "main" -}}
+
+{{ $homepage := "Home" }}
+{{ with .Site.Menus.nav }}
+  {{ range first 1 . }}
+    {{ $homepage = .Name }}
+  {{ end }}
+{{ end }}
+
+{{ .Content  }}
+{{- partial "front_news.html" . -}}
+
+  <script>
+  $(document).ready(function() {
+      $(".sphereLink").hover(
+
+           function () {
+               var sphere = $(this).children('img.sphere');
+               sphere.attr("src", '{{ absURL "images/start/abbildung_orange_110x110.jpg" }}');
+           },
+           function () {
+               var sphere = $(this).children('img.sphere');
+               switch(sphere.attr("rel")){
+                   case "sphere_manysided":
+                       sphere.attr("src", '{{ absURL "images/start/abbildung_vielseitig.jpg" }}');
+                       break;
+                   case "sphere_adaptable":
+                       sphere.attr("src", '{{ absURL "images/start/abbildung_anpassbar.jpg" }}');
+                       break;
+                   case "sphere_lasting":
+                       sphere.attr("src", '{{ absURL "images/start/abbildung_nachhaltig.jpg" }}');
+                       break;
+               }
+           }
+       );
+   });
+  </script>
+{{- end -}}

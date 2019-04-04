@@ -1,0 +1,10 @@
+<meta charset="utf-8"/>
+<meta title="{{ .Title }}"/>
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Code+Pro|Sintony|Open+Sans::300,300i,400,400i,700,700i">
+<link rel="stylesheet" href='{{ relURL "_webjars/font-awesome/5.7.2/css/all.min.css"}}' />
+<!-- hugo syntax highlighting-->
+<link type="text/css" rel="stylesheet" href='{{ relURL "css/syntax.css"}}'>
+{{ $options := (dict  "targetPath" "css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
+{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
+<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+<script src='{{ relURL "_webjars/jquery/3.3.1-2/jquery.slim.min.js"}}'></script>

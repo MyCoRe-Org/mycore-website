@@ -1,0 +1,637 @@
+
+---
+
+title: "Die Arbeit mit der Beispielanwendung"
+
+---
+  
+   <div>
+    <h2>Benutzer der Beispielanwendung</h2>
+    <p>
+    Die Beispielanwendung bringt zur Demonstration bereits eine Reihe von Benutzern und Gruppen mit. Einer Gruppe 
+    können dabei mehrere Benutzer angehören. Die Vergabe von Rechten auf Objekte kann dann sowohl für einen einzelnen 
+    Benutzer als auch für eine ganze Gruppe erfolgen. Im <a href="#ACL">Abschnitt "Zugriffsrechte auf Daten"</a> wird dieses Zugriffssystem (ACL-System) näher 
+    erläutert.
+    </p>    
+    
+    <table>
+    <tr>
+    <th>Gruppe</th>    
+    <th>Beschreibung</th>
+    </tr>
+    <tr>
+    <td>root</td>
+    <td>Die Gruppe der Superuser</td>
+    </tr>
+    <tr>
+    <td>admingroup</td>
+    <td>Die Gruppe der Systemadministratoren</td>
+    </tr>
+    <tr>
+    <td>readergroup1</td>
+    <td>Eine Gruppe von Lesern der 1. Einrichtung (nur Leserechte für Objekte der Gruppe)</td>
+    </tr>
+    <tr>
+    <td>readergroup2</td>
+    <td>Eine Gruppe von Lesern der 2. Einrichtung (nur Leserechte für Objekte der Gruppe)</td>
+    </tr>
+    <tr>
+    <td>authorgroup1</td>
+    <td>Eine Gruppe von Autoren der 1. Einrichtung (Autorenrechte nur auf die eigenen Objekte)</td>
+    </tr>
+    <tr>
+    <td>authorgroup2</td>
+    <td>Eine Gruppe von Autoren der 2. Einrichtung (Autorenrechte nur auf die eigenen Objekte)</td>
+    </tr>
+    <tr>
+    <td>editorgroup1</td>
+    <td>Eine Gruppe von Editoren der 1. Einrichtung (Bearbeiter aller Objekte einer Einrichtung)</td>
+    </tr>
+    <tr>
+    <td>editorgroup2</td>
+    <td>Eine Gruppe von Editoren der 2. Einrichtung (Bearbeiter aller Objekte einer Einrichtung)</td>
+    </tr>
+    <tr>
+    <td>gastgroup</td>
+    <td>Die Gruppe der Gäste</td>
+    </tr>    
+    </table>
+    <p class="klein"><strong>Tabelle 6.1:</strong> Beispielgruppen in DocPortal</p>
+    
+    <table>
+    <tr>
+    <th>Benutzer</th>
+    <th>Gruppe</th>
+    <th>Passwort</th>
+    </tr>
+    <tr>
+    <td>root</td>
+    <td>rootgroup</td>
+    <td>alleswirdgut</td>
+    </tr>
+    <tr>
+    <td>administrator</td>
+    <td>admingroup</td>
+    <td>alleswirdgut</td>
+    </tr>
+    <tr>
+    <td>editor1A</td>
+    <td>editorgroup1</td>
+    <td>editor1A</td>
+    </tr>
+    <tr>
+    <td>editor1B</td>
+    <td>editorgroup1</td>
+    <td>editor1B</td>
+    </tr>
+    <tr>
+    <td>editor2A</td>
+    <td>editorgroup2</td>
+    <td>editor2A</td>
+    </tr><tr>
+    <td>editor2B</td>
+    <td>editorgroup2</td>
+    <td>editor2B</td>
+    </tr>
+    <tr>
+    <td>author1A</td>
+    <td>authorgroup1</td>
+    <td>author1A</td>
+    </tr>
+    <tr>
+    <td>author1B</td>
+    <td>authorgroup1</td>
+    <td>author1B</td>
+    </tr>
+    <tr>
+    <td>author2A</td>
+    <td>authorgroup2</td>
+    <td>author2A</td>
+    </tr>
+    <tr>
+    <td>author2B</td>
+    <td>authorgroup2</td>
+    <td>author2B</td>
+    </tr>
+    <tr>
+    <td>reader1A</td>
+    <td>readergroup1</td>
+    <td>reader1A</td>
+    </tr>
+    <tr>
+    <td>reader2A</td>
+    <td>readergroup2</td>
+    <td>reader2A</td>
+    </tr>
+    <tr>
+    <td>gast</td>
+    <td>gastgroup</td>
+    <td>gast</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 6.2:</strong> Beispielbenutzer in DocPortal</p>
+   
+   </div>
+  
+  <anchor id="ACL" />
+  <div>
+   <h2>Zugriffsrechte auf Daten</h2>
+   <p>
+   Alle in MyCoRe gespeicherten Objekte besitzen einen Zugriffsschutz über Access Control Lists (ACL). 
+   Dieser Schutzmechanismus ordnet jedem Objekt eine Reihe von Attributen zu, welche als Bedingung erfüllt sein müssen, 
+   damit der Zugriff auf das Objekt gewährt wird. Der Vergleich der in den ACL's gespeicherten Voraussetzungen gegen 
+   den aktuellen Zustand des Zugriffs erfolgt mittels der Sitzung (Session). In ihr werden alle Umgebungsinformationen 
+   wie zugreifende IP, Benutzer, usw. gespeichert. Das für MyCoRe implementierte ACL-System kennt drei Attribute für die 
+   Auswertung.
+   </p>
+   <ul>
+   <li>Benutzer</li>
+   <li>Gruppen</li>
+   <li>Netzadressen in Form von IP's bzw. IP-Blöcken</li>
+   </ul>
+   <p>
+   Bei der interaktiven Eingabe neuer Daten werden standardmäßig im Projekt festgelegte Zugriffsregeln vorgegeben. 
+   Diese trennen sich in die Bereiche Lesen und Bearbeiten. Im Bereich des Bearbeitens wird wiederum in die Arbeit im 
+   Workflow und im Server-System unterschieden. Hier können jeweils die Arbeitsgänge Editieren und Löschen getrennt 
+   voneinander festgelegt werden. Für DocPortal sind folgende Berechtigungen (Permissions) definiert:
+   </p>
+   <ul>
+   <li>read – gestattet den lesenden Zugriff</li>
+   <li>writewf – gestattet das Schreiben bzw. Ändern, solange das Objekt im Simple Workflow (SWF) ist</li>
+   <li>deletewf – gestattet das Löschen, solange das Objekt im Simple Workflow (SWF) ist</li>
+   <li>writedb – gestattet das Schreiben bzw. Ändern, wenn das Objekt im Server ist</li>
+   <li>deletedb - gestattet das Löschen, wenn das Objekt im Server ist</li>
+   </ul>
+   <p>
+   Die Permissions werden in der Editor-Verarbeitung des Neuanlegens eines Datensatzes aus einem Standard-ACL-Datensatz 
+   erzeugt. Hierzu kommt die Berechtigung des aktuellen Autors zu allen Bearbeitungsfunktionen. Die Leserechte sind für 
+   alle Benutzer zugelassen. Diese Einstellung gilt konkret für die Docportal-Anwendung. Für eigene Projekte kann dies 
+   ganz anders definiert werden. Die Permissions werden im Workflow-Prozess direkt im Datensatz gespeichert. Die 
+   Notation der Zugriffsregeln im Datenabschnitt <em><strong>services</strong></em> ist als Datentyp 
+   <em><strong>MCRMetaAccessRule</strong></em> im <a href="/documentation/version21/userguide/08_more_information.html#XML-Syntax+des+XML-Knotens+service">Abschnitt "Syntax
+   des XML-Knotens service"</a> näher beschrieben. Beim Einstellen (Hochladen) der Objekte 
+   in den Server werden die Regeln <strong>writewf</strong> und <strong>deletewf</strong> vollständig entfernt, da sie 
+   nicht mehr benötigt werden. Alle anderen Zugriffsregeln werden im MyCoRe-ACL-System in die Datenbank eingetragen 
+   und anschließend aus dem Originaldatensatz gelöscht. Damit ist das Objekt gesichert, ein Zugriff darauf benötigt 
+   nun immer die Zustimmung der ACL-Komponente. Eine Änderung der Permissions kann nun nur noch bei einer 
+   Schreibberechtigung erfolgen. Die interaktiven Komponenten von DocPortal bieten hier ein Aktionsfeld mit einem 
+   Editor-Formular an. <strong>Nutzer der Gruppe admingroup sind immer für den Zugriff berechtigt, auch wenn dies nicht 
+   explizit angegeben ist.</strong>
+   </p>
+   <p>
+   Um den einzelnen digitalen Objekten ggf. eine höhere Sicherheit zu geben, können ergänzende Permissions in den 
+   Derivate-XML-Daten angegeben werden. Bei einem Zugriff wird zuerst geprüft, ob Zugriffsrechte für den Metadatensatz 
+   bestehen, anschließend wird geprüft ob es zusätzliche Einschränkungen aus dem Derivate gibt. Standardmäßig ist im 
+   Derivate immer die Permission '<strong>true</strong>' gesetzt, was keinen weiteren Einschränkungen entspricht.
+   </p>
+   <p>
+   Das ACL-System gestattet prinzipiell eine beliebige Sicherung mit anwendungsspezifischen Kriterien. Im 
+   <a href="appdev_2_1#NOT_FOUND">Programmer Guide</a> finden Sie detaillierte Informationen zur 
+   Weiterentwicklung Ihrer eigenen Applikationen. 
+   </p>
+  </div>
+  
+  <div>
+   <h2>Die Verwendung der Kommandozeilenschnittstelle </h2> 
+   <p>
+   Mit Hilfe der Kommandozeilenschnittstelle können Sie administrative Aufgaben für ihre MyCoRe-Anwendung auf 
+   Kommandozeilenebene durchführen. Dies ermöglicht auch die Abarbeitung von Scripts zu Massenverwaltung der 
+   eingestellten Daten. So können Sie etwa Objekte (Dokumente, Derivate, Personen, usw.) oder Klassifikationen in 
+   das Repository einlesen, aktualisieren und löschen, Suchen durchführen und Objekte in Dateien exportieren. Diese 
+   Funktionalitäten sind insbesondere bei einer Migration eines bestehenden Systems zur Sicherung der Daten sehr 
+   sinnvoll.
+   </p>
+   <p>
+   Die nachfolgenden Abschnitte sollen Ihnen eine Übersicht der möglichen Kommandos geben. Die einzelnen 
+   Kommandogruppen werden dabei intern in den Kommandokern importiert und stehen dem Benutzer zur Verfügung. Die mit 
+   dem MyCoRe-System ausgelieferten Kommandos können beliebig erweitert werden. Konsultieren Sie hierzu den 
+   MyCoRe <a href="appdev_2_1#NOT_FOUND">Programmer Guide</a>.
+   </p>
+   
+   <div>
+    <h3>Basiskommandos des Kommandozeilensystems</h3>
+    <p>
+    Das Kommandozeilensystem enthält eine kleine Zahl an Basiskommandos. Diese sollen im folgenden Abschnitt 
+    beschrieben werden. Sie werden ergänzt durch weitere Kommandos für die einzelnen Bereiche der Arbeit mit MyCoRe. 
+    Es besteht auch die Möglichkeit, eigene Anwendungskommandos als Java-Klassen zu entwickeln und zu integrieren. 
+    Das Kommandozeilen-Tool ist <code>mycore.sh</code> bzw. <code>mycore.cmd</code> steht nach dem Erzeugen 
+    mittels <code>ant create.scripts</code> im <code>bin</code>-Verzeichnis der Anwendung bereit. In den unten stehenden 
+    Beschreibungen sind alle erforderlichen Parameter in der Form <code>{n}</code> notiert. <code>n</code> gibt dabei 
+    die Nummer des Parameters an. Die Zählung beginnt bei 0.
+    </p>
+    
+    <dl class="kasten">
+    <dt><code>help</code></dt>
+    <dd>Zeigt alle möglichen Kommandos, auch die von der Anwendung hinzugefügten.</dd>
+    <dt><code>help {0}</code> </dt>
+    <dd>Zeigt alle Kommandos, die mit {0} als Text beginnen</dd>
+    <dt><code>process {0}</code></dt>
+    <dd> Führt das im Parameter 0 angegebene System-Shell-Kommando aus.</dd>
+    <dt><code>! {0}</code></dt>
+    <dd>Führt das im Parameter 0 angegebene System-Shell-Kommando aus.</dd>   
+    <dt><code>whoami</code></dt>
+    <dd>Zeigt den aktuellen Benutzer an.</dd>
+    <dt><code>login {0}</code></dt>
+    <dd>Startet einen Benutzerwechsel-Dialog für den Benutzer {0}.</dd>
+    <dt><code>change to user {0} with {1}</code></dt>
+    <dd>Wechselt den Benutzer {0} mit dem Passwort {1}.</dd>
+    <dt><code>show file {0}</code></dt>
+    <dd>Zeigt den Inhalt der Datei {0} an. Eine absolute Pfadangabe für {0} ist erforderlich.</dd>
+    <dt><code>show command statistics</code></dt>
+    <dd>Zeigt eine Statistik der ausgeführten Kommandos und der Laufzeiten an.</dd>
+    <dt><code>cancel on error</code></dt>
+    <dd>Beendet die Ausführung folgender Kommandos im Fehlerfall.</dd>
+    <dt><code>skip on error</code></dt>
+    <dd>Übergeht Kommandos, welche bei der Ausführung fehl schlagen.</dd>
+    <dt><code>exit</code></dt>
+    <dd>Beendet das Kommandozeilensystem.</dd>
+    <dt><code>quit</code></dt>
+    <dd>Beendet das Kommandozeilensystem.</dd>
+    </dl>
+        
+   </div>
+   
+   <div>
+    <h3>Kommandos zur Arbeit mit der Benutzerverwaltung </h3>
+    <p>    
+    Eine Gruppe der verfügbaren Kommandos der Kommandozeilenschnittstelle ermöglicht die Verwaltung von Benutzern und 
+    Gruppen. Diese Kommandos werden im folgenden vorgestellt. Oft werden bei den Kommandos XML-Dateien mit Definitionen 
+    von Benutzern oder Gruppen erwartet. Die Syntax dieser XML-Beschreibungen finden Sie im 
+    <a href="appdev_2_1#NOT_FOUND">Programmer Guide</a>. Es werden derzeit nur die wichtigsten 
+    Geschäftsprozesse der Benutzerverwaltung in den folgenden Kommandos abgebildet. 
+    Der Schwerpunkt liegt auf einem Management-Interface für administrativen Zugriff. Die vollständige GUI der 
+    Benutzerverwaltung (geplant für eine spätere Version) wird die Möglichkeit einer Bearbeitung aller Geschäftsprozesse 
+    bieten.
+    </p>
+     
+    <div>
+    <h4>Allgemeine Verwaltungskommandos</h4>
+    <anchor id="superuser" />
+
+    <dl class="kasten">    
+    <dt><code>init superuser</code></dt> 
+    <dd>Dieses Kommando wird einmalig bei der Installation und Konfiguration des MyCoRe-Systems verwendet. Dabei werden 
+    Daten über den zu verwendenden Administrations-Account und den Gast-Account aus den Konfigurationsdateien gelesen, 
+    sowie das Benutzersystem initialisiert.</dd>    
+    <dt><code>check user data consistency</code></dt> 
+    <dd>Dieses Kommando dient zur Kontrolle der Konsistenz des Benutzersystems. Alle Verbindungen zwischen Benutzern 
+    und Gruppen werden kontrolliert und Unregelmäßigkeiten, die eventuell durch den Import von Daten (
+    siehe weiter unten) entstanden sind, werden ausgegeben.</dd>    
+    <dt><code>set user management to ro mode</code></dt>
+    <dd />    
+    <dt><code>set user management to rw mode</code></dt>
+    <dd>Mit diesen Kommandos können die Daten der Benutzerverwaltung eingefroren werden. Dies sollte vor dem 
+    Exportieren von Daten in XML-Dateien geschehen, damit sich nicht während des Exports Daten geändert oder Objekte 
+    angelegt werden.</dd>
+    </dl>
+    </div>
+     
+    <div>
+    <h4>Kommandos zum Anlegen und Ändern von Gruppen und Benutzern aus XML-Dateien</h4>
+     
+    <dl class="kasten">
+    <dt><code>create user data from file {0}</code></dt>
+    <dd />
+    <dt><code>create group data from file {0}</code></dt> 
+    <dd>Diese Kommandos erwarten eine XML-Datei als Parameter. In der Datei müssen ein oder mehrere Definitionen von 
+    Benutzern oder Gruppen existieren, die dann in das System übernommen werden. Ein Benutzerpasswort muss im Klartext 
+    in der definierenden XML-Datei vorliegen (für die Syntax siehe den 
+    <a href="appdev_2_1#NOT_FOUND">Programmer Guide</a>). Ist die Passwortverschlüsselung eingeschaltet 
+    (siehe <a href="#mpp">mycore.private.properties</a>), so wird das Passwort bei der Ablage in 
+    der Datenbank verschlüsselt. Bei der Erzeugung der Objekte wird die Korrektheit der Eingaben bezüglich vorhandener 
+    Regeln überprüft. So wird z.B. getestet, ob IDs doppelt vergeben wurden.</dd>
+    <dt><code>import user system from files {0} {1}</code></dt>
+    <dd>Dieses Kommando dient der Rekonstruktion des User Systems aus den abgesicherten Daten der Benutzer und Gruppen. 
+    Da eine direkte Abhängigkeit zwischen beiden Teilen besteht werden alle Daten mittels eines gemeinsamen
+    Kommandos verarbeitet. Dabei ist {0} die Guppen- und {1} die Benutzerdatei der Sicherung.</dd>
+    <dt><code>update user data from file {0}</code></dt>
+    <dd>Mit diesen Befehlen werden bereits vorhandene Benutzer aktualisiert. Dabei ist zu bedenken, dass „update“ im 
+    Sinne von „festsetzen auf neue Werte“ zu verstehen ist, die Objekte also nach dem update genau die Definitionen 
+    haben, die in den XML-Dateien festgelegt werden. Einige der Attribute können allerdings nicht verändert werden, 
+    z.B. die Erzeuger-Accounts oder das Datum der Erzeugung. Sollen diese Daten unbedingt verändert werden, dann 
+    müssen die Objekte vorher gelöscht und neu angelegt werden.</dd>
+    <dt><code>export all users to file {0}</code></dt>
+    <dd />
+    <dt><code>export all groups to file {0}</code></dt>
+    <dd />
+    <dt><code>export user {0} to file {1}</code></dt>
+    <dd />
+    <dt><code>export group {0} to file {1}</code></dt>
+    <dd>Mit diesen Kommandos werden alle oder einzelne Objekte der Benutzerverwaltung in XML-Dateien gespeichert. 
+    Passwörter von Benutzern werden bei eingeschalteter Verschlüsselung verschlüsselt abgelegt. Die so entstandenen 
+    Dateien können beispielsweise mit den import-Kommandos wieder geladen werden.</dd>
+    <dt><code>encrypt passwords in user xml file {0} to file {1}</code></dt>
+    <dd>Passwortverschlüsselung kann durch einen Konfigurationsparameter in der Datei mycore.properties.user aktiviert 
+    oder deaktiviert werden. Dieses Kommando wird benötigt, wenn man ein bestehendes System mit nicht eingeschalteter 
+    Verschlüsselung auf ein System mit Verschlüsselung migrieren will. Dabei verfährt man folgendermaßen: Zunächst 
+    werden alle Benutzer des alten Systems mit dem Kommando (siehe oben) export all users to file in eine XML-Datei 
+    exportiert. Daraufhin wendet man encrypt passwords in user xml file {0} to file {1} auf diese Datei an und erhält 
+    damit verschlüsselte Passwörter in den XML-Dateien. Mit dem Kommando (siehe oben) update user data from file 
+    können diese Daten in das System reintegriert werden. Danach muss die Kommandozeilenschnittstelle geschlossen und 
+    die Verschlüsselung in mycore.properties.user eingeschaltet werden.</dd>
+    </dl>
+    </div>
+     
+    <div>
+    <h4>Kommandos zum direkten Arbeiten mit Objekten der Benutzerverwaltung</h4>
+     
+    <dl class="kasten">
+    <dt><code>delete user {0}</code></dt>
+    <dd />
+    <dt><code>delete group {0}</code></dt>
+    <dd>Durch Angabe des Benutzer- oder Gruppennamens werden die Objekte mit diesen Kommandos aus dem System entfernt 
+    (und abhängige Objekte aktualisiert).</dd>
+    <dt><code>list all users</code></dt>
+    <dd />
+    <dt><code>list user {0}</code></dt>
+    <dd />
+    <dt><code>list all groups</code></dt>
+    <dd />
+    <dt><code>list group {0}</code></dt>
+    <dd>Die Kommandos dienen dem Auflisten der Objekte der Benutzerverwaltung und sind selbsterklärend.</dd>
+    <dt><code>set password for user {0} to {1}</code></dt>
+    <dd>Mit Hilfe dieses Befehls kann das Passwort eines Benutzers direkt über die Kommandozeile gesetzt werden. 
+    Voraussetzung ist, dass die notwendigen Privilegien vorliegen.</dd>
+    <dt><code>enable user {0}</code></dt>
+    <dd />
+    <dt><code>disable user {0}</code></dt>
+    <dd>Mit Hilfe dieser Kommandos können einzelne Benutzer temporär deaktiviert und wieder aktiviert werden. 
+    Ist ein Benutzer disabled, so kann er oder sie sich nicht mehr am System anmelden.</dd>
+    <dt><code>add user {0} as member to group {1}</code></dt>
+    <dd />
+    <dt><code>remove user {0} as member from group {1}</code></dt>
+    <dd>Mit diesen Kommandos kann direkt auf die Mitgliederlisten von Gruppen zugegriffen werden, indem Mitglieder 
+    (sowohl Gruppen als auch Benutzer) hinzugefügt oder gelöscht werden können.</dd>
+    </dl>
+    </div>
+     
+    <div>
+    <h4>Das Sichern und Restaurieren der Benutzerverwaltungsdaten</h4>
+     
+    <p>
+    Während der Initialisierung eines MyCoRe-Systems werden ein Administrations-Account und ein Gastzugang eingerichtet 
+    zusammen mit den zugehörigen primären Gruppen (siehe <a href="#superuser">Kommando <code>init superuser</code></a>). 
+    Dadurch ist das Sichern und Reimportieren der gesamten Daten der Benutzerverwaltung mit etwas mehr Handarbeit 
+    verbunden, weil der Administrations-Account und Gastzugang zwar mit gesichert werden, aber vor einer Restauration der 
+    Daten z.B. nach einem Crash der SQL-Datenbank neu initialisiert werden müssen. Das bedeutet, dass sie bereits vorhanden sind und 
+    ein <code>import user data from file</code> deswegen nicht geht. Andererseits können sich die Daten dieser beiden 
+    Benutzer natürlich auch verändert haben, so dass die alten Daten wieder hergestellt werden müssen. Der folgende 
+    Ablauf führt zum Ziel. Dabei stehen <code>&lt;superuser&gt;</code> und <code>&lt;superuser-group&gt;</code> bzw. 
+    <code>&lt;guest&gt;</code> und <code>&lt;guest-group&gt;</code> für die in <code>mycore.private.properties</code> 
+    eingetragenen Parameter für den Administrations- und Gastzugang. In der MyCoRe-Kommandozeile werden die folgenden 
+    Befehle durchgeführt:
+    </p>
+     
+    {{< highlight xml "linenos=table">}}
+MyCoRe:> export user <superuser> to file <superuser.xml>
+MyCoRe:> export user <guest> to file <guest.xml>
+MyCoRe:> export group <superuser-group> to file 
+         <superuser-group.xml>
+MyCoRe:> export group <guest-group> to file <guest-group.xml>
+MyCoRe:> export all users to file <all-users.xml>
+MyCoRe:> export all groups to file <all-groups.xml>{{< /highlight >}}
+      
+    <p>
+    Die Benutzer <code>&lt;superuser&gt;</code> und <code>&lt;guest&gt;</code> sowie die zugehörigen Gruppen müssen 
+    aus den Dateien <code>&lt;all-users.xml&gt;</code> bzw. <code>&lt;all-groups.xml&gt;</code> manuell entfernt 
+    werden. Dann können alle Daten in einer neu erstellten SQL-Datenbank folgendermaßen importiert werden:
+    </p>
+     
+    {{< highlight xml "linenos=table">}}
+MyCoRe:> init superuser
+MyCoRe:> import user data from file <all-users.xml>
+MyCoRe:> import group data from file <all-groups.xml>
+MyCoRe:> update user data from file <superuser.xml>
+MyCoRe:> update user data from file <guest.xml>
+MyCoRe:> update group data from file <superuser-group.xml>
+MyCoRe:> update group data from file <guest-group.xml>
+MyCoRe:> check user data consistency{{< /highlight >}}
+   </div>
+   </div>
+   
+   <div>
+    <h3>Kommandos zur Administration des ACL-Systems</h3>
+     
+    <dl class="kasten">
+    <dt><code>load permissions data from file {0}</code></dt>
+    <dd>Das Kommando lädt statische Permissions aus der Datei {0}.</dd>
+    <dt><code>update permission {0} for id {1} with rulefile {2}</code></dt>
+    <dd />
+    <dt><code>update permission {0} for id {1} with rulefile {2} described by {3}</code></dt>
+    <dd />
+    <dt><code>update permission {0} for selected with rulefile {2}</code></dt>
+    <dd />
+    <dt><code>update permission {0} for selected with rulefile {2} described by {3}</code></dt>
+    <dd />
+    <dt><code>list all permissions</code></dt>
+    <dd>Das Kommando listet alle statischen Permissions.</dd>
+    <dt><code>delete permissions {0}</code></dt>
+    <dd>Das Kommando löscht die in {0} angegebene Permission.</dd>
+    <dt><code>delete all permissions</code></dt>
+    <dd>Das Kommando löscht alle statischen Permissions.</dd>
+    <dt><code>export all permissions to file {0}</code></dt>
+    <dd>Das Kommando sichert alle statischen Permissions in die unter {0} angegebene Datei.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h3>Kommandos zum Verwalten von Klassifikationen</h3>
+     
+    <dl class="kasten">
+    <dt><code>load classification from file {0}</code></dt>
+    <dd>Es wird eine Klassifikation in Form einer XML-Definition aus der Datei {0} gelesen und in das System geladen.</dd>
+    <dt><code>load all classifications from directory {0}</code></dt>
+    <dd>Es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis {0} gelesen und in das System geladen.</dd>
+    <dt><code>update classification from file {0}</code></dt>
+    <dd>Es wird eine Klassifikation in Form einer XML-Definition aus der Datei {0} gelesen. Diese überschreibt die im System bereits 
+    geladene Klassifikation. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation weg, da sonst Ihr 
+    System ggf. in einen inkonsistenten Zustand kommen kann! Referenzierte Kategoien werden nicht beseitigt.</dd>
+    <dt><code>update all classifications from directory {0}</code></dt>
+    <dd>es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis {0} gelesen. Diese überschreiben die im 
+    System bereits geladenen Klassifikationen. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation 
+    weg, da sonst Ihr System ggf. in einen inkonsistenten Zustand kommen kann! Referenzierte Kategoien werden nicht beseitigt.</dd>
+    <dt><code>delete classification {0}</code></dt>
+    <dd>Es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code> 
+    gelöscht. Sollten noch Referenzen existieren, wird das Löschen abgebrochen.</dd>
+    <dt><code>export classification {0} to {1} with {2}</code></dt>
+    <dd>Es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code> 
+    in eine Datei mit dem im Parameter <code>{1}</code> angegeben Namen gespeichert. Es wird zur Transformation 
+    der zu speichernden Daten das Stylesheet <code>{2}-classification.xsl</code> unter 
+    <code>$DOCPORTAL_HOME/build/xsl</code> verwendet.</dd>
+    <dt><code>export all classifications to directory {0} with {1}</code></dt>
+    <dd>Es werden alle im System befindlichen Klassifikationen in Dateien des Verzeichnisses mit dem im Parameter 
+    <code>{0}</code> angegeben Namen gespeichert. Es wird zur Transformation der zu speichernden Daten das Stylesheet <code>{1}-classification.xsl</code> unter 
+    <code>$DOCPORTAL_HOME/build/xsl</code> verwendet.</dd>
+    <dt><code>count classification children of {0}</code></dt>
+    <dd>Es werden die Referenzen zu den Kategorien der im Parameter <code>{0}</code> angegebenen Klassifikation mit der <code>MCRObjectID</code> gezählt.</dd>
+    <dt><code>list all classifications</code></dt>
+    <dd>Das Kommando listet alle in der Datenbasis gespeicherten Klassifikationen aus.</dd>
+    <dt><code>list classification {0}</code></dt>
+    <dd>Das Kommando listet die unter der <code>MCRObjectID</code> in der Datenbasis gespeicherte Klassifikation mit alle Kategorien aus.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h3>Kommandos zur Verwaltung der Objekte</h3>
+    <dl>
+    <dt><code>load object from file {0}</code></dt>
+    <dd />
+    <dt><code>load all objects from directory {0}</code></dt>
+    <dd />
+    <dt><code>load derivate from file {0}</code></dt>
+    <dd />
+    <dt><code>load all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer 
+    Quelldatei oder einem Quellverzeichnis in das System.</dd>
+    <dt><code>update object from file {0}</code></dt>
+    <dd />
+    <dt><code>update all objects from directory {0}</code></dt>
+    <dd />
+    <dt><code>update derivate from file {0}</code></dt>
+    <dd />
+    <dt><code>update all derivates from directory {0}</code></dt>
+    <dd>die Kommandos laden die Metadaten-Objekte oder die Derivate inklusive ihrer Bilder und Dokumente von einer 
+    Quelldatei oder einem Quellverzeichnis in das System. Dabei werden die bestehenden Daten bis auf 
+    Strukturinformationen überschrieben. Strukturinformationen sind ggf. Daten über Vater-Kind- oder 
+    Objekt-Derivate-Beziehungen.</dd>
+    <dt><code>export object {0} to directory {1} with {2}</code></dt>
+    <dd />
+    <dt><code>export object from {0} to {1} to directory {2} with {3}</code></dt>
+    <dd />
+    <dt><code>export all objects of type {0} to directory {1} with {2}</code></dt>
+    <dd />
+    <dt><code>export derivate of {0} to directory {1}</code></dt>
+    <dd />
+    <dt><code>export derivate from {0} to {1} to directory {2}</code></dt>
+    <dd />
+    <dt><code>export all derivates to directory {0} with {1}</code></dt>
+    <dd>die Kommandos speichern ein oder mehrere Metadaten-Objekte oder Derivate in ein Verzeichnis ab. Für die 
+    Parameter <code>{0}</code> und <code>{1}</code> bzw. <code>{0}</code> sind <code>MCRObjectIDs</code> anzugeben. 
+    Es werden zur Transformation der zu speichernden Daten die Stylesheets <code>{3}-object.xsl</code> und 
+    <code>{3}-derivate.xsl</code> unter <code>$DOCPORTAL_HOME/stylesheets</code> verwendet. 
+    Standard ist <code>save-object.xsl </code> bzw. <code>save-derivate.xsl.</code></dd>
+    <dt><code>delete object {0}</code></dt>
+    <dd />
+    <dt><code>delete object from {0} to {1}</code></dt>
+    <dd />
+    <dt><code>delete derivate {0}</code></dt>
+    <dd />
+    <dt><code>delete derivate from {0} to {1}</code></dt>
+    <dd>die Kommandos löschen einzelnen Metadaten-Objekte oder Derivate oder ganze Gruppen von selbigen. 
+    Alle Parameter müssen dabei <code>MCRObjectID</code>'s sein.</dd>
+    <dt><code>delete all objects of type {0}</code></dt>
+    <dd>das Kommando löscht alle eingestellten Objekte eines bestimmten Datentypes.</dd>
+    <dt><code>delete all derivates</code></dt>
+    <dd>das Kommando löscht alle eingestellten Derivate.</dd>
+    <dt><code>show loadable derivate of {0} to directory {1}</code></dt>
+    <dd>das Kommando speichert den Content des Derivates vom Objekt mit der <code>MCRObjectID {0}</code> in das 
+    Verzeichnis <code>{1}</code>.</dd>
+    <dt><code>select objects with query {0}</code></dt>
+    <dd>selektiert Objekte via MCRQL und speichert sie in eine temporäre Liste. Jeder Aufruf des Kommandos
+    überschreibt die Liste.</dd>
+    <dt><code>execute for selected {0}</code></dt>
+    <dd>führt das angegebene Kommando <code>{0}</code> mit allen selektierten Objekten aus. Im Kommando muss die
+    zu ersetzende ID mit <code>{x}</code> angegeben werden. Ein Beispiel: <code>execute for selected set parent
+    of {x} to DocPortal_document_00000001</code></dd>
+    <dt><code>xslt {0} with file {1}</code></dt>
+    <dd>Transformiert das angegebene MyCoRe Objekt <code>{0}</code> mit einer XSL-Datei <code>{1}</code>. Das
+    Kommando ist hilfreich um fehlerhafte Datenbestände zu reparieren. Selektieren sie dazu zuerst alle
+    fehlerhaften Objekte mit dem <code>select objects with query {0}</code> Kommando. Anschließend können
+    sie mit 'execute for selected xslt {x} with file myfix.xsl' die Objekte reparieren.</dd>
+    </dl>
+   </div>
+
+   <div id="cmd_iview">
+    <h3>Kommandos zur Arbeit mit dem ImageViewer</h3>
+    <dl>
+    <dt><code>tile images of all derivates</code></dt>
+    <dd>das Kommando erzeugt Kacheln für alle Bilddateien (deren Formate unterstützt werden).</dd>
+    <dt><code>tile images of derivate {0}</code></dt>
+    <dd>das Kommando erzeugt Kacheln für alle Bilddateien im angegebenen Derivat <code>{0}</code>.</dd>
+    <dt><code>tile image {0} {1}</code></dt>
+    <dd>das Kommando generiert die Kacheln für die angegebenen Datei aus dem Derivate <code>{0}</code>
+      entsprechend des absoluten Pfades {1}.</dd>
+    <dt><code>check tiles of image {0} {1}</code></dt>
+    <dd>das Kommando prüft alle Kacheln der angegebenen Datei aus dem Derivate <code>{0}</code>
+      entsprechend des absoluten Pfades {1} und generiert bei Bedarf neue Kacheln.</dd>
+    <dt><code>delete tiles of image {0} {1}</code></dt>
+    <dd>das Kommando löscht alle Kacheln der angegebenen Datei aus dem Derivate <code>{0}</code>
+      entsprechend des absoluten Pfades {1}.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h3>Kommandos zur Konsistenzprüfung im IFS (Dateien in Derivaten)</h3>
+    <dl>
+    <dt><code>generate md5sum files in directory {0}</code></dt>
+    <dd>
+      Mit diesem Befehl kann man Dateien erzeugen, die zu dem "md5sum"-Programm kompatibel sind. 
+      Pro Content-Store-ID, wird eine Datei im angegebenen Verzeichnis angelegt, in der alle Dateien 
+      des Content-Stores alphabetisch sortiert mit MD5 Summe hinterlegt sind.
+      Diese MD5-Datei kann man mit "md5sum -c Datei.md5" zum Überprüfen aller Dateien benutzen, 
+      um so Änderungen oder fehlende Dateien feststellen zu können.
+      Mit einer sortierten Liste (z.B. per find) der Dateien im Content-Store, kann man mit einem Script 
+      zusätzlich noch leicht herausfinden, welche Dateien in der Datenbank nicht vermerkt sind, 
+      aber noch Platz wegnehmen.
+    </dd>
+    <dt><code>generate missing file report in directory {0}</code></dt>
+    <dd>
+      Erzeugt einen Bericht als XML-Datei, in der alle verlorenen Dateien aufgelistet sind. 
+    </dd>
+    <dt><code>generate md5 file report in directory {0}</code></dt>
+    <dd>
+      Erzeugt einen Bericht als XML-Datei, in der alle veränderten Dateien mit fehlerhafter MD5 Prüfsumme aufgelistet sind. 
+    </dd>
+    </dl>
+   </div>
+
+   <div>
+    <h3>Anfragen an das System per Kommandozeile</h3>
+    <dl>
+    <dt><code>run query from file {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage mit einer Query, welche im File <code>{0}</code> steht.</dd>
+    <dt><code>run local query {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage gegen das lokale System mit einer Query, welche im String <code>{0}</code> 
+    steht.</dd>
+    <dt><code>run distributed query {0}</code></dt>
+    <dd>das Kommando startet eine Anfrage gegen alle bekannten Systeme mit einer Query, welche im String <code>{0}</code> 
+    steht.</dd>
+    </dl>
+   </div>
+   
+   <div>
+    <h3>Sonstige Kommandos</h3>
+    <dl>
+    <dt><code>repair metadata search of type {0}</code></dt>
+    <dd />
+    <dt><code>repair metadata search of ID {0}</code></dt>
+    <dd>die Kommandos lesen die XML-SQL-Tabellen und reparieren zerstörte Metadaten-Suchindizes. Das Kommando kann 
+    auch beim Wechsel eines <code>SearchStore</code> angewendet werden.</dd>
+    <dt><code>repair derivate search of type derivate</code></dt>
+    <dd />
+    <dt><code>repair derivate search of ID {0}</code></dt>
+    <dd>die Kommandos lesen die gespeicherten Datenobjekte und reparieren zerstörte Volltext-Suchindizes. Das Kommando 
+    kann auch beim Wechsel eines <code>SearchStore</code> angewendet werden.</dd>
+    <dt><code>get last ID for base {0}</code></dt>
+    <dd />
+    <dt><code>get next ID for base {0}</code></dt>
+    <dd />
+    <dt><code>show last object ID for base {0}</code></dt>
+    <dd />
+    <dt><code>show next object ID for base {0}</code></dt>
+    <dd>die Kommandos liefern die nächste freie oder die letzte <code>MCRObjectID</code> für eine vorgegeben 
+    <code>MCRObjectID</code>-Basis zurück. Die Basis besteht aus Projekt- und Type-String in der Form 
+    <code>project_type</code>. (Siehe Abschnitt zur <a href="#MCRO">MCRObjectID</a>)</dd>
+    <dt><code>check file {0}</code></dt>
+    <dd>prüft eine im Parameter <code>{0}</code> angegebene Datei mittels XML-Parser.</dd>
+    <dt><code>init hibernate</code></dt>
+    <dd>das Kommando initialisiert den Hibernate-SQL-Store. Das Kommando ist nur einmal erforderlich!</dd>
+    </dl>
+   </div>
+   
+  </div>
+  
+  <div>{{< mcr-figure src="/images/documentation/archiv/userguide_simpleworkflow_1.jpg" class="border border-secondary" label="" caption="" alt="Funktionsschema SimpleWorkflow" width="" height="" />}}</div>
+  
+  <div id="classif_editor">{{< mcr-figure src="/images/documentation/archiv/classification_editor_v2.png" class="border border-secondary" label="" caption="" alt="Bearbeiten der Klassifikationen" width="" height="" />}}</div>
+

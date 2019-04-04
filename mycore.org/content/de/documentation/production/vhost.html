@@ -1,0 +1,94 @@
+
+---
+
+title: "Virtuelle Hostnamen"
+mcr_version: ['2017.06']
+author: ['Jens Kupferschmidt']
+date: "2018-01-03"
+
+---
+
+  <div>
+   <h2>Einbindung virtueller Host-Namen mit Hilfe des Apache-Web-Servers</h2>
+   <p>
+    Standardmäßig ist der Apache2 in den Installations-CDs aller gängigen Linux-Distributionen und in MacOS enthalten.
+    Für Windows muss ein gesonderter Download erfolgen. Der Quellcode des Apache2 liegt auf
+    <a target="_blank" href="http://httpd.apache.org">http://httpd.apache.org</a>
+    für ein Download bereit. Die folgende Beschreibung bezieht sich auf die
+    Apache-Version 2.4.x. Die weitere Beschreibung bezieht sich hinsichtlich der Pfade auf ein UNIX/MacOS-System, für
+    Windows sind die dazu korrespondierenden Pfade zu nutzen.
+   </p>
+
+   <div>
+    <h3>Einbindung des Proxy-Modules</h3>
+    <p>
+     Die Einbindung des Proxy-Modules ist relativ einfach zu bewerkstelligen.
+    </p>
+    <p>
+     Für <strong>SuSE</strong>: in der Datei
+     <em>/etc/sysconfig/apache2</em>
+     sind in der Zeile der Variable
+     <strong>APACHE_MODULES</strong>
+     die Module
+     <strong>proxy,proxy_http,proxy_connect</strong>
+     hinzuzufügen. Nach der Änderung ist der Neustart des Apache-Servers erforderlich.
+    </p>
+   </div>
+
+   <div>
+    <h3>Die Verbindung von einer Servlet-Engine und Apache2</h3>
+    <p>
+     Die Verbindung zwischen dem Apache2 und der Servlet-Engine wird in den Konfigurationsfiles
+     <em>/etc/apache2/httpd.conf</em>
+     und
+     <em>/etc/apache2/http-vhosts.conf</em>
+     konfiguriert.
+    </p>
+    <p>
+     In der Datei
+     <em>/etc/apache2/httpd.conf</em>
+     ist die Include-Anweisung für das Lesen der Zusatzkonfiguration
+     <em>http-vhosts.conf</em>
+     zu aktivieren. Anschließend wird der eigentliche virtuelle Host in dieser Datei definiert.
+     Dabei sind natürlich die Pfade zu den einzelnen Verzeichnissen entsprechend den aktuellen Gegebenheiten anzupassen.
+    </p>
+
+    {{< highlight xml "linenos=table">}}
+<VirtualHost {www.myaddress.net:80}>
+
+  #  General setup for the virtual host
+  DocumentRoot "{path_to_my_web_root}"
+  ServerName {my_server_name}
+  ServerAdmin {user}@{my_server_name}
+  ErrorLog /var/log/apache2/{app_name}-error_log
+  CustomLog /var/log/apache2/{app_name}-access_log common
+  TransferLog /var/log/apache2/access_log
+
+  <Directory "{path_to_my_web_root}" >
+    Options Indexes FollowSymLinks
+    DirectoryIndex
+    Require all granted
+  </Directory>
+
+  <Location />
+    ProxyPass ajp://localhost:{app_port}/
+    ProxyPassReverse ajp://localhost:{app_port}/
+    Require all granted
+  </Location>
+
+  <Location /ws/>
+    ProxyPass ws://localhost:{app_ws_port}/ws/
+    Require ip xx.xx.xx.xx/32
+    ...
+  </Location>
+
+</VirtualHost>{{< /highlight >}}
+
+    <p>
+     Nach dieser Änderung ist zuerst die Servlet-Engine zu starten. Anschließend kann der Apache-Server neu gestartet werden.
+    </p>
+   </div>
+
+  </div>
+
+ 

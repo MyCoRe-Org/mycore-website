@@ -1,0 +1,3198 @@
+
+---
+
+title: "MyCoRe Programmer Guide 2.0"
+
+---
+
+ <div>
+  <h2>Allgemeines zur Implementierung</h2>
+  
+   <div class="Struktur der Gesamtanwendung">{{< mcr-figure src="/images/documentation/archiv/progguide_globalstructure.png" class="border border-secondary" label="" caption="" alt="Grundstruktur" width="" height="" />}}</div>
+  
+  <div>
+   <h4>Benutzte externe Bibliotheken</h4>
+   <p>
+   Das MyCoRe-Projekt bemüht sich, bereits etablierte Techniken und Implementationen zu benutzen, um einerseits den 
+   eigenen Entwicklungsaufwand so gering wie möglich zu halten, andererseits dem Nachnutzer den Einstieg durch die 
+   Verwendung bekannter Komponenten zu erleichtern. 
+   </p>
+   <p>
+   Der Folgende Abschnitt beschreibt alle eingesetzten Bibliotheken. Dabei ist die Lizenzpolitik der Hersteller sehr 
+   unterschiedlich. Gemeinsam ist allen jedoch, dass sie den Open Source Gedanken vertreten und für nichtkommerzielle 
+   Einsätze frei verfügbar sind. Die Nutzung von MyCoRe unter wirtschaftlichen Aspekten bedarf also einer gesonderten 
+   Betrachtung der Lizenzrechte durch den Anwender. Ob hier Rechte verletzt werden, ist im Einzelfall abzuklären.
+   </p>
+   <table>
+   <tr>
+   <th width="20%">Files</th>
+   <th>Beschreibung</th>
+   <th width="10%">Lizenz</th>
+   </tr>
+   <tr>
+   <td>activation.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>ant-antlr-xxx.jar</td>
+   <td>ANother Tool for Language Recognition.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>ant-contrib.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>antlr-xxx.jar</td>
+   <td>ANother Tool for Language Recognition.</td>
+   <td align="center" />
+   </tr>
+   <tr>
+   <td>asm.jar</td><td>A Java bytecode manipulation framework.</td>
+   <td align="center">ASM</td>
+   </tr>
+   <tr>
+   <td>asm-attrs.jar</td>
+   <td>A Java bytecode manipulation framework.</td>
+   <td align="center">ASM</td>
+   </tr>
+   <tr>
+   <td>avalon-framework-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>axis.jar</td>
+   <td>Apache Axis is an implementation of the SOAP for Web services support</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>axis-ant.jar</td>
+   <td>Apache Axis is an implementation of the SOAP for Web services support</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>batik.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>c3p0-xxx.jar</td>
+   <td>c3p0 is an easy-to-use library for making traditional JDBC drivers "enterprise-ready" by augmenting them with 
+   functionality defined by the jdbc3 spec and the optional extensions to jdbc2.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>cglib-xxx.jar</td>
+   <td>Byte Code Generation Library is high level API to generate and transform JAVA byte code. It is used by AOP, 
+   testing, data access frameworks to generate dynamic proxy objects and intercept field access.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-beanutils.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-collections-xxx.jar</td>
+   <td>Apache Jakarta Common - Extends or augments the Java Collections Framework.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-discovery-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-fileupload-xxx.jar</td>
+   <td>Apache Jakarta Common - File upload capability for your servlets and web applications.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-httpclient-xxx.jar</td>
+   <td>Apache Jakarta Common - Framework for working with the client-side of the HTTP protocol.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-io-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-lang-xxx.jar</td>
+   <td>Apache Jakarta Common - Provides extra functionality for classes in java.lang.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging.jar</td>
+   <td>Apache Jakarta Common - Wrapper around a variety of logging API implementations.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging-adapters-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging-api-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-net-xxx.jar</td>
+   <td>Apache Jakarta Common - Collection of network utilities and protocol implementations.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-vfs-xxx-dev.jar</td>
+   <td>Apache Jakarta Common - Virtual File System component for treating files, FTP, SMB, ZIP and such like as a 
+   single logical file system.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>connector.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>dom4j-xxx.jar</td>
+   <td>dom4j is an easy to use, open source library for working with XML, XPath and XSLT on the Java platform using the 
+   Java Collections Framework and with full support for DOM, SAX and JAXP.</td>
+   <td align="center">W3C</td>
+   </tr>
+   <tr>
+   <td>ehcache-xxx.jar</td>
+   <td>Ehcache is a widely used java distributed cache for general purpose caching, J2EE and light-weight containers.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>ezmorph-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>fckEditor.zip</td>
+   <td>This HTML text editor brings to the web many of the powerful functionalities of desktop editors like MS Word. 
+   It's lightweight and doesn't require any kind of installation on the client computer.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>fop.jar</td>
+   <td>A library to transform formatting objects.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>lib/ftp.jar</td>
+   <td>Java FTP client library.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>hibernate3.jar</td>
+   <td>Hibernate is a powerful, high performance object/relational persistence and query service.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>hsqldb_xxx.jar</td>
+   <td>Lightweight 100% Java SQL Database Engine.</td>
+   <td align="center">HS</td>
+   </tr>
+   <tr>
+   <td>icu4j_xxx.jar</td>
+   <td>ICU is a mature, widely used set of Java libraries for Unicode support, software internationalization and 
+   globalization (i18n/g11n).</td>
+   <td align="center">IBM</td>
+   </tr>
+   <tr>
+   <td>jai_codec.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jai_core.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jaxen-xxx.jar</td>
+   <td>The Jaxen Java XPath Engine is an open source cross-API (DOM, JDOM, dom4j, and ElectricXML) XPath library for 
+   Java.</td>
+   <td align="center" />
+   </tr>
+   <tr>
+   <td>jaxrpc.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jcifs-1.2.0.jar</td>
+   <td>JCIFS is an Open Source client library that implements the CIFS/SMB networking protocol in 100% Java.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>jdom-1.0.jar</td>
+   <td>To provide a complete, Java-based solution for accessing, manipulating, and outputting XML data from Java code.</td>
+   <td align="center">JDOM</td>
+   </tr>
+   <tr>
+   <td>jid3lib-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>joda-time-xxx.jar</td>
+   <td>Joda-Time provides a quality replacement for the Java date and time classes.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>jsch-xxx.jar</td>
+   <td>JSch allows you to connect to an sshd server and use port forwarding, X11 forwarding, file transfer, etc., and 
+   you can integrate its functionality into your own Java programs.</td>
+   <td align="center">BSD</td>
+   </tr>
+   <tr>
+   <td>json-lib-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jta.jar</td>
+   <td>JTA specifies standard Java interfaces between a transaction manager 
+   and the parties involved in a distributed transaction system: the resource manager, the application server, and 
+   the transactional applications.</td>
+   <td align="center">SUN</td>
+   </tr>
+   <tr>
+   <td>jtidy.jar</td>
+   <td>We have two primary goals. First, to provide a home where all the patches and fixes that folks contribute can be 
+   collected and incorporated into the program. Second, a library form of Tidy has been created to make it easier to 
+   incorporate Tidy into other software.</td>
+   <td align="center">W3C</td>
+   </tr>
+   <tr>
+   <td>junit-xxx.jar</td>
+   <td>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. </td>
+   <td align="center">CPL</td>
+   </tr>
+   <tr>
+   <td>log4j-xxx.jar</td>
+   <td>Inserting log statements into your code is a low-tech method for debugging it.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-analyzers-xxx.jar</td>
+   <td>Apache Lucene is a high-performance, full-featured text search engine library written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-core-xxx.jar</td><td>Apache Lucene is a high-performance, full-featured text search engine library 
+   written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-queries-xxx.jar</td><td>Apache Lucene is a high-performance, full-featured text search engine library 
+   written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>mail.jar</td>
+   <td>The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging 
+   applications. </td>
+   <td align="center">SUN</td>
+   </tr>
+   <tr>
+   <td>metadata-extractor-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>mlibwrapper_jai.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>mysql-connector-java.jar</td>
+   <td>The JDBC connector for MySQL. This will be used only if MySQL is installed.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>opensaml-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>PDFBox-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>saaj.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>saxpath.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>serializer_xxx.jar</td>
+   <td>This is a part of Xalan.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>servlet-api-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>tm-extractors-0.4.jar</td>
+   <td>tm-extractors wraps the Word extraction from POI in a nice API.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>wsdl4j-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>wss4j.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>xalan_xxx.jar</td><td>The Apache Xalan Project is a collaborative software development project dedicated to 
+   providing robust, full-featured, commercial-quality, and freely available XSLT support on a wide variety of 
+   platforms.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>xercesImpl_xxx.jar</td>
+   <td>The Xerces Java Parser 1.4.4 supports the XML 1.0 recommendation and contains advanced parser functionality, such 
+   as support for the W3C's XML Schema recommendation version 1.0, DOM Level 2 version 1.0, and SAX Version 2, in 
+   addition to supporting the industry-standard DOM Level 1 and SAX version 1 APIs.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>xmlsec-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>xmltask-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle:</strong> Übersicht der benutzten externen Bibliotheken</p>
+   
+   <p>Lizenzen:</p>
+   <ul>
+   <li><strong>AL 2.0</strong> - Apache License Version 2.0, January 2004 <br />
+       <a target="_blank" href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>
+   </li>
+   <li><strong>ASM</strong> - Copyright (c) 2000-2005 INRIA, France Telecom <br />
+       <a target="_blank" href="http://asm.objectweb.org/license.html">http://asm.objectweb.org/license.html</a>
+   </li>
+   <li><strong>BSD</strong> - Copyright (c) 2002,2003,2004,2005,2006 Atsuhiko Yamanaka, Jcraft,Inc.</li>
+   <li><strong>CPL</strong> – Common Public License Version 1.0 <br />
+       <a target="_blank" href="http://www.oopensource/licenses/cpl.php">http://www.oopensource/licenses/cpl.php</a> 
+   </li>
+   <li><strong>HS</strong> - Copyright (c) 1995-2000 by the Hypersonic SQL Group. <br />
+       <a target="_blank" href="http://www.hsqldb.org/web/hsqlLicense.html">http://www.hsqldb.org/web/hsqlLicense.html</a> 
+   </li>
+   <li><strong>IBM</strong> – Special license for Open Soucre of IBM like LGPL</li>
+   <li><strong>JDOM</strong> - Copyright (C) 2000-2002 Brett McLaughlin &amp; Jason Hunter. <br />
+       <a target="_blank" href="http://www.jdom.org/">http://www.jdom.org</a>
+   </li>
+   <li><strong>LGPL</strong> - GNU Library or Lesser General Public License 2.1 </li>
+   <li><strong>SUN</strong> – Sun.com Terms of Use - <br />
+       <a target="_blank" href="http://www.sun.com/termsofuse.html">http://www.sun.com/termsofuse.html</a>
+   </li>
+   <li><strong>W3C</strong> - W3C® SOFTWARE NOTICE AND LICENSE Copyright © 1994-2001 World <br />
+       <a target="_blank" href="http://www.w3.org/Consortium/Legal/copyright-software-19980720">http://www.w3.org/Consortium/Legal/copyright-software-19980720
+       </a>
+   </li>
+   </ul>
+  </div>
+  
+  <div>
+   <h4>Allgemeine Festlegungen zur Struktur des MyCoRe-Kerns und der Anwendung</h4>
+
+   <div>
+    <h5>Definitionen</h5>
+	<ul>
+     <li><strong>Common parts</strong> sind die Teile des MyCoRe-Kerns, welche von vielen/allen Komponenten und Modulen 
+		 verwendet werden und die elementaren Grundfunktionalitäten von MyCoRe bereitstellen. U. a. beinhaltet 
+		 dies die APIs zur Speicherung der Daten, Klassifikationen, der ACLs und Nutzer, Store-Zugriffe und Klassen, 
+		 die allgemeiner Natur sind und als API-Funktionalitäten bereitgestellt werden (MCRServlet, XML-Parser usw.).</li>
+     <li><strong>Components</strong> sind Teile des MyCoRe-Kerns welche als Funktionalität in sich abgrenzbar sind. Sie bauen 
+		 auf den <strong>Common parts</strong> auf und enthalten alle zur Funktionalität gehörenden Klassen und Dateien. Alle 
+		 Komponenten haben eine fest vorgegebene Struktur (siehe unten) und können über ein Property ausgeschaltet 
+		 werden (wie bisher bei den Modulen des Kerns). Die in den Komponenten enthaltenen Vorlagen (Templates) 
+		 können durch anwendungsseitige Dateien überschrieben werden.  Komponenten werden vom Entwickler-Team 
+		 bereitgestellt und sind Bestandteil von mycore.jar. Komponenten werden über einen automatischen Prozess 
+		 in die Anwendung integriert, wenn sie nicht explizit deaktiviert wurden.</li> 
+     <li><strong>Modules</strong> sind austauschbare/abschaltbare Teile der Nutzeranwendung, welche alle wichtigen Dinge zur 
+		 Gestaltung konkreter Anwendungen enthalten, die nicht als generisch anzusehen sind (Datenmodelle, statische 
+		 Seiten, Layouts usw.). Module werden von den Anwendern entwickelt und bauen auf dem mycore.jar auf. Module 
+		 können auch Komponenten überschreiben bzw. ergänzen. Die Dateibaumstruktur vom Modulen und Komponenten soll 
+		 analog zueinander sein.</li>
+	</ul>
+   </div>
+
+   <div>
+    <h5>Die Struktur des mycore-Verzeichnisses</h5>
+    <p>
+	Der mycore-Verzeichnisbaum ist ein Projektbereich, aus welchem die für die Anwendung relevante Datei mycore.jar 
+	erzeugt wird. Alle Teile unterstützen nur die Sprachen Englisch und Deutsch. Das Verzeichnis kann so aus Subversion
+	heruntergeladen werden und hat nachfolgende Struktur.
+    </p>
+	   	   
+	{{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    mycore
+      |
+      \ build (mit ant generierte Daten)
+      | \ classes (Java-Klassen)
+      | \ javadocs (generierte JavaDocs)
+      | \ lib (Download-Bereich der externen Jars)
+      \ components (alle Komponenten gemäß Definition von oben (ex. Module) und inkl. Migration)
+      \ config (alle generischen Konfigurationen)
+      \ resources (werden nicht übersetzt, sondern so wie sie sind nach build/classes kopiert - z.B. Hibernate-Mappings)
+      \ schema (generische DTD- und XSD-Schema-Dateien)
+      \ sources (Common parts - Sources)
+      \ tests (JUnit Test Sources)
+      \ xsl (alle generischen Stylesheets)
+      | Dateien build.xml, changelog.txt, license.txt
+    ]]>
+    </p>
+    {{< /highlight >}} 
+
+   <p>
+   <strong>Festlegungen</strong>
+    <ul>
+     <li>Migrationskommandos befinden sich in einem <em>org.mycore.services.migration</em>em&gt;-Package im 
+		 <em>sources</em>-Zweig. Um diese jedoch übersichtlicher zu gestalten, soll es für jede Migration 
+		 eine entsprechende Migrations-Komponente geben. Dort ist dann alles zusammengefasst (Code, XSL, etc.).</li>
+     <li>Die Migrations-Komponente wird entsprechend der beiden zu migrierenden Release-Versionen benannt, z.B. 
+		 aktuell migration13-20. Welchen der Schritte man z.B. beim Wechsel von Snapshot a auf Snapshot b ausführen 
+		 muss, soll in der Dokumentation beschrieben werden. Dabei sind die einzelnen Migrationsschritte mit der 
+		 SVN-Revision-Nummer und dem Datum versehen, um bei einzelnen Updates leichter relevante Migrationsschritte 
+		 zu finden. Daraus wird dann beim naechsten Release eine geschlossene Migrationsanleitung erstellt.</li>
+     <li>Das Verzeichnis <em>sources</em> wird weiterhin nur die Java-Pakete beinhalten. Die Verzeichnisse 
+		 <em>schema</em>, <em>tests</em> und <em>xsl</em> bleiben in der obersten Ebene.</li>
+	</ul>
+   </p>
+   </div>
+
+   <div>
+    <h5>Struktur der Komponenten</h5>
+
+	{{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+     [component-name]
+        \ config (vorgefertigte Konfigurationsteile (z. B. web.xml) und Templates (anzupassende properties, ACLs)
+        \ resources (werden nicht übersetzt, sondern so wie sie sind nach build/classes kopiert)
+        \ schema (generische DTD- und XSD-Schema-Files)
+        \ sources (alle zugehörigen Java-Klassen)
+        \ tests (JUnit Tests der Komponente)
+        \ web (alle zugehörigen Web-Seiten)
+        | \ css (CSS Vorlagen)
+        | \ images (Bilder auch für xsl)
+        | \ js (Java Script files)
+        \ xsl (alle zugehörigen XSLT-Stylesheets)
+        | Die Datei build.xml ist optional (wenn fuer spezielle Erweiterungen nötig).
+        | Die Datei integrate.xml zur Integration in die Anwendung
+    ]]>
+    </p>
+    {{< /highlight >}}
+	   
+    <p>
+     <strong>Festlegungen</strong>
+     <ul>
+      <li>Alle Komponenten stehen im Unterverzeichnis <em>components</em>.</li>
+      <li>Components sollen direkt mit ihrem Namen als Verzeichnisname bezeichnet werden z. B. swf oder wcms. </li>
+      <li>Die Verarbeitungsreihenfolge im Kern ist irrelevant.</li>
+      <li>Die Struktur einer Komponente ist vom Konzept her identisch mit dem Basisverzeichnis <em>mycore</em>.</li>
+      <li>Die <em>web</em>-Verzeichnisse sind auch hier optional, wenn sie jedoch angelegt werden, sollen sie dieser 
+		  Struktur entsprechen</li>
+      <li>I18N-Dateien stehen in config und haben die Bezeichnung <em>messages_[lang].properties</em>.</li>
+      <li>Alle I18N-Properties einer Komponente haben den Namen <em>component.[component-name].xxx</em></li>
+      <li>Servlet-Definitionen stehen in <em>config/web.xml</em></li>
+      <li>Alle Properties stehen in <em>config</em> und haben die Bezeichnung <em>mycore.properties</em>. Durch die 
+		  Anwendung festzulegende Properties sind auszukommentieren und gut sichtbar darzustellen.</li>
+      <li>Alle Properties einer Komponente haben den Namen <em>MCR.[component-name].xxx</em> .</li>
+	 </ul>
+	</p>
+
+	{{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    #####################################################
+    # The component mycore.property file
+    #####################################################
+    
+    #####################################################
+    # Application changeable properties</code> <br />
+    #####################################################
+    # MCR.[component-name].changeByApplication = ...
+    
+    #####################################################
+    # Component properties</code> <br />
+    #####################################################
+    # MCR.[component-name].changeByComponent = ...
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h5>Aufbau der Datei <em>mycore.jar</em></h5>
+    <p>
+     Die Datei mycore.jar ist die Schnittstelle des MyCoRe-Kerns zu den Anwendungen. Eine Anwendung integriert 
+	 <strong>NUR</strong> diese Datei! Externe JAR-Files werden direkt über Ivy von der Anwendung nachgeladen. Alle 
+     Komponenten werden per default integriert, auszuschaltende Komponenten müssen in der Anwendung spezifiziert 
+	 werden. Welche Teile dabei von einer Komponente bei Nennung in der Konfiguration kopiert werden, zeigt die 
+	 Tabelle.
+	</p>
+	   
+    <table>    
+    <tr>
+    <th>Komponententeil</th>
+    <th>Kopieren</th>
+    </tr>
+	<tr>
+	<td>Java-Klassen</td>
+    <td>werden immer kopiert </td>
+    </tr>
+    <tr>
+    <td>Stylesheets, Web-Seiten</td>
+    <td>werden nur bei Auswahl kopiert </td>
+    </tr>
+    <tr>
+    <td>web.xml, I18N, properties</td>
+    <td>werden nur bei Auswahl eingebunden</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle:</strong> Verwendung der Komponententeile</p>
+	   
+	<p>
+     Der Aufbau der JAR-Datei für die JAVA-Klassen ist von uns nicht änderbar, sonder ergibt sich aus der 
+	 Package-Struktur. Für Hibernate Mappings ist es gängiger Standard, dass diese genauso heißen wie die 
+	 Klassen - mit der Endung <em>.hbm.xml</em> und in dem gleichen Package liegen, also zusammen mit den 
+	 <em>*.class</em>-Dateien. Eine Komponente in MyCoRe enthält Klassen, Webseiten, I18N-Dateien, Properties,
+     Hibernate-Mappings, Stylesheets, XSD- und DTD-Dateien.
+	</p>	   
+	{{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+     mycore.jar 
+       \ META-INF 
+       \ \ Manifest.mf (mit Datums- und Revisionangabe) 
+       \ org.mycore (alle Klassen) 
+       \ xsl (alle Stylesheets) 
+       \ schema (alle DTD- und XSD-Schema-Dateien) 
+       \ components 
+       | \ [component] 
+       |   \ config (Konfigurationen / Templates) 
+       |   | \ mycore.properties 
+       |   | \ messages_de.properties 
+       |   | \ messages_en.properties 
+       |   \ web 
+       |   | \ css 
+       |   | \ images 
+       |   | \ js 
+       |   \ integrate.xml 
+       \ license.txt 
+       \ integrate.xml 
+	]]>
+    </p>
+    {{< /highlight >}}	   
+    <p>
+     <strong>Festlegungen</strong>
+     <ul>
+      <li>Die Dateien <em>messages_xx.properties</em> und <em>mycore.properties</em> werden erst durch die 
+		  Anwendung abhängig von den verwendeten Komponenten zusammengefügt.</li>
+      <li>Namenskonvention zum <em>mycore.jar</em>: <em>mycore_release[-fix][_svnrevision].jar</em> - wobei 
+		  die SVN-Revisionsnummer optional ist. Beim Release werden die Fixes durchnummeriert, z.B. mycore_20.jar
+		  ist die initiale Version, mycore_20-1.jar das erste Fixpack dazu. Die genaue Benennung orientiert sich 
+		  an IVY, was für die Einbindung der Bibliotheken in die Anwendung verantwortlich ist.</li>
+      <li>Bei Updates von einer Version zur nächsten ist es notwendig alte Libs (inkl der alten MyCoRe-Version) zu 
+		  entfernen, dafuer ist ein eigenes ant-target <em>ant clean.lib</em> vorhanden.</li>
+     </ul>
+    </p>
+   </div>
+
+   <div>
+    <h5>Festlegungen für den Aufbau der Anwendung</h5>
+	   
+	<ul>
+     <li>Alle Anwendungsmodule sollten sich in ihrer Struktur an den Vorgaben für Komponenten orientieren. </li>
+     <li>Der Mechanismus zur Integration der Komponenten in die Anwendung wird über ANT Tasks und entsprechende 
+		 Targets realisiert. </li>
+     <li>Die unten stehende Tabelle beschreibt die Integrationspunkte an Hand der öffentliche Targets, die eine 
+		 Anwendung haben muss. </li>
+     <li>Komponenten muessen explizit ausgeschalten werden via <strong>MCR.Components.Exclude</strong>.</li>
+     <li>Die ImageViewer-Komponente ist ebenfalls per default aktiviert und prüft selbst, ob die entsprechenden 
+		 Klassen verfügbar sind oder nicht. </li>
+     <li>Alle I18N Properties haben eine feste Namenskonvention (siehe oben). Zur Anpassung an ältere Codestände 
+		 gibt es einen <em>deprecated.properties</em> Mechanismus, so dass die Umbenennung ohne zwingenden 
+		 Migrationsaufwand machbar ist.</li>
+     <li>Alle I18N-Properties eines Modules haben den Namen modul.[modul-name].xxx </li>
+     <li>Alle Properties eines Modules haben den Namen MCR.[modul-name].xxx . </li>
+	</ul>
+	
+	<table>
+     <tr>
+     <th width="20%">Target</th>
+     <th>Beschreibung</th>
+     </tr>
+     <tr>
+     <td>clean</td>
+     <td>Löscht die Programmdaten der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>clean.data</td>
+     <td>Löscht <strong>ALLE</strong> Daten der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>clean.libs</td>
+     <td>Löscht alle benutzten *.jar Archive aus der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>create.class</td>
+     <td>Initialisiert oder update der Klassifikationen.</td>
+     </tr>
+     <tr>
+     <td>create.default-rules</td>
+     <td>Setzt die Standard-ACLs (ist in create.users enthalten).</td>
+     </tr>
+     <tr>
+     <td>create.directories</td>
+     <td>Erzeugt alle erforderlichen Verzeichnisse.</td>
+     </tr>
+     <tr>
+     <td>create.jar </td>
+     <td>Läd und erzeugt alle erforderlichen *.jar Dateien.</td>
+     </tr>
+     <tr>
+     <td>create.schema</td>
+     <td>Erzeugt alle XML-Schema Dateien.</td>
+     </tr>
+     <tr>
+     <td>create.scripts</td>
+     <td>Zusammensetzen der Konfigurationen und Zusammenbau aller für die Arbeit mit dem CLI wichtigen Teile.</td>
+     </tr>
+     <tr>
+     <td>create.searchmask</td>
+     <td>Generiert eine Suchmaske.</td>
+     </tr>
+     <tr>
+     <td>create.users </td>
+     <td>Initialisiert das Benutzersystem. (Nur einmal verwenden!)</td>
+     </tr>
+     <tr>
+     <td>create.war</td>
+     <td>Erzeugt ein WAR-Archiv der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>create.webapp</td>
+     <td>Baut die Web-Anwendung zusammen.</td>
+     </tr>
+     <tr>
+     <td>info</td>
+     <td>Listet allgemeine Informationen zum Build-Prozess.</td>
+     </tr>
+     <tr>
+     <td>javadoc</td>
+     <td>Erzeugt Javadocs.</td>
+     </tr>
+     <tr>
+     <td>usage</td>
+     <td>Listet öffentliche Targets (diese hier).</td>
+     </tr>
+     <tr>
+     <td>webservice.deploy</td>
+     <td>Macht die WebServices bekannt.</td>
+     </tr>
+     <tr>
+     <td>webservice.undeploy</td>
+     <td>Entfernt die WebServices.</td>
+     </tr>
+	</table>
+    <p class="klein"><strong>Tabelle:</strong> Application integration targets</p>
+	
+	<table>
+     <tr>
+     <th width="20%">Target</th>
+     <th>Beschreibung</th>
+     </tr>
+     <tr>
+     <td>init</td>
+     <td>Initialisiert Build-Umgebung.</td>
+     </tr>
+     <tr>
+     <td>compile</td>
+     <td>Compiliert alle Java-Programme.</td>
+     </tr>
+     <tr>
+     <td>config</td>
+     <td>Kopiert wichtige Konfigurationen nach build/config.</td>
+     </tr>
+     <tr>
+     <td>i18n</td>
+     <td>Zusammenfügen der Properties für einzelne Sprachen.</td>
+     </tr>
+     <tr>
+     <td>genkey</td>
+     <td>Erzeugt die Signatur für Applets - wird implizit von create.webapp aufgerufen.</td>
+     </tr>
+     <tr>
+     <td />
+     <td>weitere Targest zur Unterstützung von SVN </td>
+     </tr>
+	</table>
+    <p class="klein"><strong>Tabelle:</strong> Application internal targets</p>
+   </div>
+
+  </div>
+	  
+  <div>{{< mcr-figure src="/images/documentation/archiv/datenmodell.png" class="border border-secondary" label="" caption="" alt="Datenmodell-Graphik" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/metadata.png" class="border border-secondary" label="" caption="" alt="Metadaten-Objekt-Auszug" width="" height="" />}}</div>
+    
+   </div>
+   
+ <div>
+  <h5>Funktionsprinzipien und Implementierungen von Kernkomponenten</h5>
+  
+  <div>
+   <h6>Allgemeine Klassen / Exception-Modell / MCRCache</h6>
+   
+   <div>
+    <h6>Allgemeine Klassen</h6>
+    <p>
+    Wie in jedem Projekt, so gibt es auch in MyCoRe allgemein verwendete Klassen. Diese sind im Paket 
+    <code>org.mycore.common</code> und den dort befindlichen Unterpaketen platziert. Hier finden Sie Klassen für
+    </p>
+    <ul>
+    <li>die Behandlung des MyCoRe-internen EventHandler-Systems,</li>
+    <li>die Behandlung und den Umgang mit XML-Daten,</li>
+    <li>Ausnahmebehandlungen,</li>
+    <li>Caches,</li>
+    <li>MyCoRe-Sessions und</li>
+    <li>weitere nützliche Funktionen.</li>
+    </ul>
+    <p>
+    In den JavaDocs können Sie sich leicht einen Überblick der implementierten Klassen und Methoden verschaffen.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Exception Modell</h6>
+     <p>
+     MyCoRe nutzt zwei verschiedene Exception-Modelle, die hier kurz erläutert werden sollen. Hinsichtlich der 
+     Funktionen und Methoden der Exceptions sollten Sie die JavaDocs des MyCoRe-Projektes konsultieren.
+     </p>
+     <ul>
+     <li>MCRException und alle davon abgeleiteten Klassen. Diese Exception-Klasse ist von der Java-Klasse 
+         RuntimeException abgeleitet und kann damit Ausnahmezustände nach außen tragen.
+     </li>
+     <li>Die MCRCatchException ist hingegen von der Java-Klasse Exception abgeleitet und muss auch jeden Fall 
+         abgefangen werden.
+     </li>
+     </ul>
+    </div>
+    
+   </div>
+   
+    <anchor id="session" />
+    <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2session_classes.jpg" class="border border-secondary" label="" caption="" alt="Sessionverwaltungs-Klassen" width="" height="" />}}</div>
+    
+    <div>
+     <h6>Das EventHandler-Modell</h6>
+     <p>
+     Mit Version 1.2 wurde in die MyCoRe-Implementierung ein EventHandler-Basispaket integriert. Ziel ist es, eine 
+     bessere Trennung der Code-Schichten des Datenmodells und der Backends zu erreichen. Im Datenmodell sollen nur noch 
+     Ereignisse ausgelöst werden (z.B. create, delete usw.), welche dann bestimmt durch die Konfiguration in den 
+     Property-Dateien verarbeitet werden. Es soll ein allgemein gültiges Template-Modell existieren, welches für die 
+     erforderlichen Anwendungsfälle ausgebaut werden kann. Ein singleton-Manager-Prozess nimmt nur ein Ereignis 
+     entgegen, wählt die dafür bestimmte Konfiguration aus und startet die Methode 
+     <code>doHandleEvent(MCREvent evt)</code>. Dies geschieht in der Reihenfolge, welche in der Konfiguration angegeben 
+     ist und stellt ein Pipeline-Verfahren dar. Das Event-Objekt wird dabei nacheinander an die Handler durchgereicht. 
+     Änderungen an den im Event-Objekt gespeicherten Daten werden also für alle folgenden Handler wirksam. Kommt es bei 
+     einem Handler zu einer Ausnahme, so wird diese vom Manager aufgefangen und es wird für alle in der Pipeline davor 
+     liegenden Handler die Methode <code>undoHandleEvent(MCREvent evt)</code> initiiert. Somit ist ein Rollback möglich. 
+     Je nach Anwendung ist es möglich, verschiedene Pipelines für unterschiedliche Abläufe unabhängig voneinander zu 
+     implementieren, z.B. eine Pipeline für die Verarbeitung der Metadaten und eine andere für die Volltextindizierung 
+     der Dokumente. Die Pipelines und die damit verbundenen Ereignisse unterscheiden sich am Namen der jeweiligen 
+     Pipeline.
+     </p>
+     
+     <div>
+      <h6>Das EventHandler-Modell am Beispiel der Metadaten-Objekte</h6>
+      <p>
+      Das EventHandler-Modell wird beispielsweise eingesetzt, um Objekte vom Typ MCRObject persistent zu speichern. 
+      Das Klassendiagramm (Abbildung 1.6) verdeutlicht die Zusammenhänge.
+      </p>
+      <ol>
+      <li>Das <code>MCRObject</code> ruft in MyCoRe-Version 1.2 zuerst eine Persistence-Layer-Implementierung nach alter 
+      Konzeption auf. Hier wurde zur Nutzung des EventHandlers eine Dummy-Klasse <code>MCRDummySearchStore</code> 
+      geschaffen, welche keine Funktionalität ausführt.</li>
+      <li>Anschließend wird von <code>MCRObject</code> ein neues Ereignis erzeugt, welches in diesem Fall die 
+      vordefinierte Pipeline <code>OBJECT_TYPE</code> und das vordefinierte Ereignis <code>CREATE_EVENT</code> nutzt. 
+      Es können aber auch beliebige Strings eingetragen werden. Dabei ist aber auf die Konsistenz zu achten.<br />
+      <code>MCREvent evt = new MCREvent(MCREvent.OBJECT_TYPE, MCREvent.CREATE_EVENT);</code></li>
+      <li>Nun wird dem neuen Ereignis das Datum übergeben, welches an die Handler weitergereicht werden soll. Ein 
+      Ereignis kann auch mehrere Daten beinhalten.<br />
+      <code>evt.put("object",this);</code>      
+      <img src="/images/documentation/archiv/progguide_eventhandler.png" alt="Klassendiagramm" title="Klassendiagramm" />
+      <p class="klein"><strong>Abbildung 1.6:</strong> Klassendiagramm des EventHandler-Modells</p>  
+      </li>      
+      <li>Die folgende Zeile ruft abschließend den MCREventManager auf und stößt die Handler für die Pipeline an.<br />
+      <code>MCREventManager.instance().handleEvent(evt);</code></li>
+      </ol>
+     </div>
+     
+     <div>
+      <h6>Die Konfiguration des EventHandler-Managers</h6>
+      <p>
+      Alle Konfigurationen befinden sich im Verzeichnis der Applikation (z.B. DocPortal) in der Datei 
+      mycore.properties.private (bzw. mycore.properties.private.template). 
+      </p>
+      <p>
+      In der Version 1.2 von MyCoRe ist es noch erforderlich, für den jeweiligen SearchStore die dummy-Klasse anzugeben:
+      </p>
+      <p><code>MCR.persistence_jdom_class_name=org.mycore.common.events.MCRDummySearchStore</code></p>
+      <p>
+      Nun müssen noch die EventHandler für jede Pipeline (in diesem Fall ist es 
+      <code>MCRObject = MCREvent.OBJECT_TYPE</code>) in der Reihenfolge ihrer Ausführung angegeben werden. Jeder 
+      Handler bekommt dabei eine aufsteigende Nummer.
+      </p>
+      <p><code>MCR.EventHandler.MCRObject.1.class=org.mycore.backend.jdom.MCRJDOMEventHandlerIndexMeta</code></p>
+      <p>
+      Wollen Sie eigene EventHandler schreiben und diese einbinden, so ist es ratsam diese direkt von 
+      <code>MCREventHandler</code> abzuleiten und analog zu den bestehenden Handlern einzubinden. Sie können dafür auch 
+      neue Pipelines und Ereignisse definieren. Den <code>MCREventManager</code> können Sie nun an beliebiger 
+      Code-Stelle einbauen und ihm ein von Ihnen definiertes Ereignis übergeben. Diese Komponente ist allgemein 
+      verwendbar und nicht auf das MyCoRe-Datenmodell festgelegt.
+      </p>
+     </div>
+     
+    </div>
+   
+  <div>
+   <h6>Das Datenmodell</h6>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/mycore_klassifikationen_uml.jpg" class="border border-secondary" label="" caption="" alt="Datenmodell-Graphik" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Struktur der Metadaten</h6>
+    <p>ist in Arbeit</p>
+   </div>
+   
+   <div>
+    <h6>Struktur der Derivate</h6>
+    <p>ist in Arbeit</p>
+   </div>
+   
+   <div>
+    <h6>Die API des Datenmodells</h6>
+    <p>ist in Arbeit</p>
+   </div>
+   <div>
+    <h6>Erstellen eigener Datenmodelle aus den Grundkomponenten</h6>
+    <p>ist in Arbeit</p>
+   </div>
+   
+   <div>
+    <h6>Erweiterung des Datenmodells</h6>
+    <p>ist in Arbeit</p>
+   </div>
+   
+  </div>
+  
+  <div>
+   <h6>Suchen und Finden: MyCoRe Query Service</h6>
+   
+    <div>{{< mcr-figure src="/images/documentation/archiv/searcher.png" class="border border-secondary" label="" caption="" alt="Searcher" width="" height="" />}}</div>
+    
+    <div>
+     <h6>Implementierungen der Suche</h6>
+     <p>
+     Jeder Searcher wird durch eine bestimmte Java-Klasse implementiert. Derzeit sind zwei Implementierungen der Suche 
+     verfügbar.
+     </p>
+     <ul>
+     <li><strong><code>org.mycore.backend.lucene.MCRLuceneSearcher</code></strong><br />
+     verwendet die Apache Lucene Suchmaschine. Dies ist die für Produktionssysteme derzeit empfohlene Implementierung, 
+     die sich sowohl für die Metadatensuche, als auch für die Suche in Volltexten eignet.</li>
+     <li><strong><code>org.mycore.backend.jdom.MCRJDOMSearcher</code></strong><br />
+     verwendet einen Suchindex im Hauptspeicher, so dass keinerlei Daten auf der Festplatte bzw. einem Datenbanksystem 
+     gespeichert werden. Diese Implementierung dient als Referenz zur Entwicklung eigener Suchimplementierungen und hat 
+     den Vorteil, dass niemals Daten neu indiziert oder geladen werden müssen, eine Änderung der Suchfeld-Konfiguration 
+     ist nach Neustart der Anwendung unmittelbar wirksam. Gut geeignet für die Suche in Metadaten bei der Entwicklung 
+     einer Anwendung.</li>
+     </ul>
+     <p>
+     Die gleiche Implementierung (Java-Klasse) kann auch für verschiedene Searcher-Instanzen mit unterschiedlicher 
+     Konfiguration verwendet werden. Jeder Searcher kann eine eigene, individuelle Konfiguration haben, deren Parameter 
+     abhängig von der Implementierung sind. Im folgenden Beispiel wird der Searcher mit der ID <code>lucene-content</code> 
+     durch die Klasse <code>MCRLuceneSearcher</code> implementiert. Diese Searcher-Instanz verwendet das Verzeichnis 
+     <code>lucene-index4content/,</code> um die Daten des Suchindex zu speichern:
+     </p>
+     <p class="kasten">
+     # Konfiguration des Searchers <code>'lucene-content'</code><br />
+     <code>MCR.Searcher.lucene-content.Class= </code><br /> 
+     <code>org.mycore.backend.lucene.MCRLuceneSearcher</code><br />
+     <code>MCR.Searcher.lucene-content.IndexDir=/repository/lucene-index4content/</code><br />
+     <br />
+     # Konfiguration des Searchers <code>'jdom-metadata'</code><br />
+     <code>MCR.Searcher.jdom-metadata.Class=</code><br />
+     <code>org.mycore.backend.jdom.MCRJDOMSearcher</code><br />
+     <code>MCR.Searcher.jdom-metadata.Index=metadata</code><br />
+     also allgemein<br />
+     <code>MCR.Searcher.[SearcherID].Class=[ImplementierendeJavaKlasse]</code><br />
+     <code>MCR.Searcher.[SearcherID].[KonfigurationsEigenschaft]=[Wert]</code>
+     </p>
+    </div>
+    
+    <div>
+     <h6>Abbildung von Daten auf Suchfelder</h6>
+     <p>
+     Damit die Metadaten bzw. die Dateien der in einer MyCoRe Anwendung gespeicherten Dokumente durchsuchbar sind, 
+     müssen diese Daten auf logische Suchfelder abgebildet werden. Diese Abbildung kann je nach Implementierung an sich 
+     auf beliebige Weise erfolgen, in der Regel werden aber aus den XML-Darstellungen der Daten die Inhalte der 
+     Suchfelder mittels XPath-Anweisungen abgeleitet. Die hierarchische XML-Struktur wird dabei quasi „verflacht“. 
+     Mittels Filter (PDF, HTML,OpenOffice etc.) können die Volltexte aus Textdateien extrahiert und einem logischen 
+     Suchfeld zugeordnet werden. 
+     </p>
+     <p>
+     Typischerweise werden nicht alle Inhalte auf Suchfelder abgebildet. Ein Suchfeld kann auch eine Aggregation von 
+     Daten mehrerer Metadatenfelder sein. Suchfelder sind grundsätzlich auch wiederholbar, da evtl. die zugrunde 
+     liegenden Metadatenfelder oder Inhalte wiederholt auftreten. Auch kann das gleiche Metadatenfeld auf mehrere 
+     Suchfelder abgebildet werden. Dazu einige Beispiele: 
+     </p>
+     <table>
+     <tr>
+     <th>Suchfeld</th>
+     <th>Entsprechung in den Metadaten bzw. Dateien</th>
+     </tr>
+     <tr>
+     <td>title</td>
+     <td>/mycoreobject/metadata/titles/title</td>
+     </tr>
+     <tr>
+     <td>creator</td>
+     <td>/mycoreobject/metadata/creators/creator</td>
+     </tr>
+     <tr>
+     <td>author</td>
+     <td>/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher</td>
+     </tr>
+     <tr>
+     <td>content</td>
+     <td>Volltext der Dateien des Dokumentes</td>
+     </tr>
+     <tr>
+     <td>fileSize</td>
+     <td>/file/@size </td>
+     </tr></table>
+     <p>
+     Suchfelder können nicht nur aus Dokument-Metadaten und Volltexten gebildet werden. Derzeit werden die folgenden 
+     Datenquellen unterstützt: 
+     </p>
+     <p class="break">
+     <strong>Metadaten der Dokumente</strong> (Titel, Autor usw. je nach Datenmodell)
+     </p>
+     <p class="break"><strong>Metadaten der Dateien</strong> (Dateiname, Größe, Typ etc.)
+     </p>
+     <p class="break">
+     <strong>Volltext der Dateien:</strong><br />
+     Dabei wird mittels der in MyCoRe bereitgestellten Filter der Volltext extrahiert und indiziert (z.B. OpenOffice, 
+     TXT, HTML, PDF Dateien).
+     </p>
+     <p class="break">
+     <strong>XML-Inhalt der Dateien: </strong><br />
+     Wenn eine gespeicherte Datei eine XML-Datei ist (z.B. eine Excel-Tabelle, als XML gespeichert, oder eine 
+     SCORM-Manifest-Datei eines E-Learning Moduls), können deren XML-Elemente qualifiziert durchsuchbar gemacht 
+     werden.</p>
+     <p class="break"><strong>Zusatzdaten der Dateien:</strong><br />
+     In speziellen Anwendungen können damit z.B. extrahierte ID3-Tags aus MP3-Dateien, EXIF-Daten aus Bildern und 
+     ähnliche Quellen durchsucht werden).
+     </p>
+     <p class="break">
+     <strong>Beliebige XML-Quellen:</strong><br />
+     Eigene Anwendungen können die Inhalte beliebiger XML-Quellen indizieren, ohne dass diese XML-Quellen Teil des 
+     MyCoRe Datenmodells sein müssen.
+     </p>
+     <p>
+     In der Datei <code>searchfields.xml</code> wird für jedes Feld über das Attribut <code>source</code> angegeben, aus 
+     welcher Quelle es gebildet wird:</p>
+     <table>
+     <tr>
+     <th><code>source = </code></th>
+     <th><code>MCRFieldDef</code> Konst.</th>
+     <th>Quelle der Feldwerte</th>
+     </tr>
+     <tr>
+     <td><code>objectMetadata</code></td>
+     <td><code>OBJECT_METADATA</code></td>
+     <td><code>MCRObject.createXML()</code></td>
+     </tr>
+     <tr>
+     <td><code>objectCategory</code></td>
+     <td><code>OBJECT_CATEGORY</code></td>
+     <td>alle Klassifikationskategorien</td>
+     </tr>
+     <tr>
+     <td><code>fileMetadata</code></td>
+     <td><code>FILE_METADATA</code></td>
+     <td><code>MCRFile.createXML()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileAdditionalData</code></td>
+     <td><code>FILE_ADDITIONAL_DATA</code></td>
+     <td><code>MCRFile.getAdditionalData()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileXMLContent</code></td>
+     <td><code>FILE_XML_CONTENT</code></td>
+     <td><code>MCRFile.getContentAsJDOM()</code></td>
+     </tr>
+     <tr>
+     <td><code>fileTextContent</code></td>
+     <td><code>FILE_TEXT_CONTENT</code></td>
+     <td><code>MCRFile.getContent()</code> &amp; PlugIn</td>
+     </tr>
+     <tr>
+     <td><code>xml</code></td>
+     <td><code>XML</code></td>
+     <td>beliebiges <code>org.jdom.Document</code></td>
+     </tr>
+     <tr>
+     <td><code>searcherHitMetadata</code></td>
+     <td><code>SEARCHER_HIT_METADATA</code></td>
+     <td>durch <code>MCRSearcher</code> ergänzt</td>
+     </tr>
+     </table>
+     <p>
+     In allen Fällen außer <code>fileTextContent</code> und <code>searcherHitMetadata</code> (also immer, wenn der 
+     Feldwert aus einer XML-Quelle abgeleitet wird) wird über die Attribute <code>xpath</code> und <code>value</code> 
+     definiert, wie der Feldwert zustande kommt. Beispiele:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     <field name="title" type="text" source="objectMetadata"
+       xpath="/mycoreobject/metadata/titles/title" value="text()" />
+     <field name="fileSize" type="integer" source="fileMetadata"
+       xpath="file/@size" value="." />
+     <field name="content" type="text" source="fileTextContent" />
+     ]]>
+     </p>
+     {{< /highlight >}}
+     <p>
+     Das Attribut <strong>xpath</strong> kann Werte enthalten, wie sie in einem <strong>xsl:select</strong>- oder 
+     <strong>xsl:match</strong>- Attribut erlaubt sind. Die in <code>searchfields.xml</code> definierten Felder sind 
+     grundsätzlich wiederholbar, d. h. wenn etwa ein Objekt mehrere Titel enthält, werden auch mehrere Feldwerte erzeugt 
+     und einzeln indiziert.
+     </p>
+     <p>
+     Ein Sonderfall stellt die Quelle <code>objectCategory</code> dar. Sie muss verwendet werden, wenn nach den 
+     Kategorien einer Klassifikation gesucht werden soll. In diesem Fall gibt das <code>xpath</code>-Attribut an, 
+     welches Element in den Objektmetadaten den Link auf die Klassifikationskategorien enthält. Das 
+     <code>value</code>-Attribut gibt an, ob die ID oder die Labels der Klassifikationskategorie indiziert werden 
+     sollen. Beispiel:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     <field name="origin" type="identifier" source="objectCategory"
+       objects="document" xpath="/mycoreobject/metadata/origins/origin"
+       value="@ID" />
+     ]]>
+     </p>
+     {{< /highlight >}}
+     <p>
+     Felder mit der Quellangabe <code>searcherHitMetadata</code> werden nicht aus den gespeicherten Daten gebildet, 
+     sondern erst bei Zusammenstellen der Trefferliste der Suche von der Suchimplementierung dynamisch ergänzt. Dieser 
+     Feldtyp ist für technische Metadaten eines Treffers (score, rank etc.) gedacht. Damit dieses Feld z.B. auch 
+     sortierbar ist, muss es in der Datei <code>searchfields.xml</code> definiert sein. 
+     </p>
+    </div>
+    
+    <div>
+     <h6>Die Attribute sortable und objects</h6>
+     <p>
+     Suchfelder, nach denen man die Trefferliste der Suche sortieren können möchte, müssen explizit über das 
+     Attribut <code>sortable='true'</code> gekennzeichnet werden.
+     </p>
+     <p>
+     Manche Suchfelder sollen bzw. können nur für bestimmte Objekttypen oder Dateitypen gebildet werden. Über das 
+     Attribut <code>objects</code> kann definiert werden, dass ein Suchfeld nur für bestimmte Typen von 
+     Metadatenobjekten oder für bestimmte Typen von Dateien (z.B nur denen, für die ein Volltextfilter vorliegt) 
+     gebildet werden. Beispiel:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     <field name="title" type="text" source="objectMetadata"
+       objects="document" sortable="true"
+       xpath="/mycoreobject/metadata/titles/title" value="text()" /&gt;
+     
+       field name="content" type="text" source="fileTextContent"  
+       objects="html pdf ps txt xml msword95 msword97 msppt rtf otd sxw" />
+     ]]>
+     </p>
+     {{< /highlight >}}
+    </div>
+    
+    <div>
+     <h6>Datentypen und Operatoren</h6>
+     <p>
+     Jedem Suchfeld ist ein definierter Datentyp zugeordnet. Der Datentyp bestimmt die möglichen Operatoren für 
+     Suchanfragen und legt implizit fest, wie Inhalte dieses Typs behandelt werden (Normalisierung von Umlauten, 
+     Stammwortbildung statt exakter Suche etc.). Für jeden Datentyp gibt es eine festgelegte Menge vordefinierter 
+     Standard-Operatoren, die jede Searcher-Implementierung unterstützen muss. Darüber hinaus kann eine Implementierung 
+     aber auch eigene Datentypen und eigene Operatoren mit erweiterten Suchmöglichkeiten definieren.
+     </p>
+     <p>
+     Die Definition der Standard-Datentypen und Operatoren erfolgt in der Datei <code>mycore/config/fieldtypes.xml</code>.
+     Das XML Schema dieser Datei befindet sich in <code>mycore/schema/fieldtypes.xsd</code>. Hier ein Auszug als 
+     Beispiel:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     <fieldtypes>
+       <type name="text">
+         <operator token="="/>
+         <operator token="&gt;"/>
+         <operator token="&lt;"/>
+         <operator token="&gt;="/>
+         <operator token="&lt;="/>
+         <operator token="like"/>        <!-- wildcard search using * and ? -->
+         <operator token="contains"/>    <!-- words at any position -->
+         <operator token="phrase"/>      <!-- a phrase at any position -->
+       </type/>
+       ...
+     </fieldtypes>
+     ]]>
+     </p>
+     {{< /highlight >}}
+     <p>
+     In zukünftigen Versionen von MyCoRe wird diese Datei auch proprietäre Datentypen (etwa GIS-Koordinaten) und 
+     Operatoren (z.B. proximity-Suche in Lucene) definieren und diese als nur durch bestimmte Implementierungen 
+     unterstützte Operatoren kennzeichnen. Diese Funktionalität ist derzeit noch nicht implementiert.
+     </p>
+     <p>
+     Bei der Konfiguration der Suchfelder ist insbesondere auf die richtige Wahl der Textdatentypen zu achten. Es wird 
+     zwischen drei verschiedenen Datentypen für Textfelder unterschieden: <code>identifier</code>, <code>name</code> 
+     und <code>text</code>. Die folgenden Standard-Datentypen sind derzeit implementiert:
+     </p>
+     <table>
+     <tr>
+     <td>Datentyp</td>
+     <td>Suchoperatoren</td>
+     <td>Beschreibung</td>
+     </tr>
+     <tr>
+     <td><code>identifier</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code></td>
+     <td>ID, URN, Dateiname etc., also für exakte Werte, keine Normalisierung oderStemming</td>
+     </tr>
+     <tr>
+     <td><code>name</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code></td>
+     <td>Personen- oder Ortsnamen etc., Umlaut-normalisierung, aber kein Stemming</td>
+     </tr>
+     <tr>
+     <td><code>text</code></td><td>=, &lt;, &gt;, &lt;=, &gt;=,<code>like</code>, <code>contains</code>,<code>phrase</code></td>
+     <td>Volltext, Abstract, freier Text, Umlautnormalisierung, Stemming </td>
+     </tr>
+     <tr>
+     <td><code>date</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Datum, vollständig im Format yyyy-MM-dd</td>
+     </tr>
+     <tr>
+     <td><code>time</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Uhrzeit oder zeitliche Dauer, im Format HH:mm:ss</td>
+     </tr>
+     <tr>
+     <td><code>timestamp</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Zeitpunkt, im Format 'yyyy-MM-dd HH:mm:ss'</td>
+     </tr>
+     <tr>
+     <td><code>boolean</code></td>
+     <td>=</td><td>'true' oder 'false' </td>
+     </tr>
+     <tr>
+     <td><code>decimal</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Gleitkommazahl,"." als Trennzeichen </td>
+     </tr>
+     <tr>
+     <td><code>integer</code></td>
+     <td>=, &lt;, &gt;, &lt;=, &gt;=</td>
+     <td>Ganzzahl</td>
+     </tr>
+     </table>
+     <p>
+     Es ist Aufgabe der Suchimplementierung, diese Datentypen auf möglichst geeignete Suchstrukturen (Lucene-/SQL-Typen 
+     etc) abzubilden und die Standard-Operatoren in der späteren Suche umzusetzen. Zu beachten ist, dass für Datums-, 
+     Zeit- und Boolean-Werte das Format für die Indizierung (wie werden die Felder zur Indizierung übergeben) und die 
+     spätere Suche (wie wird ein Wert in einer Query formatiert) exakt festgelegt ist (siehe Formate in obiger Tabelle). 
+     </p>
+    </div>
+    
+    <div>
+     <h6>Suchanfragen formulieren</h6>
+     <p>
+     Eine Suchanfrage kann als XML-Dokument oder als Textausdruck formuliert werden. Für Programmierer besteht weiterhin 
+     die Möglichkeit, eine Suche als zusammengesetztes Java-Objekt zu formulieren. 
+     </p>
+     <p>
+     Eine einfache Suchbedingung enthält das zu durchsuchende Feld, einen Suchoperator und den Vergleichswert, z.B. 
+     Suche nach dem Wort „Optik“ im Titel:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     title contains "Optik"
+     
+     <condition field="title" operator="contains" value="Optik" />
+     
+     MCRFieldDef titleField = MCRFieldDef.getDef("title"); 
+     new MCRQueryCondition( titleField, "contains", "Optik" );
+     ]]>
+     </p>
+     {{< /highlight >}}
+     <p>
+     Die Klassen <code>MCRQueryParser</code> und <code>MCRQueryCondition</code> implementieren die Java-Darstellung einer 
+     Query bzw. den Parser, um aus der String- oder XML-Darstellung die Java-Darstellung zu gewinnen und zwischen den 
+     Darstellungen zu wechseln.
+     </p>
+     <p>
+     Einfache Suchbedingungen können über <code>and/or/not</code>-Ausdrücke miteinander verknüpft und so zu komplexeren 
+     Suchanfragen zusammengesetzt werden:
+     </p>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     ( not (title contains "Optik") ) and ( date &gt; "2006-02-22" )
+     
+     <boolean operator="AND">
+       <boolean operator="NOT">
+         <condition field="title" operator="contains" value="Optik" />
+       </boolean>
+       <condition field="date" operator="&amp;gt;" value="2006-02-22" />
+     </boolean>
+     ]]>
+     </p>
+     {{< /highlight >}}
+     <p>
+     Solche komplexen Suchbedingungen können über die Klassen <code>MCRAndCondition</code>, <code>MCROrCondition</code> 
+      und <code>MCRNotCondition</code> aus dem Paket <code>org.mycore.parsers.bool</code> auch als Java-Objekte gebildet 
+      werden. 
+      </p>
+     </div>
+     
+     <div>
+      <h6>Normalisierung von Suchanfragen</h6>
+      <p>
+      Suchanfragen werden vor der Ausführung normalisiert. Insbesondere werden Datumsangaben in Suchausdrücken vom 
+      eingegebenen Format z.B. 22.04.1971 automatisch in das ISO8601-Format transformiert also 1971-04-22.
+      </p>
+      <p>
+      Suchbedingungen, die den Operator <code>contains</code> verwenden, werden automatisch in einzelne 
+      <code>contains/like/phrase/not-</code>Bedingungen zerlegt. Beispiel:
+      </p>
+      {{< highlight text "linenos=table">}}
+      <p class="kastensource">  
+      <![CDATA[ 
+      title contains "-Optik Mecha* 'Lineare Algebra'"
+      
+      wird normalisiert zu
+      
+      (not (title contains Optik)) and (title like Mech*) 
+      and (title phrase 'Lineare Algebra')
+      ]]>
+      </p>
+      {{< /highlight >}}
+      <p>
+      In der Konsequenz bedeutet das, dass man bei der Textsuche in aller Regel den Operator <code>contains</code> 
+      verwenden kann. Die Umwandlung in eine <code>like</code>- und/oder <code>contains</code>- und/oder 
+      <code>phrase</code>-Suche erfolgt automatisch. 
+      </p>
+      <ul>
+      <li>Worte beginnend mit einem Minuszeichen werden zu einer <code>not</code>-Bedingung.</li>
+      <li>Worte, die <code>*</code> oder <code>?</code> enthalten, werden zu einer <code>like</code>-Bedingung.</li>
+      <li>Wortgruppen in einfachen Anführungszeichen werden zu einer <code>phrase</code>-Bedingung.</li>
+      </ul>
+      <p>
+      Eine Suchbedingung kann auch gleichzeitig für mehrere Suchfelder definiert werden. Dazu werden die einzelnen 
+      Feldnamen durch Kommata getrennt. Beispiel:
+      </p>
+      {{< highlight text "linenos=table">}}
+      <p class="kastensource">  
+      <![CDATA[ 
+      title,author contains Goethe
+      
+      entspricht
+      
+      (title contains Goethe) or (author contains Goethe)
+      ]]>
+      </p>
+      {{< /highlight >}}
+      <p>
+      Diese Funktionalität kann z.B. verwendet werden, um in einer Suchmaske über nur ein Eingabefeld parallel in 
+      mehreren Suchfeldern suchen zu können.
+      </p>
+     </div>
+     
+     <div>
+     <h6>Suchen mit MCRSearchServlet</h6>
+     <p>
+     Das Servlet MCRSearchServlet führt Suchanfragen aus und stellt die resultierenden Trefferlisten dar. Die 
+     Suchanfrage wird auf verschiedene Weisen akzeptiert:
+     </p>
+     <ul>
+     <li><strong>Suche in einem vordefinierten Feld:</strong><br />
+     In diesem Fall wird nur ein Parameter übergeben, z.B. <code>search=Optik</code>.<br />
+     Es wird in einem vordefiniertem Feld mit vordefiniertem Operator gesucht, entsprechend der Konfiguration in 
+     <code>mycore.properties</code>:<br />
+     <code>MCR.SearchServlet.DefaultSearchField=allMeta</code><br />
+     <code>MCR.SearchServlet.DefaultSearchOperator=contains</code><br />
+     Ein Aufruf mit <code>search=Optik</code> sucht dann nach <code>allMeta contains Optik</code>.</li>
+     <li><strong>Suche mit komplexem Suchausdruck:</strong><br />
+     Die Suchanfrage wird dabei im Parameter <code>query</code> übergeben, z.B. <br />
+     <code>query=title contains Optik</code></li>
+     <li><strong>Suche über Namens- und Operator-Parametern:</strong><br />
+     Es können mehrere Parameter übergeben werden, deren Namen den definierten Suchfeldern entsprechen müssen. Die 
+     einzelnen Bedingungen werden mit UND verknüpft. Beispiel:<br />
+     <code>title=Optik&amp;author=Kupferschmidt</code><br />
+     entspricht einer Suche nach<br />
+     <code>(title contains Optik) and (author contains Kupferschmidt)</code>.<br />
+     Wenn, wie im obigen Beispiel, kein Suchoperator angegeben ist, wird der in 
+     <code>MCR.SearchServlet.DefaultSearchOperator</code> definierte Wert verwendet. Alternativ kann auch ein Operator 
+     angegeben werden:<br />
+     <code>title=Opti*&amp;title.operator=like</code><br />
+     entspricht einer Suche nach<br />
+     <code>title like Opti*</code><br />
+     Wenn mehrere Werte für ein Suchfeld angegeben werden, werden diese mit dem Operator <code>or</code> verknüpft:<br />
+     <code>title=Optik&amp;title=Magnetismus</code><br />
+     entspricht einer Suche nach<br />
+     <code>(title contains Optik) or (title contains Magnetismus)</code></li>
+     </ul>
+     <p>
+     Mit den drei zuvor beschriebenen Methoden kann jede Suche als statischer Link in einer Webseite eingebunden werden. 
+     Als weitere HTTP-Request-Parameter können die Anzahl Treffer pro Seite (<code>numPerPage</code>) und die maximale 
+     Anzahl auszugebender Treffer (<code>maxResults</code>) angegeben werden. Beispiel:
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;maxResults=100&amp;numPerPage=5</code></p>
+     <p>
+     Die Sortierung der Trefferliste kann über einen weiteren Parameter festgelegt werden, durch Anhängen des 
+     Suffixes <code>.sortField</code> an den Feldnamen, mit den möglichen Werten <code>ascending</code> und <code>descending</code>:
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;...&amp;created.sortField=descending</code></p>
+     <p>
+     Wenn Sie nach mehr als einem Kriterium sortieren möchten, können Sie die sortField Parameter im Suffix nummerieren, um die
+     Sortierreihenfolge zu bestimmen, z. B.
+     </p>
+     <p class="break"><code>/servlets/MCRSearchServlet?title=Optik&amp;...&amp;created.sortField.1=descending&amp;author.sortField.2=ascending</code></p>
+     <ul>
+     <li><strong>Suchanfrage als XML-Dokument:</strong><br />
+     Hier ist dem <code>MCRSearchServlet</code> ein MyCoRe Editor-Formular vorgeschaltet, das eine Suchmaske darstellt. 
+     Nach Abschicken der Suchmaskeneingaben durch den Benutzer generiert das Editor Framework daraus ein XML-Dokument, 
+     das die Suchanfrage enthält. Die Syntax dieses XML-Dokumentes entspricht der im vorangehenden Kapitel beschriebenen 
+     Syntax für Suchanfragen. Das Wurzelelement <code>query</code> enthält drei Attribute:
+     <dl>
+     <dt><code>mask</code></dt>
+     <dd> Dateiname der Suchmaske</dd>
+     <dt><code>maxResults</code></dt>
+     <dd> maximale Trefferzahl</dd>
+     <dt><code>numPerPage</code></dt> 
+     <dd>Anzahl Treffer pro Seite</dd>
+     </dl>
+     Das Element <code>conditions</code> enthält die eigentliche Suchbedingung, entweder formuliert als Menge von 
+     verschachtelten XML-Elementen (<code>format=xml</code>) oder als textueller Suchausdruck (<code>format=text</code>). 
+     Beispiel:</li>
+     </ul>
+     {{< highlight text "linenos=table">}}
+     <p class="kastensource">  
+     <![CDATA[ 
+     <query 
+       mask='editor_form_search-simpledocument.xml'
+       maxResults='100' numPerPage='10'> 
+       <conditions format='xml'>
+         <boolean operator='and'>
+           <condition field='title' operator='contains' value='Optik' />
+           <condition field='author' 
+                 operator='contains' value='Kupferschmidt' /> 
+         </boolean>
+       </conditions>
+     </query>
+     ]]>
+     </p>
+     {{< /highlight >}}
+    </div>
+    
+    <div>{{< mcr-figure src="/images/documentation/archiv/event.png" class="border border-secondary" label="" caption="" alt="Event-Ablauf" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Suche über Referenzen</h6>
+    <p>
+    In diesem Abschnitt geht es um die Rückgabe von Suchergebnissen über interne Referenzen. Damit ist gemeint, dass in 
+    einem Datensatz vom Typ B ein Verweis in Form des Datentyps <code>MCRMetaLinkID</code> auf den Datensatz vom Typ 
+    A vorhanden ist. Wird nun im Datensatz B z.B. über eine Klassifikation gesucht, so sollen in der Trefferliste die 
+    ID's des referenzierten Datensätze vom Typ A erscheinen.
+    </p>
+    <p>Um dies zu realisieren, muss die Klasse <code>org.mycore.services.fieldquery.MCRSearcher</code> in den 
+    Source-Zweig der betreffenden Applikation kopiert werden. Dort sind die Methoden <code>handleObjectCreated</code> 
+    und <code>handleObjectUpdated</code> wie folgend umzugestalten.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+   ...
+    String returnID = entryID;
+    if (obj.getId().getTypeId().equals("text")) {
+      MCRMetaInterface inter =  
+              obj.getMetadataElement("te43s").getElement(0);
+      if (inter != null) {
+        returnID = ((MCRMetaLinkID)inter).getXLinkHref();
+      }
+    addToIndex(entryID, returnID, fields);
+    ...
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+  </div>
+  
+  <div>
+    <h6>Metadaten aus Dateien extrahieren</h6>
+    <p>
+      Die Klassen des Paketes
+      <code>org.mycore.datamodel.ifs.extractors</code>
+      extrahieren beim Importieren oder Aktualisieren einer
+      gespeicherten Derivatdatei Metadaten aus dem Inhalt. Derzeit sind
+      die folgenden Implementierungen verfügbar:
+    </p>
+    <ul>
+      <li>
+        <code>MCRDataExtractorJPEG</code>
+        extrahiert EXIF- und IPTC-Daten aus JPEG-Bilddateien
+      </li>
+      <li>
+        <code>MCRDataExtractorMP3</code>
+        extrahiert ID3- und Lyrics-Daten aus MP3-Audiodateien
+      </li>
+      <li>
+        <code>MCRDataExtractorPDF</code>
+        extrahiert Metadaten aus PDF-Dokumenten
+      </li>
+    </ul>
+    <p>
+      Um die Datenextraktion zu nutzen, müssen die Klassen als Event
+      Handler in der
+      <code>mycore.properties</code>
+      konfiguriert werden. Damit die extrahierten Daten auch durchsucht
+      werden können, müssen diese der Event Handler vor dem Event
+      Handler laufen, der die Suchdaten indiziert. Alle anderen Event
+      Handler rücken entsprechend eine Nummer nach hinten:
+    </p>
+    {{< highlight text "linenos=table">}}
+     MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorJPEG
+     MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorMP3
+     MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorPDF
+     
+     MCR.EventHandler.MCRFile.4.Indexer=lucene-content
+     MCR.EventHandler.MCRFile.5.Class=org.mycore.services.imaging.MCRImgCacheEventHandler
+     MCR.EventHandler.MCRFile.6.Class=org.mycore.frontend.iview.MCRIViewEventHandler
+    {{< /highlight >}}
+    <p>
+      Bei jedem Laden oder Aktualisieren einer Datei werden die
+      Metadaten nun automatisch extrahiert und intern im XML-Format
+      gespeichert. Nach Erweiterung der
+      <code>searchfields.xml</code>
+      um entsprechende Suchfelder können diese Metadaten auch durchsucht
+      werden. Um die Daten auch im Directory Listing des Derivates
+      auszugeben, muss das Stylesheet
+      <code>mcr_directory.xsl</code>
+      in Ihrer Anwendung erweitert werden.
+    </p>
+    <div>
+      <h6>Metadaten aus JPEG-Grafikdateien extrahieren</h6>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorJPEG</code>
+        ist in der Lage, EXIF- und IPTC-Metadaten aus JPEG-Dateien zu
+        extrahieren. Abhängig von der Eingabedatei sehen diese Daten z.
+        B. wie folgt aus:
+      </p>
+      {{< highlight text "linenos=table">}}
+        <MCRDataExtractorJPEG>
+          <directory name="Exif">
+            ...
+            <tag name="Model">Canon PowerShot A40</tag>
+            ...
+            <tag name="Date/Time Original">2008:07:24 09:30:36</tag>
+            <tag name="Date/Time Digitized">2008:07:24 09:30:36</tag>
+            ...
+          </directory>
+          <directory name="Canon Makernote">
+            ...
+            <tag name="Owner Name">Frank Lützenkirchen</tag>
+          </directory>
+          <directory name="Jpeg">
+            ...
+            <tag name="Image Height">1600 pixels</tag>
+            <tag name="Image Width">1200 pixels</tag>
+            ...
+          </directory>
+        </MCRDataExtractorJPEG>
+      {{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B.
+      </p>
+      {{< highlight text "linenos=table">}}
+        <index id="content">
+          ...
+          <field name="exifOwnerName" type="name" source="fileAdditionalData" objects="jpeg" 
+            xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Owner Name']" value="text()" />
+          <field name="exifWidth" type="integer" source="fileAdditionalData" objects="jpeg" 
+            xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Image Width']" value="substring-before(text(),' pixels')" />
+          <field name="exifDate" type="date" source="fileAdditionalData" objects="jpeg" 
+            xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Date/Time Original']" value="translate(text(),': ','-T')" />
+        </index>
+      {{< /highlight >}}
+    </div>
+    <div>
+      <h6>Metadaten aus MP3-Audiodateien extrahieren</h6>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorMP3</code>
+        extrahiert ID3v1, ID3v1.1, Lyrics3v1, Lyrics3v2, ID3v2.2, ID3v2.3 und ID3v2.4 Metadaten
+        aus MP3-Dateien. Abhängig von der Eingabedatei sehen diese Daten z.B. wie folgt aus:
+      </p>
+      {{< highlight text "linenos=table">}}
+        <MCRDataExtractorMP3>
+          <ID3v1>
+            <album>Viva Club Rotation 37</album>
+            <artist>Cosmic Gate feat. Denise River</artist>
+            <yearReleased>2007</yearReleased>
+            <albumTitle>Viva Club Rotation 37</albumTitle>
+            <songGenre>18</songGenre>
+            <leadArtist>Cosmic Gate feat. Denise River</leadArtist>
+            <trackNumberOnAlbum>7</trackNumberOnAlbum>
+            <year>2007</year>
+            <songTitle>Body Of Conflict (Radio Edit)</songTitle>
+            <title>Body Of Conflict (Radio Edit)</title>
+          </ID3v1>
+          <ID3v2>
+            <trackNumberOnAlbum>7</trackNumberOnAlbum>
+          </ID3v2>
+        </MCRDataExtractorMP3>
+      {{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B.
+      </p>
+      {{< highlight text "linenos=table">}}
+        <index id="content">
+          ...
+          <field name="mp3AlbumTitle" type="text" source="fileAdditionalData" objects="mp3" 
+            xpath="/additionalData/MCRDataExtractorMP3/**/albumTitle" value="text()" />
+          <field name="mp3Artist" type="name" source="fileAdditionalData" objects="mp3" 
+            xpath="/additionalData/MCRDataExtractorMP3/**/artist" value="text()" />
+          <field name="mp3SongTitle" type="text" source="fileAdditionalData" objects="mp3" 
+            xpath="/additionalData/MCRDataExtractorMP3/**/songTitle" value="text()" />
+        </index>
+      {{< /highlight >}}
+    </div>
+    <div>
+      <h6>Metadaten aus PDF-Dokumenten extrahieren</h6>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorPDF</code>
+        extrahiert Seitenzahl, Autor, Titel etc. und das Inhaltsverzeichnis aus PDF-Dokumenten. 
+        Abhängig von der Eingabedatei sehen diese Daten z.B. wie folgt aus:
+      </p>
+      {{< highlight text "linenos=table">}}
+        <MCRDataExtractorPDF>
+          <numPages>370</numPages>
+          <producer>FOP 0.20.5</producer>
+          <author>Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato</author>
+          <outline>
+            <item title="Version Control with Subversion" />
+            <item title="Table of Contents" />
+            <item title="Foreword" />
+            <item title="Preface">
+              <item title="Audience" />
+              <item title="How to Read this Book" />
+              ...
+        </MCRDataExtractorPDF>
+      {{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B. wie folgend. Sie können dann z. B. nach Dokumenten mit einer Mindestanzahl von
+        Seiten suchen, oder gezielt nur im Inhaltsverzeichnis von PDF-Dateien suchen.
+      </p>
+      {{< highlight text "linenos=table">}}
+        <index id="content">
+          ...
+          <field name="pdfNumPages" type="integer" source="fileAdditionalData" objects="pdf" 
+            xpath="/additionalData/MCRDataExtractorPDF/numPages" value="text()" />
+          <field name="pdfAuthor" type="name" source="fileAdditionalData" objects="pdf" 
+            xpath="/additionalData/MCRDataExtractorPDF/author" value="text()" />
+          <field name="pdfTOC" type="name" source="fileAdditionalData" objects="pdf" 
+            xpath="/additionalData/MCRDataExtractorPDF/**/item" value="title" />
+        </index>
+      {{< /highlight >}}
+    </div>
+  </div>
+
+  <div>
+   <h6>Die Link Tabellen</h6>   
+   <div>
+    <h6>Allgemeines</h6>
+    <p>
+    Neben der Indizierung der Metadaten zur Suche wird auch über einen entsprechenden Event-Handler 
+    (<strong>MCRLinkTableEventHandler</strong>) dafür gesorgt, dass Verweise zwischen den einzelnen Metadaten-Objekten 
+    gesondert in einer Datenbanktabelle gespeichert werden. Über entsprechende Zugriffe sind so Abfragen von 
+    Referenzen und Zählungen möglich. Die Definition des Tabellennamens erfolgt in der Konfigurationsdatei 
+    <code>mycore.properties.private</code>
+    </p>
+    <p class="kasten"><code>MCR.Persistence.LinkTable.Store.Table=MCRLINKHREF</code></p>
+    <p>Die Tabelle enthält die Spalten MCRFROM, MCRTO, MCRTYPE, MCRATTR.</p>
+    <ul>
+    <li>MCRFROM enthält die Quelladresse (Source) des Link (i.d.R. eine MCRObjectID).</li>
+    <li>MCRTO enthält die Zieladresse (Target/Destination) des Link. Dies kann u. a. eine MCRObjectID sein. Links auf 
+    Kategorien von Klassifikationen werden in der Form {classid}##{categid} abgespeichert.</li>
+    <li>MCRTYPE enthält den Typ des Links. Derzeit sind folgende Typen vorgesehen:
+    <ul><li>parent – Link zu einem Elternobjekt</li>
+        <li>child – Link zu einem Kindobjekt</li>
+        <li>derivate – Link zu einem Derivate</li>
+        <li>classid – Link zu einer Kategorie einer Klassifikation</li>
+        <li>reference – Link zu einem anderen Metadaten-Objekt</li>
+    </ul>
+    </li>
+    <li>MCRATTR – derzeit nicht belegt</li>
+    </ul>
+   </div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_linktable.jpg" class="border border-secondary" label="" caption="" alt="Klassendiagramm" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Zugriff über die Web-Schnittstellen</h6>
+    <p>
+    Für den Zugriff via Web stellt das System ein Servlet bereit. Dieses liefert als Rückgabewert ein 
+    mcr.results-XML-Objekt. Abhängig von der Angabe der Parameter from oder to enthält das Ergebnis die ID's der 
+    Ziel- oder Quellobjekte. Wird der Parameter type weggelassen, so ist 'reference' der Standardwert. 
+    </p>
+    <p>
+    <code>http://myhost/servlets/MCRLinkServlet?XSL.Style=xml&amp;from=DocPortal_Document_00000001&amp;type=derivate</code>
+    </p>
+    <p>
+    Alternativ kann der Zugriff über den WebService erfolgen. Dies geschieht entweder über den URIResolver
+    (Siehe Beschreibung des URIResolvers in diesem Handbuch) oder direkt als URL. Die WebService URL 
+    lautet dazu beispielsweise:
+    </p>
+    <p><code>http://localhost:8481/services/MCRWebService?method=MCRDoRetrieveLinks&amp;to=TestPapyri_schrift_00000001</code></p>
+   </div>
+  </div>
+  
+  <div>
+   <h6>Die Benutzerverwaltung</h6>
+   <p>Dieser Teil der Dokumentation beschreibt Funktionalität, Design, Implementierung und Nutzung des MyCoRe 
+   Subsystems für die Benutzerverwaltung.
+   </p>
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2user_usecase.jpg" class="border border-secondary" label="" caption="" alt="Geschäftsprozesse" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Benutzer und Gruppen</h6>
+    <p> 
+    Die Attribute von Benutzern/innen des Systems können in drei Bereiche klassifiziert werden, Account-Informationen 
+    wie ID, Passwort, Beschreibung usw., Address-Informationen wie Name, Anrede, Fakultätszugehörigkeit usw. sowie 
+    Informationen über die Mitgliedschaft in Gruppen. Die aktuell implementierten Benutzerattribute kann man an 
+    folgender beispielhafter XML-Darstellung erkennen:<br />
+    <code>[ToDo]: to be continued ...</code>
+    </p>
+   </div>
+  </div>
+  
+  <div>
+   <h6>Access Control List (ACL) Integration</h6>
+   <div>
+    <h6>Allgemeines</h6>
+   </div>
+   
+   <div>
+    <h6>Strategien der Validierung</h6>
+    <p>
+    Das ACL-System ist nur lose an das Datenmodell von MyCoRe gekoppelt und so sind ACL-Regeln nicht zwangsweise an 
+    <code>MCRObjectID</code>s gebunden, sondern nehmen als ID jeden String entgegen. Diese Flexibilität kann man sich 
+    zu Nutze machen, wenn es um die Überprüfung der Zugriffsrechte geht. Bei MyCoRe gibt es drei vordefinierte Methoden, 
+    die über Properties ausgewählt werden.
+    </p>
+    <p class="fett">Methode 1: ObjectID</p>
+    <p>
+    Diese Methode ist der Standardfall von DocPortal. Zu jeder ObjectID wird die ACL-Regel mit gleicher ID genommen. 
+    Existiert diese nicht, wird der Zugriff verweigert. Die Pflege der ACL-Regeln, z.B. die Integration von 
+    Standardregeln, übernimmt das SimpleWorkFlow-Modul, das im User Guide beschrieben wird. Dabei wird jedem neu 
+    angelegten Objekt eine objektspezifische Regel angehängt. Beim Einstellen in den MyCoRe-Server, entfernt ein 
+    Eventhandler die dort vorhandene Regeldefinition und legt eine entsprechende Regel für das Dokument an. Methode 1 
+    ähnelt in diesem Zusammenhang der Unix-Rechteverwaltung und dem dort benutzten Befehl <code>umask</code>. Änderungen 
+    an den Standardregeln gelten für neu eingestellte Objekte. Folgende Properties sind für Methode 1:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
+    MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
+    MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectIDStrategy
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p class="fett">Methode 2: Objekt-Typ</p>
+    <p>
+    Diese Methode arbeitet wie Methode 1, nutzt jedoch einen anderen Eventhandler, der nicht für jedes Objekt eine Regel 
+    anlegt, sondern diese ignoriert. Das bedeutet, dass man für einzelne Objekte explizit eine Regel anlegen muss oder 
+    es tritt beim Überprüfen die erweiterte Behandlung in Kraft. Diese sieht ein Zurückfallen auf die Regel des 
+    Objekttyps vor und notfalls die Anwendung einer Standardregel. Die Regel für einen Objekttyp lässt sich über die 
+    Kommandozeile anlegen.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    update permission read for id default_&lt;objekttyp&gt; with rulefile grant-all.xml
+    update permission writedb for id default_&lt;objekttyp&gt; with rulefile grant-editors.xml
+    update permission deletedb for id default_&lt;objekttyp&gt; with rulefile grant-admin.xml
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>Heißt der Objekttyp <code>document</code>, so lautet die ID für das ACL-System <code>default_document</code>. Die 
+    Standardregel, die notfalls nach der Objekttyp-Regel überprüft wird, lautet <code>default</code>. Beispiele für die 
+    oben genannten Regeldateien (<code>grant-*.xml</code>), finden sich in DocPortal unter <code>config/acl</code>. 
+    Methode 2 reduziert gegenüber Methode 1 den Verwaltungsaufwand, sowohl auf Administratorseite als auch auf 
+    Datenbankseite, wegen der reduzierten Zahl an Regelzuweisungen. So treten Änderungen an den Standardregeln sofort 
+    für alle entsprechenden Objekte in Kraft.
+    </p>
+    <p>
+    Folgende Properties sind für die Methode 2:</p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
+    MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
+    MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectTypeStrategy
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p class="fett">Methode 3: Vererbung von Regeln</p>
+    <p>
+    Diese Methode arbeitet wie Methode 1, nutzt jedoch wieder den Eventhandler von Methode 2. Entsprechend müssen Regeln 
+    für MCRObjectIDs selbst angelegt und gepflegt werden. Sollte für eine MCRObjectID keine ACL-Regel hinterlegt sein, 
+    so wird Methode 3 rekursiv mit der MCRObjectID des Vaterobjekts angewandt, bis zu einer MCRObjectID eine ACL-Regel 
+    existiert. Sollte es keine ACL-Regel geben, wird der Zugriff verweigert. Methode 3 ähnelt also dem Vererbungsmodell 
+    von MyCoRe. Folgende Properties sind für die Methode 3:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
+    MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
+    MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRParentRuleStrategy
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+  </div>
+  
+  <div>
+   <h6>Die Backend-Stores</h6>
+   <p>
+   <table>
+   <tr>
+   <th>Backend</th>
+   <th>Organisation</th>
+   <th>Suche</th>
+   <th>Ablage</th>
+   <th>Volltexte</th>
+   <th>Bemerkung</th>
+   </tr>
+   <tr>
+   <td>HSQLDB</td>
+   <td>x</td>
+   <td />
+   <td />
+   <td />
+   <td>frei verfügbar; für kleine Lösungen</td>
+   </tr>
+   <tr>
+   <td>MySQL</td>
+   <td>x</td>
+   <td />
+   <td />
+   <td />
+   <td>frei verfügbar; für mittlere Lösungen</td>
+   </tr>
+   <tr>
+   <td>IBM DB2</td>
+   <td>x</td>
+   <td /><td />
+   <td />
+   <td>kommerzielles Produkt; für große Lösungen</td>
+   </tr>
+   <tr>
+   <td>JDOM-Tree</td>
+   <td />
+   <td>x</td>
+   <td />
+   <td />
+   <td>in MyCoRe enthalten; für kleine Lösungen</td>
+   </tr>
+   <tr>
+   <td>nativ SQL</td>
+   <td />
+   <td>x</td>
+   <td />
+   <td />
+   <td>benötigt ein SQL / Hibernate-Backend; je nach Backend</td>
+   </tr>
+   <tr>
+   <td>Lucene</td>
+   <td />
+   <td>x</td>
+   <td />
+   <td>x</td>
+   <td>frei verfügbar; für mittlere bis große Lösungen</td>
+   </tr>
+   <tr>
+   <td>FileSystem</td>
+   <td />
+   <td />
+   <td>x</td>
+   <td />
+   <td>je nach Plattenplatz</td>
+   </tr>
+   <tr>
+   <td>Helix</td>
+   <td />
+   <td />
+   <td>x</td>
+   <td />
+   <td>kommerzielles Produkt; für Audio-/Video-Lösungen</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 2.1:</strong> Übersicht der MyCoRe-Backends</p>
+   </p>
+   <p>
+   Im Backend-Bereich muss zwischen den verschieden Aufgaben der Stores unterschieden werden. Es gib Stores für die 
+   Speicherung organisatorischer Informationen (z.B. User-Daten, XML-Daten usw.), Stores für die Suche und für die 
+   Ablage der eigentlichen digitalen Objekte und deren Volltexte. Dabei kann die genutzte Backend-Software ggf. auch für 
+   mehrere Stores verwendet werden. Eine Übersicht gibt Tabelle 2.1.
+   </p>
+   
+   <div>
+    <h6>Hibernate oder nativ SQL?</h6>
+    <p>
+    MyCoRe in der Version 1.2 bietet 2 Möglichkeiten, die Stores für die organisatorischen Daten einzubinden. 
+    </p>
+    <p>
+    Zum einen wird über das Package <code>org.mycore.backend.sql</code> ein direkter Zugriff auf relationale Datenbanken 
+    via JDBC realisiert. Der Vorteil davon sind optimale Zugriffszeiten. Nachteilig kann sich auswirken, dass nur 
+    einige der am Markt verfügbaren Datenbanken integriert und getestet wurden. Es kann also bei Verwendung anderer 
+    Datenbanken ggf. zu Problemen kommen (besonders beim automatischen Anlegen der Tabellen).
+    </p>
+    <p>
+    Der zweite Weg ist die Nutzung der Hibernate-Integration. Hier übernimmt das freie Paket „Hibernate“ die Anpassung 
+    an die jeweils darunter liegende Datenbank. Es wird also der gesamte Zugriff über ein fest definiertes API geregelt. 
+    Der Nachteil ist ein leichter Performance-Verlust, da alle Daten durch das API verwaltet werden. Die Klassen zur 
+    Arbeit mit Hibernate stehen in <code>org.mycore.backend.hibernate</code>.
+    </p>
+    <p>
+    Welche der beiden Zugriffsarten nun in Ihrem konkreten Projekt genommen wird hängt von den ganz spezifischen 
+    Eigenschaften der Anwendung und deren Umgebung sowie den personellen Ressourcen ab. Das MyCoRe-System wurde mit 
+    beiden Varianten getestet. 
+    </p>
+    <note label="Hinweis"> 
+    Während es in der nativ-SQL-Anwendung möglich ist, für jeden XML-Daten-Store eine eigene Tabelle anzugeben, werden 
+    die XML-Daten unter Hibernate immer in einer gemeinsamen Tabelle gehalten (Property <code>MCR.xml_store_sql_table</code>.
+    </note>
+   </div>
+   
+   <div>
+    <h6>Das Search-Backend JDOM-Tree</h6>
+    <p>
+    Das MyCoRe-Paket bietet eine simple Standard-Lösung für die Suche in kleinen Beispielanwendungen, ohne dass 
+    zusätzliche externe Produkte verwendet werden müssen. Die XML-Daten werden im JDOM-Tree zum Startzeitpunkt der 
+    Applikation direkt aus der XML-SQL-Tabelle gelesen, teilweise hinsichtlich der Umlaute normalisiert und im weiteren 
+    Verlauf der Anwendung im Hauptspeicher verwaltet. <code>Create</code>, <code>Update</code>, <code>Delete</code> auf 
+    die XML-SQL-Tabellen wird direkt mit dem im Speicher befindlichen Datenbaum synchronisiert.
+    </p>
+    <p>
+    Die XPath-Suchanfrage wird in ein XSL-Stylesheet umgewandelt, welches gegen die XML-Daten im Hauptspeicher läuft. 
+    Als Ergebnis wird die Liste der Treffer-IDs zurückgegeben. Für die Datumssuche wurde eine zusätzliche XSL-Funktion 
+    implementiert. Suchdaten im Operator <code>contains</code> werden hinsichtlich der Umlaute normalisiert 
+    (z.B. <code>contains("Eindrücke") → contains("eindruecke")</code>).
+    </p>
+    <table>
+    <tr>
+    <th>Metadaten-Typ</th>
+    <th>Felder</th>
+    </tr>
+    <tr>
+    <td>MCRMetaLangText</td>
+    <td>tag/subtag/text()</td>
+    </tr>
+    <tr>
+    <td>MCRMetaPersonName</td>
+    <td>tag/subtag/firstname/text()tag/subtag/callname/text()tag/subtag/surname/text()tag/subtag/fullname/text()</td>
+    </tr>
+    <tr>
+    <td>MCRMetaInstitutionName</td>
+    <td>tag/subtag/fullname/text()</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 2.2:</strong> Felder mit Umlautnormalisierung im Search-Store</p>
+    
+    <note label="Hinweis">
+    Dieser Search-Store ist nur bis zu einigen 100 Datensätzen performant und nicht für Produktionssysteme gedacht.
+    </note>
+   </div>
+   
+  </div>
+  
+  <div>
+   <h6>Die Frontend Komponenten</h6>
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_commandlinetool.jpg" class="border border-secondary" label="" caption="" alt="Java-Klassen" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2frontend_mcrservlet.jpg" class="border border-secondary" label="" caption="" alt="Java-Klassen" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_2frontend_mcrloginservletfluss.jpg" class="border border-secondary" label="" caption="" alt="MCRServlet.doGetPost()" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Generieren von Zip-Dateien</h6>
+    <p>
+    Das Zip-Servlet, implementiert durch die Klasse <code>MCRZipServlet</code>, dient dem Ausliefern der Derivate und 
+    der Objektmetadaten als gepackte Zip-Datei. Aus der Konfigurationsdatei <code>mycore.properties.zipper</code> holt 
+    sich das Servlet über die Variable <code>MCR.zip.metadata.transformer</code> den Namen des Stylesheets, welches die 
+    Metadatentransformation in das gewünschte Auslieferungsformat vornimmt. In DocPortal verwenden wir hierfür Qualified 
+    Dublin Core.
+    </p>
+    <p>Aufrufmöglichkeiten des Servlets:</p>    
+    <p class="breaksource">  
+    {{< highlight text "linenos=table">}}
+     
+    $ServletsBaseURL/MCRZipServlet?id=MCRID
+    
+    $ServletsBaseURL/MCRZipServlet?id=MCRID/foldername
+    
+    {{< /highlight >}}
+    </p>    
+    <p>
+    MCRID ist die ID eines Objekts vom Typ <code>&lt;mycoreobject&gt;</code> oder <code>&lt;mycorederivate&gt;</code>. 
+    Im Fall von <code>&lt;mycoreobject&gt;</code> werden die Dateien aller dem Objekt zugeordneten Derivate und ein 
+    XML-File mit den Metadaten des Objekts zusammengepackt. Im Fall von <code>&lt;mycorederivate&gt;</code> werden alle 
+    Dateien des angegebenen Derivates zusammengepackt. Die Option <code>MCRID/foldername</code> ist nur zulässig, wenn 
+    <code>MCRID</code> ein Objekt vom Typ <code>&lt;mycorederivate&gt;</code> bezeichnet. Dann wird nur der mit 
+    <code>foldername</code> angegebene Ordner des betreffenden Derivats gezippt.
+    </p>
+    <p>
+    Wer geschützte Inhalte anbietet, sollte das Zip-Servlet erst dann in seine Anwendung integrieren, wenn die 
+    Zugriffskontrolle in MyCoRe gewährleistet werden kann. Dies ist momentan (04.2005) noch nicht der Fall, das 
+    Zip-Servlet lässt sich mit jeder MCRID aufrufen.
+    </p>
+   </div>
+  </div>
+  
+  <div>
+   <h6>XML Funktionalität</h6>
+   
+   <div>
+    <h6>URI-Resolver</h6>
+    <p>
+    Die Klasse <code>org.mycore.common.xml.MCRURIResolver</code> implementiert einen Resolver, mit dem an verschiedenen 
+    Stellen im MyCoRe-System XML-Daten über URI's gelesen werden können. Der Resolver wird zur Zeit an folgenden Stellen 
+    eingesetzt:
+    </p>
+    <ul>
+    <li>Bei der Verarbeitung von Stylesheets im LayoutServlet, wenn XML-Daten über die XSL-Funktion 
+    <code>document()</code> in ein Stylesheet nachgeladen werden oder wenn ein untergeordnetes Stylesheet mittels 
+    <code>xsl:include</code> nachgeladen wird.
+    </li>
+    <li>Beim Import von Editor-Definitionsteilen mittels des <code>include</code>-Elementes des Editor-Frameworks.
+    </li>
+    </ul>
+    <p>Der Resolver unterstützt die folgenden Schemata bzw. Protokolle:</p>
+    <p class="kasten"><code>file://[Pfad]</code></p>
+    <p>liest eine statische XML-Datei vom Dateisystem des Servers</p>    
+    <p class="break">Beispiel: 
+    {{< highlight text "linenos=table">}}
+     
+    file:///usr/local/tomcat/conf/server.xml
+    
+    liest die Datei 
+    
+    /usr/local/tomcat/conf/server.xml
+    
+    {{< /highlight >}}
+    </p>
+    <p class="kasten"><code>webapp:[Pfad]</code></p>
+    <p>
+    liest eine statische XML-Datei vom Dateisystem der Web-Applikation. Im Gegensatz zur file()-Methode kann der Pfad 
+    der zu lesenden Datei relativ zum Wurzelverzeichnis der Web-Applikation angegeben werden. Der Zugriff erfolgt 
+    direkt, d.h. ohne HTTP Request oder Anwendung eines Stylesheets.
+    </p>
+    <p class="break">Beispiel: <br />
+    <code>webapp:config/labels.xml</code></p>
+    <p class="kasten"><code>http://[URL]</code> <br />
+    <code>https://[URL]</code></p>
+    <p>liest eine XML-Datei von einem lokalen oder entfernten Webserver</p>
+    <p class="kasten"><code>request:[Path]</code></p>
+    <p>
+    liest eine XML-Datei durch einen HTTP Request an ein Servlet oder Stylesheet innerhalb der aktuellen 
+    MyCoRe-Anwendung. Im Gegensatz zur http/https Methode ist der Pfad relativ zur Basis-URL der Web-Applikation 
+    anzugeben, die MCRSessionID wird automatisch als HTTP GET Parameter ergänzt.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>request:servlets/MCRLinkServlet?</code><br />
+    <code>XSL.Style=xml&amp;form=&amp;to=DocPortal_document_00000001&amp;type=derivate</code>
+    </p>
+    <p class="kasten"><code>resource:[Path]</code></p>
+    <p>
+    liest eine XML-Datei aus dem CLASSPATH der Web-Applikation, d.h. die Datei wird zunächst im Verzeichnis 
+    <code>WEB-INF/classes/</code> und als nächstes in einer der jar-Dateien im Verzeichnis <code>WEB-INF/lib/</code> der 
+    Web-Applikation gesucht. Diese Methode bietet sich an, um statische XML-Dateien zu lesen, die in einer jar-Datei 
+    abgelegt sind.
+    </p>
+    <p class="break">Beispiel:<br />
+    <code>resource:ContentStoreSelectionRules.xml</code>
+    </p>
+    <p class="kasten"><code>session:[Key]</code></p>
+    <p>
+    liest ein XML-Element, das als JDOM-Element in der aktuellen MCRSession abgelegt ist. Mittels der <code>put()</code> 
+    Methode der Klasse MCRSession kann analog zu einer Java-Hashtable unter einem Schlüssel ein Objekt abgelegt werden. 
+    Ein Servlet kann so z.B. ein JDOM-Element in der <code>MCRSession</code> ablegen, den Schlüssel einem Stylesheet 
+    über einen XSL-Parameter mitteilen. Der MyCoRe Editor kann dieses JDOM-Element dann mittels der <code>get()</code> 
+    Methode aus der Session lesen. 
+    </p>
+    <p class="break">Beispiel: <br />
+    <code>session:mylist</code><br />
+    liest das JDOM XML-Element, das als Ergebnis von <br />
+    <code>MCRSessionMgr.getCurrentSession().get("mylist");</code><br />
+    zurückgegeben wird.</p>
+    <p class="kasten"><code>mcrobject:[MCRObjectID]</code></p>
+    <p>liest die XML-Darstellung der Metadaten eines MCRObject aus.</p>
+    <p class="break">Beispiel:<br />
+    <code>mcrobject:DocPortal_document_07910401</code></p>
+    <p class="kasten"><code>classification:[Classification Query]</code></p>
+    <p>gibt eine Klassifikation in unterschiedlichen Formaten aus, wobei „Classification Query“ folgendes Format hat:</p>
+    <p class="break"><code>{editor['['formatAlias']']|metadata}:{Levels}[:noEmptyLeaves]:{parents|children}:{ClassID}[:CategID]</code></p>
+    <p>Die einzelnen Parameter sind durch Doppelpunkte getrennt.</p>
+    <ol>
+    <li>Rückgabetyp ist wahlweise im MyCoRe <code>metadata</code> Format oder für eine Editor-Selectbox 
+    (<code>editor</code>). Letztere kann für den Label-Text noch unterschiedliche Formatanweisungen enthalten, die mit 
+    <code>formatAlias</code> referenziert werden.<br />
+    Das Property <code>MCR.UriResolver.classification.format.{formatAlias}</code> enthält dann die Formatieranweisung. 
+    Diese besteht aus beliebigem Text kombiniert mit Platzhaltern:
+    <ol><li><code>{id}</code> steht für die Kategorie-ID,</li>
+        <li><code>{count}</code> steht für die Zahl der zugeordneten MyCoRe-Objekte,</li>
+        <li><code>{text}</code> steht für das Attribut text im label-Tag der Klassifikationsdefinition,</li>
+        <li><code>{description}</code> steht für das Attribut description im label-Tag der Klassifikationsdefinition. </li>
+    </ol>
+    </li>
+    <li><code>Levels</code> gibt an, wieviel Hierarchiestufen dargestellt werden. Bei Angabe der CategID ist dies die 
+    Anzahl der Kindkaterogiehierarchiestufen. Ist Levels „<code>-1</code>“ angegeben, so bedeutet dies „komplette 
+    Hierarchie“.
+    </li>
+    <li><code>noEmptyLeaves</code> ist ein optionaler Parameter. Wenn angegeben, werden leere Kategorien ohne Objekte
+    nicht mit ausgegeben. Diese Funktion ist nur für den Rückgabetyp <code>editor</code>, d.h. sinnvollerweise in Suchmasken,
+    implementiert.</li>
+    <li><code>parents</code> oder <code>children</code> gibt an, ob bei Angabe einer <code>CategID</code> zusätzlich 
+    alle übergeordneten Kategorien mit zurückgegeben werden (<code>parents</code>) oder ob nur die Kinder der Kategorie 
+    berücksichtigt werden sollen. Bei Angabe eines positiven Levels und „<code>parents</code>“ werden sowohl die Eltern 
+    ausgegeben, wie auch <code>{Levels}</code> Hierarchieebenen der Kinder.
+    </li>
+    <li><code>ClassID</code> ist die Klassifikations-ID</li>
+    <li><code>CategID</code> ist Kategorie-ID</li>
+    </ol>
+    <p class="break">Beispiele:
+    <ul>
+    <li><code>classification:editor:-1:children:DocPortal_class_00000001</code></li>
+    <li><code>classification:editor[CountDocument]:2:noEmptyLeaves:children:DocPortal_class_00000002</code></li>
+    <li><code>classification:metadata:0:parents:DocPortal_class_00000001:Unis.Jena</code></li>
+    </ul>
+    </p>
+    <p class="kasten"><code>mcrws:[WebService Request]</code></p>
+    <p>
+    fordert über einen WebService-Request XML-Darstellungen entfernter Hosts der Metadaten eines MCRObject, der einer 
+    Klassifikation oder eines Links. Für den WebService request sind folgende Formen derzeit möglich:
+    </p>
+    <p class="break"><code>operation=MCRDoRetrieveObject&amp;ID={MCRObjectID}&amp;host={hostAlias}</code></p>
+    <p class="break"><code>operation=MCRDoRetrieveClassification&amp;level={level}&amp;type={type}
+    &amp;classid={classid}&amp;categid={categid}&amp;format={format}&amp;host={hostAlias}</code></p>
+    <p class="break"><code>operation=MCRDoRetrieveLinks&amp;from=[{MCRObjectID}]&amp;to=[{MCRObjectID}]
+    &amp;type=[{type}]&amp;host={hostAlias}</code></p>
+    <p>Die Werte from und to sind alternativ zu belegen, je nach dem, ob nach der Quelle oder dem Ziel eines Links 
+    gefragt wird. (Siehe auch Kapitel zur Link Table)</p>
+    <p class="break">Beispiel:<br />
+    <code>mcrws:operation=MCRDoRetrieveObject&amp;ID=DocPortal_document_07910401&amp;host=remote</code>
+    </p>
+    <p class="break"><code>mcrws:MCRDoRetrieveClassification&amp;level=0&amp;type=parents&amp;classid=
+    DocPortal_class_00000001&amp;categid=Unis.Jena&amp;format=metadata&amp;host=remote</code></p>
+    <p class="break"><code>mcrws:MCRDoRetrieveLinks&amp;from=&amp;to=DocPortal_document_00000001&amp;
+    type=derivate&amp;host=remote</code></p>
+    <p class="kasten"><code>access:[ Access Value ]</code></p>
+    <p>liest die XML-Darstellung der ACL-Metadaten aus.</p>
+    <p><code>action=[all|{permision}&amp;object={MCRObjectID}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>access:action=all&amp;object=DocPortal_document_07910401</code><br />
+    <code>access:action=writedb&amp;object=DocPortal_document_07910401</code>
+    </p>
+    <p class="kasten"><code>query:[ Query Value ]</code></p>
+    <p>startet eine Query und liefert eine Liste der Treffer als mcr:results XML-Darstellung aus.</p>
+    <p><code>term={search_term}&amp;sortby={sort_term}&amp;order={order_term}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>query:term=objectType=document&amp;sortby=title</code>
+    </p>
+    <p>
+    Sie können mit diesem Resolver z.B. aus einem XSL Stylesheet heraus eine Suche in MyCoRe anstoßen und die 
+    Suchergebnisse (Element mcr:results) in eine Variable ablegen:
+    </p>
+    <p>
+    <code>&lt;xsl:variable name="hits"</code><br />
+    &emsp;<code>xmlns:encoder="xalan://java.net.URLEncoder"</code><br />
+    &emsp;<code>select="document(concat('query:term=',encoder:encode(</code><br /> 
+    &emsp;&emsp;<code>'objectType = fodokperson')))/mcr:results" /&gt;</code>
+    </p>
+    <p>
+    Die Verwendung von java.net.URLEncoder ist notwendig, damit Leerzeichen, Sonderzeichen etc. in der eigentliche 
+    Query codiert werden. Die einzelnen Suchtreffer werden als mcr:hit Elemente geliefert, die im wesentlichen nur die 
+    IDs der gefundenen Objekte enthalten. Über diese IDs und z.B. das URIResolver Schema „mcrobject:ID“ können Sie dann 
+    die Metadaten der gefundenen Objekte weiterverarbeiten. So geben Sie z.B. eine gefundene ID aus:
+    </p>
+    <p><code>&lt;xsl:value-of select="$hits/mcr:hit/@id" /&gt;</code></p><p class="Standard" />
+    <p class="kasten"><code>ifs:[ Derivate ID ]</code></p>
+    <p>startet den Abruf eines Derivate-Contents.</p>
+    <p><code>{MCRDerivateID}?host={hostAlias}</code></p>
+    <p class="break">Beispiel:<br />
+    <code>ifs:DocPortal_derivate_00000001?host=remote</code>
+    </p>
+    <p class="kasten"><code>notnull:[uri]</code></p>
+    <p>
+    stellt sicher, dass es bei Aufruf der genannten URI keine NullPointerException gibt. Sollte es bei Verarbeitung der 
+    anhängenden URI eine Exception geben, wird diese geloggt. Im Falle einer Exception oder wenn die URI den Wert NULL 
+    zurückgibt, liefert dieser Resolver stattdessen eine leere XML-Datei. Dies ist z.B. hilfreich, um in XSL Stylesheets 
+    URIs zu verwenden, aber gegen Fehler abzusichern.
+    </p>
+    <p class="break">Beispiel:notnull:<code>mcrobject:DocPortal_document_07910401</code></p>
+    <p>
+    Bei der Verarbeitung von <code>include</code>-Anweisungen in Editor-Definitionen dürfen die folgenden URI-Schemata 
+    verwendet werden:
+    </p>
+    <p class="kasten"><code>classification file http https request resource session webapp mcrobject notnull</code></p>
+    <p>
+    Beim Aufruf der XSL-Funktion <code>document()</code> innerhalb eines Stylesheets können die folgenden URI-Schemata 
+    verwendet werden:
+    </p>
+    <p class="kasten">
+    <code>classification file http https resource session query webapp mcrobject query access mcrws notnull</code>
+    </p>
+    <p class="kasten"><code>xslStyle:[stylesheet]:[URI-Resolver]</code></p>
+    <p>
+    wendet das Stylesheet [stylesheet] auf die XML-Datei des URI-Resolvers [URI-Resolver] an und gibt das Ergebnis als 
+    XML zurück. Das Stylesheet befindet sich im Classpath der Anwendung. Die Extension .xsl entfällt im Parameter 
+    [stylesheet].
+    </p>
+    <p class="break">Beispiel:<br />
+     <code>xslStyle:hosts:resource:hosts.xml</code>
+     </p>
+     <p>
+     Liest zunächst die Datei hosts.xml aus dem Classpath und wendet darauf das Stylesheet hosts.xsl aus dem Classpath 
+     an.
+     </p>
+    </div>
+    
+    <div>
+     <h6>Erweiterung des URI-Resolvers</h6>
+     <p>
+     Unter Umständen kann es nötig sein den URIResolver für eigene Anwendungen zu erweitern. Dabei ist es nicht möglich 
+     vorhandene URI-Schemas zu überschreiben, jedoch neue den bereits vorhandenen hinzuzufügen. Für jedes Schema z.B. 
+     <code>file</code> gibt es einen Resolver, der entsprechende URIs auflösen kann. Dieser Resolver muss die 
+     Schnittstelle <code>MCRURIResolver.MCRResolver</code> im Paket <code>org.mycore.common.xml</code> implementieren. 
+     Für die Zuweisung eines Schemas zur <code>MCRResolver</code>-Implementierung ist der 
+     <code>MCRResolverProvider</code> verantwortlich, der diese Schnittstelle aus <code>MCRURIResolver</code>
+     implementiert. Letzterer stellt eine Abbildung von Schema-Strings zu <code>MCRResolver</code>-Instanzen zur 
+     Verfügung. Der <code>MCRResolverProvider</code> kann also beliebig viele <code>MCRResolver</code> zu den bereits 
+     in MyCoRe integrierten hinzufügen. Eingebunden wird ein zusätzlicher <code>MCRResolverProvider</code> mittels 
+     folgendem Property:</p>
+     <p class="kasten">MCR.UriResolver.externalResolver.class = &lt;voller Klassenname&gt;</p>
+    </div>
+   </div>
+   
+   <div>
+    <h6>Das MyCoRe Editor Framework</h6>
+    <div>
+     <h6>Funktionalität</h6>
+     <p>
+     Das Metadatenmodell einer MyCoRe Anwendung ist frei konfigurierbar. Dementsprechend benötigt ein MyCoRe System 
+     auch einen Online-Editor für diese Metadaten, der frei konfigurierbar ist. Aus dieser Anforderung heraus entstand 
+     das MyCoRe Editor Framework, das aus einem XSL Stylesheet und einer Menge von Java-Klassen besteht.
+     </p>
+     <p>
+     Verschiedene MyCoRe Anwendungen können über XML-Definitionsdateien nahezu beliebige Online-Eingabemasken für 
+     Metadaten gestalten. Das Framework verarbeitet diese Editor-Definitionsdateien und generiert daraus den HTML-Code 
+     der Webseite, die das Online-Formular enthält. Nach Abschicken des Formulars generiert das Framework aus den 
+     Eingaben ein dem Metadatenmodell entsprechendes XML-Dokument, das an ein beliebiges Servlet zur endgültigen 
+     Verarbeitung (z.B. zur Speicherung) weitergereicht wird. Ebenso können existierende XML-Dokumente als Eingabe in 
+     die Formularfelder des Editors dienen, so dass sich vorhandene Metadaten bearbeiten lassen. Das Framework regelt 
+     dabei die Abbildung zwischen den XML-Elementen und –Attributen und den Eingabefeldern der resultierenden 
+     HTML-Formularseite, indem es die in der Editor-Definitionsdatei hinterlegten Abbildungsregeln verarbeitet.
+     </p>
+     <p>
+     Inzwischen ist das Editor Framework auch in der Lage, einzelne Dateien zusammen mit den Formulareingaben in das 
+     System hochzuladen und zur Weiterverarbeitung an ein Servlet durchzureichen. Die Validierung der Eingabefelder ist 
+     strukturell vorbereitet, aber derzeit noch nicht implementiert. Prinzipiell erlaubt das Editor Framework, 
+     beliebige XML-Dokumente in HTML-Formularen zu erzeugen oder zu bearbeiten.
+     </p>
+    </div>
+    
+    <div>{{< mcr-figure src="/images/documentation/archiv/include_editor.png" class="border border-secondary" label="" caption="" alt="Editor einbinden" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/xml_rahmen.png" class="border border-secondary" label="" caption="" alt="Editor Rahmen" width="" height="" />}}</div>
+    
+    <div>{{< mcr-figure src="/images/documentation/archiv/cell_syntax.png" class="border border-secondary" label="" caption="" alt="Syntax" width="" height="" />}}</div>
+    
+    <div>{{< mcr-figure src="/images/documentation/archiv/eingabevalidierung.png" class="border border-secondary" label="" caption="" alt="Eingabevalidierung" width="" height="" />}}</div>
+   </div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/klassifikationsbrowser.png" class="border border-secondary" label="" caption="" alt="Klassifikationsbrowser" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Klassifikationseditor </h6>
+    <p>
+    Mit dem Klassifikationseditors als Webinterface, gibt es neben der Kommandozeilen-Schnittstelle eine weitere 
+    Möglichkeit, Klassifikationen im System zu erzeugen, zu bearbeiten und zu löschen.
+    </p>
+    <p>
+    Um Klassifikationen editieren zu können, muss der angemeldete Nutzer je nach Bedarf über folgende Rechte verfügen:
+    </p>
+    <p class="kasten">
+    <code>create-classification</code> zum Erzeugen von Klassifikationen<br />
+    <code>modify-classification</code> zum Modifizieren von Kategorieeinträgen in einer Klassifikation<br />
+    <code>delete-classification</code> zum Löschen einer Klassifikation </p>
+    <p>(siehe Kapitel 5.3.4 Administrative Privilegien im UserGuide).</p>
+    <p class="fett">Konfiguration</p>
+    <p>
+    Die Konfiguration des Klassifikationseditors erfolgt über die Angaben in der Datei 
+    <code>mycore.properties.classification</code>. Wie man Seiten, die im Fehlerfall angezeigt werden, definieren kann, 
+    zeigt nachstehender Auszug aus der Datei:</p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.classeditor_page_error_user = editor_error_user.xml
+    MCR.classeditor_page_cancel = classeditor_cancel.xml
+    MCR.classeditor_page_error_id = classeditor_error_clid.xml
+    MCR.classeditor_page_error_move = classeditor_error_move.xml
+    MCR.classeditor_page_error_delete = classeditor_error_delete.xml
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>Analoge Properties zum Klassifikationsbrowser:</p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.classeditor.EmbeddingPage = mcr_doc_browse.xml
+    MCR.classeditor.Style = edit
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Für die Klassifikationen, die über die ID definiert sind, wird analog zum Browsen der Browserpfad definiert. Dies 
+    dient dazu, um auch hier die richtige Zuordnung zu den, durch die Klassifikation referenzierten Dokumente zu 
+    besitzen:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    MCR.classeditor.atlibri_class_00000012 = codices
+    MCR.classeditor.atlibri_class_00000013 = archiv
+    MCR.classeditor.atlibri_class_00000009 = ddc
+    MCR.classeditor.atlibri_class_00000008 = eval
+    MCR.classeditor.atlibri_class_00000007 = dnb
+    MCR.classeditor.atlibri_class_00000006 = medien
+    MCR.classeditor.atlibri_class_00000005 = type
+    MCR.classeditor.atlibri_class_00000003 = origin
+    ]]>
+    </p>
+    {{< /highlight >}}
+    
+    <div>
+     <h6>Start des Klassifikationseditors</h6>
+     <p>
+     Der Editor wird über den Klassifikationsbrowser mit dem Parameter <code>mode=edit</code> gestartet.
+     </p>
+     <p>
+     Beispiel:<br />
+     <code>http://localhost:8080/docportal/browse?mode=edit </code></p>
+     <p>Die Handhabung des Klassifikationseditors ist im UserGuide beschrieben.</p>
+    </div>
+   </div>
+  </div>
+  <div>
+  <h6>Komponenten</h6>
+  <p>
+  Eine allgemeine Beschreibung, was Komponenten in MyCoRe ausmachen, wie sie definiert sind und welche Struktur 
+  sie haben, wurde bereits im Kapitel 1 ausführlich erläutert. Dieses Kapitel soll nun die Funktionalitäten der 
+  einzelnen Komponenten und ihre Einbindung in die Gesamtapplikation näher beschreiben.  
+  </p>
+  
+  <div>
+   <h6>Das Session Listing (session-listing)</h6>
+   
+   <div>
+    <h6>Allgemeines</h6>
+    
+    <p>
+	Die Komponente Session Listing ist relativ klein und einfach. Sie stellt lediglich die 
+	Möglichkeit bereit, in der interaktiven Sitzung angezeigt zu bekommen, welche Sitzungen
+	für die MyCoRe-Anwendung aktiv sind. Die Anfrage an das Servlet liefert eine XML-Datei 
+	zurück, welche über das mitgelieferte Stylesheet angezeigt wird. Ggf. kann dieses Stylesheet 
+	durch eine eigene Variante überschrieben werden.
+	</p>
+   </div>
+   
+   <div>
+    <h6>Installation</h6>
+    
+    <p>
+	Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
+	lediglich noch aufgerufen werden, z. B. in der navigation.xml mit <code>href="/servlets/MCRSessionListingServlet"</code>.
+	</p>
+   </div>
+   
+  </div>
+	  
+  <div>
+   <h6>Die SimpleWorkflow-Komponente (swf)</h6>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_1.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow allgemein" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_2.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Installation</h6>
+    <p>
+    In DocPortal sind die Funktionen bereits standardmäßig integriert. Bei der Verwendung in anderen Applikationen 
+	sind die nacholgenden Schritte auszuführen:
+    </p>
+    <ol>
+    <li>die folgende Zeile ist in das XSL-Stylesheet zu kopieren, welches die Auswertung Ihrer XML-Webseiten 
+		realisiert (z.B. <code>MyCoReWebPage.xsl</code>).<br />
+		<code>&lt;xsl:include href="workflow.xsl" /&gt;</code>
+	</li>
+    <li>Weiterhin finden Sie im Kern unter <code>components/swf/xsl</code> das Stylesheet <code>mycoreobject-to-workflow.xsl</code>. 
+		Dieses ist eine Transformationsvorlage für die Transformation von den XML-Objekt-Metadaten in eine 
+		SimpleWorkflow-interne XML Struktur. Für jeden Ihrer Metadaten-Typen muss eine solche Konverter-Datei mit 
+		Namen <code>mycoreobject-&lt;type&gt;-to-workflow.xsl</code> in Ihrer Anwendung vorhanden sein.
+	</li>
+    <li>Als letztes muss der Workflow in eine XML-Webseite integriert und diese entsprechend über Menüpunkte aufgerufen werden. Aufgerufen 
+		wird ein Workbasket mit der eingebetteten Zeile<br />
+		<code>&lt;workflow base="MCRObjectID.Base" step="editor" /&gt;</code> oder <br />
+		<code>&lt;workflow type="MCRObjectID.Type" step="editor" /&gt;</code>
+	</li>
+    </ol>
+    
+    <p>
+    Die Integration des SimpleWorkflow in die Präsentationsseiten erfolgt unter Einbeziehung der bereitgestellten Icons 
+    und eines dahinter liegenden Links. Dieses kann an beliebiger Stelle in der Präsentation platziert werden. Da die
+	einzelnen Aktionsaufrufe sich in ihren Parametern doch erheblich unterscheiden sollten bei Bedarf die relevanten
+	die entsprechenden Aufrufe im DocPortal-Beispiel zu Rate gezogen werden.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <a href="{$ServletsBaseURL}MCRStartEditorServlet{$HttpSession}?
+       tf_mcrid={$mcrid}&amp;       - MCRObjectID
+       se_mcrid={$mcrid}&amp;       - MCRObjectID
+       re_mcrid={$mcrid}&amp;       - Return MCRObjectID, nur für Derivate-ToDo, optional
+       type={$type}&amp;            - MCRObjectID Typ, alte Variante, ggf. optional
+       project={$project}&amp;      - MCRObjectID Base, neu, überschreibt type
+       step=commit&amp;             - Arbeitsschritt
+       todo=seditobj&amp;           - ToDo
+       layout={$layout}"            - optional
+    >
+	<img
+       src="{$WebApplicationBaseURL}images/static/workflow_objedit.gif" 
+       title="{$OMD.EditorEdit}"/>
+    </a>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Die Einbindung in den Editor erfolgt mit den folgenden Zeilen.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[
+    <target type="servlet" name="MCRCheckNewDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckCommitDataServlet" method="post" format="xml" />
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h6>Konfiguration</h6>
+    <p>
+    Die Konfiguration des SimpleWorkflow beschränkt sich auf einige wenige Dinge. Für MyCoRe 2.0
+	kann alternativ entweder auf den MCRObjectID.Type (alt) oder MCRObjectID.Base (neu) 
+	referenziert werden. Für jede Installation können einige Werte different sein, so dass 
+	es sich empfiehlt, diese in der <code>mycore.properties.private</code> abzulegen. 
+	Ein großer Teil der vom <code>MCRStartEditorServlet</code> veranlassten Aktionen ist so 
+    implementiert, dass Sie auf Wunsch eine E-Mail an eine oder mehrere E-Mail-Adressen schicken können. Wenn Sie für 
+    den Konfigurationswert, welcher durch das Paar <code>[MCRObjectID.Base|MCRObjectID.Type].[todo]</code> 
+	beschrieben wird, nichts angeben, so wird die E-Mail unterdrückt. Alle Angaben in diesem
+	Konfigurationsabschnitt sind selbsterklärend. Anzugeben sind:
+    </p>
+    <ul>
+	<li>allgemeine Angaben zur Mailverteilung</li>
+    <li>die Verzeichnisnamen des Plattenspeichers,</li>
+    <li>die Mail-Verteilung</li>
+    </ul>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    ##################################################################
+    #  SimpleWorkflow                                                #
+    ##################################################################
+		
+    # Generic mail configuration for MCRMailer
+    # The server for outgoing mails
+    MCR.Mail.Server=mail.mycore.de
+    # The mail protocol
+    MCR.Mail.Protocol=smtp
+    # The debug option
+    MCR.Mail.Debug=false
+    # Encoding for the mail
+    MCR.Mail.Encoding=UTF-8
+    # Number of send tries to send the mail : 0 – off or n tries
+    MCR.Mail.NumTries=1
+    # Editor Mail adresses for Messages add1@serv1,add2,@serv2,...
+    MCR.Mail.Address=mycore@mail.mycore.de
+
+    # Editor path for directories
+    MCR.SWF.Directory.base=%MCR.basedir%/data/workflow
+    MCR.SWF.Directory.[MCRObjectID.Base|MCRObjectID.Type]=%MCR.basedir%
+        /data/workflow/[MCRObjectID.Base|MCRObjectID.Type]
+    ...
+
+    # Editor flags for base/type and todo
+    MCR.SWF.Mail.[MCRObjectID.Base|MCRObjectID.Type].
+        [todo]=%MCR.Mail.Address%
+	...
+
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h6>Ergänzung eigener ToDo's</h6>
+    <p>
+    Das MCRStartEditorServlet gestattet eine Erweiterung mit eigenen Funktionen durch einfache Vererbung. Erstellen Sie 
+    eine Klasse MCRStartEditorServletMyToDo als Ableitung des MCRStartEditorServlet. Hierin können Sie nun Methoden 
+    definieren, welche als ToDo direkt aufgerufen werden können. Entsprechend der Konfiguration können dann auch Mails
+	versendet werden.	 
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+package org.mycore.frontend.servlets;
+
+import java.io.IOException;
+
+/**
+ * The class extends the MCRStartEditorServlet with a new method
+ * 
+ * @author Jens Kupferschmidt
+ */
+public class MCRStartEditorServletMyToDo extends MCRStartEditorServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A new method. The access right is writedb.
+     * 
+     * @param job
+     *            the MCRServletJob instance
+     * @param cd
+     *            the common data part
+     */
+    public void mytodo(MCRServletJob job, CommonData cd) throws IOException {
+        // access right
+        if (!MCRAccessManager.checkPermission(cd.mysemcrid, "writedb")) {
+            job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + usererrorpage));
+            return;
+        }
+		
+		/** ToDo code */
+		
+        // back to the metadata view
+        StringBuffer sb = new StringBuffer();
+        sb.append(getBaseURL()).append("receive/").append(cd.mysemcrid);
+        job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(sb.toString()));
+    }
+
+}
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h6>Ergänzung eigener Datenmodell-Datentypen</h6>
+    <p>
+    Werden dem bereits vorhandenen allgemeinen Datenmodell neue bzw. ergänzende Typen 
+	hinzugefügt, so muss die Prüfung und Vervollständigung des Output Validators für den Editor
+	erweitert werden. Dazu muss in der Klasse <code>MCREditorOutValidator</code> eine
+	Methode für die Klasse eingefügt werden. Die Klasse prüft den Output des Editor Framework
+	und ergänzt fehlende Namespaces (z. B. für xml:lang).
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    /**
+     * @param datasubtag
+     */
+    boolean checkMCRMetaXYZ(Element datasubtag) {
+        return checkMetaObject...(datasubtag, MCRMetaXYZ.class);
+    }
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+  </div>
+  
+  <div>
+   <h6>Das Webservice-Modul</h6>
+   
+   <div>
+    <h6>Allgemeines</h6>
+    <p>
+    Für das Webservice-Module wird das Axis-Framework verwendet (http://ws.apache.org/axis/). Über den Webservice können 
+    MyCoRe-Objekte geholt und Queries in der neuen Abfragesprache ausgeführt werden. In dem Modul ist auch ein Beispiel 
+    eines Clients enthalten, der den installierten Webservice von MyCoRe nutzt.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Installation des Webservices</h6>
+    <p>
+    Hierzu müssen in der mycore.properties.private die Properties für den Axis-Administrator gesetzt werden:
+    </p>
+    <p class="break"><code>MCR.ws_admin</code> =Kennung des Axis-Administrators</p>
+    <p class="break"><code>MCR.ws_adminpasswd</code> =und zugehöriges Passwort</p>
+    <p>
+    Von <code>ant webapps</code> werden Kennung und Passwort in die Datei webapps/WEB-INF/users.lst eingetragen. 
+    Docportal wird wie gewohnt gestartet und durch Eingabe der Url 
+    </p>
+    <p class="break"><code>http://localhost:8080/servlets/AxisServlet</code></p>
+    <p>
+    wird geprüft, ob Axis richtig konfiguriert ist. Danach wird das Deployment des Webservice mit 
+    <code>ant webservice.deploy</code> (docportal/modules/module-webservices/build.xml) durchgeführt. Ein erneuter 
+    Aufruf des AxisServlets zeigt den MyCoRe-Webservice mit dem Namen <code>MCRWebService</code> und den Methoden 
+    <code>MCRDoRetrieveObject</code> und <code>MCRDoQuery</code> an. Ein Klick auf die <code>WSDL</code> 
+    (Web Service Description Language) von <code>MCRWebService</code> zeigt die Parameter und Datentypen der 
+    Rückgabewerte an.
+    </p>
+    <p>
+    Mit <code>ant webservice.undeploy</code> wird das Undeployment des Webservice <code>MCRWebService</code> 
+    durchgeführt. 
+    </p>
+    <p>Mit </p>
+    <p class="breaksource">  
+    {{< highlight text "linenos=table">}}      
+     
+    http://localhost:8080/services/MCRWebService?
+    method=MCRDoRetrieveObject&id=<mcrid>
+    
+    {{< /highlight >}}
+    </p>
+    <p>kann überprüft werden, ob der <code>MCRWebService</code> Ergebnisse liefert.</p>
+    <p>
+    Sollten Sie beim Deploy/Undeploy die Meldung „Exception in axis-admin“ oder „axis-admin failed with 
+    {http://xml.apache.org/axis/}HTTP (401)Unauthorized“ erhalten, setzen Sie wie am Anfang dieses Abschnittes 
+    beschrieben, Kennung und Passwort des Axis-Administrators. Nach einem erneuten <code>ant webapps</code> führen 
+    Sie <code>ant webservice.deploy</code> aus. Die Konfigurationsdatei für Axis ist 
+    docportal/config/server-config.wsdd.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Client für den Webservice erzeugen </h6>
+    <p>
+    Mit '<code>ant client.cmd</code>' wird ein Webservice-Client erstellt, der den Webservice <code>MCRWebService</code> 
+    nutzt. Hierzu werden WSDL-Informationen vom Server geholt und mittels Axis die Stubs generiert und im Verzeichnis 
+    <code>module-webservices/build/src</code> gespeichert. Anschließend werden alle Daten kompiliert und 
+    <code>module-webservices/build/bin/wsclient.cmd </code>(Windows) gebaut.
+    </p>
+    <p><code>[ToDo]: sh für Linux bauen]</code></p>
+   </div>
+  </div>
+  
+  <div>
+   <h6>Bildbetrachter</h6>
+   
+   <div>
+    <h6>Allgemeines</h6>
+    <p>
+    DocPortal bietet einen sogenannten „Image-Viewer“ für das komfortable Betrachten von Bilddaten an. Dieser eignet 
+    sich sehr gut für Bildarchive oder jegliche Content-Repositories in denen Bilddaten verwaltet und angezeigt werden 
+    müssen.
+    </p>
+    <p>
+    Der Bildbetrachter basiert, wie MyCoRe, auf Java und XML/XSL. Grundsätzlich wird die Funktionalität in zwei 
+    getrennten Modulen, „Module-Imaging“ im MyCoRe-Kern und „Module-IView“ in DocPortal realisiert. Die folgende 
+    Abbildung zeigt die allgemeine Systemarchitektur.
+    </p>
+    <p><code>[ToDo: Graphik erstellen]</code></p>
+   </div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/module_imaging.png" class="border border-secondary" label="" caption="" alt="Module-Imaging" width="" height="" />}}</div>
+   
+   <div>
+    <h6>Module-IView - Bildbetrachter</h6>
+    <p class="fett">Allgemeines</p>
+    <p>
+    Das Modul-IView ist ein Anwendungsmodul von DocPortal und realisiert einen Bildbetrachter. Es basiert auf dem Modul 
+    „Module-Imaging“ aus dem MyCoRe-Kern, nutzt dessen API.
+    </p>
+    <p>Es besteht im Wesentlichen aus einem Servlet, zwei XSL-Stylesheets und einer JavaScript-Bibliothek. Um den 
+    Bildbetrachter in der Anwendung zu nutzen, muss der Web-Browser JavaScript interpretieren können.
+    </p>
+    <p class="fett">Funktionsweise</p>
+    <p>Der Bildbetrachter wird über folgenden Mechanismus erzeugt.</p>
+    <p><code>[ToDo: Graphik erstellen]</code></p>
+    <p>
+    Der Bildbetrachter wird über eine HTTP-Anfrage an das IView-Servlet initialisiert. Das IView-Servlet erstellt die 
+    aktuelle Konfiguration für die Session und leitet diese als XML-Document an das Layout-Servlet weiter. Das 
+    Layout-Servlet seinerseits generiert mithilfe XSL („mcr-module-iview.xsl“) HTML. Dieses HTML wird dann als Response 
+    an den Web-Browser zurückgesendet und als Bildbetrachter dargestellt.</p><p class="fett">Integration
+    </p>
+    <p>
+    Der Bildbetrachter-IView kann in XSL oder von einer MyCoRe-WebPage aufgerufen werden .
+    </p>
+    <p class="fett">XSL</p>
+    <p>
+    Iview kann in jedes XSL-Stylesheet eingebunden werden. Dazu muss lediglich im Kopf des entsprechenden Stylesheets 
+    mcr-module-startIview.xsl eingebunden werden.
+    </p>
+    <p class="kasten">
+    <code>&lt;include href="mcr-module-startIview.xsl" /&gt;</code>
+    </p>
+    <p>    Anschließend stehen die folgenden Templates zur Verfügung</p>
+    <ol>
+    <li>Test auf unterstützte Hauptdatei<br />
+    <br />
+    Das folgende Template überprüft, ob die Hauptdatei eines Derivates ein Bild ist, das mit Iview dargestellt werden 
+    kann.
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <xsl:call-template name="iview.getSupport"> 
+      <xsl:with-param name="derivID" />
+    </xsl:call-template>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    Antwort:
+    <ul>
+    <li>leerer String =&gt; Hauptdatei wird nicht unterstützt</li>
+    <li>String mit Wert =&gt; Hauptdatei wird unterstützt, Wert ist der absolute Pfad der Hauptdatei 
+    (wird zum Aufruf des Viewers benötigt)</li>
+    </ul>
+    </li>
+    <li>Aufruf des Bildbetrachters im eingebetteten Modus (wird als IFrame in eine HTML-Seite integriert)
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <xsl:call-template name="iview">
+         <xsl:with-param name="derivID" />
+         <xsl:with-param name="pathOfImage" />
+         <xsl:with-param name="height" />
+         <xsl:with-param name="width" />
+         <xsl:with-param name="scaleFactor" />
+    
+         <xsl:with-param name="display" />
+         <xsl:with-param name="style" />
+    </xsl:call-tenmplate>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    Folgende Parameter sind zu übergeben:
+    <ul><li>derivID = Derivate-ID</li>
+        <li>pathOfImage = absoluter Pfad des Bildes oder Ordners</li>
+        <li>height = Höhe des eingebetteten Fensters</li>
+        <li>width = Breite des eingebetteten Fensters</li>
+        <li>scaleFactor = Zoom
+        <ul><li>0.1 ... 1.0</li>
+            <li>„fitToWidth“ - an Breite angepasst</li>
+            <li>„fitToScreen“ - an Seite angepasst</li>
+        </ul>
+        </li>
+        <li>display = Ansicht des Viewers 
+        <ul><li>„minimal“ = nur die Navigationsleiste (vor, zurück) wird eingeblendet</li>
+            <li>„normal“ = die obere Menüleiste wird angezeigt</li>
+            <li>„extended“ = obere und erweiterte Menüleiste werden eingeblendet</li>
+        </ul>
+        </li>
+        <li>style = Modus, in der Bild angezeigt wird
+        <ul><li>„thumbnail“ = Thumbnailübersicht </li>
+            <li>„image“ = das eigentliche Bild </li>
+            <li>„text“ = technische Metadatenansicht</li>
+        </ul>
+        </li>
+    </ul>
+    </li>
+    <li>Ermitteln der Bildbetrachter-Adresse für den Vollbildmodus<br />
+    <br />
+    Der Bildbetrachter kann auch im Vollbildmodus aufgerufen werden. Das folgende Template ermittelt die Adresse dafür.
+    {{< highlight text "linenos=table">}}
+     
+    <xsl:call-template name="iview.getAddress">
+         <xsl:width-param name="derivID"/>
+         <xsl:width-param name="pathOfImage"/>
+         <xsl:width-param name="width"/>
+         <xsl:width-param name="height"/>
+         <xsl:width-param name="scaleFactor"/>
+         <xsl:width-param name="display"/>
+         <xsl:width-param name="style"/>
+    </xsl:call-template>
+    
+    {{< /highlight >}}
+    Die zu übergebenden Parameter sind identisch mit Punkt 2 – Aufruf im eingebetteten Modus.<br />
+    <br />
+    Antwort: Adresse des Bildbetrachters 
+    </li>
+    <li>Erzeugen eines Thumbnail<br />
+    <br />
+    Der Image-Viewer kann auch einfach dazu benutzt werden, Thumbnails von Bildern anzuzeigen. Durch den Aufruf des 
+    folgenden Templates wird ein HTML-Image (&lt;img...&gt;) erzeugt, ohne den Viewer an sich.
+    {{< highlight text "linenos=table">}}
+     
+    <xsl:call-template name="iview.getEmbedded.thumbnail" >
+         <xsl:with-param name="derivID"/>
+         <xsl:with-param name="pathOfImage"/>
+    </xsl:call-template>
+    
+    {{< /highlight >}}
+    Zu übergebende Parameter:
+    <ul><li>derivID – Derivate-ID</li>
+        <li>pathOfImage – absoluter Pfad des Bildes</li>
+    </ul>
+    Antwort:<br />
+    <br />
+    <code>&lt;img src="Adresse des Thumbnails" /&gt;</code>
+    </li>
+    </ol>
+    <p class="fett">XML – MyCoRe-WebPage</p>
+    <p>
+    Statische Webseiten für DocPortal werden über XML-Dateien, sogenannte MyCoRe-WebPages generiert. Jede Webseite hat 
+    eine XML-Seite, aus der sie generiert wird. Diese Webseiten können auch im WYSIWYG-Modus über das Module-WCMS 
+    gepflegt werden. 
+    </p>
+    <p>
+    In diese Webseiten, kann auch der Bildbetrachter Iview eingebunden werden. Folgender Aufruf ruft den Bildbetrachter 
+    auf:
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <iview
+        @derivid 
+        @pathofimage
+        @height 
+        @width 
+        @scalefactor 
+        @display 
+        @style
+    </iview>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Die zu übergebenden Parameter sind identisch zum vorigen Punkt XSL, 2 – Aufruf im eingebetteten Modus.
+    </p>
+    <p class="fett">Konfiguration</p>
+    <p>
+    Die Konfiguration des Bildbetrachters wird über die Datei 
+    $DOCPORTAL_HOME/modules/module-iview/config/mycore.properties.iview vorgenommen.
+    </p>
+    <p class="fett">Was soll angezeigt werden?</p>
+    <p>
+    Der Bildbetrachter kann grundsätzlich Dateien mit folgenden MIME-Types anzeigen: 
+    </p>
+    <p class="break"><code>jpeg,gif,tiff,tif,bmp,png,FlashPix,flashpix</code></p>
+    <p>Über das Property </p>
+    <p class="break"><code>MCR.Module-iview.SupportedContentTypes</code> </p>
+    <p>
+    kann gesteuert werden, welche Dateien Iview anzeigen soll. Es sind hier die MIME-Types, kommasepariert, anzugeben.
+    </p>
+    <p class="fett">Sortierung von Bildsammlungen</p>
+    <p class="P26">Existieren mehrere Bilder in einem Derivat, kann die Sortierung voreingestellt werden. 
+    Beim ersten Aufruf wird automatisch in der eingestellten Reihenfolge sortiert.
+    </p>
+    <p>Das dafür zuständige Property ist</p>
+    <p class="break"><code>MCR.Module-iview.defaultSort</code> </p>
+    <p>Mögliche Werte: </p>
+    <ul>
+    <li><code>name</code> – nach Dateiname</li>
+    <li><code>size</code> – nach Dateigröße</li>
+    <li><code>lastModified</code> – nach Datum der letzten Änderung</li>
+    </ul>
+    <p>Die Reihenfolge wird über das zweite Property eingestellt:</p>
+    <p class="break"><code>MCR.Module-iview.defaultSort.order</code></p>
+    <p>Werte: <code>ascending, descending</code></p>
+    <p class="fett">Zoomstärke</p>
+    <p>
+    Die Veränderung des Zoomwertes beim Vergrößern und Verkleinern kann angepasst werden. Standardmäßig ist +-20% 
+    eingestellt (das bedeutet am Beispiel: aktuell Zoomstufe=40% -&gt; Vergrößerung -&gt; Zoomstufe=60%).
+    </p>
+    <p>Das folgende Property steuert die Zoomstärke</p>
+    <p class="break"><code>MCR.Module-iview.zoomDistance</code></p>
+    <p>Werte: <code>0.1F</code> bis <code>1.0F</code></p>
+    <p class="fett">Qualität des Bildes </p>
+    <p>Bilder werden von IView immer als JPEG-Datei ausgegeben. Die Qualität der Bilder kann über den Kompressionsfaktor 
+    geändert werden.</p>
+    <p class="break"><code>MCR.Module-iview.jpegQuality</code></p>
+    <p>Werte: <code>0.1</code> bis <code>1.0</code></p>
+    <p class="fett">Cache</p>
+    <p>
+    Für die Nutzung des Bildbetrachters kann ein Cache zu Hilfe genommen werden. Leseoperationen auf Bildern werden 
+    dadurch stark beschleunigt. 
+    </p>
+    <p>
+    Die Nutzung des Cache kann ein- oder ausgeschaltet werden. Wenn der Cache ausgeschaltet ist, werden Lese- und 
+    Schreiboperationen ohne Cache durchgeführt. 
+    </p>
+    <p>Das Property dafür ist </p>
+    <p class="break"><code>MCR.Module-iview.useCache=true|false</code></p>
+    <p>Weitere Informationen zur Konfiguration des Cache sind im Abschnitt Module-Imaging -&gt; Cache nachzulesen.</p>
+   </div>
+   
+   <div>
+     <h6>Der Zoomify-Bildbetrachter</h6>
+     
+     <p class="fett">Allgemein</p>
+     <p>Die Firma Zoomify Inc. bietet einen Web-basierten Bildbetrachter an, der auf der Grundlage von gekachelten Bilder basiert
+     und diese "on-demand" nachlädt. Innerhalb des Bildausschnitt kann stufenlos gezoomt werden.
+     </p>
+     
+     <p class="fett">Grundlagen</p>
+     <p>Um ein Bild über den Zoomify-Viewer anzeigen zu können, muss dieses zunächst aufbereitet werden. In Windows existiert dafür
+     ein Midlet, in Linux kann ein Phyton-Skript genutzt werden. Bei der Datenaufbereitung werden Ausschnittbilder in verschiedenen
+     Auflösungen erzeugt und in Ordnern abgelegt. Für das Zoomify-Servlet in MyCoRe kann der so entstandene Datenbestand in Zip-Archive
+     verpackt werden (jedoch ohne Archiv-Kompression!). Somit wird das Handling extrem vereinfacht. Die Zip-Dateien werden dann als Derivat hochgeladen.
+     </p>
+         
+     <p class="fett">Bilder anzeigen</p>
+     <p>Für die Bildanzeige wird das Zoomify-Express-Plugin erwartet. Über das MCRStartZoomifyServlet wird die Anzeige der Bilder gesteuert.
+       Zur Zeit findet sich eine adäquate Navigation wie beim IView zur Bildsteuerung im Servlet-Menü. Die Bilder werden über das  MCRZipFileNodeServlet
+       automatisch an das Plugin übergeben. Die Anzeigereihenfolge wird über die Mets/Mods-Datei definiert und ist zwingend erforderlich (siehe dazu
+       den Abschnitt über das Mets/Mods-Modul).
+     </p>
+     
+     <p class="fett">Konfiguration</p>
+     <p>In der mycore.properties-Datei kann über die folgende Variable der Titel des Bildes in Abhängigkeit des zugrunde gelegten Objektes
+       angezeigt werden:    
+     <p class="breaksource">  
+     {{< highlight text "linenos=table">}}      
+      
+        MCR.Component.Zoomify.[type].identifier=[field of datamodel]
+     
+     {{< /highlight >}}
+     </p>
+       Hierbei steht [type] für den Objekttyp und [field of datamodel] für ein verknüpftes Feld aus dem Datenmodell.
+     </p>
+   </div>   
+    
+  </div>
+  
+  <div>
+    <h6>Das Mets/Mods-Module</h6>
+    <div>
+      <p class="fett">Allgemein</p>
+      <p>
+        Das Mets/Mods-Format ist ein Austauschformat in XML für mediale Inhalte. Besonders für die Darstellung von Bildern im DFG-Viewer
+        wird das Format benötigt. Daneben nutzt der Zoomify-Bildbetrachter das Format als Reihenfolgenvorgabe bei Bilderserien.
+      </p>
+      <p class="fett">Mets/Mods-Dateien erzeugen</p>
+      <p>
+        Die Mets/Mods-Datei kann vom Derivat-Menü aus erzeugt werden und lässt sich via Java-Applet konfigurieren.
+      </p>  
+      <p class="fett">Modulkonfiguration</p>
+      <p>
+        Das Modul kann über folgende Properties konfiguriert werden:
+        <table>
+          <tr><td>
+          MCR.Component.MetsMods.owner</td><td>Beschreibt den Eigentümer des Derivates</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.ownerLogo</td><td>Beschreibt das Logo des Eigentümers</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.ownerSiteURL</td><td>Beschreibt die URL des Eigentümers</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.referenceURL</td><td>Beschreibt die Referenz-URL</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.[type].title</td><td>Titel des Derivates in der Anzeige</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.[type].display</td><td>Anzeige des Derivates</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.[type].place</td><td>Ort des Derivates</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.[type].date</td><td>Datierung des Derivates</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.disallowed</td><td>Beschreibt die Endungen von Teilen in Derivaten, in denen keine Mets-Dateien gebaut werden dürfen.</td>
+          </tr>
+          <tr><td>
+          MCR.Component.MetsMods.activated</td><td>Beschreibt die Attribute, die in der Mets-Datei hinzugefügt werden sollen. Voreinstellung: CONTENTIDS</td>
+          </tr>
+        </table>
+      </p>
+      
+      <p class="fett">CommandLine-Befehle:</p>
+      <table>
+        <tr>
+          <td>build mets files</td><td>Erstellt zu jedem im System befindlichen Derivat eine Mets-Datei.</td>
+          </tr><tr>
+          <td>build mets files for type {0}</td><td>Erstellt zu jedem Derivat, welches sich an einem Objekt vom Typ 'type' befindet, eine Mets-Datei.</td>
+          </tr><tr>
+          <td>build mets files for derivate {0}</td><td>Erstellt zu einem Derivat eine Mets-Datei.</td>
+          </tr><tr>
+          <td>build mets files for object {0}</td><td>Erstellt zu allen Derivaten eines Objekts eine Mets-Datei.</td>
+          </tr><tr>
+          <td>remove mets files</td><td>Löscht von jedem Derivat die Mets-Datei.</td>
+          </tr><tr>
+          <td>remove mets files for type {0}</td><td>Löscht von jedem Derivat, welches sich an einem Object vom Typ 'type' befindet, die Mets-Datei.</td>
+          </tr><tr>
+          <td>check mets files</td><td>Überprüft das Vorhandensein einer Mets-Datei in jedem Derivat.</td>
+          </tr><tr>
+          <td>check mets files for type {0} with exclude label {1}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an Objekte vom
+           Typ 'type' gebunden sind, und die im Label einen Bezeichner besitzen, der <u>nicht</u> in {1} aufgeführt wurde.</td> 
+          </tr><tr>
+          <td>check mets files for type {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an Objekte vom
+           Typ 'type' gebunden sind.</td>
+          </tr><tr>
+          <td>check mets files for Object {0} with exclude label {1}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an ein Objekt
+           gebunden sind, und die im Label einen Bezeichner besitzen, der <u>nicht</u> in {1} aufgeführt wurde.</td>
+          </tr><tr>
+           <td>check mets files for Object {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an Derivaten, die an ein Objekt
+           gebunden sind.</td>
+          </tr><tr>
+           <td>check mets files for Derivat {0}</td><td>Überprüft das Vorhandensein einer Mets-Datei an einem Derivat.</td>
+         </tr>
+        </table>
+         
+    </div>  
+  </div>  
+    
+    
+  <div>
+   <h6>Das Broadcasting-Module</h6>
+   
+   <div>
+    <h6>Allgemeines</h6>
+    <p>
+    Dieses Modul ergänzt die Anwendung um die Funktionalität einer Runtime-Anwenderinformation. Als berechtigter Nutzer 
+    oder Administrator können Sie Nachrichten online generieren und versenden.
+    </p>
+   </div>
+   
+   <div>
+    <h6>Konfiguration</h6>
+    <p>
+    In der konkreten Anwendung muss im Verzeichnis <em>modules</em> ein Unterverzeichnis <em>module-broadcasting</em> 
+    angelegt werden. Hier muss sich eine <em>build.xml</em>-Datei mit folgenden Targets befinden:</p>
+    <ul>
+    <li>create.default-rules – Es werden die erforderlichen Rechteeinträge erzeugt.</li>
+    <li>webapps – Der Modul wird in die Web-Applikation integriert.</li>
+    </ul>
+    <p>
+    Die Nutzung des Modules in mehreren Anwendungen macht weiterhin die Existenz eines config-Verzeichnisses 
+    erforderlich. Darin sind die Dateien <em>grant-broadcastinggroup.xml</em> und <em>mcr-module-broadcasting.xml</em> 
+    abzulegen. Die Datei <em>grant-broadcastinggroup.xml</em> beschreibt die Gruppen und Nutzer, welche Nachrichten an 
+    die Anwendung versenden dürfen. Im Beispiel sind das alle Mitglieder der Gruppe <strong>admingroup</strong>.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+     <![CDATA[ 
+    <?xml version="1.0" encoding="utf-8"?>
+    <!-- this rule allways returns true -->
+    <condition format="xml"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+       xsi:noNamespaceSchemaLocation="MCRCondition.xsd">
+       <boolean operator="or">
+         <condition value="admingroup" operator="=" field="group" />
+       </boolean>
+    </condition>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Mit den folgenden MyCoRe-Kommandos werden die Rechte für die Nutzung des Modules eingetragen. Bei Nutzung des 
+    ANT-Tagets <strong>create.default-rules</strong> erfolgt dies automatisch.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    update permission manage for id module-broadcasting with rulefile grant-broadcastinggroup.xml
+    
+    update permission read for id webpage:/servlets/MCRBroadcastingServlet?mode=getReceiverList with rulefile grant-broadcastinggroup.xml 
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>
+    Die Grundkonfiguration zum Versenden der Nachrichten ist in der Datei <em>mcr-module-broadcasting.xml</em> 
+    gespeichert. Sie stellt eine Voreinstellung dar, welche zum Ausführungszeitpunkt interaktiv verändert werden kann.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <mcr-module-broadcasting>
+       <!-- on | off -->
+       <!-- on = client will autmatically listen for new messages by AJAX -->
+       <!-- off client won't listen for new messages -->
+       <power>on</power>
+   
+       <!-- Seconds, in which intervall the client will ask for new messages -->
+       <refreshRate>60</refreshRate>
+    
+       <!-- true | false -->
+       <!-- true = User will get the same message again, if a new session is opened, even though the user already received 
+            the message. This should be used, if a user login will be used by more than one person -->
+       <!-- false = Each user will get a message only on times, indepently on the session. -->
+       <sessionSensitive>false</sessionSensitive>
+    
+       <message.header>Sehr geehrte Mitarbeiter</message.header>
+       <message.tail>Ihr Administrator</message.tail>
+       <!-- <group/> &| <user> -->
+    
+       <!-- allowGuestGroup ("true|false")  if set to true all "gast" users are listen on the channel, if "false" only 
+            user != "gast" are listen -->
+       <receivers allowGuestGroup="false"/>
+    
+       <!-- <from> & <to> (ISO 8601) are NOT supported yet, -> use @send -->
+       <!-- @send = ever | never --><!-- ever = send continuasly -->
+       <!-- never = do NOT send -->
+       <onAirTime send="ever">
+          <from>2006-10-20T10:17:42.920Z</from>
+          <to>2006-10-20T10:17:42.920Z</to>
+       </onAirTime>
+    
+    </mcr-module-broadcasting>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    
+    <p>    Einbinden in die Anwendung</p>
+    <p>
+    Der Aufruf des Broadcasting-Modules sollte aus der Navigation der Anwendung heraus erfolgen. Hierfür ist in der 
+    navigation.xml folgender Eintrag zu tätigen.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <item 
+       href="/servlets/MCRBroadcastingServlet?mode=getReceiverList"
+       type="extern"
+       target="_self"
+       style="normal"
+       replaceMenu="false"
+       constrainPopUp="false">
+         <label xml:lang="de">Nachrichten</label>
+         <label xml:lang="en">Broadcasting</label>
+    </item>
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>Der Include der benötigten XSLT-Stylesheets erfolgt in der Datei generatePage.xsl.</p>
+    <p class="kasten">&lt;xsl:include href="mcr-module-broadcasting.xsl" /&gt;</p>
+    <p>
+    Als letztes ist dafür zu sorgen, dass der Listener in alle Webseiten im HEAD-Bereich eingetragen wird. Dazu ist das 
+    head-HTML-Tag um diese Zeile zu ergänzen.
+    </p>
+    <p class="kasten">&lt;xsl:call-template name="module-broadcasting.getHeader"/&gt;</p>
+    <p>Informationen zu Benutzung des Modules finden Sie im MyCoRe User Guide.</p>
+   </div>
+ </div>
+</div>
+<div>
+  <h6>Anmerkungen und Hinweise</h6>
+  
+  <div>
+   <h6>Ergänzung der DocPortal-Beispieldaten</h6>
+   <p>
+   Mit Version 1.1 wurden die Beispieldaten für das DocPortal aus der Distribution des selbigen herausgelöst und in 
+   eine separaten CVS-Baum untergebracht. Dies hat den Vorteil, dass
+   </p>
+   <ul>
+   <li>die Installation des DocPortals nicht mehr von Beispieldaten abhängig ist,</li>
+   <li>man nach der Installation ein leeres, betriebsbereites System hat,</li>
+   <li>die Distribution des Samples schlanker und der Download damit schneller ist,</li>
+   <li>mehr Beispiele in einer extra-CVS-Distribution angeboten werden können und</li>
+   <li>die Beispiele gezielt geladen und auch wieder entfernt werden können.</li>
+   </ul>
+   <p>
+   Die Beispieldaten stehen auf dem CVS-Server in Essen (server.mycore.de) in einem extra CVS-Baum mit dem Namen 
+   <code>content</code> bereit. Dieser Enthält eine Sammlung einzelner Beispieldatengruppen. Nach dem checkout können 
+   die Gruppen je nach Wunsch einzeln installiert werden (siehe UserGuide). Dabei spielt das jeweils mitgelieferte 
+   <code>build.xml</code>-Skript eine wichtige Rolle, hier sind alle Funktionen zur Arbeit mit dem Beispiel definiert.
+   </p>
+   <p>
+   Um neue Beispieldaten bereitzustellen gibt es zwei Wege: es wird eine Beispielgruppe mit Daten ergänzt oder es wird 
+   einen neue Beispielgruppe aufgebaut.
+   </p>
+   
+   <div>
+    <h6>Ergänzungen in einer Beispielgruppe</h6>
+    <p>Folgende Arbeiten sind erforderlich:</p>
+    <ul>
+    <li>Erzeugen der Metadaten für das Dokument (ggf. mit Daten für den Autor und/oder die Institution).</li>
+    <li>Erzeugen des/der Derivate.</li>
+    <li>Integration des Ladens und Entfernens im <code>build.xml-</code>Skript in den <code>target</code>-Abschnitten 
+        <code>load</code> und <code>remove.</code>
+    </li>
+    </ul>
+   </div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/content.png" class="border border-secondary" label="" caption="" alt="content" width="" height="" />}}</div>
+  </div>
+ </div>

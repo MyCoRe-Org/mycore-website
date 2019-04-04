@@ -1,0 +1,125 @@
+
+---
+
+title: "Gemeinsame Entwicklungsplattformen"
+mcr_version: ['2016.06','2017.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Der Abschnitt beschreibt Werkzeuge und Zugänge zu den Entwicklerbereichen von MyCoRe.
+    "
+date: "2017-08-21"
+
+---
+
+      <div>
+        <h2>Git-Zugang</h2>
+        <p> Das Entwicklerteam hat sich entschlossen, die MyCoRe-Quellcodes vom eigenen Subversion-Server auf
+        GitHub zu verschieben. Neben einer besseren Wahrnehmung von MyCoRe in der Open Source Gemeinde sollen 
+        die besseren Team-Arbeitsmöglichkeiten von Git ausgenutzt werden. Die Umstellung fand im Oktober 2016
+        für den aktuellen Master-Code (trunk) und das release 2016.06 statt. Die Code-Entwicklung ist dabei 
+        weiter an JIRA und BAMBOO gekoppelt.</p>
+        <p>Alle Projekte der MyCoRe Community sind unter <a href="https://github.com/MyCoRe-Org" target="_blank">https://github.com/MyCoRe-Org</a> 
+        zu finden.</p>
+        <p>Hinweise zum Umgang mit Git von Kathleen Neumann sind <a href="https://github.com/kkrebs/sep-22-developers/blob/master/class-notes/summary.md" target="_blank">hier</a>
+         zu finden.</p>
+         <div>
+           <h3>Integration von MyCoRe-Git in Eclipse</h3>
+           <p>Um das MyCoRe-Git-Repository auszuchecken und in Eclipse zu integrieren sollte zuerst <em>Git</em> auf dem
+           lokalen Rechner installiert werden. Anschließend ist die Konfiguration entsprechend der obigen Doku zu setzen.
+           Nun können in Eclipse folgende aktivitäten ausgeführt werden:</p>
+           <ul>
+             <li>in die Git-Ansicht wechseln</li>
+             <li><code>clone a git repository</code> auswählen</li>
+             <li>als Source <code>https://github.com/MyCoRe-Org/mycore.git</code> eintagen</li>
+             <li>eigenes Git Login und Pw eintragen</li>
+             <li><code>deselect all</code> und dann <code>select master</code> auswählen</li>
+             <li>Directory festlegen (z. B. ~/workspace); origin als Bezeichner lassen</li>
+             <li>... und laden</li>
+           </ul>
+           <p>Nun ist der Codestand im Git-View sichtbar. Jetzt soll der Code auch in der Java-Ansicht verfügbar sein.
+           Dazu sind folgende Schritte notwendig.</p>
+           <ul>
+             <li>in die Git-Ansicht wechseln</li>
+             <li>im <em>Working Tree</em> der ausgecheckten Daten <code>Import projects</code></li>
+             <li>dort <code>Import General Project</code> auswählen</li>
+             <li>anschießend in die Java-Ansicht wechseln und mit </li>
+             <li><code>Import existing Maven projects</code> die gewünschen MyCoRe-Komponenten auswählen</li>
+           </ul>
+           <p>Um vom Master auf ein bestimmtes Release zu wechseln sind folgende Schritte zu tun.</p>
+           <ul>
+             <li>in die Git-Ansicht wechseln</li>
+             <li>auf dem Master rechte Maustaste <code>Fetch from upstream</code></li>
+             <li>da unter <em>Remote tracking</em> <code>checkout as new branch</code> auswählen</li>
+           </ul>
+           <note label="Anschalten der Warnung für die pom.xml">
+           Hierfür ist die jeweilige <code>pom.xml</code> zu öffnen. Ober erscheint eine Warnung. Auf der Warnung rechte 
+           Maustaste und <em>Make goal update-project-license as ignored in eclipse build</em> markieren.
+           </note>
+         </div>
+         <div>
+           <h3>Weiteres Repositories von MyCoRe-Entwicklern</h3>
+           <p>Neben dem Repository auf GitHub betreiben einige Entwickler noch eigene Repositories auf GitLab-Grundlage.</p>
+           <ul>
+             <li><a href="https://git.sc.uni-leipzig.de/mycore_applications" target="blank">Sientific Git des URZ der Uni Leipzig</a> - 
+            Ansprechpartner ist Jens Kupferschmidt</li>
+           </ul>
+         </div>
+      </div>
+
+      <div>
+        <h2>Subversion-Zugang</h2>
+        <p> Der <strong>alte</strong> Quellcode der MyCoRe-Kerns und einiger Anwendungen, wird auf
+          einem Subversion-Server an der Universität Duisburg-Essen verwaltet. <strong>Achtung, die Codestände von 
+          bereits auf Git migrierten Projekten sind veraltet und sollten nur noch zur Information genutzt werden!!!</strong>
+          Die Nutzung des SVN wird schrittweise nach GitHub oder anderen Git-Systemen migriert.
+        </p>
+        <p> Aktuell gib es zwei Zugangsmöglichkeiten: über HTTP im lesenden Zugriff und über SSH mit Schreibrechten
+          (sofern der Entwickler Zugang zum System hat [der Server wird von Frank Lützenkirchen verwaltet]).
+        </p>
+        <p class="kasten">
+          <a href="http://www.mycore.de/svn/">http://www.mycore.de/svn/</a>
+        </p>
+        <p class="kasten">svn+ssh://server.mycore.de/svn/ </p>
+        <note label="MIME-Typ für alle neuen Dateien">
+          Alle neuen Dateien, die bei MyCoRe mit Subversion verwaltet werden müssen das SVN Property
+          <code>svn:mime-type</code> ausgefüllt haben. Bei Mime-Typ <code>text/*</code>
+          muss zusätzlich noch da Property <code>svn:eol-style</code>
+          beschrieben sein. Für die häufigsten Dateiarten gibt es eine Konfiguration zum
+          <a href="../../filecollection/svn-config.txt">herunterladen</a>,
+          die ans Ende der Datei <code>config</code> im Verzeichnis <code>.subversion</code>
+          des Nutzerverzeichnisses angefügt wird. Der entsprechende Bereich trägt den Namen
+          <code>[auto-props]</code>.
+        </note>
+      </div>
+      
+      <div>
+        <h2>Nutzung von Eclipse</h2>
+        <p>
+          Die Entwicklungsumgebung Eclipse leistet nicht nur hilfreiche Dienste bei der Formatierung des Java-Codes.
+          Mit ihr kann auch die Syntaxprüfung der Java-Klasse wie auch ihre Einbettung in das Gesamtprojekt leicht
+          überwacht werden. Dazu sind einige Installationen und Einstellungen erforderlich. Diese werden dann sowohl für
+          die Kernanwendung wie auch für die Applikationen genutzt.
+        </p>
+        <p>
+          Zuerst ist die <a href="http://www.eclipse.org/downloads/">Eclipse-Entwicklungsumgebung</a>
+          zu installieren. Von den Entwicklern wird als Basis die <strong>Eclipse IDE for Java EE Developers</strong>
+          genutzt und auch empfohlen.
+        </p>
+        <p>
+          Zur Bearbeitung von I18N-Sprachdateien hat sich der
+          <a href="http://essiembre.github.io/eclipse-rbe/">ResourceBundle-Editor</a>
+          (besonders für Sprachen außerhalb des Lateinischen Alphabetes) bewährt. Weiterhin
+          sollte nach der Installation die Code-Style-Definition von MyCoRe importiert werden,
+          mehr dazu im Abschnitt <a href="{{< ref codestyle >}}">Java-Code Formatierung</a>.
+        </p>
+        <p>
+          Um eine direkte Jira-Anbindung im Eclipse zu realisieren, muss der Jira-Connector über den Eclipse-Marketplace
+          installiert werden. Danach muss das Jira über MyLyn eingebunden werden.
+        </p>
+        <p>
+          Für weitere Einstellungen im Editor kann <a href="http://andrei.gmxhome.de/anyedit/">AnyEdit</a>
+          empfohlen werden. Damit kann beispielsweise konfiguriert werden, dass überzählige Leerzeichen
+          z.B. am Zeilenende aus dem Code entfernt werden.
+        </p>
+      </div>
+
+  

@@ -1,0 +1,25 @@
+ {{ $currentPage := . }}
+
+<nav class="navbar mcr-navbar-side navbar-expand-md">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavSide" aria-controls="navbarNavSide" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+ 	</button>
+ 	<div class="collapse navbar-collapse" id="navbarNavSide">
+ 		<div class="mcr-blog">
+			<h5><i class="far fa-newspaper pr-2"></i> {{i18n "blog_news"}}</h5>
+			{{ with .Site.GetPage "section" "blog" }}
+				<ul class="mcr-blog-latest">
+				  	{{ range first 5 .Pages }}
+        				<li>
+           					 <h6><a class='{{ if eq $currentPage.URL .URL }}active{{ end }}'
+           					        href='{{ .Permalink }}'>{{ .Title }}</a></h6>
+            				<small><time> {{- partial "german_date" (dict "date2convert" (.Date.Format "Mon, Jan 2, 2006")) -}}</time></small>
+
+        				</li>
+    				{{ end }}
+    			</ul>
+			{{ end }}
+		</div>
+	</div>
+</nav>
+

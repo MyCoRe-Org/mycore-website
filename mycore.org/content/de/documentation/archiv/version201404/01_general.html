@@ -1,0 +1,746 @@
+
+---
+
+title: "Allgemeines zur Implementierung"
+
+---
+   <div class="Struktur der Gesamtanwendung">{{< mcr-figure src="/images/documentation/archiv/progguide_globalstructure_2_1.png" class="border border-secondary" label="" caption="" alt="Grundstruktur" width="" height="" />}}</div>
+  
+  <div>
+   <h3>Benutzte externe Bibliotheken</h3>
+   <p>
+   Das MyCoRe-Projekt bemüht sich, bereits etablierte Techniken und Implementationen zu benutzen, um einerseits den 
+   eigenen Entwicklungsaufwand so gering wie möglich zu halten, andererseits dem Nachnutzer den Einstieg durch die 
+   Verwendung bekannter Komponenten zu erleichtern. 
+   </p>
+   <p>
+   Der Folgende Abschnitt beschreibt alle eingesetzten Bibliotheken. Dabei ist die Lizenzpolitik der Hersteller sehr 
+   unterschiedlich. Gemeinsam ist allen jedoch, dass sie den Open Source Gedanken vertreten und für nichtkommerzielle 
+   Einsätze frei verfügbar sind. Die Nutzung von MyCoRe unter wirtschaftlichen Aspekten bedarf also einer gesonderten 
+   Betrachtung der Lizenzrechte durch den Anwender. Ob hier Rechte verletzt werden, ist im Einzelfall abzuklären.
+   </p>
+   <table>
+   <tr>
+   <th width="20%">Files</th>
+   <th>Beschreibung</th>
+   <th width="10%">Lizenz</th>
+   </tr>
+   <tr>
+   <td>activation.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>ant-antlr-xxx.jar</td>
+   <td>ANother Tool for Language Recognition.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>ant-contrib.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>antlr-xxx.jar</td>
+   <td>ANother Tool for Language Recognition.</td>
+   <td align="center" />
+   </tr>
+   <tr>
+   <td>asm.jar</td><td>A Java bytecode manipulation framework.</td>
+   <td align="center">ASM</td>
+   </tr>
+   <tr>
+   <td>asm-attrs.jar</td>
+   <td>A Java bytecode manipulation framework.</td>
+   <td align="center">ASM</td>
+   </tr>
+   <tr>
+   <td>avalon-framework-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>axis.jar</td>
+   <td>Apache Axis is an implementation of the SOAP for Web services support</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>axis-ant.jar</td>
+   <td>Apache Axis is an implementation of the SOAP for Web services support</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>batik.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>c3p0-xxx.jar</td>
+   <td>c3p0 is an easy-to-use library for making traditional JDBC drivers "enterprise-ready" by augmenting them with 
+   functionality defined by the jdbc3 spec and the optional extensions to jdbc2.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>cglib-xxx.jar</td>
+   <td>Byte Code Generation Library is high level API to generate and transform JAVA byte code. It is used by AOP, 
+   testing, data access frameworks to generate dynamic proxy objects and intercept field access.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-beanutils.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-collections-xxx.jar</td>
+   <td>Apache Jakarta Common - Extends or augments the Java Collections Framework.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-discovery-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-fileupload-xxx.jar</td>
+   <td>Apache Jakarta Common - File upload capability for your servlets and web applications.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-httpclient-xxx.jar</td>
+   <td>Apache Jakarta Common - Framework for working with the client-side of the HTTP protocol.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-io-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-lang-xxx.jar</td>
+   <td>Apache Jakarta Common - Provides extra functionality for classes in java.lang.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging.jar</td>
+   <td>Apache Jakarta Common - Wrapper around a variety of logging API implementations.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging-adapters-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-logging-api-xxx.jar</td>
+   <td>Apache Jakarta Common - ?</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-net-xxx.jar</td>
+   <td>Apache Jakarta Common - Collection of network utilities and protocol implementations.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>commons-vfs-xxx-dev.jar</td>
+   <td>Apache Jakarta Common - Virtual File System component for treating files, FTP, SMB, ZIP and such like as a 
+   single logical file system.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>connector.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>dom4j-xxx.jar</td>
+   <td>dom4j is an easy to use, open source library for working with XML, XPath and XSLT on the Java platform using the 
+   Java Collections Framework and with full support for DOM, SAX and JAXP.</td>
+   <td align="center">W3C</td>
+   </tr>
+   <tr>
+   <td>ehcache-xxx.jar</td>
+   <td>Ehcache is a widely used java distributed cache for general purpose caching, J2EE and light-weight containers.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>ezmorph-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>fckEditor.zip</td>
+   <td>This HTML text editor brings to the web many of the powerful functionalities of desktop editors like MS Word. 
+   It's lightweight and doesn't require any kind of installation on the client computer.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>fop.jar</td>
+   <td>A library to transform formatting objects.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>lib/ftp.jar</td>
+   <td>Java FTP client library.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>hibernate3.jar</td>
+   <td>Hibernate is a powerful, high performance object/relational persistence and query service.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>hsqldb_xxx.jar</td>
+   <td>Lightweight 100% Java SQL Database Engine.</td>
+   <td align="center">HS</td>
+   </tr>
+   <tr>
+   <td>icu4j_xxx.jar</td>
+   <td>ICU is a mature, widely used set of Java libraries for Unicode support, software internationalization and 
+   globalization (i18n/g11n).</td>
+   <td align="center">IBM</td>
+   </tr>
+   <tr>
+   <td>jai_codec.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jai_core.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jaxen-xxx.jar</td>
+   <td>The Jaxen Java XPath Engine is an open source cross-API (DOM, JDOM, dom4j, and ElectricXML) XPath library for 
+   Java.</td>
+   <td align="center" />
+   </tr>
+   <tr>
+   <td>jaxrpc.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jcifs-1.2.0.jar</td>
+   <td>JCIFS is an Open Source client library that implements the CIFS/SMB networking protocol in 100% Java.</td>
+   <td align="center">LGPL</td>
+   </tr>
+   <tr>
+   <td>jdom-1.0.jar</td>
+   <td>To provide a complete, Java-based solution for accessing, manipulating, and outputting XML data from Java code.</td>
+   <td align="center">JDOM</td>
+   </tr>
+   <tr>
+   <td>jid3lib-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>joda-time-xxx.jar</td>
+   <td>Joda-Time provides a quality replacement for the Java date and time classes.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>jsch-xxx.jar</td>
+   <td>JSch allows you to connect to an sshd server and use port forwarding, X11 forwarding, file transfer, etc., and 
+   you can integrate its functionality into your own Java programs.</td>
+   <td align="center">BSD</td>
+   </tr>
+   <tr>
+   <td>json-lib-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>jta.jar</td>
+   <td>JTA specifies standard Java interfaces between a transaction manager 
+   and the parties involved in a distributed transaction system: the resource manager, the application server, and 
+   the transactional applications.</td>
+   <td align="center">SUN</td>
+   </tr>
+   <tr>
+   <td>jtidy.jar</td>
+   <td>We have two primary goals. First, to provide a home where all the patches and fixes that folks contribute can be 
+   collected and incorporated into the program. Second, a library form of Tidy has been created to make it easier to 
+   incorporate Tidy into other software.</td>
+   <td align="center">W3C</td>
+   </tr>
+   <tr>
+   <td>junit-xxx.jar</td>
+   <td>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. </td>
+   <td align="center">CPL</td>
+   </tr>
+   <tr>
+   <td>log4j-xxx.jar</td>
+   <td>Inserting log statements into your code is a low-tech method for debugging it.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-analyzers-xxx.jar</td>
+   <td>Apache Lucene is a high-performance, full-featured text search engine library written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-core-xxx.jar</td><td>Apache Lucene is a high-performance, full-featured text search engine library 
+   written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>lucene-queries-xxx.jar</td><td>Apache Lucene is a high-performance, full-featured text search engine library 
+   written entirely in Java.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>mail.jar</td>
+   <td>The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging 
+   applications. </td>
+   <td align="center">SUN</td>
+   </tr>
+   <tr>
+   <td>metadata-extractor-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>mlibwrapper_jai.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>mysql-connector-java.jar</td>
+   <td>The JDBC connector for MySQL. This will be used only if MySQL is installed.</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>opensaml-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>PDFBox-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>saaj.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>saxpath.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>serializer_xxx.jar</td>
+   <td>This is a part of Xalan.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>servlet-api-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>tm-extractors-0.4.jar</td>
+   <td>tm-extractors wraps the Word extraction from POI in a nice API.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>wsdl4j-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>wss4j.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>xalan_xxx.jar</td><td>The Apache Xalan Project is a collaborative software development project dedicated to 
+   providing robust, full-featured, commercial-quality, and freely available XSLT support on a wide variety of 
+   platforms.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>xercesImpl_xxx.jar</td>
+   <td>The Xerces Java Parser 1.4.4 supports the XML 1.0 recommendation and contains advanced parser functionality, such 
+   as support for the W3C's XML Schema recommendation version 1.0, DOM Level 2 version 1.0, and SAX Version 2, in 
+   addition to supporting the industry-standard DOM Level 1 and SAX version 1 APIs.</td>
+   <td align="center">AL 2.0</td>
+   </tr>
+   <tr>
+   <td>xmlsec-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   <tr>
+   <td>xmltask-xxx.jar</td>
+   <td>?</td>
+   <td align="center">?</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle:</strong> Übersicht der benutzten externen Bibliotheken</p>
+   
+   <p>Lizenzen:</p>
+   <ul>
+   <li><strong>AL 2.0</strong> - Apache License Version 2.0, January 2004 <br />
+       <a target="_blank" href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>
+   </li>
+   <li><strong>ASM</strong> - Copyright (c) 2000-2005 INRIA, France Telecom <br />
+       <a target="_blank" href="http://asm.objectweb.org/license.html">http://asm.objectweb.org/license.html</a>
+   </li>
+   <li><strong>BSD</strong> - Copyright (c) 2002,2003,2004,2005,2006 Atsuhiko Yamanaka, Jcraft,Inc.</li>
+   <li><strong>CPL</strong> – Common Public License Version 1.0 <br />
+       <a target="_blank" href="http://www.oopensource/licenses/cpl.php">http://www.oopensource/licenses/cpl.php</a> 
+   </li>
+   <li><strong>HS</strong> - Copyright (c) 1995-2000 by the Hypersonic SQL Group. <br />
+       <a target="_blank" href="http://www.hsqldb.org/web/hsqlLicense.html">http://www.hsqldb.org/web/hsqlLicense.html</a> 
+   </li>
+   <li><strong>IBM</strong> – Special license for Open Soucre of IBM like LGPL</li>
+   <li><strong>JDOM</strong> - Copyright (C) 2000-2002 Brett McLaughlin &amp; Jason Hunter. <br />
+       <a target="_blank" href="http://www.jdom.org/">http://www.jdom.org</a>
+   </li>
+   <li><strong>LGPL</strong> - GNU Library or Lesser General Public License 2.1 </li>
+   <li><strong>SUN</strong> – Sun.com Terms of Use - <br />
+       <a target="_blank" href="http://www.sun.com/termsofuse.html">http://www.sun.com/termsofuse.html</a>
+   </li>
+   <li><strong>W3C</strong> - W3C® SOFTWARE NOTICE AND LICENSE Copyright © 1994-2001 World <br />
+       <a target="_blank" href="http://www.w3.org/Consortium/Legal/copyright-software-19980720">http://www.w3.org/Consortium/Legal/copyright-software-19980720
+       </a>
+   </li>
+   </ul>
+  </div>
+  
+  <div>
+   <h3>Allgemeine Festlegungen zur Struktur des MyCoRe-Kerns und der Anwendung</h3>
+
+   <div>
+    <h4>Definitionen</h4>
+    <ul>
+     <li><strong>Common parts</strong> sind die Teile des MyCoRe-Kerns, welche von vielen/allen Komponenten und Modulen 
+         verwendet werden und die elementaren Grundfunktionalitäten von MyCoRe bereitstellen. U. a. beinhaltet 
+         dies die APIs zur Speicherung der Daten, Klassifikationen, der ACLs und Nutzer, Store-Zugriffe und Klassen, 
+         die allgemeiner Natur sind und als API-Funktionalitäten bereitgestellt werden (MCRServlet, XML-Parser usw.).</li>
+     <li><strong>Components</strong> sind Teile des MyCoRe-Kerns welche als Funktionalität in sich abgrenzbar sind. Sie bauen 
+         auf den <strong>Common parts</strong> auf und enthalten alle zur Funktionalität gehörenden Klassen und Dateien. Alle 
+         Komponenten haben eine fest vorgegebene Struktur (siehe unten) und können über ein Property ausgeschaltet 
+         werden (wie bisher bei den Modulen des Kerns). Die in den Komponenten enthaltenen Vorlagen (Templates) 
+         können durch anwendungsseitige Dateien überschrieben werden.  Komponenten werden vom Entwickler-Team 
+         bereitgestellt und sind Bestandteil von mycore.jar. Komponenten werden über einen automatischen Prozess 
+         in die Anwendung integriert, wenn sie nicht explizit deaktiviert wurden.</li> 
+     <li><strong>Modules</strong> sind austauschbare/abschaltbare Teile der Nutzeranwendung, welche alle wichtigen Dinge zur 
+         Gestaltung konkreter Anwendungen enthalten, die nicht als generisch anzusehen sind (Datenmodelle, statische 
+         Seiten, Layouts usw.). Module werden von den Anwendern entwickelt und bauen auf dem mycore.jar auf. Module 
+         können auch Komponenten überschreiben bzw. ergänzen. Die Dateibaumstruktur vom Modulen und Komponenten soll 
+         analog zueinander sein.</li>
+    </ul>
+   </div>
+
+   <div>
+    <h4>Aufbau der Datei <em>mycore.jar</em></h4>
+    <p>
+     Die Datei mycore.jar ist die Schnittstelle des MyCoRe-Kerns zu den Anwendungen. Eine Anwendung integriert 
+   <strong>NUR</strong> diese Datei! Externe JAR-Files werden direkt über Maven von der Anwendung nachgeladen. Alle 
+     Komponenten werden per default integriert, auszuschaltende Komponenten müssen in der Anwendung spezifiziert 
+   werden. Welche Teile dabei von einer Komponente bei Nennung in der Konfiguration kopiert werden, zeigt die 
+   Tabelle.
+  </p>
+     
+    <table>    
+    <tr>
+    <th>Komponententeil</th>
+    <th>Kopieren</th>
+    </tr>
+  <tr>
+  <td>Java-Klassen</td>
+    <td>werden immer kopiert </td>
+    </tr>
+    <tr>
+    <td>Stylesheets, Web-Seiten</td>
+    <td>werden nur bei Auswahl kopiert </td>
+    </tr>
+    <tr>
+    <td>web.xml, I18N, properties</td>
+    <td>werden nur bei Auswahl eingebunden</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle:</strong> Verwendung der Komponententeile</p>
+     
+  <p>
+     Der Aufbau der JAR-Datei für die JAVA-Klassen ist von uns nicht änderbar, sondern ergibt sich aus der 
+   Package-Struktur. Für Hibernate Mappings ist es gängiger Standard, dass diese genauso heißen wie die 
+   Klassen - mit der Endung <em>.hbm.xml</em> und in dem gleichen Package liegen, also zusammen mit den 
+   <em>*.class</em>-Dateien. Eine Komponente in MyCoRe enthält Klassen, Webseiten, I18N-Dateien, Properties,
+     Hibernate-Mappings, Stylesheets, XSD- und DTD-Dateien.
+  </p>     
+  {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+     mycore.jar 
+       \ META-INF 
+       \ \ Manifest.mf (mit Datums- und Revisionangabe) 
+       \ org.mycore (alle Klassen) 
+       \ xsl (alle Stylesheets) 
+       \ components 
+       | \ [component] 
+       |   \ config (Konfigurationen / Templates) 
+       |   | \ mycore.properties 
+       |   | \ messages_de.properties 
+       |   | \ messages_en.properties 
+       |   \ web 
+       |   | \ css 
+       |   | \ images 
+       |   | \ js 
+       |   \ integrate.xml 
+       \ *.dtd | *.xsd (alle DTD- und XSD-Schema-Dateien) 
+       \ license.txt 
+       \ integrate.xml 
+  ]]>
+    </p>
+    {{< /highlight >}}    
+    <p>
+     <strong>Festlegungen</strong>
+     <ul>
+      <li>Die Dateien <em>messages_xx.properties</em> und <em>mycore.properties</em> werden erst durch die 
+      Anwendung abhängig von den verwendeten Komponenten zusammengefügt.</li>
+      <li>Bei Updates von einer Version zur nächsten ist es notwendig alte Libs (inkl der alten MyCoRe-Version) zu 
+      entfernen, dafuer ist ein eigenes ant-target <em>ant resolve</em> vorhanden.</li>
+     </ul>
+    </p>
+   </div>
+
+   <div>
+    <h4>Die Struktur des mycore-Verzeichnisses</h4>
+    <p>
+    Die Struktur des mycore-Verzeichnisses ergibt sich aus der Struktur der MyCoRe-JAR-Datei und der eines Maven-Projektes.
+    </p>
+
+
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    #####################################################
+    # The component mycore.property file
+    #####################################################
+    
+    MCR.[component-name].propertyName = ...
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h4>Festlegungen für den Aufbau der Anwendung</h4>
+       
+    <ul>
+     <li>Alle Anwendungsmodule sollten sich in ihrer Struktur an den Vorgaben für Komponenten orientieren. </li>
+     <li>Der Mechanismus zur Integration der Komponenten in die Anwendung wird über ANT Tasks und entsprechende 
+         Targets realisiert. </li>
+     <li>Die unten stehende Tabelle beschreibt die Integrationspunkte an Hand der öffentliche Targets, die eine 
+         Anwendung haben muss. </li>
+     <li>Komponenten muessen explizit ausgeschalten werden via <strong>MCR.Components.Exclude</strong>.</li>
+     <li>Die ImageViewer-Komponente ist ebenfalls per default aktiviert und prüft selbst, ob die entsprechenden 
+         Klassen verfügbar sind oder nicht. </li>
+     <li>Alle I18N Properties haben eine feste Namenskonvention (siehe oben). Zur Anpassung an ältere Codestände 
+         gibt es einen <em>deprecated.properties</em> Mechanismus, so dass die Umbenennung ohne zwingenden 
+         Migrationsaufwand machbar ist.</li>
+     <li>Alle I18N-Properties eines Modules haben den Namen modul.[modul-name].xxx </li>
+     <li>Alle Properties eines Modules haben den Namen MCR.[modul-name].xxx . </li>
+    </ul>
+    
+    <table>
+     <tr>
+     <th width="20%">Target</th>
+     <th>Beschreibung</th>
+     </tr>
+     <tr>
+     <td>clean</td>
+     <td>Löscht die Programmdaten der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>clean.data</td>
+     <td>Löscht <strong>ALLE</strong> Daten der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>clean.libs</td>
+     <td>Löscht alle benutzten *.jar Archive aus der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>create.class</td>
+     <td>Initialisiert oder update der Klassifikationen.</td>
+     </tr>
+     <tr>
+     <td>create.default-rules</td>
+     <td>Setzt die Standard-ACLs (ist in create.users enthalten).</td>
+     </tr>
+     <tr>
+     <td>create.jar </td>
+     <td>Läd und erzeugt alle erforderlichen *.jar Dateien.</td>
+     </tr>
+     <tr>
+     <td>create.schema</td>
+     <td>Erzeugt alle XML-Schema Dateien.</td>
+     </tr>
+     <tr>
+     <td>create.scripts</td>
+     <td>Zusammensetzen der Konfigurationen und Zusammenbau aller für die Arbeit mit dem CLI wichtigen Teile.</td>
+     </tr>
+     <tr>
+     <td>create.searchmask</td>
+     <td>Generiert eine Suchmaske.</td>
+     </tr>
+     <tr>
+     <td>create.users </td>
+     <td>Initialisiert das Benutzersystem. (Nur einmal verwenden!)</td>
+     </tr>
+     <tr>
+     <td>create.war</td>
+     <td>Erzeugt ein WAR-Archiv der Anwendung.</td>
+     </tr>
+     <tr>
+     <td>create.webapp</td>
+     <td>Baut die Web-Anwendung zusammen.</td>
+     </tr>
+     <tr>
+     <td>info</td>
+     <td>Listet allgemeine Informationen zum Build-Prozess.</td>
+     </tr>
+     <tr>
+     <td>javadoc</td>
+     <td>Erzeugt Javadocs.</td>
+     </tr>
+     <tr>
+     <td>resolve</td>
+     <td>Löscht alle Bibliotheken und installiert mittels Maven und der config/pom.xml alle neu</td>
+     </tr>
+     <tr>
+     <td>usage</td>
+     <td>Listet öffentliche Targets (diese hier).</td>
+     </tr>
+     <tr>
+     <td>webservice.deploy</td>
+     <td>Macht die WebServices bekannt.</td>
+     </tr>
+     <tr>
+     <td>webservice.undeploy</td>
+     <td>Entfernt die WebServices.</td>
+     </tr>
+    </table>
+    <p class="klein"><strong>Tabelle:</strong> Application integration targets</p>
+    
+    <table>
+     <tr>
+     <th width="20%">Target</th>
+     <th>Beschreibung</th>
+     </tr>
+     <tr>
+     <td>init</td>
+     <td>Initialisiert Build-Umgebung.</td>
+     </tr>
+     <tr>
+     <td>compile</td>
+     <td>Compiliert alle Java-Programme.</td>
+     </tr>
+     <tr>
+     <td>config</td>
+     <td>Kopiert wichtige Konfigurationen nach build/config.</td>
+     </tr>
+     <tr>
+     <td>i18n</td>
+     <td>Zusammenfügen der Properties für einzelne Sprachen.</td>
+     </tr>
+     <tr>
+     <td>genkey</td>
+     <td>Erzeugt die Signatur für Applets - wird implizit von create.webapp aufgerufen.</td>
+     </tr>
+     <tr>
+     <td />
+     <td>weitere Targest zur Unterstützung von SVN </td>
+     </tr>
+    </table>
+    <p class="klein"><strong>Tabelle:</strong> Application internal targets</p>
+   </div>
+   
+   <div>
+    <h4>Antwendungs-Module als JAR-Datei</h4>
+    <p>
+      Anwendungsmodule können seit DocPortal 2.1 nicht nur im "modules"-Verzeichnis existieren, sondern
+      auch als JAR-Datei eingebunden werden. Das geschieht über das "maven"-Modul, dass dafür in der
+      <code>mycore.private.properties</code> Datei unter <code>MCR.Modules.Application</code> eingetragen
+      werden muss.
+    </p>
+    <p>
+      Die Anwendungs-Module sind im Aufbau ähnlich den MyCoRe-Komponenten, d.h. sie enthalten alle Dateien
+      die zur Build-Zeit und zur Laufzeit benötigt werden. Erkannt werden die JAR-Dateien an ihrem Manifest
+      und Eigenschaft <code>MCR-Application-Module</code>, die den Namen des Moduls enthält.
+      Über <code>ant resolve</code> werden alle Module unter <code>build/modules</code> entpackt.
+      Dort werden aber nur die Verzeichnisse <code>classifications</code>, <code>config</code> und <code>web</code> entpackt.
+    </p>
+  {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+     application-module.jar 
+       \ META-INF 
+       \ \ Manifest.mf (mit Datums- und Revisionangabe) 
+       \ (alle Klassen) 
+       \ xsl (alle Stylesheets)
+       \ classifications (evtl. Klassifikationen) 
+       \ config 
+       | \ [module] 
+       |   \ mycore.properties 
+       |   \ messages_de.properties 
+       |   \ messages_en.properties
+       |   \ build.xml
+       |   \ build.properties
+       \ web 
+       \ *.dtd | *.xsd (alle DTD- und XSD-Schema-Dateien) 
+  ]]>
+    </p>
+    {{< /highlight >}}
+    
+    <p>
+     Die <code>build.xml</code> wird nur benötigt, wenn die targets <code>create.users</code>,
+     <code>create.default-rules</code> erweitert werden sollen oder wenn <code>create.webapp</code>
+     zusätzlich zum einfachen Kopieren der Daten aus dem <code>web</code>-Verzeichnis noch Aktionen
+     ausführen soll.
+    </p>
+    
+    <p>
+      In <code>build.properties</code> können Properties definiert werden, die beim Einbinden
+      von Kommandos und XSL-Dateien helfen:
+      <table>
+        <tr>
+          <td>internal.commands</td>
+          <td>
+           Kommaseparierte Liste von Kommandoklassen
+          </td>
+        </tr>
+        <tr>
+          <td>xsl.include</td>
+          <td>
+           Kommaseparierte Liste von XSL-Dateien, die bei jeder Web-Seite eingebunden werden sollen
+          </td>
+        </tr>
+      </table>
+    </p>
+    <p>
+     Ein großer Unterschied zu Modulen im moduldes-Verzeichnis ist, dass bei der JAR-Datei kein
+     Build-Prozess mehr laufen muss, sondern nur noch ein Integrationsprozess, weswegen Java-Class- und
+     Schema-Dateien schon fertig erzeugt in der JAR-Datei liegen.
+    </p>
+    <p>Beispiele für Anwendungsmodule, die mittels Maven erstellt werden, finden sie hier:
+    <ul>
+     <li><a href="http://www.mycore.de/viewvc/viewvc.cgi/maven/iview2-preview/trunk/?pathrev=19149">ImageViewer 2 Vorschau</a></li>
+     <li><a href="http://dev.thulb.uni-jena.de/viewvc/archive/trunk/maven-modules/archive/?pathrev=3086">Archiv-Anwendung der Thüringer Universitäts- und Landesbibliothek</a></li>
+    </ul>
+    </p>
+   </div>
+
+  </div>
+  
+      
+  <div>{{< mcr-figure src="/images/documentation/archiv/datenmodell.png" class="border border-secondary" label="" caption="" alt="Datenmodell-Graphik" width="" height="" />}}</div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/metadata.png" class="border border-secondary" label="" caption="" alt="Metadaten-Objekt-Auszug" width="" height="" />}}</div>

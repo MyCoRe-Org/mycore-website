@@ -1,0 +1,210 @@
+
+---
+
+title: "Die Warenkorbfunktion (workbasket)"
+description: "Beschreibung der Komponente zur integration eines Warenkorbs in die Anwendung"
+
+---
+   <div>
+     <h2>Allgemein</h2>
+     <p>
+       Das Paket org.mycore.frontend.basket implementiert eine Korbfunktion für MyCoRe Anwendungen.
+       Ein Korb sammelt Verweise auf Objekte, z. B. Dokumente in einem Dokumentenserver oder Bilder, die
+       zu einem Album zusammengefasst werden sollen. Das Paket enthält Klassen für den API-Zugriff auf
+       die Korbfunktionen und ein Servlet, das die Weboberfläche implementiert.
+     </p>
+     <p>
+       Ein Eintrag im Korb besteht aus einer eindeutigen ID und einer URI.
+       Die ID repräsentiert ein Objekt, das im Korb enthalten sein soll, z. B. die MCRObjectID.
+       Die URI gibt eine Quelle für XML-Daten an, die das Objekt beschreiben.
+       Ein XSL-Stylesheet kann diese URI auflösen, um die im Korb enthaltenen Objekte
+       in der Weboberfläche darzustellen.
+     </p>
+     {{< highlight java "linenos=table">}}MCRBasketEntry entry = new MCRBasketEntry( "DocPortal_document_00774301", "mcrobject:DocPortal_document_00774301" );{{< /highlight >}}
+     <p>
+       Ein Korb wird zunächst in nicht persistenter Form in der Session des Benutzers im Speicher gehalten.
+       Innerhalb einer Anwendung und einer Session könnte es verschiedene Körbe geben,
+       die über ein Typattribut unterschieden werden können, z. B. einen Korb zu Sammeln von
+       Dokumenten, einen anderen Korb für Verweise auf Bilddateien.
+     </p>
+     <p>Beispiel (API):</p>
+     {{< highlight java "linenos=table">}}
+       MCRBasketEntry entry = new MCRBasketEntry( "DocPortal_document_00774301", "mcrobject:DocPortal_document_00774301" );
+       MCRBasket basket = MCRBasketManager.getOrCreateBasketInSession( "objects" );
+       basket.add( entry );
+     {{< /highlight >}}
+     <p>
+       Die Klasse <code>Basket</code> implementiert die Schnittstellen <code>List&lt;MCRBasketEntry&gt;</code> und <code>Set&lt;MCRBasketEntry&gt;</code>.<br />
+       Das MCRBasketServlet implementiert die Weboberfläche der Korbfunktion.<br />
+       Beispiel (Servlet):
+     </p>
+     <ul>
+       <li>
+         den Inhalt des Korbs "objects" anzeigen
+         {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=show{{< /highlight >}}
+       </li>
+       <li>
+         einen Eintrag dem Korb hinzufügen
+         {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=add&amp;id=DocPortal_document_00774301&amp;uri=mcrobject:DocPortal_document_00774301{{< /highlight >}}
+       </li>
+       <li>
+         die Parameter <code>id</code> und <code>uri</code> sind wiederholbar, so dass in einem Durchgang gleich mehrere Objekte
+         zum Korb hinzugefügt oder gelöscht werden können. Damit die korrekte Zuordnung beibehalten wird, sollten die Parameter aber nicht als <code>GET</code> (Query-String)
+         sondern mittels <code>POST</code> (HTML-Formular) übertragen werden. 
+       </li>
+       <li>
+         den Korb leeren
+         {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=clear{{< /highlight >}}
+       </li>
+     </ul>
+     <p>
+       Die HTML-Ausgabe von BasketServlet wird durch das XSL Stylesheet basket-{TYP}.xsl generiert, im obigen Beispiel
+       also <code>basket-objects.xsl</code>.
+     </p>
+   
+     <h4>Reihenfolge der Einträge</h4>
+     <p>
+       Einträge im Korb werden in einer definierten Reihenfolge abgelegt, zunächst in der Reihenfolge des
+       Einfügens in den Korb. Die Position der Einträge ist veränderbar, Einträge können auf und ab geschoben werden:
+     </p>
+     {{< highlight java "linenos=table">}}
+       basket.up( entry );
+       basket.down( entry );
+       basket.move( entry, 3 ); // move entry 3 positions down
+      {{< /highlight >}}
+      <p>bzw.</p>
+      {{< highlight java "linenos=table">}}
+        BasketServlet?type=objects&amp;action=up&amp;id=DocPortal_document_00774301
+        BasketServlet?type=objects&amp;action=down&amp;id=DocPortal_document_00774301
+      {{< /highlight >}}
+      <p>
+        Ein Objekt kann nur einmal in einem Korb vorhanden sein (Set-Eigenschaft). Zum Vergleich von Einträgen
+        wird die ID des Eintrages verwendet.
+      </p>
+
+     <h4>Entfernen von Objekten</h4>
+     {{< highlight java "linenos=table">}}
+       basket.remove( entry );
+       basket.removeEntry( "DocPortal_document_00774301" );
+       basket.remove( basket.get( "DocPortal_document_00774301" ) );
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=remove&amp;id=DocPortal_document_00774301{{< /highlight >}}
+
+     <h4>Kommentare</h4>
+     <p>Einträge im Korb können kommentiert werden.</p>
+     {{< highlight java "linenos=table">}}
+       entry.setComment( "Kommentar" );
+       String comment = entry.getComment();
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=comment&amp;id=DocPortal_document_0077430{{< /highlight >}}
+     <p>
+       Der obige Aufruf erwartet als weitere Requestparameter die Ausgabe eines Editor-Formulars.
+       In diesem Formular wird der Kommentar bearbeitet. DocPortal enthält hierfür kein Beispiel.
+       Das Formular basket-edit.xml aus miless kann hier als Vorlage dienen.
+     </p>
+   </div>
+   
+   <div>
+     <h2>Körbe speichern und laden</h2>
+     <p>
+       Ein Korb wird zunächst in nicht persistenter Form in der Session der Webanwendung gehalten und dort
+       bearbeitet. Eine Anwendung kann Funktionen zur Speicherung eines Korbes bereitstellen.
+       Beispielsweise könnten in einer Bilddatenbank einzelne Bildobjekte im Korb gesammelt werden und
+       diese Kollektion dann als Album mit weiteren Metadaten persistent gespeichert werden. Die Kollektion
+       kann hierbei beliebige Metadaten enthalten und durch einen MyCoRe Objekttyp implementiert werden.
+       Die Inhalte des Korbs selbst, d.h. die enthaltenen Verweise auf Objekte, werden als XML in einer
+       Derivat-Datei gespeichert.
+     </p>
+     <h4>Korb speichern</h4>
+     {{< highlight java "linenos=table">}}
+       MCRObjectID ownerID = MCRObjectID.getInstance( "ImagePortal_basket_01234567" );
+       MCRBasketPersistence.createDerivateWithBasket(basket, ownerID);
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=create&amp;ownerID=ImagePortal_basket_01234567{{< /highlight >}}
+     <p>
+       erzeugt ein neues Derivat für das Metadaten-Objekt ImagePortal_basket_01234567,
+       legt darin eine Datei basket.xml an und speichert die Verweise des Korbs "objects" darin.
+     </p>
+     <p>
+       Das Metadaten-Objekt, das die Inhalte des Korbs persistent aufnimmt, kann zuvor auf beliebige andere
+       Weise erstellt werden, etwa über ein Formular, das wie bei jedem MyCoRe Objekt Metadaten zur
+       Beschreibung der Kollektion aufnimmt. Ein Korb merkt sich, in welchem Derivat er gespeichert wurde:
+     </p>
+     {{< highlight java "linenos=table">}}String derivateID = basket.getDerivateID();{{< /highlight >}}
+     <h4>Korb erneut speichern</h4>
+     <p>
+       Ein Korb wird in der Session über das BasketServlet oder über die API bearbeitet. Nach
+       Veränderung kann er erneut persistent gespeichert werden:
+     </p>
+     {{< highlight java "linenos=table">}}MCRBasketPersistence.updateBasket(basket);{{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=update{{< /highlight >}}
+     <h4>Korb laden</h4>
+     <p>
+       Ein Korb kann aus der gespeicherten Form zur Anzeige und Bearbeitung in die Session geladen werden:
+     </p>
+     {{< highlight java "linenos=table">}}
+       MCRBasket basket = MCRBasketPersistence.retrieveBasket(derivateID);
+       MCRBasketManager.setBasketInSession(basket);
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?action=retrieve&amp;derivateID=ImagePortal_derivate_12345678{{< /highlight >}}
+   </div>
+   
+   <div>
+     <h2>Aufgelöstes XML oder beliebige weitere Metadaten im Korb</h2>
+     <p>
+       In der Regel wird ein Korb nur Referenzen auf andere Objekte enthalten. Für einige
+       Anwendungsfälle kann es jedoch nützlich sein, direkt das aufgelöste XML der Objekt-Metadaten
+       statt nur die URI-Referenz darauf im Korb zu halten. In miless können so beispielsweise
+       Publikationen in einem Korb gesammelt werden, und deren Metadaten direkt im Korb für alle Einträge
+       auf einmal geändert werden. Erst beim Speichern des Korbes werden diese Änderungen dann von miless
+       persistent gemacht.
+     </p>
+     <p>
+       Um die URI-Referenz für neue Einträge direkt aufzulösen und das XML der enthaltenen Objekte im
+       Korb abzulegen, sind folgende Aufrufe zu nutzen:
+     </p>
+     {{< highlight java "linenos=table">}}
+       MCRBasketEntry entry = new MCRBasketEntry( "DocPortal_document_00774301", "mcrobject:DocPortal_document_00774301" );
+       entry.resolveContent();
+       basket.add(entry);
+       Element resolvedXML = entry.getContent();
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}BasketServlet?type=objects&amp;action=add&amp;id=DocPortal_document_00774301&amp;uri=mcrobject:DocPortal_document_00774301&amp;resolve=true{{< /highlight >}}
+     <p>Es liegt in der Verantwortung der Anwendung, diese Variante zu unterstützen.</p>
+   </div>
+
+   <div>
+     <h2>XML-Darstellung</h2>
+     <p>
+       Die Klassen MCRBasketXMLBuilder und MCRBasketXMLExporter transformieren ein Korbobjekt und seine
+       Einträge von/nach XML. Bei der Generierung einer XML-Darstellung der Korbinhalte kann gewählt werden,
+       ob die XML-Metadaten der Objekte selbst auch enthalten sein sollen:
+     </p>
+     {{< highlight java "linenos=table">}}
+       boolean includeBasketEntryContent = false;
+       Document xml = new MCRBasketXMLBuilder( includeBasketEntryContent ).buildXML(basket);
+     {{< /highlight >}}
+     <p>bzw.</p>
+     {{< highlight java "linenos=table">}}MCRBasket basket = new MCRBasketXMLParser().parse( xml );{{< /highlight >}}
+     <p>
+       Wird der Inhalt eines Korbes in einer Derivat-Datei persistent gespeichert, werden stets nur
+       die enthaltenen Referenzen, nicht aber das aufgelöste XML der Objekt-Metadaten gespeichert.
+       <br />
+       Beispiel:
+     </p>
+     {{< highlight xml "linenos=table">}} 
+       <basket type="objects" id="ImagePortal_derivate_12345678">
+         <entry id="DocPortal_document_00774301" uri="mcrobject:DocPortal_document_00774301">
+           <!-- Hier evtl. weitere aufgelöste XML-Metadaten des Objektes -->
+           <comment>Kommentar</comment>
+         </entry>
+       </basket> 
+     {{< /highlight >}}
+   </div>
+  

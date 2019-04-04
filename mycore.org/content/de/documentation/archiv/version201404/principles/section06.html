@@ -1,0 +1,191 @@
+
+---
+
+title: "Metadaten aus Dateien extrahieren"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+
+  <div>
+    <h2>Allgemein</h2>
+    <p>
+      Die Klassen des Paketes
+      <code>org.mycore.datamodel.ifs.extractors</code>
+      extrahieren beim Importieren oder Aktualisieren einer
+      gespeicherten Derivatdatei Metadaten aus dem Inhalt. Derzeit sind
+      die folgenden Implementierungen verfügbar:
+    </p>
+    <ul>
+      <li>
+        <code>MCRDataExtractorJPEG</code>
+        extrahiert EXIF- und IPTC-Daten aus JPEG-Bilddateien
+      </li>
+      <li>
+        <code>MCRDataExtractorMP3</code>
+        extrahiert ID3- und Lyrics-Daten aus MP3-Audiodateien
+      </li>
+      <li>
+        <code>MCRDataExtractorPDF</code>
+        extrahiert Metadaten aus PDF-Dokumenten
+      </li>
+    </ul>
+    <p>
+      Um die Datenextraktion zu nutzen, müssen die Klassen als Event
+      Handler in der
+      <code>mycore.properties</code>
+      konfiguriert werden. Damit die extrahierten Daten auch durchsucht
+      werden können, müssen diese der Event Handler vor dem Event
+      Handler laufen, der die Suchdaten indiziert. Alle anderen Event
+      Handler rücken entsprechend eine Nummer nach hinten:
+    </p>
+    {{< highlight xml "linenos=table">}}
+MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorJPEG
+MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorMP3
+MCR.EventHandler.MCRFile.1.Class=org.mycore.datamodel.ifs.extractors.MCRDataExtractorPDF
+
+MCR.EventHandler.MCRFile.4.Indexer=lucene-content
+MCR.EventHandler.MCRFile.5.Class=org.mycore.services.imaging.MCRImgCacheEventHandler
+MCR.EventHandler.MCRFile.6.Class=org.mycore.frontend.iview.MCRIViewEventHandler{{< /highlight >}}
+    <p>
+      Bei jedem Laden oder Aktualisieren einer Datei werden die
+      Metadaten nun automatisch extrahiert und intern im XML-Format
+      gespeichert. Nach Erweiterung der
+      <code>searchfields.xml</code>
+      um entsprechende Suchfelder können diese Metadaten auch durchsucht
+      werden. Um die Daten auch im Directory Listing des Derivates
+      auszugeben, muss das Stylesheet
+      <code>mcr_directory.xsl</code>
+      in Ihrer Anwendung erweitert werden.
+    </p>
+    </div>
+
+    <div>
+      <h2>Metadaten aus JPEG-Grafikdateien extrahieren</h2>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorJPEG</code>
+        ist in der Lage, EXIF- und IPTC-Metadaten aus JPEG-Dateien zu
+        extrahieren. Abhängig von der Eingabedatei sehen diese Daten z.
+        B. wie folgt aus:
+      </p>
+      {{< highlight xml "linenos=table">}}
+<MCRDataExtractorJPEG>
+  <directory name="Exif">
+    ...
+    <tag name="Model">Canon PowerShot A40</tag>
+    ...
+    <tag name="Date/Time Original">2008:07:24 09:30:36</tag>
+    <tag name="Date/Time Digitized">2008:07:24 09:30:36</tag>
+    ...
+  </directory>
+  <directory name="Canon Makernote">
+    ...
+    <tag name="Owner Name">Frank Lützenkirchen</tag>
+  </directory>
+  <directory name="Jpeg">
+    ...
+    <tag name="Image Height">1600 pixels</tag>
+    <tag name="Image Width">1200 pixels</tag>
+    ...
+  </directory>
+</MCRDataExtractorJPEG>{{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B.
+      </p>
+      {{< highlight text "linenos=table">}}
+<index id="content">
+  ...
+  <field name="exifOwnerName" type="name" source="fileAdditionalData" objects="jpeg"
+    xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Owner Name']"
+    value="text()" />
+  <field name="exifWidth" type="integer" source="fileAdditionalData" objects="jpeg"
+    xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Image Width']"
+    value="substring-before(text(),' pixels')" />
+  <field name="exifDate" type="date" source="fileAdditionalData" objects="jpeg"
+    xpath="/additionalData/MCRDataExtractorJPEG/directory/tag[@name='Date/Time Original']"
+    value="translate(text(),': ','-T')" />
+</index>{{< /highlight >}}
+    </div>
+    <div>
+      <h2>Metadaten aus MP3-Audiodateien extrahieren</h2>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorMP3</code>
+        extrahiert ID3v1, ID3v1.1, Lyrics3v1, Lyrics3v2, ID3v2.2, ID3v2.3 und ID3v2.4 Metadaten
+        aus MP3-Dateien. Abhängig von der Eingabedatei sehen diese Daten z.B. wie folgt aus:
+      </p>
+      {{< highlight text "linenos=table">}}
+<MCRDataExtractorMP3>
+  <ID3v1>
+    <album>Viva Club Rotation 37</album>
+    <artist>Cosmic Gate feat. Denise River</artist>
+    <yearReleased>2007</yearReleased>
+    <albumTitle>Viva Club Rotation 37</albumTitle>
+    <songGenre>18</songGenre>
+    <leadArtist>Cosmic Gate feat. Denise River</leadArtist>
+    <trackNumberOnAlbum>7</trackNumberOnAlbum>
+    <year>2007</year>
+    <songTitle>Body Of Conflict (Radio Edit)</songTitle>
+    <title>Body Of Conflict (Radio Edit)</title>
+  </ID3v1>
+  <ID3v2>
+    <trackNumberOnAlbum>7</trackNumberOnAlbum>
+  </ID3v2>
+</MCRDataExtractorMP3>{{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B.
+      </p>
+      {{< highlight text "linenos=table">}}
+<index id="content">
+  ...
+  <field name="mp3AlbumTitle" type="text" source="fileAdditionalData" objects="mp3"
+    xpath="/additionalData/MCRDataExtractorMP3/**/albumTitle" value="text()" />
+  <field name="mp3Artist" type="name" source="fileAdditionalData" objects="mp3"
+    xpath="/additionalData/MCRDataExtractorMP3/**/artist" value="text()" />
+  <field name="mp3SongTitle" type="text" source="fileAdditionalData" objects="mp3"
+    xpath="/additionalData/MCRDataExtractorMP3/**/songTitle" value="text()" />
+</index>{{< /highlight >}}
+    </div>
+    <div>
+      <h2>Metadaten aus PDF-Dokumenten extrahieren</h2>
+      <p>
+        Die Klasse
+        <code>MCRDataExtractorPDF</code>
+        extrahiert Seitenzahl, Autor, Titel etc. und das Inhaltsverzeichnis aus PDF-Dokumenten.
+        Abhängig von der Eingabedatei sehen diese Daten z.B. wie folgt aus:
+      </p>
+      {{< highlight xml "linenos=table">}}
+<MCRDataExtractorPDF>
+  <numPages>370</numPages>
+  <producer>FOP 0.20.5</producer>
+  <author>Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato</author>
+  <outline>
+    <item title="Version Control with Subversion" />
+    <item title="Table of Contents" />
+    <item title="Foreword" />
+    <item title="Preface">
+      <item title="Audience" />
+      <item title="How to Read this Book" />
+      ...
+</MCRDataExtractorPDF>{{< /highlight >}}
+      <p>
+        Um die Daten auch durchsuchbar zu machen, muss die
+        searchfields.xml um entsprechende Felddefinitionen erweitert
+        werden, z. B. wie folgend. Sie können dann z. B. nach Dokumenten mit einer Mindestanzahl von
+        Seiten suchen, oder gezielt nur im Inhaltsverzeichnis von PDF-Dateien suchen.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<index id="content">
+  ...
+  <field name="pdfNumPages" type="integer" source="fileAdditionalData" objects="pdf"
+    xpath="/additionalData/MCRDataExtractorPDF/numPages" value="text()" />
+  <field name="pdfAuthor" type="name" source="fileAdditionalData" objects="pdf"
+    xpath="/additionalData/MCRDataExtractorPDF/author" value="text()" />
+  <field name="pdfTOC" type="name" source="fileAdditionalData" objects="pdf"
+    xpath="/additionalData/MCRDataExtractorPDF/**/item" value="title" />
+</index>{{< /highlight >}}
+    </div>

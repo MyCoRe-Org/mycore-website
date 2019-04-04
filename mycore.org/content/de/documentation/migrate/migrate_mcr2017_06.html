@@ -1,0 +1,380 @@
+
+---
+
+title: "Migration Release 2016.06 nach 2017.06"
+mcr_version: ['2017.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Diese Seite fasst Informationen für die Migration vom LTS-Release 2016.06 zum LTS-Release 2017.06
+      zusammen.
+    "
+date: "2018-03-17"
+
+---
+
+    <div id="requirements_201706">
+      <h2>Voraussetzungen für das Release</h2>
+      <p>
+        Die
+        <a href="{{< ref requirements >}}">Systemanforderungen</a>
+        sind hier zu finden.
+      </p>
+
+      <div id="dependency_versions">
+        <h3>Versionsnummern für Produkte von Open Source Drittanbietern</h3>
+        <p>MyCoRe und die darauf basierenden Anwendungen nutzen eine Reihe von Bibliotheken anderer
+          Open-Source-Projekte.
+          Die für das Release 2017.06 verwendeten sind hier aufgelistet, sofern sie für die
+          Ergänzung duch eigenen Code
+          relevant sind. Einige Bibliotheken werden nur intern benötigt oder befriedigen
+          Abhängigkeiten. Diese sind hier
+          nicht erwähnt.
+        </p>
+        <ul>
+          <li>jdom2 - 2.0.6</li>
+          <li>log4j - 2.6.1</li>
+          <li>postgres - 9.4-1206-jdbc42 - optional</li>
+          <li>servlet - 3.1.0</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="log4j">
+      <h2>Umstellung auf log4j 2.x</h2>
+      <p>
+        Mit Umstellung auf das Release 2016.06 wurde auch der Einsatz log4j mit Version 2.x beschlossen. Der folgende
+        Abschitt beschreibt die notwendigen Umstellungen eigenen Java-Codes und der log4j Konfiguration. Eine Übersichte
+        der erforderlichen Änderungen bekommt man unter
+        <a href="https://logging.apache.org/log4j/2.x/manual/migration.html">https://logging.apache.org/log4j/2.x/manual/migration.html
+        </a>
+        . Die wichtigsten Punkte sind:
+      </p>
+      <ul>
+        <li>
+          Der Import erfolgt jetzt von
+          <code>org.apache.logging.log4j</code>
+          .
+        </li>
+        <li>
+          Die Instanz des Loggers wird jetzt mit
+          <code>LogManager.getLogger([ggf. xyz.class])</code>
+          geholt.
+        </li>
+        <li>
+          Aus der Datei
+          <em>mycore.properties</em>
+          können alle Einträge
+          <code>log4j.logger....</code>
+          für den alten Logger entfernt werden.
+        </li>
+        <li>
+          Die Konfiguration des Logging-Systemes muss nun in der Datei
+          <em>log4j2.xml</em>
+          unter
+          <em>src/main/resources</em>
+          festgelegt werden (siehe unten).
+        </li>
+      </ul>
+      {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{ISO8601} %-5p %X{loginId} %c{1}: %m%n%ex" />
+    </Console>
+  </appenders>
+  <loggers>
+    <root level="info">
+      <appender-ref ref="Console" />
+    </root>
+    <logger name="org.hibernate" level="error" />
+    <logger name="org.mycore.frontend.editor.validation" level="info" />
+    ...
+  </loggers>
+</configuration>{{< /highlight >}}
+    </div>
+
+    <div id="JPA">
+      <h2>Umstellung auf die Java-Persistence-API (JPA)</h2>
+      <p>
+        Mit Release 2016.06 wurde die Persistence-API für Datenbanken auf JPA-Nutzung umgestellt. Damit entfallen die
+        Hibernate-Konfigurationen ersatzlos. Die Konfiguration der Datenbankanbindung findet statt dessen in der
+        persistence.xml statt.
+        Dabei können die Einträge aus der hibernate.cgf.xml in die persistence.xml übernommen
+        werden. Eine Vorlage der Konfiguration
+        befindet sich im
+        <a href="http://www.mycore.de/viewvc/viewvc.cgi/mycore/branches/mycore-2016.06.0.x/mycore-base/src/main/resources/configdir.template/">
+          configdir.template
+        </a>
+        .
+      </p>
+      <p>
+        Wichtig ist, dass die
+        <code>persistence.xml</code>
+        in einem
+        <code>META-INF</code>
+        -Verzeichnis im
+        <code>CLASSPATH</code>
+        liegen muss.
+      </p>
+    </div>
+
+    <div id="websockets">
+      <h2>Nutzung der neuen WebCLI mit Websockets</h2>
+      <p>
+        Das LTS 2016.06 bringt eine neue WebCLI mit, die Websockets nutzt. Verwendet man einen Tomcat hinter einem
+        Apache
+        mit mod_proxy_ajp, sind folgende Anpassungen nötig.
+      </p>
+      <ul>
+        <li>ggf. Aktualisierung des Apache auf 2.4.5 (oder höher)</li>
+        <li>
+          Installation von proxy_wstunnel (unter Ubuntu mit
+          <code>sudo a2enmod proxy_wstunnel</code>
+          )
+        </li>
+        <li>Anpassung der Konfiguration (am Beispiel MIR):</li>
+      </ul>
+
+      {{< highlight bash "linenos=table">}}
+        #Forward all WebSocket connections via HTTP
+        ProxyPass /mir/ws/ ws://localhost:{HTTP-Port}/mir/ws/
+
+        #Forward other via AJP
+        ProxyPass /mir ajp://localhost:{AJP-Port}/mir
+        ProxyPassReverse /mir
+        ajp://localhost:{AJP-Port}/mir
+      {{< /highlight >}}
+      <p>
+        Falls es auch noch zukünftige WebSocket-Einsätze geben sollte, dann sollten diese unterhalb von
+        <code>$WebAppBaseDir/ws/{Komponente oder Modul}/...</code>
+        laufen. Im Falle der Web-CLI für MIR ist das:
+        <code>/mir/ws/mycore-webcli/socket</code>
+        .
+      </p>
+    </div>
+
+    <div id="solr">
+      <h2>Solr</h2>
+      <p>ToDo</p>
+    </div>
+
+    <div id="ACLs">
+      <h2>ACLs</h2>
+      <p>ToDo</p>
+    </div>
+
+    <div id="ANT">
+      <h2>Nutzung von Apache-Ant als Build Tool</h2>
+      <p>Einige ältere, oft komplexe Anwendungen basieren in ihrem Build-Prozess noch auf Apache-Ant. Auch mit Release
+        2016.06 kann die Anwendung grundsätzlich so weiter gebaut werden. Dabei sind einige Dinge jedoch zu beachten.
+      </p>
+
+      <div>
+        <h3>Laden der erforderlichen Jars via pom.xml</h3>
+        <p>
+          Das MyCoRe Release ist komplett auf den Maven Build Prozess ausgerichtet. Für die Nutzung unter Ant-Build ist
+          das MyCoRe-complete.jar erforderlich. Dieses und alle sonstigen erforderlichen JARs können via Maven pom.xml
+          integriert werden. Leider ist die Apache Maven-Ant-Task obsolete und wird seit 2014 nicht mehr unterstützt.
+          Daher wurde der folgende, recht simple Weg genutzt, alle erforderlichen Dateien entsprechend zu laden.
+          Grundlage bilde eine eigene
+          <em>pom.xml</em>
+          , welche verarbeitet wird. Nachfolgend ein Beispiel:
+        </p>
+        {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.mycore</groupId>
+  <artifactId>application-model</artifactId>
+  <version>5.1</version>
+  
+  <properties>
+    <mycore.version>2015.05.0.1-SNAPSHOT</mycore.version>
+    <postgres.version>9.4-1206-jdbc42</postgres.version>
+    ...
+  </properties>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <repositories>
+    <repository>
+      <id>local</id>
+      <url>file:///home/dptadmin/.m2/repository</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <outputDirectory>
+            ${build.directory}/lib
+          </outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-complete</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgres.version}</version>
+    </dependency>    
+  </dependencies>
+</project>{{< /highlight >}}
+        <p>
+          Nun kann der Aufruf über Ant wie folgend ausgeführt werden. dabei werden alle JARs in das Verzeichnis
+          <em>lib</em>
+          unter dem angegebenen Parameter
+          <em>build.directory</em>
+          gespeichert.
+        </p>
+        {{< highlight xml "linenos=table">}}
+<target name="resolve" description="resolve libraries">
+  <echo level="info">Resolve jars with maven</echo>
+  <exec executable="/usr/local/bin/mvn">
+    <arg value="-fpom.xml" />
+    <arg value="-Dbuild.directory=..." />
+    <arg value="dependency:copy-dependencies" />
+  </exec>
+</target>{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>Nutzung der BuildTools</h3>
+        <p>
+          MyCoRe birngt im mycore-complete.jar die Komponente buildtools und die Datei
+          <em>integrate.xml</em>
+          mit. Somit werden für die folgenden AntTasks Ergänzungen aus dem Kern geladen. Die Auswahl der zu
+          bearbeitenden Komponenten erfolgt über das Property
+          <code>MCR.Components.Exclude</code>
+          .
+        </p>
+        <ul>
+          <li>
+            <strong>complie</strong>
+            - Ergänzt Compile-Läufe in der Anwendung
+          </li>
+          <li>
+            <strong>config</strong>
+            - Ergänzt Konfigurationsdateien in der Anwendung
+          </li>
+          <li>
+            <strong>create.default-rules</strong>
+            - Ergänzt Permission Konfigurationen in der Anwendung
+          </li>
+          <li>
+            <strong>create.scripts</strong>
+            - Ergänzt Skripte im CLI der Anwendung
+          </li>
+          <li>
+            <strong>create.users</strong>
+            - Ergänzt Benutzerdaten in der Anwendung
+          </li>
+          <li>
+            <strong>i18n</strong>
+            - ergänzt Übersetzungsdateien in der Anwendung
+          </li>
+          <li>
+            <strong>webapp</strong>
+            - ergänzt Dateien im Web-Bereich der Anwendung
+          </li>
+        </ul>
+        <p>
+          Die
+          <strong>buildtools</strong>
+          werden in der
+          <em>project</em>
+          -Zeile der
+          <em>build.xml</em>
+          mit
+          <code>xmlns:mcr="antlib:org.mycore.buildtools"</code>
+          definiert. Danach stehen folgende AntTasks zusätzlich zur Verfügung:
+        </p>
+        <ul>
+          <li>
+            <code>mcr:integrate target="..." classpathref="build.classpath"</code>
+            - initialisiert den Aufruf der integrate.xml über die nicht-ausgeschlossenen Komponenten
+          </li>
+          <li>
+            <code>mcr:config propertyfile="${build.config}/mycore.properties" mergefile="..."</code>
+            - mischt die im Attribut
+            <em>mergefile</em>
+            benannte Datei in das
+            <em>propertyfile</em>
+          </li>
+          <li>
+            <code>mcr:config action="addInclude" "propertyfile="${build.config}/mycore.properties" kex="MCR...."
+              value="..."</code>
+            - ergänzt in der Property-Datei
+            <em>propertyfile</em>
+            das Item
+            <em>key</em>
+            um den angegebenen
+            <em>value</em>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  

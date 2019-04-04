@@ -1,0 +1,97 @@
+
+---
+
+title: "Allgemeine Umgebungs- und Softwarevoraussetzungen"
+description: "
+	   
+	   
+    "
+
+---
+
+   <div>  
+  <h2>Erforderliche und zusätzliche Softwareprodukte</h2>  
+  <table>  
+  <tr>
+  <th>Produkt</th>
+  <th>UNIX/MacOS/MS Windows</th>
+  </tr>
+  <tr>
+  <td><a title="Java" href="http://java.sun.com/">Java 2 Plattform, SE, 1.6.x (J2SE)</a> oder höher </td>
+  <td>erforderlich</td>
+  </tr>
+  <tr>
+  <td><a title="Apache Ant" href="http://ant.apache.org/">ANT 1.7.1</a> oder höher</td>
+  <td>erforderlich</td>
+  </tr>
+  <tr>
+  <td><a title="Link zu Apache Subversion™" href="http://subversion.apache.org/">Subversion Client</a></td>
+  <td>optional, um einen beliebigen Code-Stand direkt zu holen</td>
+  </tr>
+  <tr>
+  <td>Relationales Datenbanksystem (MySQL, PostgreSQL, DB2, Oracle)</td>
+  <td>optional, kann die mitgelieferte HSQLDB ersetzen</td>
+  </tr>
+  <tr>
+  <td>Tomcat 5.5.x</td>
+  <td>optional, kann das mitgelieferte Jetty ersetzen</td>
+  </tr>
+  <tr>
+  <td>Apache 2.2.x</td>
+  <td>optional</td>
+  </tr>
+  </table>
+  <p class="klein"><strong>Tabelle 2.1:</strong> Softwarevoraussetzungen</p>
+  <p>
+  Unter Linux sind die meisten Programme in den gängigen Distributionen enthalten. 
+  Für das Betriebssystem AIX stellt die Firma IBM verschiedene Software-Downloads unter 
+  <a title="IBM" href="http://ftp.software.ibm.com/">http://ftp.software.ibm.com/</a> bereit. 
+  Unter MS Windows können die Installationspakete von den angegebenen Webseiten geholt werden.
+  </p>
+  </div>
+  <div>
+  <h2>Setzen der Umgebungsvariablen</h2>
+    <p>
+    Folgende Umgebungsvariable kann für die Arbeit mit MyCoRe definiert werden:
+    </p>
+    <table>    
+    <tr>
+    <th>Variable</th>
+    <th>Verweis auf ...</th>
+    </tr>
+    <!-- <tr>
+    <td>MYCORE_HOME</td>
+    <td>... das Basisverzeichnis des MyCoRe-Quellzweiges
+    (z.B. <strong>Windows:</strong> D:\mycore; <strong>Linux:</strong> /home/mcradmin/mycore)</td>
+    </tr> -->
+    <tr>
+    <td>DOCPORTAL_HOME</td>
+    <td>... das Basisverzeichnis des DocPortal-Quellzweiges
+    (z.B. <strong>Windows:</strong> D:\docportal; <strong>Linux:</strong> /home/mcradmin/docportal)</td>
+    </tr>
+    </table>
+    <p class="klein"><strong>Tabelle 2.2:</strong> Umgebungsvariablen</p>
+    <p>Wenn diese Variable nicht definiert ist, wird die Anwendung im aktuellen Basisverzeichnis (z.B. 'docportal') vermutet.
+    </p>
+   </div>
+    <div>
+    <h2>Hinweise zur Installation von Apache Tomcat</h2>
+      <p>
+      Tomcat kann als Alternative zum in DocPortal mitgelieferten Jetty eingesetzt werden. Tomcat ist ebenfalls ein 
+      Webanwendungs-Server, der besonders bei größeren Installationen Verwendung findet.
+      </p>
+      <p>
+      MyCoRe arbeitet beim Encoding der Zeichen standardmäßig mit UTF-8. Für eine korrekte Darstellung passen Sie die 
+      Datei <code>%CATALINA_HOME%/conf/server.xml</code> an, indem Sie das Tag für den Connector um das Attribut 
+      <code>URIEncoding='UTF-8'</code> ergänzen. Weitere Informationen dazu finden Sie auf der <a href="http://tomcat.apache.org/" title="Link zur Tomcat-Seite">Webseite von Apache Tomcat</a>.
+      </p>
+
+      {{< highlight text "linenos=table">}}
+&lt;!-- Define a non-SSL HTTP/1.1 Connector on port 8080 --&gt;
+&lt;Connector port="8080" maxHttpHeaderSize="8192"
+     maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+     enableLookups="false" redirectPort="8443" acceptCount="100"
+     connectionTimeout="20000" disableUploadTimeout="true"
+     <strong>URIEncoding="UTF-8"</strong>
+/&gt;{{< /highlight >}}
+   </div>

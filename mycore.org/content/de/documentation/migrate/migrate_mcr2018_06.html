@@ -1,0 +1,116 @@
+
+---
+
+title: "Migration Release 2017.06 nach 2018.06"
+mcr_version: ['2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Diese Seite fasst Informationen für die Migration vom LTS-Release 2017.06 zum LTS-Release 2018.06
+      zusammen.
+    "
+date: "2018-10-11"
+
+---
+
+    <div id="requirements_201806">
+      <h2>Systemanforderungen</h2>
+      <p>
+        Im weiteren werden die grundlegenden Systemanforderungen beschrieben, welche für den Betrieb einer
+        MyCoRe-Anwendung unter LTS 2018.06 erforderlich sind.
+      </p>
+
+      <h2>Betriebssystem</h2>
+      <p>MyCoRe LTS 2018 ist auf diesen Betriebsystemen im Einsatz. Höhere Versionen sollten kein Problem darstellen.
+      </p>
+      <ul>
+        <li>Open SuSE Leap 42.3</li>
+        <li>SuSE SLES 12 SP 3</li>
+        <li>Ubuntu 18.04 LTS</li>
+        <li>CentOS 7</li>
+        <li>Windows 7 und 10 für Test- und Entwicklungssysteme</li>
+      </ul>
+
+      <h2>Standardsoftware</h2>
+      <p>Zur Arbeit mit MyCoRe LTS 2018 sind folgende Softwarekomponenten erforderlich bzw. empfohlen. Diese sind alle
+        von Drittanbietern und im Normalfall in den Distributionen enthalten.
+      </p>
+      <ul>
+        <li>Java 8</li>
+        <li>Tomcat 8.4 oder Jetty 9.4.9 (alternativ ein System mit Unterstützung von Servlet-3.1)</li>
+        <li>SOLR 7.0.1 oder höher (ebenfalls kompatibel mit 4.10)</li>
+        <li>
+          eine
+          <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
+          relationale Datenbank wie PostgreSQL, MySQL, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
+        </li>
+        <li>Git 2.12 oder höher</li>
+        <li>Apache Maven 3.3.9 oder höher</li>
+      </ul>
+
+    </div>
+    
+    <div id="changes_201806">
+      <h2>Migrationsschritte</h2>
+      
+      <h2>MyCoRe-Komponenten</h2>
+      <p>Mit Release 2018.06 entfällt die alle MyCoRe-Komponenten zusammenfassende Komponente <code>mycore-complete</code>.
+      Es ist nun erforderlich, alle einzelnen Komponenten in den Maven dependencies anzugeben, welche von der Anwendung
+      tatsächlich benötigt werden.</p>
+      
+      <h2>persistence.xml</h2>
+      <p>Die Datei persistence.xml muss um einen Eintrag für Viewer-Mapping ergänzt werden.</p>
+      {{< highlight xml "linenos=table">}}<mapping-file>META-INF/mycore-viewer-mappings.xml</mapping-file>{{< /highlight >}}
+      
+      <h2>jwt.secret</h2>
+      <p>
+        Die Datei <code>jwt.secret</code> ist zum Signieren des JSON-Web-Tokens gedacht. Jeder kann mit dieser Datei gültige Tokens
+        erzeugen, denen dann MyCoRe über die REST-API blind vertraut. MyCoRe benutzt diese, um Tokens zu erzeugen und wenn es diese
+        erhält mit dem privaten Schlüssel zu validieren. Sie enthält 4K an Zufallsdaten und wird im
+        Konfigurationsverzeichnis abgelegt. Sollte das <code>jwt.secret</code> noch nicht existieren, generiert MyCoRe die Datei anhand
+        von Zufallsdaten. Dies kann abhängig vom Input wenige Sekunden aber auch mehrere Stunden dauern.
+      </p>
+      <p>Das Secret kann auch händisch z.B. mit folgendem Befehl erzeugt werden:</p>
+      {{< highlight shell "linenos=table">}}
+        openssl rand 4096 -out ~/.mycore/{MCR.AppName}/jwt.secret
+      {{< /highlight >}}
+      <p>Weiterhin MUSS der Parameter -DMCR.AppName={MCR.AppName} beim Tomcat-Start mit gegeben werden.</p>
+      
+      <h2>Proxy-Header</h2>
+      <p>Damit MyCoRe auch hinter einem Proxy sauber funktioniert wurde die Nutznung der Proxy-Header realisiert. Läuft die Anwendung
+        hinter einem Apache muss dieser ggf. umkonfiguriert werden. Details dazu siehe auch
+        <a href="siehe https://mycore.atlassian.net/browse/MCR-1842">MCR-1842</a></p>
+      {{< highlight shell "linenos=table">}}
+location /mir {
+  gzip_types      text/xml application/json;
+  gzip_vary       on;
+  gzip_proxied    any;
+  proxy_pass      http://localhost:8291/mir;
+  proxy_set_header X-Forwarded-For $remote_addr;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Forwarded-Host $host;
+  proxy_set_header X-Forwarded-Path "/mir";
+  proxy_set_header X-Forwarded-Port $server_port;
+  proxy_cache     STATIC;
+  #proxy_cache_valid 200 1d;
+  proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
+}
+      {{< /highlight >}}
+
+      <h2>Properties</h2>
+      <p>Die Solr-Properties und MyCoRe-PI-Properties wurden zum Teil umgebannt und müssen angepasst werden. Details dazu siehe
+        <a href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-migration">MyCoRe-Migration</a>.</p>
+
+      <h2>Migration auf MCRMetadataHistoryManager</h2>
+      <p>Die "Deletion Policy“ braucht man zwingend für DINI-Repositorien und OAI2. Daher muss der MCRMetadataHistoryManager im Einsatz seien.
+      Initial erfolgt dies über die beiden Kommandos <code>mycore.sh clear metadata history completely</code> und 
+      <code>mycore.sh build metadata history completely</code>. Weiterhin muss der <strong>MCRMetadataHistoryManager</strong>
+      als EventHandler aktiv sein.</p>
+      
+      <h2>rfc5646</h2>
+      <p>Die Sprachklassifikation rfc4646 wurde durch eine neuere und vollständige Version rfc5646 abgelöst. Details dazu folgen,
+        erste Informationen können dem <a href="https://github.com/MyCoRe-Org/mycore/pull/570/files">Github-Commit</a> entnommen
+        werden.</p>
+
+    </div>
+
+  

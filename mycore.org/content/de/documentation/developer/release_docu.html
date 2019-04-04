@@ -1,0 +1,74 @@
+
+---
+
+title: "Release-Konzept"
+mcr_version: ['2018.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler']
+description: "Der Artikel beschreibt die Konzeption von MyCoRe-Releases."
+date: "2018-10-16"
+
+---
+
+    <div>
+      <h2>Allgemein</h2>
+      <p>
+        Releases des
+        <strong>MyCoRe</strong>
+        -Projektes unterteilen sich in Ausgaben mit langzeitlicher Unterstützung (
+        <em>LTS</em>
+        ) und Zwischen-Releases der Entwickler, um den Abschluss bestimmter Entwicklungsteilschritte zu markieren und
+        bereit zu stellen. Der garantierte Supportzeitraum für
+        <em>LTS</em>
+        beträgt ein Jahr nach dem Erscheinen. In Ausnahmefällen können auch nach diesem Zeitraum noch kritische Fixes
+        eingespielt werden. Die Versionsnummern entsprechen den Tags in GitHub und beginnen mit <code>v</code>. 
+        Branches (für LTS) die Form yyyy.06.x.
+      </p>
+    </div>
+
+    <div>
+      <h2>LTS</h2>
+      <p>
+        <em>LTS</em>
+        erscheinen einmal jährlich und werden mit dem Erscheinungsjahr und Monat bezeichnet. Releases sind unter ihrer
+        Nummer
+        <code>yyyy.06.fix</code>
+        (z. B. 2019.06.1) auf
+        <a href="https://mvnrepository.com/artifact/org.mycore" target="_blank">https://mvnrepository.com/artifact/org.mycore
+        </a>
+        abgelegt. Erscheinungsmonat soll der September des Jahres sein.
+      </p>
+    </div>
+
+    <div>
+      <h2>Zwischen-Releases</h2>
+      <p>
+        Zwischen-Releases sollen mehrfach im laufenden Entwicklungsjahr gemacht werden, um Anwendern einen fixen
+        Stand zum Testen anzubieten. Dies ist für die Monate Februar, Mai, August und November geplant. Die Releases stehen auch auf Maven Central und
+        haben Nummern wie yyyy.mm.
+      </p>
+    </div>
+
+    <div>
+      <h2>Snapshots</h2>
+      <p>
+        Für den Master und alle LTS-Zweige gibt es auf
+        <a href="https://oss.sonatype.org/#nexus-search;quick~mycore" target="_blank">Sonatype</a>
+        Snapshots des jeweiligen Standes. Diese Versionen haben die Form
+        <code>yyyy.06.{x+1}-SNAPSHOT</code>
+        (z. B. 2019.06.2-SNAPSHOT). Snapshots werden regelmäßig ergänzt durch aktuelle Bug-Fixes und sollte genutzt
+        werden, um von aktuellen Korrekturen des LTS zu profitieren.
+      </p>
+      <p>Die aktuelle Version für ein LTS bekommt man immer mit folgender Maven Versionsangabe <code>[yyyy.06,yyyy.06.9-SNAPSHOT]</code>.</p>
+    </div>
+
+    <div>
+      <h2>Master</h2>
+      <p>
+        Der Master ist der aktuelle Entwicklungszweig. Nach erfolgreicher Übernahme eines Developer Branch in den
+        Master wird nach dem CI-Test ein entsprechender Snapshot in
+        <a href="https://oss.sonatype.org/#nexus-search;quick~mycore" target="_blank">Sonatype</a>
+        abgelegt. Zyklisch werden davon Zwischen-Releases gebaut.
+      </p>
+    </div>
+
+  

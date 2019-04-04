@@ -1,0 +1,310 @@
+
+---
+
+title: "Komponenten"
+
+---
+  <p>
+  Eine allgemeine Beschreibung, was Komponenten in MyCoRe ausmachen, wie sie definiert sind und welche Struktur
+  sie haben, wurde bereits im Kapitel 1 ausführlich erläutert. Dieses Kapitel soll nun die Funktionalitäten der
+  einzelnen Komponenten und ihre Einbindung in die Gesamtapplikation näher beschreiben.
+  </p>
+
+  <div>
+   <h2>Die SimpleWorkflow-Komponente (swf)</h2>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_1.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow allgemein" width="" height="" />}}</div>
+
+   <div>{{< mcr-figure src="/images/documentation/archiv/progguide_simpleworkflow_2.png" class="border border-secondary" label="" caption="" alt="SimpleWorkflow" width="" height="" />}}</div>
+
+   <div>
+    <h5>Installation</h5>
+    <p>
+    In DocPortal sind die Funktionen bereits standardmäßig integriert. Bei der Verwendung in anderen Applikationen
+    sind die nacholgenden Schritte auszuführen:
+    </p>
+    <ol>
+    <li>die folgende Zeile ist in das XSL-Stylesheet zu kopieren, welches die Auswertung Ihrer XML-Webseiten
+        realisiert (z.B. <code>MyCoReWebPage.xsl</code>).<br />
+        <code>&lt;xsl:include href="workflow.xsl" /&gt;</code>
+    </li>
+    <li>Weiterhin finden Sie im Kern unter <code>components/swf/xsl</code> das Stylesheet <code>mycoreobject-to-workflow.xsl</code>.
+        Dieses ist eine Transformationsvorlage für die Transformation von den XML-Objekt-Metadaten in eine
+        SimpleWorkflow-interne XML Struktur. Für jeden Ihrer Metadaten-Typen muss eine solche Konverter-Datei mit
+        Namen <code>mycoreobject-&lt;type&gt;-to-workflow.xsl</code> in Ihrer Anwendung vorhanden sein.
+    </li>
+    <li>Als letztes muss der Workflow in eine XML-Webseite integriert und diese entsprechend über Menüpunkte aufgerufen werden. Aufgerufen
+        wird ein Workbasket mit der eingebetteten Zeile<br />
+        <code>&lt;workflow base="MCRObjectID.Base" step="editor" /&gt;</code> oder <br />
+        <code>&lt;workflow type="MCRObjectID.Type" step="editor" /&gt;</code>
+    </li>
+    </ol>
+
+    <p>
+    Die Integration des SimpleWorkflow in die Präsentationsseiten erfolgt unter Einbeziehung der bereitgestellten Icons
+    und eines dahinter liegenden Links. Dieses kann an beliebiger Stelle in der Präsentation platziert werden. Da die
+    einzelnen Aktionsaufrufe sich in ihren Parametern doch erheblich unterscheiden sollten bei Bedarf die relevanten
+    die entsprechenden Aufrufe im DocPortal-Beispiel zu Rate gezogen werden.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <a href="{$ServletsBaseURL}MCRStartEditorServlet{$HttpSession}?
+       tf_mcrid={$mcrid}&amp;       - MCRObjectID
+       se_mcrid={$mcrid}&amp;       - MCRObjectID
+       re_mcrid={$mcrid}&amp;       - Return MCRObjectID, nur für Derivate-ToDo, optional
+       type={$type}&amp;            - MCRObjectID Typ, alte Variante, ggf. optional
+       project={$project}&amp;      - MCRObjectID Base, neu, überschreibt type
+       step=commit&amp;             - Arbeitsschritt
+       todo=seditobj&amp;           - ToDo
+       layout={$layout}"            - optional
+    >
+    <img
+       src="{$WebApplicationBaseURL}images/static/workflow_objedit.gif"
+       title="{$OMD.EditorEdit}"/>
+    </a>
+    
+    {{< /highlight >}}
+
+    <p>
+    Die Einbindung in den Editor erfolgt mit den folgenden Zeilen.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <target type="servlet" name="MCRCheckNewDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" />
+    oder
+    <target type="servlet" name="MCRCheckCommitDataServlet" method="post" format="xml" />
+    
+    {{< /highlight >}}
+
+   </div>
+
+   <div>
+    <h5>Konfiguration</h5>
+    <p>
+    Die Konfiguration des SimpleWorkflow beschränkt sich auf einige wenige Dinge. Für MyCoRe 2.0
+    kann alternativ entweder auf den MCRObjectID.Type (alt) oder MCRObjectID.Base (neu)
+    referenziert werden. Für jede Installation können einige Werte different sein, so dass
+    es sich empfiehlt, diese in der <code>mycore.private.properties</code> abzulegen.
+    Ein großer Teil der vom <code>MCRStartEditorServlet</code> veranlassten Aktionen ist so
+    implementiert, dass Sie auf Wunsch eine E-Mail an eine oder mehrere E-Mail-Adressen schicken können. Wenn Sie für
+    den Konfigurationswert, welcher durch das Paar <code>[MCRObjectID.Base|MCRObjectID.Type].[todo]</code>
+    beschrieben wird, nichts angeben, so wird die E-Mail unterdrückt. Alle Angaben in diesem
+    Konfigurationsabschnitt sind selbsterklärend. Anzugeben sind:
+    </p>
+    <ul>
+    <li>allgemeine Angaben zur Mailverteilung</li>
+    <li>die Verzeichnisnamen des Plattenspeichers,</li>
+    <li>die Mail-Verteilung</li>
+    </ul>
+    {{< highlight shell "linenos=table">}}
+    ##################################################################
+    #  SimpleWorkflow                                                #
+    ##################################################################
+
+    # Generic mail configuration for MCRMailer
+    # The server for outgoing mails
+    MCR.Mail.Server=mail.mycore.de
+    # The mail protocol
+    MCR.Mail.Protocol=smtp
+    # The debug option
+    MCR.Mail.Debug=false
+    # Encoding for the mail
+    MCR.Mail.Encoding=UTF-8
+    # Number of send tries to send the mail : 0 – off or n tries
+    MCR.Mail.NumTries=1
+    # Editor Mail adresses for Messages add1@serv1,add2,@serv2,...
+    MCR.Mail.Address=mycore@mail.mycore.de
+
+    # Editor path for directories
+    MCR.SWF.Directory.base=%MCR.basedir%/data/workflow
+    MCR.SWF.Directory.[MCRObjectID.Base|MCRObjectID.Type]=%MCR.basedir%
+        /data/workflow/[MCRObjectID.Base|MCRObjectID.Type]
+    ...
+
+    # Editor flags for base/type and todo
+    MCR.SWF.Mail.[MCRObjectID.Base|MCRObjectID.Type].
+        [todo]=%MCR.Mail.Address%
+    ...
+
+    
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h5>Ergänzung eigener ToDo's</h5>
+    <p>
+    Das MCRStartEditorServlet gestattet eine Erweiterung mit eigenen Funktionen durch einfache Vererbung. Erstellen Sie
+    eine Klasse MCRStartEditorServletMyToDo als Ableitung des MCRStartEditorServlet. Hierin können Sie nun Methoden
+    definieren, welche als ToDo direkt aufgerufen werden können. Entsprechend der Konfiguration können dann auch Mails
+    versendet werden.
+    </p>
+    {{< highlight java "linenos=table">}}
+package org.mycore.frontend.servlets;
+
+import java.io.IOException;
+
+/**
+ * The class extends the MCRStartEditorServlet with a new method
+ *
+ * @author Jens Kupferschmidt
+ */
+public class MCRStartEditorServletMyToDo extends MCRStartEditorServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A new method. The access right is writedb.
+     *
+     * @param job
+     *            the MCRServletJob instance
+     * @param cd
+     *            the common data part
+     */
+    public void mytodo(MCRServletJob job, CommonData cd) throws IOException {
+        // access right
+        if (!MCRAccessManager.checkPermission(cd.mysemcrid, "writedb")) {
+            job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + usererrorpage));
+            return;
+        }
+
+        /** ToDo code */
+
+        // back to the metadata view
+        StringBuffer sb = new StringBuffer();
+        sb.append(getBaseURL()).append("receive/").append(cd.mysemcrid);
+        job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(sb.toString()));
+    }
+
+}
+    
+    {{< /highlight >}}
+   </div>
+
+   <div>
+    <h5>Ergänzung eigener Datenmodell-Datentypen</h5>
+    <p>
+    Werden dem bereits vorhandenen allgemeinen Datenmodell neue bzw. ergänzende Typen
+    hinzugefügt, so muss die Prüfung und Vervollständigung des Output Validators für den Editor
+    erweitert werden. Dazu muss in der Klasse <code>MCREditorOutValidator</code> eine
+    Methode für die Klasse eingefügt werden. Die Klasse prüft den Output des Editor Framework
+    und ergänzt fehlende Namespaces (z. B. für xml:lang).
+    </p>
+    {{< highlight java "linenos=table">}}
+    /**
+     * @param datasubtag
+     */
+    boolean checkMCRMetaXYZ(Element datasubtag) {
+        return checkMetaObject...(datasubtag, MCRMetaXYZ.class);
+    }
+    
+    {{< /highlight >}}
+   </div>
+  </div>
+
+  <div>
+   <h4>Das WebService-Modul</h4>
+
+   <div>
+    <h5>Allgemeines</h5>
+    <p>
+    Für das Webservice-Module wird das Axis-Framework verwendet (http://ws.apache.org/axis/). Über den Webservice können
+    MyCoRe-Objekte geholt und Queries in der neuen Abfragesprache ausgeführt werden. In dem Modul ist auch ein Beispiel
+    eines Clients enthalten, der den installierten Webservice von MyCoRe nutzt.
+    </p>
+   </div>
+
+   <div>
+    <h5>Installation des WebServices</h5>
+    <p>
+    Hierzu müssen in der mycore.private.properties die Properties für den Axis-Administrator gesetzt werden:
+    </p>
+    <p class="break"><code>MCR.ws_admin</code> =Kennung des Axis-Administrators</p>
+    <p class="break"><code>MCR.ws_adminpasswd</code> =und zugehöriges Passwort</p>
+    <p>
+    Von <code>ant webapps</code> werden Kennung und Passwort in die Datei webapps/WEB-INF/users.lst eingetragen.
+    MyCoRe-Anwendung (z. B. DocPortal) wird wie gewohnt gestartet und durch Eingabe der Url
+    </p>
+    <p class="break"><code>http://localhost:8080/servlets/AxisServlet</code></p>
+    <p>
+    wird geprüft, ob Axis richtig konfiguriert ist. Danach wird das Deployment des Webservice mit
+    <code>ant webservice.deploy</code> durchgeführt.
+    {{< highlight shell "linenos=table">}}
+    <target name="webservice.deploy" depends="mvn-init" description="Call the deploy target for the WebServices">
+      <modulePreHook target="webservice.deploy"/>
+      <mcr:integrate target="webservice.deploy" classpathref="build.classpath"/>
+      <moduleHook target="webservice.deploy"/>
+    </target>
+    {{< /highlight >}}
+    </p>
+    <p>
+    Ein erneuter
+    Aufruf des AxisServlets zeigt den MyCoRe-Webservice mit dem Namen <code>MCRWebService</code> und den Methoden
+    <code>MCRDoRetrieveObject</code> und <code>MCRDoQuery</code> an. Ein Klick auf die <code>WSDL</code>
+    (Web Service Description Language) von <code>MCRWebService</code> zeigt die Parameter und Datentypen der
+    Rückgabewerte an.
+    </p>
+    <p>
+    Mit <code>ant webservice.undeploy</code> wird das Undeployment des Webservice <code>MCRWebService</code>
+    durchgeführt.
+    {{< highlight shell "linenos=table">}}
+    <target name="webservice.undeploy" depends="mvn-init" description="Call the undeploy target for the WebServices">
+      <modulePreHook target="webservice.undeploy"/>
+      <mcr:integrate target="webservice.undeploy" classpathref="build.classpath"/>
+      <moduleHook target="webservice.undeploy"/>
+    </target>
+    {{< /highlight >}}
+    </p>
+   </div>
+
+   <div>
+    <h5>Nutzung des WebServices</h5>
+    <p>Folgende WebServices sin in MyCoRe implementiert:</p>
+    {{< highlight shell "linenos=table">}}
+    http://localhost:8080/services/MCRWebService?
+      method=MCRDoRetrieveObject&id=<mcrid>
+    {{< /highlight >}}
+    <p>Der Service liefer ein MyCoRe-Object mit der <code>mcrid</code> zurück.</p>
+    {{< highlight shell "linenos=table">}}
+    http://localhost:8080/services/MCRWebService?
+      method=MCRDoQueryRequest&id=<query>
+    {{< /highlight >}}
+    <p>Der Service liefert für die <code>query</code> eine Trefferliste von MyCoRe-ObjectIDs zurück.</p>
+    {{< highlight shell "linenos=table">}}
+    http://localhost:8080/services/MCRWebService?
+      method=MCRDoRetrieveClassificationRequest
+      &level=<level>&type=<type>&classID=<classID>&catID=<catID>&format=<format>
+    {{< /highlight >}}
+    <p>Der Service liefert für die eine Klassifikation oder Teile davon zurück. Dabei ist <code>level</code>
+    die Tiefe der gewünschten Kategorie, <code>type</code> die Auswahl für 'chlidren' oder 'parents',
+    <code>classID</code> die ID der Klassifikation, <code>catID</code> die gewünschte Kategorie und
+    <code>format</code> das Ausgabeformat der Form editor['['formatAlias']']|metadata</p>
+    {{< highlight shell "linenos=table">}}
+    http://localhost:8080/services/MCRWebService?
+      method=MCRDoRetrieveLinksRequest&from=<fromid>&type=<type>]
+    http://localhost:8080/services/MCRWebService?
+      method=MCRDoRetrieveLinksRequest&to=<toid>&type=<type>
+    {{< /highlight >}}
+    <p>Der Service liefert für die Link-Abfrage eine Trefferliste von MyCoRe-ObjectIDs zurück. Dabei
+    bezeichnet <code>fromid</code> eine MyCoRe-ID eines MyCoRo-Objektes, von der ein Link ausgeht und
+    <code>toid</code> eine MyCoRe-ID eines MyCoRo-Objektes, zu der ein Link verweist. Als <code>type</code>
+    sind die Angaben 'reference', 'child', 'parent' und 'derivate' möglich.</p>
+    <p>
+    Sollten Sie beim Deploy/Undeploy die Meldung „Exception in axis-admin“ oder „axis-admin failed with
+    {http://xml.apache.org/axis/}HTTP (401)Unauthorized“ erhalten, setzen Sie wie am Anfang dieses Abschnittes
+    beschrieben, Kennung und Passwort des Axis-Administrators. Nach einem erneuten <code>ant webapps</code> führen
+    Sie <code>ant webservice.deploy</code> aus. Die Konfigurationsdatei für Axis ist
+    docportal/config/server-config.wsdd.
+    </p>
+   </div>
+
+   <div>
+    <h5>Client für den Webservice erzeugen </h5>
+    <p>
+    Mit '<code>ant client.cmd</code>' wird ein Webservice-Client erstellt, der den Webservice <code>MCRWebService</code>
+    nutzt. Hierzu werden WSDL-Informationen vom Server geholt und mittels Axis die Stubs generiert und im Verzeichnis
+    <code>module-webservices/build/src</code> gespeichert. Anschließend werden alle Daten kompiliert und
+    <code>module-webservices/build/bin/wsclient.cmd </code>(Windows) gebaut.
+    </p>
+    <p><code>[ToDo]: sh für Linux bauen]</code></p>
+   </div>
+  </div>

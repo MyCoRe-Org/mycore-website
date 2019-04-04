@@ -1,0 +1,218 @@
+
+---
+
+title: "MyCoRe Initialisierung und Shutdown verstehen"
+mcr_version: ['2016.12','2017.06']
+author: ['Paul Rochowski', 'Jens Kupferschmidt']
+description: "
+      Damit die MIR Anwendung verwendet werden kann, wird diese in einem Servlet Webcontainer bereitgestellt. Doch wie
+      funktioniert das genau? Wie bilden MyCoRe Komponenten, Anwendungskomponenten und eigene MIR Plugins eine Einheit?
+      Was passiert im Hintergrund um dieses Konstrukt zu verbinden und zu starten? Welche Mechanismen gibt MyCoRe dem
+      Entwickler an die Hand um den Startvorgang zu beeinflussen, und was muss beachtet werden, wenn der
+      ServletContainer
+      beendet wird? Diese Themen sollen hier im Detail erklärt werden. Weitehin wird die Ladereihenfolge der Komponenten
+      und Module erläutert.
+    "
+date: "2017-08-21"
+
+---
+    <div>
+      <h2>Grundlagen der MyCoRe Initialisierung</h2>
+      <p>
+        Um zu verstehen wie die Initialisierung beginnt ist es zunächst notwendig die Situation aus dem Blickwinkel
+        des Servlet Webcontainers vorzunehmen. Für diesen ist das MIR Webarchiv einfach nur eine Kollektion aus
+        Komponenten der Servlet Spezifikation (Servlets, Filter, Listener) und anderen Resourcen. Damit diese Servlet
+        Komponenten mit dem Webcontainer kommunizieren können wird eine Schnittstelle benötigt. Diese Schnittstelle
+        wird mit dem ServletContext und seinem Set an Methoden zur Verfügung gestellt.
+        
+        Seit Servlet Spezifikation 3.0 bietet die Servlet API das <code>ServletContainerInitializer</code> Interface an.
+        Mittels
+        eigener Implementierung kann die Startphase der Webanwendung individualisiert werden. Genau an dieser Stelle
+        setzt das <code>mycore-base</code> an. Die Initialisierung von MyCoRe beginnt innerhalb der <em>onStart</em> Methode.
+        Dieser Methode
+        wird als Parameter der ServletContext mitgegeben. Auf diese Weise können programmatisch Servlets, Filter sowie
+        Listener ergänzt werden. Genau dieser Mechanismus wird sich bei den vielen MyCoRe Kern Komponenenten/
+        Anwendungskomponenten aber auch zusätzlichen Komponenten von MIR (siehe eigene JAR) zu nutzen gemacht.
+      </p>
+    </div>
+    
+    <div>
+      <h2>Vom ServletContainerInitializer zum MyCoRe Startup</h2>
+      <p>
+        Die Klasse <code>MCRServletContainerInitializer</code> implementiert das <code>ServletContainerInitializer
+      </code> Interface. Wie zuvor
+        erwähnt wird diese Klasse ausgehend von der Servlet 3.0 Spezifikation als Initialisierungsklasse genutzt.
+        MyCoRe
+        erweitert diesen Mechanismus. Für MyCoRe ist diese Klasse nicht nur Servlet bezogen, sondern der Startpunkt
+        für
+        eine Reihe verschiedener
+        Initialisierungsvorgänge mit unterschiedlichen Kontexten.
+      </p>
+      
+      <div>{{< mcr-figure src="/images/documentation/developer/initialization_fromMCRServletInitializer.png" class="border border-secondary" label="Abbildung 1" caption="Initialisierungsvorgänge mit unterschiedlichen Kontexten" alt="HelloWorldServlet in Aktion" width="650px" height="" />}}</div>
+    
+    </div>
+    
+    <div>
+      <h2>Hinzufügen eines eigenen Startup Handlers</h2>
+      <p>
+        MyCoRe bietet Entwicklern mit dem AutoExecutable Interface die Möglichkeit den Startup Vorgang zu
+        beeinflussen.
+        Um einen eigenen Startup Handler zu schreiben, muss die Klasse nur das AutoExecutable Interface implementieren
+        und innerhalb der <code>mycore.properties</code> mittels <code>MCR.Startup.Class</code> bekanntgemacht werden.
+        Im Folgenden werden die Methoden des AutoExecutable Interface erläutert:
+      </p>
+      <br />
+      <strong>int getPriority()</strong>
+      <p>
+        Mithilfe einer Priorität wird die Ausführungsreihenfolge der eigenen Klasse innerhalb des Startup Vorgangs
+        definiert. MyCoRe selbst verfügt über eine Vielzahl von AutoExecutables, also Klassen die das AutoExecutable
+        Interface implementieren. Diese Vielzahl wird mithilfe der Priorität nach Wichtigkeit sortiert. Als Beispiel
+        soll hier die <code>MCRJPABootstrapper</code> Klasse genannt werden. Diese initialisiert die Schnittstelle
+        zwischen Anwendung
+        und Datenbank. Falls also ein AutoExecutable mittels JPA Datenbankzugriff benötigt, kann dieser erst nach
+        erfolgreichem durchlaufen des MCRJPABootstrappers stattfinden. Als vordefinierter Wert gilt eine Priorität von
+        0.
+      </p>
+      <br />
+      <strong>String getName()</strong>
+      <p>
+        Der Rückgabewert gibt dem AutoExecutable einen sprechenden Namen und wird derzeit für Logging Zwecke
+        verwendet.
+      </p>
+      <br />
+      <strong>startUp(ServletContext servletContext)</strong>
+      <p>
+        Über die startup Methode wird die benötigte Initialisierungslogik ausgeführt.
+      </p>
+      
+      <div>
+        <h3>Beispielimplementierung</h3>
+        <p>
+          <a href="https://github.com/rochpaul/mycore-custom-module/blob/master/src/main/java/custom/mycore/CustomStartupHandler.java">
+            Dieses
+          </a>
+          einfache Beispiel kann als Grundlage für den eigenen StartupHandler genommen werden. Für die
+          Einrichtung des zugehörigen Plugins wird an dieser Stelle an die Dokumentation
+          <a href="{{< ref plugin_dev >}}">Eigene MIR Plugins einbinden
+          </a>
+          verwiesen.
+          Um das Beispiel in den MyCoRe Initialisierungsvorgang zu integrieren ist es notwendig das zuvor genannte <code>
+          MCR.Startup.Class
+        </code> Property zu setzen.
+        </p>
+        <p>
+          Die folgende Zeile in den <code>mycore.properties</code> erweitert den bisherigen Startup Mechanismus:
+        </p>
+        <code>MCR.Startup.Class=%MCR.Startup.Class%, custom.mycore.CustomStartupHandler</code>
+      
+      </div>
+    </div>
+    
+    <div>
+      <h2>MyCoRe Shutdown Handling</h2>
+      <p>
+        Der MyCoRe Shutdown Mechanismus wird eingeleitet, sobald alle Servlets und Filter gemäß Servlet Lifecycle
+        zerstört wurden. In der Regel ist dies der Fall, sobald der Webserver beendet werden soll.
+        MyCoRe bietet dem Entwickler mit dem <code>Closeable</code> Interface eine Möglichkeit, seine eigenen Klassen
+        innerhalb des Shutdown Vorgangs zu beenden.
+        Die Implementierung des zentralen MyCoRe Shutdown Vorgangs befindet sich innerhalb der <code>
+        MCRShutdownHandler
+      </code> Klasse.
+        Diese Klasse beinhaltet eine Menge registrierter Closeables (also Klassen die das Closeable Interface
+        implementieren) und führt diese zum beschriebenen Zeitpunkt aus.
+        Die Klasse ermöglicht es mit der addCloseable(Closeable) und removeCloseable(Closeable)Methode benötigte
+        Closeables zu
+        registrieren sowie zu entfernen. Ein Closeable muss sich also eigenverantwortlich beim <code>
+        MCRShutdownHandler
+      </code> melden.
+      
+      </p>
+      
+      <div>
+        <h3>Wann ist ein Closeable empfehlenswert / notwendig?</h3>
+        
+        <p>
+          MyCoRe benutzt an verschiedenen Stellen Closeables. Es macht immer dann Sinn eine Klasse mittels Closeable
+          Interface zu implementieren, wenn Abhängigkeiten im Spiel sind.
+          Beispiele hierfür sind JMX sowie JPA. Innerhalb der JMX Ebene betrifft dies MBeans. Sobald der Webserver
+          beendet
+          wird, macht es Sinn diese aus der MBean Server Registry zu entfernen um somit ggf. abhängigen MBeans, JMX
+          Agenten sowie anderen Anwendungen mitzuteilen, dass bestimmte Ressourcen nicht mehr verfügbar sind.
+        </p>
+      </div>
+      
+      <div>
+        <h3>Methoden des Closeable Interface</h3>
+        <br />
+        <strong>void prepareClose()</strong>
+        <p>
+          Diese Methode wird als erste innerhalb des MyCoRe Shutdown Prozesses aufgerufen. Hier kann eine Vorbereitung
+          für den eigentlichen <code>close()</code> Vorgang stattfinden. Eine Beispielimplementierung findet sich
+          innerhalb der
+          <code>MCRSolrIndexer</code>
+          Klasse. Hier wird innerhalb der <code>prepareClose()</code> Methode der eigentliche Shutdown Prozess für die
+          beteiligten Solr Services initialisiert. Dieser Stil ist vergleichbar mit einem asynchronen Aufruf. Innerhalb
+          der <code>close()</code> Methode wird somit versucht auf die eigentliche Terminierungsantwort zu reagieren.
+          Ein anderes Beispiel sind Objekte im Zusammenhang mit Datenbankverbindungen. Bevor Verbindungen zur Datenbank
+          aufgrund des JPA Shutdowns (MCRJPAShutdownProcessor) nicht mehr möglich sind, könnten an dieser Stelle noch
+          Datenbankzugriffe stattfinden.
+        </p>
+        <br />
+        <strong>void close()</strong>
+        <p>
+          Mithilfe der close() Methode wird einer Klasse die das Closeable Interface implementiert die Möglichkeit eines
+          geordneten und sauberen Shutdown Prozesses im MyCoRe Umfeld ermöglicht. Diese Methode wird für das jeweilige
+          Closeable nach der <code>prepareClose()</code> Methode aufgerufen. Vorrangig sollten hier wie im vorherigen
+          Abschnitt bereits
+          beschrieben Abhängigkeiten sauber geschlossen werden.
+        </p>
+        <br />
+        <strong>int getPriority()</strong>
+        <p>
+          Mittels Priorität ist es möglich die Closeables in einer Ausführungsreihenfolge zu sortieren. Ein Closeable
+          mit einem höhreren Wert wird vor einem Closeable mit geringeren Wert geschlossen. Jedes Closeable besitzt eine
+          definierte Standardpriorität.
+        </p>
+      </div>
+    
+    </div>
+  
+      <div>
+        <h2>Ladereihenfolge der Komponenten und Module</h2>
+        <p>Für die Gestaltung komplexer Anwendungen mit mehreren Subanwendungen und Mandanten ist es erforderlich, festzulegen,
+        in welcher Reihenfole Klassen und Ressourcen gefunden und eingebunden werden. Hierfür werden im Startup-Prozess Maifest-Informationen
+        der eingebundnen <code>*.jar</code>-Dateien ausgewertet. Die Reihenfolge des Überladens ist dabei :</p>
+        <ul>
+          <li>Komponenten des MyCoRe-Kerns - diese haben die Prioritäten 0 bis 99</li>
+          <li>Module in Form von integrierten <code>*.jar</code>-Dateien der Anwendung - diese habe eine Priorität von 0 aufwärts, wobei zu 
+          dieser Priorität noch ein Offset von 100 hinzugerechnet wird, um MyCoRe-Komponenten vorher einzuordnen.</li>
+        </ul>
+        <p>Bei gleichen Prioritäten kann die Reihenfolge der Integration nicht vorhergesagt werden. Die reihenfolgeabhängige Integration
+        der Ressourcen bezieht sich auf die Properties der Anwendung und die definierten I18N-Werte.</p>
+        <p>Die Festlegung in den Manifest-Dateien kann beispielsweise mittels Maven wie folgend realisiert werden :</p>
+    {{< highlight xml "linenos=table">}}..
+<artifactId>my-module</artifactId>
+<name>My Application Module</name>
+...
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+      <archive>
+        <manifest>
+          <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            <mainClass>org.mycore.mir.common.MIRCoreVersion</mainClass>
+          <addExtensions />
+        </manifest>
+        <manifestEntries>
+          <MCR-Artifact-Id>${project.artifactId}</MCR-Artifact-Id>
+          <MCR-Application-Module>${project.name}</MCR-Application-Module>
+          <Priority>50</Priority>
+        </manifestEntries>
+      </archive>
+    </configuration>
+  </plugin>{{< /highlight >}}      
+      </div>
+  
+  

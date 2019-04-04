@@ -1,0 +1,85 @@
+
+---
+
+title: "Daten für den DFG-Viewer"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt']
+description: "
+      Viele geförderte Drittmittelprojekte, speziell aber die der DFG fordern die Bereitstellung der Bildanzeige für den
+      
+      . MyCoRe bietet über den METS-Service die erforderlichen Daten. Diese
+      werden mit Hilfe von Stylesheets generiert.
+    "
+date: "2018-02-06"
+
+---
+
+    <div>
+      <h2>Aufruf des DFG-Viewers</h2>
+      <p>
+        Der DFG-Viewer wird über die folgende URL aufgerufen.
+        <code>http://dfg-viewer.de/show/?set[mets]=https://{my
+          URL}/servlets/MCRMETSServlet/{derivate_id}?XSL.Style={stylesheet}</code>
+        . Dabei ist
+        <code>{stylesheet}</code>
+        ein Teil des Stylesheet-Namens
+        <em>mets-{stylesheet}.xsl</em>
+        . Standard ist
+        <em>mets-dfg.xsl</em>
+        .
+      </p>
+    </div>
+
+    <div>
+      <h2>Die Stylesheets</h2>
+      <p>
+        Das Stylesheet
+        <em>mets-{stylesheet}.xsl</em>
+        inkludiert eine Reihe von weiteren Stylesheets, die z. B. Teile wie
+        die METS-Daten oder die eingebundenen Metadaten wie MODS oder den amd-Part bereitstellen. So sind die Metadaten
+        abhängig vom Datenmodell der Anwendung und entsprechend anzupassen. Gemäß Spezifikation können auch andere
+        Metadatenmodelle
+        wie TEI usw. eingebunden werden.
+      </p>
+      <p>
+        Für MODS soll an dieser Stelle auf die Implementierung in
+        <stron>MIR</stron>
+        verwiesen werden: siehe
+        <a href="https://github.com/MyCoRe-Org/mir/tree/master/mir-module/src/main/resources/xsl/mets" target="_blank">https://github.com/MyCoRe-Org/mir/tree/master/mir-module/src/main/resources/xsl/mets
+        </a>
+      </p>
+    </div>
+
+    <div>
+      <h2>Das WebFragment</h2>
+      <p>
+      Um dem DFG-Viewer den Zugriff auf die einzelnen Bilder zu ermöglichen, sind noch zwei Servlets für den Web-Kontext
+      zu definieren. Hier der Ausschnitt der <code>web-fragment.xml</code>.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<servlet>
+  <servlet-name>MCRDFGServlet</servlet-name>
+  <servlet-class>org.mycore.iview2.frontend.MCRTileCombineServlet</servlet-class>
+</servlet>
+  
+<servlet-mapping>
+  <servlet-name>MCRDFGServlet</servlet-name>
+  <url-pattern>/servlets/MCRDFGServlet/*</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>MCRDFGThumbServlet</servlet-name>
+  <servlet-class>org.mycore.iview2.frontend.MCRThumbnailServlet</servlet-class>
+  <init-param>
+    <param-name>thumbnailSize</param-name>
+    <param-value>150</param-value>
+  </init-param>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>MCRDFGThumbServlet</servlet-name>
+  <url-pattern>/servlets/MCRDFGThumbnail/*</url-pattern>
+</servlet-mapping>{{< /highlight >}}
+    </div>
+
+  

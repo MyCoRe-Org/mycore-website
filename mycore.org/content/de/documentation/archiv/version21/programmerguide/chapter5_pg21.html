@@ -1,0 +1,45 @@
+
+---
+
+title: "Anmerkungen und Hinweise"
+
+---
+
+  <div>
+   <h2>Ergänzung der DocPortal-Beispieldaten</h2>
+   <p>
+   Mit Version 1.1 wurden die Beispieldaten für das DocPortal aus der Distribution des selbigen herausgelöst und in 
+   eine separaten CVS-Baum untergebracht. Dies hat den Vorteil, dass
+   </p>
+   <ul>
+   <li>die Installation des DocPortals nicht mehr von Beispieldaten abhängig ist,</li>
+   <li>man nach der Installation ein leeres, betriebsbereites System hat,</li>
+   <li>die Distribution des Samples schlanker und der Download damit schneller ist,</li>
+   <li>mehr Beispiele in einer extra-CVS-Distribution angeboten werden können und</li>
+   <li>die Beispiele gezielt geladen und auch wieder entfernt werden können.</li>
+   </ul>
+   <p>
+   Die Beispieldaten stehen auf dem CVS-Server in Essen (server.mycore.de) in einem extra CVS-Baum mit dem Namen 
+   <code>content</code> bereit. Dieser Enthält eine Sammlung einzelner Beispieldatengruppen. Nach dem checkout können 
+   die Gruppen je nach Wunsch einzeln installiert werden (siehe UserGuide). Dabei spielt das jeweils mitgelieferte 
+   <code>build.xml</code>-Skript eine wichtige Rolle, hier sind alle Funktionen zur Arbeit mit dem Beispiel definiert.
+   </p>
+   <p>
+   Um neue Beispieldaten bereitzustellen gibt es zwei Wege: es wird eine Beispielgruppe mit Daten ergänzt oder es wird 
+   einen neue Beispielgruppe aufgebaut.
+   </p>
+   
+   <div>
+    <h3>Ergänzungen in einer Beispielgruppe</h3>
+    <p>Folgende Arbeiten sind erforderlich:</p>
+    <ul>
+    <li>Erzeugen der Metadaten für das Dokument (ggf. mit Daten für den Autor und/oder die Institution).</li>
+    <li>Erzeugen des/der Derivate.</li>
+    <li>Integration des Ladens und Entfernens im <code>build.xml-</code>Skript in den <code>target</code>-Abschnitten 
+        <code>load</code> und <code>remove.</code>
+    </li>
+    </ul>
+   </div>
+   
+   <div>{{< mcr-figure src="/images/documentation/archiv/content.png" class="border border-secondary" label="" caption="" alt="content" width="" height="" />}}</div>
+  </div>

@@ -1,0 +1,22 @@
+{{- define "main" -}}
+<div class="container-fluid">
+  <div class="row">
+	<div class="col-3">
+	 {{- partial "blog/left_side_menu.html" . -}}
+	</div>
+	<div class="col-6">
+		<div class="mb-3" style="font-size:120%">
+			{{- partial "blog/badges.html" . -}}
+		</div>
+		<h1>{{ if in (index .Params "blog/categories") "News" }}<i class="fas fa-bullhorn"></i>{{ end }}
+			{{ .Title }}</h1>
+			{{ .Content  }}	
+		</div>
+	<div class="col-3">
+	 {{- partial "blog/right_side_menu.html" . -}}
+	</div>
+ </div>
+</div>
+
+
+{{- end -}}

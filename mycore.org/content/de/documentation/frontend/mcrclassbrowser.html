@@ -1,0 +1,89 @@
+
+---
+
+title: "Der Klassifikations-Browser"
+author: ['Jens Kupferschmidt']
+description: "Der Abschnitt beschreibt die Nutzung des integrierten Klassifikations-Browsers.
+    "
+date: "2015-07-03"
+
+---
+    <div>
+      <h2>Der Klassifikations-Browser</h2>
+      <p>Der Klassifkations-Browser biete die Möglichkeit in Klassifikationen direkt auf Objekte zu navigieren. Er kann
+        über einen Template-Aufruf direkt in die Web-Seiten eingebunden werden.
+      </p>
+      <p class="break">
+        {{< highlight text "linenos=table">}}
+<classificationbrowser
+  classification="genres"
+  objecttype="mods"
+  restriction="+category:&quot;mir_status:published&quot;"
+  field="category"
+  addclassid="true"
+  countresults="true"
+  emptyleaves="false"
+  parameters="title asc"
+  style="bootstrap"
+  addParameter="XSL.template=template_mir"
+/>{{< /highlight >}}
+      </p>
+      <p>Die einzelnen Parameter haben folgende Bedeutung:</p>
+      <ul>
+        <li>
+          <code>classification</code>
+          gibt die Klassifikation an, welche durchsucht werden soll.
+        </li>
+        <li>
+          <code>objecttype</code>
+          gibt den MyCoRe-Objekt-Typ an, auf welchen die Suche angewendet werden soll.
+        </li>
+        <li>
+          <code>restriction</code>
+          gibt weitere einschränkende Parameter an, auf welchen in der Suche angewendet werden soll. Die Notation ist
+          in
+          SOLR-Query zu formulieren.
+        </li>
+        <li>
+          <code>field</code>
+          gibt das SOLR-field an, auf welches die Suche der Klassifikation angewendet werden soll.
+        </li>
+        <li>
+          <code>addclassid</code>
+          Flag, welches angibt, dass für Klassifikationen die Solr-Notation {classid}:{categid} verwendet werden soll.
+        </li>
+        <li>
+          <code>countresult</code>
+          Flag, welches angibt, ob die Anzahl der Treffer mit ausgegeben werden soll.
+        </li>
+        <li>
+          <code>emptyleaves</code>
+          Flag, welches angibt, ob auch leere Treffer mit ausgegeben werden soll.
+        </li>
+        <li>
+          <code>parameters</code>
+          weitere Parameter, welche an die Search-engine weitergereicht werden sollen. Die Notation ist abhängig davon,
+          ob
+          <code>SolrSelectProxy</code>
+          oder
+          <code>MCRQLSearchServlet</code>
+          im darstellenden Stylesheet verwendet werden.
+        </li>
+        <li>
+          <code>style</code>
+          Stylesheet,welche zur Verarbeitung genutzt werden soll.
+        </li>
+        <li>
+          <code>addParameter</code>
+          zusätzliche Parameter für die Transformation.
+        </li>
+      </ul>
+      <p>
+        Im
+        <code>classificationBrowserData.xsl</code>
+        -Stylesheet wird das zu nutzende Servlet angegeben, Standard ist
+        <code>SolrSelectProxy</code>
+        für eine direkte Solr-Suche.
+      </p>
+    </div>
+  

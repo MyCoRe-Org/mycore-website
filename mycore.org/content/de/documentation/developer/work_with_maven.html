@@ -1,0 +1,192 @@
+
+---
+
+title: "Arbeiten mit Maven"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann', 'Thomas Scheffler', 'Jens Kupferschmidt']
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        MyCoRe hat sich dafür entschieden, den Build-Prozess der Module über das Tool
+        <a target="_blank" href="http://maven.apache.org/">Maven</a>
+        abzubilden. Daneben kann Maven auch
+        als Build-Werkzeug für die eigenen Anwendungen genutzt werden. Dies ist auch bei den Beispielanwendungen
+        <strong>MIR</strong>
+        und
+        <strong>Skeleton</strong>
+        der Fall. Diese Seite soll eine kurze Erklärung
+        zum Umgang mit Maven und MyCoRe enthalten.
+      </p>
+      <p>
+        Die von MyCoRe über Maven generierten Informationsseiten sind
+        <a href="http://www.mycore.de/generated/">hier</a>
+        zu finden.
+      </p>
+    </div>
+
+    <div>
+      <h2>Maven installieren</h2>
+      <p>
+        MyCoRe verwendet das Build-Management-Tool der Apache Software Foundation
+        <strong>Maven</strong>
+        (
+        <a href="http://maven.apache.org/">http://maven.apache.org/</a>
+        / Version 3.3.9 oder höher).
+        Das Werkzeug hilft dabei, möglichst viele Schritte der Softwareentwicklung zu
+        automatisieren. Installieren Sie Maven gemäß Anleitung der Home Page
+        und setzen Sie die Umgebungsvariablen
+        M2_HOME und MAVEN_OPTS. Binden Sie das mvn-Kommando in den Suchpfad mit
+        ein.
+      </p>
+      <p>
+        Die Funktion von Maven kann mit dem Kommando
+        <code>mvn --version</code>
+        getestet werden. Unter Linux-Systemen wird im Wurzelverzeichnis des Nutzers ein Verzeichnis
+        <code>.m2</code>
+        angelegt, worin sich alle relevanten Maven-Daten befinden.
+      </p>
+    </div>
+
+    <div>
+      <h2>Maven und der MyCoRe-Kern</h2>
+      <p>
+        Alle Informationen zum Softwareprojekt MyCoRe werden in den Konfigurationsdatei
+        <code>pom.xml</code>
+        beschrieben. Um den Klon einen gesamten MyCoRe-Kernes lokal zu übersetzen und zu bauen,
+        muss das Kommando
+        <code>mvn clean install</code>
+        ausgeführt werden. Anschließend stehen die Module über das lokale
+        Maven-Verzeichnis (in Linux ~/.m2) zur Nutzung
+        bereit.
+      </p>
+      <p>
+        Um während des Entwicklungsprozesses einer
+        <strong>einzelnen</strong>
+        MyCoRe-Komponente (einschließlich der von ihr
+        abhängigen Module und Komponenten) zu bauen, wechselt man in das
+        ausgecheckte
+        <code>mycore</code>
+        -Verzeichnis und führt das Kommando
+        <code>mvn clean install -DskipTests -am -pl mycore-XXX</code>
+        aus.
+      </p>
+      <p>
+        Vor jedem Commit des MyCoRe-Kern-Codes sollte lokal das Kommando
+        <code>mvn clean install</code>
+        für den ganzen Code-Baum gegeben werden, um sicher zu stellen, dass der Code korrekt compiliert.
+        Nach dem Commit und der erforderliche Integrationsprozedur steht dann das Commit als Snapshot allen 
+        Anwendern über das Maven-Repository
+        <a href="https://oss.sonatype.org" target="_blank">https://oss.sonatype.org</a>
+        zur Verfügung.
+      </p>
+      <p>
+        Neben dem globalen Repository unter Maven Central unterhält MyCoRe auch noch ein eigenes Artifactory, auf
+        welchem  u. a. jar-Dateien verschiedener Anwender-Projekte abgelegt sind. Dieses ist unter
+        <a href="http://artifactory.mycore.de/" target="_blank">http://artifactory.mycore.de/</a>
+        zu erreichen.
+        <span style="color:green;">Hier liegt auch der fertige Code des Kerns einschließlich Release und Snapshots 2017.06.</span>
+      </p>
+    </div>
+
+    <div>
+      <h2>Integration in die eigene Anwendung</h2>
+      <p>
+        Um MyCore in die eigene Anwendung unter Maven einzubinden, müssen die folgenden Repositories in der eigenen
+        <code>pom.xml</code>
+        -Datei eingebunden werden. MyCoRe selbst sollte <strong>immer</strong> in der Snapshot-Variante benutzt werden,
+        da die Entwickler laufend Bug-Fixes in das letzte Release noch einarbeiten.
+        Sollten einzelne Repositories nicht für die zu bauende Anwendung
+        in Frage kommen, so können diese Definitionsblöcke weg gelassen werden.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<repositories>
+
+  <repository>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <id>central</id>
+    <name>Central Repository</name>
+    <url>https://repo.maven.apache.org/maven2</url>
+  </repository>
+  
+  <repository>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </repository>
+  
+  <!-- add this if you use snapshots form the old MyCoRe artifactory -->
+  <repository>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <id>MyCoRe HQ Snapshots</id>
+    <url>http://artifactory.mycore.de/mycore-snapshots</url>
+  </repository>
+  
+</repositories>
+      {{< /highlight >}}
+      <p>Gleiches gilt für die verwendeten Plugins.</p>
+      {{< highlight xml "linenos=table">}}
+ <pluginRepositories>
+ 
+  <pluginRepository>
+    <releases>
+      <updatePolicy>never</updatePolicy>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <id>central</id>
+    <name>Central Repository</name>
+    <url>https://repo.maven.apache.org/maven2</url>
+  </pluginRepository>
+  
+  <pluginRepository>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </pluginRepository>
+  
+  <!-- add this if you use snapshots form the old MyCoRe artifactory -->
+  <pluginRepository>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <id>MyCoRe HQ</id>
+    <url>http://artifactory.mycore.de/mycore-releases</url>
+  </pluginRepository>
+  
+  <pluginRepository>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <id>MyCoRe HQ Snapshots</id>
+    <url>http://artifactory.mycore.de/mycore-snapshots</url>
+  </pluginRepository>
+  
+</pluginRepositories>
+      {{< /highlight >}}
+    </div>
+
+  

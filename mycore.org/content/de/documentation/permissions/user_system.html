@@ -1,0 +1,49 @@
+
+---
+
+title: "Die Benutzer- und Rechteverwaltung"
+mcr_version: ['2015.05','2016.06']
+author: ['Jens Kupferschmidt']
+description: "Dieser Teil der Dokumentation beschreibt Funktionalität, Design, Implementierung und Nutzung des MyCoRe
+      Subsystems für die Benutzer- und Rechteverwaltung.
+    "
+date: "2016-01-27"
+
+---
+    <div>
+      <h2>Die Geschäftsprozesse und Komponenten in MyCoRe</h2>
+      <p>
+        Abbildung 1 zeigt die einzelnen am Geschäftsprozess der MyCoRe Benutzer- und Rechteverwaltung beteiligten
+        Komponenten. Logische Teile dieses Systems sind die Benutzer <strong>user</strong> welche Rollen <strong>roles</strong>
+        zugeordnet sind. Dabei kann ein Benutzer ein oder mehreren Rollen zugeordnet sein. Standardmäßig ist die Rolle
+        <em>admin</em> und der Nutzer <em>administrator</em> mit dem Passwort <em>alleswirdgut</em> angelegt.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/permissions/accesscontrol2.png" class="border border-secondary" label="Abbildung 1" caption="Das Rollen-, Nutzer- und Rechtesystem im Überblick" alt="Das Rollen-, Nutzer- und Rechtesystem im Überblick" width="550px" height="" />}}</div>
+      <p>
+        Während die Rollen im MyCoRe-Klassifikationssystem abgelegt sind und wie jede andere Klassifikation mit dem
+        <em>Klassifikationseditor</em> bearbeitet werden kann, liegen die Daten der Benutzer in zwei SQL-Tabellen mit Namen
+        <strong>MCRUser</strong> und <strong>MCRUserAttr</strong>. Die Online-Bearbeitung dieser erfolgt über Editormasken
+        und Servlets. Weiterhin stehen über die <strong>CLI</strong> eine Reihe von Kommandos zur Manipulation der Einträge bereit.
+      </p>
+      <p>
+        Benutzer, Rollen und IP-Adressen können in einer Regel <strong>rule</strong> miteinander logisch verknüpft werden. Dabei
+        hat sich gezeigt, dass Regeln mit Rollen die wohl häufigste Anwendungsform sind.
+      </p>
+      <p>
+        Die Zugriffskontrolle über <strong>ACL</strong>s (Access-Control-Listen) kennt ihrerseits wieder zwei Typen von Zugriffsrechten.
+        Objektlose Rechte, wie Rechte zum Anlegen eins neuen Objektes oder der Zugriff auf das WEB-CLI oder den Klassifkationsbrowser
+        sind Privilegien <strong>privileges</strong> eines Nutzers. Sie sind nicht direkt an ein Datenobjekt oder eine -objektgruppe
+        gebunden. Anders sieht es für die Zugriffe <strong>permissions</strong> aus. Diese sind an ein einzelnes Datenobjekt oder eine
+        Datenobjektgruppe gebunden. Guppen werden über ihre MCR-Base-ID oder über ihren MCR-Type definiert und korrespondieren mit der
+        entsprechenen MyCoRe-ID. Für jedes Zugriffsrecht <em>read</em>, <em>write</em>, <em>delete</em> und <em>administrate-user</em>
+        ist eine eigene <strong>permission</strong> oder ein <strong>privilege</strong> anzulegen. Die Liste der definierten
+        Zugriffsrechte ist in den SQL-Tabellen <strong>MCRACCESS</strong> und <strong>MCRACCESSRULE</strong> abgelegt.
+      </p>
+      <p>
+        Nach dem Login-Vorgang des Benutzers wird dessen Kennung in der aktuellen Session gespeichert. Ohne Login wird
+        immer der Pseudo-Nutzer <em>guest</em> angenommen. Wird von der Anwendung ein Zugriffsrecht benötigt, so wird je nach dem das
+        entsprechende <strong>privilege</strong> oder die <strong>permission</strong> abgefragt.
+      </p>
+
+    </div>
+  

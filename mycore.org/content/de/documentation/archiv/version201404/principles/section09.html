@@ -1,0 +1,83 @@
+
+---
+
+title: "Access Control List (ACL) Integration"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+  <div>
+   <h2>Allgemeines</h2>
+  </div>
+
+  <div>
+    <h2>Strategien der Validierung</h2>
+    <p>
+      Das ACL-System ist nur lose an das Datenmodell von MyCoRe gekoppelt und so sind ACL-Regeln nicht zwangsweise an
+      MCRObjectIDs gebunden, sondern nehmen als ID jeden String entgegen. Diese Flexibilität kann man sich
+      zu Nutze machen, wenn es um die Überprüfung der Zugriffsrechte geht. Bei MyCoRe gibt es drei vordefinierte Methoden,
+      die über Properties ausgewählt werden.
+    </p>
+    <div>
+      <h3>Methode 1: ObjectID</h3>
+      <p>
+        Diese Methode ist der Standardfall von DocPortal. Zu jeder ObjectID wird die ACL-Regel mit gleicher ID genommen.
+        Existiert diese nicht, wird der Zugriff verweigert. Die Pflege der ACL-Regeln, z.B. die Integration von
+        Standardregeln, übernimmt das SimpleWorkFlow-Modul, das im User Guide beschrieben wird. Dabei wird jedem neu
+        angelegten Objekt eine objektspezifische Regel angehängt. Beim Einstellen in den MyCoRe-Server, entfernt ein
+        Eventhandler die dort vorhandene Regeldefinition und legt eine entsprechende Regel für das Dokument an. Methode 1
+        ähnelt in diesem Zusammenhang der Unix-Rechteverwaltung und dem dort benutzten Befehl <code>umask</code>. Änderungen
+        an den Standardregeln gelten für neu eingestellte Objekte. Folgende Properties sind für Methode 1:
+      </p>
+      {{< highlight shell "linenos=table">}}
+      MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
+      MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
+      MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectIDStrategy
+      {{< /highlight >}}
+    </div>
+    <div>
+      <h3>Methode 2: Objekt-Typ</h3>
+      <p>
+        Diese Methode arbeitet wie Methode 1, nutzt jedoch einen anderen Eventhandler, der nicht für jedes Objekt eine Regel
+        anlegt, sondern diese ignoriert. Das bedeutet, dass man für einzelne Objekte explizit eine Regel anlegen muss oder
+        es tritt beim Überprüfen die erweiterte Behandlung in Kraft. Diese sieht ein Zurückfallen auf die Regel des
+        Objekttyps vor und notfalls die Anwendung einer Standardregel. Die Regel für einen Objekttyp lässt sich über die
+        Kommandozeile anlegen.
+      </p>
+      {{< highlight shell "linenos=table">}}
+      update permission read for id default_&lt;objekttyp&gt; with rulefile grant-all.xml
+      update permission writedb for id default_&lt;objekttyp&gt; with rulefile grant-admins.xml
+      update permission deletedb for id default_&lt;objekttyp&gt; with rulefile grant-admins.xml
+      {{< /highlight >}}
+      <p>
+        Heißt der Objekttyp <code>document</code>, so lautet die ID für das ACL-System <code>default_document</code>. Die
+        Standardregel, die notfalls nach der Objekttyp-Regel überprüft wird, lautet <code>default</code>. Beispiele für die
+        oben genannten Regeldateien (<code>grant-*.xml</code>), finden sich in DocPortal unter <code>config/acl</code>.
+        Methode 2 reduziert gegenüber Methode 1 den Verwaltungsaufwand, sowohl auf Administratorseite als auch auf
+        Datenbankseite, wegen der reduzierten Zahl an Regelzuweisungen. So treten Änderungen an den Standardregeln sofort
+        für alle entsprechenden Objekte in Kraft.
+      </p>
+      <p>
+        Folgende Properties sind für die Methode 2:
+      </p>
+      {{< highlight shell "linenos=table">}}
+      MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
+      MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
+      MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectTypeStrategy
+      {{< /highlight >}}
+    </div>
+    <div>
+      <h3>Methode 3: Vererbung von Regeln</h3>
+      <p>
+        Diese Methode arbeitet wie Methode 1, nutzt jedoch wieder den Eventhandler von Methode 2. Entsprechend müssen Regeln
+        für MCRObjectIDs selbst angelegt und gepflegt werden. Sollte für eine MCRObjectID keine ACL-Regel hinterlegt sein,
+        so wird Methode 3 rekursiv mit der MCRObjectID des Vaterobjekts angewandt, bis zu einer MCRObjectID eine ACL-Regel
+        existiert. Sollte es keine ACL-Regel geben, wird der Zugriff verweigert. Methode 3 ähnelt also dem Vererbungsmodell
+        von MyCoRe. Folgende Properties sind für die Methode 3:
+      </p>
+      {{< highlight shell "linenos=table">}}
+      MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
+      MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
+      MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRParentRuleStrategy
+      {{< /highlight >}}
+    </div>
+  </div>

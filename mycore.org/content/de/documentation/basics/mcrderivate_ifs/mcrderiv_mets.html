@@ -1,0 +1,65 @@
+
+---
+
+title: "Die METS-Unterstützung"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "???"
+
+---
+   <div>
+   <h2>Allgemein</h2>
+   <p>
+     Der Metadata Encoding &amp; Transmission Standard (METS) ist ein mit XML Schema definiertes
+     XML-Format zur Beschreibung von digitalen Sammlungen von Objekten mit Metadaten. MyCoRe stellt
+     einen Editor bereit, mit dessen Hilfe man METS-Daten anlegen und bearbeiten kann. Der Bildbetrachter
+     liest diese Daten dann aus und stellt die METS-Informationen entsprechend dar.
+   </p>
+  </div>
+  <div>
+    <h2>Kommandos</h2>
+    <div>
+      <h3>validate selected mets</h3>
+      <p>
+        Dieses CLI-Kommando überprüft die Datenintegrität von MyCoRe-Derivaten hinsichtlich ihrer
+        METS-Dateien. Um das Kommando zu nutzen muss entsprechend als erstes die MyCoRe-CLI oder
+        die Web-CLI der Anwendung gestartet werden. Anschließend müssen alle zu prüfenden Derivate
+        ausgewählt werden. Dies geschieht mit dem Kommando <code>select objects with solr query {0}</code>
+        (Web-CLI unter der Kommandogruppe "MCR SOLR Commands").
+      </p>
+      <p>
+        Das folgende Kommando selektiert z.B. alle Derivate des Objektes mit der ID
+        ArchNachl_cbu_00000002:
+      </p>
+      {{< highlight bash "linenos=table">}}
+select objects with solr query returnId:ArchNachl_cbu_00000002 AND objectType:derivate
+      {{< /highlight >}}
+      <p>
+        Als Bestätigung erscheint folgender Text:
+      </p>
+      {{< highlight bash "linenos=table">}}
+&gt;INFO: Processing command:'select objects with solr query returnId:ArchNachl_cbu_00000002
+&gt;      AND objectType:derivate' (0 left)
+&gt;INFO: Syntax matched (executed): select objects with solr query {0}
+&gt;INFO: 1 objects selected
+&gt;INFO: Command processed (5 ms)
+      {{< /highlight >}}
+      <p>
+        Um anschließend die Überprüfung zu starten, muss das Kommando <code>validate selected mets</code>
+        (Web-CLI unter der Kommandogruppe "MCR METS Commands") ausgeführt werden. Falls die Validierung
+        nicht erfolgreich war erscheinen Fehlermeldungen, welche auf die entsprechende Stelle verweisen
+        z.B.:
+      </p>
+      {{< highlight bash "linenos=table">}}
+&gt;INFO: Validate mets.xml of ArchNachl_derivate_00000004
+&gt;ERROR: Some physical elements are not linked: [phys1]
+      {{< /highlight >}}
+    </div>
+    <div>
+      <h3>METS-Editor</h3>
+      <p>
+        Hier wird demnächst der METS-Editor beschrieben.
+      </p>
+    </div>
+  </div>
+  

@@ -1,0 +1,1067 @@
+
+---
+
+title: "Die XEditor-Komponente (xeditor)"
+description: "Dieser Abschnitt beschreibt die Einsatzmöglichkeiten des neuen XEditors"
+
+---
+   <div>
+    <h2>Allgemeines</h2>
+    <p>
+Das MyCoRe XEditor-Framework stellt Funktionen zur Gestaltung von HTML Formularen bereit, die XML Dokumente bearbeiten oder erstellen.
+Die Formulardefinition enthält dazu Regeln zur Abbildung zwischen Eingabefeldern im Formular und XML Elementen und Attributen im bearbeiteten Dokument.
+Solche Formulare werden insbesondere zur Gestaltung von Eingabemasken für Metadaten und für komplexe Suchformulare verwendet.  
+</p>
+  </div>
+
+  <div>
+    <h2>Architektur und Funktionsweise</h2>
+<p>XEditor-Formulare werden als MyCoReWebPage mit der Endung *.xed definiert. Die statische Webseite enthält neben anderen Elementen an einer Stelle ein
+<code>&lt;xed:form /&gt;</code>code&gt; Element, das das gesamte XEditor-Formular umschließt. Es ist derzeit nicht möglich, mehr als ein XEditor Formular in der gleichen Webseite zu verwenden.</p>
+<p>Ein XEditor-Formular besteht aus einer Kombination von HTML Elementen und speziellen XEditor-Elementen.</p>
+<p>Die HTML-Elemente definieren Struktur und Layout des Formulars und werden vom XEditor-Framework weitgehend unverändert belassen.</p>
+<p>Zusätzliche XEditor-Elemente und -Attribute mit Namespace <code>xmlns:xed="http://www.mycore.de/xeditor"</code> definieren die Abbildung zwischen Eingabefeldern im HTML-Formular
+und Elementen und Attributen in dem XML Dokument, das mit dem Formular bearbeitet oder erstellt wird. Weitere XEditor-Elemente regeln die Nachbearbeitung des resultierenden XMLs, steuern die Eingabevalidierung oder stellen Funktionen für dynamische Elemente wie z. B.
+wiederholbare Bereiche bereit.</p>
+<p>Wird eine Seite aufgerufen, die ein XEditor-Formular enthält, werden die speziellen XEditor-Element serverseitig in HTML Strukturen transformiert und jedem Eingabefeld
+ein Element oder Attribut im bearbeiteten XML Dokument zugeordnet. Browserseitig erscheint ein reines HTML Formular.</p>
+<p>Das Formular kann entweder leer starten, so dass beim Aufbau des Formulars ein neues XML Dokument generiert wird, oder es kann ein vorhandenes XML Dokument 
+aus beliebiger Quelle laden und dessen Werte in den Eingabefeldern zur Bearbeitung bereitstellen. Elemente und Attribute, die nicht bestimmten Eingabefeldern im
+Formular zugeordnet sind, bleiben dabei unverändert im XML Dokument erhalten.</p>                                                                 
+<p>Bestimmte Bereiche des Formulars, einzelne Eingabefelder oder ganze Panels können wiederholt werden und entsprechen wiederholbaren Elementen im XML Dokument.                                                                                                                                           
+In einem Formular für Publikationsdaten kann z. B. ein Bereich zur Eingabe der Autoren wiederholbar gestaltet werden. Der Benutzer kann über Buttons Felder hinzufügen,                                                                                                                                 
+entfernen oder vertauschen.</p>                                                                                                                  
+<p>Beim Abschicken des Formulars werden die Werte zunächst an das XEditor Servlet übermittelt. Dort werden sie in das XML Dokument eingefügt. Das resultierende XML wird                                                                                                                                   
+zusammen mit den abgeschickten Request Parametern aus dem Formular via Request Dispatching an das eigentliche Zielservlet weitergeleitet.</p>
+<p>Wenn Validierungsregeln definiert sind, erfolgt zuvor eine serverseitig Eingabevalidierung. Schlägt die Validierung fehl, wird die Formularseite erneut angezeigt und                                                                                                                                   
+dabei konfigurierbare Meldungen ausgegeben, damit der Benutzer die Eingabefehler korrigieren kann. Die Eingabevalidierung erfolgt immer serverseitig nach Abschicken des                                                                                                                                
+Formulars. Der Entwickler kann jedoch zusätzlich mit den üblichen Mitteln (HTML5, JavaScript) eine clientseitige Eingabevalidierung im Browser implementieren.</p>
+<p>Bereinigungsregeln (Cleanup Rules) dienen der Nachbearbeitung des resultierenden XML Dokumentes und ermöglichen es, logisch leere Elemente und Attribute zu entfernen,                                                                                                                                  
+für die z. B. zwar ein Eingabefeld angeboten wurde, aber kein Wert eingegeben wurde.</p>                                                            
+<p>Bei Aufruf der Seite können Request Parameter verwendet werden. Diese Parameter sind, zusammen mit Konfigurationswerten aus mycore.properties oder Variablen aus der                                                                                                                                    
+Session des Benutzers (MCRSession) an vielen Stellen im Formular verwendbar, um dessen Aufbau zu steuern.                                           
+Alle Request Parameter aus dem ursprünglichen Aufruf der Seite werden zusätzlich zu den Formularwerten auch an das Zielservlet durchgereicht.</p>
+<p>Über die Elemente <code>&lt;xed:if /&gt;</code>, <code>&lt;xed:choose /&gt;</code> und <code>&lt;xed:include /&gt;</code> können Formular dynamisch gestaltet werden, so dass sie abhängig von Aufruf- oder  
+Konfigurationsparametern Teilbereiche unterschiedlich darstellen oder aus Teilen zusammensetzen.</p>                                               
+<p>Beschriftungen und Texte im Formular können über messages-*.properties Dateien mehrsprachig ausgegeben werden.</p>
+</div>
+
+<div>  
+    <h2>Konfiguration</h2>                                                                                                                                      
+<p>In einer eigenen Anwendung müssen nur wenige Properties ggf. angepasst werden.</p>
+<p>Wird ein XEditor Formular aufgerufen, speichert das Framework das bearbeitete XML und weitere Informationen serverseitig in der Session des Benutzers.</p>
+     {{< highlight xml "linenos=table">}}MCR.XEditor.MaxEditorsInSession=50{{< /highlight >}}
+<p>definiert, wie viele Formulare maximal vorgehalten werden.</p>
+<p>Das Layout von Validierungsmeldungen und Buttons zur Steuerung wiederholter Bereiche ist frei anpassbar. Hierzu kann die vorhandene Datei xeditor-custom.xsl
+aus dem MyCoRe Kern überschrieben oder durch ein anderes Stylesheet ersetzt werden, das eigene Templates für diese Elemente enthält.</p>
+{{< highlight xml "linenos=table">}}MCR.URIResolver.xslIncludes.xeditor=xeditor-custom.xsl{{< /highlight >}}
+<p>Webseiten, die XEditor-Formulare enthalten, müssen bei Aufruf durch das MCRStaticXEditorFileServlet verarbeitet werden. Das Standard-Mapping, welches bereits beim aktivieren des Moduls mit bereitgestellt wird, ist hierfür</p>
+     {{< highlight xml "linenos=table">}}<servlet-mapping>
+  <servlet-name>MCRStaticXEditorFileServlet</servlet-name>
+  <url-pattern>*.xed</url-pattern>
+</servlet-mapping>{{< /highlight >}}
+
+<div>
+    <h3><code>&lt;xed:form /&gt;</code></h3>
+<p>... umschliesst das gesamte XEditor-Formular, entspricht dem HTML <code>&lt;form /&gt;</code> Element und wird in ein solches transformiert. 
+Das XEditor Framework setzt das Attribut @action des <code>&lt;form /&gt;</code> Elementes, damit die Formularwerte an das XEditor Servlet gesendet werden.
+Bei Absenden des Formulars werden die Werte zunächst vom XEditor Servlet verarbeitet und danach ggf. an das eigentliche Zielservlet per Request Dispatching
+als XML Dokument weitergegeben. Weitere optionale Attribute werden 1:1 von <code>&lt;xed:form /&gt;</code> zu <code>&lt;form /&gt;</code> kopiert.</p>
+<p>Sollen im bearbeiteten XML Dokument zusätzliche Namespaces verwendet werden, sollten diese als Namespace Attribute (xmlns:...) beim <code>&lt;xed:form /&gt;</code> Element
+definiert werden. Die in MyCoRe häufig verwendeten Namespaces für MyCoRe, MODS, METS, XLink etc. sind bereits vordefiniert und müssen nicht angegeben werden.</p>
+</div>
+
+<div>
+    <h3><code>&lt;xed:bind /&gt;</code></h3>
+<p>Legt die Abbildung zwischen Eingabe-Komponenten im HTML Formular und Knoten im XML-Dokument fest.</p>
+     {{< highlight xml "linenos=table">}}Syntax: <xed:bind xpath="..." default="..." initially="..." set="..." name="...">{{< /highlight >}}
+<p>Das Attribut @xpath kann ein beliebiger XPath 1.0 Ausdruck sein, der ein oder mehrere Elemente oder Attribute im zu bearbeiteten XML selektiert.
+Das Element drückt aus, dass alle durch das <code>&lt;xed:bind /&gt;</code> umschlossenene Bereiche des Formulars sich auf die selektierten Elemente und Attribute beziehen.
+Innerhalb des <code>&lt;xed:bind /&gt;</code> Elementes können beliebige HTML- oder XEditor-Elemente ineinander geschachtelt werden, so dass sich eine hierachische Abbildung zwischen
+XML-Dokumente und HTML-Formular ergibt.</p>
+<p>Beispiel:</p>
+     {{< highlight xml "linenos=table">}}<xed:bind xpath="mods:titleInfo">
+  <xed:bind xpath="mods:title">
+    <div>
+      <label for="title">Titel:</label>
+      <input id="title" type="text" />
+    </div>
+  </xed:bind>
+  <xed:bind xpath="mods:subtitle">
+    <div>
+      <label for="subtitle">Untertitel:</label>
+      <input id="subtitle" type="text" />
+    </div>
+  </xed:bind>
+</xed:bind>{{< /highlight >}}
+  
+<p>In diesem Beispiel bezieht sich das Eingabefeld mit der ID "title" auf das XML Element mods:titleInfo/mods:title, 
+das Eingabefeld mit der ID "subtitle" auf das XML Element mods:titleInfo/mods:subtitle. Der XEditor setzt dabei für HTML input-Elemente vom Typ 
+text, password, hidden, file, color, date, datetime, datetime-local, email, month, number, range, search, tel, time, url, week automatisch die 
+@name und @value Attribute, für HTML checkbox- und radio-Elemente die @name und @checked Attribute, sowie für HTML select/option Elemente die @name bzw. @selected 
+Attribute. Das Attribut @name der Eingabekomponente wird dabei auf den absoluten XPath des XML Knotens gesetzt, der durch das aktuelle Bindung durch die verschachtelten
+<code>&lt;xed:bind /&gt;</code> Elemente ausgewählt wurde. Die Attribute @value bzw. @selected oder @checked werde so gesetzt, dass ihr Wert dem Inhalt des selektierten Knotens entspricht.</p>
+<p>Ein XEditor-Formular kann also so gestaltet werden, dass man den Entwurf mit einem HTML-Formular beginnt, dann die @name, @value, @checked, @selected Attribute der 
+Eingabekomponenten entfernt und diese funktional duch umgebende <code>&lt;xed:bind /&gt;</code> Elemente ersetzt.</p>
+<p>Beispiel:</p>
+<p>XML-Dokument, das durch das Formular bearbeitet wird:</p>
+
+    {{< highlight xml "linenos=table">}}<document>
+  <title>Titel der Publikation</title>
+  <services>
+    <service>OAI</service>
+  <services>
+</document>{{< /highlight >}}
+
+<p>XEditor, der dieses Dokument bearbeitet:</p>
+
+    {{< highlight xml "linenos=table">}}<xed:bind xpath="document">
+  <xed:bind xpath="title">
+    <div>
+      <label>Titel:</label>
+      <input type="text" />
+    </div>
+  </xed:bind>
+  <xed:bind xpath="services/service">
+    <div>
+      <label>Dienste:</label>
+      <input type="checkbox" value="OAI" />Über OAI-Schnittstelle publizieren
+      <input type="checkbox" value="POD" />Print on Demand anbieten 
+    </div>
+  </xed:bind>
+</xed:bind>{{< /highlight >}}
+
+<p>Resultierendes HTML:</p>
+
+    {{< highlight xml "linenos=table">}}<div>
+  <label>Titel:</label>
+  <input type="text" name="/document/title" value="Titel der Publikation" />
+</div>
+<div>
+  <label>Dienste:</label>
+  <input type="checkbox" value="OAI" name="/document/service" checked="checked" />Über OAI-Schnittstelle publizieren
+  <input type="checkbox" value="POD" name="/document/service" />Print on Demand anbieten 
+</div>{{< /highlight >}}
+
+<p>Der XPath-Ausdruck kann beliebige Prädikate enthalten, z. B.</p>
+
+    {{< highlight xml "linenos=table">}}<xed:bind xpath="mods:titleInfo[@type='translated'][@xml:lang='en']/mods:title">
+  <div>
+    <label for="title_en">Englische Übersetzung des Titels:</label>
+    <input id="title_en" type="text" />
+  </div>
+</xed:bind>{{< /highlight >}}
+
+<p>Falls der angegebene XPath-Ausdruck keinen bereits existierenden XML Knoten selektiert, wird dieser automatisch generiert. Dabei werden auch alle angegebenen Prädikate
+berücksichtigt. Es gilt die Einschränkung, dass der XPath-Ausdruck nur Elemente und Attribute auf der Child-Achse generieren kann und keine XPath Funktionen 
+oder Operatoren (bis auf den Vergleichsoperator) verwenden darf. Ausdrücke oder Prädikate, die nicht generiert werden können, werden ignoriert.</p>
+  
+<p>Beispiel:</p>
+    {{< highlight xml "linenos=table">}}<xed:bind xpath="mods:name[@type='personal'][mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='aut']/mods:displayForm">
+  <label>Autor:</label>
+  <input type="text" ... />
+</xed:bind>{{< /highlight >}}
+  
+<p>erzeugt, falls kein mods:name Element existiert, das alle Prädikate erfüllt, folgende XML Elemente:</p>
+
+    {{< highlight xml "linenos=table">}}<mods:name type="personal">
+  <mods:role>
+    <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+  </mods:role>
+  <mods:displayForm />
+</mods:name>{{< /highlight >}}
+   
+<p>Gleichzeitig wird dem Eingabefeld das Attribut @name=".../mods:name/mods:displayForm" zugewiesen.</p>
+<p>Beispiel: &lt;xed:bind xpath="mods:name[@type='personal'][contains('aut edt',mods:role/mods:roleTerm)] /&gt;</p>
+<p>Falls kein mods:name Element existiert, das alle diese Prädikate erfüllt, wird ein neues Element
+<code>&lt;mods:name type="personal" /&gt;</code> generiert. Aus dem zweiten Prädikat kann wegen der Verwendung der contains() Funktion nicht allgemeingültig abgeleitet werden,
+welche XML Knoten zu generieren wären, damit es erfüllt ist. Dieses Prädikat wird daher ignoriert. Bei der Implementierung des Formulars muss
+der Entwickler selbst sicherstellen, dass diese Bedingung nachträglich auch für neu generierte Knoten erfüllt wird, in diesem Fall z. B. indem für
+mods:roleTerm eine Auswahlliste angeboten wird.</p>
+
+<p>Die Generierung fehlender XML-Elemente und -Attribute erfolgt bereits im Moment der Verarbeitung des XEditor Formulars, 
+schon vor der Darstellung im Browser. D.h. dass sich zum Zeitpunkt der Anzeige des HTML Formulars alle im Formular enthaltenen Eingabekomponenten auf bereits
+existierende oder neue, leer generierte Elemente oder Attribute beziehen. Beim Abschicken des Formulars werden die Textknoten der XML Element bzw. die Werte der Attribute
+entsprechend aus den abgeschickten Formularwerten gesetzt.</p>
+
+<p>Es ist auch möglich, leere <code>&lt;xed:bind /&gt;</code> Elemente zu verwenden, um XML Knoten nur zu generieren oder deren Existenz sicherzustellen, ohne dafür Eingabekomponenten im
+HTML Formular zu definieren. Beispiel:</p>
+
+    {{< highlight xml "linenos=table">}}<xed:bind xpath="sortBy">
+  <xed:bind xpath="field[@name='year'][@order='descending']" />
+  <xed:bind xpath="field[@name='title'][@order='ascending']" />
+</xed:bind>{{< /highlight >}}
+
+<p>Das optionale Attribut @default legt einen Wert fest, der als Default-Wert verwendet wird, wenn der XML Knoten neu generiert wird, oder aber vor oder nach 
+der Bearbeitung im Formular leer ist, d.h. keinen Textwert hat. Beispiele:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="@numPerPage" default="10">
+  <select id="numPerPage">
+    <option>5</option>
+    <option>10</option>
+    <option>20</option>
+    <option>50</option>
+  </select>
+</xed:bind>{{< /highlight >}}
+  
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:genre" default="article" />{{< /highlight >}}
+
+<p>Das optionale Attribut @initially legt einen Wert fest, der nur dann als initialer Wert verwendet wird, falls der XML Knoten nicht bereits existiert und neu generiert wird.
+Im Gegensatz zu @default wird dieser Wert aber nicht gesetzt, wenn der Knoten existiert oder wenn er durch die Eingabe leer gesetzt wird. Das ist insbesondere bei einzeln 
+stehenden Checkboxen als Sonderfall erforderlich:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="@publish" initially="true" default="false">
+  <input type="checkbox" value="true" /> Dokument publizieren
+</xed:bind>{{< /highlight >}}
+
+<ul>
+<li>Sofern das Attribut @publish im bearbeiteten XML noch nicht existiert, wird es als @publish="true" generiert. Die Checkbox ist dann aktiviert, da sie den @value="true" hat.</li>
+<li>Sofern das Attribut @publish im bearbeiteten XML schon existiert (mit entweder "true" oder "false", wird es mit dem existierenden Wert im Formular übernommen. 
+Die Checkbox ist aktiviert, falls das existierende Attribut den Wert "true" hat, ansonsten ist sie nicht aktiviert.</li>
+<li>Wenn vor Absenden des Formulars die Checkbox deaktiviert wurde, übermittelt der Browser beim Absenden keinen Wert. 
+In diesem Fall setzt der XEditor als Default-Wert @publish="false", da das Attribut leer übermittelt wird.</li>
+</ul>
+
+<p>Das optionale Attribut @set legt einen Wert fest, der beim Aufbau des Formulars immer als initialer Wert gesetzt wird, und der den bisherigen Wert überschreibt, 
+auch wenn der XML Knoten bereits existiert. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="version" set="2.0" />{{< /highlight >}}
+
+<p>setzt in jedem Fall das XML Element auf <code>&lt;version&gt;2.0&lt;/version&gt;</code>, auch wenn bereits ein <code>&lt;version /&gt;</code> Element mit anderem Wert existierte.</p>
+<p>Der XPath-Ausdruck und die weiteren Attribute von <code>&lt;xed:bind /&gt;</code> können auch auf Variablen zugreifen, 
+wobei HTTP Request Parameter aus der URL des Aufrufs, Konfigurationswerte aus mycore.properties oder Werte aus der MCRSession verwendet werden können. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:titleInfo[@xml:lang=$DefaultLang]/mods:title">...</xed:bind>{{< /highlight >}}
+
+<p><code>&lt;xed:bind xpath="mods:genre" initially="{$genre}" /&gt;</code>
+setzt bei Aufruf des Formulars mit [Seite].xed?genre=article das Element <code>&lt;mods:genre&gt;</code>article<code>&lt;/mods:genre&gt;</code>, sofern noch kein mods:genre Element existiert.</p> 
+
+<p>Die durch <code>&lt;xed:bind /&gt;</code> ausgewählten XML Elemente oder Attribute können unter einer Variablen abgelegt werden, die an nachfolgender Stelle in XPath-Ausdrücken
+wiederverwendet werden kann. Das Attribut @name spezifiziert den Namen der Variablen. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:name">
+  <xed:bind xpath="@ID" name="id_name" />
+  Name: <input type="text" />
+  <xed:bind xpath="../mods:note[@xlink:href=$id_name]>
+    Notiz: <input type="text" />
+  </xed:bind>
+</xed:bind>{{< /highlight >}}
+
+<p>Im Beispiel wird der Wert von mods:name/@ID in der Variablen $id_name abgelegt, und später das entsprechende mods:note Element selektiert, das
+in seinem Attribut @xlink:href diese ID referenziert.</p>
+</div>
+
+
+<div>
+    <h3><code>&lt;xed:repeat /&gt;</code></h3>
+<p>Variante von <code>&lt;xed:bind /&gt;</code> für wiederholbare Formularbereiche, die einem wiederholbaren Element im bearbeiteten XML-Dokument entsprechen. 
+In einem Formular für Publikationsdaten können so z. B. Eingabebereiche für die Daten mehrerer Autoren wiederholt werden.
+Der Benutzer kann über Buttons die wiederholten Abschnitte vertauschen, einzelne entfernen oder weitere einfügen.</p>
+<p>Syntax:</p>
+
+{{< highlight xml "linenos=table">}}<xed:repeat xpath="..." min="..." max="...">...</xed:repeat>{{< /highlight >}}
+
+<p>Das Attribut @xpath kann ein beliebiger XPath 1.0 Ausdruck sein, der ein oder mehrere wiederholte Elemente im zu bearbeiteten XML selektiert.</p>
+<p>Der durch <code>&lt;xed:repeat /&gt;</code> umschlossene Bereich wird so oft im Formular wiederholt eingefügt, wie die Anzahl der durch den XPath-Ausdruck selektierten Elemente.
+Ist das Attribut @min angegeben, wird der Bereich mindestens so oft wie darin angegeben wiederholt. Selektiert der XPath-Ausdruck weniger als @min Elemente,
+wird das letzte selektierte Element so oft im bearbeiteten XML Dokument geklont, dass @min Elemente vorhanden sind. </p> 
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:repeat xpath="mods:name[@type='personal']" min="2">
+  <div>
+    <xed:bind xpath="mods:namePart[@type='given']">
+      <label>Vorname:</label><input type="text" />
+    </xed:bind />
+    <br />
+    <xed:bind xpath="mods:namePart[@type='family']">
+      <label>Nachname:</label><input type="text" />
+    </xed:bind>
+  </div>
+</xed:repeat>{{< /highlight >}}
+
+<p>Das Beispiel wiederholt einen Bereich zur Eingabe von Personen im MODS Datenmodell mit Vorname und Nachname. 
+Wenn im bearbeiteten XML drei mods:name[@type='personal'] Elemente vorhanden sind, wird der Bereich dreimal wiederholt und jeder wiederholte Abschnitt an das
+entsprechende XML Element gebunden. </p>
+Wenn aktuell nur ein mods:name[@type='personal'] vorhanden ist, wird dieses geklont, da @min="2", und es werden zwei Bereiche für Personennamen im Formular dargestellt.  
+<p>Das Attribut @max gibt an, wie oft der Bereich maximal wiederholt werden kann, wenn der Benutzer einen Button zum Einfügen einer weiteren Wiederholung klickt.
+Allerdings wird immer mindestens so oft wiederholt, wie bereits Elemente im bearbeiteten XML Dokument vorhanden sind.</p>
+</div>
+
+<div>
+    <h3><code>&lt;xed:controls /&gt;</code></h3>
+<p>Bestimmt Art und Position der Buttons zur Bearbeitung des wiederholten Bereiches. Diese Buttons werden als Submit Buttons implementiert, d.h. bei 
+Klick auf den Button wird das Formular abgeschickt, die Änderung serverseitig durchgeführt und im Anschluss das veränderte Formular neu dargestellt.</p>
+<ul> 
+<li>Die Position der Buttons kann an beliebiger Stelle innerhalb des durch <code>&lt;xed:repeat /&gt;</code> umschlossenen Bereiches frei bestimmt werden.</li> 
+<li>Das Element <code>&lt;xed:controls /&gt;</code> wird an der Position eingefügt, wo die Buttons erscheinen sollen.</li>
+<li>Der Text von <code>&lt;xed:controls /&gt;</code> bestimmt, welche Buttons an der jeweiligen Stelle erscheinen. Möglich sind ein oder mehrere durch Leerzeichen getrennte Werte:
+<ul>
+<li>Ein "up" Button erscheint ab dem zweiten Element und vertauscht es im Formular und im bearbeiteten XML Dokument mit seinem Vorgänger.</li>
+<li>Ein "down" Button erscheint bei allen bis auf das letzte Element und vertauscht es im Formular und im bearbeiteten XML Dokument mit seinem Nachfolger.</li>
+<li>Ein "remove" Button entfernt das aktuelle Elemente im Formular und im XML Dokument.</li>
+<li>Ein "insert" Button fügt hinter dem aktuellen Element einen Klon dieses Elementes ein und stellt es im Formular dar.</li>
+<li>Ein "append" Button kann als Alternative zu "insert" verwendet werden und erscheint nur für das letzte Element, um nur am Ende ein weiteres Element einzufügen.</li>
+</ul>
+</li>
+</ul>
+<p>Ein leeres <code>&lt;xed:controls /&gt;</code> Element entspricht der Standard-Auswahl <code>&lt;xed:controls&gt;</code>insert remove up <code>&lt;down/xed:controls&gt;</code>   
+Sollen keine Buttons erscheinen, lässt man das <code>&lt;xed:controls /&gt;</code> Element weg. Sollen nur bestimmte Buttons erscheinen, gibt man diese im Text des Elementes an.</p>
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:repeat xpath="mods:name[@type='personal']" min="2">
+  <div>
+    ...
+    <xed:controls>append remove up down</xed:controls>
+  </div>
+</xed:repeat>{{< /highlight >}} 
+
+<p>HTML Formatierung und Layout der Buttons werden durch ein XSL Template in xeditor-custom.xsl definiert und können durch lokales Überschreiben in der eigenen
+Webanwendung beliebig angepasst werden. Das Template wird für jeden Button einzeln aufgerufen. Das Template muss einen Parameter $name als Name des Buttons
+setzen und so beim Absenden des Formulars durchreichen. Die Buttons können als HTML <code>&lt;button /&gt;</code>, <code>&lt;input type="submit" /&gt;</code> oder <code>&lt;input type="image" /&gt;</code> implementiert werden.</p>
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xsl:template match="text()" mode="xed.control">
+  <!-- append insert remove up down -->
+  <xsl:param name="name" />
+  <!-- name to submit as request parameter when button/image is clicked -->
+  <xsl:if test=".='append'">
+    <input type="submit" value="+" name="{$name}" />
+  </xsl:if>
+  ...
+</xsl:template>{{< /highlight >}}
+
+</div>
+
+<div>
+    <h3><code>&lt;xed:source /&gt;</code></h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:source uri="..." />{{< /highlight >}}
+<p>Beispiel:</p>
+{{< highlight xml "linenos=table">}}<xed:source uri="mcrobject:{id} />{{< /highlight >}}
+
+<p>Lädt das in diesem Formular zu bearbeitende XML-Dokument von einer URI.</p>
+
+<p><code>&lt;xed:source /&gt;</code> ist nur erforderlich, wenn das Formular nicht "leer" starten soll, sondern ein existierendes XML-Dokument zur Bearbeitung laden soll. 
+Das können z. B. die Metadaten eines MyCoRe Objektes sein, oder auch eine XML-Datei, die als Template (Vorlage) dient.</p>
+
+<p>Das Attribut @uri kann eine beliebige URI sein, die der MyCoRe URI Resolver unterstützt (z. B. mcrobject:, resource:, webapp:, file:, http:.) und gibt die Quelle an, 
+von der das XML-Dokument gelesen wird.</p>
+
+<p>Das Attribut @uri kann optional ein oder mehrere Variablen enthalten, die bei Aufruf des Formulars durch Parameter ersetzt werden. Variablen stehen in geschweiften Klammern und
+beginnen mit einem $ Zeichen, z. B.</p>
+
+{{< highlight xml "linenos=table">}}<xed:source uri="mcrobject:{$id} />{{< /highlight >}}
+
+<p>Die Variablen werden bei Aufruf des Formulars durch den konkreten Wert ersetzt, wobei als Quelle die HTTP Request Parameter aus der URL des Aufrufs, Konfigurationswerte aus
+mycore.properties oder Werte aus der MCRSession verwendet werden können. </p>
+
+<p><code>&lt;xed:source /&gt;</code> ist wiederholbar. Wenn mehrere <code>&lt;xed:source /&gt;</code> Elemente angegeben sind, wird das erste Element verwendet, das keine Variablen enthält, 
+oder bei dem alle angegebenen Variablen durch konkrete Werte ersetzt werden können. So kann man z. B. abhängig von Aufruf- oder Konfigurationsparametern 
+XML-Dokumente aus verschiedenen Quellen laden.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:source uri="xslStyle:mcrobject2{$type}:mcrobject:{$id} />
+<xed:source uri="mcrobject:{$id} />
+<xed:source uri="webapp:template.xml" />{{< /highlight >}}
+
+<ul>
+<li>Wenn das Formular mit [Seite].xed?id=DocPortal_document_07910403 aufgerufen wird, wird die zweite URI verwendet, denn der Parameter $type ist nicht gegeben. 
+Die URI mcrobject:DocPortal_document_0791040 lädt die Metadaten des MyCoRe Objektes mit der ID DocPortal_document_07910403 zur Bearbeitung.</li>
+<li>Wenn das Formular stattdessen mit [Seite].xed?type=similar&amp;id=DocPortal_document_07910403 aufgerufen wird, wird die erste URI verwendet, und ein XML Dokument von xslStyle=mcrobject2similar:mcrobject:DocPortal_document_07910403 geladen, d.h. die Metadaten des MyCoRe Objektes mit der ID DocPortal_document_07910403 werden geladen, 
+durch das XSL Stylesheet mcrobject2similar.xsl transformiert und in das Formular geladen.</li>
+<li>Wenn das Formular ohne Parameter aufgerufen wird, wird die dritte URI verwendet, und eine statische Vorlage aus der Datei template.xml der Webapplikation geladen.</li>
+</ul>
+<p>Es wäre auch denkbar, die komplette URI als Parameter zu übergeben. Davon kann nur abgeraten werden, da es die Aufruf-URLs unnötig lang macht, 
+Implementierungsdetails offenlegt und potentiell zu Sicherheitslücken führt:</p>
+
+{{< highlight xml "linenos=table">}}<xed:source uri="{$uri}" />
+Aufruf mit [Seite].xed?uri=mcrobject:DocPortal_document_07910403{{< /highlight >}}
+</div>
+
+<div>
+    <h3><code>&lt;xed:cancel /&gt;</code></h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:cancel url="..." />{{< /highlight >}}
+<p>Beispiel:</p>
+{{< highlight xml "linenos=table">}}<xed:cancel url="receive/{$id}" />{{< /highlight >}}
+
+<p>Definiert die URL, zu der bei Abbruch zurückgekehrt werden soll, z. B. bei Betätigen eines Abbrechen-Buttons, um die Bearbeitung aus dem Formular heraus abzubrechen.</p>
+
+<p><code>&lt;xed:cancel /&gt;</code> sollte angegeben werden, wenn das Formular einen Abbrechen-Button enthält. Die URL wird relative zur Wurzel der Webapplikation angegeben.</p>
+
+<p>Das Attribut @url kann optional ein oder mehrere Variablen enthalten, die bei Aufruf des Formulars durch Parameter ersetzt werden. Variablen stehen in geschweiften Klammern und
+beginnen mit einem $ Zeichen, z. B.</p>
+
+{{< highlight xml "linenos=table">}}<xed:cancel url="receive/{$id}" />{{< /highlight >}}
+
+<p>Die Variablen werden bei Aufruf des Formulars durch den konkreten Wert ersetzt, wobei als Quelle die HTTP Request Parameter aus der URL des Aufrufs, Konfigurationswerte aus
+mycore.properties oder Werte aus der MCRSession verwendet werden können. </p>
+
+<p><code>&lt;xed:cancel /&gt;</code> ist wiederholbar. Wenn mehrere <code>&lt;xed:cancel /&gt;</code> Elemente angegeben sind, wird das erste Element verwendet, das keine Variablen enthält, 
+oder bei dem alle angegebenen Variablen durch konkrete Werte ersetzt werden können. So kann man z. B. abhängig von Aufrufparametern bei Abbruch zu verschiedenen 
+Zielseiten zurückkehren.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:cancel url="receive/{$id}" />
+<xed:cancel url="index.xml" />{{< /highlight >}}
+
+<ul>
+<li>Wenn das Formular mit [Seite].xed?id=DocPortal_document_07910403 aufgerufen wird, wird bei Abbruch zur Seite receive/DocPortal_document_07910403 zurückgekehrt.</li>
+<li>Wenn das Formular ohne Parameter aufgerufen wird, wird zur Seite index.xml zurückgekehrt.</li>
+</ul>
+<p>Es wäre auch denkbar, die komplette URL als Parameter zu übergeben. Davon kann nur abgeraten werden, da es die Aufruf-URLs unnötig lang macht, 
+Implementierungsdetails offenlegt und potentiell zu Sicherheitslücken führt:</p>
+
+{{< highlight xml "linenos=table">}}<xed:cancel url="{$cancelURL}" />
+Aufruf mit [Seite].xed?cancelURL=receive/DocPortal_document_07910403{{< /highlight >}}
+</div>
+
+<div>
+    <h3>Submit-Buttons definieren</h3>
+<p>Syntax:</p>
+
+{{< highlight xml "linenos=table">}}<input type="submit|image" xed:target="..." ... /> oder <button type="submit" xed:target="..." ... />{{< /highlight >}}
+
+<p>Submit-Buttons schicken das Formular ab. Das Attribute @xed:target gibt das Ziel an und kann verschiedene Werte annehmen. 
+Alle weiteren Eigenschaften der Buttons werden über gewöhnliche HTML Syntax gestaltet.</p>
+
+<p>Vordefiniert sind die folgenden Ziele:</p>
+<table>
+<tr><td>xed:target="cancel"</td><td>Bearbeitung abbrechen</td></tr>
+<tr><td>xed:target="debug"</td><td>Für das Debugging, zeigt das bearbeitete XML und die Bearbeitungsschritte im Browser an</td></tr>
+<tr><td>xed:target="layout"</td><td>Für das Debugging, zeigt das bearbeitete XML über den MyCoRe LayoutService an (d.h. durch einen Transformer, der üblicherweise via XSL Stylesheet zu HTML rendert)</td></tr>
+<tr><td>xed:target="servlet"</td><td>Sendet das resultierende XML-Dokument an ein Servlet</td></tr>
+<tr><td>xed:target="subselect"</td><td>Externe Auswahl von Werten, siehe unter Subselects</td></tr>
+</table>
+</div>
+
+<div>
+    <h3>Abbrechen-Buttons definieren</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<input type="submit|image" xed:target="cancel" ... />
+oder
+<button type="submit" xed:target="cancel" ... />{{< /highlight >}}
+
+<p>Abbrechen-Buttons können auf verschiedene Weise gestaltet werden. 
+Das Attribut @xed:target="cancel" weist die Buttons als Abbrechen-Buttons aus. 
+Alle weiteren Eigenschaften der Buttons werden über gewöhnliche HTML Syntax gestaltet. 
+Die URL, zu der bei Betätigen des Buttons zurückgekehrt wird; wird über das Element <code>&lt;xed:cancel /&gt;</code> definiert.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<input type="submit" class="roundedButton" xed:target="cancel" value="{i18n:button.cancel}" />{{< /highlight >}}
+
+<p>In diesem Beispiel wird die sprachabhängige Beschriftung des Buttons mit value="{i18n:button.cancel}" aus dem Schlüssel button.cancel aus den messages-*.properties Dateien gelesen.</p>
+</div>
+
+<div>
+    <h3>Debug-Buttons definieren</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<input type="submit|image" xed:target="debug" ... />
+oder
+<button type="submit" xed:target="debug" ... />{{< /highlight >}}
+
+<p>Ein Debug-Button ist während der Implementierung eines Formulars nützlich, um anzuzeigen, welches XML-Dokument aus der Bearbeitung im Formular resultiert, ohne dieses an das Zielservlet zu senden.
+Das Attribut @xed:target="debug" weist die Buttons als Abbrechen-Buttons aus. 
+Alle weiteren Eigenschaften der Buttons werden über gewöhnliche HTML Syntax gestaltet. </p>
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<input type="submit" class="roundedButton" xed:target="debug" value="Debug" />{{< /highlight >}}
+</div>
+
+<div>
+    <h3>Submit-Buttons zum Absenden an ein Servlet</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<input type="submit|image" xed:target="servlet" xed:href="..." ... />
+oder 
+<button type="submit" xed:target="servlet" xed:href="..." ... />{{< /highlight >}}
+
+<p>Das Attribut @xed:target="servlet" definiert, dass beim Absenden des Formulars das resultierende XML via Request Dispatching an ein Ziel-Servlet gesendet werden soll.
+Das Attribut @xed:href gibt die URL oder den Namen dieses Servlets an, so wie er in der web.xml der Anwendung definiert ist.
+Alle weiteren Eigenschaften der Buttons werden über gewöhnliche HTML Syntax gestaltet. </p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<input type="submit" class="roundedButton" xed:target="servlet" xed:href="MCRSearchServlet" value="{i18n:button.search}" />{{< /highlight >}}
+
+<p>In diesem Beispiel wird die sprachabhängige Beschriftung des Buttons mit value="{i18n:button.search}" aus dem Schlüssel button.search aus den messages-*.properties Dateien gelesen.
+Der Button schickt das resultierende XML-Dokument, hier angenommen die XML-Darstellung einer Suchanfrage, an das MCRSearchServlet, um eine Suche auszuführen.</p>
+
+<p>Das Ziel-Servlet erhält das resultierende XML-Dokument als JDOM Document in einem Request Attribut mit dem Schlüssel MCRXEditorSubmission übergeben:</p>
+
+{{< highlight xml "linenos=table">}}HttpServletRequst request;
+org.jdom.Document xml = (org.jdom.Document) (request.getAttribute("MCRXEditorSubmission"));{{< /highlight >}}
+
+<p>Sofern Validierungsregeln angegeben sind, wird das Zielservlet nur aufgerufen, wenn die Validierung erfolgreich ist. Wenn sie nicht erfolgreich ist, wird zum Formular zurückgekehrt und auf die fehlerhafte Eingabe hingewiesen.</p>
+
+</div>
+
+<div>
+    <h3>Cleanup-Rules</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:cleanup-rule xpath="..." relevant-if="..." />{{< /highlight >}}
+
+<p>Cleanup-Rules sind Bereinigunsregeln, die logisch leere XML-Elemente oder -Attribute vor Übergabe an das Zielservlet aus dem resultierenden XML herauslöschen.
+Das Attribut @xpath gibt in Form eines XPath-Ausdruckes an, auf welche Elemente oder Attribute sich die Regel bezieht. 
+Das Attribut @relevant-if gibt in Form eines XPath-Tests an, unter welchen Bedingungen diese XML-Knoten als relevant erachtet werden.</p>
+<p>Sofern keine weiteren Cleanup-Rules definiert sind, gelten die folgenden Standard-Regeln:</p>
+
+{{< highlight xml "linenos=table">}}<xed:cleanup-rule xpath="//@*" relevant-if="string-length(.) > 0" />
+<xed:cleanup-rule xpath="//*" relevant-if="@* or * or (string-length(text()) > 0)" />{{< /highlight >}}
+
+<p>Die Standard-Regeln entfernen leere Attribute und Elemente aus dem resultierenden XML-Dokument. Ein Element ist leer, wenn es keine Kindelemente, keine Attribute und keinen Text enthält.
+Diese Regeln lassen sich durch eigene Regeln ergänzen oder überschreiben.</p>
+
+<p>Beispiel (Suchmaske):</p>
+
+{{< highlight xml "linenos=table">}}<xed:cleanup-rule xpath="//condition" relevant-if="string-length(@value) &lt; 0" />{{< /highlight >}}
+
+<p>entfernt alle <code>&lt;condition /&gt;</code> Elemente, deren @value Attribut leer ist. In einer MyCoRe Suchmaske werden die Suchfelder als <code>&lt;condition /&gt;</code> Elemente dargestellt, mit den Attributen @field für das zu durchsuchende Feld, @operator für den zu verwendenden Suchoperator, und @value für den eingegebenen und zu suchenden Wert, z. B.</p> 
+
+{{< highlight xml "linenos=table">}}<condition field="title" operator="contains" value="Optik" />{{< /highlight >}}
+
+<p>Die Attribute @field und @operator werden in der Suchmaske durch hidden-Felder oder Auswahllisten festgelegt. Wenn aber kein zu suchender Wert eingegeben wird, ist die gesamte Suchbedingung nicht
+relevant, und sie wird durch die Bereinigungsregel entfernt.</p>
+
+<p>Beispiel (MODS):</p>
+{{< highlight xml "linenos=table">}}<xed:cleanup-rule xpath="//mods:*" relevant-if="(string-length(text()) &lt; 0) or mods:* or (string-length(@xlink:href) &lt; 0)" />
+<xed:cleanup-rule xpath="//mods:name" relevant-if="mods:namePart" />{{< /highlight >}}
+
+<p>Im MODS Datenmodell werden Personennamen z. B. wie folgt dargestellt:</p>
+
+{{< highlight xml "linenos=table">}}<mods:name type="personal">
+  <mods:namePart type="given">John</namePart>
+  <mods:namePart type="family">Huston</namePart>
+  <mods:role>
+    <mods:roleTerm type="code" authority="marcrelator">aut</roleTerm>
+  </mods:role>
+</mods:name>{{< /highlight >}}
+
+<p>Angenommen, ein Eingabeformular besitzt für an einer Publikation beteiligte Personen Eingabefelder für Vor- und Nachname (mods:namePart), sowohl eine Auswahlliste für die Rolle (Autor, Herausgeber etc. entsprechend mods:roleTerm). Dann entfernt die zweite Bereinigungsregel das mods:name Element, wenn keine mods:namePart Elemente vorhanden sind, d.h. keine Namensteile eingegeben wurden. Die erste Bereinigungsregel entfernt alle mods Elemente, die keine anderen mods Elemente enthalten, oder kein xlink:href Attribut. Somit wird das mods:namePart Element entfernt, wenn kein Text enthalten ist. Das Attribut @type ist nicht relevant, da die Standard-Regel für mods Elemente überschrieben wurde.</p>
+
+<p>Bereinigungsregeln werden rekursiv und iterativ auf das resultierende XML-Dokumente angewandt, bis sich das Dokument nicht mehr ändert, d.h. aufgrund der Regeln keine weiteren Knoten als zu entfernen identifiziert werden.</p>
+</div>
+
+<div>
+    <h3>xed:post-processor</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:post-processor xsl="..." />{{< /highlight >}}
+
+<p>Gibt mit dem Attribut @xsl ein Stylesheet an, das zur Nachbearbeitung des resultierenden XML-Dokumentes verwendet werden soll. Über ein solches XSL-Stylesheet kann das XML-Dokument nach Bearbeitung im Formular, aber noch vor Übergabe an das Zielservlet transformiert werden. </p>
+<p>Über die XEditor-Syntax können Eingabefelder flexibel auf XML-Elemente und Attribute abgebildet werden. In einigen Fällen kann die XML-Struktur aber zu komplex sein, um sie einfach auf Eingabefelder abzubilden. In solchen Fällen kann man das zu bearbeitende XML-Dokument</p>
+<ul>
+<li>vor der Bearbeitung im Formular durch ein XSL-Stylesheet in eine für die Bearbeitung geeignetere Form umwandeln: Dies ist einfach über Verwendung des xslStyle URI Resolvers möglich, z. B.
+<code>&lt;xed:source uri="xslStyle:mods-preprocessor:mcrobject:{$id}" /&gt;</code></li>
+<li>nach der Bearbeitung im Formular wieder durch ein XSL-Stylesheet in die gewünschte XML-Struktur zurück transformieren, z. B.
+<code>&lt;xed:post-processor xsl="mods-postprocessor.xsl" /&gt;</code></li>
+</ul>
+<p>Beispiel:</p>
+<p>Im MODS Datenmodell wird eine Publikation, die auf einer einzelnen Seite veröffentlicht wird, dargestellt als</p>
+
+{{< highlight xml "linenos=table">}}<mods:detail type="page">
+  <mods:number> Seitenzahl </mods:number>
+</mods:detail>{{< /highlight >}}
+
+<p>Wenn sich die Publikation über mehrere Seiten erstreckt, wird ein von-bis Bereich angegeben:</p>
+
+{{< highlight xml "linenos=table">}}<mods:extent unit="pages">
+  <mods:start> Seite von </mods:start>
+  <mods:end> Seite bis </mods:end>
+</mods:extent>{{< /highlight >}}
+
+<p>Angenommen, das Eingabeformular soll grundsätzlich nur die Eingabefelder "Seite von" und "Seite bis" anbieten, dann könnte man den Sonderfall einer einzelnen Seite abbilden, indem</p>
+<ul>
+<li>in einem Stylesheet mods-preprocessor.xsl alle mods:detail[@type='page']/mods:number zu mods:extent mit identischen mods:start und mods:end Werten transformiert werden</li>
+<li>in einem Stylesheet mods-postprocessor.xsl alle mods:extent mit identischen oder einzelnen mods:start und mods:end Werten zu einem einzelnen mods:detail[@type='page']/mods:number transformiert werden</li>
+</ul>
+</div>
+
+<div>
+    <h3>xed:post-processor</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:output value="..." i18n="..." />{{< /highlight >}}
+
+<p>Ermöglicht die Ausgabe eines Wertes. Der Wert kann über einen XPath-Ausdruck definiert werden und/oder das aktuelle Binding im bearbeitetn XML Dokument verwenden. Auch eine Kombination mit mehrsprachigen Bezeichnern aus messages-*.properties Dateien ist möglich. </p>
+
+<p>Wenn kein Attribut angegeben ist, wird der erste durch das aktuelle Binding ausgewählte Wert ausgegeben. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="title">
+  <label>Titel:</label>
+  <xed:output />
+</xed:bind>{{< /highlight >}}
+
+<p>Wenn das Attribut @value angegeben ist, wird der darin enthaltene XPath-Ausdruck ausgewertet und ausgegeben. Der XPath-Ausdruck kann die XML-Struktur des bearbeiteten Dokumentes, sowie Variablen verwenden, die aus HTTP Request Parametern, Konfigurationsparametern aus mycore.properties oder MCRSession Variablen stammen. Beispiele:</p>
+
+{{< highlight xml "linenos=table">}}<label>Name: </label>
+<xed:output value="concat(mods:namePart[@type='family'],', ',mods:namePart[@type='given'])" />{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="title">
+  Diese Publikation mit dem Titel "<xed:output />" dürfen Sie als <xed:output value="$SomeUser" /> bearbeiten.
+</xed:bind>{{< /highlight >}}
+
+<p>Wenn das Attribut @i18n angegeben ist, wird der mehrsprachige Bezeichner aus den messages-*.properties Dateien ausgegeben, dessen Schlüssel angegeben ist. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<label>
+  <xed:output i18n="edit.title" />:
+</label>{{< /highlight >}}
+
+<p>Wenn sowohl das Attribut @value als auch das Attribut @i18n angegeben ist, wird zunächst der XPath-Ausdruck aus dem Attribut @value ausgewertet, und der resultierende Wert in den mehrsprachigen Bezeichner eingesetzt. Der Bezeichner in den messages-*.properties Dateien muss einen entsprechenden Platzhalter vorsehen. Beispiel:</p>
+
+<p>In messages-de.properties: 
+<code>edit.datePublished=Das Dokument wurde am {0} veröffentlicht.</code></p>
+
+<p>In messages-en.properties: 
+<code>edit.datePublished=The document was publised at {0}.</code></p>
+
+{{< highlight xml "linenos=table">}}<label>
+  <xed:output value="date[@type='published']" i18n="edit.datePublished" />
+</label>{{< /highlight >}}
+</div>
+
+<div>
+    <h3>Ausgabe eines Wertes innerhalb von HTML-Attributen</h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}{XPath} oder {i18:key} oder {i18n:key,XPath}{{< /highlight >}}
+
+<p>Enthält ein Attribut einen Ausdruck, der durch geschweifte Klammern umschlossen ist, wird dieser Ausdruck ausgewertet und an dieser Stelle im Attribut eingesetzt. Bei dem Ausdruck kann es sich um einen XPath-Ausdruck handeln, oder um einer mehrsprachigen Bezeichner aus den messages-*.properties Dateien. Der XPath-Ausdruck kann die XML-Struktur des bearbeiteten Dokumentes, sowie Variablen verwenden, die aus HTTP Request Parametern, Konfigurationsparametern aus mycore.properties oder MCRSession Variablen stammen. </p>
+
+<p>Beispiele:</p>
+
+{{< highlight xml "linenos=table">}}<img src="{@href}" />
+<a href="{$WebApplicationBaseURL}receive/{@xlink:href}">Link zum reverenzierten Objekt</a>{{< /highlight >}}
+
+<p>Wenn der Ausdruck mit "i18n:" beginnt, wird der mehrsprachige Bezeichner aus den messages-*.properties Dateien ausgegeben, dessen Schlüssel angegeben ist. Es ist möglich, einen XPath-Ausdruck mit einem i18n Schlüssel zu kombinieren, indem Schlüssen und XPath Ausdruck durch ein Komma getrennt werden. In diesem Fall wird zunächst der XPath-Ausdruck ausgewertet, und der resultierende Wert in den mehrsprachigen Bezeichner eingesetzt. Der Bezeichner in den messages-*.properties Dateien muss einen entsprechenden Platzhalter vorsehen.</p>
+
+<p>Beispiele:</p>
+
+{{< highlight xml "linenos=table">}}<input type="submit" xed:target="cancel" value="{i18n:label.cancel}" />
+<input type="text" placeholder="{i18n:placeholder.date.issued}" />
+<img alt="{i18n:image.title,title[@type='main']} src="{@href}" />{{< /highlight >}}
+</div>
+
+
+<div>
+    <h3><code>&lt;xed:include&gt;</code></h3>
+<p>Fügt an der verwendeten Stelle Komponenten in das Formular ein, indem sie über eine ID referenziert werden, und/oder von einer externen URI nachgeladen werden. </p> 
+<p>Syntax:</p>
+
+{{< highlight xml "linenos=table">}}<xed:include uri="..." ref="..." static="true|false" />{{< /highlight >}}
+
+<p>Wird das Attribut @uri angegeben, wird ein XML-Element von der angegebenen URI geladen, und der Inhalt (nicht das Wurzelelement selbst) an dieser Stelle eingefügt.
+@uri kann jede URI sein, die der MyCoRe URI Resolver unterstützt (z. B. classification:, resource:, webapp:, file:, http:, xslStyle:).</p>
+<p>Wird das Attribut @ref angegeben, wird der Inhalt desjenigen XML-Elements eingefügt, dessen ID (@id) dem Wert von @ref entspricht. </p>
+
+<p>Die Attribute @uri und @ref sind kombinierbar. Sie können XPath-Ausdrücke oder Verweise auf Variablen enthalten. D.h. man kann über <code>&lt;xed:include /&gt;</code> Teile des Formulars
+dynamisch nachladen, die abhängig vom bearbeiteten XML und/oder von Request Parametern bei Aufruf des Formulars sind. </p>
+<p>Beispiel: Nachladen von Klassifikationskategorien als Auswahl in einer Select-Box:</p>
+
+{{< highlight xml "linenos=table">}}<select>
+  <option value="">Bitte wählen...</option>
+  <xed:include uri="xslStyle:items2options:classification:editor:-1:children:modsgenre" />
+</select>{{< /highlight >}}
+
+<p>Die URI "xslStyle:items2options:classification:editor:-1:children:modsgenre" lädt die Klassifikation "modsgenre" und transformiert alle Kategorien in
+<code>&lt;option /&gt;</code> Auswahloptionen in der HTML-Syntax.</p>
+
+<p>Beispiel: Nachladen von Teilen eines Formulars abhängig von Request Parametern:</p>
+
+{{< highlight xml "linenos=table">}}<xed:include uri="webapp:ubo/editor/editor-genres.xed" ref="{$genre}" /> {{< /highlight >}}  
+
+<p>Wird das Formular z. B. mit [Seite].xed?genre=article aufgerufen, wird an dieser Stelle der Inhalt des Elementes mit @id='article' eingefügt.</p>
+
+<p>Das inkludierte XML sollte von einem Element <code>&lt;xed:template /&gt;</code> umschlossen sein. 
+Der XEditor ignoriert solche Bereiche, wenn sie nicht durch <code>&lt;xed:include /&gt;</code> referenziert werden. </p>
+
+<p>Beispiel: Suchmaske, Auswahl Erscheinungsjahr</p>
+
+{{< highlight xml "linenos=table">}}<label>Suche nach Erscheinungsjahr:</label>
+zwischen
+<pre class="brush: xml"><![CDATA[<xed:bind xpath="condition[@field='year'][1]">
+  <xed:bind xpath="@operator" default="&lt;=" />
+  <xed:include ref="year.input" />
+</xed:bind>{{< /highlight >}}
+
+<p>und</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="condition[@field='year'][2]">
+  <xed:bind xpath="@operator" default="&gt;=" />
+  <xed:include ref="year.input" />
+</xed:bind>{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}<xed:template id="year.input">
+  <xed:bind xpath="@operator">
+    <select>
+      <option>=</option>
+      <option>&lt;</option>
+      <option>&lt;=</option>
+      <option>&gt;</option>
+      <option>&gt;=</option>
+    </select>
+  </xed:bind>
+  <xed:bind xpath="@value">
+    <input type="text" placeholder="{i18n:ubo.placeholder.year}" />
+  </xed:bind>
+</xed:template>{{< /highlight >}}
+
+<p>Hier wird eine Vorlage für die Auswahl des Suchoperators (&lt;, &gt;, = etc.) und die Eingabe der Jahreszahl an zwei Stellen wiederverwendet. </p>
+<p>Häufig verändern sich über eine URI inkludierte Vorlagen über die gesamte Laufzeit der Anwendungen nicht. Solche statischen Vorlagen können mit</p>
+
+{{< highlight xml "linenos=table">}}<xed:include static="true" ... />{{< /highlight >}}
+
+<p>markiert werden. Der XEditor wird die externe Ressource (z. B. eine statische XML-Datei aus der Webapplikation) nur einmal einlesen, in einem
+Cache aufbewahren und wiederverwenden. </p>
+<p>Für Ressourcen, die sich über die Laufzeit der Applikation ändern, z. B. Klassifikationen, bei denen nachträglich Kategorien online ergänzt werden, 
+sollte @static nicht gesetzt sein.</p>
+</div>
+
+<div>
+    <h3><code>&lt;xed:if&gt;</code></h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:if test="...">...</xed:if>{{< /highlight >}}
+
+<p>Ermöglicht es, einen Teil des Formulars nur unter einer bestimmten Bedingung auszuführen, die durch einen XPath-Test bestimmt wird. Der XPath-Test kann die XML-Struktur des bearbeiteten Dokumentes, sowie Variablen verwenden, die aus HTTP Request Parametern, Konfigurationsparametern aus mycore.properties oder MCRSession Variablen stammen. Nur wenn die Testbedingung erfüllt ist, wird der durch <code>&lt;xed:if /&gt;</code> umschlossene Formularabschnitt verarbeitet und angezeigt.</p>
+
+<p>Beispiele:</p>
+
+{{< highlight xml "linenos=table">}}<xed:if test="string-length(@valueURI) &lt; 0">
+  <a href="{@valueURI}">
+        <xed:output value="concat(mods:namePart[@type='family'],', ',mods:namePart[@type='given'])" />
+  </a>
+</xed:if>{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}<xed:if test="$mode='advanced'">
+  <h3>Erweiterter Modus mit zusätzlichen Eingabefeldern:</h3>
+  ...
+</xed:if>{{< /highlight >}}
+</div>
+
+<div>
+    <h3><code>&lt;xed:choose&gt;</code></h3>
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<xed:choose>
+  <xed:when test="...">...</xed:when>
+  <xed:when test="...">...</xed:when>
+  <xed:otherwise>...</xed:otherwise>
+</xed:choose>{{< /highlight >}}
+
+<p>Ermöglicht es, abhängig von ein oder mehreren Bedingungen unterschiedliche Teile oder Varianten eines Formulars auszuführen. </p>
+
+<p>Jedes <code>&lt;xed:when /&gt;</code> Element definiert einen XPath-Test. Der XPath-Test kann die XML-Struktur des bearbeiteten Dokumentes, sowie Variablen verwenden, die aus HTTP Request Parametern, Konfigurationsparametern aus mycore.properties oder MCRSession Variablen stammen. Nur wenn die Testbedingung erfüllt ist, wird der durch <code>&lt;xed:when /&gt;</code> umschlossene Formularabschnitt verarbeitet und angezeigt. Wenn mehrere <code>&lt;xed:when /&gt;</code> Elemente angegeben sind, wird nur das erste Element berücksichtigt, dessen Testbedingung erfüllt ist.</p> 
+
+<p>Das Element <code>&lt;xed:otherwise /&gt;</code> ist optional. Es wird nur dann ausgeführt, wenn keine der Testbedingungen der vorangehenden <code>&lt;xed:when /&gt;</code> Elemente erfüllt ist. In diesem Fall wird der duch <code>&lt;xed:otherwise /&gt;</code> umschlossene Formularabschnitt verarbeitet und angezeigt.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:choose>
+  <xed:when test="@status='new'">
+        <label>Veröffentlichen am:</label>
+        <xed:bind xpath="dateToPublish">
+          <input type="text />
+        </xed:bind>
+  </xed:when>
+  <xed::otherwise> <!- status='published' ->
+        <label>Veröffentlichungsdatum: </label>
+        <xed:output value="dateToPublished" />
+  </xed:otherwise>
+</xed:choose>{{< /highlight >}}
+</div>
+
+<div>
+    <h3><code>&lt;xed:multi-lang&gt;</code></h3>
+<p>Ermöglicht es, abhängig von der aktuell verwendeten Sprache (Variable $CurrentLang der MCRSession), Teile des Formulars in verschiedenen Varianten anzubieten.</p>
+
+<p>Syntax:</p>
+
+{{< highlight xml "linenos=table">}}<xed:multi-lang>
+  <xed:lang xml:lang="..."></xed:lang>
+  <xed:lang xml:lang="..."></xed:lang>
+</xed:multi-lang>{{< /highlight >}}
+
+<p>Das Attribut @xml:lang definiert die Sprache (nach IETF BCP 47), für die der umschlossene Block verarbeitet und angezeigt werden soll. Wenn kein <code>&lt;xed:lang /&gt;</code> Bereich für die aktuelle Sprache definiert ist, wird der Bereich verwendet, der für die Default-Sprache (MCR.Metadata.DefaultLang aus mycore.properties) definiert ist. Wenn auch für die Default-Sprache kein Bereich definiert ist, wird der erste <code>&lt;xed:lang /&gt;</code> Bereich verwendet.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:multi-lang>
+  <xed:lang xml:lang="de">
+     <label>Straße:</label>...
+         <label>Hausnummer:</label>...
+     <label>PLZ:</label>...
+         <label>Ort:</label>...
+  </xed:lang>
+  <xed:lang xml:lang="en">
+         <label>Number:</label>...
+     <label>Street:</label>...
+         <label>City:</label>...
+         <label>ZIP Code:</label>...
+  </xed:lang>
+</xed:multi-lang>{{< /highlight >}}
+</div>
+
+<div>
+    <h3><code>&lt;xed:load-resource&gt;</code></h3>
+<p>Lädt ein XML-Dokument von einer URI und stellt es in einer Variablen bereit, um in XPath-Ausdrücken darauf zuzugreifen.</p>
+
+<p>Syntax:</p> 
+
+{{< highlight xml "linenos=table">}}<xed:load-resource name="..." uri="..." />{{< /highlight >}}
+ 
+<p>Das Attribut @name gibt den Namen der Variablen an, unter dem das XML Element bereitgestellt werden soll.
+Das Attribut @uri gibt die URI an, von der das XML geladen werden soll. Dies kann eine beliebige URI sein, 
+die der MyCoRe URI Resolver unterstützt (z. B. classification:, resource:, webapp:, file:, http:.) Innerhalb des Attributes
+@uri kann auch auf XPath Ausdrücke oder Variablen zugregriffen werden. </p>
+
+<p><code>&lt;xed:load-resource /&gt;</code> kann in Kombination mit <code>&lt;xed:output /&gt;</code> verwendet werden, um Werte im Formular auszugeben, die sowohl
+vom bearbeiteten XML als auch von Parametern oder externen XML-Ressourcen abhängen. 
+Beispielsweise kann man Bezeichnungen von Klassifikationskategorien im Formular ausgeben, wobei die IDs der Kategorien im
+im bearbeiteten XML Dokument liegen, die Bezeichnungen aber in der Klassifikation verwaltet werden:</p>
+
+{{< highlight xml "linenos=table">}}<xed:load-resource name="genres" uri="classification:metadata:-1:children:modsgenre" />{{< /highlight >}} 
+
+<p>lädt die Klassifikation "modsgenre" und stellt sie in einer Variablen $genres bereit. </p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:genre" name="genre" />{{< /highlight >}}
+
+<p>wählt das Element mods:genre und stellt es in der  Variablen $genre bereit.</p>
+
+{{< highlight xml "linenos=table">}}<xed:output value="$genres//category[@ID=$genre]/label[lang($CurrentLang)]/@text" />{{< /highlight >}}
+
+<p>gibt dann die Bezeichnung der Kategorie aus der Klassifikation aus, deren ID der Wert von <code>&lt;mods:genre /&gt;</code> ist, in der aktuellen Sprache.</p>
+ 
+</div> 
+</div>
+
+<div>
+    <h2>Eingabevalidierung</h2>
+<p>Die Eingabevalidierung erfolgt im XEditor Framework serverseitig nach Absenden des Formulars. Davon unberührt bleibt die Möglichkeit, mit
+eigenen Mitteln (HTML5, JavaScript) zusätzlich eine clientseitige Validierung im Browser zu implementieren.</p>
+<p>Die Validierungsregeln beziehen sich auf die Knoten des bearbeiteten XML-Dokumentes, d.h. auf die Werte von XML Elementen und Attributen im
+resultierenden XML, nicht auf einzelne Eingabefelder. Dies erleichtert es besonders, Validierungsregeln an unterschiedlichen Stellen oder in
+verschiedenen Formularen wiederzuverwenden.</p>
+<p>Wenn das Formular abgeschickt wird, werden alle gesetzten Validierungsregeln serverseitig geprüft. Schlägt die Validierung fehl, wird das Formular
+erneut angezeigt. Es besteht die Möglichkeit, an beliebiger Stelle Meldungen auszugeben, um anzuzeigen, welche Regeln nicht erfüllt sind.</p>
+ 
+<div>
+    <h3><code>&lt;xed:validate&gt;</code></h3>
+<p>Setzt eine Validierungsregel. Die Validierungsmethode wird durch ein oder mehrere kombinierbare Attribute spezifiziert. </p>
+<p>Auf welchen XML Knoten sich die Validierungsregel bezieht, kann auf zwei Weisen festgelegt werden:</p>
+<p>Lokale Validierungsregeln stehen innerhalb eines <code>&lt;xed:bind /&gt;</code> Elementes und beziehen sich auf das dadurch gebundene XML. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:dateIssued">
+  <input type="text" ... />
+  <xed:validate required="true" />
+</xed:bind> {{< /highlight >}}
+ 
+<p>oder auch unabhängig von der Position des konkreten Eingabefeldes</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:dateIssued">
+  <xed:validate required="true" />
+</xed:bind>{{< /highlight >}}
+... 
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:dateIssued">
+  <input type="text" ... />
+</xed:bind> {{< /highlight >}}
+ 
+<p>Globale Validierungsregeln stehen an beliebiger Stelle im Formular und beziehen sich auf die durch das Attribut @xpath ausgewählten XML-Knoten. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:validate xpath="//mods:identifier[@type='issn']" matches="[\dX]{4}\-[\dX]{4}" />{{< /highlight >}}
+
+<p>validiert die Syntax aller auftretenden mods:identifier[@type='issn'] Elemente. Globale Validierungsregeln erleichtern die Wiederverwendung und können bevorzugt für
+Syntaxprüfungen verwendet werden. </p>
+ 
+<p>Ist das Attribut @required="true" gesetzt, ist das gewählte Element ein Pflichfeld, d.h. es muss mindestens ein nicht leerer Wert (bei wiederholten Elementen) auftreten.</p>
+
+<p>Das Attribut @matches gibt einen regulären Ausdruck in der Syntax von java.util.regex.Pattern an, gegen den der Text des XML Elementes oder Attributes validiert wird.</p>
+
+<p>Beispiel: </p>
+
+{{< highlight xml "linenos=table">}}<xed:validate xpath="//mods:identifier[@type='issn']" matches="[\dX]{4}\-[\dX]{4}" />{{< /highlight >}}
+
+<p>Das Attribut @test gibt einen XPath Test an, gegen den ein XML Knoten validiert wird. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:validate xpath="/document/validTo" test="(string-length(.) = 0) or (number(.) >= number(../validFrom))" />{{< /highlight >}}
+
+<p>prüft, ob /document/validTo &gt;= /document/validFrom ist.</p>
+
+{{< highlight xml "linenos=table">}}<xed:validate xpath="/user" test="password = passwordRepeated" />{{< /highlight >}}
+
+<p>prüft, ob das eingegebene Passwort mit dessen Wiederholung identisch ist.</p>
+
+<p>Die Attribute @maxLength, @minLenght, @min, @max @type, @class, @method und @format validieren auf die gleiche Weise wie im alten Editor Framework (siehe dort).</p>
+Beispiele:
+ 
+{{< highlight xml "linenos=table">}}<xed:validate xpath="document/yearIssued" min="2000" type="integer" />{{< /highlight >}}
+
+<p>stellt sicher, dass es sich beim Erscheinungsjahr um eine ganze Zahl &gt;= 2000 handelt.</p>
+
+{{< highlight xml "linenos=table">}}<xed:validate xpath="//mods:*[@encoding='w3cdtf']" matches="\d{4}(\-d{2}(\-d{2})?)?" type="datetime" format="yyyy;yyyy-MM;yyyy-MM-dd" />{{< /highlight >}}
+
+<p>validiert alle Datumsangaben, so dass sie entweder nur das Jahr, Jahr plus Monat oder Jahr, Monat und Tag in MODS W3CDTF Syntax enthalten.</p>
+</div>
+
+<div>
+    <h3>Validierungsmeldungen ausgeben</h3>
+<p>Wenn die Eingabevalidierung fehlschlägt, wird die Variable $xed-validation-failed='true' gesetzt. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:if test="$xed-validation-failed">
+ Bitte korrigieren Sie die fehlerhaften Eingaben!
+</xed:if>{{< /highlight >}}
+
+<p>Das Attribut xed:validate/@display definiert, an welcher Stelle die Validierungsnachricht ausgegeben werden soll, falls die Validierungsregel nicht erfüllt ist. </p>
+
+<p><code>@display="here"</code>
+Ausgabe der Meldung an genau dieser Stelle, d.h. dort, wo die Validierungsregel im Formular definiert ist.</p>
+
+<p><code>@display="local"</code>
+Ausgabe der Meldung an einer lokalen Stelle in der Nähe der Eingabekomponente. Die Meldung wird dort ausgegeben, wo das umgebende <code>&lt;xed:bind /&gt;</code> den nicht validen
+XML Knoten selektiert, und wo darin enthalten das Element <code>&lt;xed:display-validation-message /&gt;</code> angegeben ist. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="title">
+  <xed:display-validation-message />
+  <input type="text" />
+  <xed:validate display="local" required="true">Bitte geben Sie einen Titel ein!</xed:validate>
+</xed:bind>{{< /highlight >}}
+
+<p><code>@display="global"</code>
+Ausgabe der Meldung an globaler Stelle, gesammelt mit anderen Meldungen. Die Meldung wird dort ausgegeben, wo das Element <code>&lt;xed:display-validation-message /&gt;</code>
+auftritt. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:if test="$xed-validation-failed">
+  Bitte korrigieren Sie die folgenden fehlerhaften Eingaben:
+  <xed:display-validation-messages />
+ </xed:if>
+...
+<xed:bind xpath="title">
+  <input type="text" />
+  <xed:validate display="global" required="true">Bitte geben Sie einen Titel ein!</xed:validate>
+</xed:bind>{{< /highlight >}}
+
+<p>Es ist auch möglich, die Fehlermeldung an mehreren Stellen auszugeben, indem man mehrere Werte im Attribut @display durch Leerzeichen getrennt angibt.</p>
+
+<p>Die Fehlermeldung wird entweder durch das von <code>&lt;xed:validate /&gt;</code> umschlossene HTML gebildet, oder über einen i18n-Schlüssel mehrsprachig aus den 
+messages-*.properties Dateien gelesen. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:validate ... required="true" i18n="editor.title.required" />{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}<xed:validate ... required="true">
+  Dieses Feld ist ein <strong>Pflichtfeld</strong>!
+</xed:validate>{{< /highlight >}}
+
+<p>HTML Formatierung und Layout der Fehlermeldung werden durch XSL Templates in xeditor-custom.xsl definiert und können durch lokales Überschreiben in der eigenen
+Webanwendung beliebig angepasst werden. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xsl:template match="xed:validate" mode="message">
+  <span class="help-inline">
+    <xsl:apply-templates select="node()" mode="xeditor" />
+  </span>
+</xsl:template>{{< /highlight >}}
+
+<p>umgibt alle ausgegebenen Fehlermeldungen mit einem <code>&lt;span class="help-inline" /&gt;</code>.</p>
+
+<p>Eingabekomponenten mit fehlerhaften Eingaben können ausserdem markiert werden, z. B. mit eigenen CSS-Klassen oder Stilen. Dazu wird für jeden validierten XML Knoten
+die Variable $xed-validation-marker gesetzt. Der Wert, der in dieser Variable enthalten ist, ist über die mycore.properties konfigurierbar und wird typischerweise ein oder
+mehrere CSS Klassen enthalten:</p>
+
+{{< highlight xml "linenos=table">}}MCR.XEditor.Validation.Marker.error=has-error
+MCR.XEditor.Validation.Marker.success=has-success
+MCR.XEditor.Validation.Marker.default={{< /highlight >}}
+
+<p>Wenn die Validierungsregel verletzt ist, wird die Variable $xed-validation-marker auf den Wert von MCR.XEditor.Validation.Marker.error gesetzt.
+Der Wert von MCR.XEditor.Validation.Marker.success wird gesetzt, wenn die Validierungsregel erfüllt ist, d.h. es wurde validiert und der XML Knoten ist valide. 
+Der Wert von MCR.XEditor.Validation.Marker.default wird gesetzt, wenn die Eingabekomponente nicht validiert wurde (z. B. weil keine Regel angegeben ist).</p>
+
+<p>Die Werte können auch leer sein, um z. B. nur fehlerhafte Komponenten zu markieren.</p>
+
+<p>Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="year">
+  <div class="form-group {$xed-validation-marker}">
+    <input type="text" />
+    <xed:validate display="here" required="true">Bitte Jahr eingeben!</xed:validate>
+  </div>
+</xed:bind>{{< /highlight >}}
+
+<p>Wenn das Element <code>&lt;year /&gt;</code> nicht eingegeben wird, bekommt das umgebende <code>&lt;div /&gt;</code> Element die CSS Klassen @class="form-group has-error".</p>
+<p>Wenn das Jahr eingegeben und validiert wurde, aber das Formular noch einmal angezeigt wird, z. B. weil andere Komponenten nicht valide sind,
+bekommt das umgebende <code>&lt;div /&gt;</code> Element im Beispiel die CSS Klassen @class="form-group has-success".</p>
+
+<p>Die Anwendung beschränkt sich nicht auf CSS Klassen oder Stile. Je nach Definition in mycore.properties 
+könnte z. B. auch ein placeholder gesetzt oder anderes HTML generiert werden. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="year">
+  <xed:if test="$xed-validation-marker = 'has-error'">
+    Vielleicht sollten Sie mal die <a href="anleitung.html">Anleitung</a> lesen.
+  </xed:if>
+  ...
+</xed:bind>{{< /highlight >}}
+
+</div>
+</div>
+
+<div>
+    <h2>Subselects</h2>
+<p>Subselects dienen der externen Auswahl ein oder mehrerer Werte, z. B. Suche einer Person im Personalverzeichnis der Einrichtung, und Übername von Name und Personalnummer in das Autorenfeld einer Publikation.</p>
+
+<p>Subselects werden als spezielle Submit-Buttons im Formular definiert. Bei Klick auf den Button werden alle aktuellen Formularwerte serverseitig zwischengespeichert. 
+Dann wird zu einer beliebigen externen URL umgeleitet. Diese URL kann durch ein eigenes Servlet implementiert sein, das die Auswahl oder Eingabe von Werten geeignet
+steuert. Die resultierenden Werte werden nach Abschluss der Auswahl als Request an das XEditor Servlet zurückübermittelt. Dieses baut die Werte in das bearbeitete XML Dokument ein 
+und stellt das Formular erneut dar. </p>
+  
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}}<input type="submit|image" xed:target="subselect" xed:href="..." ... />
+oder
+<button type="submit" xed:target="subselect" xed:href="..." ... />{{< /highlight >}}
+
+<p>Das Attribut @xed:href gibt die URL an, die aufgerufen werden soll. Diese kann auch XPath-Ausdrücke enthalten, die auf das bearbeitete XML Dokument zugreifen, oder Variablen referenzieren, 
+die aus Aufruf- oder Konfigurationsparametern stammen. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:name[@type='personal']>
+  <input type="submit" xed:target="subselect" xed:href="../ubo/lsfSearch.html?lastName={mods:namePart[@type='family']}" value="{i18n:button.selectPerson}" />
+  <xed:output value="concat(mods:namePart[@type='family'],', ',mods:namePart[@type='given'])" />
+</xed:bind>{{< /highlight >}}
+ 
+<p>Das Beispiel veranschaulicht die externe Auswahl einer Person zur Übernahme in ein mods:name Element. Das <code>&lt;xed:output /&gt;</code> Element gibt, sofern bereits vorhanden oder
+schon zuvor ausgewählt, Vor- und Nachname der Person im Formular aus.</p>
+
+<p>Bei Klick auf den Button wird das Formular abgeschickt, die Werte zwischengespeichert und die URL ../ubo/lsfSearch.html aufgerufen.
+Dabei wird auch ein Request Parameter übermittelt, der den aktuell im XML gesetzten Nachnamen überträgt: ?lastName={mods:namePart[@type='family']}</p>
+
+<p>Die externe Seite könnte den übermittelten Namen suchen und/oder ein Suchfeld bereitstellen. Neben dem angegebenen Parameter lastName bekommt die Seite einen weiteren Parameter
+_xed_subselect_session übermittelt, der als Rückreferenz dient und die Session ID des Formulars enthält, z. B.</p>
+
+{{< highlight xml "linenos=table">}}../ubo/lsfSearch.html?lastName=Doe&amp;_xed_subselect_session=123-456{{< /highlight >}}
+
+<p>Nach erfolgter Auswahl muss die externe Seite diesen Parameter zusammen mit den gewünschten Werten als Request an das XEditorServlet rückübermitteln, z. B.
+durch Aufruf von </p>
+
+{{< highlight xml "linenos=table">}}servlets/XEditor? _xed_submit_return= &amp; _xed_session=123-456 &amp; mods:namePart[@type='family']=Doe &amp; mods:namePart[@type='given']=John{{< /highlight >}}
+
+<p>Zur besseren Lesbarkeit sind die Parameter in obiger URL hier nicht UTF-8 encoded dargestellt. Eine reale Anwendung müsste sowohl Parameter Namen als auch die
+Werte UTF-8 kodiert übermitteln.</p>
+
+<p>Alle Parameter ausser _xed_submit_return und _xed_session (mit dem Wert von _xed_subselect_session) werden als relative XPath-Ausdrücke interpretiert.
+Im Beispiel sind diese relativ zu der Stelle im Formular, an der der Subselect Button auftritt, und zu dem dort via <code>&lt;xed:bind /&gt;</code> selektierten XML Element.
+In diesem Fall ist das ein mods:name[@type='personal'] Element, in dem Werte eingefügt werden. Die Parameternamen verhalten sich damit so, als ob sie 
+XPath-Ausdrücke in einem <code>&lt;xed:bind /&gt;</code> Element unterhalb von <code>&lt;mods:name /&gt;&lt;/xed:bind&gt;</code> wären.</p>
+ 
+<p>Das XEditor Servlet baut die übermittelten Werte in das bearbeitete XML Dokumen ein</p>
+
+{{< highlight xml "linenos=table">}}<mods:name type="personal">
+  <mods:namePart type="family">Doe</mods:namePart>
+  <mods:namePart type="given">John</mods:namePart>
+</mods:name>{{< /highlight >}}
+
+<p>und stellt das Formular per Redirect im Anschluss erneut dar. Das <code>&lt;xed:output /&gt;</code> Element würde im Beispiel dann an dieser Stelle neben dem Subselect-Button den
+Wert "Doe, John" ausgeben.</p>
+
+</div>
+
+   <div>
+    <h2>Eigene Erweiterungen</h2>
+<ol> 
+<li>TODO: Eine eigene Template-Sprache definieren, vgl. MIR Modul in MyCoRe oder UBO Modul in miless</li>
+<li>TODO: Eigene Targets für Submit Buttons definieren</li>
+</ol>
+   </div>
+  

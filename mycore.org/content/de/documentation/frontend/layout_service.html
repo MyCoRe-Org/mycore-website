@@ -1,0 +1,135 @@
+
+---
+
+title: "Der Layout-Service"
+
+---
+   <div>
+   <h2>Der Layout-Service</h2>
+   <p>
+      Der Layout-Service ist Teil der MyCoRe-Basiskomponente (mycore-base) und bildet das Herzstück zum Aufbau der
+      Webanwendung. Er erstellt mit Hilfe der XSL-Stylesheets aus XML entsprechende Webseiten. Mit Hilfe des
+      Layout-Services können jedoch auch beliebige andere XSL-Transformationen durchgeführt werden, zum Beispiel
+      in Export-Formate.
+   </p>
+
+   <div>
+     <h3>Mehrstufiger Layoutprozess (ab 2013.06)</h3>
+      <p>
+        Mithilfe des neuen Layoutprozesses können XSL-Stylesheets auf effiziente Weise verkettet werden. Das führt zu
+        schlankeren und wiederverwendbaren Stylesheets und unter Umständen schnelleren Layoutprozessen. Die
+        MCRContentTransformerPipe ermöglicht es verschieden MCRContentTransformer hintereinander zuhängen, was die
+        Wiederverwendbarkeit erhöht. ("Write simple parts connected by clean interfaces.") Weiterhin gibt es keine
+        Beschränkung der Layout-Ausgabe via XSL mehr, sondern es können z.B. auch externe Werkzeuge genutzt werden
+        (z.B. bibutils als Exportwerkzeug).
+      </p>
+      <p>
+        Der mehrstufige Layoutprozess gestattet es, die Ausgabe eines
+        Stylesheets als Eingabe eines anderen zu verwenden und dabei auf
+        unnötige Deserialisierungs- und Serialisierungsschritte zu verzichten.
+        Wer das nutzen möchte, um das Seitenlayout vom Inhalt der Seite getrennt
+        zu erzeugen, kann folgende Properties verwenden:
+      </p>
+      {{< highlight xml "linenos=table">}}
+        MCR.LayoutTransformerFactory.Default.Stylesheets=xsl/layout.xsl
+        MCR.LayoutTransformerFactory.Default.Ignore=mets,mets-dfg,alto{{< /highlight >}}
+       <p>
+         Wenn <code>MCR.ContentTransformer.foo.Stylesheet</code> nicht definiert ist, dann
+         tritt folgende Standardkonfiguration in Kraft, wenn es eine foo.xsl-Datei gibt:
+       </p>
+       {{< highlight xml "linenos=table">}}
+        MCR.ContentTransformer.foo.Stylesheet=xsl/foo.xsl,xsl/layout.xsl{{< /highlight >}}
+       <p>
+        Ausnahmen definiert man entweder explizit, in dem man einen
+        ContentTransformer definiert oder das Ignore-Property
+        setzt. Das würde z.B. bei METS-Dokumente auf folgenden Konfiguration
+        ausweichen:
+       </p>
+       {{< highlight xml "linenos=table">}}
+        MCR.ContentTransformer.mets.Stylesheet=xsl/mets.xsl{{< /highlight >}}
+       <p>
+         oder mit XSL.Style=dfg auf:
+       </p>
+       {{< highlight xml "linenos=table">}}
+       MCR.ContentTransformer.mets-dfg.Stylesheet=xsl/mets-dfg.xsl{{< /highlight >}}
+       <p>
+       Wenn ein "MCR.ContentTransformer.*.Stylesheet"
+        Property definiert ist, aber kein passendes
+        "MCR.ContentTransformer.*.Class" Property, wird automatisch der
+        MCRXSLTransformer benutzt.
+      </p>
+    </div>
+    <div>
+      <h3>Konfiguration von ContentTransformern</h3>
+      <p>
+        Als Beispiel für die Konfiguration von ContentTransformer soll die
+        <a href="http://www.mycore.de/viewvc/viewvc.cgi/mycore/trunk/mycore-mods/src/main/resources/components/mods/config/mycore.properties?revision=24755&amp;view=markup">
+        mycore.properties von mycore-mods</a> dienen.
+      </p>
+      <p>
+        Die Transformer-ID hat folgenden Aufbau, wenn man das Fallback-Verhalten überschreiben will:
+      </p>
+      {{< highlight xml "linenos=table">}}{XML-Root-Tag}[-{XSL.Style-Parameter}]{{< /highlight >}}
+      <p>
+        Außerdem gibt es jetzt einen "XSL.Transformer"-Parameter mit dem man den Transformer direkt auswählen kann.
+        Beim MCRObjectServlet kann man so mittels "?XSL.Transformer=bibtex" direkt Bibtex von einem MODS-Datensatz
+        ausgeben lassen.
+      </p>
+      <p>
+        Dank MCRContentTransformer bekommen die so generierten Daten sinnvolle Dateinamen. Im eben erwähnten
+        Bibtex-Fall "{MCRObjectID}.bib". Bei der Standard-HTML-Ausgabe eben *.html. Mit "XSL.FileName" lässt
+        sich der Name festlegen und hat dann Vorrang.
+      </p>
+   </div>
+   <div>
+   <h3>XSL-Info-Servlet</h3>
+   <p>
+     Das XSL-Info-Servlet hilft dabei die Übersicht über verwendete XSL-Stylesheets zu behalten.
+     Dazu durchsucht es zur Laufzeit die Webanwendung (<code>WEB-INF/classes/xsl/</code> und alle
+     <code>WEB-INF/lib/*.jar</code>) nach *.xsl-Stylesheets, listet deren Abhängigkeiten und die
+     darin enthaltenen Templates. Das Ergebnis sieht etwa so aus, für ein einzelnes Stylesheet:
+   </p>
+   {{< highlight xml "linenos=table">}}
+<stylesheet name="MCRMetadataSchema.xsl">
+  <origin>lib/mycore-complete-2.1.80-SNAPSHOT.jar</origin>
+  <includes>MCRMetadataTemplates.xsl</includes>
+  <includes>MCRMetadataCoreTemplates.xsl</includes>
+  <includes>MCRMetadataCoreTypes.xsl</includes>
+  <includes>MCRMetadataTypes.xsl</includes>
+  <xsl:template match="/"/>
+  <xsl:template match="/configuration/structure"/>
+  <xsl:template match="/configuration/metadata"/>
+  <xsl:template match="/configuration/derivate"/>
+  <xsl:template match="/configuration/service"/>
+</stylesheet>
+   {{< /highlight >}}
+   <p>
+     Das Element origin zeigt den Ursprung der XSL-Datei und kann evtl. mehrmals auftreten
+     (etwa wenn das Stylesheet in <code>classes/xsl/</code> überschrieben wird).
+   </p>
+   <p>
+     Um die Abhängigkeiten zu visualisieren, wandelt ein XSL-Stylesheet die Ausgabe in das
+     GraphML-Format um. Das wiederum stelle ich mit CytoscapeWeb (GNU LGPL, Flash, JavaScript)
+     im Browser dar. Den Graphen kann man nun zoomen und im Detail ansehen.
+   </p>
+   <p>
+     Weitere Details werden in einer Tabelle ausgegeben, die man im Browser durchsuchen und
+     filtern kann (JQuery Datatables). Die enthaltenen XSL-Templates können über Buttons
+     aufgeklappt werden.
+   </p>
+   <p>
+     Die Herkunft des Stylesheets wird farblich gekennzeichnet:
+   </p>
+   <ul>
+     <li>grün - aus WEB-INF/classes/xsl/</li>
+     <li>blau - aus *.jar</li>
+     <li>gelb - zur Laufzeit eingebundene Stylesheets über URIs</li>
+     <li>rot - Stylesheet wird referenziert, ist aber nicht auffindbar</li>
+   </ul>
+   <p>
+     Das Frontend für das XSL-Info-Servlet ist als DocPortal-Modul verfügbar, das standardmäßig
+     nicht eingebunden wird: <code>docportal/modules/xslinfo/</code>
+     bzw. online unter <a href="http://www.mycore.de:8291/servlets/MCRXSLInfoServlet">http://www.mycore.de:8291/servlets/MCRXSLInfoServlet</a>
+   </p>
+   </div>
+ </div>

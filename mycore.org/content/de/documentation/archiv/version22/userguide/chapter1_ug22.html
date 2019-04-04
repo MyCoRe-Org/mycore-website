@@ -1,0 +1,125 @@
+
+---
+
+title: "Allgemeines zu MyCoRe"
+
+---
+
+   <div id="preface">
+    <h2>Vorbemerkungen</h2>
+    <p>
+    MyCoRe bietet die Möglichkeit verschiedene Softwarekomponenten für die Speicherung und Verarbeitung der Daten 
+    (digitale Objekte und zugehörige Beschreibungsdaten) zu verwenden. Dabei spielt das verwendete 
+    Betriebssystem eine wesentliche Rolle. Jedes System hat Vor- und Nachteile, die an dieser Stelle kurz aufgezeigt 
+    werden sollen. Wir wollen es abschließend dem Anwender überlassen, in welchem System er für seine Anwendung die 
+    größten Vorteile sieht.
+    </p>
+    <div id="system">
+    <h3>Betriebssysteme</h3>
+    <p>
+    MyCoRe ist auf Grund seiner vollständigen Implementation in Java unabhängig vom Betriebssystem. Innerhalb der 
+    MyCoRe-Community gibt es Installationen unter Unix (Linux, AIX, Solaris), MS Windows und
+    Mac OS. Die Entscheidung für ein bestimmtes Betriebssystem ist stark vom Einsatzzweck und der Verfügbarkeit der 
+    zusätzlich benötigten Komponenten abhängig. 
+    </p>
+    </div>
+    <div id="database">
+    <h3>Relationale Datenbanken</h3>
+    <p>
+    Im Bereich der SQL Datenbasis werden ab MyCoRe 1.3 alle Zugriffe über die Datenbank-Mapping-Sprache 
+    <a title="Hibernate" href="http://www.hibernate.org/">Hibernate</a> realisiert. Dieses garantiert eine einheitliche 
+    Programmierschnittstelle gegenüber der Anwendung und gestattet die Nutzung aller durch Hibernate unterstützten 
+    relationalen Datenbanksysteme wie <a title="HSQLDB" href="http://hsqldb.org/">HSQLDB</a>, 
+    <a title="MySQL" href="http://dev.mysql.com/">MySQL</a>, <a title="PostgreSQL" href="http://www.postgresql.org/">PostgreSQL</a>, 
+    <a title="IBM DB2" href="http://www-306.ibm.com/software/data/db2/">IBM DB2</a> und <a title="Oracle" href="http://www.oracle.com/lang/de/database/index.html">Oracle</a>. Über die Konfiguration von MyCoRe gibt der 
+    Administrator der Anwendung an, welche Datenbank konkret zum Einsatz kommt. Standardmäßig wird für DocPortal die 
+    HSQLDB verwendet. Dies ist ein sogenanntes leichtgewichtiges, Java-basiertes Datenbanksystem und erfordert keine 
+    zusätzlichen Installationen. Der erforderliche Code ist im MyCoRe-Paket bereits enthalten. Für produktive 
+    Anwendungsinstallationen sollte jedoch ein den Erfordernissen entsprechendes Datenbanksystem gewählt werden.
+    </p>
+    </div>
+    <div>
+    <h3>Suchindex</h3>
+    <p>
+    MyCoRe stellt eine Volltextsuchmaschine für Metadaten und Texte auf Basis des <a title="Apache-Projekt Lucene" href="http://lucene.apache.org/">Apache-Projektes Lucene</a> zur Verfügung.
+    Lucene ist ebenfalls in MyCoRe integriert und bedarf keiner zusätzlichen Installation.
+    </p>
+    </div>
+    <div>
+    <h3>Textextraktion</h3>
+    <p>
+    Zum Extrahieren von durchsuchbaren Volltexten aus Dokumenten werden seitens MyCoRe eine Reihe von externen 
+    Anwendungen genutzt. Welche davon bei einer konkreten MyCoRe-Installation zum Einsatz kommen, entscheidet der jeweilige 
+    Administrator selbst. Über eigene Plugins lassen sich weitere Komponenten problemlos einbinden. Die jeweilige Software 
+    (ps2ascii, pdftotext usw.) muss zusätzlich zu den MyCoRe-Komponenten installiert werden. Derzeit sind für folgende 
+    Objekttypen Plugins in MyCoRe integriert: xml, html, txt, ps, pdf, doc, xls, ppt, odt und sxw.
+    </p>
+    </div>
+    <div>
+    <h3>Streaming Server</h3>
+    <p>
+    MyCoRe kann alternativ für die Speicherung von Audio- und Video-Daten Streaming-Server integrieren und zur 
+    Datenhaltung nutzen. Getestet und unterstützt wird der Einsatz des <a title="Helix-Server" href="https://helix-server.helixcommunity.org/">Helix-Servers</a>.
+    Dieser muss extern installiert und dann über die Anwendungskonfiguration eingebunden werden.
+    </p>
+    </div>
+    <div>
+    <h3>Webanwendungs-Server</h3>
+    <p>
+    MyCoRe benötigt für die interaktive Arbeit eine Servlet-Engine. Bekanntester Vertreter hier ist 
+    <a title="Apache Tomcat" href="http://tomcat.apache.org/">Tomcat</a>. Alternativ bietet die MyCoRe-Beispielanwendung DocPortal die Nutzung 
+    von <a title="Jetty" href="http://jetty.mortbay.org/jetty/">Jetty</a> an. Besonders für kleinere Anwendungen stellt es eine interessante 
+    Alternative dar. Jetty ist eine javabasierte und leichtgewichtige Anwendung, die ebenfalls in der DocPortal-Distribution 
+    enthalten ist. Eine weitere Alternative ist der <a title="IBM Application Server" href="http://www-306.ibm.com/software/websphere/">IBM Application Server</a>. 
+    Für Produktionsumgebungen mit einer Apache-Proxy-Anbindung empfiehlt sich jedoch der Einsatz von Tomcat oder WebSphere.
+    </p>
+    </div>
+    <div>
+    <h3>Web-Server</h3>
+    <p>
+    Zur Arbeit mit MyCoRe in Produktionsumgebungen empfehlen wir die Nutzung des 
+    <a title="Apache Web-Server" href="http://httpd.apache.org/">Apache-Web-Servers</a>. 
+    Damit ist es u.a. möglich der Anwendung eine URL auf Port 80 ohne weitere 
+    Portangaben zuzuweisen (virtuelle Hosts). Bei der Verwendung des IBM WebSphere Application Servers 
+    ist ein IBM Webserver (basierend auf Apache) bereits integriert.
+    </p>
+    </div>
+   </div>
+   <div>
+   <h2>Die Beispielanwendung</h2>
+   <p>
+   Zur Demonstration des Leistungsumfangs von MyCoRe wird eine Beispielanwendung mitgeliefert. Diese soll anschaulich 
+   die Funktionalitäten von MyCoRe aufzeigen und gleichzeitig eine praxisnahe Anwendung darstellen. Als Anwendungsszenario 
+   haben die Entwickler einen Dokumenten-Server mit Namen <em>DocPortal</em> gewählt. Die Installation und 
+   Nutzung von MyCoRe und der darauf aufbauenden Anwendung <em>DocPortal</em> wird im Verlauf dieser 
+   Dokumentation in allen Einzelheiten besprochen. Ziel ist es, Interessierten von Anfang an einen 
+   vollständigen und sofort nutzbaren Dokumenten-Server an die Hand zu geben.</p>
+   </div>
+   <div>
+   <h2>Installationswege</h2>
+   <p>
+   Für die Installation der Beispielanwendung DocPortal gibt es verschiedene Wege. 
+   <!-- Die erste Möglichkeit, die Installation einer Binärdistribution, steht zur Zeit leider nicht zur Verfügung.
+   Um einen ersten Eindruck vom System zu erhalten, wird von der Entwicklergruppe eine 
+   <a title="Binärdistribution" href="site:binary">Binärdistribution</a> auf den MyCoRe-Webseiten bereitgestellt. 
+   Dabei handelt es sich um eine mit der Software IZPack generierte jar-Datei. Durch die Ausführung der Datei wird die 
+   Installation von DocPortal gestartet. Als Ergebnis erhält man eine leere Anwendung, deren Daten in der HSQLDB 
+   verwaltet werden. Als Webanwendungs-Server wird Jetty verwendet. Beispieldaten sind in Distributionen thematisch 
+   zusammengestellt und können analog zu DocPortal zu installiert werden. -->
+
+   So ist es möglich ein vorgefertigtes Code-Paket herunterzuladen oder sich den gewünschten Codestand über Subversion
+   zu holen. Beide Installationswege werden hier beschrieben. Es wird erklärt, wie die Beispielanwendung 
+   DocPortal schrittweise zu installieren ist und wie der Administrator per Konfiguration diese Anwendung in seine 
+   Umgebung einpasst. Hierbei ist zu unterscheiden, ob das Zielsystem unter den Betriebssystemen UNIX (Linux) oder 
+   MS Windows arbeitet. Auf die jeweiligen Unterschiede wird in den einzelnen Installationsschritten ggf. näher 
+   eingegangen. DocPortal kann auch unter Mac OS installiert werden. Hierauf wird in der Anleitung aktuell nicht
+   explizit eingegangen. Bei Fragen wenden Sie sich bitte an die <a href="mailto:mycore-user.at.lists.sourceforge.net">
+   mycore-user@lists.sourceforge.net </a>.
+   </p>
+   <p>
+   Die Release-Stände sowie aktuelle Prereleases können unter <a title="Link zur Download-Seite" href="howtoget#NOT_FOUND">Download</a> als *.zip bzw *.tar Datei heruntergeladen werden. 
+   Eine weitere Möglichkeit besteht in der Nutzung der Subversion-Quellen. Hier erfolgt die Auswahl der Release-Stände 
+   mittels Tags. Für den aktuellen Entwicklerstand ist der Zweig 'trunk' auszuwählen. Verwiesen sei in diesem Zusammenhang 
+   auch auf die Projektseite bei <a title="Sourceforge.net" href="http://sourceforge.net/projects/mycore">Sourceforge</a>.
+   </p>
+   </div>

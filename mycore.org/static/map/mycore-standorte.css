@@ -1,0 +1,102 @@
+/******************************************************
+ * CSS Stylesheet fuer MyCoRe Standort-Karte          *
+ ******************************************************/
+.map {
+	height: 750px;
+	width: 500px;
+}
+
+.ol-popup {
+	position: absolute;
+	background-color: white;
+	-webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+	filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+	padding: 15px;
+	border-radius: 10px;
+	border: 1px solid #cccccc;
+	bottom: 12px;
+	left: -50px;
+	min-width: 280px;
+}
+
+.ol-popup p {
+	text-align:left;
+}
+
+.ol-popup:after, .ol-popup:before {
+	top: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.ol-popup:after {
+	border-top-color: white;
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+
+.ol-popup:before {
+	border-top-color: #cccccc;
+	border-width: 11px;
+	left: 48px;
+	margin-left: -11px;
+}
+
+.ol-popup-closer {
+	text-decoration: none;
+	font-weight:bold;
+	font-size:125%;
+	position: absolute;
+	top: 2px;
+	right: 8px;
+	color: darkred;
+}
+a.ol-popup-closer:HOVER{
+	text-decoration:none;
+}
+
+
+
+#popup-content {
+	margin-top;
+	overflow-y: scroll;
+	max-height: 450px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 85%;
+	line-height:100%;
+}
+
+#popup-content h2 {
+	font-family: "Sintony", Helvetica, Arial, sans-serif;
+	font-size: 95%;
+	background-color: white;
+	margin-top: 12px;
+	line-height: 120%;
+}
+
+#popup-content .mcrmap_item_icon {
+	float: left;
+	margin-right: 6px;
+}
+
+#popup-content .mcrmap_item_info {
+	float: right;
+	margin-right: 6px;
+}
+
+#popup-content .mcrmap_item_name {
+	display: block;
+	padding-bottom: 4px;
+}
+#popup-content .mcrmap_item_owner {
+	font-size:95%;
+}
+
+#popup-content p {
+	padding-left: 48px;
+}

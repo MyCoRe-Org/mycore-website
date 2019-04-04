@@ -1,0 +1,26 @@
+{{- define "main" -}}
+
+
+<div class="container-fluid">
+  <div class="row">
+	<div class="col-3">
+	 {{- partial "blog/left_side_menu.html" . -}}
+	</div>
+	<div class="col-6">
+		<h1>{{ .Title }}</h1>
+			{{ $type := .Type }}
+{{ range $key, $value := .Data.Terms.ByCount }}
+  {{ $name := .Name }}
+  {{ $count := .Count }}
+  {{ with $.Site.GetPage (printf "/%s/%s" $type $name) }}
+  <p><a href="{{ .Permalink }}"><code>{{ $name }}</code></a> {{ $count }}</p>
+  {{ end }}
+{{ end }}
+		</div>
+			<div class="col-3">
+	 {{- partial "blog/right_side_menu.html" . -}}
+	</div>
+ 	</div>
+</div>
+
+{{- end -}}

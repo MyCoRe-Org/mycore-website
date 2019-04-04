@@ -1,0 +1,611 @@
+
+---
+
+title: "Möglichkeiten zur Nutzung optionaler Komponenten"
+description: "
+      MyCoRe bzw. DocPortal biete neben den in der Standardinstallation verwendeten Komponenten noch eine Reihe von
+      optionalen Zusätzen. Auch der Einsatz von anderer externer Software wie Tomcat / Apache / Speicher-Backends u. v. m.
+      soll in diesem Kapitel besprochen werden.
+    "
+
+---
+  <div>
+   <h2>Die Zusammenarbeit mit anderen DocPortal-Installationen</h2>
+   <p>
+   Das MyCoRe-System ist so konzipiert, dass hinsichtlich der Metadaten gleichartige Installationen miteinander
+   arbeiten und von einer gemeinsamen Oberfläche (Frontend) abgefragt werden können. Hierzu müssen die Remote-Instanzen
+   definiert werden. Auch die eigene Installation kann über diesen Weg abgefragt werden. Das ist in der
+   Beispielinstallation auch schon vorgesehen. Die Remote-Suche nutzt dabei die WebServices Komponenten von MyCoRe.
+   Das installiert DocPortal-Sample gestattet grundsätzlich auch eine Suche über den WebService-Dienst gegen den
+   localhost.
+   </p>
+   <p>
+   Die Konfiguration ist denkbar einfach, es sind alle Hosts, für die eine Remote-Abfrage angeboten werden soll,
+   in die Datei <code>$DOCPORTAL_HOME/config/hosts.xml</code> einzutragen. Nach einem <code>ant webapps</code> sind die
+   Hosts dann mittels der Suchmasken durchsuchbar.
+   </p>
+   {{< highlight xml "linenos=table">}}
+ <?xml version="1.0" encoding="UTF-8"?>
+ <hosts xmlns="http://www.mycore.org/">
+  <host alias="remote"
+    url="http://localhost:8291/"
+    class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+    access="webservice"
+    servicepath="services/MCRWebService"
+    staticpath="receive/">
+    <label xml:lang="de">Lokal via WebService</label>
+    <label xml:lang="en">Local via WebService</label>
+  </host>
+  <host alias="Demo"
+    url="http://www.mycore.de:8291/"
+    class="org.mycore.services.fieldquery.MCRQueryClientWebService"
+    access="webservice"
+    servicepath="services/MCRWebService"
+    staticpath="receive/">
+    <label xml:lang="de">Demo-Version</label>
+    <label xml:lang="en">Demo Version</label>
+  </host>
+ </hosts>{{< /highlight >}}
+
+   <p>
+   Von den Entwicklern des MyCoRe-Projektes wird exemplarisch eine DocPortal-Installation bereitgehalten. Diese ist im
+   Konfigurationsfile <code>hosts.xml</code> notiert und sollten in der Regel verfügbar sein. Die Attribute für einen
+   Host bedeuten im Einzelnen:
+   </p>
+   <ul>
+   <li>alias – der im MyCoRe-System zu verwendende Alias für einen externen Host</li>
+   <li>url – die Basis-URL eines externen Hosts</li>
+   <li>class – die MyCoRe-Java-Klasse, die den externen Zugriff realisiert</li>
+   <li>access – einen Typ-String für die Zugriffsform</li>
+   <li>servicepath – die URL-Erweiterung als Pfad auf dem externen Systembibliotheken</li>
+   <li>staticpath – die URL-Erweiterung für die Darstellung der statischen URL des Objektes auf dem entfernten Rechner</li>
+   </ul>
+
+   <table>
+   <tr>
+   <th>Alias</th>
+   <th>URL</th>
+   <th>Port</th>
+   <th>Standort</th>
+   </tr>
+   <tr>
+   <td>remote</td>
+   <td>http://localhost:8291/</td>
+   <td>8291</td>
+   <td>lokale Installation</td>
+   </tr>
+   <tr>
+   <td>demo</td>
+   <td>http://www.mycore.de:8291/</td>
+   <td>8291</td>
+   <td>Demo-Version</td>
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 7.1:</strong> Feste Test-Instanzen für das MyCoRe-Beispiel</p>
+
+  </div>
+
+  <div>
+   <h2>Die Integration des Bildbetrachter-Modules</h2>
+  <p>
+    MyCoRe bietet einen komfortablen Bildbetrachter, um Dateien
+    verschiedener Formate anzuzeigen. Dazu wird die
+    Komponente <code>iview2</code> aus dem MyCoRe-Kern verwendet.
+    Diese Komponente ist im DocPortal
+    standardmässig integriert. Um sie zu deaktivieren
+    muss in mycore.properties.private das Property
+    <code>MCR.Components.Exclude</code>
+    um diese Komponente erweitert werden.
+  </p>
+  <p>
+    Eine Übersicht der verfügbaren Kommandos finden Sie im Abschnitt
+    <a href="cmd_iview_ug21#TODO">Kommandos
+      zur Arbeit mit dem ImageViewer</a>.
+  </p>
+  <p>
+    Der Bildbetrachter ist in DocPortal bereits in die Detailansicht des MyCoRe-Objekttyps
+    <code>document</code> integriert. Ist der Bildbetrachter deaktiviert oder sind keine
+    Kacheln vorhanden, wird dieser einfach nicht dargestellt. Für die Darstellung
+    in der document.xsl sind die folgenden Code-Zeilen verantwortlich:
+  </p>
+    {{< highlight xml "linenos=table">}}
+  <!-- MCR-IView ..start -->
+  <xsl:call-template name="derivateView">
+    <xsl:with-param name="derivateID" select="@xlink:href" />
+  </xsl:call-template>
+  <!-- MCR - IView ..end -->{{< /highlight >}}
+  </div>
+
+  <div>
+   <h2>Das Repository als OAI-Data-Provider</h2>
+    <p>
+  Im folgenden soll die Konfiguration der OAI-Schnittstelle beschrieben
+  werden. Zum Austausch von Metadaten unterstützt MyCoRe das Open Archives
+  Initiative Protocol for Metadata Harvesting (OAI-PMH). Die Beschreibung
+  des Standards finden Sie unter <a href="http://www.openarchives.org/pmh/">http://www.openarchives.org/pmh/</a>. Machen Sie sich zunächst grob mit
+  diesem Standard vertraut. In die Implementierung sind auch Anforderungen
+  aus dem DINI-Zertifikat 2010 (<a href="http://www.dini.de/dini-zertifikat/">http://www.dini.de/dini-zertifikat/</a>) eingeflossen.
+    </p>
+    <p>
+    Die OAI-Schnittstelle ist auch im DocPortal bereits integriert und kann
+    dort getestet werden:
+    </p>
+    <ul>
+      <li><a href="http://www.mycore.de:8291/oai2?verb=Identify">OAI 2.0 Request Results</a></li>
+      <li><a href="http://www.mycore.de:8291/oai2?verb=ListRecords&amp;metadataPrefix=epicur">Epicur als Ausgabeformat der OAI-Schnittstelle</a></li>
+    </ul>
+
+   <div>
+    <h3>Mapping der Klassifikationen</h3>
+  <p>
+    Für einen DINI-konformen Betrieb der OAI-Schnittstelle müssen
+    verschiedene Sets unterstützt werden. Sets werden im OAI-PMH Standard
+    verwendet, um Dokumente zu gruppieren. Sie ermöglichen selektives
+    Harvesting und entsprechen konzeptionell den Klassifikationen in
+    MyCoRe. Deshalb wurden zunächst Klassifikationen für die Sets
+    erstellt, die für das DINI-Zertifikat zu implementieren sind. Sie
+    stehen im DocPortal als class_ddc_sg.xml, class_diniPublType.xml und
+    class_diniVersion.xml zur Verfügung und müssen in die eigene Anwendung
+    übernommen werden.
+    </p>
+  <p>
+    Sollen Dokumente im XmetaDissPlus-Format ausgeliefert werden, sind weitere
+    Klassifikationen zu verwenden: class_dctermsDCMIType.xml und
+    class_XMetaDissPlusThesisLevel.xml
+    </p>
+  <p>
+    Im einfachsten Fall lassen sich diese Klassifikationen direkt in einem
+    MyCoRe-Datenmodell verwenden. Allerdings werden die meisten
+    MyCoRe-Anwendungen eigene Klassifikationen besitzen, z.B eine
+    detaillierte DDC oder detailliertere Klassifikation für
+    Dokumententypen. Für diese Fälle wurde in MyCoRe ein Mapping-Verfahren
+    implementiert.
+    </p>
+  <p>
+    Das Datenmodell muss dafür zunächst um ein Datenfeld mappings/mapping
+    ergänzt werden. Dieses Feld wird dann beim Einfügen oder Aktualisieren
+    der Dokumente automatisch befüllt.
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <element name="mappings" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="mapping"
+        class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>{{< /highlight >}}
+  <p>
+    Die eigenen Klassifikationen werden um ein Label mit dem künstlichen
+    Sprach-Attribut „x-mapping“ erweitert. Als Wert wird
+    Klassifikations-ID und Kategorie-ID getrennt durch einen Doppelpunkt
+    dort eingetragen. Mehre Werte können durch Leerzeichen getrennt
+    eingetragen werden. z.B.:
+    </p>
+    {{< highlight xml "linenos=table">}}
+  <category ID="TYPE0003.006">
+         <label xml:lang="de" text="Dissertation" />
+         <label xml:lang="en" text="dissertation" />
+         <label xml:lang="x-mapping"
+                text="diniPublType:doctoralThesis dctermsDCMIType:Text
+    XmetaDissPlusThesisLevel:thesis.doctoral diniVersion:publishedVersion" />
+  </category>{{< /highlight >}}
+  <p>
+    Das Mapping wird per EventHandler aktiviert und sollte möglichst früh
+    aufgerufen werden, zumindest noch vor dem Start der Indexierung.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  MCR.EventHandler.MCRObject.1a.Class
+     =org.mycore.oai.classmapping.MCRClassificationMappingEventHandler
+    {{< /highlight >}}
+  </div>
+  <div>
+    <h3>Konfiguration des OAI-Providers</h3>
+  <h4>Mehrfache Verwendung</h4>
+  <p>
+    Es ist möglich mehrere OAI-Provider parallel zu betreiben. So kann man
+    beispielsweise einen OAIProvider für das Melden der Dissertationen an
+    die Deutsche Nationalbibliothek verwenden und mit einem zweiten
+    OAIProvider den gesamten Dokumentenbestand für OpenAccess-Portale wie
+    OAIster oder BASE bereit stellen.
+  </p>
+  <p>
+    Als Unterscheidungskriterium gilt der Servletname, wie er in der web.xml
+    verwendet wird. Er ist auch Bestandteil der Propertynamen in den
+    Konfigurationsdateien. Die Verwendung derselben Servletklasse ist
+    möglich.
+  </p>
+
+  <h4>Aktivierung des Servlets</h4>
+  <p>
+    Das OAI2 Servlet muss in der web.xml aktiviert werden:
+  </p>
+  {{< highlight xml "linenos=table">}}
+      <servlet id="OAI2Provider">
+            <servlet-name>OAI2</servlet-name>
+            <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
+      </servlet>
+
+      <servlet-mapping>
+         <servlet-name>OAI2</servlet-name>
+         <url-pattern>/oai2</url-pattern>
+      </servlet-mapping>{{< /highlight >}}
+
+    <h4>Properties</h4>
+  <p>
+    Für die Konfiguration der Schnittstelle sind eine Reihe von Properties
+    notwendig. Viele können in der Defaulteinstellung verwendet werden,
+    einige sind jedoch in der eigenen Anwendung zu überschreiben.
+    </p>
+
+    <h4>Property für die Ausgabeformatierung</h4>
+  <p>
+    Für die Visualisierung der OAI-Requests im Webbrowser wird das
+    <a href="http://www.eprints.org/software/xslt.php">OAI2 to
+    HTML XSLT Style Sheet</a> von Eprints verwendet.
+  </p>
+  <p>
+    Folgendes Property gibt den Pfad zu diesem Stylesheet in der eigenen
+    Anwendung an:
+    </p>
+    {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.ResponseStylesheet=oai/oai2.xsl{{< /highlight >}}
+
+    <h4>Properties für den Identify-Request</h4>
+  <p>
+    Für die genaue Bedeutung der Properties und ihre möglichen Werte sei
+    ein Blick in den <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#Identify">OAI-Standard</a> empfohlen:
+  </p>
+    {{< highlight shell "linenos=table">}}
+  # Properties for OAI Identify Request:
+  MCR.OAIDataProvider.OAI2.RepositoryName=MyCoRe Sample Repository
+  MCR.OAIDataProvider.OAI2.RepositoryIdentifier=www.mycore.de
+  MCR.OAIDataProvider.OAI2.AdminEmail=info@mycore.de
+
+  MCR.OAIDataProvider.OAI2.EarliestDatestamp=1970-01-01
+  MCR.OAIDataProvider.OAI2.RecordSampleID=DocPortal_document_07910403
+  MCR.OAIDataProvider.OAI2.DeletedRecord=transient
+
+
+  MCR.OAIDataProvider.OAI2.Friends.DuEPublico=http://duepublico.uni-duisburg-essen.de/servlets/OAIDataProvider
+  MCR.OAIDataProvider.OAI2.Friends.DBThueringen=http://www.db-thueringen.de/servlets/OAIDataProvider
+    {{< /highlight >}}
+<p> Mögliche Werte für DeleteRecord sind: transient, persistent, no.</p>
+
+    <h4>Properties für Resumption Tokens</h4>
+  <p>
+    Mittels Resumption Tokens kann die Rückgabe großer Mengen an Dokumenten
+    partitioniert werden. Genauere Angaben entnehmen Sie der
+    <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl">OAI-Spezifikation</a>.
+  </p>
+  <p>
+    Für die Konfiguration werden folgende Properties verwendet:
+    </p>
+    {{< highlight shell "linenos=table">}}
+    MCR.OAIDataProvider.ResumptionTokens.PartitionSize=100
+  MCR.OAIDataProvider.ResumptionTokens.MaxAge=1440
+  {{< /highlight >}}
+
+  <h4>Properties für den OAIAdapter</h4>
+  <p>
+    Mit dem OAIAdapter wird der einheitliche, protokoll-spezifische Teil der
+    OAImplementierung von den konkreten Anforderungen der Anwendung
+    (MyCoRe oder MILESS) getrennt. Für MyCoRe-Anwendungen steht die Klasse
+    MCROAIAdapter zur Verfügung. In wenigen Ausnahmefällen kann es
+    notwendig sein, diese Klasse neu zu implementieren oder zu erweitern.
+  </p>
+  {{< highlight shell "linenos=table">}} MCR.OAIDataProvider.OAI2.Adapter=org.mycore.oai.MCROAIAdapter{{< /highlight >}}
+  <p>
+    Die Erzeugung des Header- und des Metadatenteils eines OAI-Responses
+    erfolgt über Stylesheets, die über den URI-Resolver aufgerufen werden.
+    Im DocPortal befinden sich eine beispielhafte Umsetzung für
+    document2header.xsl. Für jedes Metadatenformat muss ebenfalls ein
+    Stylesheet erzeugt werden (siehe Properties für Metadatenformate).
+    </p>
+    <!-- use xml instead of shell here, because of 'false' syntax highlighting -->
+  {{< highlight xml "linenos=table">}}
+ MCR.OAIDataProvider.OAI2.Adapter.HeaderURIPattern=xslStyle:document2header:mcrobject:{id}
+ MCR.OAIDataProvider.OAI2.Adapter.RecordURIPattern=xslStyle:document2{format}:mcrobject:{id}{{< /highlight >}}
+
+  <h4>Properties für die Suche</h4>
+  <p>
+    Zunächst kann ein Searcher definiert werden, der den OAI-Request verarbeitet. Als Standard wird die Klasse MCROAISolrSearcher verwendet:
+  </p>
+  {{< highlight xml "linenos=table">}} MCR.OAIDataProvider.OAI2.Searcher=org.mycore.oai.MCROAISolrSearcher{{< /highlight >}}
+  <p>
+    Mit den folgenden Properties lässt sich die Menge der Dokumente, die über
+    die OAI-Schnittstelle ausgeliefert werden, einschränken und sortieren.
+    Die Syntax für Restriction und SortBy orientiert sich an <a href="wiki.apache.org/solr/CommonQueryParameters">SOLR</a>.
+  </p>
+  {{< highlight xml "linenos=table">}}
+ MCR.OAIDataProvider.OAI2.Search.Restriction=objectType:document
+ MCR.OAIDataProvider.OAI2.Search.SortBy=modified desc, id desc
+ MCR.OAIDataProvider.OAI2.Search.FromUntil=modified{{< /highlight >}}
+
+ <h4>Properties für Sets</h4>
+  <p>
+    Das Konzept der Sets im OAI-Standard lässt sich mit dem Klassifikationskonzept von MyCoRe vergleichen.
+    Zum Einlesen der Sets werden MCRURIResolver und XSLT-Stylesheets verwendet.
+  </p>
+  <p>
+    Für <b>dynamische Sets</b> (Sets die aus MyCoRe-Klassifikationen abgeleitet werden) wird der Klassifikations-URIResolver verwendet.
+    Die Konfiguration sieht wie folgt aus:
+  </p>
+  {{< highlight xml "linenos=table">}} MCR.OAIDataProvider.OAI.Sets.DDC=xslStyle:classification2sets:classification:metadata:10:children:DDC{{< /highlight >}}
+    <p>
+    Der Parameter <code>noEmptyLeaves</code> des Klassifikations-URIResolvers ist nur für  den Rückgabetyp <code>editor</code>
+    implementiert - Dieses Feature funktioniert hier nicht!
+  </p>
+  <p>
+    Mit dem Property FilterEmptySets kann bestimmt werden, ob auch leere Sets bei einem ListSets-Request zurückgegeben werden.
+    Ist es aktiviert, wird beim Erzeugen der Set-Menge für jeden Eintrag mit einer Suchanfrage geprüft, ob auch Dokumente existieren.
+    Da dieses Vorgehen zu Lasten der Performance gehen kann, ist abzuwägen, ob der Einsatz bei großen Set-Mengen sinnvoll ist.
+  </p>
+  {{< highlight xml "linenos=table">}} MCR.OAIDataProvider.OAI2.FilterEmptySets=true{{< /highlight >}}
+
+  <p>
+    Wenn der Name des Sets nicht mit dem Namen der zugrunde liegenden Klassifikation übereinstimmt kann in den Properties
+    ein Mapping angegeben werden:
+  </p>
+  {{< highlight xml "linenos=table">}} MCR.OAIDataProvider.OAI2.MapSetToClassification.doc-type=diniPublType{{< /highlight >}}
+
+  <p>
+    <b>Statische Sets</b> (Sets mit immer gleichen Einträgen) lassen sich wie folgt aus einer XML-Datei einlesen:
+  </p>
+  {{< highlight xml "linenos=table">}} MCR.OAIDataProvider.OAI.Sets.OA=webapp:oai/open_access.xml
+ MCR.OAIDataProvider.OAI2.Set.objectType=webapp:oai/set_objectType.xml{{< /highlight >}}
+  <p>
+    Beispiele für statische Sets Dateien im XML Format:
+  </p>
+  {{< highlight xml "linenos=table">}}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <ListSets xmlns="http://www.openarchives.org/OAI/2.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+                            http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <set>
+      <setSpec>open_access</setSpec>
+      <setName>Open Access publications</setName>
+    </set>
+  </ListSets>{{< /highlight >}}
+    {{< highlight xml "linenos=table">}}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <ListSets xmlns="http://www.openarchives.org/OAI/2.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+                            http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <set>
+      <setSpec>objectType:document</setSpec>
+      <setName>Dokumente</setName>
+    </set>
+    <set>
+      <setSpec>objectType:person</setSpec>
+      <setName>Personen</setName>
+    </set>
+
+  </ListSets>{{< /highlight >}}
+  <p>Zu Beachten ist hierbei die Verwendung des OAI Namensraumes.</p>
+
+  <p>
+    Bei statisch definierten Sets muss für jeden Eintrag ein Property definiert werden,
+    welches eine Suchanfrage für die Dokumente des Sets zurückliefert. Dabei ist zu beachten,
+    dass Doppelpunkte in der Java-Property-Syntax durch <code>\:</code> ersetzt werden müssen.
+  </p>
+  {{< highlight shell "linenos=table">}} MCR.OAIDataProvider.OAI2.MapSetToQuery.open_access=objectType = *
+ MCR.OAIDataProvider.OAI2.MapSetToQuery.objectType\:document=objectType:document
+ MCR.OAIDataProvider.OAI2.MapSetToQuery.objectType\:person=objectType:person {{< /highlight >}}
+
+  <h4>Properties für Metadatenformate</h4>
+  <p>
+    Zunächst sind die unterstützten Metadatenformate aufzulisten und dann jeweils
+    Namensraum und URL der XMLSchema-Definition anzugeben:
+  </p>
+  {{< highlight shell "linenos=table">}}
+  MCR.OAIDataProvider.OAI2.MetadataFormats=oai_dc,epicur
+  MCR.OAIDataProvider.MetadataFormat.oai_dc.Schema=http://www.openarchives.org/OAI/2.0/oai_dc.xsd
+  MCR.OAIDataProvider.MetadataFormat.oai_dc.Namespace=http://www.openarchives.org/OAI/2.0/oai_dc/
+  MCR.OAIDataProvider.MetadataFormat.epicur.Schema=http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd
+  MCR.OAIDataProvider.MetadataFormat.epicur.Namespace=urn:nbn:de:1111-2004033116{{< /highlight >}}
+
+  <p>
+    Für jedes Metadatenformat ist außerdem ein XSL-Stylesheet zu erstellen,
+    welches aus dem MyCoRe-Datenmodell das entsprechende Ausgabeformat
+    erzeugt. Im DocPortal befinden sich beispielhafte Implementierungen
+    für document2oai_dc.xsl und document2epicur.xsl. Diese sind jedoch in
+    der Regel an das eigene Datenmodell anzupassen.
+  </p>
+  </div>
+  </div>
+
+  <div>
+   <h2>Nutzung der URN-Vergabe</h2>
+   <p>
+   Die URN-Vergabe für Dokumente und deren Derivate ist in DocPortal standardmässig
+   aktiviert. Möchte man dies deaktivieren, so findet man die folgende, dann zu
+   löschende Zeile unter docportal/modules/common/config/mycore.properties:<br /><br />
+
+   <code>MCR.URN.Enabled.Objects = document</code><br /><br />
+
+   Soll für mehrere Objekttypen die URN-Vergabe ermöglicht werden, so
+   müssen alle Typen durch Komma getrennt an dieser Stelle angegeben werden:<br /><br />
+
+   <code>MCR.URN.Enabled.Objects = document,file,certificate</code><br /><br />
+
+   Es erscheint daraufhin im DocPortal in der Bearbeitungsleiste unterhalb des
+   Derivates und unterhalb des Dokumentes eine Schaltfläche für das automatische
+   Erzeugen einer URN.
+   </p>
+
+   <p>
+   In der Basisimplementierung sorgt der MCRURNProvider für die Erzeugung
+   der URN. Dieser generiert die URN nach dem gleichen Schema, wie auch sonst
+   URNs für die Metadatensätze erzeugt werden.<br /><br />
+
+   <code>MCR.URN.Provider.Class=org.mycore.services.urn.MCRURNProvider</code><br /><br />
+
+   Eine Anpassung kann in den mycore.properties.private im Abschnitt
+   <code># The MyCoRe properties URN file for the DocPortal #</code> vorgenommen werden.
+   </p>
+
+   <p>
+   Reichen die Optionen über die Properties nicht aus und die URNs sollen mit einem
+   anderen Aufbau generiert werden, so muss dafür eine eigene Klasse geschrieben werden,
+   die das <code>org.mycore.services.urn.IURNProvider</code>-Interface implementiert oder
+   einfacher gleich von <code>org.mycore.services.urn.AbstractURNProvider</code>
+   abgeleitet wird. Die neue Klasse muss dann mit dem vollen Klassenpfad als Wert
+   für das Property <code>MCR.URN.Provider.Class</code> gesetzt werden.
+   </p>
+
+   <p>
+   Die erzeugten URNs werden zum einen in der Datenbank in der Tabelle
+   MCRURN als auch im Derivate selber abgelegt.
+   </p>
+  </div>
+
+  <div>
+   <h2>Erzeugen einer Google Sitemap</h2>
+   <p>
+   In MyCoRe gibt es im Indexing-Module ein kleines Servlet, welches eine Datei erzeugt, die den Konventionen des
+   <a title="Link zu Google" href="https://www.google.com/webmasters/sitemaps/docs/de/protocol.html">Sitemap-Protokolls</a>
+   von Google entspricht. Der Zugriff vom Internet aus erfolgt mit der <em>URL http://myhost/sitemap_google.xml</em>.
+   Für die Konfiguration dieser XML-Ausgabe stehen folgende Properties zur Verfügung:
+   </p>
+   <dl>
+   <dt><code>MCR.GoogleSitemap.Types</code></dt>
+   <dd>Liste von mit Komma getrennten MyCoRe-Objekttypen</dd>
+   <dt><code>MCR.GoogleSitemap.Freq</code></dt>
+   <dd>Zugriffsfrequenz von Google – Standard ist monthly – weiter möglich sind: allways / hourly / daily / weekly /
+   monthly / yearly / never</dd>
+   <dt><code>MCR.GoogleSitemap.Directory</code></dt>
+   <dd>Verzeichnis (relativ zum Webapplication-Verzeichnis) in dem die generierten sitemap-Dateien gespeichert werden sollen - Standard ist keine Angabe</dd>
+   <dt><code>MCR.GoogleSitemap.Style</code></dt>
+   <dd>Layout-Angabe für Ausgabe (?XSL.Style={style}) - Standard ist keine Angabe</dd>
+   <dt><code>MCR.GoogleSitemap.ObjectPath</code></dt>
+   <dd>Pfad (Teil nach Anwendungs URL) unter dem die Detailansicht der Objekte abgerufen werden kann.
+   - Standard ist: <code>receive/</code></dd>
+   <dt><code>MCR.GoogleSitemap.NumberOfURLs</code></dt>
+   <dd>Maximale Anzahl der Einträge pro Sitemap Datei. - Standard ist: <code>10.000</code></dd>
+   </dl>
+   <p>
+   Entsprechend der <a href="http://www.sitemaps.org/protocol.html#submit_robots">offiziellen Dokumentation auf sitemaps.org</a>,
+   muss die URL der Sitemap noch über die robots.txt bekannt gemacht werden. Um genauer zu prüfen, was indiziert wird, ob es
+   Fehler gibt etc. können zum Beispiel die <a href="http://www.google.com/webmasters/tools/home">Google Webmastertools</a> verwendet
+   werden.
+   </p>
+  </div>
+
+  <div>
+   <h2>Einbindung virtueller Host-Namen mit Hilfe des Apache-Web-Servers</h2>
+   <p>
+   Standardmäßig ist der Apache2 in den Installations-CDs aller gängigen Linux-Distributionen und in MacOS enthalten.
+   Für Windows muss ein gesonderter Download erfolgen (<a href="#chapter_2">Kapitel 2</a>). Der Quellcode des Apache2 liegt auf
+   <em>http://httpd.apache.org</em> für ein Download bereit. Die folgende Beschreibung bezieht sich auf die
+   Apache-version 2.0.x. Die weitere Beschreibung bezieht sich hinsichtlich der Pfade auf ein UNIX/MacOS-System, für
+   Windows sind die dazu korrespondierenden Pfade zu nutzen.
+   </p>
+
+   <div>
+    <h3>Einbindung des Proxy-Modules</h3>
+    <p>
+    Die Einbindung des Proxy-modules ist relativ einfach zu bewerkstelligen. In der Datei <em>/etc/sysconfig/apache2</em>
+    sind in der Zeile der Variable <strong>APACHE_MODULES</strong> die Module <strong>proxy,proxy_http,proxy_connect</strong>
+    hinzuzufügen. Nach der Änderung ist der Neustart des Apache-Servers erforderlich.
+    </p>
+   </div>
+
+   <div>
+    <h3>Die Verbindung von einer Servlet-Engine und Apache2</h3>
+    <p>
+    Die Verbindung zwischen dem Apache2 und der Servlet-Engine wird in den Konfigurationsfiles
+    <em>/etc/apache2/httpd.conf</em> und <em>/etc/apache2/http-vhosts.conf</em> konfiguriert.
+    </p>
+    <p>
+    In der Datei <em>/etc/apache2/httpd.conf</em> ist die Include-Anweisung für das Lesen der Zusatzkonfiguration
+    <em>http-vhosts.conf</em> zu aktivieren. Anschließend wird der eigentliche virtuelle Host in dieser Datei definiert.
+    Dabei sind natürlich die Pfade zu den einzelnen Verzeichnissen entsprechend den aktuellen Gegebenheiten anzupassen.
+    </p>
+
+    {{< highlight xml "linenos=table">}}
+<VirtualHost mycoresample.dl.uni-leipzig.de:80>
+  ProxyPass / http://mycoresamplelinux.dl.uni-leipzig.de:8291/
+  ProxyPassReverse /
+  http://mycoresamplelinux.dl.uni-leipzig.de:8291/
+
+  ServerAdmin mcradmin@mycoresamplelinux.dl.uni-leipzig.de
+  DocumentRoot /home/mcradmin/docportal/webapps
+  ServerName mycoresamplelinux.dl.uni-leipzig.de
+  ErrorLog /var/log/apache2/mycoresample-error_log
+  CustomLog /var/log/apache2/mycoresample-access_log common
+  Alias /mycoresamplelinux "/home/mcradmin/docportal/webapps"
+
+<Directory "/home/mcradmin/docportal/webapps/" >
+  Options Indexes FollowSymLinks
+  DirectoryIndex
+  AddHandler jakarta-servlet2 .jsp
+  Order deny,allow
+  Deny from all
+  Allow from all
+</Directory>
+
+<Directory "/mycoresamplelinux" >
+  Options Indexes FollowSymLinks
+  DirectoryIndex
+  AddHandler jakarta-servlet2 .jsp
+  Order deny,allow
+  Deny from all
+  Allow from all
+</Directory>
+</VirtualHost>{{< /highlight >}}
+
+    <p>
+    Nach dieser Änderung ist zuerst die Servlet-Engine zu starten. Anschließend kann der Apache-Server mit
+    <code>/usr/sbin/rcapache2</code> neu gestartet werden.
+    </p>
+   </div>
+
+  </div>
+
+  <div>
+   <h2>Sicherung der Daten</h2>
+   <div>
+    <h3>Backup</h3>
+    <p>
+    Natürlich muss ein Dokumenten-Server im Produktionseinsatz auch ein Datensicherungskonzept haben. Je nach Einsatz
+    der gewählten Datenbank ist der erste Schritt natürlich eine Sicherung der selben nach Backup-Vorgaben des
+    Herstellers. Dazu kommt auch eine regelmäßige Backup-Strategie für das Server-System.
+    </p>
+    <p>
+    Ein weiterer Schritt ist das komplette Auslesen des Datenbestandes und die Speicherung auf einem externen
+    (ggf. Netzwerk-) Filesystem. Mit dieser Methode lassen sich auch Migrationen durchführen. Die Distribution enthält
+    im Verzeichnis bin Scripts für Windows und Linux, die diese Aufgabe realisieren. Gestartet wird jeweils das
+    <code>Save.cmd</code> bzw. <code>Save.sh Script</code>. Diese Kommandodateien rufen dann weitere Scripts, welche
+    mit <code>Save...</code> beginnen auf. Im Ergebnis des Kommandos werden alle Daten in das
+    <code>$DOCPORTAL_HOME/save -Verzeichnis exportiert.</code>
+    </p>
+   </div>
+
+   <div>
+    <h3>Recovery</h3>
+    <p>
+    Die mittels des Save-Kommandos exportierten Daten können im Bedarfsfall wieder in ein ggf. neu erstelltes System
+    eingespielt werden. Sollte es nötig sein, einzelne Benutzer mit Ihren gesicherten Passworten neu zu laden, so ist
+    vorher das im bin-Verzeichnis befindliche Script <code>SelectUserFromSave.sh</code> zu starten. Nach erfolgreichem
+    Lauf befinden sich für jeden Benutzer / jede Gruppe Dateien im Verzeichnis <code>$DOCPORTAL_HOME/config/user</code>.
+    Diese Daten können dann im MyCoRe-Kommandozeilen-Tool mit den Kommandos '<code>delete user ...</code>' und
+    '<code>import user from file ...</code>' geladen werden.
+    </p>
+    <p>Sollte nur der Metadaten-Index (z. B. Lucene) defekt sein, so hilft das Script <code>RepairFromXMLStore.sh</code>
+    diesen Index neu zu erstellen.
+    </p>
+    <p>
+    Sind die XML-Daten bzw. die Derivate defekt bzw. weg so könne die gesicherten Daten aus dem save-Verzeichnis in die
+    Workflow-Directories kopiert werden. Mit dem Kommandozeile-Tool bzw. speziellen Scripts unter unixtools können
+    diese Objekte nun wieder in das System eingebracht werden.
+    </p>
+   </div>
+  </div>
+
+  <div>
+   <h2>WCMS</h2>
+   <p>
+     Um die Webseiten rund um die generischen Inhalte pflegen zu können, bringt MyCoRe ein eigenes
+     propriäteres WCMS mit. ToDo: Screenshot, kurze Beschreibung
+     <note label="Warnung">Das WCMS arbeitet nur bedingt mit dem aktuellen Codestand von MyCoRe/DocPortal zusammen. Wir
+     raten daher momentan vom produktiven Einsatz ab!</note>
+   </p>
+   </div>

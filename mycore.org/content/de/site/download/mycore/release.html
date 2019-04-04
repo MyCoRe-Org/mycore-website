@@ -1,0 +1,82 @@
+
+---
+
+title: "Release 2018.06 (LTS)"
+mcr_version: ['2018.06']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+date: "2018-05-07"
+
+---
+    <p>
+      Informationen zur Migration vom LTS 2017.06 finden Sie im
+      <a href="{{< ref migrate_mcr2018_06 >}}">Abschnitt zur Migration</a>.
+    </p>
+	
+    <div>
+      <h2>Was ist neu?</h2>
+      <!-- TODO: weiter ausformulieren! -->
+      <ul>
+        <li>Umgestellt auf Maven-Central, siehe <a href="https://mvnrepository.com/artifact/org.mycore">https://mvnrepository.com/artifact/org.mycore</a></li>
+        <li>Umstieg auf Solr 7 - siehe <a href="{{< ref using_solr >}}">Solr Nutzung</a></li>
+        <li>ORCID-Integration</li>
+        <li>Datacite-Schema konfigurierbar</li>
+		<li>Überarbeiteter FileUpload - siehe entsprechender <a href="https://blog.mycore.de/dateiupload-mit-dem-2018-06-release/">Blogeintrag</a></li>
+        <li>Datei-Informationen werden vollständig aus der DB gelesen, nicht mehr teilweise von der Platte (bessere Performance des Derivat-Listings)</li>
+		<li>Unterstützung von Proxy-Header</li>
+        <li>Abrundung der PI-Komponente</li>
+        <li>Sprachklassifikation RFC5646 löst RFC4646 ab</li>
+        <li>MCRConfiguration2</li>
+        <li>Komponenten entfernt: mycore-urn, mycore-complete und mycore-buildtools </li>
+      </ul>
+    </div>
+	
+    <div>
+      <h2>Einbindung der Komponenten</h2>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2018.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und die
+        MAVEN-Repositories angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <properties>
+    <mycore.version>2018.06.0.1-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>  
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artififactId>mycore-base</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
+    </div>
+
+  

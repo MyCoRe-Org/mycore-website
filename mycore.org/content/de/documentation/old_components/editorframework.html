@@ -1,0 +1,39 @@
+
+---
+
+title: "Das MyCoRe-Editor-Framework"
+description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+
+---
+    <div>
+     <h2>Funktionalität</h2>
+     <p>
+     Das Metadatenmodell einer MyCoRe Anwendung ist frei konfigurierbar. Dementsprechend benötigt ein MyCoRe System
+     auch einen Online-Editor für diese Metadaten, der frei konfigurierbar ist. Aus dieser Anforderung heraus entstand
+     das MyCoRe Editor Framework, das aus einem XSL Stylesheet und einer Menge von Java-Klassen besteht.
+     </p>
+     <p>
+     Verschiedene MyCoRe Anwendungen können über XML-Definitionsdateien nahezu beliebige Online-Eingabemasken für
+     Metadaten gestalten. Das Framework verarbeitet diese Editor-Definitionsdateien und generiert daraus den HTML-Code
+     der Webseite, die das Online-Formular enthält. Nach Abschicken des Formulars generiert das Framework aus den
+     Eingaben ein dem Metadatenmodell entsprechendes XML-Dokument, das an ein beliebiges Servlet zur endgültigen
+     Verarbeitung (z.B. zur Speicherung) weitergereicht wird. Ebenso können existierende XML-Dokumente als Eingabe in
+     die Formularfelder des Editors dienen, so dass sich vorhandene Metadaten bearbeiten lassen. Das Framework regelt
+     dabei die Abbildung zwischen den XML-Elementen und –Attributen und den Eingabefeldern der resultierenden
+     HTML-Formularseite, indem es die in der Editor-Definitionsdatei hinterlegten Abbildungsregeln verarbeitet.
+     </p>
+     <p>
+     Inzwischen ist das Editor Framework auch in der Lage, einzelne Dateien zusammen mit den Formulareingaben in das
+     System hochzuladen und zur Weiterverarbeitung an ein Servlet durchzureichen. Die Validierung der Eingabefelder ist
+     strukturell vorbereitet, aber derzeit noch nicht implementiert. Prinzipiell erlaubt das Editor Framework,
+     beliebige XML-Dokumente in HTML-Formularen zu erzeugen oder zu bearbeiten.
+     </p>
+    </div>
+
+    <div>{{< mcr-figure src="/images/documentation/old_components/include_editor.png" class="border border-secondary" label="" caption="" alt="Editor einbinden" width="" height="" />}}</div>
+
+   <div>{{< mcr-figure src="/images/documentation/old_components/xml_rahmen.png" class="border border-secondary" label="" caption="" alt="Editor Rahmen" width="" height="" />}}</div>
+
+    <div>{{< mcr-figure src="/images/documentation/old_components/cell_syntax.png" class="border border-secondary" label="" caption="" alt="Syntax" width="" height="" />}}</div>
+
+    <div>{{< mcr-figure src="/images/documentation/old_components/eingabevalidierung.png" class="border border-secondary" label="" caption="" alt="Eingabevalidierung" width="" height="" />}}</div>

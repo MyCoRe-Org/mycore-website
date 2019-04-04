@@ -1,0 +1,134 @@
+
+---
+
+title: "JIRA als Ticket-System"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "2017-08-21"
+
+---
+
+      <div>
+        <h2>Einleitung</h2>
+        <p>
+          Nachdem wir SourceForge mehr als 10 Jahre lang als Plattform genutzt haben, setzen wir seit 2015 das 
+          Ticketsystem der umfangreicheren und mächtigen <a href="https://de.atlassian.com/software/jira">JIRA Software</a>
+          ein. Alle SourceForge-Tickets wurden dahin migriert. Das
+          <a href="https://mycore.atlassian.net/">MyCoRe-JIRA</a> können wir als OpenSource-Community mit entsprechender
+          OpenSource-Lizenz frei nutzen. Als anonymer Nutzer können Sie sich einen Überblick über unsere Tickets und
+          aktuelle Entwicklungsarbeit verschaffen. Um neue Tickets anzulegen ist eine Registrierung notwendig.
+        </p>
+        <p>
+          Einen Überblick über die Systeme kann man sich auf den Dokumentationsseiten von Atlassian verschaffen. Wir
+          haben die Mails mit Links zu den wichtigsten Themen im Wiki zusammengestellt:
+          <a href="http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation/Atlassian">Atlassian im MyCoRe-Wiki</a>.
+        </p>
+      </div>
+      <div>
+        <h2>Zugang einrichten</h2>
+        <ol>
+          <li>Nutzer in Jira anlegen</li>
+          <li>Nutzer in Fish-Eye anlegen</li>
+          <li>von jira-&gt;FishEye authentifizieren mit OToken</li>
+          <li>und andersherum</li>
+        </ol>
+      </div>
+      <div>
+        <h2>Verknüpfung der Tickets mit einzelnen Commits</h2>
+        <p>
+          Um diese sogenannten "Smart Commits" ausführen zu können, müssen die Commit-Kommentare einer definierten Form
+          folgen <code>&lt;ISSUE_KEY&gt; #&lt;COMMAND&gt; &lt;optional COMMAND_PARAMETERS&gt;</code>. Diese ist ausführlich
+          auf den Atlassian-Seiten unter <a href="https://confluence.atlassian.com/display/FISHEYE/Using+smart+commits">Using smart commits</a> dokumentiert. Nachfolgend einige Beispiele:
+        </p>
+        <code>
+          MCR-792 #comment This is a comment for ticket 792
+        </code><br /><br />
+        <code>
+          MCR-792 #start This commit starts the progress, working on ticket 792
+        </code><br /><br />
+        <code>
+          MCR-792 #stop This commit finishes the current progress on ticket 792 but didn't close it
+        </code><br /><br />
+        <code>
+          MCR-792 #close This commit closes ticket 792
+        </code><br /><br />
+        <code>
+          MCR-792 #resolve This commit closes and resolves ticket 792
+        </code><br /><br />
+        <p>
+          <span class="label label-info">Hinweis:</span> Aktuell funktioniert die Verwendung mehrfacher Kommandos
+          (z.B. <code>#resolve #comment</code>) nicht! Daher bitte bevorzugt mit <code>#comment</code> arbeiten
+          und das Ticket über Eclipse oder JIRA direkt schliessen.
+        </p>
+      </div>
+      <div>
+        <h2>Projekt anlegen</h2>
+        <p>
+          Worauf ist zu achten, wenn ein neues Projekt angelegt wurde?
+        </p>
+        <ol>
+          <li>Administrations-Übersicht des Projektes öffnen</li>
+          <li>unter Permissions -&gt; Scheme anklicken</li>
+          <li>Actions -&gt; Use a different scheme</li>
+          <li>"Open Source" auswählen</li>
+          <li>zurück zur Administrations-Übersicht</li>
+          <li>Roles -&gt; "View Project Roles" anklicken</li>
+          <li>dort mcr-developer bei Developer und mcr-user bei Users ergänzen</li>
+        </ol>
+        <p>
+          Das nun erstellte Projekt sollte noch mit dem SVN (via FishEye) und Bamboo verknüpft werden:
+        </p>
+        <ol>
+          <li>in Jira Administrations-Übersicht des Projektes öffnen</li>
+          <li>Settings -&gt; Repository Path -&gt; "Select Path"</li>
+          <li>entsprechende Angaben machen</li>
+        </ol>
+        <p>
+          Für die Verknüpfung aus FishEye heraus sind folgende Schritte notwendig:
+        </p>
+        <ol>
+          <li>Repository-Administration öffen (über Zahnrad oben rechts)</li>
+          <li>in der Tabelle hinten in der Zeile des betreffenden Repositories unter Actions -&gt; "Application Links" auswählen</li>
+          <li>Link zur Jira bzw. Bamboo-Projekten erstellen</li>
+        </ol>
+      </div>
+      <div>
+        <h2>Eclipse und Jira</h2>
+        <p>
+          Über den Eclipse-Connector kann man Jira auch ins Eclipse einbinden. Details dazu sind in der
+          <a href="https://confluence.atlassian.com/display/IDEPLUGIN/Using+JIRA+in+the+Eclipse+Connector">Atlassian-Dokumentation</a> beschrieben.
+        </p>
+        <p>
+          <span class="label label-info">Hinweis:</span> Seit 1. Juni 2015 ist der Support für diesen Connector eingestellt. Siehe dazu die
+          entsprechende Meldung von Atlassian: <a href="https://developer.atlassian.com/blog/2015/06/discontinuing-ide-connectors-support/">We are discontinuing the support for Atlassian IDE Connectors</a>!
+        </p>
+      </div>
+      <div>
+        <h2>Tipps und Tricks im Umgang mit Jira</h2>
+        <div>
+          <h3>Probleme bei der Ticket-Ansicht</h3>
+          <div>{{< mcr-figure src="/images/documentation/developer/admin_help.png" class="border border-secondary" label="Abbildung 1" caption="Hilfe-Menü für Administratoren" alt="Issue-Screenshot mit Admin-Menü" width="" height="" />}}</div>
+          <p>
+            Können bestimmte Felder nicht bearbeitet werden oder wird nicht alles wie erwartet angezeigt, so haben sich
+            die Adminwerkzeuge "Where is my field?" und "Permission Helper" als sehr nützlich erwiesen. Darüber kann man
+            sich dann mögliche Gründe aufzeigen lassen, warum ein Nutzer ein Feld nicht sieht oder bearbeiten kann.
+          </p>
+          <div>{{< mcr-figure src="/images/documentation/developer/admin_whereismyfield.png" class="border border-secondary" label="Abbildung 2" caption="Übersicht zum gesuchten Feld und dessen Status" alt="Screenshot zu 'Where is my field'" width="" height="" />}}</div>
+        </div>
+        <div>
+          <h3>Commit-Message nachträglich ändern</h3>
+          <p>
+            Wurde versehentlich eine Commit-Nachricht abgesetzt, ohne diese einem Ticket zuzuweisen, kann dies nachträglich
+            geändert werden. Dies geht entweder über die Shell mittels eines <a href="http://subversion.apache.org/faq.html#change-log-msg">SVN-Befehls</a>, oder direkt im Eclipse mit den
+            folgenden Schritten:
+          </p>
+          <ol>
+            <li>Open for an item where you want to change a log message the history: Team &gt; Show History. This opens a new view named History.</li>
+            <li>In that view, you see the log messages of the selected item. Select one of the messages and choose from the context menu Show revision properties.</li>
+            <li>Select svn:log and then from the context menu Edit.... This opens a new dialog where you can change the log message (if allowed on the server).</li>
+          </ol>
+          <p>Anschließend sollte im JIRA-Ticket ein Kommentar ergänzt werden (das geht nicht automatisch). Die SVN-Revisionsnummer wird mit <tt>r{revision_nr}</tt> angegeben.
+             Dadurch verlinkt JIRA automatisch auf den Commit im FishEye.</p>
+        </div>
+      </div>
+  

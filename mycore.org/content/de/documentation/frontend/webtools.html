@@ -1,0 +1,135 @@
+
+---
+
+title: "Web Tools für Administratoren"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+date: "2017-11-13"
+
+---
+
+  <div>
+   <h2>Allgemeines</h2>
+   <p>Zur besseren Arbeit mit den MyCoRe-Anwendungen, vor allem im Umfeld der Web Applikation wurden kleine Werkzeuge
+    implementiert, welch den Administrator online unterstützen sollen. Diese sind in der Rubrik WebTools
+    zusammengefasst.</p>
+  </div>
+
+  <div>
+   <h2>Web CLI</h2>
+   <p>
+    Die Web CLI ist mit im Abschitt zum
+    <a href="../cli/cli_web.xml" target="_self">Command Line Interface</a>
+    beschrieben.
+   </p>
+  </div>
+
+  <div>
+   <h2>Session Listing</h2>
+
+   <div>
+    <h3>Allgemeines</h3>
+    <p>
+     Die Komponente Session Listing ist relativ klein und einfach. Sie stellt lediglich die
+     Möglichkeit bereit, in der
+     interaktiven Sitzung angezeigt zu bekommen, welche Sitzungen
+     für die MyCoRe-Anwendung aktiv sind. Die Anfrage an das
+     Servlet liefert eine XML-Datei
+     zurück, welche über das mitgelieferte Stylesheet angezeigt wird. Ggf. kann dieses
+     Stylesheet
+     durch eine eigene Variante überschrieben werden.
+    </p>
+   </div>
+
+   <div>
+    <h3>Zugriffsrechte</h3>
+    <p>
+     Das Session-Listing-System ist durch eine Zugriffsregel geschützt. Nur berechtigte Nutzer dürfen diese
+     Funktionalität ausführen. Hierfür ist das
+     <em>PRIVILEG</em>
+     <strong>manage-sessions</strong>
+     mittels des CLI-Kommandos
+     <code>load permissions data from file {file}</code>
+     in die Zugriffsliste einzutragen. Nachfolgend eine Beispielkonfiguration als XML-File.
+    </p>
+    {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8" ?>
+<mcrpermissions
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRPermissions.xsd"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+>
+  <mcrpermission name="manage-sessions"
+    description="Administration rights for the session system"
+    ruledescription="For administrators only">
+    <condition format="xml">
+      <boolean operator="or">
+        <condition value="admin" operator="=" field="group"/>
+      </boolean>
+    </condition>
+  </mcrpermission>
+</mcrpermissions>
+{{< /highlight >}}
+   </div>
+
+   <div>
+    <h3>Integration</h3>
+    <p>
+     Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
+     lediglich noch in der
+     Navigation der Anwendung aufgerufen werden.</p>
+    <p>
+     <dt>für LTS-Release 2017.06</dt>
+     <dd>
+      <code>href="/modules/webtools/session/sessionListing.xml"</code>
+     </dd>
+     <dt>für LTS-Release 2016.06</dt>
+     <dd>
+      <code>href="/modules/session-listing/sessionListing.xml"</code>
+     </dd>
+    </p>
+   </div>
+
+  </div>
+
+  <div>
+   <h2>Processing Tool</h2>
+
+   <div>
+    <h3>Allgemeines</h3>
+    <p>
+     Mit dem Processing Tool können interne Systemprozesse angezeigt werden. Dies sind
+     <ul>
+      <li>der Image Tiler Process</li>
+      <li>die Solr Indizierung</li>
+      <li>WebCLI Kommandos</li>
+      <li>MCRJobMaster</li>
+      <li>die Uploads des MCRUploadHandlerManager</li>
+     </ul>
+     Alle Anzeigen sind erst sichtbar, wenn sie im laufenden System erstmalig benutzt worden sind.
+    </p>
+   </div>
+
+   <div>
+    <h3>Zugriffsrechte</h3>
+    <p>Für die Anzeige sind keine weiteren Permissions erforderlich.
+    </p>
+   </div>
+
+   <div>
+    <h3>Integration</h3>
+    <p>
+     Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
+     lediglich noch in der
+     Navigation der Anwendung aufgerufen werden.</p>
+    <p>
+     <dt>für LTS-Release 2017.06</dt>
+     <dd>
+      <code>href="/modules/webtools/processing/processing.xml"</code>
+     </dd>
+    </p>
+   </div>
+
+  </div>
+
+ 

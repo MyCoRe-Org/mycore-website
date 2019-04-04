@@ -1,0 +1,102 @@
+
+---
+
+title: "Kommandos zum Verwalten der Objekte"
+mcr_version: ['2017.06','2018.06']
+author: ['Thomas Scheffler', 'Jens Kupferschmidt']
+description: "
+      Der Abschnitt beschreibt alle Commandline-Kommandos, die mittels des MyCoRe Commandline Interfaces
+      
+      bzw.
+      
+      aufgerufen werden können und mit MCRObjekten arbeiten.
+    "
+date: "2018-07-03"
+
+---
+    <div id="mcrobject_commands">
+      <h2>Kommandos zur Verwaltung der Objekte</h2>
+      <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können folgende Befehle zur Verwaltung von 
+        MyCoRe Objekten ausgeführt werden:
+      </p>
+      <dl>
+        <dt>
+          <code>load object from file {0}</code>
+        </dt>
+        <dd>Das Kommando lädt ein neues MCRObject vom angegebenen vollständigen Dateipfad {0}.</dd>
+        <dt>
+          <code>load all objects from directory {0}</code>
+        </dt>
+        <dd>Das Kommando lädt alle neuen MCRObject, welche sich in dem vollständigen Verzeichnispfad {0} befinden.</dd>
+        <dt>
+          <code>update object from file {0}</code>
+        </dt>
+        <dd>Das Kommando lädt oder aktualisiert ein MCRObject vom angegebenen vollständigen Dateipfad {0}.</dd>
+        <dt>
+          <code>update all objects from directory {0}</code>
+        </dt>
+        <dd>Das Kommando lädt oder aktualisiert alle MCRObject, welche sich in dem vollständigen Verzeichnispfad {0}
+          befinden.
+        </dd>
+        <dt>
+          <code>export object {0} to directory {1} with {2}</code>
+        </dt>
+        <dd>Das Kommando exportiert das MCRObject mit der angegebenen MCRObjectID {0} in den vollständigen
+          Verzeichnispfad {1} unter Verwendung des XSLT-Styles {2}.
+        </dd>
+        <dt>
+          <code>export object from {0} to {1} to directory {2} with {3}</code>
+        </dt>
+        <dd>Das Kommando exportiert alle MCRObject von der angegebenen MCRObjectID {0} bis zur MCRObjectID {1} in den
+          vollständigen Verzeichnispfad {2} unter Verwendung des XSLT-Styles {3}.
+        </dd>
+        <dt>
+          <code>export all objects of type {0} to directory {1} with {2}</code>
+        </dt>
+        <dd>Das Kommando exportiert alle MCRObject mit der angegebenen MCRObjectType {0} in den vollständigen
+          Verzeichnispfad {1} unter Verwendung des XSLT-Styles {2}.
+        </dd>
+        <dt>
+          <code>delete object from {0} to {1}</code>
+        </dt>
+        <dd>Das Kommando löscht alle MCRObject von der angegebenen MCRObjectID {0} bis zur MCRObjectID {1}.</dd>
+        <dt>
+          <code>delete all objects of type {0}</code>
+        </dt>
+        <dd>Das Kommando löscht alle eingestellten Objekte mit der angegebenen MCRObjectType {0}.</dd>
+         <dt>
+          <code>delete all objects in topological order</code>
+        </dt>
+        <dd>Das Kommando löscht alle Objekte im Repository unter Berücksichtigung ihrer Eltern-Kind-Beziehungen und der Beziehungen der Objekte untereinander.</dd>
+        <dt>
+          <code>select objects with query {0}</code>
+        </dt>
+        <dd>Das Kommando selektiert MCRObject via MCRQL und speichert sie in eine temporäre Liste. Jeder Aufruf des
+          Kommandos überschreibt die Liste.
+        </dd>
+        <dt>
+          <code>execute for selected {0}</code>
+        </dt>
+        <dd>
+          Das Kommando führt das angegebene Kommando {0}
+          mit allen selektierten Objekten aus. Im Kommando muss die
+          zu ersetzende ID mit {x}
+          angegeben werden. Ein Beispiel:
+          <code>execute for selected set parent
+            of {x} to DocPortal_document_00000001</code>
+        </dd>
+        <dt>
+          <code>xslt {0} with file {1}</code>
+        </dt>
+        <dd>
+          Das Kommando transformiert das angegebene MyCoRe Objekt {0} mit einer XSL-Datei {1}. Das
+          Kommando ist hilfreich
+          um fehlerhafte Datenbestände zu reparieren. Selektieren Sie dazu zuerst alle fehlerhaften Objekte mit dem
+          <code>select objects with query {0}</code>
+          Kommando. Anschließend können
+          Sie mit 'execute for selected xslt {x} with file myfix.xsl' die Objekte
+          reparieren.
+        </dd>
+      </dl>
+    </div>
+  

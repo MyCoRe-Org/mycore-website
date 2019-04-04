@@ -1,0 +1,232 @@
+
+---
+
+title: "KlassifikationsBrowser"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Kathleen Neumann']
+description: "Funktionsweise des KlassifikationsBrowser"
+date: "2016-05-26"
+
+---
+   <div>
+    <h2>Klassifikationsbrowser</h2>
+    <p>
+      Mit dem Klassifikationsbrowser bietet MyCoRe die Möglichkeit über Klassifikationen zu navigieren und so zu den
+      zugehörigen Dokumenten zu gelangen. Für jede Klassifikation die über einen Link im Navigationsmenü erreicht werden
+      soll, muss eine Seite im content-Verzeichnis angelegt werden (siehe z.B. im docportal-Modul unter
+      <code>web/content/main/classifications</code>).
+    </p>
+
+    <div>
+      <h3>Konfiguration</h3>
+      <p>
+        Der Klassifikationsbrowser ist mittels der Komponente <code>mycore-classbrowser</code> eingebunden und steht
+        dann zur Verfügung. Nutzt man <code>mycore-complete</code>, hat man ebenfalls Zugriff auf den Klassifikationsbrowser.
+      </p>
+      <p>
+        Der Browser kann in jede MyCoRe-Webpage unter Angabe des xml-Tags <code>&lt;classificationbrowser&gt;</code>
+        eingebunden werden. Dabei wird das XML-Tag inkl. seiner Attribute über das XSLT-Stylesheet <code>classificationBrowser.xsl</code>
+        ausgewertet. Folgende Attribute sind möglich:
+    </p>
+    {{< highlight xml "linenos=table">}}
+  <classificationbrowser
+    classification="{ClassificationID}"
+    category="{CategoryID to start with, optional}"
+    sortby="{id|label, optional sort order of categories}"
+    objecttype="{MCRObject type, optional}"
+    field="{search field for category queries in this classification}"
+    restriction="{additional query expression}"
+    filterCategory="{true|false, if true join returnId to id, ignored with lucene, default true}"
+    parameters="{additional MCRSearchServlet parameters}"
+    addParameter="{any additional request parameters to forward to classification browser servlet}"
+    countresults="{true|false, default false, whether to execute queries to count results}"
+    countlinks="{true|false, default false, whether to count links to each category}"
+    emptyleaves="{true|false, when false and counting activated, skip empty leaves}"
+    adduri="{true|false, whether to include URI from classification data}"
+    adddescription="{true|false, whether to include description from category label}"
+    addclassid="{true|false, adds classification ID to category, default false}"
+    class="{CSS class, default is 'classificationBrowser'}"
+    style="{XSL.Style to use, default is classificationBrowserData.xsl}"
+  />{{< /highlight >}}
+    </div>
+    <div>
+      <h3>Beispiel für Browsen nach Einrichtung</h3>
+    <p>
+      Der Klassifikationsbrowser für die Klassifikation Dokumente nach Einrichtung (z.B. bei einer lokalen
+      Beispiel-Installation) kann dann durch folgende URL aufgerufen werden:
+    </p>
+    {{< highlight shell "linenos=table">}}http://localhost:8291/content/main/classifications/origin.xml{{< /highlight >}}
+    <p>
+      Für das im docportal-Modul enthaltene Beispiel der Einrichtungen wurde die folgende Konfiguration verwendet:
+    </p>
+    {{< highlight xml "linenos=table">}}
+  <classificationbrowser
+    classification="DocPortal_class_00000002"
+    objecttype="document"
+    field="origin"
+    countresults="true"
+    parameters="numPerPage=10"
+    style="docportal"
+  />{{< /highlight >}}
+  <p>
+    Da diese Konfiguration direkt als XML im section-Tag der Seitenspezifikation stattfindet, kann
+    der Klassifikationsbrowser in beliebigen Seitenkontext eingebunden werden und muss nicht, wie im
+    Beispiel, allein stehen. Durch die Variabilität ist es also möglich, Klassifikationen nach
+    Belieben in XML-Dokumente einzubetten.
+  </p>
+  <p>
+    In Abbildung 2.14.1 ist ein Beispiel zu sehen, wie sich der Klassifikationsbrowser auf der Webseite
+    präsentieren kann. Einzelne Kategorien können aus- bzw. eingeklappt werden, so lange sie noch
+    Unterkategorien enthalten. Die Anzahl der enthaltenen Dokumente kann dargestellt werden und es
+    besteht auch die Möglichkeit leere Kategorien auszublenden.
+  </p>
+
+  <div>{{< mcr-figure src="/images/documentation/basics/klassifikationsbrowser.png" class="border border-secondary" label="Abbildung 2.14.1" caption="Klassifikationsbrowser in einer MyCoRe-Anwendung" alt="Klassifikationsbrowser" width="" height="" />}}</div>
+  </div>
+  <div>
+    <h3>Die Parameter im Detail</h3>
+    <h4>classification="{ClassificationID}"</h4>
+    <p>Dieser Parameter gibt die Klassifikations-ID an, zu der der Browser erstellt werden soll. Dieser Parameter ist Pflicht.</p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  classification="DocPortal_class_00000002"
+    {{< /highlight >}}
+    <p>
+      Hinter der Klassifikation mit der ID <code>DocPortal_class_00000002</code> verbirgt sich in diesem Fall eine Liste von Einrichtungen,
+      die zur MyCoRe-Community gehören. Dies ist eine Beispielklassifikation aus dem docportal-Modul.
+    </p>
+
+    <h4>objecttype="{MCRObject type}"</h4>
+    <p>
+      Über den Parameter <code>objecttype</code> wird die Auswahl der MyCoRe-Objekttypen gesteuert, die bei der Abrage
+      der Dokumente berücksichtigt werden sollen. Der angegebene Typ muss in der Datei <code>mycore.properties</code>
+      über den Parameter <code>MCR.Metadata.Type.[Doctype]=[true|Dokumententypliste]</code> definiert sein. Als möglicher
+      Wert, kann jede Angabe aus MCR.Metadata.Type.* verwendet werden. Dieser Parameter ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  objecttype="document"
+    {{< /highlight >}}
+    <p>
+      Es wird <code>MCR.Metadata.Type.document</code> in der Datei <code>mycore.properties</code> herausgesucht, der z.B.
+      mit <code>MCR.Metadata.Type.document=true</code> belegt ist. Somit werden bei dieser Klassifikation alle Dokumente vom
+      MyCoRe-Objekttyp <code>document</code> berücksichtigt.
+    </p>
+    <p>
+      Alternativ könnte man in einer etwas komplexeren Anwendung so den logischen MyCoRe-Objekttyp
+      <code>objecttype="alldocs"</code> spezifizieren, der dann auf die echten Objekttypen z.B.
+      <code>MCR.Metadata.Type.alldocs=document,article,codice,disshab,professorum,portrait</code> abgebildet wird und alle
+      Dokumente, die einem Typ aus der Typliste entsprechen, im Klassifikationsbrowser berücksichtigt.
+    </p>
+
+    <h4>style="{XSL.Style to use}"</h4>
+    <p>
+      Legt das Stylesheet fest, mit dem das erzeugte XML-Document transformiert wird. Dabei setzt sich der Name des
+      auszuwählenden Stylesheets aus der Default-Datei <code>classificationBrowserData.xsl</code> und dem Style zusammen.
+      Dieser Parameter ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  style="docportal"
+    {{< /highlight >}}
+    <p>Es wird die Datei <code>classificationBrowserData-docportal.xsl</code> zur Transformation verwendet.</p>
+
+    <h4>emptyleaves="{true|false}"</h4>
+    <p>
+      Klassifikationen besitzen im Allgemeinen eine baumartige Struktur. Zu jeder im Baum dargestellten Kategorie wird
+      die Anzahl der damit klassifizierten Objekte ermittelt und (je nach Stylesheet) dargestellt. Kategorien die keine
+      Objekte referenzieren (Anzahl der Dokumente=0) können durch die Option <code>emptyleaves</code> ausgeblendet werden.
+      Mögliche Werte sind <code>true|false</code>, default ist true - es werden also alle Kategorien inkl. leerer angezeigt.
+      Dieser Parameter ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  emptyleaves="false"
+    {{< /highlight >}}
+    <p>Zeigt nur Kategorien der Klassifikation an, die auch Dokumente enthalten.</p>
+
+    <h4>restriction="{additional query expression}"</h4>
+    <p>
+      Es ist möglich für die referenzierten MyCoRe-Objekte eine Restriktion zu setzen um die Auswahl durch weitere
+      Such-Kriterien einzuschränken. Es werden dann nur die Objekte berücksichtigt, die allen Kriterien genügen.
+      Dieser Parameter ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  ToDo
+    {{< /highlight >}}
+    <p>
+      ToDo: Beschreibung des Beispiels.
+    </p>
+
+    <h4>category="{CategoryID to start with}"</h4>
+    <p>
+      Da einige Klassifikationen schnell komplex und ein enstprechender Baum unübersichtlich werden kann, ist es möglich
+      eine Kategorie-ID zu spezifizieren, an deren Stelle der darzustellende Klassifikationsbaum beginnen soll. Dieser
+      Parameter ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  category="Unis"
+    {{< /highlight >}}
+    <p>
+      Mit dieser Restriktion werden nur die Dokumente berücksichtigt, die auch der Klassifikation
+      <code>DocPortal_class_00000002</code> mit der Kategorie <code>Unis</code> genügen. Das sind im Beispiel alle
+      Dokumente, die an Einrichtungen, die auch Hochschulen sind, publiziert worden.
+    </p>
+
+    <h4>field="{search field for category queries in this classification}"</h4>
+    <p>
+      Hier wird das bei der Ausführung der Suchanfrage zu durchsuchende Suchfeld festgelegt, das in
+      <code>searchfields.xml</code> spezifiziert werden muss.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  field="origin"
+    {{< /highlight >}}
+    <p>
+      Es wird das origin-Suchfeld als Suchparameter genutzt.
+    </p>
+
+    <h4>filterCategory="{true|false}" <span class="label label-info">2013.06</span></h4>
+    <p>
+      Dieser Parameter wird intern genutzt, um die von Solr zurückgegebene ID (returnId) mit der Id zu
+      verknüpfen (join). Funktioniert nur mit Solr, wird bei Solr ignoriert.
+    </p>
+
+    <h4>adddescription="{true|false}"</h4>
+    <p>
+      Die Beschreibung, die optional beim Erstellen der Klassifikation für Kategorien angegeben sein können, werden
+      im Baum mit dargestellt. Mögliche Werte sind <code>true|false</code>. Default ist <code>false</code>, der Parameter
+      ist optional.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+  addclassid="true"
+    {{< /highlight >}}
+
+    <h4>addclassid="{true|false}" <span class="label label-info">2013.06</span></h4>
+    <p>
+      Mit Solr stehen nun die Suchfelder category bzw. category.top zur Verfügung, in denen jeweils die Klassifikationen
+      indiziert sind. Somit kann unter Angabe "KlassifikationsID:KategorieID" auf eine Klassifikation zugegriffen werden,
+      ohne sie explizit zu indizieren. Damit der Klassifikationsbrowser damit umgehen kann, muss in diesem Fall das Attribut
+      addclassid auf "true" gesetzt werden.
+    </p>
+    {{< highlight shell "linenos=table">}}
+  Beispiel:
+
+ classification="mir_genres"
+          field="category.top"
+     addclassid="true"
+    {{< /highlight >}}
+
+  </div>
+</div>

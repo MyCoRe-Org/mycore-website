@@ -1,0 +1,164 @@
+
+---
+
+title: "Struktur einer Anwendung"
+description: "
+      Eine MyCoRe-Anwendung gliedert sich in den Kern- und Modulbereich von MyCoRe sowie den Anwendungs- und
+      Modulbereich der Applikation, als Beispiel DocPortal. Die gedachte Aufteilung wird im folgenden näher
+      beschrieben.
+    "
+
+---
+      <div>
+        <h2>MyCoRe</h2>
+        <p>
+          Die vollständige Funktionalität von MyCoRe ist im Kern. Damit ist MyCoRe an sich keine lauffähige Anwendung,
+          sondern nur ein Rahmenwerk für solche. Alles was der Anwendungsentwickler an Funktionen in seiner eigenen
+          Anwendung verwenden kann, und zu 99% nicht anfassen bzw. ändern muss, ist Teil des Kerns.
+        </p>
+        <div>
+          <h3>Definitionen</h3>
+          <p>
+            <ul>
+              <li>
+                <p>
+                  <strong>Algemeiner Bestandteile</strong>
+                  sind die Teile des MyCoRe-Kerns, welche von vielen/allen Komponenten und Modulen verwendet werden und
+                  die elementaren Grundfunktionalitäten von MyCoRe bereitstellen. U. a. beinhaltet dies die APIs zur
+                  Speicherung der Daten, Klassifikationen, der ACLs und Nutzer, Store-Zugriffe und Klassen, die
+                  allgemeiner Natur sind und als API-Funktionalitäten bereitgestellt werden (MCRServlet, XML-Parser
+                  usw.).
+                </p>
+              </li>
+              <li class="gap">
+                <p>
+                  <strong>Komponenten</strong>
+                  sind Teile des MyCoRe-Kerns welche als Funktionalität in sich abgrenzbar sind. Sie bauen auf den
+                  <strong>Allgemeinen Bestandteilen</strong>
+                  auf und enthalten alle zur Funktionalität gehörenden Klassen und Dateien. Alle Komponenten haben eine
+                  fest vorgegebene Struktur (siehe unten) und können über ein Property ausgeschaltet werden (wie bisher
+                  bei den Modulen des Kerns). Die in den Komponenten enthaltenen Vorlagen (Templates) können durch
+                  anwendungsseitige Dateien überschrieben werden. Komponenten werden vom Entwickler-Team bereitgestellt
+                  und sind Bestandteil von mycore.jar. Komponenten werden über einen automatischen Prozess in die
+                  Anwendung integriert, wenn sie nicht explizit deaktiviert wurden.
+                </p>
+              </li>
+              <li class="gap">
+                <p>
+                  <strong>Module</strong>
+                  sind austauschbare/abschaltbare Teile der Nutzeranwendung, welche alle wichtigen Dinge zur Gestaltung
+                  konkreter Anwendungen enthalten, die nicht als generisch anzusehen sind (Datenmodelle, statische
+                  Seiten, Layouts usw.). Module werden von den Anwendern entwickelt und bauen auf dem mycore.jar auf.
+                  Module können auch Komponeten überschreiben bzw. ergänzen. Die Dateibaumstruktur vom Modulen und
+                  Komponenten soll analog zueinander sein.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </div>
+        <div>
+          <h3>Struktur des mycore-Verzeichnisses</h3>
+          <p> Der mycore-Verzeichnisbaum ist ein Projektbereich, aus welchem die für die Anwendung relevante Datei
+            mycore.jar erzeugt wird. Alle Teile unterstützen nur die Sprachen Englisch und Deutsch. mycore hat
+            nachfolgende Struktur:
+          </p>
+          {{< highlight shell "linenos=table">}}
+            mycore
+            |
+             \ build (mit ant generierte Daten)
+               | \ classes (Java-Klassen)
+               | \ javadocs (generierte JavaDocs)
+               | \ lib (Download-Bereich der externen Jars)
+             \ components (alle Komponenten gemäß Definition von oben
+               (exkl. Module und inkl. Migration))
+             \ config (alle generischen Konfigurationen)
+             \ resources (werden nicht übersetzt, sondern so wie sie sind nach
+               build/classes kopiert - z.B. Hibernate-Mappings)
+             \ schema (generische DTD- und XSD-Schema-Dateien)
+             \ sources (Common parts - Sources)
+             \ tests (JUnit Test Sources)
+             \ xsl (alle generischen Stylesheets)
+             | Dateien build.xml, changelog.txt, license.txt
+          {{< /highlight >}}
+        </div>
+      </div>
+      <div>
+        <h2>Module</h2>
+        <p>Module in MyCoRe können in mehreren Arten auftreten:</p>
+        <ol>
+          <li>
+            <strong>Einfache Module</strong>
+            sind klar gekapselte funktionelle Einheiten, deren Bestandteile bis auf anzupassene Konfigurationen im Kern
+            bereits vorhanden sind. Für die Konfiguration gibt es bereits Standardvorgaben. Die Module können über den
+            Konfigurations- bzw. build-Prozess der Anwendung einfach integriert werden. Einfache Module werden im Kern
+            automatisch mit compiliert.
+          </li>
+          <li>
+            <strong>Nicht installierte Module</strong>
+            haben den selben Umfang wie einfache Module, sie müssen aber auf Grund von Lizenzbestimmungen erst bei der
+            Erstellung der konkreten Anwendung im Kern durch Nutzung von ANT-Targets mit aktiviert werden. Nicht
+            installierte Module werden im Kern erst automatisch mit compiliert, wenn sie aktiviert wurden.
+          </li>
+          <li>
+            <strong>Anwendungsmodule</strong>
+            bezeichnen alle Module, die ausschließlich in einer speziellen Anwendung benutzt werden. Dazu gehört i.d.R.
+            ein Modul, welches das konkrete Datenmodell von der Basisanwendung abgrenzt. Weiterhin können auch andere,
+            nur in der Anwendung genutzte spezielle Funktionalitäten in einem Modul platziert werden.
+          </li>
+        </ol>
+        <p>Die nachfolgenden Festlegungen sind für jeden Modul umzusetzen:</p>
+        <ol>
+          <li>Ein Module beinhaltet eine abgeschlossene Funktionseinheit, die auf dem Kern basiert und die bei Bedarf
+            abgeschaltet bzw. nicht genutzt werden kann.</li>
+          <li>
+            Die Auswahl der Module und deren Reihenfolge erfolgt über das Property
+            <strong>MCR.Modules.MyCoRe</strong> für den Kern und <strong>MCR.Modules.Application</strong>
+            für die Anwendung.
+          </li>
+          <li>
+            Alle Module stehen sowohl im Kern als auch in der Anwendung im Verzeichnis
+            <em>modules</em>. Jedes Modul befindet sich dort in einem Verzeichnis mit dem entsprechenden Modulnamen.
+          </li>
+          <li>
+            Unterhalb dieses Ordners sind folgende Verzeichnisnamen festgelegt:
+            <br />
+            <br />
+            <table>
+              <tr>
+                <td>config</td>
+                <td>Konfigurationsdaten</td>
+              </tr>
+              <tr>
+                <td>lib</td>
+                <td>zusätzliche Bibliotheken</td>
+              </tr>
+              <tr>
+                <td>sources</td>
+                <td>Java-Quellcode</td>
+              </tr>
+              <tr>
+                <td>webpages</td>
+                <td>statische Web-Seiten</td>
+              </tr>
+              <tr>
+                <td>xsl</td>
+                <td>XSLT-Stylesheets</td>
+              </tr>
+            </table>
+          </li>
+          <li>
+            System-Properties sind immer einzutragen unter
+            <em>config</em>
+            in die Datei mycore.MODULNAME.properties. Alle Properties haben den Anfang MCR.MODULNAME...= .
+            I18N-Properties beginnen immer mit MODULNAME....
+          </li>
+          <li>
+            Eine erforderliche web.xml steht zudem immer unter<em>config</em>.
+          </li>
+          <li>Alle Funktionalitäten sind im Programmer Guide zu dokumentieren.</li>
+          <li>Das Modul ist möglichst in die Beispielanwendung DocPortal zu integrieren.</li>
+          <li>Eine *.txt-Datei sollte die notwendigen nicht automatischen Konfigurationsschritte zur Integration des
+            Moduls in eine Anwendung beschreiben.</li>
+        </ol>
+      </div>
+  

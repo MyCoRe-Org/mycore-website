@@ -1,0 +1,83 @@
+
+---
+
+title: "Die Speicherung der Dokumente / Dateien"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "2018-01-03"
+
+---
+   <!-- TODO: copied from miless documentation - refacturing needed -->
+    <div>
+      <h2>Speicherung der Derivat-XML-Dateien</h2>
+      <p>
+        Genau wie die Metadaten werden auch die XML-Dateien der Derivate abgespeichert.
+        Eine genaue Beschreibung dazu ist unter <em>MyCoRe-Objekte -&gt; Metadatenspeicher</em> zu finden.
+      </p>
+    </div>
+
+   <div>
+     <h2>Speicherorte für Dateien konfigurieren</h2>
+     <p>
+       Bevor Dateien in das MyCoRe-System geladen werden können, müssen Sie noch konfigurieren, wo
+       die Inhalte dieser Dateien intern gespeichert werden sollen. MyCoRe verwendet dazu die
+       "FileContentStores". Sie können Dateien in lokalen oder entfernten
+       Dateisystemen, z. B. auf Video Streaming Servern speichern. MyCoRe verwendet das Apache Commons
+       Virtual Filesystem14, welches neben lokalen Dateisystemen auch SFTP, WEBDAV und CIFS unterstützt.
+     </p>
+     <p>
+       Die Datei mycore.properties enthält Beispiel-Konfigurationen für die Speicherung in einem lokalen Verzeichnis
+       und die Anbindung eines Helix Universal Streaming-Servers, was die beiden häufigsten Anwendungsfälle
+       darstellt. In einem MyCoRe-System werden die Metadaten der gespeicherten Dateien (MD5 Prüfsumme,
+       Größe, erkannter Dateityp usw.) in der SQL-Tabelle files gespeichert. Der eigentliche Datei-Inhalt
+       wird in einer eigenen Struktur im FileContentStore gespeichert.
+     </p>
+     <p>
+       Für jeden FileContentStore sind eine eindeutige ID (z.B. FS oder REAL8), die Store-Implementierung
+       (vgl. obige Liste) und weitere Parameter abhängig von der Implementierung (z.B. das Zielverzeichnis)
+       angegeben. Sie müssen mindestens einen FileContentStore konfigurieren. Ändern Sie dazu in der Datei
+       mycore.properties im Abschnitt "FS - Local Filesystem Content Store" gegebenenfalls das Verzeichnis,
+       in dem Dateien auf dem lokalen Server gespeichert werden sollen:
+       <code>MCR.IFS.ContentStore.FS.URI=%MCR.BaseDir%fs</code>
+     </p>
+   </div>
+
+   <div>
+     <h2>Auswahlregeln für Speicherorte anpassen</h2>
+     <p>
+       Die Datei miless-webapp/src/main/resources/ContentStoreSelectionRules.xml enthält die Regeln, wie die
+       Dateien anhand des erkannten Dateityps auf die zuvor konfigurierten FileContentStores verteilt werden.
+       Wenn keine besondere Regel zutrifft, wird der Dateiinhalt im Default Store gespeichert. Wenn Sie nur
+       einen lokalen FileContentStore eingerichtet haben, sollte der Inhalt dieser Datei also schlicht wie
+       folgt aussehen:
+       <code>&lt;ContentStoreSelectionRules default="FS" /&gt;</code>
+     </p>
+     <p>
+       Wenn Sie wie zuvor beschrieben einen Helix Universal Streaming Server eingerichtet haben, oder andere
+       FileContentStores verwenden wollen, können Sie angeben, welche Dateitypen in welchen Stores gespeichert
+       werden. Das Element type entspricht den IDs aus der Datei FileContentTypes.xml (Dateitypen). Beispiel:
+     </p>
+     {{< highlight xml "linenos=table">}}
+<ContentStoreSelectionRules default="FS">
+  <store ID="REAL8">
+    <type>mp3</type>
+    <type>mpeg4</type>
+    <type>wav</type>
+    <type>realvid</type>
+    <type>realaud</type>
+    <type>wma</type>
+    <type>wmv</type>
+    <type>asf</type>
+  </store>
+</ContentStoreSelectionRules>{{< /highlight >}}
+
+     <p>
+       Vergessen Sie nicht, nach Änderung der Konfiguration der Dateitypen, FileContentStores und Auswahlregeln erneut
+       <code>ant build</code> aufzurufen, damit die aktualisierte Konfigurationsdatei verwendet wird. MyCore erlaubt es
+       grundsätzlich auch, andere oder eigene Implementierungen für die Erkennung von Dateitypen oder für die Auswahl
+       des FileContentStores zu verwenden, um z.B. eine Zuordnung nicht anhand des erkannten Dateitypes, sondern etwa
+       anhand der Metadaten des zugehörigen Dokumentes zu treffen. Diese erweiterten Möglichkeiten sind in der Dokumentation
+       des MyCoRe Internal Filesystem (IFS) zu finden.
+     </p>
+   </div>
+  

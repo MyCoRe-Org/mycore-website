@@ -1,0 +1,204 @@
+
+---
+
+title: "MyCoRe-Konventionen"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+date: "2018-06.01"
+
+---
+
+      <div>
+        <h2>Benennung der Properties</h2>
+        <p> MyCoRe-Properties beginnen immer mit MCR, darauf folgt ein Punkt und dann der Komponentenname (z.B. ACL, IFS
+          ...). Alle weiteren Bezeichner sind mit Punkt voneinander getrennt und beginnen mit einem Grossbuchstaben.
+        </p>
+        <p class="kasten">
+          Beispiel:<br />
+          MCR.IFS.FileMetadataStore.Class
+        </p>
+        <p>Properties von Drittanbietern (z.B. Log4j, Hibernate) behalten ihre Konventionen bei.</p>
+        <table>
+          <tr>
+            <th>Komponente</th>
+            <th>Property-Kürzel</th>
+            <th>Kommentar</th>
+          </tr>
+          <tr>
+            <td>allgemeine Konfiguration</td>
+            <td>MCR.ConfigurationMCR.XMLParser</td>
+            <td />
+          </tr>
+          <tr>
+            <td>ACL</td>
+            <td>MCR.Access</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Classification Browser</td>
+            <td>MCR.ClassificationBrowser</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Classification Editor</td>
+            <td>MCR.ClassificationEditor</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Commandline Tool</td>
+            <td>MCR.CLI</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Editor</td>
+            <td>MCR.EditorFramework / MCR.Editor</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Event Handler / Searcher</td>
+            <td>MCR.EventHandler / MCR.Searcher</td>
+            <td />
+          </tr>
+          <tr>
+            <td>File Upload</td>
+            <td>MCR.FileUpload</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Goggle Indexer</td>
+            <td>MCR.GoogleSitemap</td>
+            <td />
+          </tr>
+          <tr>
+            <td>IFS</td>
+            <td>MCR.IFS</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Index Browser</td>
+            <td>MCR.IndexBrowser</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Layout Service</td>
+            <td>MCR.Request</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Mail System</td>
+            <td>MCR.Mail</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Metadaten-Modell</td>
+            <td>MCR.Metadata</td>
+            <td />
+          </tr>
+          <tr>
+            <td>OAI</td>
+            <td>MCR.OAI</td>
+            <td />
+          </tr>
+          <tr>
+            <td>REST API</td>
+            <td>MCR.RestAPI</td>
+            <td />
+          </tr>
+          <tr>
+            <td>SOLR</td>
+            <td>MCR.Solr</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Stores und Manager</td>
+            <td>MCR.Persistence</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Textextrakter</td>
+            <td>MCR.TextFilterPlugin</td>
+            <td />
+          </tr>
+          <tr>
+            <td>URI Resolver</td>
+            <td>MCR.URIResolver</td>
+            <td />
+          </tr>
+          <tr>
+            <td>User Administration</td>
+            <td>MCR.Useradmin</td>
+            <td />
+          </tr>
+          <tr>
+            <td>User Kernsystem</td>
+            <td>MCR.Users</td>
+            <td />
+          </tr>
+          <tr>
+            <td>WebService</td>
+            <td>MCR.WebService</td>
+            <td />
+          </tr>
+          <tr>
+            <td>Zip Tool</td>
+            <td>MCR.Zip</td>
+            <td />
+          </tr>
+        </table>
+      </div>
+      
+      <div>
+        <h2>Benennung von I18N Übersetzungen</h2>
+        <p>
+          Alle Übersetzungsvariablen erhalten ein einheitliches Namensschema. Alle Übersetzungen von Texten des Kerns
+          und häufig benutzte Texte erhalten den Anfang <span class="T2">common.</span>, Variablen der Module den
+          Modulnamen und Teile der Anwendung den Anwendungsnamen.
+        </p>
+        <p class="kasten">
+          Beispiel:<br /><br />
+          common.cancel = Abbrechen
+          <br />
+          mods.object.edit = Editieren Objekt
+          <br />
+          myapp.title.label = Titel
+        </p>
+      </div>
+      
+      <div>
+        <h2>Stylesheets</h2>
+        <p> Stylesheets in MyCoRe und DocPortal sind einheitlich zu benennen. Sie sollten (wenn möglich) komplett klein
+          geschrieben werden. Die Verwendung eines Präfix wie mcr, MyCoRe oder mycore entfällt, auch werden keine
+          Unterstriche genutzt.
+        </p>
+        <p class="kasten">
+          Beispiele:<br /><br />
+          results.xsl
+          <br />
+          user.xsl
+          <br />
+          editor.xsl
+        </p>
+        <p>
+          Stylesheets für das Layout der Webseiten ...
+          <br />
+          <code>[ToDo: Thomas] Namenskonvention bzgl. RootTag</code>
+        </p>
+      </div>
+
+      <div>
+        <h2>Verwendung des Maven-Datamodel-Plugin</h2>
+        <p>Datenmodelle nach dem MyCoRe-Datenmodel-Schema 2 müssen im Maven-Modul unter <code>src/main/datamodel/def</code>
+        stehen und den Namen <code>{datenmodel}.xml</code> haben. Dabei wird {datenmodel} dann in die Schemadatei
+        {datenmodel}.xsd umgewandelt und so referenziert. </p>
+      </div>
+
+      <div>
+        <h2>SOLR-Konfigurationen</h2>
+        <p>Die SOLR-Konfiguration wurde mit Release 2018.06 modularisiert. Somit enthält jedes Modul nur noch die
+        SOLR-Konfigurationsdefinitionen, die es benötigt. Um Namensdopplungen zu vermeiden, haben alle Typ- und
+        Felddefinitionen einen Modulprefix in der Form <code>{prefix}.{name}</code>, Beispiel <code>mods.identifier</code>.
+        Lediglich die MyCoRe-Basisfelder in <em>mycore-base</em> entsprechen nicht diese Konvention, da sie immer
+        vorhanden sind.</p>
+      </div>
+
+  

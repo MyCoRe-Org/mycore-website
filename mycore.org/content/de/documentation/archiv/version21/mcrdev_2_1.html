@@ -1,0 +1,1098 @@
+
+---
+
+title: "MyCoRe Developer Guide 2.1"
+
+---
+ <div>
+  <h2>Gemeinsames Vokabular</h2>
+   <p>
+   snapshot - wenn Tests ok, Codestand neuer Snaphshot
+   prerelease - Vorversion, stabil, bekannte Fehler, noch nicht alle Funktionen
+   </p>
+ </div>
+ 
+ <div>
+  <h2>Gemeinsame Entwicklungsplattformen</h2>
+  <div>
+   <h3>SourceForge</h3>
+   <p>
+   Für die Präsentation und den Download von Releases und Distributionen wurde ein Projekt auf den Server von 
+   SourceForge eingerichtet. Hier können auch auftretende Bugs und Feature Request dokumentiert werden.
+   </p>
+   <p class="break">
+   <a target="_blank" href="http://sourceforge.net/projects/mycore">http://sourceforge.net/projects/mycore</a> 
+   </p>
+  </div>
+  
+  <div>
+   <h3>Subversion-Zugang</h3>
+   <p>
+   Der Quellcode der MyCoRe-Kerns und einiger Anwendungen, z. B. der Beispielanwendung DocPortal, wird 
+   auf einem Subversion-Server an der Universität Duisburg-Essen verwaltet.
+   </p>
+   <p>
+   Aktuell gib es zwei Zugangsmöglichkeiten: über HTTP im lesenden Zugriff und über SSH mit Schreibrechten (sofern der 
+   Entwickler Zugang zum System hat [der Server wird von Frank Lützenkirchen verwaltet]).
+   </p>
+   <p class="kasten">
+   <a title="" target="_blank" href="http://www.mycore.de/svn/">http://www.mycore.de/svn/</a>
+   </p>
+   <p class="kasten">svn+ssh://server.mycore.de/svn/ </p>
+   <p>
+   Der Code ist innerhalb eines Projektes in die Zweige branches – für Releases, tags – für Snapshots und trunk – für 
+   den altuellen HEAD-Zweig unterteilt.
+   </p>
+   <note label="Hinweis für Kommandozeilen-Nutzer">
+   Dateien in der SVN-Arbeitskopie nie direkt mit Betreibssystemmitteln kopieren, löschen und verschieben. Stattdessen
+   auf jeden Fall auf die <code>svn</code> Kommandos <code>cp</code>, <code>rm</code>, <code>mv</code> zurück.
+   </note>
+   <note label="Hinweis für Eclipse-Nutzer"> 
+   Ab sofort sollten Dateien nicht mehr mit Cut &amp; Paste sondern vielmehr über die Team-Funktionen kopiert werden, 
+   damit die Histories nicht verloren gehen!</note>
+   <note label="MIME-Typ für alle neuen Dateien">
+   Alle neuen Dateien, die bei MyCoRe mit Subversion verwaltet werden müssen das SVN Property <code>svn:mime-type</code>
+   ausgefüllt haben. Bei Mime-Typ <code>text/*</code> muss zusätzlich noch da Property <code>svn:eol-style</code> beschrieben
+   sein. Für die häufigsten Dateiarten gibt es eine Konfiguration zum <a href="../../filecollection/svn-config.txt">herunterladen</a>,
+   die ans Ende der Datei <code>config</code> im Verzeichnis <code>.subversion</code> des Nutzerverzeichnisses angefügt wird.
+   Der entsprechende Bereich trägt den Namen <code>[auto-props]</code>.
+   
+   </note>
+  </div>
+	 
+   <div>
+   <h3>Maven Grundsystem</h3>
+   <p>
+		 Neben der Installation von Subversion für die Arbeit mit einem zentralen Code-Repository
+		 ist ab Version 2.1 auch das Produkt Maven (<a href="http://maven.apache.org/" target="_blank">http://maven.apache.org/</a>)
+		 erforderlich, um an den Kernkomponenten zu arbeiten. Installieren Sie Maven gemäß Anleitung der Home Page
+		 und setzen Sie die Umgebungsvariablen M2_HOME und MAVEN_OPTS. Binden Sie das mvn-Kommando in den Suchpfad mit ein.
+   </p>
+   <p>
+		 Die Funktion von Maven kann mit dem Kommando <code>mvn --version</code> getestet werden. Unter Linux-Systemen wird
+		 im Wurzelverzeichnis des Nutzers ein Verzeichnis <code>.m2</code> angelegt, worin sich alle relevanten Maven-Daten befinden.
+	 </p>
+	</div>
+	 
+  <div>
+   <h3>Nutzung von Eclipse</h3>
+    <p>
+    Die Entwicklungsumgebung Eclipse leistet nicht nur hilfreiche Dienste bei der Formatierung 
+    des Java-Codes. Mit ihr kann auch die Syntaxprüfung der Java-Klasse wie auch ihre Einbettung in das Gesamtprojekt 
+    leicht überwacht werden. Dazu sind einige Installationen und Einstellungen erforderlich. Diese werden dann sowohl für die
+		Kernanwendung wie auch für die Applikationen genutzt.
+    </p>
+		<p>
+			Zuerst ist das <a target="_blank" href="http://www.eclipse.org/">Eclipse</a> Grundsystem zu installieren. Aktuell wird von den Entwicklern die Version <strong>Galileo</strong> verwendet.
+			Soll die Eclipse-Umgebung mehreren Nutzern eines Linux-Systems zur Verfügung stehen (Installation als ROOT), so müssen auch 
+			die Plugins mit als Nutzer <code>root</code> installiert werden!
+		</p>
+    <p>
+    Zuerst ist das Plugin für die Integration von Subversion zu installieren. Da inzwischen <strong>Subversive</strong> für die Integration
+    in Eclipse vorgesehen ist, sollte dies dem Projekt Subclipse vorgezogen werden. Die Installation ist auf der Homepage beschrieben.
+		Alternativ kann <strong>Subclipse</strong> verwendet werden, jedoch gibt es kleine Probleme bei der Nutzung von Subversion via Kommandozeile.
+    </p>
+    <p class="break">
+    <a title="" target="_blank" href="http://www.eclipse.org/subversive/">Homepage von Subversive</a> <br />
+    <a title="" target="_blank" href="http://subclipse.tigris.org/">Homepage von Subclipse</a>
+    </p>
+		<p>
+			Im nächsten Schritt ist dann die Maven-Integration zu installieren. Hiefür empfehlen wir <strong>Eclipse IAM</strong> unter
+			<a target="_blank" href="http://eclipse.org/iam/">http://eclipse.org/iam/</a>. 
+		</p>
+    <note label="Hinweis Windows mit IAM">
+			In der Kombination Windows+IAM scheint Maven zu scheitern, weil Eclipse den PATH nicht an eine aus einem Plugin
+			aufgerufene CMD.EXE durchreicht (CMD.EXE 'SVN ..'), wenn die Build Number via SVN ermittelt werden soll. Das Problem
+			kann behoben werden, indem man eine SVN.bat Datei im Verzeichnis <code>WINDOWS\SYSTEM32</code> (wo auch die CMD.EXE liegt) mit 
+			folgendem Inhalt anlegt:<br /><br />
+			<code>set PATH=C:\Java\Subversion\bin;%PATH%</code><br />
+			<code>svn %1 %2 %3 %4 %5 %6 %7 %8 %9</code>
+		</note>
+    <p>
+			Weiterhin haben sich die Plugins <strong>XMLBuddy</strong> zum Bearbeiten der XML-Dateien und 
+			<strong>ResourceBundelEditor</strong> zur Bearbeitung von I18N-Sprachdateien (besonders für Sprachen außerhalb des Lateinischen Alphabetes)
+			bewährt.
+		</p>
+	</div>
+</div>
+ 
+ <div>
+  <h2>Festlegungen für die Code Entwicklung</h2>
+  <div>
+   <h3>Vorbemerkungen</h3>
+   <p>
+   Von der Entwicklergruppe wird das Werkzeug Eclipse zur Arbeit am MyCoRe-Projekt empfohlen. Es enthält sowohl 
+   Funktionalitäten zur Integration von Subversion wie auch zur Qualitätssicherung des zu erstellenden JAVA-Codes.
+   </p>
+  </div>
+  
+  <div>
+   <h3>Encoding</h3>
+   <div>
+    <h4>Allgemeines</h4>
+    <p>
+    Grundsätzlich geht MyCoRe davon aus, dass alle Dateien, die nicht sprachabhängig sind, mit <strong>UTF-8</strong> 
+    kodiert wurden. Dies gestattet eine gute Nutzung auch über die Grenzen des deutschsprachigen Raumes hinaus. Dies 
+    betrifft vor allem die Dateitypen:
+    </p>
+    <ul>
+    <li>Java-Code - *.java</li>
+    <li>XML-/XSL-Dateien - *.xml</li>
+    </ul>
+   </div>
+   
+   <div>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+    </p>
+    <ol><li>Properties -&gt; Info -&gt; Text file encoding -&gt; UTF-8</li></ol>
+   </div>
+  </div>
+  
+  <div>
+   <h3>Java-Code Formatierung</h3>
+   <div>
+    <h4>Allgemeines</h4>
+    <p>
+    Um bei der Arbeit mit dem Subversion-System nur inhaltliche Änderungen zu erfassen und diese nicht mit 
+    Umformatierungen zu verwechseln, wird der gesamte Code einheitlich nach folgenden Regeln erstellt:
+    </p>
+    <ul>
+      <li>Formatierung gemäß den Java-Konventionen</li>
+      <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
+      <li>Einrückung mit vier Zeichen</li>
+      <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+      <li>Kommenare nicht umfomatieren</li>
+    </ul>
+   </div>
+   
+   <div>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>
+    Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+    </p>
+    <ol>
+    <li>Properties -&gt; Java code style -&gt; Formatter</li>
+    <li>dort Java Conventions als Vorlage wählen</li>
+    <li>Indentation -&gt; Tab Policy -&gt; Spaces only</li>
+    <li>Indentation -&gt; Indentation size -&gt; 4</li>
+    <li>Indentation -&gt; Tab size -&gt; 4</li>
+    <li>Line wrapping -&gt; Maximum line width -&gt; 120</li>
+    <li>Comments -&gt; alle Markierungen entfernen</li>
+    <li>Die Vorlage wird dann als mycore gespeichert.</li>
+    </ol>
+    <note label="Download der Eclipse-Style-Definition">
+      Eclipse-Nutzer können sich einfach die <a href="../../filecollection/mycore-javastyle.xml">Code-Style-Definition</a> herunterladen und
+      importieren (unter: Properties -&gt; Java code style -&gt; Formatter).
+    </note>
+   </div>
+  </div>
+  
+  <div>
+   <h3>XML-Code Formatierung</h3>
+   <div>
+    <h4>Allgemeines</h4>
+    <p>
+    Auch für die Gestaltung der XML-Dateien wurde eine einheitliche Formatierung festgelegt:
+    </p>
+    <ul>
+      <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+      <li>Für Einrückungen sind nur Leerzeichen zu verwenden.</li>
+			<li>Pro Tab sind 2 Zeichen Einrückung vorgesehen.</li>
+    </ul>
+   </div>
+		
+   <div>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>
+    Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+    </p>
+    <ol>
+    <li>Window -&gt; Preferences -&gt; XML -&gt; XML Files -&gt; Editor</li>
+    <li>dort wählen</li>
+		<li>Line width -&gt; 120</li>
+    <li>Indent using spaces</li>
+    <li>Indentation size -&gt; 2</li>
+    <li>Window -&gt; Preferences -&gt; XML Buddy -&gt; Formatter</li>
+    <li>dort wählen</li>
+		<li>Tab width -&gt; 2</li>
+    <li>Use space for tab</li>
+		<li>Wrap margin -&gt; 120</li>
+    </ol>
+   </div>
+   <note label="Hinweis">Für die Bearbeitung der build.xml verwendet Eclipse einen
+     eigenen Editor. Auch hier müssen die Einstellungen entsprechend geändert werden.</note>
+  </div>
+   
+  <div>
+   <h3>Compilieren und Code-Test</h3>
+   <div>
+    <h4>Allgemeines</h4>
+    <p>
+    Bevor ein Codeteil (Javaklasse, Stylesheet oder Konfigurationsdatei) committed wird, sollte diese 
+    <strong>gründlich</strong> getestet werden. Für Java-Klassen ist als erstes sicher zu stellen, dass sie den 
+    Compiler-Lauf erfolgreich bestehen. Um auch Konflikte mit anderen Java-Klassen von vorn herein auszuschließen, 
+    sollte vor jedem Commit einer Klasse des MyCoRe-Kerns der Aufruf</p>
+    <p class="break">mvn [-o] clean install</p>
+    <p>
+    erfolgen. So können Fehler in der Abhängigkeit schneller gefunden werden. Dabei steht -o für Offline. Dies kann 
+      genutzt werden, wenn man gerade im Zug oder an ähnlichen Orten entwickelt, wo man offline ist. 
+    </p>
+   </div>
+   
+   <div>
+    <h4>Nutzung der Entwicklungsumgebung Eclipse</h4>
+    <p>
+    Die Datei .project sollte entsprechend der unten angegebenen Darstellung angepasst werden. Anschließend sind 
+    sowohl für den MyCoRe-Kern wie auch für die Anwendung noch die Java-Ressourcen zu definieren.
+    </p>
+    <ol>
+    <li>project -&gt; Properties -&gt; Java Build Path</li>
+    <li>Tragen Sie alle Sources ein.</li>
+    <li>Tragen Sie alle Libraries ein. Bitte beachten Sie, dass für den Kern alle <code>*.jar</code> bzw. <code>*.zip</code> Dateien aus 
+    <code>mycore/lib</code> bzw. <code>mycore/components/*/sources</code> zu verwenden sind. Hinzu kommen noch ggf Systemweite Pakete 
+    (z. B. aus /usr/share/java). Für die Anwendung sollten nur Pakete aus application/build/lib, nicht aus dem 
+    MyCoRe-Baum, integriert werden.</li>
+    </ol>
+    <p>.project Datei:</p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <?xml version="1.0" encoding="UTF-8"?>
+      <projectDescription>
+        <name>mycore</name>
+        <comment>...</comment>
+        <projects>...</projects>
+        <buildSpec>
+          <buildCommand>
+            <name>org.eclipse.jdt.core.javabuilder</name>
+            <arguments />
+          </buildCommand>
+        </buildSpec>
+        <natures>
+          <nature>org.eclipse.jdt.core.javanature</nature>
+        </natures>
+      </projectDescription>
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h4>Test mit JUnit</h4>
+    <p>
+    Eclipse integriert bereits ein Produkt namens JUnit 
+    (<a title="" target="_blank" href="http://www.junit.org/index.htm">http://www.junit.org/index.htm</a>). Mit ihm 
+    erhalten Sie ein Werkzeug, welches das Testen der von Ihnen erzeugten Java-Klassen ermöglicht. Alle Test sind im 
+    Verzeichnis <code>mycore/test</code> abzulegen. Um einen neuen Test zu generieren, gehen Sie wie folgt vor:
+    </p>
+    <ol>
+    <li>Navigieren Sie auf die Klasse, für die der Test erzeugt werden soll</li>
+    <li>rechte Maustaste -&gt; New -&gt; Junit Test Case</li>
+    <li>Setzen Sie den Source Folder auf <code>mycore/test</code></li>
+    <li>Sinnvoll ist das automatische anlegen der Methoden <code>setUp()</code> und <code>tearDown()</code></li>
+    <li>Next</li>
+    <li>Markieren Sie die Methoden, für die ein Test erfolgen soll.</li>
+    </ol>
+    <p>Den Test selbst starten Sie, indem Sie in der Testklasse über die rechte Maustaste 'Run As' --&gt; 'JUnit Test' 
+    aufrufen. 
+    </p>
+    <p>
+    Testklassen, die auf Datenbankanfragen angewiesen sind, sollten die Klasse <code>org.mycore.common.MCRHibTestCase</code>
+    erweitern. Alle anderen erweitern <code>org.mycore.common.MCRTestCase</code>.
+    </p>
+   </div>
+  </div>
+  
+  <div>
+   <h3>Kommentare im Code</h3>
+   <div>
+    <h4>Allgemeines</h4>
+    <p>
+    Alle Kommentare sind in Englisch abzufassen. Dabei ist auf allgemein verständliche Sprachkonstrukte zu achten. Der 
+    Kommentar soll die kodierten Vorgänge gut beschreiben und für andere nachvollziehbar machen.
+    </p>
+   </div>
+   
+   <div>
+    <h4>Kommentare im Java-Code</h4>
+    <p>
+    Jede Java-Quelltext-Datei hat das nachfolgende Aussehen. Das gestattet ein einheitliches Auftreten des Projektes. 
+    Da für alle Dateien mittels JavaDoc automatisch eine Dokumentation generiert wird, ist es Pflicht, die erstellte 
+    Klasse mit einer allgemeinen Beschreibung zum Zweck und Einsatz der Klasse zu versehen. Weiterhin sind alle public 
+    oder protected Methoden mit einer Beschreibung zu versehen. Hierzu gehört auch die Dokumentation der übergebenen 
+    Parameter, der Rückgabewerte und ggf. der geworfenen Exceptions.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    /*
+    * This file is part of *** M y C o R e ***
+    * See http://www.mycore.de/ for details.
+    *
+    * This program is free software; you can use it, redistribute it
+    * and / or modify it under the terms of the GNU General Public License
+    * (GPL) as published by the Free Software Foundation; either version 2
+    * of the License or (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful, but
+    * WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with this program, in a file called gpl.txt or license.txt.
+    * If not, write to the Free Software Foundation Inc.,
+    * 59 Temple Place - Suite 330, Boston, MA 02111-1307 USA
+    */
+    
+    package org.mycore.datamodel.metadata;
+    <br/>
+    import java.io.File;
+    <br/>    
+    /**
+    * This class implements all methode for ...
+    * 
+    * @author Jens Kupferschmidt
+    * @version $Revision: 1.49 $ $Date$
+    */
+    final public class MCR... {
+    ...
+    ]]>
+    </p>
+    {{< /highlight >}}
+    <p>Mindestkommentar im Java Quellcode</p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    /**
+    * This method ..
+    <code>*
+    * @param a The paremeter a is the first value.
+    * @return a if it is a positive number, else return 0.
+    */
+    public final int abs(a) {
+    &emsp;&emsp;&emsp;} 
+    }
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h4>Kommentare in den Stylesheets</h4>
+    <p>
+    Auch alle XSLT-Dateien sollen kurze Kommentare enthalten. Unbedingt erforderlich sind auf jeden Fall die Zeilen für 
+    die Versionskontrolle. Angestrebt wird folgendes Aussehen eines Stylesheets.
+    </p>
+    {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- ============================================== -->
+    <!-- $Revision: 1.2 $ $Date$ -->
+    <!-- ============================================== -->
+    <xsl:stylesheet version="1.0" 
+    xmlns:xsl="
+        http://www.w3.org/1999/XSL/Transform
+    "
+    >
+    ...
+    </xsl:stylesheet>
+    ]]>
+    </p>
+    {{< /highlight >}}
+   </div>
+   
+   <div>
+    <h4>Logging</h4>
+    <p>
+    Alle Logging-Informationen werden, sofern nicht eine Umsetzung mittels der Internationalisierung I18N erfolgt, in 
+    Englisch notiert. Für MyCoRe ist das <strong>log4j</strong>-Paket des Apache-Projektes zu verwenden. Es gib 4 
+    definierte Log-Level mit nachfolgenden Bestimmungen. Es ist davon auszugehen, dass eine normale Anwendung allgemein 
+    auf den Level INFO gesetzt ist.
+    </p>
+    <ul><li>&gt;ERROR – Gibt Informationen zu nicht behebbaren Fehlern, z.B. Exceptions, zurück.</li>
+    <li>WARN – Gibt Informationen zu Fehlern zurück, welche die Weiterarbeit der Anwendung nicht ausschließen. In der 
+    Regel wird mit Standardwerten weitergearbeitet.</li>
+    <li>INFO – Gibt allgemeine Informationen für den normalen Anwender bzw. die Log-Datei aus. Diese Nachrichten haben 
+    nur informativen Charakter.</li>
+    <li>DEBUG – Gibt zusätzliche Informationen, die gezielt durch Einschalten dieses Levels abgerufen werden, aus.</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+ <div>
+  <h2>Namenskonventionen</h2>
+  <div>
+   <h3>Benennung der Properties</h3>
+   <p>
+   MyCoRe-Properties beginnen immer mit MCR, darauf folgt ein Punkt und dann der Komponentenname (z.B. ACL, IFS ...). 
+   Alle weiteren Bezeichner sind mit Punkt voneinander getrennt und beginnen mit einem Grossbuchstaben.
+   </p>
+   <p class="kasten">Beispiel:<br /> 
+   MCR.IFS.FileMetadataStore.Class</p>
+   <p>Properties von Drittanbietern (z.B. Log4j, Hibernate) behalten ihre Konventionen bei.</p>
+   <table>
+   <tr>
+   <th>Komponente</th>
+   <th>Property-Kürzel</th>
+   <th>Kommentar</th>
+   </tr>
+   <tr>
+   <td>allgemeine Konfiguration</td>
+   <td>MCR.ConfigurationMCR.XMLParser</td>
+   <td />
+   </tr>
+   <tr>
+   <td>ACL</td>
+   <td>MCR.Access</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Classification Browser</td>
+   <td>MCR.ClassificationBrowser</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Classification Editor</td>
+   <td>MCR.ClassificationEditor</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Commandline Tool</td>
+   <td>MCR.CLI</td>
+   <td /></tr>
+   <tr>
+   <td>Editor</td>
+   <td>MCR.EditorFrameworkMCR.Editor</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Event Handler / Searcher</td>
+   <td>MCR.EventHandlerMCR.Searcher</td>
+   <td />
+   </tr>
+   <tr>
+   <td>File Upload</td>
+   <td>MCR.FileUpload</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Goggle Indexer</td>
+   <td>MCR.GoogleSitemap</td>
+   <td />
+   </tr>
+   <tr>
+   <td>IFS</td>
+   <td>MCR.IFS</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Index Browser</td>
+   <td>MCR.IndexBrowser</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Layout Service</td>
+   <td>MCR.Request</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Mail System</td>
+   <td>MCR.Mail</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Metadaten-Modell</td>
+   <td>MCR.Metadata</td>
+   <td />
+   </tr>
+   <tr>
+   <td>OAI</td>
+   <td>MCR.OAI</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Simple Workflow</td>
+   <td>MCR.SWF</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Stores und Manager</td>
+   <td>MCR.Persistence</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Textextrakter</td>
+   <td>MCR.TextFilterPlugin</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Upload Applet</td>
+   <td>MCR.UploadApplet</td>
+   <td />
+   </tr>
+   <tr>
+   <td>URI Resolver</td>
+   <td>MCR.URIResolver</td>
+   <td />
+   </tr>
+   <tr>
+   <td>URN</td>
+   <td>MCR.URN</td>
+   <td />
+   </tr>
+   <tr>
+   <td>User Administration</td>
+   <td>MCR.Useradmin</td>
+   <td />
+   </tr>
+   <tr>
+   <td>User Kernsystem</td>
+   <td>MCR.Users</td>
+   <td />
+   </tr>
+   <tr>
+   <td>WebService</td>
+   <td>MCR.WebService</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Zip Tool</td>
+   <td>MCR.Zip</td>
+   <td />
+   </tr>
+   <tr>
+   <td>Z3950</td>
+   <td>MCR.z3950</td>
+   <td />
+   </tr>
+   </table>
+   <p class="klein"><strong>Tabelle 3.1:</strong> Liste der Property-Präfixe</p>
+  </div>
+  
+  <div>
+   <h3>Benennung von I18N Übersetzungen</h3>
+   <p>
+   Alle Übersetzungsvariablen erhalten ein einheitliches Namensschema. Alle Übersetzungen von Texten des Kerns und 
+   häufig benutzte Texte erhalten den Anfang <span class="T2">common.</span>, Variablen der Module den Modulnamen und 
+   Teile der Anwendung den Anwendungsnamen.
+   </p>
+   <p class="kasten">Beispiel:<br /> 
+   <br />
+   common.cancel = Abbrechen<br />
+   swf.object.edit = Editieren Objekt<br />
+   docportal.title.label = Titel</p>
+  </div>
+  
+  <div>
+   <h3>Stylesheets</h3>
+   <p>
+   Stylesheets in MyCoRe und DocPortal sind einheitlich zu benennen. Sie sollten (wenn möglich) komplett klein 
+   geschrieben werden. Die Verwendung eines Präfix wie mcr, MyCoRe oder mycore entfällt, auch werden keine Unterstriche 
+   genutzt.
+   </p>
+   <p class="kasten">Beispiele:<br /> 
+   <br />
+   results.xsl<br /> 
+   user.xsl<br /> 
+   editor.xsl</p>
+   <p>Stylesheets für das Layout der Webseiten ...<br />
+   <code>[ToDo: Thomas] Namenskonvention bzgl. RootTag</code>
+   </p>
+  </div>
+ </div>
+ <div>
+  <h2>Struktur einer Anwendung</h2>
+  <p>
+  Eine MyCoRe-Anwendung gliedert sich in den Kern- und Modulbereich von MyCoRe sowie den Anwendungs- und Modulbereich 
+  der Applikation, als Beispiel DocPortal. Die gedachte Aufteilung wird im folgenden näher beschrieben.
+  </p>
+
+  <div>
+   <h3>MyCoRe</h3>
+   <p>
+   Die vollständige Funktionalität von MyCoRe ist im Kern. Damit ist MyCoRe an sich keine lauffähige Anwendung, sondern 
+   nur ein Rahmenwerk für solche. Alles was der Anwendungsentwickler an Funktionen in seiner eigenen Anwendung verwenden 
+   kann, und zu 99% nicht anfassen bzw. ändern muss, ist Teil des Kerns.
+   </p>
+   <div>
+   <h4>Definitionen</h4>
+   <p>
+  <ul>
+    <li>
+      <p>
+        <strong>Algemeiner Bestandteile</strong>
+        sind die Teile des MyCoRe-Kerns, welche von vielen/allen Komponenten und Modulen verwendet werden und die elementaren
+        Grundfunktionalitäten von MyCoRe
+        bereitstellen. U. a. beinhaltet dies die APIs zur Speicherung der Daten, Klassifikationen, der ACLs und Nutzer,
+        Store-Zugriffe und Klassen, die allgemeiner Natur sind und als API-Funktionalitäten bereitgestellt werden
+        (MCRServlet, XML-Parser usw.).
+        </p>
+    </li>
+    <li class="gap">
+      <p>
+        <strong>Komponenten</strong>
+        sind Teile des MyCoRe-Kerns welche als Funktionalität in sich abgrenzbar sind. Sie bauen auf den <strong>Allgemeinen Bestandteilen</strong>
+        auf und enthalten alle zur Funktionalität gehörenden Klassen und Dateien. Alle Komponenten haben eine fest
+        vorgegebene Struktur (siehe unten) und können über ein Property ausgeschaltet werden (wie bisher bei den Modulen
+        des Kerns). Die in den Komponenten enthaltenen Vorlagen (Templates) können durch anwendungsseitige Dateien
+        überschrieben werden. Komponenten werden vom Entwickler-Team bereitgestellt und sind Bestandteil von mycore.jar.
+        Komponenten werden über einen automatischen Prozess in die Anwendung integriert, wenn sie nicht explizit
+        deaktiviert wurden.
+        </p>
+    </li>
+    <li class="gap">
+      <p>
+        <strong>Module</strong>
+        sind austauschbare/abschaltbare Teile der Nutzeranwendung, welche alle wichtigen Dinge zur Gestaltung konkreter
+        Anwendungen enthalten, die nicht als generisch anzusehen sind (Datenmodelle, statische Seiten, Layouts usw.).
+        Module werden von den Anwendern entwickelt und bauen auf dem mycore.jar auf. Module können auch Komponeten
+        überschreiben bzw. ergänzen. Die Dateibaumstruktur vom Modulen und Komponenten soll analog zueinander sein.
+        </p>
+    </li>
+  </ul>
+   </p>
+   </div>
+   <div>
+   <h4>Struktur des mycore-Verzeichnisses</h4>
+   <p>
+   Der mycore-Verzeichnisbaum ist ein Projektbereich, aus welchem die für die Anwendung relevante Datei mycore.jar erzeugt wird. Alle Teile unterstützen nur die Sprachen Englisch und Deutsch. mycore hat nachfolgende Struktur:
+   </p>
+   {{< highlight text "linenos=table">}}
+    <p class="kastensource">  
+    <![CDATA[ 
+    mycore
+      |
+      \ build (mit ant generierte Daten)
+      | \ classes (Java-Klassen)
+      | \ javadocs (generierte JavaDocs)
+      | \ lib (Download-Bereich der externen Jars)
+      \ components (alle Komponenten gemäß Definition von oben 
+        (ex. Module) und inkl. Migration)
+      \ config (alle generischen Konfigurationen)
+      \ resources (werden nicht übersetzt, sondern so wie sie sind nach 
+        build/classes kopiert - z.B. Hibernate-Mappings)
+      \ schema (generische DTD- und XSD-Schema-Dateien)
+      \ sources (Common parts - Sources)
+      \ tests (JUnit Test Sources)
+      \ xsl (alle generischen Stylesheets)
+      | Dateien build.xml, changelog.txt, license.txt
+    ]]>
+    </p>
+    {{< /highlight >}}
+  </div>   
+  </div>
+  
+  <div>
+   <h3>DocPortal</h3>
+   <p>
+   DocPortal bildet als mitgelieferte Beispielanwendung eine Vorlage für eigene Anwendungen. Daher sind in DocPortal 
+   alle anwendungsspezifischen Dateien abzulegen und solche, die die Anwendung(datei)struktur vorgeben bzw. direkt damit 
+   zusammenhängen.
+   </p>
+   <p>
+   DocPortal soll klar strukturiert werden, so dass mit kleinen HowTo's Änderungen z.B. am Layout oder am Datenmodell 
+   möglich sind. Dateien die dementsprechend thematisch zusammengehören, sollen wenn möglich auch zusammen liegen. 
+   Beispiel ist das Modul für das Datenmodell (<code>docportal/modules/docportal</code>)
+   </p>
+  </div>
+  
+  <div>
+   <h3>Module</h3>
+   <p>Module in MyCoRe können in mehreren Arten auftreten:</p>
+   <ol>
+   <li><strong>Einfache Module</strong> sind klar gekapselte funktionelle Einheiten, deren Bestandteile bis auf 
+   anzupassene Konfigurationen im Kern bereits vorhanden sind. Für die Konfiguration gibt es bereits Standardvorgaben. 
+   Die Module können über den Konfigurations- bzw. build-Prozess der Anwendung einfach integriert werden. Einfache 
+   Module werden im Kern automatisch mit compiliert.</li>
+   <li><strong>Nicht installierte Module</strong> haben den selben Umfang wie einfache Module, sie müssen aber auf Grund 
+   von Lizenzbestimmungen erst bei der Erstellung der konkreten Anwendung im Kern durch Nutzung von ANT-Targets mit 
+   aktiviert werden. Nicht installierte Module werden im Kern erst automatisch mit compiliert, wenn sie aktiviert wurden.</li>
+   <li><strong>Anwendungsmodule</strong> bezeichnen alle Module, die ausschließlich in einer speziellen Anwendung 
+   benutzt werden. Dazu gehört i.d.R. ein Modul, welches das konkrete Datenmodell von der Basisanwendung abgrenzt. 
+   Weiterhin können auch andere, nur in der Anwendung genutzte spezielle Funktionalitäten in einem Modul platziert 
+   werden.</li>
+   </ol>
+   <p>Die nachfolgenden Festlegungen sind für jeden Modul umzusetzen:</p>
+   <ol>
+   <li>Ein Module beinhaltet eine abgeschlossene Funktionseinheit, die auf dem Kern basiert und die bei Bedarf 
+   abgeschaltet bzw. nicht genutzt werden kann.</li>
+   <li>Die Auswahl der Module und deren Reihenfolge erfolgt über das Property <strong>MCR.Modules.MyCoRe</strong> für 
+   den Kern und <strong>MCR.Modules.Application</strong> für die Anwendung.</li><li>Alle Module stehen sowohl im Kern 
+   als auch in der Anwendung im Verzeichnis <em>modules</em>. Jedes Modul befindet sich dort in einem 
+   Verzeichnis mit dem entsprechenden Modulnamen.</li>
+   <li>Unterhalb dieses Ordners sind folgende Verzeichnisnamen festgelegt: <br />
+   <br />
+   <table>
+   <tr>
+   <td>config</td>
+   <td>Konfigurationsdaten</td>
+   </tr>
+   <tr>
+   <td>lib</td>
+   <td>zusätzliche Bibliotheken</td>
+   </tr>
+   <tr>
+   <td>sources</td>
+   <td>Java-Quellcode</td>
+   </tr>
+   <tr>
+   <td>webpages</td>
+   <td>statische Web-Seiten</td>
+   </tr>
+   <tr>
+   <td>xsl</td>
+   <td>XSLT-Stylesheets</td>
+   </tr>
+   </table></li>
+   <li>System-Properties sind immer einzutragen unter <em>config</em> in die Datei mycore.MODULNAME.properties. Alle 
+   Properties haben den Anfang MCR.MODULNAME...= . I18N-Properties beginnen immer mit MODULNAME....</li>
+   <li>Eine erforderliche web.xml steht zudem immer unter <em>config</em>.</li>
+   <li>Alle Funktionalitäten sind im Programmer Guide zu dokumentieren.</li>
+   <li>Das Modul ist möglichst in die Beispielanwendung DocPortal zu integrieren.</li>
+   <li>Eine *.txt-Datei sollte die notwendigen nicht automatischen Konfigurationsschritte zur Integration des Moduls in 
+   eine Anwendung beschreiben.</li>
+   </ol>
+  </div>
+ </div>
+ <div>
+  <h2>Dokumentation</h2>
+  <div>
+   <h3>Allgemeines</h3>
+   <p>
+   Die Dokumentation von MyCoRe und die Unterstützung der Nutzer erfolgt über mehrere Medien.</p>
+   <ol>
+   <li><strong>bisher:</strong> Dokumente im OpenOffice- und PDF-Format als Bestandteil der Releases.<br />
+   <strong>neu:</strong> Die MyCoRe-Dokumentation wird zur Zeit für die kommende Version MyCoRe 2.0 überarbeitet und mit 
+   Apache Forrest erstellt 
+   <a title="" target="_blank" href="{{< ref overview >}}">
+   http://www.mycore.de/documentation/documentation/index.html</a></li>
+   <li>Die MyCoRe-Web-Seite <a title="" target="_blank" href="news#NOT_FOUND">
+   http://www.mycore.de/documentation</a> als Web-Auftritt - jetz auch <strong>neu</strong> über Apache 
+   Forrest</li>
+   <li>Die Know-How- und Dokumentationsseiten der MyCoRe-Wiki-Installation 
+   <a title="" target="_blank" href="http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation">http://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation</a> 
+   als Platform für ein Wissensforum zum Erfahrungsaustausch der Anwender.</li>
+   <li>Die Mailing-Listen für Benutzer und Entwickler zur direkten Kommunikation.</li>
+   </ol>
+  </div>
+  
+  <div>
+   <h3>Dokumente</h3>
+   <p>
+   Dokumentationen zum MyCoRe-Projekt sind zukünftig als XML-Dateien mit Apache Forrest zu erstellen. Die 
+   Sprache der Dokumente ist wahlweise Deutsch oder Englisch.
+   </p>
+  </div>
+ </div>
+ <div>
+  <h2>Tests</h2>
+  <div>
+   <h3>Allgemeines</h3>
+   <p>
+   Zur Gewährleistung einer Mindestqualität sind mit dem aktuellen Code-Stand je nach Entwicklungsstufe die 
+   nachfolgenden Tests durchzuführen. Voraussetzung für die Tests ist die Integration des JAI-Moduls in die 
+   Testumgebung, um auch Fehler im Bildbetrachter (ImageViewer) zu erkennen. Es wird vorausgesetzt, dass im Testsystem 
+   der vollständige aktuelle Codestand vorliegt. Nach jedem Arbeitsschritt ist zu prüfen, ob dieser erfolgreich und 
+   vollständig abgearbeitet wurde. Zur Kontrolle sollte der Log-Level auf DEBUG geschaltet werden und jede 
+   Kommandoausgabe in eine Datei geschrieben werden. 
+   </p>
+  </div>
+  
+  <div>
+   <h3>Stufe 0 - Commit während einer Komponentenentwicklung</h3>
+   <ul>
+   <li>Neues compilieren der MyCoRe-Kern Quellen mit vorherigem Löschen der alten Daten durch 'ant clean jar'.</li>
+   <li>Neues Compilieren der DocPortal Quellen durch 'ant jar'.</li>
+   </ul>
+  </div>
+  
+  <div>
+   <h3>Stufe 1 – Bugfix</h3>
+   <ul><li>Test der Stufe 0 durchführen</li>
+   <li>Gefixte Komponenten und alle ggf. mit betroffenen Teile individuell testen.</li>
+   </ul>
+  </div>
+  
+  <div>
+   <h3>Stufe 2 - Komponente ist fertig entwickelt</h3>
+   <ul>
+   <li>Test der Stufe 0 durchführen</li>
+   <li>Vollständige Neuinstallation der DocPortal-Anwendung bis zur Betriebsbereitschaft mit vorherigem Löschen der 
+   alten Daten durch 'ant clean clean.data'. Dazu sind die folgenden Schritte auszuführen:
+   <ul><li>Anlegen der Verzeichnisse mit 'ant create.directories'.</li>
+       <li>Erzeugen der XML-Schemas mit 'ant create.schema'.</li>
+       <li>Neues compilieren der DocPortal Quellen durch 'ant jar'.</li>
+       <li>Erzeugen der CLI-Scripts mit 'ant create.scripts'</li>
+       <li>Starten der HSQLDB mit 'build/bin/hsqldbstart.sh' bzw. 'build\bin\hsqldbstart'.</li>
+       <li>Test der Verbindung zur HSQLDB mit 'build/bin/hsqldbadmin.sh' bzw. 'build\bin\hsqldbadmin' 
+       (Server - localhost:8298).</li>
+       <li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'. Prüfen mit 'help' ob alle CLI-Teile geladen 
+       wurden (z. B. Image-Kommandos). </li>
+       <li>Laden der Standard-User mit 'ant create.users' (testet 'load permissions data from file ...', 'init superuser', 
+       'change to user ...', 'create group data from file ...', 'create user data from file ...' und 'check user data consistency').</li>
+       <li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'. Prüfen mit 'list all users' und 'list all 
+       groups' ob alle User-System-Teile vollständig geladen wurden.</li>
+       <li>Laden der Klassifikationen mit 'ant create.class' (testet 'update all classifications from directory ...').</li>
+       <li>Test der korrekten Installation der Klassifikationen mittels <em>select</em>-Statement über das hsqladmin-Tool.</li>
+       <li>Erzeugen des Applet-Keys mit 'ant create.genkeys'.</li>
+       <li>Erzeugen der Web-Applikation mit 'ant webapps'.</li>
+       <li>Starten der Anwendung mit 'build/bin/jettystart.sh' bzw. 'build\bin\jettystart'.</li>
+       <li>Aufruf von statischen Seiten, einer Suchmaske, einer Klassifikationsauswahl und dem Benutzerwechsel (wechseln 
+       zu author1A).</li>
+   </ul></li>    
+   <li>Laden und Testen der Standardbeispieldaten in die Anwendung. Diese stehen in der gesonderten MyCoRe-Komponente 
+   Content. Dazu sind die folgenden Schritte auszuführen:
+   <ul><li>Stoppen der Anwendung mit 'build/bin/jettystop.sh' bzw. 'build\bin\jettystop'.</li>
+       <li>Laden der Institutionen mit 'ant load.institution' in content/defaultsample (testet 'update object from file ...').</li>
+       <li>Laden der Autoren mit 'ant load.author' in content/defaultsample (testet 'update object from file ...').</li>
+       <li>Laden der Dokumente mit 'ant load.document' in content/defaultsample (testet 'update object from file ...').</li>
+       <li>Laden der Objekte mit 'ant load.derivate' in content/defaultsample (testet 'update derivate from file ...').</li>
+       <li>Starten der Anwendung mit 'build/bin/jettystart.sh' bzw. 'build\bin\jettystart'.</li>
+       <li>Test der Anwendung im Browser: Aufruf der Suche, Navigation in der Trefferliste, Anzeige von Einzeltreffern und 
+       Detaillisten. Suche nach Volltexten und Anzeige von Bildern mit dem ImageViewer. Navigation in Klassifikationen.</li>
+       <li>Stoppen der Anwendung mit 'build/bin/jettystop.sh' bzw. 'build\bin\jettystop'.</li>
+       <li>Test der Datensicherung mit 'build/bin/Save.sh' bzw 'build\bin\Save'. Prüfen der gespeicherten Daten im 
+       Verzeichnis <em>save</em> inklusive der korrekten ACLs (testet 'export object ... to directory ... 
+       with ...', 'export derivate ... to directory ... with ...', 'export all classifications to ... with ...', 'export all 
+       groups to file ...', 'export all users to file ...' und 'export all permissions to file ...'.</li>
+   </ul></li>
+   <li>Intensiver Test der neuen Komponenten.</li><li>Dokumentation der Komponente auf Vollständigkeit prüfen</li>
+   </ul>
+  </div>
+  
+  <div>
+   <h3>Stufe 3 - Release oder Snapshot</h3>
+   <p>
+   Die Tests sind für Unix/Linux und Windows durchzuführen!</p>
+   <ul>
+   <li>Test der Stufe 1 durchführen</li>
+   <li>Test des Commandline Interfaces</li>
+   <li>Test der Web-Anwendung</li>
+   <li>Test des WCMS</li>
+   <li>Test sonstiger Funktionen</li>
+   </ul>
+   
+   <div class="Test des Commandline Interfaces">
+    <h4>Test des Commandline Interfaces</h4>
+    <ul>
+    <li>Tests des CLI (Nutzerverwaltung)
+    <ul><li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'.</li>
+        <li>Login mit 'login administrator'.</li>
+        <li>Sichern des Users author1A mit 'export user author1A to file author1A.xml'.</li>
+        <li>Sichern des Users author1B mit 'export user author1B to file author1B.xml'.</li>
+        <li>Sichern der Gruppe authorgroup1 mit 'export group authorgroup1 to file authorgroup1.xml'.</li>
+        <li>Löschen einer Gruppe mit 'delete group authorgroup1'. Das Kommando darf NICHT funktionieren!</li>
+        <li>Löschen eines Nutzers mit 'delete user author1A'.</li><li>Löschen eines Nutzers mit 'delete user author1B'.</li>
+        <li>Löschen einer Gruppe mit 'delete group authorgroup1'. Das Kommando muss jetzt funktionieren!</li>
+        <li>Import der Gruppe authorgroup1 mit 'import group data from file authorgroup1.xml'.</li>
+        <li>Import des Nutzers author1A mit 'import user data from file author1A.xml'.</li>
+        <li>Import des Nutzers author1B mit 'import user data from file author1B.xml'.</li>
+        <li>Test des Datenbestandes mit 'list all users' und 'list all groups'.</li>
+        <li>Beenden des CLI mit 'quit'.</li>
+    </ul></li>    
+    <li>Tests des CLI (Klassifikationsverwaltung)
+    <ul><li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'.</li>
+        <li>Sichern einer Klassifikation (ohne aktive Verweise) mit 'export classification DocPortal_class_00000009 to . 
+        with save'</li>
+        <li>Löschen einer referenzierten Klassifikation mit 'delete classification DocPortal_class_00000006'. 
+        Das Kommando darf NICHT funktionieren!</li>
+        <li>Löschen einer nicht referenzierten Klassifikation mit 'delete classification DocPortal_class_00000009'. 
+        Das Kommando muss funktionieren!</li><li>Laden der gespeicherten Klassifikation mit 'load classification from file 
+        DocPortal_class_00000009.xml'.</li>
+       <li>Update der gespeicherten Klassifikation mit 'update classification from file DocPortal_class_00000009.xml'.</li>
+       <li>Beenden des CLI mit 'quit'.</li>
+    </ul></li>   
+    <li>Tests des CLI (Rechteverwaltung)
+    <ul><li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'.</li>
+        <li>Auflisten aller Permissions mit 'list all permissions'.</li>
+        <li>Export aller Permissions mit 'export all permissions to file permission.xml' und prüfen der Ausgabe.</li>
+        <li><code>[ToDo – 2007-08-29 – Jena ] Test der 'update permission'-Kommandos beschreiben</code></li>
+        <li>Beenden des CLI mit 'quit'.</li>
+    </ul></li>    
+    <li>Tests des CLI (Objekte und Derivate)
+    <ul><li>Start des CLI mit 'build/bin/mycore.sh' bzw. 'build\bin\mycore'.</li>
+        <li>Anzeige der letzten verwendeten MCRObjectID mit 'get last ID for base DocPortal_document'. Es 
+        wird 'DocPortal_document_07910403' ausgegeben.</li>
+        <li>Anzeige der nächsten MCRObjectID mit 'get next ID for base DocPortal_document'. Es 
+        wird 'DocPortal_document_07910404' ausgegeben.</li>
+        <li>Reparieren der Indizes aller Dokumente mit 'repair metadata search of type document'.</li>
+        <li>Reparieren des Dokuments DocPortal_document_07910403 mit 'repair metadata search of 
+        ID DocPortal_document_07910403'.</li>
+        <li>Reparieren des Derivate DocPortal_derivate_00410903 mit 'repair derivate search of 
+        ID DocPortal_derivate_00410903'</li>
+        <li>Löschen des Derivates DocPortal_derivate_00410902 mit 'delete derivate DocPortal_derivate_00410902'.</li>
+        <li>Löschen des Objektes DocPortal_document_00410902 mit 'delete object DocPortal_document_00410902'.</li>
+        <li>Löschen des Objektes DocPortal_document_00410901 mit 'delete object DocPortal_document_00410901' 
+       (ohne vorherigem Löschen des Derivates).</li>
+       <li>Prüfen der relevanten HSQLDB-Tabellen und des Lucene-Eintrages.</li>
+       <li>Beenden des CLI mit 'quit'.</li>
+    </ul></li>
+    </ul>
+   </div>
+   
+   <div>
+    <h4>Test der Web-Anwendung</h4>
+    <ul>
+    <li>Starten der Anwendung mit 'build/bin/jettystart.sh' bzw. 'build\bin\jettystart'.</li>
+    <li>Tests der Web-Anwendung (statische Seiten)
+    <ul><li>Es sind alle Seiten der sitemap.xml Anzeige durchzutesten.</li></ul></li>
+    <li>Tests der Web-Anwendung (Suche/Präsentation/Navigation)
+    <ul><li>Suche nach Institutionen</li>
+        <li>Suche nach Personen, weiter Suchen nach verlinkten Dokumenten</li>
+        <li>Suche nach Dokumenten ohne Parameter und Navigation in der Trefferliste. Navigation aus der Anzeige heraus 
+        zur Trefferliste und zur Detailansicht. Anzeige von Dokumenten mit Bildern (bei integriertem ImageViewer).</li>
+        <li>Suche nach Dokumenten mit Parametern und Volltextsuchbegriffen, z. B. 'Hühnerstall', 'Huhn*', usw.</li>
+        <li>Test der Zugriffsrechte auf Objekte mit Wechsel der User (z. B. Suche nach 'Umbau').</li>
+        <li>Navigation über den Personenindex und von dort zu Dokumenten (z. B. Trappe).</li>
+        <li>Navigation in den Klassifikationen (z. B. Herkunft, Format).</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (Editor-Funktionen)
+    <ul><li>Login als User 'author1A'.</li>
+        <li>Neuanlegen einer Institution, Bearbeiten der Daten im Workflow, Löschen der Institution aus dem Workflow.</li>
+        <li>Neuanlegen einer Institution, ändern der ACLs (mehrer Versionen durchspielen), Hochladen der Institution, 
+        Bearbeiten der Daten, Suchen nach den Daten und Löschen der Daten aus dem Server.</li>
+        <li>Neuanlegen einer Person, Bearbeiten der Daten im Workflow, Löschen der Institution aus dem Workflow.</li>
+        <li>Neuanlegen einer Person, ändern der ACLs (mehrer Versionen durchspielen), Hochladen der Person, Bearbeiten der 
+        Daten, Suchen und Navigieren nach den Daten, Setzen der ACL-Permission 'deletedb' für 'author1A' und Löschen der 
+        Daten aus dem Server.</li>
+        <li>Neuanlegen eines Dokuments (mit Link auf einen Personendatensatz), Bearbeiten der Daten im Workflow, Hinzufügen 
+        eines Derivates, Hinzufügen einer Datei zum Derivate, Umbenennen des Derivates und Löschen des Dokuments aus dem 
+        Workflow.</li>
+        <li>Neuanlegen eines Dokuments (mit Link auf einen Personendatensatz), Hochladen des Dokuments, Bearbeiten der 
+        Daten, Hinzufügen eines Derivates, Hinzufügen einer Datei zum Derivate, Umbenennen des Derivates, Löschen einer 
+        Datei aus dem Derivate und Löschen des Dokuments aus dem Server.</li>
+       <li>Logout als 'gast'</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (Klassifikationseditor)
+    <ul><li>Login als User 'administrator'.</li>
+        <li>Auswahl Menüpunkt Klassifikationseditor starten.</li>
+        <li>Neue Klassifikation erstellen (ID DocPortal_class_00000100), Klassifikation speichern, 
+        Klassifikationsbeschreibung ändern, zwei neue Kategorien hinzufügen, Reihenfolge tauschen, Kategorie editieren, 
+        'empty' Kategorie löschen, Klassifikation speichern, exportieren und wieder löschen.</li>
+        <li>Logout als 'gast'.</li>
+        <li>Navigation in den Klassifikationen.</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (Nutzerverwaltung)
+    <ul><li>Aufruf Startseite, Aufruf Login als anderer User, 'Abbrechen', Aufruf Login als anderer User, Login als 
+        User 'administrator', Rückkehr zur Anwendung, Benutzer wechseln -&gt; 'Abbrechen', Benutzer abmelden.</li>
+        <li>Login als User 'administrator' und Rückkehr zur Anwendung.</li>
+        <li>Passwort ändern und 'Abbrechen' drücken.</li>
+        <li>Passwort ändern und 'Ändern' drücken. Login mit dem neuen Passwort.</li>
+        <li>Benutzerdaten anzeigen lassen.</li>
+        <li>Neue Gruppe 'test' anlegen, Gruppe administrieren und 2 
+        Benutzer 'test' zuweisen. Neuen Benutzer 'otto' für die Gruppe 'test' anlegen.</li>
+        <li>Logout als 'gast'.</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (ACL-Editor)
+    <ul><li>Login als User 'administrator'.</li>
+        <li>ACL-Editor starten, nach MCRObjectID DocPortal_author_00410901 filtern, 'writedb' auf 'SYSTEMRULE000000006' 
+        setzen, OK, Logout als 'gast', Suche nach Person 'Kupferschmidt' – muss jetzt von 'gast' editierbar sein.</li>
+       <li>Login als User 'administrator'.</li>
+       <li>ACL-Editor starten, Rule-Editor aufrufen, 'SYSTEMRULE0000000002' um Gruppe 'test' erweitern, OK. Login as 
+       'test' ant try to change sample data.</li>
+       <li>Logout als 'gast'.</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (Broadcasting Modul)
+    <ul><li>Login als User 'administrator'</li>
+        <li>Module-Broadcasting Monitoring -&gt; edit, 'Power' -&gt; on, ' Message Header' und 'Message Tail' ausfüllen, 
+        'Nachricht an Gruppe' -&gt; admingroup -&gt; ...text... , OK. Login als User 'administrator' (sollte Nachricht 
+        erhalten).</li>
+        <li>Module-Broadcasting Monitoring -&gt; edit, 'Power' -&gt; off</li>
+    </ul></li>
+    <li>Tests der Web-Anwendung (WebCLI Module)
+    <ul><li>Starten des Web-Commandline-Interfaces</li>
+        <li>Auswählen von Kommandos wie 'list all users' und kritsches prüfen des Ergebnisses</li>
+        <li>Web-Commandline-Interfaces schließen</li>
+        <li>Login als gast und erneuter Versuch, das Tool zu starten (darf nicht gehen).</li>
+    </ul></li>
+    <li>Stoppen der Anwendung mit 'build/bin/jettystop.sh' bzw. 'build\bin\jettystop'.</li>
+    </ul>
+   </div>
+   
+   <div>
+    <h4>Test des WCMS</h4>
+    <ul>
+    <li><code>[ToDo – 2007-08-29 – Jena]</code>
+    </li>
+    </ul>
+   </div>
+   
+   <div>
+    <h4>Test sonstiger Funktionen</h4>
+    <ul>
+    <li>Test Google-Servlet
+    <ul><li>Aufruf von 
+        <a target="_blank" href="http://localhost:8291/sitemap_google.xml">http://localhost:8291/sitemap_google.xml</a>, 
+        es sollte eine korrekte Sitemap zurückgeliefert werden.</li>
+    </ul></li>
+    <li>Test OAI
+    <ul><li><code>[ToDo – 2007-09-25 - Rostock]</code></li>
+    </ul></li>
+    <li>Test Z3950
+    <ul><li><code>[ToDo – 2007-09-25 - Rostock]</code></li>
+    </ul></li>
+    <li>Test MyCoRe Remote Access
+    <ul><li>Starten der Anwendung mit 'build/bin/jettystart.sh' bzw. 'build\bin\jettystart'.</li>
+        <li>ant webservice.deploy</li>
+        <li>Suchmaske nach Dokumenten aufrufen, 'diesem und ausgewählten Servern' sowie 'Lokal via WebService' und 
+        'DocPortal Sample Server' markieren und die Suche starten. Es müssen die Beispieldaten je dreimal als Treffer 
+        erscheinen. Navigation in den Treffern testen.</li>
+        <li>Stoppen der Anwendung mit 'build/bin/jettystop.sh' bzw. 'build\bin\jettystop'.</li>
+    </ul></li>
+    <li>Test der Vererbung
+    <ul><li><code>[ToDo – 2007-09-25 - Leipzig]</code></li></ul></li>
+    </ul>
+   </div>
+  </div>
+  
+  <div>
+   <h3>Test der Distribution</h3>
+   <p><strong>Die Tests sind für Unix/Linux und Windows durchzuführen!</strong></p>
+   <ul>
+   <li>Test der Installation des Basispaketes</li>
+   <li>Test der Installation der Content-Pakete</li>
+   <li>Test gemäß Punkt 'Test der Web-Anwendung'</li>
+   <li>Test des Entfernens der Distribution</li>
+   </ul>
+  </div>
+  <div>
+    <h3>Selenium-Tests</h3>
+    {{< highlight text "linenos=table">}}
+Am einfachsten ist es wohl man macht einfach das was Jenkins auch macht, 
+ein Durchlauf via ant
+
+ant -k download configure start.hsqldb load.data build.webapp 
+start.jetty selenium stop.jetty stop.hsqldb check
+
+Das ant target "selenium" lässt die Tests gegen ein lokales Jetty 
+laufen. Die Tests liegen in docportal/test/selenium/ und sind an sich 
+einfache HTML-Seiten.
+
+Die Testergebnisse sind wiederum HTML-Seiten
+
+http://www.mycore.de/jenkins/job/DocPortal/seleniumhq/
+bzw.
+docportal/build/test/selenium-results.html
+
+Damit selenium lokal läuft muss es in der Lage sein im 
+Hintergrund einen firefox zu starten.
+
+Das hat z.B.
+JAVA_OPTS=-Djava.awt.headless=true
+erfordert, und die Installation von Xvfb, weil der Server kein X11 
+Display hat.
+
+Das ist hier beschrieben, aber da steht eher zu viel
+
+http://wiki.openqa.org/display/SRC/Selenium-RC+and+Continuous+Integration
+
+Man sollte die Tests auch einfach laufen lassen können, wenn man das 
+Selenium-Plugin für Firefox installiert
+
+http://seleniumhq.org/
+    {{< /highlight >}}
+  </div>
+ </div>

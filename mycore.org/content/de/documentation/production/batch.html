@@ -1,0 +1,110 @@
+
+---
+
+title: "Batch-Betrieb über das Commandline-Tool"
+author: ['Jens Kupferschmidt']
+description: "
+      Der Abschnitt beschreibt Vorgehensweisen bei der Nutzung des CLI im Batch-Betrieb.
+    "
+date: "2015-03-05"
+
+---
+
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        Neben der interaktiven Arbeit über die WEB-Oberfläche kann es bei Produktivanwendungen immer wieder zu dem
+        Erfordeniss kommen, via Script Änderungen an den daten vornehmen zu müssen. Hierfür können die MyCoRe-Kommandos
+        in Shell-Scripts eingebunden werden. Neben Kommandos für eine feste Gruppe von Daten oder die Auswahl aller
+        Daten bietet die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> auch die Möglichkeit Daten zu selektieren 
+        und dann auf diese Auswahl zuzugreifen.
+      </p>
+    </div>
+
+    <div>
+      <h2>Start der Auswahl</h2>
+      <p>Die Auswahl auf bestimmte Daten erfolgt mittels einer SOLR-Query.</p>
+      <p>
+        <code>mycore.sh select objects with solr query {0}</code>
+      </p>
+      <p>Diese Auswahl kann auch zurückgesetzt werden.</p>
+      <p>
+        <code>mycore.sh delete selected</code>
+      </p>
+      <p>Auch eine Auflistung der aktuellen Auswahl ist möglich.</p>
+      <p>
+        <code>mycore.sh list selected</code>
+      </p>
+      <p>Weiterhin besteht die option, für ausgewählte Daten ein Kommando auszuführen.</p>
+      <p>
+        <code>mycore.sh execute for selected {0}</code>
+      </p>
+    </div>
+
+    <div>
+      <h2>Kommandos für ausgewählte Daten</h2>
+      <p>Nach erfolgreicher Auswahl mittels SOLR-Query können dann u. a. die folgenden Kommandos für die selektierten
+        datensätze aufgerufen werden.
+      </p>
+      <div>
+        <h3>Kommandos für SOLR</h3>
+        <dl>
+          <dt>
+            <code>mycore.sh restricted rebuild solr metadata index for selected</code>
+          </dt>
+          <dd>rebuilds solr's metadata index for selected objects
+          </dd>
+          <dt>
+            <code>mycore.sh restricted rebuild solr content index for selected</code>
+          </dt>
+          <dd>rebuilds solr's content index for selected objects and or derivates
+          </dd>
+        </dl>
+      </div>
+      <div>
+        <h3>Kommandos für Permissions</h3>
+        <dl>
+          <dt>
+            <code>mycore.sh update permission {0} for selected with rulefile {1} described by {2}</code>
+          </dt>
+          <dd>The command updates access rule for a given permission and all ids of a given MCRObject-Type with a given special rule
+          </dd>
+          <dt>
+            <code>mycore.sh update permission {0} for selected with rulefile {1}</code>
+          </dt>
+          <dd>The command updates access rule for a given permission and all ids of a given MCRObject-Type with a given special rule
+          </dd>
+          <dt>
+            <code>mycore.sh delete permission {0} for selected</code>
+          </dt>
+          <dd>The command delete access rule for a query selected set of object ids of a given permission
+          </dd>
+          <dt>
+            <code>mycore.sh delete all permissions for selected</code>
+          </dt>
+          <dd>The command delete all access rules for a query selected set of object ids
+          </dd>
+        </dl>
+      </div>
+      <div>
+        <h3>Kommandos für METS-Daten</h3>
+        <dl>
+          <dt>
+            <code>mycore.sh validate selected mets</code>
+          </dt>
+          <dd>validates all mets.xml of selected derivates
+          </dd>
+        </dl>
+      </div>
+      <div>
+        <h3>Kommandos für Objekte</h3>
+        <dl>
+          <dt>
+            <code>export selected to directory {0} with {1}</code>
+          </dt>
+          <dd>Stores selected MCRObjects to the directory {0} with the stylesheet {1}-object.xsl. For {1} save is the default.
+          </dd>
+        </dl>
+      </div>
+    </div>
+  

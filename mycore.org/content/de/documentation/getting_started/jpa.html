@@ -1,0 +1,85 @@
+
+---
+
+title: "Datenbank / JPA"
+mcr_version: ['2016.06','2017.06']
+author: ['Jens Kupferschmidt']
+description: "
+      Diese Dokumentationsseite beschreibt die Integration der Java Persitence API (JPA) ab Release 2016.06.
+    "
+date: "2015-11-09"
+
+---
+    <div id="general">
+      <h2>Allgemeines</h2>
+      <p>
+        Mit Release 2016.06 wurde die Datenbankanbindung in MyCoRe von der direkten Nutzung von
+        <strong>Hibernate</strong> (siehe <a href="{{< ref hibernate >}}">Archiv</a>)
+        auf die
+        <strong>Java Persitence API (JPA)</strong>
+        umgestellt. Dies hat den Vorteil, dass bei Bedarf die darunter liegende
+        <strong>Hibernate-API</strong>
+        gegen eine andere JPA Implementation ausgetauscht werden kann.
+      </p>
+    </div>
+
+    <div id="general">
+      <h2>Konfiguration</h2>
+      <p>
+        Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
+        Konfigurationsdatei
+        <em>persitence.xml</em>
+        muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter anzupassen.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+  version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+  <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
+     
+    <mapping-file>META-INF/mycore-base-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-ifs-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-iview2-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-pi-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-urn-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-user2-mappings.xml</mapping-file>
+    
+    <properties>
+
+      <!--  PostgreSQL -->
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE" />
+
+      <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
+      <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
+      
+      <property name="hibernate.default_schema" value="" />
+      <property name="hibernate.hbm2ddl.auto" value="update" />
+
+      <!-- second-level cache  -->
+      <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
+      <property name="hibernate.cache.use_second_level_cache" value="false" />
+      <property name="hibernate.cache.use_query_cache" value="false"/>
+      
+      <!-- Set batch_size to "0" in case of SQL batch Errors -->
+      <property name="hibernate.jdbc.batch_size" value="2000" />
+      <property name="hibernate.default_batch_fetch_size" value="100" />
+      
+      <!-- Echo all executed SQL to stdout -->
+      <property name="hibernate.show.sql" value="true" />
+      <property name="hibernate.format.sql" value="true" />
+
+      <property name="hibernate.c3p0.min_size" value="2" />
+      <property name="hibernate.c3p0.max_size" value="5" />
+      <property name="hibernate.c3p0.acquire_increment" value="2" />
+      <property name="hibernate.c3p0.max_statements" value="30" />
+      <property name="hibernate.c3p0.timeout" value="1800" />
+
+    </properties>
+  </persistence-unit>
+</persistence>
+{{< /highlight >}}
+    </div>
+
+  

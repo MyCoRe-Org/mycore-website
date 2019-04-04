@@ -1,0 +1,71 @@
+
+---
+
+title: "Installation der MyCoRe-Beispielanwendung DocPortal"
+
+---
+
+   <p>
+   Sind Java 1.6, Ant 1.7.1 und ein SVN-Client (siehe auch <a href="{{< ref chapter2_ug21 >}}">02
+   Voraussetzungen</a>) auf Ihrem Rechner installiert, können
+   Sie mit wenigen Schritten ein DocPortal installieren. Während der Installation werden 
+   alle erforderlichen Daten und Programme (Bibliotheken, inkl. mycore.jar) für die Beispielanwendung
+   DocPortal von www.mycore.de geholt. Es ist also eine Internetverbindung erforderlich.
+   Zur Speicherung der Klassifikationen und Benutzerdaten wird standardmässig HSQLDB, für
+   die Metadaten und Inhalte (Bilder, Texte, etc.) das lokale Dateisystem verwendet.</p>
+
+   <p>Legen Sie ein Verzeichnis mit dem absoluten Pfad &lt;pfad&gt; an und führen Sie in dem 
+   Verzeichnis die folgenden Kommandos aus (achten Sie dabei unter Windows den Pfad  &lt;pfad&gt;
+   in Unix-Schreibweise anzugeben, also z.B. c:/Programme/docportal):
+   </p>
+   <ol>
+   <li>svn export http://server.mycore.de/svn/docportal/branches/release_2_1_fixes/install.xml</li>
+   <li>ant -Ddestdir=&lt;pfad&gt; -f install.xml</li>
+   </ol>
+
+   <p>
+   <a href="http://sourceforge.net/projects/mycore/files/docportal/2.1/"><img src="/images/documentation/archiv/download_mcr_21.png" alt="Link zum SF-Download" style="float:right;margin-left:20px;" /></a>
+   Alternativ können Sie die Daten auch direkt bei Sourceforge herunterladen, dafür ist kein
+   SVN-Client notwendig. Momentan steht hier das aktuelle <a href="http://sourceforge.net/projects/mycore/files/docportal/2.1/">Release 2.1-fixes</a> zum Download zur Verfügung. Nachdem Sie die Datei heruntergeladen
+   haben, gehen Sie wie folgt vor:</p>
+   <ol>
+   <li>Entpacken von docportal_RELEASE_21_fixes.zip in das gewünschte Zielverzeichnis &lt;pfad&gt;</li>
+   <li>Wechseln in dieses Verzeichnis und Aufruf von (achten Sie auch hierbei unter Windows den Pfad  &lt;pfad&gt;
+   in Unix-Schreibweise anzugeben, also z.B. c:/Programme/docportal):</li>
+   <li>ant -Ddestdir=&lt;pfad&gt; -f install.xml</li>
+   </ol>
+   
+   <p> 
+   Das zweite Kommando dauert etwa 10 Minuten. Die Installation war erfolgreich, wenn sich im Verzeichnis
+   &lt;pfad&gt; die Datei homepage.html befindet. 
+   Die Datenbank HSQLDB und und der Jetty-Webserver werden vom Installationsskript (<code>install.xml</code>) gestartet, so dass die 
+   MyCoRe-Anwendung <a href="http://localhost:8291/" title="Link zur MyCoRe-Anwendung DocPortal">DocPortal</a> 
+   dann im Browser aufgerufen werden kann. 
+   </p> 
+
+   <h3>Start von DocPortal</h3>
+   <p>
+   Wechseln Sie ins Verzeichnis <code>&lt;pfad&gt;/docportal/build/bin</code> und rufen Sie unter Windows die folgenden
+   Kommandos auf:
+   <code class="code">hsqldbstart.cmd und jettystart.cmd</code>
+
+   Unter Linux:
+   <code class="code">hsqldbstart.sh und jettystart.sh</code>
+
+   Geben Sie als Adresse in einem Browser <a href="http://localhost:8291/" title="Link zur MyCoRe-Anwendung DocPortal">http://localhost:8291</a> ein.
+   </p>
+
+   <h3>Stop von DocPortal</h3>
+   <p>
+   Wechseln Sie ins Verzeichnis <code>&lt;pfad&gt;/docportal/build/bin </code> und rufen Sie unter Windows die
+   folgenden Kommandos auf:
+   <code class="code">jettystop.cmd und hsqldbstop.cmd</code>
+
+   Unter Linux:
+   <code class="code">jettystop.sh und hsqldbstop.sh</code>
+   </p>
+
+   <p>
+   Hiermit erhalten Sie einen ersten Eindruck von MyCoRe/DocPortal. Sollten Sie eine eigene Anwendung mit einem
+   eigenen Datenmodell planen, führen Sie die im folgenden beschriebene Installation durch. 
+   </p>

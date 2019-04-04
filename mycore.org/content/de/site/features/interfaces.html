@@ -1,0 +1,120 @@
+
+---
+
+title: "Standardisierte Schnittstellen"
+
+---
+
+    <div>
+      <h2>„Open Archives Initiative“ OAI-PMH 2.0</h2>
+      <p>
+        MyCoRe bietet eine Data-Provider-Schnittstelle entsprechend dem „Metadata Harvesting Protocol“ der
+        <link href="http://www.openarchives.org" target="_blank" title=" OAI - Open Archives Initiative">Open Archives Initiative</link>
+        in der aktuellen Protokoll-Version 2.0. 
+        Als OAI-Data-Provider macht eine MyCoRe-Anwendung die Metadaten ihrer Inhalte in verschiedenen Formaten zugänglich.
+        Externe OAI-Service-Provider können diese Daten über die Schnittstelle sammeln und weiterverarbeiten.
+      </p>
+      <p> 
+        Die OAI-Schnittstelle ist frei konfigurierbar, unterstützt Sets, Resumption-Tokens und beliebige Metadatenformate. 
+        MyCoRe-Klassifikationen können dabei direkt zur Bildung einer Set-Struktur verwendet werden.
+        Über XSL-Stylesheets können beliebige Ausgabeformate implementiert werden. Bereits implementiert sind die folgenden Formate:
+      </p>
+      <ul>
+        <li>
+          <link href="http://www.openarchives.org/OAI/openarchivesprotocol.html#dublincore" target="_blank">Dublin Core:</link>
+          Dieses Format muss jede OAI-Data-Provider-Implementierung bereitstellen. 
+          Es ist der kleinste gemeinsame Nenner für die Interoperabilität von Metadaten.
+        </li>
+        <li>
+          <link href="http://www.dnb.de/DE/Standardisierung/Metadaten/xMetadissPlus.html" target="_blank">XMetaDissPlus:</link>
+          In diesem Format sammelt die Deutsche Nationalbibliothek die Metadaten von Online-Hochschulschriften und E-Dissertationen.
+          MyCoRe-basierte Publikationsserver können so neu eingestellte E-Publikationen automatisiert an die DNB melden.
+        </li>
+        <li>
+          <link href="http://www.d-nb.de/wir/projekte/epicur.htm" target="_blank" title="EPICUR (Enhancement of Persistent Identifier Services - Comprehensive Method for unequivocal Resource Identification)">Epicur:</link>
+          Über dieses Ausgabeformat werden persistente Identifikatoren (URNs) zu E-Publikationen und Digitalisaten an die Deutsche Nationalbibliothek zur Registrierung gemeldet. 
+        </li>
+      </ul>
+    </div>
+    
+    <div>
+      <h2>Zugang für Suchmaschinen-Robots</h2>
+      <p>
+        MyCoRe bietet eine spezielle Schnittstelle ("IndexBrowser"), über die ein vollständiger Index aller enthaltenen Objekte
+        für die Indizierung durch Suchmaschinen-Robots generiert wird. Suchmaschinen wie z. B. Google können so
+        Metadaten und Volltexte frei zugänglicher, MyCoRe-basierter Repositorien indizieren und weltweit
+        auffindbar machen.
+      </p>
+      <p>
+        MyCoRe implementiert weiterhin das von Google, Yahoo, Microsoft und anderen forcierte 
+        „<link href="http://www.google.com/schemas/sitemap/0.84/" target="_blank">Sitemap Protocol</link>“.
+        Über eine generierte XML-Datei erhält eine Suchmaschine dabei direkte Links zu indizierbaren Seiten, 
+        Informationen zu Änderungshäufigkeiten etc. 
+      </p>
+      <p>
+        Viele Suchmaschinen werten in den Webseiten enthaltene Metadaten aus (HTML META Elemente). Für das MODS-Datenmodell bietet 
+        MyCoRe eine direkte Ausgabe der MODS-Metadaten in den Formaten <strong>Dublin Core</strong> und <strong>Highwire Press Tags</strong>.
+        Suchmaschinen wie <strong>Google Scholar</strong> können dadurch in MyCoRe veröffentlichte E-Publikationen mit ihren wichtigsten 
+        beschreibenden Daten qualifiziert indizieren. 
+      </p>
+    </div>
+    
+    <div>
+      <h2>Webservices via SOAP</h2>
+      <p>
+        MyCoRe bietet eine Webservices-Schnittstelle nach dem 
+        <link href="http://de.wikipedia.org/wiki/SOAP" target="_blank" title="Wikipedia-Beitrag zu SOAP">SOAP</link>
+        Protokoll. Über diese Schnittstelle können dritte Systeme in einer MyCoRe Anwendung suchen und Metadaten der Treffer erhalten.
+        MyCoRe verwendet die SOAP-Schnittstelle intern, um verteilte Anwendungen zu realisieren, bei denen mehrere MyCoRe
+        Instanzen parallel durchsucht werden.    
+      </p>
+    </div>
+    
+    <!-- <section>
+      <title>z39.50 Schnittstelle</title>
+      <p>
+        MyCoRe bietet eine
+        <link href="http://de.wikipedia.org/wiki/Z39.50" target="_blank" title="Wikipedia-Beitrag zur Z39.50">z39.50</link>
+        Schnittstelle, über die einfache Suchanfragen im <strong>z39.50 Prefix Query Format</strong> (PQF) gestellt
+        und beantwortet werden. Über diese Schnittstelle kann etwa ein MyCoRe-basierter Publikationsserver an einen
+        herkömmlichen Bibliothekskatalog angebunden werden.
+      </p>
+    </section> -->
+    
+    <div>
+      <h2>SWORD-Schnittstelle</h2>
+      <p>
+        Das <link href="http://swordapp.org/">Simple Web-service Offering Repository Deposit</link> Protokoll definiert eine
+        Schnittstelle, über die dritte Systeme automatisiert digitale Dokumente mit ihren Metadaten in ein Repository 
+        einbringen könne. Einige Verlage stellen so z. B. Open-Access-E-Publikationen von Autoren einer Hoschule automatisch 
+        in den Publikationsserver der Hochschule ein. 
+      </p>
+      <p> 
+        In MyCoRe sind Rahmenfunktionen zur Implementierung der SWORD v1 Spezifikation enthalten. 
+        Für eine MyCoRe-Anwendung wurde SWORD v1 bereits vollständig implementiert. Derzeit ist eine Implementierung für
+        SWORD v2 in der Umsetzung.  
+      </p>
+    </div>
+    
+    <div>
+      <h2>XML via HTTP</h2>
+      <p>
+        XML spielt eine zentrale Rolle in MyCoRe. Alle Metadaten-Objekte sind intern als XML-Dokumente persistent abgelegt.
+        Metadaten und Klassifikationen lassen sich über die Kommandozeile als XML-Dokumente importieren und exportieren.
+        Dritte Systeme können diese Schnittstelle für den Batch Import von Metadaten verwenden.
+      </p>
+      <p>
+        Die Weboberfläche einer MyCoRe-Anwendung wird über Java-Servlets generiert, die XML-Dokumente ausgeben. Dadurch
+        ergibt sich eine weitere natürliche XML-Schnittstelle, da Seiten wie z. B. Trefferlisten einer Suche auch als XML-Dokument 
+        über eine HTTP Anfrage ausgegeben werden können. 
+      </p>
+    </div>
+    
+    <div>
+      <h2>REST-Schnittstelle</h2>
+      <p>
+        Eine REST-Schnittstelle ("Representational State Transfer") ist zur Zeit in Entwicklung.
+      </p>
+    </div>
+
+  

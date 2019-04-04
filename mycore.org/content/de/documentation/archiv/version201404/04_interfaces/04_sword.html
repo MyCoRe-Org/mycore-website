@@ -1,0 +1,310 @@
+
+---
+
+title: "MyCoRe-SWORD-Schnittstelle"
+
+---
+
+  <div>
+    <h2>Allgemein</h2>
+    <p>
+      Der „Simple Webservice Offering Repository Deposit“-Service ist
+      eine Schnittstelle, über die Dateien mit komplexen Datenstrukturen,
+      wie z.B. zip-Dateien, übermittelt werden können. In MyCore sind
+      Hilfsklassen implementiert, über die eine solche Übertragung
+      durchgeführt werden kann.
+    </p>
+    <p>
+      Zur Zeit der Erstellung dieses Dokumentes ist die verwendete
+      SWORD-Version 1.3. Die Designer der Schnittstelle haben auf Ihrer
+      Webseite eine <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">Profilbeschreibung</a> veröffentlicht. Unter den folgenden
+      Adressen bekommt man zusätzliche Informationen, die zum Verständnis
+      der Profilbeschreibung weiterhelfen:
+    </p>
+    <ul>
+      <li><a href="http://www.slideshare.net/adrianstevenson/sword-the-story-so-far">http://www.slideshare.net/adrianstevenson/sword-the-story-so-far</a></li>
+      <li><a href="http://swordapp.org/the-sword-course/">http://swordapp.org/the-sword-course/</a></li>
+    </ul>
+    <p>
+      Durch die Videos des SWORD-Kurs ist eine Übersicht des Service
+      gegeben. In der „story-so-far“ sind einige ergänzende Folien zur
+      Beschreibung enthalten. Wenn Teile der Standardimplementierung
+      überschrieben werden sollen ist es von Vorteil sich mit der
+      Schnittstelle vertraut zu machen.
+    </p>
+    <p>
+      Solange die Standardimplementierung verwendet wird, ist eine
+      genaue Kenntnis der Schnittstelle nicht von Nöten. Allerdings gibt
+      es wenige Details die bekannt sein sollten.
+    </p>
+  </div>
+  
+  <div>
+    <h2>SWORD Basiswissen</h2>
+    <p>
+      Zu Beginn der Nutzung des Service muss einem Client, der einen
+      Deposit durchführen will, die Beschreibung des Service bekannt gemacht
+      werden. Die Beschreibung kann z.B. über ein Servlet ausgeliefert
+      werden. Das Servicedokument ist eine XML-Datei, die auf alle weiteren
+      Adressen des Service verweist. In der Profilbeschreibung ist unter dem
+      <a href="http://www.swordapp.org/docs/sword-profile-1.3.html#a.1.1">Kapitel 1.1</a> eine Beispieldokument gegeben.
+    </p>
+    <p>
+      Bereits bei Abfrage des Servicedokumentes wird eine
+      Authentifizierung verlangt. SWORD setzt in der aktuellen Version
+      eine HTTP-Basic Authentifizierung über eine gesicherte Verbindung
+      voraus.
+    </p>
+    <p>
+      Wenn das Servicedokument ausgeliefert wurde kann der Client aus dem
+      Dokument Adressen herausziehen, zu denen ein Deposit möglich ist.
+      Jedes Servicedokument enthält einen oder mehrere Workspaces, die
+      wiederum aus einer oder mehreren Collections bestehen. Die
+      Collections beinhalten die Adressen zu denen ein Client Dateien hoch
+      laden kann. Die MyCoRe-Implementierung verwendet lediglich einen
+      Workspace mit einer Collection.
+    </p>
+    <p>
+      Wenn ein Client eine Adresse identifiziert hat und einen Deposit
+      durchführen konnte, wird vom Service eine Antwort in Form eines
+      XML-Dokumentes geliefert, in der beschrieben wird, was mit dem
+      Deposit durchgeführt wurde.
+    </p>
+  </div>
+  <div>
+    <h2>Arbeitsschritte zur Verwendung des Service</h2>
+    <p>Zur Verwendung des Interface sind folgende Klassen wichtig:</p>
+    <ul>
+      <li>MCRSWORDServiceDocumentServlet</li>
+      <li>MCRSWORDDepositServlet</li>
+      <li>MCRSWORDServer</li>
+      <li>MCRSWORDAuthenticator</li>
+      <li>MCRSwordIngester</li>
+    </ul>
+    
+    <div>
+      <h3>Konfiguration der Authentifizierung</h3>
+      <ol>
+        <li>
+          Angabe der zu verwenden Klasse
+          <p>
+            In den mycore.properties ist über die Angabe MCR.SWORD.auth.class die
+            Klasse in der die Authentifizierung durchgeführt wird anzugeben. Wenn
+            kein Wert angegeben ist wird als als Standard
+            org.mycore.sword.MCRSWORDAuthenticator verwendet. Wenn eine eigene
+            Authentifizierung verwendet werden soll, muss von dieser Klasse
+            abgeleitet werden. Die Methode authenticate(String username, String
+            password) wird verwendet.
+          </p>
+        </li>
+        <li>
+          Angabe der Datei zu den Benutzerdaten bei Verwendung der Default-Implementierung
+          <p>
+            In den mycore.properties ist über die Angabe MCR.SWORD.auth.file der
+            absolute Pfad zur Datei anzugeben, die die Authentifizierungsdaten
+            enthält. Die Datei muss als Aufbau dem einer Java-Properties-Datei
+            entsprechen. Der Schlüssel muss den Benutzernamen enthalten, der Wert
+            dazu muss ein MD5 Hash des Passworts des Benutzers sein.
+          </p>
+        </li>
+        <li>
+          Angabe des Typs der Authentifizierung
+          <p>
+            In der Konfiguration ist als Standardwert „Basic“ zur
+            Authentifizierung gegeben. Zu Testzwecken kann die Property
+            MCR.SWORD.auth.method auf „None“ gesetzt werden, um eine
+            Authentifizierung zu übergehen. In der Regel muss diese Property
+            allerdings nicht verändert werden.
+          </p>
+        </li>
+        <li>
+          Angabe eines Auth realms
+          <p>
+            Optional kann in den Properties ein über den Wert MCR.SWORD.auth.realm
+            der Auth realm des Service gesetzt werden.
+          </p>
+        </li>
+      </ol>
+    </div>
+    
+    <div>
+      <h3>Konfiguration des Servicedokument-Servlets</h3>
+      <p>
+        Das Servicedokument-Servlet kann zur Auslieferung des Servicedokumentes
+        verwendet werden. 
+      </p>
+      <ol>
+        <li>Eintrag in die web.xml</li>
+        <li>
+          Setzen der relativen Adresse zum Deposit
+          <p>
+            Zusätzlich zur eigentlichen Erzeugung des Dokumentes wird die Property
+            MCR.SWORD.post.uri ausgelesen. Der Pfad ist ein relativer Pfad zur
+            Adressierung des Servlets. URL und Kontextpfad werden automatisch
+            erzeugt. Diese Daten werden aus der Implementierung des MCRServlet
+            über die Methode getBaseURL() ausgelesen. Es genügt als aus z.B.
+            „DepositServlet“ anzugeben, wenn in der web.xml als URL-Pattern
+            „servlets/DepositServlet“ angegeben wurde.
+          </p>
+        </li>
+      </ol>
+    </div>
+    
+    <div>
+      <h3>Konfiguration des Deposit-Servlets</h3>
+      <ol>
+        <li>Eintrag in die web.xml</li>
+        <li>
+          Angabe der max-upload-size
+          <p>
+            Die Standardcollection des Service verwendet eine maximale Größe von
+            10MByte, die eine hochgeladene Datei umfassen darf. Die Angabe der
+            Property MCR.SWORD.max.uploaded.file.size muss in Bytes erfolgen. Bei
+            Auslieferung des Servicedokumentes wird die Größe in kBytes
+            umgerechnet, da das Profil von SWORD diesen Wert erwartet.
+          </p>
+        </li>
+        <li>
+          Angabe des Atom-Generator
+          <p>
+            Bei Auslieferung des Servicedokumentes sollte eine Adresse zur
+            Identifizierung der Software gegeben sein. Durch den Tag &lt;generator
+            uri=“...“ /&gt; wird dieser Wert an den Client ausgeliefert. Durch die
+            Property MCR.SWORD.generator.uri kann der relative Pfad eingetragen
+            werden. Die Erzeugung erfolgt wie zuvor beschrieben bei der Erzeugung
+            einer Upload-URL. Zudem kann durch die Property der
+            MCR.SWORD.generator.version die Version des Generators gesetzt werden.
+          </p>
+        </li>
+      </ol>
+    </div>
+    
+    <div>
+      <h3>Konfiguration des MCRSWORDServer</h3>
+      <p>
+        Die beiden zuvor konfigurierten Servlets verwenden die Implementierung des MCRSWORDServer. Der Server ist in der Lage ZIP-Dateien aufzunehmen, die mit einer METS-Beschreibungsdatei versehen sind. Zudem sind die Entwicklerfeatures NoOp und Verbose-Output aktiviert. Durch NoOp soll ein Testupload durchgeführt werden können in dem keine Daten in das Produktivsystem übernommen werden. Bei aktiviertem Verbose-Output des Clients sollen zusätzliche Informationen in den SWORD-Response geschrieben werden. Diese Informationen müssen nicht in irgendeiner Art und Weise kodiert werden, sondern können einfachen Text enthalten.
+      </p>
+      <p>
+        Wichtig für die Standardimplementierung ist die Tatsache, dass eine Verzeichnisstruktur innerhalb eines Zips ignoriert wird. Verzeichnisse werden beim entpacken übergangen.
+      </p>
+      <p>
+        Wenn eine eigene Implementierung des Servers verwendet werden soll, kann in der Konfiguration die Property MCR.SWORD.server.class überschrieben werden. Die Implementierung muss das Interface SWORDServer aus dem Package org.purl.sword.base implementieren. Durch das Interface sind drei Methoden gegeben:
+      </p>
+      <ul>
+        <li><code>doDeposit()</code></li>
+        <li><code>doServiceDocument()</code></li>
+        <li><code>doAtomDocument()</code></li>
+      </ul>
+      <p>
+        Die dritte Methode doAtomDocument kann vernachlässigt werden, da sie normalerweise nicht verwendet wird. Die anderen beiden Methoden sind die Auslieferung des Servicedokumentes und die Durchführung eines Deposits verantwortlich.
+      </p>
+      <p>
+        Für die Auslieferung eines gültigen Servicedokumentes müssen in der Konfiguration folgende zusätzliche Werte gesetzt sein:
+      </p>
+      <dl>
+        <dt><code>MCR.SWORD.workspace.title</code></dt>
+        <dd>Enthält den Titel des Defaultworkspace.</dd>
+        
+        <dt><code>MCR.SWORD.default.collection.title</code></dt>
+        <dd>Enthält den Titel der Defaultcollection.</dd>
+        
+        <dt><code>MCR.SWORD.default.collection.policy</code></dt>
+        <dd>Wenn in der Collection bestimmte Rechte verwendet werden sollen kann hier eine „human readable“ Form hinterlegt werden.</dd>
+        
+        <dt><code>MCR.SWORD.default.collection.treatment</code></dt>
+        <dd>Sowohl zur Auslieferung des Servicedokumentes, als auch nach einem erfolgreichen Deposit wird ein Treatment angegeben. Für das Servicedokument soll das Treatment Details enthalten, was mit einem Deposit geschieht.</dd>
+        
+        <dt><code>MCR.SWORD.default.collection.abstract</code></dt>
+        <dd>Enthält eine Kurzbeschreibung der Collection.</dd>
+      </dl>
+      <p>
+        Für die Durchführung eines Deposits müssen nur wenige Details konfiguriert werden.
+      </p>
+      <dl>
+        <dt><code>MCR.SWORD.temp.upload.dir</code></dt>
+        <dd>Bei Durchführung eines Deposits werden die Dateien im ZIP zunächst in ein temporäres Verzeichnis geschrieben. Wenn dieses Verzeichnis nicht konfiguriert wird, werden die Dateien in das Verzeichnis was über java.io.tmpdir ausgelesen wird gepackt.</dd>
+        
+        <dt><code>MCR.SWORD.treatment.persisted</code></dt>
+        <dd>Wenn ein gültiger Deposit durchgeführt werden konnte ist im Treatment eine Beschreibung enthalten, was mit den Dateien passiert ist.</dd>
+        
+        <dt><code>MCR.SWORD.treatment.noop.persisted</code></dt>
+        <dd>Wenn ein gültiger Deposit durchgeführt werden konnte ist im Treatment eine Beschreibung enthalten, was mit den Dateien passiert wäre.</dd>
+      </dl>
+    </div>
+    
+    <div>
+      <h3>Implementierung des MCRSWORDIngester</h3>
+      <p>
+        Wenn eine eigene Implementierung des SWORD Servers verwendet wird kann der Ingester ignoriert werden.
+      </p>
+      <p>
+        Für eine vollständige Verwendung des Service muss allerdings noch eine Klasse geschrieben werden, die das Interface MCRSWORDIngester implementiert. Diese Klasse soll die eigentliche Persistierung in ein Backend vornehmen.
+      </p>
+      <dl>
+        <dt><code>MCR.SWORD.ingester.class</code></dt>
+        <dd>Die Property muss auf eine Klasse mit vollständig qualifiziertem Pfad verweisen.</dd>
+      </dl>
+      <p>
+        Über das Interface ist die Methode ingest(Deposit, SWORDEntry, StringBuffer, MCRServletJob) gegeben, die implementiert werden muss. Über das Deposit-Objekt können alle relevanten Informationen für das Persistieren der Objekte abgefragt werden. Bei Verwendung der Standardimplementierung sind folgende wichtige Daten gesetzt:
+      </p>
+      <dl>
+        <dt><code>extractedFiles</code></dt>
+        <dd>Die extrahierten Dateien enthalten eine Map&lt;File, String&gt; mit den temporär extrahierten Dateien und den originalen Dateinamen.</dd>
+        
+        <dt><code>packageDescriptor</code></dt>
+        <dd>Innerhalb des Deposits wurde eine „mets.xml“ gefunden und validiert, die die Beschreibung aller Daten zu den Dateien enthält. Die äußere Form des Dokumentes entspricht dabei einer METS-Beschreibung. Eine Dokumentation welche Elemente vorhanden sind kann unter <a href="https://wiki.duraspace.org/display/DSPACE/DSpaceMETSSIPProfile">https://wiki.duraspace.org/display/DSPACE/DSpaceMETSSIPProfile</a> eingesehen werden. Die innere Beschreibung entspricht einem Eprints Dublin Core Standard. Unter der Adresse <a href="http://www.ukoln.ac.uk/repositories/digirep/index/Eprints_DC_XML">http://www.ukoln.ac.uk/repositories/digirep/index/Eprints_DC_XML</a> gibt es eine Dokumentation.</dd>
+      </dl>
+      <p>
+        Der mit übergebene SWORDEntry soll verwendet werden, damit der Server eine ausreichende DepositResponse erzeugen kann. Folgende Objekte sollen während des Deposits in den Entry gesetzt werden:
+      </p>
+      <dl>
+        <dt><code>Id</code></dt>
+        <dd>Die Id ist eine nach dem Atom Publishing Protocol definierte Id und enthält eine eindeutig für den Deposit gültige Id.</dd>
+        
+        <dt><code>Content</code></dt>
+        <dd>
+          <dl>
+            <dt><code>Source</code></dt>
+            <dd>Unter der Source soll eine URI enthalten sein, unter der das Original des Deposits oder eine äquivalente Kopie erreichbar ist. Wichtig ist, dass die Beschreibungsdatei mit in dem Paket liegt was ausgeliefert wird.</dd>
+            
+            <dt><code>Type</code></dt>
+            <dd>Der Type des Contents enthält den Mime-Type der geliefert wird, wenn die Source-URI angewählt wird.</dd>
+          </dl>
+        </dd>
+        
+        <dt><code>Summary</code></dt>
+        <dd>Die Zusammenfassung ist lediglich eine textuelle Information über den statt gefundenen Deposit. Sie ist nicht mit den Verbose-Informationen zu vergleichen, die wiederum mehr Detailinformationen enthalten.</dd>
+      </dl>
+    </div>
+    
+    <div>
+      <h3>Eigene Implementierung des MCRSWORDServer</h3>
+      <p>
+        Es ist relativ einfach den vorhandenen Server zu überschreiben. Für die Lieferung eines Servicedokumentes muss lediglich die Methode doServiceDocument() überschrieben werden.
+      </p>
+      <p>
+        Für eine Neuimplementierung eines Depositvorgangs muss die Methode doDeposit() überschrieben werden. Innerhalb der Standardimplementierung fungiert die Methode als Templatemethod, die wiederum drei Methoden aufruft:
+      </p>
+      <dl>
+        <dt><code>validateDeposit(Deposit)</code></dt>
+        <dd>Hier werden die Detailinformationen des Deposit-Objektes geprüft</dd>
+        
+        <dt><code>persistDeposit(Deposit, SwordEntry, StringBuffer, MCRServletJob)</code></dt>
+        <dd>
+          <dl>
+            <dt><code>validatePackageProfile(File, Map&lt;File, String&gt;)</code></dt>
+            <dd>Validierung der mets.xml</dd>
+            
+            <dt><code>ingest(Deposit, SwordEntry, StringBuffer, MCRServletJob)</code></dt>
+            <dd>Persistierung der Daten.</dd>
+          </dl>
+        </dd>
+        
+        <dt><code>createDepositResponse(StringBuffer, Deposit, SwordEntry)</code></dt>
+        <dd>Erstellung der DepositResponse-Objektes.</dd>
+      </dl>
+      <p>
+        Wenn einzelne Methoden überschrieben werden sollen ist es auf jeden Fall sinnig, sich vorher die api doc der Methoden durchzulesen, was genau geschieht.
+      </p>
+    </div>
+  </div>

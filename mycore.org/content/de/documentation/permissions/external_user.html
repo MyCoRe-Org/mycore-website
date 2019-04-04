@@ -1,0 +1,107 @@
+
+---
+
+title: "Anbindung externer Systeme"
+mcr_version: ['2015.05','2016.06']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+description: "Beschreibung der Anbindung an externe Authentifizierungs- und Authorisierungssysteme."
+date: "2016-03-03"
+
+---
+    <div>
+      <h2>Shibboleth</h2>
+
+      <p>
+        Im ersten Schritt muss Shibboleth installiert und konfiguriert werden. Dazu steht
+        eine <a href="/downloads/Install_Konf_SP.pdf">Anleitung aus Jena</a> zur Verfügung,
+        die einen möglichen Weg beschreibt.
+      </p>
+      <p>
+        Nachdem die Konfiguration abgeschlossen ist, muss die <code>realms.xml</code> angepasst
+        werden. Nachfolgend ebenfalls ein Beispiel der Konfiguration in Jena.
+      </p>
+      {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<realms local="local">
+  <realm id="local">
+    [...]
+  </realm>
+  <realm id="shibboleth" setable="false">
+    <label xml:lang="de">Shibboleth</label>
+    <label xml:lang="en">Shibboleth</label>
+    <login url="MCRShibbolethLoginServlet" redirectParameter="url">
+      <label xml:lang="de">Anmelden mit dem Login Ihrer Heimateinrichtung</label>
+      <label xml:lang="en">Login with your user credentials of your home institution</label>
+      <info>
+        <label xml:lang="de">
+          Falls unterstützt, müssen Sie sich ggf. nur einmalig anmelden.
+        </label>
+        <label xml:lang="en">
+          This login uses single-sign-on facilities provided by your home institution.
+        </label>
+      </info>
+    </login>
+  </realm>
+  <realm id="tu-ilmenau.de">
+    <label xml:lang="de">TU Ilmenau</label>
+    <label xml:lang="en">TU Ilmenau</label>
+    <attributeMapping>
+      <attribute name="userName" mapping="eppn" />
+      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
+      <attribute name="eMail" mapping="mail" />
+      <attribute name="roles" mapping="affiliation" separator=";">
+        <valueMapping name="employee">submitter</valueMapping>
+        <valueMapping name="member">reader</valueMapping>
+      </attribute>
+    </attributeMapping>
+    <passwordChangeURL>https://www.tu-ilmenau.de/unirz/it-service-desk/password/</passwordChangeURL>
+  </realm>
+  <realm id="uni-jena.de">
+    <label xml:lang="de">FSU Jena</label>
+    <label xml:lang="en">FSU Jena</label>
+    <attributeMapping>
+      <attribute name="userName" mapping="eppn" />
+      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
+      <attribute name="eMail" mapping="mail" />
+      <attribute name="roles" mapping="eduPersonAffiliation">
+        <valueMapping name="employee">submitter</valueMapping>
+        <valueMapping name="member">reader</valueMapping>
+      </attribute>
+    </attributeMapping>
+    <passwordChangeURL>https://portal.uni-jena.de/</passwordChangeURL>
+  </realm>
+  <realm id="uni-erfurt.de">
+    <label xml:lang="de">Universität Erfurt</label>
+    <label xml:lang="en">University Erfurt</label>
+    <attributeMapping>
+      <attribute name="userName" mapping="eppn" />
+      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
+      <attribute name="eMail" mapping="mail" />
+      <attribute name="roles" mapping="eduPersonAffiliation">
+        <valueMapping name="employee">submitter</valueMapping>
+        <valueMapping name="member">reader</valueMapping>
+      </attribute>
+    </attributeMapping>
+    <passwordChangeURL>https://idmweb.uni-erfurt.de/OAS</passwordChangeURL>
+  </realm>
+</realms>{{< /highlight >}}
+      <p>
+        Um zu bewirken, dass der Benutzer beim Anlegen eines Dokument auch gespeichert wird
+        muss in den <code>mycore.properties</code> noch folgendes Property gesetzt werden:
+      </p>
+      {{< highlight bash "linenos=table">}}
+# can be used to persist transient user (shibboleth or ...)
+MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler
+      {{< /highlight >}}
+      <p>
+        Anhand der Attribute die gemappt werden sieht man, was der IDP liefern muss.
+      </p>
+    </div>
+    <div>
+      <h2>LDAP</h2>
+      <p>
+        Diese Dokumentation befindet sich noch im Aufbau
+      </p>
+    </div>
+  

@@ -1,0 +1,148 @@
+
+---
+
+title: "Das Klassifikationen-Datenmodell"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Robert Stephan', 'Jens Kupferschmidt']
+description: "In diesem Abschnitt wird die Struktur einer Klassifikation und ihre Repräsentation im XML-Format beschrieben."
+date: "2016-03-18"
+
+---
+    <div>
+      <h2>Das Klassifikationen-Datenmodell</h2>
+      <p>
+        Für das Importieren und Exportieren von Klassifikationen wird in MyCoRe ein <strong>XML-Format</strong> verwendet.
+      </p>
+      <div>
+        <h3>Elemente einer Klassifikation</h3>
+        <p>
+          Eine Klassifikation besteht aus:
+        </p>
+        <div>
+          <h4>Rootelement</h4>
+          <p>Das Rootelement (<code>&lt;mycoreclass&gt;</code>) enthält die ID der Klassifikation, ein oder mehrere Bezeichner
+             <code>label</code>in verschiedenen Sprachen und einen Container <code>categories</code>,
+             der die Einträge der Klassifikation speichert.
+          </p>
+          <p>Die <code>ID</code> kann maximal 32 Zeichen lang sein und darf die Zeichen
+             <tt>:</tt>, <tt>$</tt>, <tt>{</tt>, <tt>}</tt> nicht enhalten.
+          </p>
+        </div>
+        <div>
+          <h4>Kategorie</h4>
+          <p>Als Kategorien (<code>&lt;category&gt;</code>) bezeichnen man die Einträge der Klassifikation.
+             Kategorien können hierarchisch geschachtelt werden. Sie enthalten eine ID,
+             einen oderer mehrere Bezeichner <code>label</code> für verschiedene Sprachen
+             und optional eine URL <code>url</code>. Diese kann verwendet werden, um auf eine Webseite
+             mit weiteren Informationen oder der Beschreibung des Klassifikationseintrages zu verlinken.
+          </p>
+           <p>Die <code>ID</code> kann maximal 128 Zeichen lang sein und darf die Zeichen
+              <tt>:</tt>, <tt>$</tt>, <tt>{</tt>, <tt>}</tt> nicht enhalten.
+          </p>
+        </div>
+        <div>
+          <h4>Bezeichner</h4>
+          <p>
+            Bezeichner (<code>&lt;label&gt;</code>) werden verwendet, um die Klassifikation und ihre Einträge zu bennennen.
+            Label sind wiederholbar, um auch Übersetzungen des Begriffes speichern zu können.
+            Sie bestehen aus einem Sprachattribut <code>xml:lang</code> und einem Textfeld <code>text</code>.
+            Optional können zusätzliche Angaben zur Verwendung des Eintrages in einem Beschreibungsfeld <code>description</code> abgelegt werden.
+          </p>
+          <p>Die Länge von Text und Beschreibung kann jeweils maximal 4096 Zeichen betragen. Das Sprachattribut kann maximal 255 Zeichen lang sein
+          und muss gemäß den Regeln des <a href="https://www.ietf.org/rfc/rfc4646.txt">RFC 4646</a> aufgebaut sein.</p>
+        </div>
+        <p>Folgende Grafik soll die Beziehung zwischen den Klassifikationselementen verdeutlichen:</p>
+        <p style="text-align:center">
+          <img src="/images/documentation/basics/mycore_klassifikationen_uml.jpg" alt="Datenmodell-Graphik" title="Datenmodell-Graphik" style="text-align:center" />
+        </p>
+      </div>
+      <div>
+        <h3>Besonderheiten</h3>
+          <div>
+            <h4>x- Sprachcodes</h4>
+        <p>In MyCoRe wird das Label zur Speicherung zusätzlicher Informationen für die Weiterverabeitung der
+           Klassifikationen verwendet. Dazu werden zusätzliche Label mit privaten Sprachcodes (gemäß den Regeln des RFC4646) definiert.
+           Die Sprachcodes bestehen aus dem Prefix <code>x-</code> und weiteren Blöcken aus jeweils max. 8 Zeichen (Zahlen oder Buchstaben),
+           die durch <tt>-</tt> getrennt werden.
+        </p>
+        <p>Folgende Sprachcodes werden verwendet:</p>
+        <ul>
+          <li><strong><code>x-uri</code></strong> für Bezeichner in Form einer URI.<br />
+              URIs sind mit URLs (HTTP-Adressen) verwandt und werden vor allem im Context von Linked Data eingesetzt.<br />
+              Im <a href="http://www.loc.gov/standards/mods/">MODS</a>-Metadatenmodell werden sie zur Speicherung von
+              Klassifikationen in Form von <tt>authorityURI</tt> und <tt>valueURI</tt> Attributen verwendet.
+              Anhand des <tt>x-uri</tt>-Labels kann MyCoRe diese Klassifikationen erkennen und verarbeiten.<br /><br /></li>
+
+           <li><strong><code>x-auth</code></strong> als Marker für Klassifikationen, die im <a href="http://www.loc.gov/standards/mods/">MODS</a>-Metadatenmodell
+              mit dem Attribut <tt>authority</tt> gekennzeichnet wurden.<br /><br /></li>
+
+           <li><strong><code>x-mapping</code></strong> für das <a href="{{< ref classif_mapping >}}">Klassifikationsmapping</a>.<br />
+              Wenn Metadaten z.B. über die OAI-Schnittstelle an externe Services ausgeliefert werden, werden häufige andere Klassifikationseinträge benötigt.
+              Um Mehrfacheingaben zu vermeiden, bietet MyCoRe mit dem Klassifikationsmapping die Möglichkeit, dass nur eine primäre Klassifikation erfasst wird.
+              MyCoRe trägt dann die äquivalenten Einträge der anderen Klassifikation automatisch dazu.<br />
+              Die Werte werden als Leerzeichen-getrennte Liste von Klassifikationseinträgen der Form <tt>classid:categid</tt> gespeichert.<br /><br />
+            </li>
+        </ul>
+        </div>
+        <div><h4>Format von IDs</h4></div>
+        <p>In hierarchischen Klassifikationen kann es sinnvoll sein, die Hierarchiestufen beispielsweise durch einen Punkt (<tt>.</tt>)
+           oder Numerierung in den IDs abzubilden:
+        </p>
+        <ul>
+          <li>Institutionen: <code>Unis</code> &rarr; <code>Unis.Rostock</code> &rarr; <code>Unis.Rostock.UB</code></li>
+          <li>DDC:&emsp;&emsp;&emsp;&nbsp;&nbsp;<code>5</code> &rarr; <code>56</code> &rarr; <code>567</code></li>
+        </ul>
+        <p>Für das Funktionieren des Klassifikationssystems ist das jedoch keine Voraussetzung.</p>
+
+      </div>
+
+      <div>
+        <h3>XML Format</h3>
+        <p>Das folgende XML-Grundgerüst kann für das Schreiben eigener Klassifikationen verwendet werden:</p>
+        {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8" ?>
+    <mycoreclass
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      ID="..." >
+     <label xml:lang="de"    text="..." description="..."/>
+     <label xml:lang="en"    text="..." description="..."/>
+     <label xml:lang="x-uri" text="..." description="..."/>
+     ...
+     <categories>
+      <category ID="...">
+         <label xml:lang="..." text="..." description="..."/>
+         ...
+         <url xlink:href="..." />
+         <category ID="...">
+           <label xml:lang="..." text="..." description="..."/>
+           ...
+         </category>
+         <category ID="...">
+           <label xml:lang="..." text="..." description="..."/>
+           ...
+         </category>
+     </category>
+   </categories>
+</mycoreclass>{{< /highlight >}}
+      <p>Für die Validierung kann die XML-Schema Datei <a href="http://server.mycore.de/svn/mycore/trunk/mycore-base/src/main/resources/MCRClassification.xsd">MCRClassification.xsd</a> aus dem SVN verwendet werden.</p>
+      </div>
+    <div>
+      <h3>Für Entwickler</h3>
+      <p>Intern erfolgt die Speicherung der Klassifikationen in mehreren verknüpften <em>Datenbanktabellen</em>:</p>
+      <ul>
+        <li>In der Tabelle <tt>mcrcategory</tt> werden Klassifikationseinträge und ihre hierarchische Struktur
+            gespeichert. Die Hierarchie wird als <em>Nested Set Model</em>
+            (s. <a href="https://en.wikipedia.org/wiki/Nested_set_model"> Wikipedia</a>) abgebildet.
+        </li>
+        <li>Die Tabelle <tt>mcrcategorylabels</tt> enthält die mehrsprachigen Bezeichner und Beschreibungen
+            der Klassifikationseinträge</li>
+        <li>Das Mapping von MyCoRe-Objekten zu Klassifikationseinträgen wird in der Tabelle
+            <tt>mcrcategorylink</tt> gespeichert</li>
+      </ul>
+
+
+    </div>
+    </div>
+  

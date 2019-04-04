@@ -1,0 +1,76 @@
+
+---
+
+title: "Dateiverwaltung, Digitalisate und Video Streaming"
+
+---
+
+    <div>
+      <h2>Dateibereiche</h2>
+      <p>
+        Einem MyCoRe-Metadaten-Objekt wie z. B. einer Publikation sind in der Regel auch Dateien zugeordnet,
+        z. B. der Volltext der Publikation. MyCoRe speichert diese Dateien in einer eigenen, internen Struktur, dem
+        internen Dateisystem (IFS).
+      </p>
+      <p>
+        Hierzu sind einem MyCoRe-Objekt ein oder mehrere Dateibereiche zugeordnet, intern "Derivate" genannt.
+        Derivate sind Bündel von zusammengehörigen Dateien, die auch eine interne Verzeichnisstruktur besitzen dürfen.
+        So können z.B. Varianten eines Dokumentes in PDF- und HTML-Form existieren, die jeweils ein Derivat mit
+        ein oder mehreren Dateien bilden.
+      </p>
+    </div>
+
+    <div>
+      <h2>„Content Stores“</h2>
+      <p>
+        Neben den Datei-Inhalten werden auch weitere beschreibende Daten zu Dateien verwaltet,
+        insbesondere eine MD5 Prüfsumme zur Konsistenzprüfung. Als physisches Speichermedium dient ein separater Bereich
+        im lokalen Dateisystem, auf den der Browser des Anwenders nur indirekt über Java Servlets zugreift.
+        So kann die Anwendung sicherstellen, dass Zugriffsberechtigungen nicht umgangen werden. Neben dem <strong>lokalen Dateisystem</strong>
+        unterstützt MyCoRe über das <link href="http://commons.apache.org/proper/commons-vfs/filesystems.html">Apache Commons Virtual Fileystems</link>
+        auch direkt die Speicherung auf entfernten Dateisystemen via <strong>FTP, SFTP oder CIFS</strong>.
+      </p>
+      <p>
+        MyCoRe kann mehrere solcher Speicherorte für Dateien (Content Stores) parallel verwenden.
+        Anhand von Regeln wird für die importierte Datei ein entsprechender Content Store gewählt.
+        So können etwa Audio-/Videodateien anhand ihrer Dateiendung automatisch beim Upload auf
+        einem Video-Streaming-Server abgelegt werden.
+      </p>
+    </div>
+
+    <div>
+      <h2>Import und Export von Dateien</h2>
+      <p>
+        Import und Export von Dateien und Dateibereichen ist sowohl über die
+        MyCoRe-Kommandozeile (Command Line Interface) für Batch-Verarbeitung,
+        als auch über die Web-Schnittstelle möglich.
+        Einfache Dateien laden Autoren direkt über ein HTML-Formular hoch.
+        Für den Upload großer Dateien mit bis zu mehreren Gigabyte oder ganzer Verzeichnisbäume
+        steht ein Java Applet zur Verfügung. Die so importierte Verzeichnisstruktur bleibt im internen Derivat erhalten,
+        so dass auch umfangreiche HTML-Bäume archiviert und dargestellt werden können.
+      </p>
+      <p>
+        Über ein Servlet werden Dateien und Verzeichnisse im Browser angezeigt und ausgeliefert.
+        Dabei ist auch die dynamische Generierung einer ZIP-Datei möglich.
+      </p>
+    </div>
+
+    <div>{{< mcr-figure src="/images/site/features/imageviewer.png" class="border border-secondary" label="" caption="" alt="Bildbetrachter (iView2)" width="" height="" />}}</div>
+
+    <div>
+      <h3>METS-Editor</h3>
+      <p>
+        MyCoRe unterstützt den <strong>Metadata Encoding and Transmission Standard (METS)</strong> zur Strukturierung
+        von Digitalisaten in Dateibereichen. Über den integrierten METS-Editor können die Dateien eines Digitalisats
+        in eine logische Struktur gebracht und paginiert werden. Die METS-Datei wird auch vom Image Viewer verwendet,
+        um durch ein Digitalisat zu blättern und ein Inhaltsverzeichnis anzuzeigen.
+      </p>
+      <p>
+        Das über MyCoRe erstellte METS Dokument ist auch kompatibel zum DFG-Viewer, über den Digitalisate
+        so alternativ dargestellt werden können.
+      </p>
+    </div>
+
+    <div>{{< mcr-figure src="/images/site/features/videostreaming.png" class="border border-secondary" label="" caption="" alt="Video-Streaming" width="" height="" />}}</div>
+
+  

@@ -1,0 +1,114 @@
+
+---
+
+title: "Mehrsprachigkeit"
+author: ['Jens Kupferschmidt']
+description: "Über die Gestaltung mehrsprachiger Applikationen"
+date: "2015-06-18"
+
+---
+    <div>
+      <h2>Die Nutzung von I18N</h2>
+      <p>
+        MyCoRe ist von Anfang an darauf ausgelegt, mehrsprachige Anwendungen zu unterstützen. Die Internationalisierung
+        wird allgemein mit
+        <a href="https://de.wikipedia.org/wiki/Internationalisierung_%28Softwareentwicklung%29" target="_blank">I18N</a>
+        abgekürzt.
+      </p>
+      <p>
+        I18N Dateien haben den Namensaufbau
+        <code>messager_{iso_language_code}.properties</code>
+        . Je nach verwendetem Build-System sind sie an folgenden stellen zu patzieren.
+      </p>
+      <table class="table">
+        <tr>
+          <th>Komponente</th>
+          <th>Pfad</th>
+          <th>Anmerkung</th>
+        </tr>
+        <tr>
+          <td valign="top">Maven-Komponente
+          </td>
+          <td valign="top">src/main/resources/config/{component}/</td>
+          <td valign="top">Die Übersetzungen werden automatisch mit eingebunden.</td>
+        </tr>
+        <tr>
+          <td valign="top">Applikationen nach dem Skeleton-Konzept</td>
+          <td valign="top">~/.mycore/{application}/</td>
+          <td valign="top">Die Übersetzungen werden automatisch mit eingebunden.</td>
+        </tr>
+        <tr>
+          <td valign="top">Build-Prozess mit ANT</td>
+          <td valign="top">modules/{modul_name}/config/</td>
+          <td valign="top">
+            Die einzelnen i18n-Teile müssen mittels
+            <em>merge</em>
+            zusammengefügt und nach webapps/WEB-INF/classes kopiert werden.
+          </td>
+        </tr>
+      </table>
+      <p>Für das Erstellen der i18n-Dateien in Eclipse empfielt sich das <strong>RessourceBundle</strong>-Plugin. Hier können die
+        Schriftzeichen nativ eingetragen werden. Das Plugin wandelt diese sebstständig in ein entsprechendes Encoding
+        um. Da das i18n-Konzept dem der properties entspricht, ist die notation auch entsprechend. Bei der Wahl der
+        i18n-Bezeichner sollte dabei die Applikationsstruktur erkennbar sein.
+      </p>
+        <p class="break">
+          {{< highlight text "linenos=table">}}
+mycore.component.basis.part.subpart = Mein Text{{< /highlight >}}
+        </p>
+
+      <p>in folgenden Bereichen von MyCoRe kann ein i18n-Property eingesetzt werden:</p>
+      <table class="table">
+        <tr>
+          <th>Komponente</th>
+          <th>Codestelle</th>
+          <th>Anmerkung</th>
+        </tr>
+        <tr>
+          <td>MyCoReWebPage</td>
+          <td>
+            <em>title</em>
+            -Attribute
+          </td>
+          <td>
+            als Text
+            <code>i18n</code>
+          </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>
+            <em>section</em>
+            -Tag
+          </td>
+          <td>
+            als Attribute
+            <code>i18n</code>
+          </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>
+            <em>i18n</em>
+            -Tag
+          </td>
+          <td>
+            als Attribute
+            <code>key</code>
+          </td>
+        </tr>
+        <tr>
+          <td>XEditor</td>
+          <td>
+            <em>xed:output</em>
+            -Tag
+          </td>
+          <td>
+            als Attribute
+            <code>i18n</code>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  

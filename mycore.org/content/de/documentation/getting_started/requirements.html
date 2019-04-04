@@ -1,0 +1,86 @@
+
+---
+
+title: "Systemanforderungen"
+mcr_version: ['2017.06','2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      MyCoRe ist eine betriebssystemunabhängige Java-Anwendung und bringt bereits viele Komponenten mit. Einige
+      Voraussetzungen sind jedoch zu schaffen, bevor Sie eine MyCoRe-Anwendung installieren oder an MyCoRe
+      mitentwickeln
+      können.
+    "
+date: "2018-03-17"
+
+---
+
+    <div>
+      <h2>Für den Betrieb einer MyCoRe-Anwendung mit LTS 2018.06</h2>
+      <p>
+        Die genauen Systemanforderungen für die Arbeit mit LTS 2018.06 sind auf der Seite
+        <a href="{{< ref migrate_mcr2018_06 >}}">zur Migration nach LTS 2018.06</a>
+        beschrieben. Hier finden Sie auch alle Hinweise zur Migration vom Vorgänger-LTS 2017.06 sowie
+        aktuelle anpassungshinweise für die Arbeit mit MyCoRe.
+      </p>
+    </div>
+    
+    <div>
+      <h2>Für den Betrieb einer MyCoRe-Anwendung mit LTS 2017.06</h2>
+      <ul>
+        <li>JRE 1.8</li>
+        <li>Tomcat v8 oder höher (bzw. ServletContainer mit Servlet-3.1-Unterstützung)</li>
+        <li>Apache Solr 4.10</li>
+        <li>
+          relationales Datenbanksystem (
+          <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">hibernatefähig</a>
+          )
+        </li>
+      </ul>
+
+      <h2>Für die MyCoRe-(Anwendungs)-Entwicklung</h2>
+      <p>
+        Neben den oben genannten Komponenten benötigen Sie für die Entwicklung mit MyCoRe
+        weiterhin:
+      </p>
+      <ul>
+        <li>JDK 1.8</li>
+        <li>Maven 3 oder höher</li>
+        <li>Git 2.12 oder höher</li>
+        <li>SVN 1.8 oder höher (für die Arbeit mit alten Repositories und an der Doku)</li>
+      </ul>
+
+      <h2>Installation</h2>
+
+      <h3>Solr-Installation</h3>
+      <p>
+        Für die Suchfunktionalität von MyCoRe wird ein Solr-Server vorausgesetzt. Informationen zur Installation
+        speziell für MyCoRe
+        sind in der entsprechenden
+        <a href="{{< ref solr7 >}}">Solr-Dokumentation</a>
+        zu finden. Umfassende Informationen zur Solr-Installation
+        und Konfiguration finden sich in der
+        <a href="http://wiki.apache.org/solr/SolrInstall">Solr-Dokumentation</a>
+        von Apache.
+      </p>
+
+      <h3>Relationales Datenbanksystem</h3>
+      <p>
+        MIR und Skeleton zeigen, wie H2 als im-Speicher-laufendes relationales Datenbanksystem (
+        <a href="https://de.wikipedia.org/wiki/In-Memory-Datenbank">In-Memory-Datenbank</a>
+        )
+        genutzt werden kann. In diesem Fall muss kein relationales Datenbanksystem bereitgestellt werden. Für den Produktivbetrieb
+        empfehlen wir jedoch die Verwendung
+        eines herkömmlichen Datenbankmanagementsystems, dass nicht den Arbeitsspeicher als Datenspeicher nutzt..
+      </p>
+      <p>
+        Die Anbindung der Datenbank erfolgt über JPA und Hibernate, daher muss eine entsprechende
+        Hibernate-Unterstützung verfügbar sein.
+        Prüfen Sie also bitte vor der Wahl Ihres Systems, ob diese vorliegt. Nutzen Sie dazu die
+        <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">Dialekt-Übersicht</a>
+        .
+      </p>
+
+
+    </div>
+
+  

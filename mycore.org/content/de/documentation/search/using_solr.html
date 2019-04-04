@@ -1,0 +1,831 @@
+
+---
+
+title: "Solr und MyCoRe"
+mcr_version: ['2018.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
+description: "
+      Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
+      Im das MyCoRe
+      Release 2018.06 LTS wurde erfolgreich mit Solr 7.4.0 getestet.
+    "
+date: "2018-06-29"
+
+---
+
+    <div>
+      <h2>Solr Konfiguration für MyCoRe</h2>
+      <p>
+        Falls noch kein Solr Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
+        <a href="{{< ref solr7 >}}">Einrichtung eines Solr-7-Servers</a>
+        installiert werden.
+      </p>
+      <p>
+        Nun müssen für jede MyCoRe-Anwendung ein oder mehrere Solr-Cores angelegt werden.
+        Da sich noch nicht alle
+        Konfigurationsdateien für einen Core über die die Solr-API erstellen lassen,
+        werden Templates (configuration
+        sets) für die Basiskonfiguration durch MyCoRe über GitHub bereitgestellt.
+      </p>
+      <p>
+        Da verschiedene MyCoRe Komponenten und Module individuelle Suchfelder und Datentypen benötigen, können diese
+        direkt
+        in den Modulen definiert werden. Mittels eines MyCoRe-Kommandos werden diese Definitonsdateien ausgelesen
+        und über die
+        <a href="https://lucene.apache.org/solr/guide/7_4/schema-api.html">Solr Schema API</a>
+        in den Core geschrieben.
+      </p>
+
+      <div>
+        <h3>Begrifflichkeiten im Zusammenhang mit MyCoRe</h3>
+        <p>Im Zusammenhang mit der Nutzung der Kommandos zur Konfiguration von SOLR-Cores in MyCoRe sind einige Begiffe
+          zu definieren. Dies soll Missverständnisse bei der Nutzung vermeiden.
+        </p>
+        <ul>
+          <li>
+            <strong>Configuration Set - config_set</strong>
+            - dies beschreibt ein vorgefertigtes Template, welches alternativ zu dem in SOLR mitgelieferten
+            <code>_default</code>
+            -Template für alle MyCoRe-Anwendungen zum erstellen eines leeren Cores eingesetzt werden kann.
+          </li>
+          <li>
+            <strong>Core Configuration Type - core_config_type</strong>
+            bezeichnet die Art der Konfiguration. Festgelegt wurden die Arten
+            <code>main</code>
+            und
+            <code> classification</code>
+            . Die Typangabe beschreibt den Pfad zu den JSON-API-Vorlagen in den einzelnen MyCoRe-Modulen (z. B.
+            <em>.../{modulname}/config/solr/{core_config_type}/solr-schema.json</em>
+            )
+          </li>
+          <li>
+            <strong>CoreId - core_id</strong>
+            ist eine fiktive ID, welch dafür sorgen soll, die einzelnen Cores einer Anwendung zu bezeichnen und ihnen
+            spezifische Konfigurationen zuweisen zu können. Standardmäßig werden diese gleichlautend wie dei dazu
+            passenden Konfigurationstypen mit
+            <code>main</code>
+            und
+            <code>classification</code>
+            bezeichnet.
+          </li>
+          <li>
+            <strong>CoreName - core_name</strong>
+            ist der konkrete Name des Cores aus Sicht SOLR. Dies ist auch der Name, unter dem der Core tatsächlich in
+            SOLR zu finden ist.
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Configuration Sets laden</h3>
+        <p>
+          Die Basis-Konfiguration eines Solr-Cores erfolgt über <strong>Configuration Sets</strong>.
+          Bei GitHub werden verschiedene
+          <a href="https://github.com/search?q=topic%3Asolr-core+org%3AMyCoRe-Org">MyCoRe-Config-Sets</a>
+          zur Verfügung gestellt. Für den Solr-Core vom Typ <code>main</code> wird das
+          <a href="https://github.com/MyCoRe-Org/mycore_solr_configset_main">mycore_solr_configset_main</a>
+          benötigt.
+        </p>
+        <p>
+          Um das Set in den Solr-Server zu integrieren, können folgende Kommandos ausgeführt werden:
+        </p>
+        {{< highlight shell "linenos=table">}}
+          cd .../solr/server/solr/configsets
+          git clone
+          https://github.com/MyCoRe-Org/mycore_solr_configset_main.git mycore_main{{< /highlight >}}
+        <p>
+          Alternativ kann das Verzeichnis auch manuell heruntergeladen und in diesen Ordner kopiert werden. Analog kann
+          dies für
+          das Klassifikations-Set aufgerufen werden:
+        </p>
+        {{< highlight shell "linenos=table">}}
+          git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git
+          mycore_classification{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>Standard Solr Core (main) erzeugen</h3>
+        <p>
+          Basierend auf dem bereitgestellten Configuration Set wird nun ein Solr Core erzeugt.
+          Als Name des
+          <strong>main</strong>
+          Cores kann der Name der MyCoRe-Anwendung gewählt werden.
+        </p>
+        {{< highlight shell "linenos=table">}}
+          .../solr/bin/solr create -c {core_name} -d {config_set}
+          .../solr/bin/solr create -c my_core_name -d mycore_main
+        {{< /highlight >}}
+
+        <p>
+          Falls noch nicht geschehen, sollte jetzt die Solr-Server-URL der MyCoRe-Anwendung über ein Property bekannt
+          gemacht werden
+          (siehe
+          <a href="{{< ref properties >}}">MyCoRe-Konfigurationsverzeichnis</a>
+          ). Weiterhin können für die einzelnen
+          <em>CoreIds</em>
+          der Name und falls abweichend auch die URLs definiert werden. Die
+          <em>CoreId</em>
+          <code>main</code>
+          ist dabei immer erforderlich. Weitere
+          <em>CoreIds</em>
+          wie
+          <code>classification</code>
+          sind optional.  Es ist auch möglich, den Core auf einem anderen Solr Server zu erstellen. In diesem Fall 
+          muss zusätzlich das Property <code>MCR.Solr.Core.{core_id}.ServerURL</code>
+          gesetzt werden. Somit können Solr-Cores auch auf verschiedenen physischen Hosts liegen.
+        </p>
+        {{< highlight shell "linenos=table">}}
+          MCR.Solr.ServerURL=http://localhost:8983/
+          MCR.Solr.Core.main.Name=my_core_name
+          MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
+          ...
+        {{< /highlight >}}
+
+        <p>
+          Alternativ müssen die
+          <em>CoreIds</em>
+          (auf jeden Fall die CoreId
+          <code>main</code>
+          ) über die MyCoRe-CLI registriert werden. Für weitere <em>CoreIds</em> gilt dies analog. 
+        </p>
+        {{< highlight shell "linenos=table">}}
+          mycore.sh register solr core with name {core_name} as core main
+          mycore.sh register solr core with name my_core_name as core main
+        {{< /highlight >}}
+
+        <p>
+          Anschließend kann über die SOLR-Web-Oberfläche geprüft werden, ob der Core richtig angelegt wurde
+          (<a href="http://localhost:8983/solr/#/~cores">http://localhost:8983/solr/#/~cores</a>).
+        </p>
+
+        <p>
+          Über das MyCoRe-Kommando
+          <code>show solr configuration</code>
+          kann eine Liste der zu setzenden Properties in der CLI angezeigt werden.
+        </p>
+
+      </div>
+
+      <div>
+        <h3>Solr Konfiguration und Schema erstellen</h3>
+
+        <p>
+          Die Konfiguration der Solr-Suchfelder, Request-Handler, ... wurden seit MyCoRe 2018.06 LTS
+          auf die Module und Komponenten aufgeteilt, in denen sie verwendet werden. Die Basisfelder / -Konfiguration
+          für alle MyCoRe-Anwendungen befindet sich in der Komponente <code>mycore-solr</code>.
+        </p>
+        <p>
+          In Einzelfällen kann es erforderlich sein, dass neben dem Solr-Core vom Typ
+          <code>main</code> weitere Definitionen für andere Core Typen (z. B.
+          <code>classification</code>) definiert sind.
+        </p>
+        {{< highlight shell "linenos=table">}}
+          {mycore-module}/src/main/resources/components/{module_name}/config/solr
+          or
+          {application-module}/src/main/resources/config/{application-module}/solr
+
+          .../main - the core that use each
+          MyCoRe application
+          .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
+          .../solr-config.json - vorhanden, wenn das Modul die Solr-Konfiguration erweitert
+
+          .../{other_type} - other core
+          definitions
+          .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
+          .../solr-config.json -
+          vorhanden, wenn das Modul die Solr-Konfiguration erweitert
+        {{< /highlight >}}
+
+        <p>
+          Die JSON-Dateien bestehen aus Json-Arrays, die Kommandos der Solr-Schema bzw. Solr-Configuration API
+          enthalten.
+          Sollen bereits bestehende / in MyCoRe vorhandene Felder oder ihre Definition geändert werden, kann
+          dies über <code>replace</code>-Anweisungen in den JSON-Konfigurationsdateien erfolgen.
+        </p>
+        <p>
+          Über das MyCoRe-CLI Kommando wird die Konfiguration geladen. Für den Normalfall lautet das Kommando:
+        </p>
+        {{< highlight shell "linenos=table">}}
+          mycore.sh reload solr configuration {core_config_type} in core {core_id}
+          mycore.sh reload solr configuration main in core main{{< /highlight >}}
+
+        <p>
+          Anschließend sollte noch einmal über die Solr-Web-Oberfläche geprüft werden, ob der Core vollständig
+          konfiguriert wurde.
+          Auch sollte im MyCoRe-Log / in der Kommandozeile geprüft werden, ob Solr sämtliche
+          Konfigurationskommandos ausgeführt hat
+          Ist alles okay, so ist der Core betriebsbereit.
+        </p>
+        <p>
+          siehe
+          <a href="https://lucene.apache.org/solr/guide/7_4/solr-control-script-reference.html">Solr Control Script Reference</a>,
+          <a href="https://lucene.apache.org/solr/guide/7_4/schema-api.html">Schema API</a> und
+          <a href="https://lucene.apache.org/solr/guide/7_4/config-api.html">Config API</a>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Das Solr-Document</h2>
+      <p>
+        Die in Solr zu speichernden Daten werden als Solr-Document über eine Kette von XSLT-Transformationen generiert.
+        Hierfür ist das Property <code>MCR.URIResolver.xslImports.solr-document</code>
+        zuständig. Grundsätzlich in der Kette enthalten sind die Stylesheets <code>solr-basetemplate.xsl</code>
+        und <code>mycoreobject-dynamicfields.xsl</code>. Weitere Transformer können dieser Kette angefügt werden (siehe Beispielcode).
+        Der an Solr ausgehende Datenstrom läßt sich im Web-Browser mit der URL
+        <code>http://{myapp}/receive/{mycore_id}?XSL.Style=solr-document</code> überprüfen.
+      </p>
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:mcrxsl="xalan://org.mycore.common.xml.MCRXMLFunctions"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xalan="http://xml.apache.org/xalan"
+  exclude-result-prefixes="xalan xlink mcrxsl">
+   
+  <xsl:import href="xslImport:solr-document:viaf2solr.xsl" />
+  
+  <xsl:template match="mycoreobject[contains(@ID,'_{my_datamodel}_')]">
+    <xsl:apply-imports />
+    <!-- field name="viaf_name_all" type="text_general" multiValued="true" stored="true" -->
+    <xsl:for-each select="./metadata/def.preferredName/preferredName">
+      <field name="viaf_name_all">
+        <xsl:value-of select="fullname/text()" />
+      </field>
+    </xsl:for-each>
+    ...
+  </template>
+</stylesheet>{{< /highlight >}}
+
+      <p>
+        Über verschiedene <code>rebuild</code> Kommandos (siehe <a href="using_solr__solr_commands#TODO">Kommandos zur Arbeit mit Solr</a>)
+        können die Daten in den Solr Core eingespielt werden. Um alle Daten zu indexieren, kann folgendes Kommando verwendet werden:
+      </p>
+      {{< highlight shell "linenos=table">}}rebuild solr metadata and content index in core main{{< /highlight >}}
+
+
+    </div>
+
+ 
+    <div>
+      <h2>Eigene Request-Handler einbinden</h2>
+      <p>MyCoRe verhindert grundsätzlich den Gebrauch eigener Request-Handler solange diese nicht MyCoRe bekannt 
+      sind. Grundsätzlich sind nur die Handler <code>/select</code> und <code>/update</code> aus Sicherheitsgründen 
+      zugelassen. Sollen weitere Handler benutzt werden, so müssen diese im Property <code>MCR.Solr.Proxy.WhiteList</code>
+      hinzugefügt werden. Dies kann mit folgender Konfiguration erfolgen:</p>
+      {{< highlight shell "linenos=table">}}MCR.Solr.Proxy.WhiteList=%MCR.Solr.Proxy.WhiteList%,/myhandler{{< /highlight >}}
+      <!-- p>[ToDo] Beispiel Autosuggestion</p -->
+    </div>
+    
+    <div>
+      <h2>Properties für die Solr-Komponente</h2>
+      <p>
+        <span class="label label-warning">Achtung:</span>
+        In LTS 2017.06 sind die Properties noch mit
+        <code>MCR.Module-solr</code>
+        statt mit
+        <code>MCR.Solr</code>
+        bezeichnet. Mit dem LTS 2018.06 sind diese deprecated!
+      </p>
+      <table class="table table-condensed solr-properties-table">
+        <tr>
+          <th>Property in 2018</th>
+          <th>Bedeutung</th>
+          <th>in App.-Config</th>
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ServerURL</code>
+          </td>
+          <td>
+            default URL für den Solr-Server, z.B.
+            <code>http://mysolr.de:8983/</code>
+            (ohne
+            <strong>/solr</strong>
+            am Ende)
+          </td>
+          <td>
+            <strong>required</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Core.{core_id}.Name</code>
+          </td>
+          <td>Name des Solr Cores (wird Pfadbestandteil der Solr-URL zum Core)</td>
+          <td>
+            <strong>required</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Core.{core_id}.ServerURL</code>
+          </td>
+          <td>Basis-URL des Solr-Servers, falls der Core nicht auf dem Standard-Server (s.o.) installiert wurde</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Indexer.File.AccumulatorList</code>
+          </td>
+          <td>???</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Indexer.BulkSize</code>
+          </td>
+          <td>default=100 ; Die Anzahl der Objekte, die mit einem Mal an Solr geschickt werden.</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Indexer.ThreadCount</code>
+          </td>
+          <td>default=4 ; Anzahl der benutzten Threads</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.XMLProtocolVersion</code>
+          </td>
+          <td>current=4.5</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SelectProxy.MaxConnections</code>
+          </td>
+          <td>default=20 ; max. Anzahl der Verbindungen zum Solr-Server für select</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SelectPath</code>
+          </td>
+          <td>default=/select</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.UpdatePath</code>
+          </td>
+          <td>default=/update</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ExtractPath</code>
+          </td>
+          <td>default=/update/extract</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.Proxy.WhiteList</code>
+          </td>
+          <td>default=/select ; der Proxy akzeptiert nur die Liste davon</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SolrClient.ConnectionTimeout</code>
+          </td>
+          <td>default=0</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SolrClient.SocketTimeout</code>
+          </td>
+          <td>default=50000</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ConcurrentSolrUpdateClient.Enabled</code>
+          </td>
+          <td>default=true ; soll das Update parallel erfolgen?</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ConcurrentSolrUpdateClient.QueueSize</code>
+          </td>
+          <td>default=100</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ConcurrentSolrUpdateClient.ThreadCount</code>
+          </td>
+          <td>
+            Wert entspricht dem Property
+            <code>MCR.Solr.Indexer.ThreadCount</code>
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SolrInputDocument.Factory</code>
+          </td>
+          <td>default=org.mycore.solr.index.document.MCRSolrTransformerInputDocumentFactory</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SolrInputDocument.Transformer</code>
+          </td>
+          <td>default=mycoreobject-solrdocument</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.SolrInputDocument.Path.Factory</code>
+          </td>
+          <td>default=org.mycore.solr.index.file.MCRSolrPathDocumentFactory</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.IndexHandler.Factory</code>
+          </td>
+          <td>default=org.mycore.solr.index.handlers.MCRSolrLazyInputDocumentHandlerFactory</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.FileIndexStrategy</code>
+          </td>
+          <td>default=org.mycore.solr.index.strategy.MCRSolrMimeTypeStrategie</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.MimeTypeStrategy.Pattern</code>
+          </td>
+          <td>default=image/.*</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.DynamicFields</code>
+          </td>
+          <td>
+            default=true ; erzeugt auch dynamische Felder für Solr
+            <br />
+            Es sollte geprüft werden, ob die Übertragung dynamischer Felder in der speziellen Anwendung
+            erforderlich ist.
+            Andernfalls sollte der Wert auf
+            <code>false</code>
+            gestellt werden.
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.ContentBaseFields</code>
+          </td>
+          <td>eine Liste von Feldnamen für allgemeine Derivate-Metadaten</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.AVExtenderFields</code>
+          </td>
+          <td>eine Liste von Feldnamen für Video-Derivate-Metadaten</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.TikaFileds</code>
+          </td>
+          <td>eine Liste von Feldnamen für Tika-Metadaten</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.JoinQueryFileds</code>
+          </td>
+          <td>
+            enthält die Liste der Properties
+            <code>MCR.Solr.ContentBaseFields</code>
+            ,
+            <code>MCR.Solr.AVExtenderFields</code>
+            ,
+            <code>MCR.Solr.TikaFileds</code>
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.netsedDocuments</code>
+          </td>
+          <td>default=true ; ???</td>
+          <td />
+        </tr>
+      </table>
+    </div>
+
+    <div id="solr_commands">
+      <h2>Solr Kommandos für die MyCoRe CLI</h2>
+      <p>
+        Folgende Kommandos stehen für die Arbeit mit Solr an der Kommandozeile zur Verfügung.
+        <br />
+        Die Core ID für den Standard Solr Core in MyCoRe ist
+        <code>main</code>
+        .
+      </p>
+      <dl>
+        <dt>
+          <code>show solr configuration</code>
+        </dt>
+        <dd>
+          listet die aktuell konfigurierten Solr Cores auf.
+        </dd>
+        <!--  create commandos do not work,
+              the used API create a dependency from all created cores to their base configset.
+              That means that all modifications to one core also modify the config set  
+              and through this all other cores based on this configset.
+              Solr cores can only be created outside MyCoRe.-->
+        <!-- 
+        <dt>
+          <code>create solr core with name {0} on server {1} using configset {2}</code>
+        </dt>
+        <dd>
+          legt einen neuen Core mit dem Namen <code>{0}</code> (entspricht URL-Pfad des Cores auf dem Solr Server), auf dem Solr Server
+          mit der Basis-URL <code>{1}</code> und dem Solr ConfigSet <code>{2}</code> (BasisKonfiguration als Template auf dem Solr Server) an.
+        </dd>
+        
+        <dt>
+          <code>create solr core with name {0} using configset {1}</code>
+        </dt>
+        <dd>
+          legt einen neuen Core mit dem Namen <code>{0}</code> (entspricht URL-Pfad des Cores auf dem Solr Server), auf dem Default Solr Server
+          (siehe Property: <code>MCR.Solr.ServerURL</code>) und dem Solr ConfigSet <code>{1}</code> (BasisKonfiguration als Template auf dem Solr Server) an.
+        </dd>
+        -->
+        <dt>
+          <code>register solr core with name {0} on server {1} as core {2}</code>
+        </dt>
+        <dd>
+          registriert einen Solr Core mit dem Namen
+          <code>{0}</code>
+          (entspricht URL-Pfad des Cores auf dem Solr Server) auf dem Solr Server
+          mit der Basis-URL
+          <code>{1}</code>
+          unter der ID
+          <code>{2}</code>
+          in der MyCoRe-Anwendung.
+          <br />
+        </dd>
+
+        <dt>
+          <code>register solr core with name {0} as core {1}</code>
+        </dt>
+        <dd>
+          registriert einen Solr Core mit dem Namen
+          <code>{0}</code>
+          (entspricht URL-Pfad des Cores auf dem Solr Server), auf dem Default Solr Server
+          (siehe Property:
+          <code>MCR.Solr.ServerURL</code>
+          ) unter der ID
+          <code>{1}</code>
+          in der MyCoRe-Anwendung.
+        </dd>
+
+        <dt>
+          <code>switch solr core {0} with core {1}</code>
+        </dt>
+        <dd>
+          tauscht zwei bestehende Solr Cores in der Anwendung aus.
+          <br />
+          Dadurch wird es möglich, im laufenden Betrieb einen neuen Core zu konfigurieren und zu befüllen,
+          um ihn
+          anschließend gegen einen bestehenden Core auszutauschen.
+        </dd>
+
+        <dt>
+          <code>reload solr configuration {0} in core {1}</code>
+        </dt>
+        <dd>
+          lädt die Solr Konfiguration (und Schema) mit der ID
+          <code>{0}</code>
+          (aus allen verfügbaren MyCoRe Modulen und Komponenten)
+          in den Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>
+          <code>rebuild solr metadata and content index in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Metadaten und Inhalte aller MyCoRe-Objekte und Derivate im Solr Core mit
+          der ID
+          <code>{0}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr metadata index for object {0} in core {1}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Metadaten des MyCoRe-Objektes mit der ID
+          <code>{0}</code>
+          im Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr metadata index for all objects of type {0} in core {1}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Metadaten aller MyCoRe-Objekte vom Typ
+          <code>{0}</code>
+          im Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr metadata index for selected in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Metadaten für zuvor ausgewählten MyCoRe Objekte im Solr Core mit der ID
+          <code>{1}</code>
+          <br />
+          (siehe Kommando
+          <code>select objects with solr query {0} in core {1}</code>
+          ).
+        </dd>
+
+        <dt>
+          <code>rebuild solr metadata index in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Metadaten für alle MyCoRe Objekte im Solr Core mit der ID
+          <code>{0}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr content index for object {0} in core {1}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Inhalte aller Derivate des Objektes (oder des Derivates)
+          <code>{0}</code>
+          im Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr content index for selected in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Inhalte der Derivate der ausgewählten Objekte (oder der ausgewählten
+          Derivate)
+          im Solr Core mit der ID
+          <code>{0}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr content index in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die indexierten Inhalte aller Derivate im Solr Core mit der ID
+          <code>{0}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>rebuild solr classification index in core {0}</code>
+        </dt>
+        <dd>
+          lädt / aktualisiert die Klassifikations-Objekte im Solr Core mit der ID
+          <code>{0}</code>
+          .
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>
+          <code>clear solr index in core {0}</code>
+        </dt>
+        <dd>
+          löscht alle Einträge aus dem Solr Core mit der ID
+          <code>{0}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>delete from solr index all objects of type {0} in core {1}</code>
+        </dt>
+        <dd>
+          löscht alle Einträge für MyCoRe Objekte des Types
+          <code>{0}</code>
+          aus dem Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>delete from solr index object {0} in core {1}</code>
+        </dt>
+        <dd>
+          löscht das MyCoRe Objekt mit der ID
+          <code>{0}</code>
+          aus dem Solr Core mit der ID
+          <code>{1}</code>
+          .
+        </dd>
+
+        <dt>
+          <code>select objects with solr query {0} in core {1}</code>
+        </dt>
+        <dd>
+          erzeugt eine Liste von MyCoRe-Objekten für die Solr Anfrage
+          <code>{0}</code>
+          im Solr Core mit der ID
+          <code>{1}</code>
+          .
+          <br />
+          Diese Liste kann anschließend mit weiteren Kommandos verarbeitet werden.
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <code>optimize solr index in core {0}</code>
+        </dt>
+        <dd>
+          optimiert den Solr Core mit der ID
+          <code>{0}</code>
+          .
+          <br />
+          Mit dieser Operation werden Solr-intern stark fragmentierte Index-Segmente zusammengefasst.
+        </dd>
+        <dt>
+          <code>synchronize solr metadata index for all objects of type {0} in core {1}</code>
+        </dt>
+        <dd>
+          prüft, ob die Metadaten aller MyCoRe-Objekte des Types
+          <code>{0}</code>
+          im Solr Core mit der ID
+          <code>{1}</code>
+          indexiert worden sind und führt für fehlende Objekte eine Neuindexierung aus.
+          <br />
+        </dd>
+        <dt>
+          <code>synchronize solr metadata index in core {0}</code>
+        </dt>
+        <dd>
+          prüft, ob die Metadaten aller MyCoRe-Objekte im Solr Core mit der ID
+          <code>{0}</code>
+          indexiert worden sind und führt für fehlende Objekte eine Neuindexierung aus.
+          <br />
+        </dd>
+
+
+      </dl>
+    </div>
+
+    <div>
+      <h2>Solr-Abfragen über die MyCoRe-Java-API</h2>
+      <p>
+        Mit diesem Code-Schnipsel soll demonstriert werden, wie ein Zugriff auf die Solr-Daten mittels MyCoRe-API
+        erfolgen kann.
+      </p>
+      {{< highlight java "linenos=table">}}
+        import org.apache.solr.client.solrj.SolrClient;
+        import org.apache.solr.client.solrj.SolrQuery;
+        import org.apache.solr.client.solrj.SolrServerException;
+        import org.apache.solr.common.SolrDocumentList;
+
+        import
+        org.mycore.solr.MCRSolrClientFactory;
+        import org.mycore.solr.MCRSolrUtils;
+
+        ...
+        SolrClient solrClient =
+        MCRSolrClientFactory.getMainSolrClient();
+
+        oder
+
+        SolrClient solrClient =
+        MCRSolrClientFactory.get("{coreID}").getClient();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery("title:foo");
+        query.setRows(10);
+        SolrDocumentList results =
+        solrClient.query(query).getResults();
+
+        ...
+      {{< /highlight >}}
+    </div>
+
+  

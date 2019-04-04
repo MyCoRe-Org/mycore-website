@@ -1,0 +1,1601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd">
+  <!-- Koordinaten: Google Maps -> rechte Maustaste -> "Was ist hier" -> Koordinaten im Suchschlitz -> hier verdreht eintragen -->
+  <Document>
+    <name>MyCoRe-Standorte</name>
+    <Style id="style_MyCoRe-Pin">
+      <IconStyle>
+        <Icon>
+          <href>/map/icons/pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+      </IconStyle>
+      <LabelStyle>
+        <color>ff00aaff</color>
+      </LabelStyle>
+    </Style>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Bremen                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Günter Grass Medienarchiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://grass-medienarchiv.gbv.de"><img class="icon" alt="icon" src="/map/icons/icon_bremen_ggrass.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://grass-medienarchiv.gbv.de">Webdatenbank des Medienarchivs</a>
+                	<span class="mcrmap_item_owner">Bremen: Günter Grass Stiftung (Medienarchiv)</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>8.6520714,53.1677201,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Kiel                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>KiBiDaNo</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.uni-kiel.de/kibidano/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_kibidano.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.uni-kiel.de/kibidano/">Kieler Bilddatenbank Naher Osten</a>
+                	<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MACAU</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://macau.uni-kiel.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_macau.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://macau.uni-kiel.de/">Multimedialer Archiv- und Publikationsserver der Christian-Albrechts-Universität zu Kiel</a>
+               	 	<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Wandmalerei Lübeck</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.wandmalerei-luebeck.de"><img class="icon" alt="icon" src="/map/icons/icon_kiel_wand.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.wandmalerei-luebeck.de">Wand- und Deckenmalerei in L&uuml;becker H&auml;usern 1300 bis 1800</a>
+                	<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Journals@CAU</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.uni-kiel.de/journals/content/below/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_kiel_journals.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.uni-kiel.de/journals/content/below/index.xml">Kieler Portal für Zeitschriften und andere Periodika</a>
+            		<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Hamburg                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>MyCoRe Geschäftsstelle</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.mycore.de/contact/index.html"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mycore.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.mycore.de/contact/index.html">MyCoRe Geschäftsstelle</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg (Regionales Rechenzentrum)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>HPK</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.hpk.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_hpk.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.hpk.uni-hamburg.de/">Hamburger Professorinnen- und Professorenkatalog</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>LexM</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.lexm.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_lexm.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.lexm.uni-hamburg.de/">Online-Lexikon exilierter Musiker und Musikerinnen der NS-Zeit</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Morphilo</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.morphilo.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_morphilo.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.morphilo.uni-hamburg.de">Morphilo - Historische Derivationsmorphologie</a>
+					<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DEKo</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+               <a class="mcrmap_item_icon" href="https://www.konversionen.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_deko.png" /></a>
+               <p>
+                	<a class="mcrmap_item_name" href="https://www.konversionen.uni-hamburg.de/">Digitale Edition Konversionserzählungen</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Epigraphische Datenbank</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.epigraphik.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_epidb.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.epigraphik.uni-hamburg.de">Epigraphische Datenbank zum antiken Kleinasien</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>GWIN</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.dokserv.gwiss.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_gwn.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.dokserv.gwiss.uni-hamburg.de/">gwin Dokumentenserver</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+            
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>NGMCP</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mycms3.rrz.uni-hamburg.de/sfb950/content/NGMCP/ngmcp.xml"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_ngmcp.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mycms3.rrz.uni-hamburg.de/sfb950/content/NGMCP/ngmcp.xml">Nepalese-German Manuscript Cataloguing Project</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Library Catalogue</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mycms.rrz.uni-hamburg.de/mcaa"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mycms.rrz.uni-hamburg.de/mcaa">Manuscript Cultures in Asia and Africa</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>EAE</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mycms.rrz.uni-hamburg.de/eae"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mycms.rrz.uni-hamburg.de/eae">Encyclopaedia Aethiopica</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DOMLib</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mycms.rrz.uni-hamburg.de/domlib"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mycms.rrz.uni-hamburg.de/domlib">Digital Oriental Manuscript Library</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SFB950</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mycms3.rrz.uni-hamburg.de/sfb950"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_sfb.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mycms3.rrz.uni-hamburg.de/sfb950">Manuskriptkulturen in Asien, Afrika und Europa</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>JoStA</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.josta.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_josta.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.josta.uni-hamburg.de/">Die mittelalterlichen Statuten des Johanniterordens</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SchuReDO</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.schuredo.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_schuredo.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.schuredo.uni-hamburg.de/">Die mittelalterlichen Schuld- und Rechnungsbücher des Deutschen Ordens um 1400</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>GLOGEMIS</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.glogemis.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_glogemis.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.glogemis.uni-hamburg.de">Glossar zur Geschichte der Mittelalterlichen Stadt</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>ProEMA </name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.proema.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_proema.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.proema.uni-hamburg.de">Promptuarium Ecclesiasticum Medii Aevi</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Exilliteratur</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.exil-archiv.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_exillit.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.exil-archiv.uni-hamburg.de">Exilliteratur: P. Walter Jacob Archiv</a>
+            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    
+<!-- ***************************************************************************************************************** -->
+<!-- Hannover                                                                                                    -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>NOA</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://noa.gwlb.de/"><img class="icon" alt="icon" src="/map/icons/icon_hannover_noa.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://noa.gwlb.de/">Niedersächsisches Online Archiv</a>
+            		<span class="mcrmap_item_owner">Gottfried Wilhelm Leibniz Bibliothek (GWLB)</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.7308807,52.3652968,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Hagen                                                                                                    -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>deposit_hagen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://ub-deposit.fernuni-hagen.de/"><img class="icon" alt="icon" src="/map/icons/icon_hagen_deposit.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://ub-deposit.fernuni-hagen.de/">deposit_hagen</a>
+            		<span class="mcrmap_item_owner">FernUniversität in Hagen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.4924313,51.37759,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Göttingen                                                                                                    -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>VZG-Reposis</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.gbv.de/Verbundzentrale/serviceangebote/reposis-repository-service"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.gbv.de/Verbundzentrale/serviceangebote/reposis-repository-service">VZG-Reposis</a>
+            		<span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.9352354,51.5391773,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>VZG-Journals</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://journals.gbv.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://journals.gbv.de/">VZG-Journals</a>
+            		<span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.9352354,51.5391773,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KOHD</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <p>
+                	<span class="mcrmap_item_name" >MyIHS-Teilprojekt „Katalogisierung der Orientalischen Handschriften in Deutschland“</span>
+            		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.9328626,51.5346499,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Papyri-Teilprojekt</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <p>
+                	<span class="mcrmap_item_name" >Papyri-Teilprojekt Katalogisierung der koptischen Papyri (nicht öffentliches Projekt)</span>
+            		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.9328626,51.5346499,0</coordinates>
+      </Point>
+    </Placemark>
+
+    
+<!-- ***************************************************************************************************************** -->
+<!-- Rostock                                                                                                           -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>RosDok</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://rosdok.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_rosdok.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://rosdok.uni-rostock.de">Rostocker Dokumentenserver</a>
+            		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.103427,54.075436,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Professorenkatalog</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://cpr.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_cpr.png" /></a>
+                <p>
+                	<a class="mcrmap_item_info" href="http://www.mycore.de/app_archiv.html#cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung auf mycore.de"/></a>
+                	<a class="mcrmap_item_name" href="http://cpr.uni-rostock.de">Catalogus Professorum Rostochiensium</a>
+            		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek und Forschungsstelle Universitätsgeschichte)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.133271,54.088238,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Neubrandenburg                                                                                                    -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitale Bibliothek</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://digibib.hs-nb.de"><img class="icon" alt="icon" src="/map/icons/icon_neubrandenburg_dbhsnb.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://digibib.hs-nb.de">Digitale Bibliothek</a>
+            		<span class="mcrmap_item_owner">Hochschule Neubrandenburg</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.2470742,53.555906,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Schwerin                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>MVDok</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://mvdok.lbmv.de"><img class="icon" alt="icon" src="/map/icons/icon_schwerin_mvdok.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://mvdok.lbmv.de">Dokumentenserver der Landesbibliothek MV (MVDok)</a>
+                	<span class="mcrmap_item_owner">Landesbibliothek Schwerin</span>
+                </p>
+            </div>
+        ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.414419,53.615911,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Braunschweig                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitale Bibliothek Braunschweig</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://publikationsserver.tu-braunschweig.de"><img class="icon" alt="icon" src="/map/icons/icon_braunschweig_digibib.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://publikationsserver.tu-braunschweig.de">Digitale Bibliothek Braunschweig</a>
+               		<span class="mcrmap_item_owner">Universitätsbibliothek der TU Braunschweig, VZG</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.529053,52.273817,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Berlin                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>OpenAgrar</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://openagrar.bmel-forschung.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_openagrar.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://openagrar.bmel-forschung.de">Publikationsserver OpenAgrar</a>
+					<span class="mcrmap_item_owner">Bundesministerium für Ernährung und Landwirtschaft (BMEL)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3802361,52.5138359,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>&amp;lt;intR>&#178;Dok</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://intr2dok.vifa-recht.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_intR2Dok.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://intr2dok.vifa-recht.de/content/index.xml">Der Fachinformationsdienst &#60;intR&#62;&#178;Dok</a>
+            		<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3669673,52.506525,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Orient Digital</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://orient-digital.staatsbibliothek-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" title="Projekt zur Einführung des Katalogprogrammes MyIHS" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://orient-digital.staatsbibliothek-berlin.de/">Orientalische Handschriften der SBB</a>
+					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3669673,52.506525,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KOHD Digital</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://turfan-digital.staatsbibliothek-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://turfan-digital.staatsbibliothek-berlin.de/">Die Berliner Turfansammlung</a>
+					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3669673,52.506525,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Publikationsserver des IAI-SPK</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://publications.iai.spk-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_iai.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://publications.iai.spk-berlin.de/">Der Publikationsserver des IAI</a>
+					<span class="mcrmap_item_owner">Ibero Amerikanisches Institut Preußischer Kulturbesitz</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3669673,52.506525,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Publikationsserver des WIAS</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.wias-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_wias.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.wias-berlin.de/">Publikationsserver des WIAS</a>
+					<span class="mcrmap_item_owner">Weierstraß-Institut</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.395940,52.512680,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    
+    
+<!-- ***************************************************************************************************************** -->
+<!-- Duisburg-Essen                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>DuEPublico</name>
+      <description><![CDATA[
+            <p>Universität Duisburg-Essen (Universitätsbibliothek)</p>
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://duepublico.uni-duisburg-essen.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_duepublico.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://duepublico.uni-duisburg-essen.de/">DuEPublico</a>
+					<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Universitätsbibliograhie</name>
+      <description><![CDATA[
+            <p>Universität Duisburg-Essen (Universitätsbibliothek)</p>
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://bibliographie.ub.uni-due.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_unibibliograhie.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://bibliographie.ub.uni-due.de/">Universitätsbibliograhie</a>
+					<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Metropolenzeichen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+            	<span class="mcrmap_item_icon>
+                <img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_metropolenzeichen.png" /></span>
+                <p>
+                	<span class="mcrmap_item_name">Bilddatenbank "Metropolenzeichen - Visuelle Mehrsprachigkeit in der Metropole Ruhr"</span>
+                	<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MUVIN</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://muvin.uamr.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_muvin.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://muvin.uamr.de/">MUVIN Video Server</a>
+					<span class="mcrmap_item_owner">Universitätsallianz Metropole Ruhr (AG der Medienzentren an Hochschulen e.V.)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Clausthal-Zellerfeld                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Dokumentenserver der TU-Clausthal</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://dokumente.ub.tu-clausthal.de/"><img class="icon" alt="icon" src="/map/icons/icon_clausthal_tu.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://dokumente.ub.tu-clausthal.de/">Dokumentenserver</a>
+					<span class="mcrmap_item_owner">Technische Universität Clausthal (Universitätsbibliothek)</span>
+                </p>
+             </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.341881,51.806207,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Leipzig                                                                                                           -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Papyrus und Ostraka Projekt</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Papyrus Portal Deutschland</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.papyrusportal.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.papyrusportal.de/">Papyrus Portal Deutschland</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Islamische Handschriften</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.islamic-manuscripts.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_islamhandubl.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.islamic-manuscripts.net/">Islamische Handschriften der UB Leipzig</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Damaszener Familienbibliothek Refaiya</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.islamic-manuscripts.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_refaiya.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.islamic-manuscripts.net/">Damaszener Familienbibliothek Refaiya</a>
+            		<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Handschriften der Region Aceh</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.manuscripts-aceh.org/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_aceh.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.manuscripts-aceh.org/">Handschriften der Region Aceh (Indonesien)</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Handschriften der Region Zentral Java</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.manuscripts-java.org/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_java.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.manuscripts-java.org/">Handschriften der Region Zentral Java (Ind.)</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>NS-Raubgut</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://nsraubgut.ub.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_nsraub.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://nsraubgut.ub.uni-leipzig.de/">NS-Raubgut</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DOL</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://dol.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_dol.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://dol.uni-leipzig.de/">Digital Objects Leipzig</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>HistBest</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://histbest.ub.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_ubl.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://histbest.ub.uni-leipzig.de/">Historische Bestände und Nachlässe der UBL</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Jahresbibliographie Massenkommunikation</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://jbmk.dl.uni-leipzig.de"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_massen.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://jbmk.dl.uni-leipzig.de">Jahresbibliographie Massenkommunikation</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Publikationsserver Medien, Bühne, Film</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://139.18.24.5:8961/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_medien.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://139.18.24.5:8961/">Publikationsserver Medien, Bühne, Film</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bach digital</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.bach-digital.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_bach.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.bach-digital.de/">Bach digital</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Jena                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitale Bibliothek Thüringen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.db-thueringen.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_dbt.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.db-thueringen.de/">DBT (Halle-Jena-Leipzig)</a>
+					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>journals@Urmel</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://zs.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_journals.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://zs.thulb.uni-jena.de/">Zeitschriftenportal</a>
+					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>HisBest</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/hisbest/"><img class="icon" alt="icon" src="/map/icons/icon_jena_hisbest.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/hisbest/">Historische Bestände</a>
+					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Papyrus und Ostraka Projekt</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://http://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt</a>
+					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>UAJ</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/uaj"><img class="icon" alt="icon" src="/map/icons/icon_jena_uniarchiv.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/uaj">Archivportal</a>
+					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (Universitätsarchiv)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Korax</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/korax/"><img class="icon" alt="icon" src="/map/icons/icon_jena_domstifter.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/korax/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Vereinigte Domstifter zu Merseburg und Naumburg und Kollegiatsstift Zeitz</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KAJ</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/kaj"><img class="icon" alt="icon" src="/map/icons/icon_jena_kirchen.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/kaj">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Kirchenarchive Jena</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+
+
+
+<!-- ***************************************************************************************************************** -->
+<!-- Weimar                                                                                                            -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitales Archiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/ThHStAW/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/ThHStAW/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Thüringisches Hauptstaatsarchiv Weimar</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.3304,50.975994,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Rudolstadt                                                                                                        -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitales Archiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/saru/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/saru/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Staatsarchiv Weimar</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.337257,50.7236,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Meiningen                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitales Archiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/ThStAM/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/ThStAM/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Staatsarchiv Meiningen</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.419039,50.574107,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Erfurt                                                                                                            -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitale Historische Bibliothek</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/ufb/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt_histbib.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/ufb/">Digitale Historische Bibliothek Erfurt/Gotha</a>
+					<span class="mcrmap_item_owner">Universitäts- und Forschungsbibliothek Erfurt/Gotha</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.011258,50.991407,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Eisenberg                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitales Archiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://archive.thulb.uni-jena.de/StdAEbg/"><img class="icon" alt="icon" src="/map/icons/icon_eisenberg_stadtarchiv.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://archive.thulb.uni-jena.de/StdAEbg/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Stadtarchiv Eisenberg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.905476,50.968211,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Gotha                                                                                                            -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>MyIHS-Teilprojekt</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.manuscripts-gotha.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_gotha_uni_erfurt.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.manuscripts-gotha.uni-jena.de/">MyIHS-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
+					<span class="mcrmap_item_owner">Forschungsbibliothekbibliothek Gotha der Universität Erfurt</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.718333,50.948889,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- ***************************************************************************************************************** -->
+<!-- Halle                                                                                                             -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Papyrus und Ostraka Projekt</name>
+      <description><![CDATA[
+             <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://http://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt (Halle-Jena-Leipzig)</a>
+					<span class="mcrmap_item_owner">Martin-Luther-Universität Halle-Wittenberg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.96973,51.48928,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Wuppertal                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Elektronische Publikationen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://elpub.bib.uni-wuppertal.de/"><img class="icon" alt="icon" src="/map/icons/icon_wuppertal_elpub.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://elpub.bib.uni-wuppertal.de/">Elektronische Publikationen</a>
+					<span class="mcrmap_item_owner">Bergische Universität Wuppertal (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.148255,51.245248,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Gießen                                                                                                            -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Giessener Elektronische Bibliothek</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://semapp.ub.uni-giessen.de/"><img class="icon" alt="icon" src="/map/icons/icon_giessen_elbib.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://semapp.ub.uni-giessen.de/">Giessener Elektronische Bibliothek</a>
+					<span class="mcrmap_item_owner">Justus-Liebig-Universität Giessen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>8.695258,50.576192,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Papyri-Gießen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-giessen.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://papyri-giessen.dl.uni-leipzig.de/">Papyrus Projekt</a>
+					<span class="mcrmap_item_owner">Justus-Liebig-Universität Giessen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>8.695258,50.576192,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Freiburg                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>FREIMORE</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://freimore.uni-freiburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_freiburg_freimore.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://freimore.uni-freiburg.de/">FREIburger Multimedia Object REpository</a>
+					<span class="mcrmap_item_owner">Universität Freiburg (Rechenzentrum)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.848373,48.003455,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Düsseldorf                                                                                                        -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Publikationsservice</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://docserv.uni-duesseldorf.de/"><img class="icon" alt="icon" src="/map/icons/icon_duesseldorf_ulb.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://docserv.uni-duesseldorf.de/">Publikationsservice</a>
+					<span class="mcrmap_item_owner">Universitäts- und Landesbibliothek Düsseldorf</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>6.793143,51.192429,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Würzburg                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Papyri-Würzburg</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-wuerzburg.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://papyri-wuerzburg.dl.uni-leipzig.de/">Papyrus Projekt</a>
+					<span class="mcrmap_item_owner">Universitätsbibliothek Würzburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.968973,49.782663,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Köln                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Papyri-Köln</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-koeln.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://papyri-koeln.dl.uni-leipzig.de/">Papyrus Projekt</a>
+					<span class="mcrmap_item_owner">Universität Köln (Institut für Altertumskunde)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>6.927404,50.928763,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Erlangen                                                                                                          -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Papyri-Erlangen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://papyri-erlangen.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://papyri-erlangen.dl.uni-leipzig.de">Papyrus Projekt</a>
+					<span class="mcrmap_item_owner">Universitätsbibliothek Erlangen-Nürnberg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.007677,49.596658,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Bonn                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Archiv für Sozialgeschichte</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://library.fes.de/afs-online/inhalt/online.htm"><img class="icon" alt="icon" src="/map/icons/icon_bonn_fes.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://library.fes.de/afs-online/inhalt/online.htm">Archiv für Sozialgeschichte</a>
+					<span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.135606,50.703199,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Das gedruckte Gedächtnis der Tertiarisierung</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://library.fes.de/angestelltenpresse"><img class="icon" alt="icon" src="/map/icons/icon_bonn_fes.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://library.fes.de/angestelltenpresse">Das gedruckte Gedächtnis der Tertiarisierung</a>
+					<span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.135606,50.703199,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>perspectivia.net</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://perspectivia.net/"><img class="icon" alt="icon" src="/map/icons/icon_bonn_perspectivia.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://perspectivia.net/">Die Publikationsplattform perspectivia.net</a>
+					<span class="mcrmap_item_owner">Max Weber Stiftung</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.160333,50.686196,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Wiesbaden                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>GPStatistik</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.destatis.de/GPStatistik/" title="Link zur Statistischen Bibliothek"><img class="icon" alt="icon" src="/map/icons/icon_wiesbaden_destatis.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.destatis.de/GPStatistik/" title="Link zur Statistischen Bibliothek">Die "Statistische Bibliothek" der Statistischen Ämter des Bundes und der Länder</a>
+					<span class="mcrmap_item_owner">Statistisches Bundesamt (DESTATIS)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>8.252253,50.071001</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Venedig                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>DSZV-Dokumentenserver</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://repository.dszv.it/" title="Link zum Dokumentenserver des DSZV"><img class="icon" alt="icon" src="/map/icons/icon_venedig_dszv.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://repository.dszv.it/" title="Link zum Dokumentenserver des DSZV">Der Dokumentenserver des Deutschen Studienzentrums in Venedig</a>
+					<span class="mcrmap_item_owner">Deutsches Studienzentrum in Venedig (DSZV)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.329348,45.436260</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Cambridge                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>ITIM Catalogue</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://www.manuscript-treasury.net/" title="Link zum International Treasury of Islamic Manuscripts"><img class="icon" alt="icon" src="/map/icons/icon_itim.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://www.manuscript-treasury.net/" title="Link zum International Treasury of Islamic Manuscripts">International Treasury of Islamic Manuscripts</a>
+					<span class="mcrmap_item_owner">The Islamic Manuscript Association Ltd, Cambgidge</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>0.116667,52.2,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

@@ -1,0 +1,22 @@
+<div class="container">
+	<div class="row mcr-news mt-5">
+	{{ range .AllTranslations }}
+		{{ $pages := where .Pages "Section" "blog" }}
+			{{range $pages }}
+				{{if and (.Param "news/frontpage") (eq .Language.Lang "de")}}
+					<div class="col text-center">
+						<a class="latestnews" href="{{.Permalink}}">
+						<h5>{{.Param (print "news/title_" $.Site.Language.Lang) }}</h5>
+						<span class="message">{{ .Param (print "news/teaser_" $.Site.Language.Lang) }}</span>
+							<div class="small text-right mt-2">
+				  			 <em>von <span class="author">{{.Param "blog/authors"}}</span>,
+							 <span class="date">{{- partial "german_date" (dict "date2convert" (.PublishDate.Format "2. Jan  2006")) -}}</span></em>
+	</div>
+			</a>
+		</div>
+				{{end}}
+			{{ end }}
+		{{ end }}
+	
+	</div>
+</div>

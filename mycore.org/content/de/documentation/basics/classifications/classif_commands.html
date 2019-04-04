@@ -1,0 +1,51 @@
+
+---
+
+title: "Kommandos zum Verwalten von Klassifikationen"
+mcr_version: ['2015.05','2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "2016-06-22"
+
+---
+  <div id="class_commands">
+    <h2>Kommandos zum Verwalten von Klassifikationen</h2>
+    <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können folgende Befehle zur Verwaltung von 
+      Klassifikationen ausgeführt werden:
+    </p>
+    <dl class="kasten">
+    <dt><code>load classification from file {0}</code></dt>
+    <dd>Es wird eine Klassifikation in Form einer XML-Definition aus der Datei {0} gelesen und in das System geladen.</dd>
+    <dt><code>load classification from url {0}</code></dt>
+    <dd>Es wird eine Klassifikation in Form einer XML-Definition aus der URL {0} gelesen und in das System geladen.</dd>
+    <dt><code>load all classifications from directory {0}</code></dt>
+    <dd>Es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis {0} gelesen und in das System geladen.</dd>
+    <dt><code>update classification from file {0}</code></dt>
+    <dd>Es wird eine Klassifikation in Form einer XML-Definition aus der Datei {0} gelesen. Diese überschreibt die im System bereits
+    geladene Klassifikation. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation weg, da sonst Ihr
+    System ggf. in einen inkonsistenten Zustand kommen kann! Referenzierte Kategoien werden nicht beseitigt.</dd>
+    <dt><code>update classification from url {0}</code></dt>
+    <dd>identisch zu <code>update classification from file {0}</code>, nur dass die Klassifikation über eine URL geladen wird.</dd>
+    <dt><code>update all classifications from directory {0}</code></dt>
+    <dd>es werden alle XML-Definitionen von Klassifikationen aus einem Verzeichnis {0} gelesen. Diese überschreiben die im
+    System bereits geladenen Klassifikationen. Achtung, lassen Sie keine Kategorien einer bestehenden Klassifikation
+    weg, da sonst Ihr System ggf. in einen inkonsistenten Zustand kommen kann! Referenzierte Kategoien werden nicht beseitigt.</dd>
+    <dt><code>delete classification {0}</code></dt>
+    <dd>Es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code>
+    gelöscht. Sollten noch Referenzen existieren, wird das Löschen abgebrochen.</dd>
+    <dt><code>export classification {0} to {1} with {2}</code></dt>
+    <dd>Es wird eine Klassifikation mit der im Parameter <code>{0}</code> angegebenen <code>MCRObjectID</code>
+    in eine Datei mit dem im Parameter <code>{1}</code> angegeben Namen gespeichert. Es wird zur Transformation
+    der zu speichernden Daten das Stylesheet <code>{2}-classification.xsl</code> aus der Anwendung verwendet. MyCoRe selbst
+    bringt per default das <code>save-classification.xsl</code> mit.</dd>
+    <dt><code>export all classifications to directory {0} with {1}</code></dt>
+    <dd>Es werden alle im System befindlichen Klassifikationen in Dateien des Verzeichnisses mit dem im Parameter
+    <code>{0}</code> angegeben Namen gespeichert. Es wird zur Transformation der zu speichernden Daten das Stylesheet <code>{1}-classification.xsl</code> aus
+    der Anwendung verwendet (default <code>save</code>).</dd>
+    <dt><code>count classification children of {0}</code></dt>
+    <dd>Es werden die Referenzen zu den Kategorien der im Parameter <code>{0}</code> angegebenen Klassifikation mit der <code>MCRObjectID</code> gezählt.</dd>
+    <dt><code>list all classifications</code></dt>
+    <dd>Das Kommando listet alle in der Datenbasis gespeicherten Klassifikationen aus.</dd>
+    <dt><code>list classification {0}</code></dt>
+    <dd>Das Kommando listet die unter der <code>MCRObjectID</code> in der Datenbasis gespeicherte Klassifikation mit alle Kategorien aus.</dd>
+    </dl>
+   </div>

@@ -1,0 +1,299 @@
+
+---
+
+title: "Festlegungen für die Code Entwicklung"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann', 'Thomas Scheffler', 'Jens Kupferschmidt']
+date: "2017-08-21"
+
+---
+      <div>
+        <h2>Vorbemerkungen</h2>
+        <p>
+          Von der Entwicklergruppe wird das Werkzeug Eclipse zur Arbeit am MyCoRe-Projekt empfohlen. Es enthält sowohl
+          Funktionalitäten zur Integration von Subversion wie auch zur Qualitätssicherung des zu erstellenden
+          JAVA-Codes.
+        </p>
+      </div>
+      <div>
+        <h2>Encoding</h2>
+        <div>
+          <h3>Allgemeines</h3>
+          <p>
+            Grundsätzlich geht MyCoRe davon aus, dass alle Dateien, die nicht sprachabhängig sind, mit
+            <strong>UTF-8</strong> kodiert wurden. Dies gestattet eine gute Nutzung auch über die Grenzen
+            des deutschsprachigen Raumes hinaus. Dies betrifft vor allem die Dateitypen:
+          </p>
+          <ul>
+            <li>Java-Code - *.java</li>
+            <li>XML-/XED-/XSD-/XSL-Dateien - *.xml</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Konfiguration unter Eclipse</h3>
+          <p>Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+          </p>
+          <ol>
+            <li>Properties -&gt; Info -&gt; Text file encoding -&gt; UTF-8</li>
+          </ol>
+        </div>
+      </div>
+      <div>
+        <h2>Java-Code Formatierung</h2>
+        <div>
+          <h3>Allgemeines</h3>
+          <p>
+            Um bei der Arbeit mit dem Subversion-System nur inhaltliche Änderungen zu erfassen und diese nicht mit
+            Umformatierungen zu verwechseln, wird der gesamte Code einheitlich nach folgenden Regeln erstellt:
+          </p>
+          <ul>
+            <li>Formatierung gemäß den Java-Konventionen</li>
+            <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
+            <li>Einrückung mit vier Zeichen</li>
+            <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+            <li>Kommenare nicht umfomatieren</li>
+          </ul>
+        </div>
+        <div id="CodeStyle">
+          <h3>Konfiguration unter Eclipse</h3>
+          <p> Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+          </p>
+          <ol>
+            <li>Properties -&gt; Java code style -&gt; Formatter</li>
+            <li>dort Java Conventions als Vorlage wählen</li>
+            <li>Indentation -&gt; Tab Policy -&gt; Spaces only</li>
+            <li>Indentation -&gt; Indentation size -&gt; 4</li>
+            <li>Indentation -&gt; Tab size -&gt; 4</li>
+            <li>Line wrapping -&gt; Maximum line width -&gt; 120</li>
+            <li>Comments -&gt; alle Markierungen entfernen</li>
+            <li>Die Vorlage wird dann als mycore gespeichert.</li>
+          </ol>
+          <note label="Download der Eclipse-Style-Definition">
+            Eclipse-Nutzer können sich einfach die
+            <a href="/downloads/mycore-javastyle.xml">Code-Style-Definition</a>
+            herunterladen und importieren (unter: Properties -&gt; Java code style -&gt; Formatter).
+          </note>
+        </div>
+      </div>
+      <div>
+        <h2>XML-Code Formatierung</h2>
+        <div>
+          <h3>Allgemeines</h3>
+          <p> Auch für die Gestaltung der XML-Dateien wurde eine einheitliche Formatierung festgelegt:
+          </p>
+          <ul>
+            <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+            <li>Für Einrückungen sind nur Leerzeichen zu verwenden.</li>
+            <li>Pro Tab sind 2 Zeichen Einrückung vorgesehen.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Konfiguration unter Eclipse</h3>
+          <p> Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:
+          </p>
+          <ol>
+            <li>Window -&gt; Preferences -&gt; XML -&gt; XML Files -&gt; Editor</li>
+            <li>dort wählen</li>
+            <li>Line width -&gt; 120</li>
+            <li>Indent using spaces</li>
+            <li>Indentation size -&gt; 2</li>
+            <li>Format Comments abschalten</li>
+          </ol>
+          <p>Weiterhin ist die Erkennung von *.xed-Dateien als XML im Editor einzuschalten</p>
+          <ol>
+            <li>Window -&gt; Preferences -&gt; General -&gt; Editors -&gt; File Associations</li>
+            <li>dort wählen *.xed hinzufügen</li>
+          </ol>
+        </div>
+        <note label="Hinweis">Für die Bearbeitung der build.xml verwendet Eclipse einen eigenen Editor. Auch hier müssen die
+          Einstellungen entsprechend geändert werden.</note>
+      </div>
+      <div>
+        <h2>Compilieren und Code-Test</h2>
+        <div>
+          <h3>Allgemeines</h3>
+          <p>
+            Bevor ein Codeteil (Javaklasse, Stylesheet oder Konfigurationsdatei) committed wird, sollte diese
+            <strong>gründlich</strong>
+            getestet werden. Für Java-Klassen ist als erstes sicher zu stellen, dass sie den Compiler-Lauf erfolgreich
+            bestehen. Um auch Konflikte mit anderen Java-Klassen von vorn herein auszuschließen, sollte vor jedem Commit
+            einer Klasse des MyCoRe-Kerns der Aufruf
+          </p>
+          <p class="break">mvn [-o] clean install</p>
+          <p> erfolgen. So können Fehler in der Abhängigkeit schneller gefunden werden. Dabei steht -o für Offline. Dies
+            kann genutzt werden, wenn man gerade im Zug oder an ähnlichen Orten entwickelt, wo man offline ist.
+          </p>
+        </div>
+        <div>
+          <h3>Nutzung der Entwicklungsumgebung Eclipse</h3>
+          <p>
+            Die Datei .project sollte entsprechend der unten angegebenen Darstellung angepasst werden. Anschließend
+            sind sowohl für den MyCoRe-Kern wie auch für die Anwendung noch die Java-Ressourcen zu definieren.
+          </p>
+          <ol>
+            <li>project -&gt; Properties -&gt; Java Build Path</li>
+            <li>Tragen Sie alle Sources ein.</li>
+            <li>
+              Tragen Sie alle Libraries ein. Bitte beachten Sie, dass für den Kern alle
+              <code>*.jar</code>
+              bzw.
+              <code>*.zip</code>
+              Dateien aus
+              <code>mycore/lib</code>
+              bzw.
+              <code>mycore/components/*/sources</code>
+              zu verwenden sind. Hinzu kommen noch ggf Systemweite Pakete (z. B. aus /usr/share/java). Für die Anwendung
+              sollten nur Pakete aus application/build/lib, nicht aus dem MyCoRe-Baum, integriert werden.
+            </li>
+          </ol>
+          <div style="text-align:center;margin:10px 0;">
+            {{< highlight xml "linenos=table">}}
+              <?xml version="1.0" encoding="UTF-8"?>
+              <projectDescription>
+                <name>mycore</name>
+                <comment>...</comment>
+                <projects>...</projects>
+                <buildSpec>
+                  <buildCommand>
+                    <name>org.eclipse.jdt.core.javabuilder</name>
+                    <arguments />
+                  </buildCommand>
+                </buildSpec>
+                <natures>
+                  <nature>org.eclipse.jdt.core.javanature</nature>
+                </natures>
+              </projectDescription>
+            {{< /highlight >}}
+            <span class="small"><strong>Codebeispiel 3.1:</strong> .project Datei</span>
+          </div>
+        </div>
+        <div>
+          <h3>Test mit JUnit</h3>
+          <p>
+            Eclipse integriert bereits ein Produkt namens JUnit (<a href="http://www.junit.org/index.htm">http://www.junit.org/index.htm</a>). Mit ihm erhalten Sie ein Werkzeug, welches das Testen der
+            von Ihnen erzeugten Java-Klassen ermöglicht. Alle Test sind im Verzeichnis
+            <code>mycore/test</code> abzulegen. Um einen neuen Test zu generieren, gehen Sie wie folgt vor:
+          </p>
+          <ol>
+            <li>Navigieren Sie auf die Klasse, für die der Test erzeugt werden soll</li>
+            <li>rechte Maustaste -&gt; New -&gt; Junit Test Case</li>
+            <li>Setzen Sie den Source Folder auf <code>mycore/test</code></li>
+            <li>Sinnvoll ist das automatische anlegen der Methoden <code>setUp()</code>
+              und<code>tearDown()</code></li>
+            <li>Next</li>
+            <li>Markieren Sie die Methoden, für die ein Test erfolgen soll.</li>
+          </ol>
+          <p>Den Test selbst starten Sie, indem Sie in der Testklasse über die rechte Maustaste 'Run As' --&gt; 'JUnit
+            Test' aufrufen.
+          </p>
+          <p>
+            Testklassen, die auf Datenbankanfragen angewiesen sind, sollten die Klasse
+            <code>org.mycore.common.MCRHibTestCase</code> erweitern. Alle anderen erweitern
+            <code>org.mycore.common.MCRTestCase</code>.
+          </p>
+        </div>
+      </div>
+      <div>
+        <h2>Kommentare im Code</h2>
+        <div>
+          <h3>Allgemeines</h3>
+          <p>
+            Alle Kommentare sind in Englisch abzufassen. Dabei ist auf allgemein verständliche Sprachkonstrukte zu
+            achten. Der Kommentar soll die kodierten Vorgänge gut beschreiben und für andere nachvollziehbar machen.
+          </p>
+        </div>
+        <div>
+          <h3>Kommentare im Java-Code</h3>
+          <p>
+            Jede Java-Quelltext-Datei hat das nachfolgende Aussehen. Das gestattet ein einheitliches Auftreten des
+            Projektes. Da für alle Dateien mittels JavaDoc automatisch eine Dokumentation generiert wird, ist es
+            Pflicht, die erstellte Klasse mit einer allgemeinen Beschreibung zum Zweck und Einsatz der Klasse zu
+            versehen. Weiterhin sind alle public oder protected Methoden mit einer Beschreibung zu versehen. Hierzu
+            gehört auch die Dokumentation der übergebenen Parameter, der Rückgabewerte und ggf. der geworfenen
+            Exceptions.
+          </p>
+          {{< highlight java "linenos=table">}}
+/*
+* This file is part of *** M y C o R e ***
+* See http://www.mycore.de/ for details.
+*
+* This program is free software; you can use it, redistribute it
+* and / or modify it under the terms of the GNU General Public License
+* (GPL) as published by the Free Software Foundation; either version 2
+* of the License or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program, in a file called gpl.txt or license.txt.
+* If not, write to the Free Software Foundation Inc.,
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307 USA
+*/
+
+package org.mycore.datamodel.metadata;
+
+import java.io.File;
+
+/**
+* This class implements all methode for ...
+*
+* @author Jens Kupferschmidt
+* @version $Revision: 1.49 $ $Date$
+*/
+final public class MCR... {
+...
+
+        {{< /highlight >}}
+
+        <p>Mindestkommentar im Java Quellcode:</p>
+        {{< highlight java "linenos=table">}}
+/**
+* This method ..
+*
+* @param a The paremeter a is the first value.
+* @return a if it is a positive number, else return 0.
+*/
+public final int abs(a) {
+...
+}
+
+          {{< /highlight >}}
+        </div>
+        <div>
+          <h3>Kommentare in den Stylesheets</h3>
+          <p> Auch alle XSLT-Dateien sollen kurze Kommentare enthalten. Unbedingt erforderlich sind auf jeden Fall die
+            Zeilen für die Versionskontrolle. Angestrebt wird folgendes Aussehen eines Stylesheets.
+          </p>
+          {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================== -->
+<!-- $Revision: 1.2 $ $Date$ -->
+<!-- ============================================== -->
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+...
+</xsl:stylesheet>
+          {{< /highlight >}}
+        </div>
+        <div>
+          <h3>Logging</h3>
+          <p>
+            Alle Logging-Informationen werden, sofern nicht eine Umsetzung mittels der Internationalisierung I18N
+            erfolgt, in Englisch notiert. Für MyCoRe ist das <strong>log4j</strong>-Paket des Apache-Projektes zu
+            verwenden. Es gib 4 definierte Log-Level mit nachfolgenden Bestimmungen. Es
+            ist davon auszugehen, dass eine normale Anwendung allgemein auf den Level INFO gesetzt ist.
+          </p>
+          <ul>
+            <li>&gt;ERROR – Gibt Informationen zu nicht behebbaren Fehlern, z.B. Exceptions, zurück.</li>
+            <li>WARN – Gibt Informationen zu Fehlern zurück, welche die Weiterarbeit der Anwendung nicht ausschließen.
+              In der Regel wird mit Standardwerten weitergearbeitet.</li>
+            <li>INFO – Gibt allgemeine Informationen für den normalen Anwender bzw. die Log-Datei aus. Diese Nachrichten
+              haben nur informativen Charakter.</li>
+            <li>DEBUG – Gibt zusätzliche Informationen, die gezielt durch Einschalten dieses Levels abgerufen werden,
+              aus.</li>
+          </ul>
+        </div>
+      </div>
+  

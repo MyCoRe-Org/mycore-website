@@ -1,0 +1,593 @@
+
+---
+
+title: "Der MyCoRe-URI-Resolver"
+author: ['Thomas Scheffler', 'Wiebke Oeltjen', 'Jens Kupferschmidt']
+description: "Der URI-Resolver in MyCoRe ist eine Erweiterung des Standard-URI-Resolvers und gestattet innerhalb der
+      MyCoRe-Anwendung den einfachen Zugriff auf interne Komponenten.
+    "
+date: "2018-01-19"
+
+---
+    <div>
+      <h2>Der MyCoRe-URI-Resolver</h2>
+      <p>
+        Die Klasse
+        <code>org.mycore.common.xml.MCRURIResolver</code>
+        implementiert einen Resolver, mit dem an verschiedenen
+        Stellen im MyCoRe-System XML-Daten über URI's gelesen
+        werden können. Der Resolver wird zur Zeit an vielen Stellen des Layout-Prozesses eingesetzt. Für eigene Ziele
+        kann der URI-Resolver auch entsprechend erweitert werden.
+      </p>
+
+      <p>Der Resolver unterstützt neben den Schemata des JAVA-URI-Resolvers die folgenden Schemata bzw. Protokolle:</p>
+
+      <div>
+        <h3>webapp:[Path]</h3>
+        <p>
+          liest eine statische XML-Datei vom Dateisystem der Web-Applikation. Im Gegensatz zur file()-Methode kann der
+          Pfad
+          der zu lesenden Datei relativ zum Wurzelverzeichnis der Web-Applikation angegeben werden. Der Zugriff
+          erfolgt
+          direkt, d.h. ohne HTTP Request oder Anwendung eines Stylesheets.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          webapp:{path}
+
+          webapp:config/labels.xml
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>request:[Path]</h3>
+        <p>
+          liest eine XML-Datei durch einen HTTP Request an ein Servlet oder Stylesheet innerhalb der aktuellen
+          MyCoRe-Anwendung. Im Gegensatz zur http/https Methode ist der Pfad relativ zur Basis-URL der Web-Applikation
+          anzugeben, die MCRSessionID wird automatisch als HTTP GET Parameter ergänzt.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          request:{path}
+
+          request:servlets/MCRLinkServlet?XSL.Style=xml&amp;form=&amp;to=mir_mods_00000001&amp;type=derivate
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>resource:[Path]</h3>
+        <p>
+          liest eine XML-Datei aus dem CLASSPATH der Web-Applikation, d.h. die Datei wird zunächst im Verzeichnis
+          <code>WEB-INF/classes/</code>
+          und als nächstes in einer der jar-Dateien im Verzeichnis
+          <code>WEB-INF/lib/</code>
+          der
+          Web-Applikation gesucht. Diese Methode bietet sich an, um statische XML-Dateien zu lesen, die in einer
+          jar-Datei
+          abgelegt sind.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          resource:{path}
+
+          resource:ContentStoreSelectionRules.xml
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>session:[Key]</h3>
+        <p>
+          liest ein XML-Element, das als JDOM-Element in der aktuellen MCRSession abgelegt ist. Mittels der
+          <code>put()</code>
+          Methode der Klasse MCRSession kann analog zu einer Java-Hashtable unter einem Schlüssel ein Objekt abgelegt
+          werden.
+          Ein Servlet kann so z.B. ein JDOM-Element in der
+          <code>MCRSession</code>
+          ablegen, den Schlüssel einem Stylesheet
+          über einen XSL-Parameter mitteilen. Der MyCoRe Editor kann dieses
+          JDOM-Element dann mittels der
+          <code>get()</code>
+          Methode aus der Session lesen.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          session:{key}
+
+          session:mylist
+        {{< /highlight >}}
+        <p>
+          Das Beispiel liest das JDOM XML-Element, das als Ergebnis von
+          <code>MCRSessionMgr.getCurrentSession().get("mylist");</code>
+          zurückgegeben wird.
+        </p>
+      </div>
+
+      <div>
+        <h3>mcrobject:[MCRObjectID]</h3>
+        <p>liest die XML-Darstellung der Metadaten eines MCRObject mit der angegebenen MCRObjectID aus.</p>
+        {{< highlight bash "linenos=table">}}
+          mcrobject:{mcrobjectid}
+
+          mcrobject:mir_mods_07910401
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>deletedMcrObject:[MCRObjectID]</h3>
+        <p>löscht ein MCRObject mit der angegebenen MCRObjectID.</p>
+        {{< highlight bash "linenos=table">}}
+          deletedMcrObject:{mcrobjectid}
+
+          deletedMcrObject:mir_mods_07910401
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>classification:[ClassificationQuery]</h3>
+        <p>gibt eine Klassifikation in unterschiedlichen Formaten aus.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          classification:{editor['['formatAlias']']|editorComplete|metadata}:{Levels}[:noEmptyLeaves]:{parents|children}:{ClassID}[:CategID]
+        {{< /highlight >}}
+        <p>Die einzelnen Parameter sind durch Doppelpunkte getrennt.</p>
+        <ol>
+          <li>
+            Der erste Parameter bestimmt den Formattyp der Rückgabe.
+            <ul>
+              <li>
+                <code>editor</code>
+                bereitet die Klassifikation für die Nutzung in der Editor-Selectbox auf. Letztere kann für den Label-Text
+                noch unterschiedliche Formatanweisungen enthalten, die mit <code>[formatAlias]</code> 
+                referenziert werden. Das Property <code>MCR.URIResolver.Classification.Format.{formatAlias}</code>
+                enthält dann die Formatieranweisung. Diese besteht aus beliebigem Text kombiniert mit Platzhaltern:
+                <ul>
+                  <li>
+                    <code>{id}</code>
+                    steht für die Kategorie-ID,
+                  </li>
+                  <li>
+                    <code>{count}</code>
+                    steht für die Zahl der zugeordneten MyCoRe-Objekte,
+                  </li>
+                  <li>
+                    <code>{text}</code>
+                    steht für das Attribut text im label-Tag der Klassifikationsdefinition,
+                  </li>
+                  <li>
+                    <code>{description}</code>
+                    steht für das Attribut description im label-Tag der Klassifikationsdefinition.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <code>metadata</code>
+                gibt die Klassifikation im MyCoRe-XML-Format aus.
+              </li>
+              <li>
+                <code>editorComplete</code>
+                bereitet die Klassifikation für die Nutzung in der Editor-Selectbox auf. Dabei wird die für die SOLR
+                Suche erforderliche Notation für den
+                <em>value</em>
+                <code>ClassID:CategID</code>
+                verwendet.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <code>Levels</code>
+            gibt an, wieviel Hierarchiestufen dargestellt werden. Bei Angabe der CategID ist dies die
+            Anzahl der Kindkategoriehierarchiestufen. 
+            Ist Levels „<code>-1</code>“ angegeben, so bedeutet dies „komplette Hierarchie“.
+          </li>
+          <li>
+            <code>noEmptyLeaves</code>
+            ist ein optionaler Parameter. Wenn angegeben, werden leere Kategorien ohne Objekte
+            nicht mit ausgegeben.
+            Diese Funktion ist nur für den Rückgabetyp
+            <code>editor</code>
+            bzw.
+            <code>editorComplete</code>
+            , d.h. sinnvollerweise in Suchmasken,
+            implementiert.
+          </li>
+          <li>
+            <code>parents</code>
+            oder
+            <code>children</code>
+            gibt an, ob bei Angabe einer
+            <code>CategID</code>
+            zusätzlich
+            alle übergeordneten Kategorien mit zurückgegeben werden (<code>parents</code>)
+            oder ob nur die Kinder der Kategorie
+            berücksichtigt werden sollen. Bei Angabe eines positiven Levels und „<code>parents</code>“
+            werden sowohl die Eltern ausgegeben, wie auch <code>{Levels}</code>
+            Hierarchieebenen der Kinder.
+          </li>
+          <li>
+            <code>ClassID</code> ist die Klassifikations-ID
+          </li>
+          <li>
+            <code>CategID</code> ist Kategorie-ID
+          </li>
+        </ol>
+        {{< highlight bash "linenos=table">}}
+          MCR.URIResolver.Classification.Format.textDescription={text} - {description}
+          classification:editor[textDescription]:-1:children:PACS
+
+          classification:editorComplete:3:noEmptyLeaves:children:DDC:09
+
+          classification:metadata:0:parents:mir_institutes:Unis.Jena
+        {{< /highlight >}}
+        <p>Mit dem Property <code>MCR.URIResolver.Classification.Sort.{ClassID}</code>
+           kann gesteuert werden, ob die Label in der zurückgelieferten Klassifikation 
+           alphabetisch sortiert ausgegeben werden sollen (default=<tt>true</tt>). 
+           Mit dem Wert <tt>false</tt> wird die interne Sortierung (Reihenfolge der Knoten im XML) verwendet.
+        </p>
+      </div>
+
+      <div>
+        <h3>access:[ AccessRules ]</h3>
+        <p>
+          liest die XML-Darstellung der ACL-Metadaten für ein MyCoRe-Objekt aus und gibt diese als XML-Darstellung der
+          <code>servacls</code>
+          aus.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          access:action=[all|{permision}]&amp;object={MCRObjectID}
+        {{< /highlight >}}
+        <ul>
+          <li>
+            Der Parameter
+            <code>all</code>
+            gibt alle Permissions für das MyCoRe-Object zurück.
+          </li>
+          <li>
+            Für den Parameter
+            <code>{permision}</code>
+            kann eine relevante Permission angegeben werden.
+          </li>
+        </ul>
+        {{< highlight bash "linenos=table">}}
+          access:action=all&amp;object=mir_mods_07910401
+
+          access:action=writedb&amp;object=mir_mods_07910401
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>ifs:[DerivateID]</h3>
+        <p>
+          startet den Abruf der Verzeichnisstruktur eines Derivate-Contents. Derzeit einzige Implementierung ist eine
+          <code>mcrdirectory</code>
+          -Verzeichnisstruktur im XML-Format.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          ifs:{MCRDerivateID}
+
+          ifs:mir_derivate_00000001
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>localclass:[Class]</h3>
+        <p>
+          läd eine Java-Klasse und leitet den Aufruf daran weiter. Ist die Klasse einen Instanz des URI-Resolvers wird
+          die
+          <code>resolve</code>
+          -Methode aufgerufen. Andernfalls wird ein JDOM-Source zurückgegeben.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          localclass:{class}?{param}
+
+          localclass:org.mycore.ClassName?mode=getAll
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>buildxml:[Strings]</h3>
+        <p>
+          generiert aus dem String ein JDOM-Objekt.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          buildxml:_rootName_={root_element_name}&amp;{xpath_entry}[&amp;{xpath_entry}][...]
+
+          buildxml:_rootName_=mycoreobject&amp;metadata/parents/parent/@href= 'mir_mods_4711'
+         {{< /highlight >}}
+         <p>erzeugt:</p>
+{{< highlight xml "linenos=table">}}<mycoreobject>
+ <metadata>
+  <parents>
+   <parent href="mir_mods_4711" />
+  </parents>
+ </metadata>
+</mycoreobject>
+{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>mcrfile:[Path]</h3>
+        <p>
+          liefert eine konkrete Datei aus einem MCRDerivate, welche über den Pfad adressiert ist.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          mcrfile:{MCRDerivateID}/{path}
+
+          file:mir_derivate_00000001/folder1/image2.jpg
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>fileMeta:[Path]</h3>
+        <p>
+          liefert ???.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          fileMeta:???
+
+          fileMeta:???
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>language:[Code]</h3>
+        <p>
+          kann verwendet werden, um zwischen verschiedenen Codes für die gleiche Sprache zu konvertieren. Das
+          zurückgegebene XML
+          enthält die ISO 639-1 und ISO 639-2 Sprachcodes für die angefragte Sprache.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          language:{code}
+
+          language:de
+        {{< /highlight >}}
+        <p>erzeugt folgenden XML-Output:</p>
+
+        {{< highlight xml "linenos=table">}}<language xmlCode="de" biblCode="ger" termCode="deu" />{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>basket:[BasketAddr]</h3>
+        <p>
+          liefert Einträge aus der Korbfunktion einer Session einer MyCoRe-Anwendung. Der Resolver wird z. B. für den
+          Input des Korb-Editors genutzt.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          basket:{typeID}:{entryID}
+        {{< /highlight >}}
+        <ul>
+          <li>
+            Die
+            <code>typeID</code>
+            beschreibt den Typ des Korbes. In der Session können mehrere Körbe mit verschiedenen
+            <code>typeID</code>
+            existieren. Bisher ist nur die
+            <em>objects</em>
+            in Gebrauch.
+          </li>
+          <li>
+            Die
+            <code>entryID</code>
+            ist eine passende ID, im Normalfall ist es die
+            <strong>MCRObjectID</strong>
+          </li>
+        </ul>
+        {{< highlight bash "linenos=table">}}
+          basket:objects:MyCoRe_basket_00000001
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>versioninfo:[MCRObjectID]</h3>
+        <p>
+          liefert Versionsinformationen über ein MyCoRe-Objekt im XML-Format. Ist die Versionierung abgeschaltet, wird
+          nur eine Versionszeile mit den Datum der letzten Änderung ausgegeeben.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          versioninfo:{MCRObjectID}
+
+          versioninfo:MyCore_document_00000001
+        {{< /highlight >}}
+        <p>erzeugt folgenden XML-Output:</p>
+
+{{< highlight xml "linenos=table">}}<versions>
+ <version user="editor" date="2015-06-19" r="12345" action="update"/>
+ ...
+</versions>{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>xslInclude:[IncludeParms]</h3>
+        <p>
+          Erzeugt ein XSL-Stylesheet, dass weitere Stylesheets
+          inkludiert. Welche definiert das
+          <code>MCR.URIResolver.xslIncludes.{include_name}</code>
+          Property. Zu Laufzeit können so
+          weitere XSL-Dateien hinzugeladen werden, um zusätzliche Templates
+          bereitszustellen oder vorhandene zu Überschreiben.
+        </p>
+        {{< highlight bash "linenos=table">}}
+MCR.URIResolver.xslInclude.{include_name}={xsl_file1},{xsl_file2}...
+          
+xslImport:{import_name}:{xsl_file...}
+
+MCR.URIResolver.xslIncludes.components=iview.xsl,wcms.xsl
+
+xslInclude:components
+        {{< /highlight >}}
+        <p>erzeugt folgenden XML-Output:</p>
+
+{{< highlight xml "linenos=table">}}<xsl:stylesheet version="1.0">
+ <xsl:include href="iview.xsl"/>
+ <xsl:include href="wcms.xsl"/>
+</xsl:stylesheet>{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>xslImport:[ImportParms]</h3>
+        <p>
+          Erzeugt ähnlich wie "xslInclude" ein XSL-Stylesheet, jedoch
+          werden nicht alle XSL-Dateien inkludiert, sonder in
+          einer Kaskade
+          importiert. Das ermöglicht die Erweiterung bestimmter Templates mittels
+          <code>&lt;xsl:apply-imports /&gt;</code>
+          , um z.B. zusätzliche Felder bei der
+          SOLR-Indizierung (hier ein Link zur Doku, falls vorhanden) zu erzeugen.
+          Die Liste wird im Property
+          <code>MCR.URIResolver.xslImports.{import_name}</code>
+          definiert.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          MCR.URIResolver.xslImports.{import_name}={xsl_file1},{xsl_file2}...
+
+          xslImport:{import_name}:{xsl_file...}
+
+
+          MCR.URIResolver.xslImports.components=first.xsl,second.xsl
+        {{< /highlight >}}
+        {{< highlight xml "linenos=table">}}<xsl:import href="xslImport:components:first.xsl"/>{{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>redirect:[RedirectAlias]</h3>
+        <p>
+          liest das Alias-Property und leitet die Daten an die URL weiter, welche im Property
+          <code>MCR.URIResolver.redirect.{alias}</code>
+          definiert ist.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          MCR.URIResolver.redirect.{alias}={href}
+
+          MCR.URIResolver.redirect.alias=webapp:path/to/alias.xml
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>notnull:[URI]</h3>
+        <p>
+          dieses Vorschaltelement für andere URI stellt sicher, dass es bei Aufruf der genannten URI keine
+          NullPointerException gibt. Sollte es bei
+          Verarbeitung der
+          anhängenden URI eine Exception geben, wird diese
+          geloggt. Im Falle einer Exception oder wenn
+          die URI den Wert
+          NULL
+          zurückgibt, liefert dieser Resolver stattdessen
+          eine leere XML-Datei. Dies ist z.B.
+          hilfreich, um in XSL Stylesheets
+          URIs zu verwenden, aber gegen Fehler
+          abzusichern.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          notnull:{uri}
+
+          notnull:mcrobject:mir_mods_07910401
+        {{< /highlight >}}
+      </div>
+
+      <div>
+        <h3>xslStyle:[stylesheet][param]:[URI]</h3>
+        <p>
+          dieses Vorschaltelement für andere URI wendet das Stylesheet [stylesheet] auf die XML-Auagabedatei der
+          nachfolgenden URI an und gibt das
+          Ergebnis als
+          XML zurück. Das Stylesheet befindet sich im Classpath der
+          Anwendung. Die Extension .xsl entfällt
+          im Parameter
+          <code>{stylesheet}</code>
+          .Es ist als möglich noch Parameter zu übergeben und der Ausgabe von einem
+          Stylesheet gleich durch ein zweites
+          zu weiterzuleiten.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          xslStyle:{stylesheet},{stylesheet}{?param1=value1{&amp;param2=value2}}:{anyMyCoReURI}
+
+          xslStyle:mycoreobject-mods,mods2dc?derivate=mycore_derivate_00000001:mcrobject:mycore_doc_00000001
+        {{< /highlight >}}
+        <p>
+          Dabei würde das Objekt erst in ein MODS-Dokument umgewandelt, um danach
+          letztendlich als Dublin-Core-Dokument ausgegeben worden zu sein.
+        </p>
+      </div>
+
+      <div>
+        <h3>xslTransform:[TransformParms]</h3>
+        <p>
+          dieses Vorschaltelement funktioniert wie
+          <strong>xslInclude</strong>
+          . Nur wird ein definierter
+          <code>MCRContentTransformer</code>
+          verwendet, statt einer
+          vordefinierten Liste von Stylesheets. Im gegensatz zu "xslStyle" ist das
+          Verhalten also noch konfigurierbar und prinzipiell nicht auf "XSL"
+          beschränkt.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          xslTransform:{stylesheet}[?param1=value1[&amp;param2=value2]...]:{anyMyCoReURI}
+
+          xslTransform:mycoreobject-txt:file:object.txt
+        {{< /highlight >}}
+      </div>
+      
+      <div>
+        <h3>data:[DataURLParams]</h3>
+        <p>
+          liefert den Inhalt einer Data-URL zurück.
+        </p>
+        {{< highlight bash "linenos=table">}}
+          data:[mime-type[;param1=value1[;param2=value=2]]]{,content}
+
+          data:text/html;charset=utf-8,%3Ch1%3EHello%20MyCoRe!%3C%2Fh1%3E
+        {{< /highlight >}}
+      </div>
+
+    </div>
+
+    <div>
+      <h2>MCRURIResolverFilter</h2>
+      <p>
+        Der MCRURIResolverFilter liefert, bei XML- oder HTML-Output und wenn der
+        <em>Log-Level</em>
+        von MCRURIResolver auf
+        <code>DEBUG</code>
+        steht, Debug-Informationen als
+        Kommentar im Quelltext, welche URIs während der Erstellung aufgerufen
+        worden sind.
+        In der richtigen Reihenfolge und ggf. auch mit Referrer.
+        Da er standardmäßig mit eingebunden ist, muss man bis
+        auf besagten
+        Log-Level nichts konfigurieren.
+      </p>
+    </div>
+
+    <div>
+      <h2>Erweiterung des URI-Resolvers</h2>
+      <p>
+        Unter Umständen kann es nötig sein den URIResolver für eigene Anwendungen zu erweitern. Dabei ist es nicht
+        möglich
+        vorhandene URI-Schemas zu überschreiben, jedoch neue den bereits vorhandenen hinzuzufügen. Für jedes
+        Schema z.B.
+        <code>file</code>
+        gibt es einen Resolver, der entsprechende URIs auflösen kann. Dieser Resolver muss die
+        Schnittstelle
+        <code>MCRURIResolver.MCRResolver</code>
+        im Paket
+        <code>org.mycore.common.xml</code>
+        implementieren.
+        Für die Zuweisung eines Schemas zur
+        <code>MCRResolver</code>
+        -Implementierung ist der
+        <code>MCRResolverProvider</code>
+        verantwortlich, der diese Schnittstelle aus
+        <code>MCRURIResolver</code>
+        implementiert. Letzterer stellt eine Abbildung von Schema-Strings zu
+        <code>MCRResolver</code>
+        -Instanzen zur
+        Verfügung. Der
+        <code>MCRResolverProvider</code>
+        kann also beliebig viele
+        <code>MCRResolver</code>
+        zu den bereits
+        in MyCoRe integrierten hinzufügen. Eingebunden wird ein zusätzlicher
+        <code>MCRResolverProvider</code>
+        mittels
+        folgendem Property
+        <code>MCR.URIResolver.externalResolver.class = {voller Klassenname}</code>
+      </p>
+    </div>
+  
