@@ -49,7 +49,6 @@ main:
 -       {identifier: mcrobj_datatypes, 	parent: mcrobject, 			name: Datentypen, 					weight: -96, url: /documentation/basics/mcrobject/mcrobj_datatypes}
 -       {identifier: mcrobj_store, 		parent: mcrobject, 			name: Metadatenspeicher, 			weight: -95, url: /documentation/basics/mcrobject/mcrobj_store}
 -       {identifier: mcrobj_commands, 	parent: mcrobject, 			name: Kommandos, 					weight: -94, url: /documentation/basics/mcrobject/mcrobj_commands}
--       {identifier: mcrobj_commands__mcrobject_commands, parent: mcrobject, name: Kommandos, 			weight: -93, url: /documentation/basics/mcrobject/mcrobject_commands#mcrobject_commands}
 -     {identifier: mcrderivate, 		parent: basics, 			name: Derivate, 					weight: -97, url: /documentation/basics/mcrderivate}
 -       {identifier: mcrder_xml, 		parent: mcrderivate, 		name: XML-Format, 					weight: -99, url: /documentation/basics/mcrderivate_ifs/mcrder_xml}
 -       {identifier: mcrder_commands, 	parent: mcrderivate, 		name: Kommandos, 					weight: -98, url: /documentation/basics/mcrderivate_ifs/mcrder_commands}
@@ -223,7 +222,6 @@ main:
 -           {identifier: section14_ch2_pg22, parent: chapter2_pg22, name: 2.14 Klassifikationen, 		weight: -86, url: /documentation/archiv/version22/programmerguide/02_principles/section14_ch2_pg22}
 -           {identifier: section15_ch2_pg22, parent: chapter2_pg22, name: 2.15 Nützliche Klassen, 		weight: -85, url: /documentation/archiv/version22/programmerguide/02_principles/section15_ch2_pg22}
 -         {identifier: chapter3_pg22, 	parent: appdev_2_2, 		name: 3. Komponenten, 				weight: -97, url: /documentation/archiv/version22/programmerguide/chapter3_pg22}
--           {identifier: iview_pg22, 	parent: chapter3_pg22, 		name: null, 						weight: -99, url: /documentation/archiv/version22/programmerguide/03_components/#Bildbetrachter}
 -         {identifier: chapter4_pg22, 	parent: appdev_2_2, 		name: 4. Schnittstellen, 			weight: -96, url: /documentation/archiv/version22/programmerguide/chapter4_pg22}
 -           {identifier: section01_ch4_pg22, parent: chapter4_pg22, name: 4.1 OAI, 						weight: -99, url: /documentation/archiv/version22/programmerguide/04_interfaces/section01_ch4_pg22}
 -           {identifier: section04_ch4_pg22, parent: chapter4_pg22, name: 4.2 SWORD, 					weight: -98, url: /documentation/archiv/version22/programmerguide/04_interfaces/section04_ch4_pg22}
