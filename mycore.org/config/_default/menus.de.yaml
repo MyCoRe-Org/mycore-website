@@ -29,7 +29,6 @@ main:
 -     {identifier: skeleton_changelog, 	parent: dl_skeleton, 	name: Changelog, 			weight: -98, url: /site/download/skeleton/skeleton_changelog}
 -   {identifier: license, 				parent: download, 		name: Lizenzbedingungen, 	weight: -95, url: /site/download/license}
 -   {identifier: logos, 				parent: download, 		name: Material, 			weight: -94, url: /site/download/logos}
-
 - {identifier: documentation, 										name: Dokumentation, 				weight: -95, url: /documentation}
 -   {identifier: getting_started, 		parent: documentation, 		name: Mit MyCoRe starten, 			weight: -99, url: /documentation/getting_started}
 -     {identifier: requirements, 		parent: getting_started, 	name: Anforderungen, 				weight: -98, url: /documentation/getting_started/requirements}
@@ -81,7 +80,7 @@ main:
 -   {identifier: frontend, 				parent: documentation, 		name: Weboberfläche, 				weight: -95, url: /documentation/frontend}
 -     {identifier: static_content, 		parent: frontend, 			name: Statische Webinhalte, 		weight: -99, url: /documentation/frontend/static_content}
 -     {identifier: multilang, 			parent: frontend, 			name: Mehrsprachigkeit, 			weight: -98, url: /documentation/frontend/multilang}
--     {identifier: xsl, 				parent: frontend, 			name: XSL-Stylesheets, 				weight: -97, url: /documentation/xsl}
+-     {identifier: xsl, 				parent: frontend, 			name: XSL-Stylesheets, 				weight: -97, url: /documentation/frontend/xsl}
 -       {identifier: layout_service, 	parent: xsl, 				name: Layout-Service, 				weight: -99, url: /documentation/frontend/layout_service}
 -       {identifier: xsl_fo, 			parent: xsl, 				name: XSL-FO Unterstützung, 		weight: -98, url: /documentation/frontend/xsl_fo}
 -       {identifier: xsl_extension, 	parent: xsl, 				name: 'Xalan-Extensions    ', 		weight: -97, url: /documentation/frontend/xsl_extension}
