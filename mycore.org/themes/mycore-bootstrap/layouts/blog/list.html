@@ -6,25 +6,27 @@
 	 {{- partial "blog/left_side_menu.html" . -}}
 	</div>
 	<div class="col-6">
-<main>
-    <article>
         <header>
             <h1>{{.Title}}</h1>
         </header>
+      	<p class="mcr-description">
+	    	{{ .Description }}
+	    </p>
         <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
         {{.Content}}
+  {{ with .Site.GetPage "section" "blog" }}      
+        {{ range first 5 .Pages }}
+  <div>
+  
+  	{{- partial "blog/badges.html" . -}}
+    <h5 class="pt-2"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h5>
+    {{ .Summary }}
+	<a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
+	<hr />
+  </div>
+{{ end }}
+{{ end }}
 
-<h2><i class="fas fa-hourglass-half"></i> Temporarily: <br />List of all Pages of the new MyCoRe Website ...</h2>
-    <ul>
-    <!-- Ranges through content/posts/*.md -->
-    {{ range .Site.RegularPages }}
-        <li>
-            <a href="{{.Permalink}}">{{.Date.Format "2006-01-02"}} | {{.Section}}: {{.Title}}</a>
-        </li>
-    {{ end }}
-    </ul>
-    </article>
-</main>
 	</div>
 		<div class="col-3">
 	 {{- partial "blog/right_side_menu.html" . -}}
