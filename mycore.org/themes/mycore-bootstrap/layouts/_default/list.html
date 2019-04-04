@@ -13,6 +13,9 @@
 	    {{ end }}
 	    </div>
 	    <h1>{{ .Title | markdownify }}</h1>
+	    <p class="mcr-description">
+	    	{{ .Description }}
+	    </p>
 		{{ .Content  }}
 	    {{- partial "authors.html" . -}}
 	</div>
