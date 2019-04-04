@@ -135,7 +135,12 @@ main:
 -     {identifier: git, 				parent: developer, 			name: Arbeit mit Git, 				weight: -94, url: /documentation/developer/git}
 -     {identifier: work_with_maven, 	parent: developer, 			name: Arbeit mit Maven, 			weight: -93, url: /documentation/developer/work_with_maven}
 -     {identifier: work_with_gradle, 	parent: developer, 			name: Arbeit mit Gradle, 			weight: -92, url: /documentation/developer/work_with_gradle}
--     {identifier: documentation_dev, 	parent: developer, 			name: Dokumentation, 				weight: -91, url: /documentation/developer/documentation_dev}
+-     {identifier: dev_docs,		 	parent: developer, 			name: Dokumentation, 				weight: -91, url: /documentation/developer/dev_docs}
+-       {identifier: dev_docs_overview,		parent: dev_docs, 			name: "Überblick", 					weight: -99, url: /documentation/developer/dev_docs/dev_docs_overview}
+-       {identifier: dev_docs_setup,		parent: dev_docs, 			name: Einrichtung, 					weight: -98, url: /documentation/developer/dev_docs/dev_docs_setup}
+-       {identifier: dev_docs_guidelines,	parent: dev_docs, 			name: Richtlinien, 					weight: -97, url: /documentation/developer/dev_docs/dev_docs_guidelines}
+-       {identifier: dev_docs_howto,		parent: dev_docs, 			name: Tipps und Tricks, 			weight: -96, url: /documentation/developer/dev_docs/dev_docs_howtos}
+
 -     {identifier: apidocs, 			parent: developer, 			name: Javadocs, 					weight: -90, url: 'http://www.mycore.de/generated/mycore/apidocs'}
 -     {identifier: classes, 			parent: developer, 			name: Allgemeine Klassen, 			weight: -89, url: /documentation/developer/classes}
 -     {identifier: app_structure, 		parent: developer, 			name: Anwendungsstruktur, 			weight: -88, url: /documentation/developer/app_structure}
