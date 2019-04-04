@@ -4,7 +4,6 @@
   -moz-hyphens: auto;
   text-rendering: optimizelegibility;
   padding-right: 10px;
-  text-align:justify;
 }
 
 p a, li a {
@@ -24,11 +23,6 @@ figure h4{
   padding-top:15px;
 }
 
-p.mcr-description{
-	font-size:85%;
-	corlor:darkblue;
-}
-
 img.mcr-flag{
   height:1.5em;
 }
@@ -41,15 +35,81 @@ img.mcr-flag:hover{
 }
 
 
-/* front page */
+/* start page */
+#mcr-home a:hover{
+  text-decoration:none;
+}
 
 .mcr-well {
+  font-family: "Sintony", Helvetica, Arial, sans-serif;
   padding-right: 0;
   margin-bottom: 30px;
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
 }
 
+h1#mcr-project-name {
+  font-size: 3rem;
+}
+
+h2#mcr-project-description {
+  font-weight: normal;
+  font-size: 1.25rem;
+}
+
+#mcr-locations {
+  width: 140px;
+  border-right: 1px solid #ccc;
+  margin-right: 0px;
+  line-height: 30px;
+}
+
+#mcr-locations #mcr-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: orange;
+  display: block;
+  float: left;
+}
+
+.mcr-label {
+  font-size: 1.1rem;
+  padding: 0 0 0px 5px;
+}
+
+#mcr-member a {
+  font-family: 'Source Code Pro', sans-serif;
+  padding-left: 20px;
+}
+
+#mcr-member a:hover {
+  background-image: url("../images/start/icon_arrow_orange.png");
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+}
+
+#mcr-map {
+  border-left: 1px solid #ccc;
+}
+
+#mcr-map img {
+  margin: -5px 0px 0 10px;
+}
+
+a.latestnews {
+  float: left;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  margin-left: -15px;
+  margin-right: -10px;
+}
+
+a.latestnews:hover {
+  background-image: url("../images/start/icon_arrow_orange.png");
+  background-repeat: no-repeat;
+  background-position: 0 24px;
+  text-decoration:none;
+}
 
 /* table of contents */
 
@@ -103,7 +163,7 @@ img.mcr-flag:hover{
   font-size: smaller;
 }
 .mcr-author:not(:last-child):after{
-    content: ',\0020';
+  content: ',\0020';
 }
 
 .mcr-footer {
@@ -119,7 +179,6 @@ img.mcr-flag:hover{
 
 .mcr-footer a:hover{
   color:white;
-  text-decoration:underline;
 }
 
 .mcr-news{
@@ -147,7 +206,7 @@ img.mcr-flag:hover{
   text-decoration:underline;
 }
 
-.mcr-navbar-side a{
+.mcr-navbar-side a {
   text-decoration:none;
   color:black;
 }
@@ -178,7 +237,7 @@ img.mcr-flag:hover{
   margin-left: 0em;
 }
 
-.mcr-navbar-side > div > ul{
+.mcr-navbar-side > div > ul {
   padding-left:0px;
   list-style: none;
 }
