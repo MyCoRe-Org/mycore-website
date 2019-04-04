@@ -29,7 +29,7 @@ Commits dürfen ohne Pull-Requests direkt in den ```master```-Branch erfolgen.
 ## Initialisierung (Maven)
 Wir haben uns dafür entschieden, externe CSS- und Javascript-Frameworks (wie Bootstrap) nicht über das Git-Repository auszuliefern. Diese werden via [Maven](https://maven.apache.org) als **[Webjars](https://www.webjars.org/)** heruntergeladen und in den Dokumentations-Source-Code integriert. Deshalb muss zuvor Maven gemäß der Anleitung "[Installing Apache Maven ](https://maven.apache.org/install.html)" eingerichtet werden. 
 
-Werden die Hugo-Dokumentations-Umgebung neu eingerichtet oder die betreffenden Bibliothekn aktualisiert, muss einmalig in dem Ordner, in den das MyCoRe-Dokumentations-Projekt ausgecheckt wurde, das folgende Maven-Kommando aufgerufen werden:
+Werden die Hugo-Dokumentations-Umgebung neu eingerichtet oder die betreffenden Bibliotheken aktualisiert, muss einmalig in dem Ordner, in den das MyCoRe-Dokumentations-Projekt ausgecheckt wurde, das folgende Maven-Kommando aufgerufen werden:
 
 {{< highlight system>}}
 cd \workspaces\mycore-website
