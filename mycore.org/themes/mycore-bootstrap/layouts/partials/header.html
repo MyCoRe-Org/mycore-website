@@ -32,10 +32,12 @@
 			<nav class="navbar mcr-navbar-top navbar-expand-md float-right">
 				<div class="navbar-nav">
 					{{ range $.Site.Home.AllTranslations }}
-						<a class="nav-item nav-link"  href="{{ .RelPermalink }}" 
-						   title="{{ .Language.LanguageName }}">
-						   <img src="{{relURL .Language.Params.flag}}" class="mcr-flag {{if eq .Language.LanguageName $.Site.Language.LanguageName }} active {{ end }}" />
-						</a>
+						{{if not (eq .Language.Lang "io")}}
+							<a class="nav-item nav-link"  href="{{ .RelPermalink }}" 
+						       title="{{ .Language.LanguageName }}">
+						   	 	<img src="{{relURL .Language.Params.flag}}" class="mcr-flag {{if eq .Language.LanguageName $.Site.Language.LanguageName }} active {{ end }}" />
+							</a>
+						{{end}}
 					{{ end }}
 				</div>
 			</nav>
