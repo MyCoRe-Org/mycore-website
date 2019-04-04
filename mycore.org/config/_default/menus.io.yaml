@@ -1,28 +1,28 @@
 main:
-  -   {identifier: "welcome",												name: "Start",				weight: -900,	url: "/"		}
+  - {identifier: "welcome",												name: "Start",				weight: -900,	url: "/"		}
   
-  -   {identifier: features,												name: Funktionen,			weight: -890,	url: /features						}
-  -     {identifier: features_datamodel,		parent: features,           name: Datenmodell,			weight: -880, 	url: /features/datamodel			}
-  -     {identifier: features_search,			parent: features,          	name: Suche,       			weight: -870,	url: /features/search				} 
-  -     {identifier: features_frontend,			parent: features,			name: Präsentation, 		weight: -860,	url: /features/frontend				}
-  -     {identifier: features_interfaces,		parent: features, 			name: Schnittstellen,		weight: -850,	url: /features/interfaces			}
-  -     {identifier: features_derivates,		parent: features, 			name: Dateiverwaltung, 		weight: -840, 	url: /features/derivates			}
-  -     {identifier: features_acl,				parent: features,			name: Rechteverwaltung, 	weight: -830, 	url: /features/acl					}
+  -  {identifier: features,												name: Funktionen,			weight: -890,	url: /features						}
+  -    {identifier: features_datamodel,		parent: features,           name: Datenmodell,			weight: -880, 	url: /features/datamodel			}
+  -    {identifier: features_search,			parent: features,          	name: Suche,       			weight: -870,	url: /features/search				} 
+  -    {identifier: features_frontend,			parent: features,			name: Präsentation, 		weight: -860,	url: /features/frontend				}
+  -    {identifier: features_interfaces,		parent: features, 			name: Schnittstellen,		weight: -850,	url: /features/interfaces			}
+  -    {identifier: features_derivates,		parent: features, 			name: Dateiverwaltung, 		weight: -840, 	url: /features/derivates			}
+  -    {identifier: features_acl,				parent: features,			name: Rechteverwaltung, 	weight: -830, 	url: /features/acl					}
  
-  -   {identifier: documentation,											name: Dokumentation,				weight: -500,	url: /documentation									}
-  -     {identifier: getting_started,			parent: documentation,		name: Mit MyCoRe Starten,			weight: -490,	url: /documentation/getting_started					}
-  -       {identifier: mir,						parent: getting_started,	name: Mir,							weight: -489,	url: /documentation/getting_started/mir				}
-  -       {identifier: skeleton,				parent: getting_started,	name: Skeleton,						weight: -488,	url: /documentation/getting_started/skeleton		}
-  -       {identifier: solr_7,					parent: getting_started,	name: Solr-Integration,				weight: -487,	url: /documentation/getting_started/solr_7			}
-  -       {identifier: mcr_properties,			parent: getting_started,	name: Konfiguration & Properties,	weight: -486,	url: /documentation/getting_started/mcr_properties  } 
-  -       {identifier: requirements,			parent: getting_started,	name: Systemanforderungen,			weight: -485,	url: /documentation/getting_started/requirements    } 
+  - {identifier: documentation,											name: Dokumentation,				weight: -500,	url: /documentation									}
+  -   {identifier: getting_started,			parent: documentation,		name: Mit MyCoRe Starten,			weight: -490,	url: /documentation/getting_started					}
+  -   {identifier: mir,						parent: getting_started,	name: Mir,							weight: -489,	url: /documentation/getting_started/mir				}
+  -   {identifier: skeleton,				parent: getting_started,	name: Skeleton,						weight: -488,	url: /documentation/getting_started/skeleton		}
+  -   {identifier: solr_7,					parent: getting_started,	name: Solr-Integration,				weight: -487,	url: /documentation/getting_started/solr_7			}
+  -   {identifier: mcr_properties,			parent: getting_started,	name: Konfiguration & Properties,	weight: -486,	url: /documentation/getting_started/mcr_properties  } 
+  -   {identifier: requirements,			parent: getting_started,	name: Systemanforderungen,			weight: -485,	url: /documentation/getting_started/requirements    } 
 
-  -   {identifier: doc_transform,											name: Webseiten-Migration,			weight: -400,	url: /doc_transform						}
+  - {identifier: doc_transform,											name: Webseiten-Migration,			weight: -400,	url: /doc_transform						}
   -   {identifier: doc_transform_next,			parent: doc_transform,		name: Nächste Schritte,				weight: -380,	url: /doc_transform/next_steps			}
   -   {identifier: doc_transform_open_decide,	parent: doc_transform,		name: Offene Design-Entscheidungen, weight: -370,	url: /doc_transform/open_decissions     }
   
-  -   {identifier: new_pages,											    name: Neue Webseiten,			    weight: -300,	url: /new_pages						}
+  - {identifier: new_pages,											    name: Neue Webseiten,			    weight: -300,	url: /new_pages						}
   -   {identifier: np_map,						parent: new_pages,		    name: Karte der MyCoRe Anwendungen, weight: -290,	url: /new_pages/map     }
 
   
-  -   {identifier: blog,													name: BLOG,							weight: -200,	url: /blog		}
+  - {identifier: blog,													name: BLOG,							weight: -200,	url: /blog		}
