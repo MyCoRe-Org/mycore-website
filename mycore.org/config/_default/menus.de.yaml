@@ -40,9 +40,9 @@ main:
 -     {identifier: jpa, 				parent: getting_started, 	name: Datenbank & JPA, 				weight: -93, url: /documentation/getting_started/jpa}
 -     {identifier: solr7, 				parent: getting_started, 	name: Solr-Integration, 			weight: -92, url: /documentation/getting_started/solr7}
 -     {identifier: properties, 			parent: getting_started, 	name: Konfiguration & Properties, 	weight: -91, url: /documentation/getting_started/properties}
--   {identifier: content, 				parent: documentation, 		name: Basiskonzepte, 				weight: -98, url: /documentation/content}
--     {identifier: mcr_components, 		parent: content, 			name: Komponenten, 					weight: -99, url: /documentation/basics/mcr_components}
--     {identifier: mcrobject, 			parent: content, 			name: MyCoRe-Objekte, 				weight: -98, url: /documentation/basics/mcrobject}
+-   {identifier: basics, 				parent: documentation, 		name: Basiskonzepte, 				weight: -98, url: /documentation/basics}
+-     {identifier: mcr_components, 		parent: basics, 			name: Komponenten, 					weight: -99, url: /documentation/basics/mcr_components}
+-     {identifier: mcrobject, 			parent: basics, 			name: MyCoRe-Objekte, 				weight: -98, url: /documentation/basics/mcrobject}
 -       {identifier: mcrobj_xml, 		parent: mcrobject, 			name: XML-Format, 					weight: -99, url: /documentation/basics/mcrobject/mcrobj_xml}
 -       {identifier: mcrobj_id, 		parent: mcrobject, 			name: MCRObject-ID, 				weight: -98, url: /documentation/basics/mcrobject/mcrobj_id}
 -       {identifier: mcrobj_datadef, 	parent: mcrobject, 			name: Datenmodell, 					weight: -97, url: /documentation/basics/mcrobject/mcrobj_datadef}
@@ -50,7 +50,7 @@ main:
 -       {identifier: mcrobj_store, 		parent: mcrobject, 			name: Metadatenspeicher, 			weight: -95, url: /documentation/basics/mcrobject/mcrobj_store}
 -       {identifier: mcrobj_commands, 	parent: mcrobject, 			name: Kommandos, 					weight: -94, url: /documentation/basics/mcrobject/mcrobj_commands}
 -       {identifier: mcrobj_commands__mcrobject_commands, parent: mcrobject, name: Kommandos, 			weight: -93, url: /documentation/basics/mcrobject/mcrobject_commands#mcrobject_commands}
--     {identifier: mcrderivate, 		parent: content, 			name: Derivate, 					weight: -97, url: /documentation/basics/mcrderivate}
+-     {identifier: mcrderivate, 		parent: basics, 			name: Derivate, 					weight: -97, url: /documentation/basics/mcrderivate}
 -       {identifier: mcrder_xml, 		parent: mcrderivate, 		name: XML-Format, 					weight: -99, url: /documentation/basics/mcrderivate_ifs/mcrder_xml}
 -       {identifier: mcrder_commands, 	parent: mcrderivate, 		name: Kommandos, 					weight: -98, url: /documentation/basics/mcrderivate_ifs/mcrder_commands}
 -       {identifier: mcrder_commands__mcrderivate_commands, parent: mcrderivate, name: Kommandos, 		weight: -97, url: /documentation/basics/mcrderivate_ifs/mcrderivate_commands#mcrderivate_commands}
@@ -60,7 +60,7 @@ main:
 -       {identifier: mcrder_fileupload, parent: mcrderivate, 		name: File-Upload, 					weight: -93, url: /documentation/basics/mcrderivate_ifs/mcrder_fileupload}
 -       {identifier: iview2, 			parent: mcrderivate, 		name: IView2, 						weight: -92, url: /documentation/basics/mcrderivate_ifs/iview2}
 -       {identifier: mcrderiv_mets, 	parent: mcrderivate, 		name: METS, 						weight: -91, url: /documentation/basics/mcrderivate_ifs/mcrderiv_mets}
--     {identifier: classifications, 	parent: content, 			name: Klassifikationen, 			weight: -96, url: /documentation/basics/classifications}
+-     {identifier: classifications, 	parent: basics, 			name: Klassifikationen, 			weight: -96, url: /documentation/basics/classifications}
 -       {identifier: classif_index, 	parent: classifications, 	name: Übersicht, 					weight: -99, url: /documentation/basics/classifications/classif_index}
 -       {identifier: classif_xml, 		parent: classifications, 	name: Datenmodell, 					weight: -98, url: /documentation/basics/classifications/classif_xml}
 -       {identifier: classif_commands, 	parent: classifications, 	name: Kommandos, 					weight: -97, url: /documentation/basics/classifications/classif_commands}
@@ -68,11 +68,11 @@ main:
 -       {identifier: classif_browser, 	parent: classifications, 	name: Browser, 						weight: -95, url: /documentation/basics/classifications/classif_browser}
 -       {identifier: classif_editor, 	parent: classifications, 	name: Editor, 						weight: -94, url: /documentation/basics/classifications/classif_editor}
 -       {identifier: classif_mapping, 	parent: classifications, 	name: Mapping, 						weight: -93, url: /documentation/basics/classifications/classif_mapping}
--     {identifier: eventhandler, 		parent: content, 			name: EventHandler, 				weight: -95, url: /documentation/basics/eventhandler}
--     {identifier: mcrobj_linktables, 	parent: content, 			name: Linktabellen, 				weight: -94, url: /documentation/basics/mcrobj_linktables}
--     {identifier: mcr_mailer, 			parent: content, 			name: Mailer, 						weight: -93, url: /documentation/basics/mcr_mailer}
--     {identifier: mcrservlet, 			parent: content, 			name: MCRServlet, 					weight: -92, url: /documentation/basics/mcrservlet}
--     {identifier: mcrconfigdir, 		parent: content, 			name: Konfiguration, 				weight: -91, url: /documentation/basics/mcrconfigdir}
+-     {identifier: eventhandler, 		parent: basics, 			name: EventHandler, 				weight: -95, url: /documentation/basics/eventhandler}
+-     {identifier: mcrobj_linktables, 	parent: basics, 			name: Linktabellen, 				weight: -94, url: /documentation/basics/mcrobj_linktables}
+-     {identifier: mcr_mailer, 			parent: basics, 			name: Mailer, 						weight: -93, url: /documentation/basics/mcr_mailer}
+-     {identifier: mcrservlet, 			parent: basics, 			name: MCRServlet, 					weight: -92, url: /documentation/basics/mcrservlet}
+-     {identifier: mcrconfigdir, 		parent: basics, 			name: Konfiguration, 				weight: -91, url: /documentation/basics/mcrconfigdir}
 -   {identifier: cli, 					parent: documentation, 		name: Die Kommandozeile, 			weight: -97, url: /documentation/cli}
 -     {identifier: cli_overview, 		parent: cli, 				name: Übersicht, 					weight: -99, url: /documentation/cli/cli_overview}
 -     {identifier: cli_web, 			parent: cli, 				name: WebCLI, 						weight: -98, url: /documentation/cli/cli_web}
