@@ -32,10 +32,12 @@ main:
   url: /site/download/skeleton/skeleton_changelog}
 - {identifier: license, parent: download, name: Lizenzbedingungen, weight: -95, url: /site/download/license}
 - {identifier: logos, parent: download, name: Material, weight: -94, url: /site/download/logos}
+
+
 - {identifier: documentation, name: Dokumentation, weight: -95, url: /documentation}
 - {identifier: getting_started, parent: documentation, name: Mit MyCoRe starten, weight: -99,
   url: /documentation/getting_started}
-- {identifier: overview, parent: getting_started, name: Übersicht, weight: -99, url: /documentation/getting_started/../overview}
+- {identifier: overview, parent: getting_started, name: Übersicht, weight: -99, url: /documentation/getting_started/gs_overview}
 - {identifier: requirements, parent: getting_started, name: Anforderungen, weight: -98,
   url: /documentation/getting_started/requirements}
 - {identifier: mir, parent: getting_started, name: MIR installieren, weight: -97,
