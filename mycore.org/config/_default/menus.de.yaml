@@ -53,7 +53,6 @@ main:
 -     {identifier: mcrderivate, 		parent: basics, 			name: Derivate, 					weight: -97, url: /documentation/basics/mcrderivate}
 -       {identifier: mcrder_xml, 		parent: mcrderivate, 		name: XML-Format, 					weight: -99, url: /documentation/basics/mcrderivate_ifs/mcrder_xml}
 -       {identifier: mcrder_commands, 	parent: mcrderivate, 		name: Kommandos, 					weight: -98, url: /documentation/basics/mcrderivate_ifs/mcrder_commands}
--       {identifier: mcrder_commands__mcrderivate_commands, parent: mcrderivate, name: Kommandos, 		weight: -97, url: /documentation/basics/mcrderivate_ifs/mcrderivate_commands#mcrderivate_commands}
 -       {identifier: mcrder_ifs, 		parent: mcrderivate, 		name: IFS / IFS2, 					weight: -96, url: /documentation/basics/mcrderivate_ifs/mcrder_ifs}
 -       {identifier: mcrder_zip, 		parent: mcrderivate, 		name: ZIP-Dateien, 					weight: -95, url: /documentation/basics/mcrderivate_ifs/mcrder_zip}
 -       {identifier: mcrder_streaming, 	parent: mcrderivate, 		name: StreamingServer, 				weight: -94, url: /documentation/basics/mcrderivate_ifs/mcrder_streaming}
@@ -64,7 +63,6 @@ main:
 -       {identifier: classif_index, 	parent: classifications, 	name: Übersicht, 					weight: -99, url: /documentation/basics/classifications/classif_index}
 -       {identifier: classif_xml, 		parent: classifications, 	name: Datenmodell, 					weight: -98, url: /documentation/basics/classifications/classif_xml}
 -       {identifier: classif_commands, 	parent: classifications, 	name: Kommandos, 					weight: -97, url: /documentation/basics/classifications/classif_commands}
--       {identifier: classif_commands__class_commands, parent: classifications, name: Kommandos, 		weight: -96, url: /documentation/basics/classifications/classification_commands#class_commands}
 -       {identifier: classif_browser, 	parent: classifications, 	name: Browser, 						weight: -95, url: /documentation/basics/classifications/classif_browser}
 -       {identifier: classif_editor, 	parent: classifications, 	name: Editor, 						weight: -94, url: /documentation/basics/classifications/classif_editor}
 -       {identifier: classif_mapping, 	parent: classifications, 	name: Mapping, 						weight: -93, url: /documentation/basics/classifications/classif_mapping}
@@ -79,7 +77,6 @@ main:
 -     {identifier: cli_extension, 		parent: cli, 				name: Erweiterungen, 				weight: -97, url: /documentation/cli/cli_extension}
 -   {identifier: search, 				parent: documentation, 		name: Suche, 						weight: -96, url: /documentation/search}
 -     {identifier: using_solr, 			parent: search, 			name: Solr Nutzung, 				weight: -99, url: /documentation/search/using_solr}
--     {identifier: using_solr__solr_commands, parent: search, name: Kommandos, 							weight: -98, url: /documentation/search/using_solr#solr_commands}
 -     {identifier: query_language, 		parent: search, 			name: Query-Language, 				weight: -97, url: /documentation/search/query_language}
 -     {identifier: extract, 			parent: search, 			name: Daten extrahieren, 			weight: -96, url: /documentation/search/extract}
 -   {identifier: frontend, 				parent: documentation, 		name: Weboberfläche, 				weight: -95, url: /documentation/frontend}
@@ -101,10 +98,7 @@ main:
 -   {identifier: permissions, 			parent: documentation, 		name: Benutzer und Rechte, 			weight: -94, url: /documentation/permissions}
 -     {identifier: user_system, 		parent: permissions, 		name: Benutzersystem, 				weight: -99, url: /documentation/permissions/user_system}
 -       {identifier: user_management, 	parent: permissions, 		name: Nutzer und Rollen, 			weight: -98, url: /documentation/permissions/user_management}
--       {identifier: user_management__user_commands, parent: permissions, name: Kommandos, 				weight: -97, url: /documentation/permissions/user_management#user_commands}
--       {identifier: user_management__role_commands, parent: permissions, name: Kommandos, 				weight: -96, url: /documentation/permissions/user_management#role_commands}
 -       {identifier: acl_permissions, 	parent: permissions, 		name: ACLs und Permissions, 		weight: -95, url: /documentation/permissions/acl_permissions}
--       {identifier: acl_permissions__acl_commands, parent: permissions, name: Kommandos, 				weight: -94, url: /documentation/permissions/acl_permissions#acl_commands}
 -       {identifier: acl_strategies, 	parent: permissions, 		name: Zugriffsstrategien, 			weight: -93, url: /documentation/permissions/acl_strategies}
 -       {identifier: default-permissions, parent: permissions, 		name: Standardzugriffsrechte, 		weight: -92, url: /documentation/permissions/default-permissions}
 -       {identifier: login_session, 	parent: permissions, 		name: LoginServlet, 				weight: -91, url: /documentation/permissions/login_session}
@@ -124,8 +118,6 @@ main:
 -     {identifier: sword, 				parent: interfaces, 		name: SWORD, 						weight: -93, url: /documentation/interfaces/sword}
 -   {identifier: production, 			parent: documentation, 		name: Laufender Betrieb, 			weight: -91, url: /documentation/production}
 -     {identifier: backup, 				parent: production, 		name: Backup & Recovery, 			weight: -99, url: /documentation/production/backup}
--     {identifier: backup__backup_commands, parent: production, 	name: Backupkommandos, 				weight: -98, url: /documentation/production/backup_recovery#backup_commands}
--     {identifier: backup__recovery_commands, parent: production, 	name: Recoverykommandos, 			weight: -97, url: /documentation/production/backup_recovery#recovery_commands}
 -     {identifier: consistency, 		parent: production, 		name: Konsistenzprüfung, 			weight: -96, url: /documentation/production/consistency}
 -     {identifier: batch, 				parent: production, 		name: Batch-Betrieb, 				weight: -95, url: /documentation/production/batch}
 -     {identifier: vhost, 				parent: production, 		name: Virtueller Host, 				weight: -94, url: /documentation/production/vhost}
@@ -196,8 +188,6 @@ main:
 -         {identifier: mm_configuration, parent: mymaker, 			name: 2. Konfiguration, 			weight: -98, url: /documentation/archiv/version201404/docportal/mm_configuration}
 -         {identifier: mm_datamodel, 	parent: mymaker, 			name: 3. Datenmodell, 				weight: -97, url: /documentation/archiv/version201404/docportal/mm_datamodel}
 -         {identifier: mm_usage, 		parent: mymaker, 			name: 4. Umgang, 					weight: -96, url: /documentation/archiv/version201404/docportal/mm_usage}
--         {identifier: mm_cmd_iview, 	parent: mm_usage, 			name: null, 						weight: -99, url: /documentation/archiv/version201404/docportal/06_use_docportal/#cmd_iview}
--         {identifier: mm_classif_editor, parent: mm_usage, 		name: null, 						weight: -98, url: /documentation/archiv/version201404/docportal/06_use_docportal/#classif_editor}
 -         {identifier: mm_components, 	parent: mymaker, 			name: 5. Komponenten, 				weight: -95, url: /documentation/archiv/version201404/docportal/mm_components}
 -         {identifier: mm_structure, 	parent: mymaker, 			name: 6. Aufbau, 					weight: -94, url: /documentation/archiv/version201404/docportal/mm_structure}
 -         {identifier: mm_tips, 		parent: mymaker, 			name: 7. Tipps, 					weight: -93, url: /documentation/archiv/version201404/docportal/mm_tips}
@@ -210,8 +200,6 @@ main:
 -         {identifier: chapter45_ug22, 	parent: mcruse_2_2, 		name: 5. Konfiguration, 			weight: -95, url: /documentation/archiv/version22/userguide/chapter45_ug22}
 -         {identifier: chapter5_ug22, 	parent: mcruse_2_2, 		name: 6. Datenmodell, 				weight: -94, url: /documentation/archiv/version22/userguide/chapter5_ug22}
 -         {identifier: chapter6_ug22, 	parent: mcruse_2_2, 		name: 7. Umgang, 					weight: -93, url: /documentation/archiv/version22/userguide/chapter6_ug22}
--           {identifier: cmd_iview_ug22, parent: chapter6_ug22, 	name: null, 						weight: -99, url: /documentation/archiv/version22/userguide/06_use_docportal/#cmd_iview}
--           {identifier: classif_editor_ug22, parent: chapter6_ug22, name: null, 						weight: -98, url: /documentation/archiv/version22/userguide/06_use_docportal/#classif_editor}
 -         {identifier: chapter7_ug22, 	parent: mcruse_2_2, 		name: 8. Komponenten, 				weight: -92, url: /documentation/archiv/version22/userguide/chapter7_ug22}
 -         {identifier: chapter8_ug22, 	parent: mcruse_2_2, 		name: 9. Aufbau, 					weight: -91, url: /documentation/archiv/version22/userguide/chapter8_ug22}
 -         {identifier: chapter9_ug22, 	parent: mcruse_2_2, 		name: 10. Tipps, 					weight: -90, url: /documentation/archiv/version22/userguide/chapter9_ug22}
@@ -242,7 +230,6 @@ main:
 -         {identifier: chapter5_pg22, 	parent: appdev_2_2, 		name: 5. Anmerkungen, 				weight: -95, url: /documentation/archiv/version22/programmerguide/chapter5_pg22}
 -         {identifier: wholedoc_pg22, 	parent: appdev_2_2, 		name: als PDF, 						weight: -94, url: /documentation/archiv/version22/programmerguide//wholedoc_pg22}
 -       {identifier: mcrdev_2_2, 		parent: version_2_2, 		name: Developer Guide, 				weight: -97, url: /documentation/archiv/version22/mcrdev_2_2}
--         {identifier: codestyle_dev22, parent: mcrdev_2_2, 		name: null, 						weight: -99, url: /documentation/archiv/version22/mcrdev_2_2/#CodeStyle}
 -     {identifier: version_2_1, 		parent: doc_archive, 		name: MyCoRe 2.1, 					weight: -94, url: /documentation/archiv/version_2_1}
 -       {identifier: whats_new_2_1, 	parent: version_2_1, 		name: 'Was ist neu?', 				weight: -99, url: /documentation/archiv/version21/whats_new_2_1}
 -       {identifier: mcruse_2_1, 		parent: version_2_1, 		name: User Guide, 					weight: -98, url: /documentation/archiv/version21/mcruse_2_1}
@@ -253,8 +240,6 @@ main:
 -         {identifier: chapter45_ug21, 	parent: mcruse_2_1, 		name: 5. Konfiguration, 			weight: -95, url: /documentation/archiv/version21/userguide/chapter45_ug21}
 -         {identifier: chapter5_ug21, 	parent: mcruse_2_1, 		name: 6. Datenmodell, 				weight: -94, url: /documentation/archiv/version21/userguide/chapter5_ug21}
 -         {identifier: chapter6_ug21, 	parent: mcruse_2_1, 		name: 7. Umgang, 					weight: -93, url: /documentation/archiv/version21/userguide/chapter6_ug21}
--           {identifier: cmd_iview_ug21, parent: chapter6_ug21, 	name: null, 						weight: -99, url: /documentation/archiv/version21/userguide/06_use_docportal/#cmd_iview}
--           {identifier: classif_editor_ug21, parent: chapter6_ug21, name: null, 						weight: -98, url: /documentation/archiv/version21/userguide/06_use_docportal/#classif_editor}
 -         {identifier: chapter7_ug21, 	parent: mcruse_2_1, 		name: 8. Komponenten, 				weight: -92, url: /documentation/archiv/version21/userguide/chapter7_ug21}
 -         {identifier: chapter8_ug21, 	parent: mcruse_2_1, 		name: 9. Aufbau, 					weight: -91, url: /documentation/archiv/version21/userguide/chapter8_ug21}
 -         {identifier: chapter9_ug21, 	parent: mcruse_2_1, 		name: 10. Tipps, 					weight: -90, url: /documentation/archiv/version21/userguide/chapter9_ug21}
@@ -278,7 +263,6 @@ main:
 -           {identifier: section14_ch2_pg21, parent: chapter2_pg21, name: 2.14 Klassifikationen, 		weight: -86, url: /documentation/archiv/version21/programmerguide/02_principles/section14_ch2_pg21}
 -           {identifier: section15_ch2_pg21, parent: chapter2_pg21, name: 2.15 Nützliche Klassen, 		weight: -85, url: /documentation/archiv/version21/programmerguide/02_principles/section15_ch2_pg21}
 -         {identifier: chapter3_pg21, 	parent: appdev_2_1, 		name: 3. Komponenten, 				weight: -97, url: /documentation/archiv/version21/programmerguide/chapter3_pg21}
--           {identifier: iview_pg21, 	parent: chapter3_pg21, 		name: null, 						weight: -99, url: /documentation/archiv/version21/programmerguide/03_components/#Bildbetrachter}
 -         {identifier: chapter4_pg21, 	parent: appdev_2_1, 		name: 4. Schnittstellen, 			weight: -96, url: /documentation/archiv/version21/programmerguide/chapter4_pg21}
 -           {identifier: section01_ch4_pg21, parent: chapter4_pg21, name: 4.1 OAI, 						weight: -99, url: /documentation/archiv/version21/programmerguide/04_interfaces/section01_ch4_pg21}
 -           {identifier: section04_ch4_pg21, parent: chapter4_pg21, name: 4.2 SWORD, 					weight: -98, url: /documentation/archiv/version21/programmerguide/04_interfaces/section04_ch4_pg21}
