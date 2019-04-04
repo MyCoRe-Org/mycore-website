@@ -23,6 +23,3 @@ main:
   
   - {identifier: new_pages,											    name: Neue Webseiten,			    weight: -300,	url: /new_pages						}
   -   {identifier: np_map,						parent: new_pages,		    name: Karte der MyCoRe Anwendungen, weight: -290,	url: /new_pages/map     }
-
-  
-  - {identifier: blog,													name: BLOG,							weight: -200,	url: /blog		}
