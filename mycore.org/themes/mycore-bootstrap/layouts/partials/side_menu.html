@@ -3,12 +3,11 @@
     	<span class="navbar-toggler-icon"></span>
  	</button>
  	<div class="collapse navbar-collapse" id="navbarNavSide">
-    	<div class="">
 			{{ $currentPage := . }}
 		    {{ range .Site.Menus.main }}
 				{{ if or ($.IsMenuCurrent "main" .)  (hasPrefix $currentPage.URL (print  (relLangURL .URL) "/"))}} 
 					
-					<h5 class="js-toc-ignore"><a class='nav-item nav-link' href="{{ relLangURL .URL }}">{{ .Name }}</a></h5>
+					<!-- <h5 class="js-toc-ignore"><a class='nav-item nav-link' href="{{ relLangURL .URL }}">{{ .Name }}</a></h5> -->
 					{{ if .HasChildren }}
 					<ul>
 						{{ range .Children }}
@@ -56,6 +55,5 @@
 				{{ end }}
 			{{ end }}
 		</div>
-	</div>
 </nav>
 
