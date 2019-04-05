@@ -7,15 +7,14 @@ author: ['Jens Kupferschmidt']
 description: "
       Diese Dokumentationsseite beschreibt die Integration der Java Persitence API (JPA) ab Release 2016.06.
     "
-date: "2015-11-09"
+date: "2019-11-09"
 
 ---
     <div id="general">
       <h2>Allgemeines</h2>
       <p>
         Mit Release 2016.06 wurde die Datenbankanbindung in MyCoRe von der direkten Nutzung von
-        <strong>Hibernate</strong> auf die
-        <strong>Java Persitence API (JPA)</strong>
+        <strong>Hibernate</strong> auf die <strong>Java Persitence API (JPA)</strong>
         umgestellt. Dies hat den Vorteil, dass bei Bedarf die darunter liegende
         <strong>Hibernate-API</strong>
         gegen eine andere JPA Implementation ausgetauscht werden kann.
@@ -25,9 +24,8 @@ date: "2015-11-09"
     <div id="general">
       <h2>Konfiguration</h2>
       <p>
-        Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
-        Konfigurationsdatei
-        <em>persitence.xml</em>
+        Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundinstellungen mit. Lediglich die
+        Konfigurationsdatei <em>persistence.xml</em>
         muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter 
         wie der Datenbanktreiber <code>MY_DATABASE</code>, der Datenbankbenutzer<code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
@@ -70,6 +68,9 @@ date: "2015-11-09"
       <property name="hibernate.show.sql" value="true" />
       <property name="hibernate.format.sql" value="true" />
 
+      <!-- configuration pool via c3p0 -->
+      <!-- HowTo: http://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
+      <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
       <property name="hibernate.c3p0.min_size" value="2" />
       <property name="hibernate.c3p0.max_size" value="5" />
       <property name="hibernate.c3p0.acquire_increment" value="2" />
