@@ -1,0 +1,62 @@
+---
+
+title: "MyCoRe Dokumentation: Umgebung einrichten"
+description: "An dieser Stelle wird beschrieben, wie die Entwicklungsumgebung und Tools für die Dokumentation eingerichtet werden."
+author: 		['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
+date: 			"2019-04-04"
+---
+
+<h2>Installation von Hugo</h2>
+<p>
+Der Static Site Generator <strong>Hugo</strong> (<a href="https://gohugo.io">https://gohugo.io/</a>) bildet seit April 2019 die technische Basis für die MyCoRe-Dokumentation.
+Die Software ist in Go programmiert und steht für die gängigen Betriebssysteme als Download bereit.
+</p>
+<p>
+Wir verwenden Hugo in der Extended Edition, vor allem da diese das CSS-Framework <a href="https://sass-lang.com/">Sass</a> unterstützt. 
+</p>
+<p>
+Der Download erfolgt direkt von der <a href="https://github.com/gohugoio/hugo/releases">Hugo-GitHub-Seite</a>.  
+Windows-Nutzer verwenden <a href="https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Windows-64bit.zip"><strong>hugo_extended_0.54.0_Windows-64bit.zip</strong></a>.
+</p>
+<p>
+Die Zip-Datei enthält das komplette Hugo-Programm, welches aus nur einer Datei besteht. Diese kann an einem beliebigen Ort auf dem PC abgelegt werden (z.B. <i>C:\Programme</i>). 
+Anschließend muss der Ordner noch in der Umgebungsvariable <i>Path</i> bekannt gemacht werden.
+Eine detailierte Installationsanleitung findet man in der Hugo Dokumentation <a href="https://gohugo.io/getting-started/installing/#windows">Install Hugo</a>.
+</p>
+<h2>Git Checkout</h2>
+<p>
+Die Dokumentation wird in dem MyCoRe-Git-Repository <a href="https://github.com/MyCoRe-Org/mycore-website"><strong>MyCoRe-Org/mycore-website</strong></a> gepflegt.  
+Commits dürfen ohne Pull-Requests direkt in den <i>master</i>-Branch erfolgen.
+</p>
+<p>
+<span class="badge badge-info">TODO</span> 
+<strong>Git-Einrichtung und Check-Out-Kommando ergänzen.</strong>
+</p>
+
+<h2>Initialisierung (Maven)</h2>
+<p>
+Wir haben uns dafür entschieden, externe CSS- und Javascript-Frameworks (wie Bootstrap) nicht über das Git-Repository auszuliefern. Diese werden via <a href="https://maven.apache.org">Maven</a> als <a href="https://www.webjars.org/"><strong>Webjars</strong></a> heruntergeladen und in den Dokumentations-Source-Code integriert. Deshalb muss zuvor Maven gemäß der Anleitung "<a href="https://maven.apache.org/install.html">Installing Apache Maven</a>" eingerichtet werden. 
+</p>
+<p>
+Werden die Hugo-Dokumentations-Umgebung neu eingerichtet oder die betreffenden Bibliotheken aktualisiert, muss einmalig in dem Ordner, in den das MyCoRe-Dokumentations-Projekt ausgecheckt wurde, das folgende Maven-Kommando aufgerufen werden:
+</p>
+
+{{< highlight system>}}
+cd \workspaces\mycore-website
+$ mvn clean compile
+{{< / highlight >}}
+
+<h2>Hugo starten und öffnen</h2>
+<p>
+Hugo unterstützt die Webseiten-Entwicklung mit einem lokalen Server mit Live-Reload. Das bedeutet, das Änderungen am Quellcode direkt im Browser betrachtet werden können
+</p>
+
+{{< highlight system>}}
+cd \workspaces\mycore-website\mycore.org
+$ hugo server
+{{< / highlight >}}
+
+<p>
+Die MyCoRe-Dokumentation kann nun lokal unter folgender Adresse betrachtet werden:   
+<strong>http://localhost:1313/</strong>
+</p>

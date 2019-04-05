@@ -1,0 +1,44 @@
+---
+
+title: "MyCoRe Dokumentation: Tipps und Tricks"
+description: "
+      An dieser Stelle sollen Lösungen für technische Fragen und Hilfestellungen für den Einstieg in Hugo gegeben werden."
+author: 		['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
+date: 			"2019-04-04"
+---
+
+<h2>Mehrsprachigkeit</h2>
+<h2>Navigation mit YAML</h2>
+<h2>Hugo Shortcode "Hightlight" für Code-Beispiele</h2>
+<ul>
+  <li>siehe Hugo-Dokumentation: [Syntax Highlighting](https://gohugo.io/content-management/syntax-highlighting).</li>
+  <li>z.B.</li>
+</ul>
+
+  {{< highlight system>}}
+  {{</* highlight system */>}}
+      cd \workspaces\mycore-website
+      $ mvn clean compile
+  {{</* /highlight */>}}                      {{< /highlight >}}
+
+<h2>Tipps und Tricks</h2>
+<h3>Hugo</h3>
+
+<h3>MarkDown</h3>
+<h5>"Im Notfall: HTML"</h5>
+<ul>
+  <li>Wenn man nicht mehr weiter weiß, oder die Mächtigkeit von Markdown nicht ausreicht (z.B. bei Tabellen), lässt sich HTML direkt in den Markdown-Code einbetten.</li>
+  <li>Wechsel zwischen Markdown und HTML sollten jedoch auf ein Minimum beschränkt werden.</li>
+</ul>
+ 
+<h5>Markdown CheatSheet</h5>
+<ul>
+  <li>Den Einstieg in Markdown kann das Cheatsheet (dt. Spickzettel) ***[Markdown](http://packetlife.net/media/library/16/Markdown.pdf)*** von packetlife.net erleichtern.</li>
+</ul>
+
+<h5>Zeilenumbrüche</h5>
+<ul>
+  <li>Einfache Zeilenumbrüche können durch einbetten von HTML (```<br />```) oder durch Einfügen 
+  von zwei Leerzeichen (```␣␣```) am Zeilenende erstellt werden.</li>
+  <li>Eine Leerzeile zwischen den Textblöcken erzeugt einen neuen Absatz.</li>
+</ul>
