@@ -4,7 +4,16 @@
 <link rel="stylesheet" href='{{ relURL "_webjars/font-awesome/5.7.2/css/all.min.css"}}' />
 <!-- hugo syntax highlighting-->
 <link type="text/css" rel="stylesheet" href='{{ relURL "css/syntax.css"}}'>
-{{ $options := (dict  "targetPath" "css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
-{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
-<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
+<!--  This switch is necessary, because our production server (Cent OS 7)  hhdoes not have the proper C-libraries (libstdc++6)  to run hugo-extend. 
+	  So we use maven to build the SCSS on p
+-->
+{{if .Site.IsServer}}
+	{{ $options := (dict  "targetPath" "css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
+	{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
+	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+{{ else }}
+	<script src='{{ relURL "css/_gen/mycore-website.css"}}'></script>
+{{ end }}
+
 <script src='{{ relURL "_webjars/jquery/3.3.1-2/jquery.slim.min.js"}}'></script>

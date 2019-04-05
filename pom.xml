@@ -37,6 +37,9 @@
             <fileset>
               <directory>mycore.org/themes/mycore-bootstrap/static/_webjars</directory>
             </fileset>
+            <fileset>
+              <directory>mycore.org/themes/mycore-bootstrap/static/css/_gen</directory>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
@@ -87,6 +90,24 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+       <plugin>
+        <groupId>com.github.warmuuh</groupId>
+        <artifactId>libsass-maven-plugin</artifactId>
+        <version>0.2.10-libsass_3.5.3</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <inputPath>${basedir}/mycore.org/themes/mycore-bootstrap/assets/scss/</inputPath>
+          <outputPath>${basedir}/mycore.org/themes/mycore-bootstrap/static/css/_gen/</outputPath>
+          <enableClasspathAwareImporter>true</enableClasspathAwareImporter>
+        </configuration>
       </plugin>
     </plugins>
   </build>
