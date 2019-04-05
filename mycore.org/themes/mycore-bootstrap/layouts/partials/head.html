@@ -13,7 +13,7 @@
 	{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
 	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 {{ else }}
-	<script src='{{ relURL "css/_gen/mycore-website.css"}}'></script>
+	<script src='{{ relURL "_gen/css/mycore-website.css"}}'></script>
 {{ end }}
 
 <script src='{{ relURL "_webjars/jquery/3.3.1-2/jquery.slim.min.js"}}'></script>

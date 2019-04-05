@@ -102,7 +102,7 @@
         </executions>
         <configuration>
           <inputPath>${basedir}/mycore.org/themes/mycore-bootstrap/assets/scss/</inputPath>
-          <outputPath>${basedir}/mycore.org/themes/mycore-bootstrap/static/css/_gen/</outputPath>
+          <outputPath>${basedir}/mycore.org/themes/mycore-bootstrap/static/_gen/css</outputPath>
           <enableClasspathAwareImporter>true</enableClasspathAwareImporter>
         </configuration>
       </plugin>
