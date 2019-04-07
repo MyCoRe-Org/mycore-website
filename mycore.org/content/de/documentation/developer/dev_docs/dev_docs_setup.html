@@ -60,3 +60,143 @@ $ hugo server
 Die MyCoRe-Dokumentation kann nun lokal unter folgender Adresse betrachtet werden:   
 <strong>http://localhost:1313/</strong>
 </p>
+
+
+<h2>MyCoRe-Webseite deployen</h2>
+<p><em>Die folgenden Informationen sind nur für die Installation auf einem Server relevant.</em></p>
+<p>Bei der Installation auf dem MyCoRe-Server wurde festgestellt, dass die in CentOS 7 verwendeten C-Bibliotheken zu alt sind 
+(&qout;libstdc++.so.6: version `GLIBCXX_3.4.21' not found&qout;), um Hugo extended (mit Sass-Support) zu starten.
+Deshalb wird die normale Hugo-Version verwendet und SASS vorab per Maven-Plugin in CSS kompiliert.
+
+<h3>Installation</h3>
+<p>Die Installation muss einmalig durchgeführt werden, um die notwendigen Ordner und Tools zu konfigurieren.
+Danach reicht es, das Autodeploy-Skript aufzurufen.
+</p>
+<p>
+ Die Installation der Webseite auf dem Server umfasst die folgenden Schritte:
+</p>
+<ul>
+  <li>Anlegen der Ordner</li>
+  <li>Download und die Installation von Hugo</li>
+  <li>Checkout des Sourcecodes aus Git</li>
+  <li>Kompilieren der Webseite mit Maven und Hugo</li>
+  <li>Kopieren der generierten Seite in den WWW-Ordner</li>
+</ul>
+
+{{<highlight system>}}
+$ sudo mkdir -p /opt/mycore-hugo/bin
+$ cd /opt/mycore-hugo/bin
+
+$ sudo  wget https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_0.54.0_Linux-64bit.tar.gz
+$ sudo tar -xzf hugo_0.54.0_Linux-64bit.tar.gz
+
+$ sudo mkdir -p /opt/mycore-hugo/git
+$ sudo chown www-data /opt/mycore-hugo/git
+$ cd /opt/mycore-hugo/git
+$ sudo -u www-data git clone https://github.com/MyCoRe-Org/mycore-website
+
+$ cd /opt/mycore-hugo/git/mycore-website
+$ sudo -u www-data mvn clean compile
+
+$ cd mycore.org
+$ sudo -u www-data /opt/mycore-hugo/bin/hugo -b /mycore-hugo
+
+$ sudo mkdir -p /opt/mycore-hugo/www
+$ sudo chown www-data:www-data /opt/mycore-hugo/www
+$ sudo rm -Rf /opt/mycore-hugo/www/mycore.org
+$ sudo mv /opt/digibib_docs/working/checkout/digibib_docs/public/ /opt/digibib_docs/www/digibib_docs
+{{</highlight>}}
+
+<h3>Apache Konfiguration</h3>
+Da Hugo valide HTML-Dateien erzeugt, muss in der Apache-Konfiguration lediglich ein Alias angelegt werden.
+
+{{< mcr-figure label="Apache Konfiguration" caption="```/etc/apache2/sites-available/my-ssl.conf```" width="100%">}}
+{{<highlight xml>}}
+<Location /mycore-hugo>
+  Require ip 123.45.67.0/24
+</Location>
+Alias "/mycore-hugo" "/opt/mycore-hugo/www/mycore.org"
+{{</highlight>}}
+{{</mcr-figure>}}
+
+<h3>Autodeploy Skript</h3>
+Das Autodeploy Skript prüft zunächst, ob Update auf dem Git-Server commited wurden und lädt diese herunter.
+Wenn das letzte Commmit weniger als 4 min. zurückliegt, stoppt es, um auf weitere Commits zu warten.
+Ist die Wartezeit abgelaufen, wird die Webseite mit Maven und Hugo gebaut und das Ergebnis in den Webordner kopiert.
+ {{< mcr-figure label="Bash" caption="```/opt/mycore-hugo/update-website.sh```" width="100%">}}
+{{<highlight bash>}}
+#!/bin/bash
+
+# This script will download the MyCoRe website from Git, 
+# rebuild is with Maven and Hugo an deploy it.
+# If the last commit was less than 4 min ago, nothing will be done 
+# (waiting for other commits).
+# A rebuild can be forced by calling the script with the parameter "now".
+
+NOW=$1
+cd /opt/mycore-hugo/git/mycore-website
+
+LOCAL_HASH=$(git rev-parse HEAD)
+REMOTE_HASH=$(git ls-remote)
+echo "Local: $LOCAL_HASH"
+echo "Remote: $REMOTE_HASH"
+
+if [[$NOW != "now"]]; then
+  if [[ $REMOTE_HASH == *$LOCAL_HASH* ]]; then
+    echo "Up to date"
+    exit 0
+  fi
+fi
+
+echo "Do fetch"
+git fetch
+
+if [[$NOW != "now"]]; then
+  REMOTE_TS=$(git log -1 --format="%ct" --abbrev-commit remotes/origin/master)
+  NOW_TS=$(date +%s)
+
+  if (($NOW_TS - $REMOTE_TS < 4 * 60)); then
+    echo "Time is not ready for action yet - waiting for other commmits"
+    exit 0;
+  fi
+fi
+
+echo "Time is ready - starting website rebuild now"
+git merge -X theirs origin/master
+
+cd /opt/mycore-hugo/git/mycore-website
+mvn clean compile
+
+cd /opt/mycore-hugo/git/mycore-website/mycore.org/
+export HUGO_DISABLELANGUAGES="io"
+/opt/mycore-hugo/bin/hugo --baseURL https://lab.ub.uni-rostock.de/mycore-hugo --cleanDestinationDir
+
+STATUS=$?
+if (($STATUS == 0)); then
+  echo "Hugo build finished successfully - deploying to www dir"
+  rm -Rf /opt/mycore-hugo/www/mycore.org
+  mv /opt/mycore-hugo/git/mycore-website/mycore.org/public /opt/mycore-hugo/www/mycore.org
+fi
+
+exit $STATUS
+
+{{</highlight>}}
+{{</mcr-figure>}}
+
+Das Skript muss ausführbar sein:
+{{<highlight system>}}
+$ sudo chmod +x update-mycore-hugo.sh
+{{</highlight>}}
+
+<h4>Crontab</h4>
+Das Skript wir in der Crontab für <strong>root</strong> eingetragen und als User <strong>www-data</strong> ausgeführt.
+Es soll alle 5 Minuten gestartet werden.
+
+{{<highlight cmd>}}
+$ sudo crontab -e
+{{</highlight>}}
+{{<highlight text>}}
+# m h  dom mon dow   command
+01,06,11,16,21,26,31,36,41,46,51,56 * * * * su www-data -c /opt/mycore-hugo/bin/update-mycore-hugo.sh
+{{</highlight>}}
+
