@@ -21,7 +21,7 @@
             {{ with (.Get "label") -}}
                 <strong>{{ . }}: </strong>
             {{- end -}}
-            {{- with .Get "caption" -}} {{ . }} {{ end }}
+            {{- with .Get "caption" -}} {{ markdownify . }} {{- end -}}
             </p>
     	  {{end}}
         </figcaption>
