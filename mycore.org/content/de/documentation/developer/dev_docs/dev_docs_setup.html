@@ -65,8 +65,8 @@ Die MyCoRe-Dokumentation kann nun lokal unter folgender Adresse betrachtet werde
 <h2>MyCoRe-Webseite deployen</h2>
 <p><em>Die folgenden Informationen sind nur für die Installation auf einem Server relevant.</em></p>
 <p>Bei der Installation auf dem MyCoRe-Server wurde festgestellt, dass die in CentOS 7 verwendeten C-Bibliotheken zu alt sind 
-(&qout;libstdc++.so.6: version `GLIBCXX_3.4.21' not found&qout;), um Hugo extended (mit Sass-Support) zu starten.
-Deshalb wird die normale Hugo-Version verwendet und SASS vorab per Maven-Plugin in CSS kompiliert.
+(<em>&quot;libstdc++.so.6: version `GLIBCXX_3.4.21' not found&quot;</em>), um Hugo extended (mit Sass-Support) zu starten.
+Deshalb wird die normale Hugo-Version verwendet und SASS vorab per Maven-Plugin zu CSS kompiliert.</p>
 
 <h3>Installation</h3>
 <p>Die Installation muss einmalig durchgeführt werden, um die notwendigen Ordner und Tools zu konfigurieren.
@@ -120,9 +120,14 @@ Alias "/mycore-hugo" "/opt/mycore-hugo/www/mycore.org"
 {{</mcr-figure>}}
 
 <h3>Autodeploy Skript</h3>
+<p>
 Das Autodeploy Skript prüft zunächst, ob Update auf dem Git-Server commited wurden und lädt diese herunter.
 Wenn das letzte Commmit weniger als 4 min. zurückliegt, stoppt es, um auf weitere Commits zu warten.
 Ist die Wartezeit abgelaufen, wird die Webseite mit Maven und Hugo gebaut und das Ergebnis in den Webordner kopiert.
+</p>
+<p>Direkt auf dem Server kann das Script mit dem Paramter <code>now</code> aufgerufen werden,
+dann wird die Webseite sofort ohne Update-Check und Wartezeit neugebaut und deployed.
+</p> 
  {{< mcr-figure label="Bash" caption="```/opt/mycore-hugo/update-website.sh```" width="100%">}}
 {{<highlight bash>}}
 #!/bin/bash

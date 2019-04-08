@@ -5,3 +5,71 @@ description: "Wichtiger Bestandteil eines Open-Source-Projektes ist die Dokument
 author: 		['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 date: 			"2019-04-04"
 ---
+
+<h2>Technische Basis: Hugo</h2>
+<p>
+Im Frühjahr 2019 wurde die Dokumentation von <a href="https://forrest.apache.org/">Apache Forrest</a> auf den Static Site Generator 
+<a href="https://gohugo.io/">Hugo</a> umgestellt.
+</p>
+<h3>Installation und Konfiguration</h3>
+<p>
+Die Installation und die ersten Schritte werden im Abschnitt <a href='{{< ref "dev_docs_setup" >}}'>Einrichtung</a> beschrieben.
+</p>
+<h2>Verzeichnisstruktur</h2>
+<div class="row">
+	<div class="col-3">
+		<img src="/images/documentation/developer/docs/directory_layout.png" title="Verzeichnisstruktur"/>
+	</div>
+	<div class="col-9">
+	<p>
+		Die Verzeichnisstruktur folt den Empfehlungen von Hugo (s. <a href="https://gohugo.io/getting-started/directory-structure/">Hugo: Directory Structure</a>).
+	</p>
+		<dl>
+			<dt>config</dt> 
+			<dd>enthält zentrale Konfigurationsdateien und Menüs für die unterstützten Sprachen.</dd> 
+			<dt>content</dt> 
+			<dd>enthält die die eigentlichen Inhalte der Webseite (Textdateien).
+			<dd>Für jede Sprache (<code>de</code>, <code>en</code>) wurde ein eigener Ordner erstellt
+				(s. <a href="https://gohugo.io/content-management/multilingual/#translation-by-content-directory">Hugo: Translation by content directory</a>).
+			    Unter dem Sprachcode <code>io</code> können Textentwürfe abgelegt werden. Diese können in der lokalen Hugo-Instanz gesehen und bearbeitet werden.
+			    Auf dem Server werden sie ausgeblendet.</dd>
+			<dt>public, resources</dt>
+			<dd>sind von Hugo generierte Verzeichnisse. <strong>public</strong> enthält die von Hugo generierte Webseite für das Deployment auf dem Server</dd> 
+			<dt>static</dt>
+			<dd>enthält alle Dateien, die nicht durch Hugo verarbeitet werden sollen, z.B. Bilder, CSS und Javascript. 
+			Diese Dateien werden von Hugo unverändert übernommen.</dd> 
+			<dt>themes</dt>
+			<dd>Für die MyCoRe-Dokumentation wurde ein eigenes Theme (s. <a href="https://gohugo.io/themes/">Hugo: Themes</a>) erstellt, in dem die allgemeine, Template-
+				und Layoutdateien gekapselt werden. Die Struktur des Theme-Verzeichnisses (<code>mycore-bootstrap</code>) entspricht der Struktur des Hauptverzeichnisses.</dd> 
+			<dt>target, pom.xml</dt>
+			<dd>von Maven benötigte Dateien</dd>
+			<dd>Statische Dateien für CSS- und Javascript-Frameworks werden per Maven-Build integriert und nicht ins Git-Repository eingecheckt. 
+			<dt>README.md</dt>
+			<dd>enthält eine kurze Beschreibung für die Anzeige des <strong>mycore-website</strong>-Projektes auf <a href="https://github.com/MyCoRe-Org/mycore-website">Github.</a>.</dd>
+		</dl> 
+	</div>
+</div>
+<h2>Content-Bereich</h2>
+<div class="row">
+	<div class="col-3">
+		<img src="/images/documentation/developer/docs/content_directory_layout.png" title="Verzeichnisstruktur"/>
+	</div>
+	<div class="col-9">
+	<p>
+		Der Content wird in 3 Bereiche gegliedert. Dadurch können für diese verschiedene Templates und Layouts definiert werden.
+	</p>
+		<dl>
+			<dt>blog</dt> 
+			<dd>enthält die Texte für Blog-Beiträge und Nachrichten.</dd> 
+			<dt>documentation</dt> 
+			<dd>enthält die Texte für den Bereich <strong>Dokumentation</strong>. Diese werden gesondert gruppiert, damit sie individuell gestaltbar sind.
+			<dt>site</dt>
+			<dd>enthält die weiteren Bereiche der MyCoRe-Homepage (z.B. Download, Organisation) </dd> 
+			<dt>_index.html</dt>
+			<dd>ist eine separate Datei für die MyCoRe-Startseite.</dd>
+		</dl> 
+	</div>
+</div>
+
+
+
