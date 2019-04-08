@@ -1,0 +1,97 @@
+---
+
+title: "News- und Blogbeiträge"
+description: "Nachrichten und Informationen von den Entwicklern und Anwendern können im MyCoRe-Blog bereitgestellt werden."
+author: 		['Robert Stephan']
+date: 			"2019-04-08"
+---
+
+
+
+<h2>Technische Grundlagen</h2>
+<p>
+Die Sourcedateien für News- und Blogbeiträge befinden sich im Ordner <code>/content/de/blog</code>.
+</p>
+<p>
+Seiten in diesem Bereich können als Markdown oder HTML geschrieben werden.
+</p>
+
+<h2>Headerbereich</h2>
+Für Blog-Dateien wird der folgende Header verwendet:
+{{< mcr-figure caption="Headerbereich eines Blog-Eintrages" width="100%">}}
+{{< highlight html>}}
+
+---
+title: "datamodel-plugin erweitern"  
+slug: datamodel-plugin-erweitern
+date: 2018-03-15
+
+draft: false
+
+blog/authors: ["Thomas Scheffler"]
+blog/periods: 2018-03
+blog/categories:
+- HowTo
+blog/tags:
+- Datenmodell
+- Maven
+
+---
+{{</highlight>}}
+{{</mcr-figure>}}
+
+<dl>
+	<dt>title</dt> 
+	<dd>der Titel des Blog-Beitrages, wird als <code>&lt;h1&gt;</code>-Überschrift auf der Blogeite angezeigt.</dd> 
+	<dt>slug</dt> 
+	<dd>identifizierender Bestandteil der URL der Blogseite (sollte nur aus Zeichen bestehen, die in URLs geläufig sind!)
+	<dt>date</dt>
+	<dd>das Datum des Beitrags
+	<dt>draft</dt>
+	<dd><code>true|false</code>: Nachrichten mit <code>draft=true</code> werden im System nicht angezeigt.
+	<dt>blog/authors</dt> 
+	<dd>der/die Autoren des Beitrages
+	<dt>blog/periods</dt>
+	<dd>Zeit-Kategorie des Blogeintrages in der Form <code>YYYY-MM</code></dd>
+	<dt>blog/categories</dt> 
+	<dd>Liste von Kategorien für den Blogeintrag
+	<dt>blog/tags</dt> 
+	<dd>Liste von Tags für den Blogeintrag
+</dl>
+
+<h3>Zusätzliche Header-Einträge für News-Seiten</h3>
+<p>
+	Alle News-Beiträge werden mit der Kategorie News ausgezeichet: <code>blog/categories: ['News']</code>.
+	Bei Bedarf können weitere Kategorien vergeben werden. 
+</p>
+<p>
+ Vor allem zur Generierung der News-Einträge auf der MyCoRe-Startseite sind <strong>zusätzlich</strong> folgende Properties zu setzen:
+ </p>
+
+{{< mcr-figure caption="Zusätzliche Header-Einträge für News" width="100%">}}
+{{< highlight html>}}
+
+---
+(…)
+
+news/frontpage: true
+news/title_de: "Anwendung"
+news/teaser_de: "Die Publikationsplattform der Max Weber Stiftung „perspectivia.net“ basiert nun auf MyCoRe."
+news/title_en: "Application"
+news/teaser_en: "The publication server of the Max Weber Stiftung perspectivia.net is now based on MyCoRe."
+
+---
+{{</highlight>}}
+{{</mcr-figure>}}
+<dl>
+	<dt>news/frontpage</dt> 
+	<dd><code>true|false</code>: ob die Nachricht auf der Startseite eingeblendet werden soll. 
+	<dt>news/title_de</dt> 
+	<dd>Titel der News für die deutsche Startseite.
+	<dt>news_teaser_de</dt>
+	<dd>Newstext für die deutsche Startseite.
+	<dt>news/title_en</dt> 
+	<dd>Titel der News für die englische Startseite.
+	<dt>news_teaser_en</dt>
+	<dd>Newstext für die englische Startseite.
+</dl>  

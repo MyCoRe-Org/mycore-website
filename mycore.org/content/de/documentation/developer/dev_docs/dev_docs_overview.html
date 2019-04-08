@@ -55,9 +55,9 @@ Die Installation und die ersten Schritte werden im Abschnitt <a href='{{< ref "d
 		<img src="/images/documentation/developer/docs/content_directory_layout.png" title="Verzeichnisstruktur"/>
 	</div>
 	<div class="col-9">
-	<p>
-		Der Content wird in 3 Bereiche gegliedert. Dadurch können für diese verschiedene Templates und Layouts definiert werden.
-	</p>
+		<p>
+			Der Content wird in 3 Bereiche gegliedert. Dadurch können für diese verschiedene Templates und Layouts definiert werden.
+		</p>
 		<dl>
 			<dt>blog</dt> 
 			<dd>enthält die Texte für Blog-Beiträge und Nachrichten.</dd> 
@@ -70,6 +70,49 @@ Die Installation und die ersten Schritte werden im Abschnitt <a href='{{< ref "d
 		</dl> 
 	</div>
 </div>
+
+<h2>Struktur einer einzelnen Seite</h2>
+Jede Webseite besteht aus einem Header- und einem Textbereich.
+
+{{< mcr-figure caption="Headerbereich dieser Seite" width="100%">}}
+{{< highlight html>}}
+---
+title: "Dokumentation zur MyCoRe Dokumentation"
+description: "Wichtiger Bestandteil eines Open-Source-Projektes ist die Dokumentation. 
+              An dieser Stelle werden die technische Basis vorgestellt, Konzepte und Regeln festgelegt
+              sowie Hilfestellungen für die dokumentierenden Entwickler gesammelt."
+author: 	 ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
+mcr_version: ['2018.06']
+date: 		 "2019-04-04"
+---
+
+<h2>Technische Basis: Hugo</h2>
+<p>Im Frühjahr 2019 ... </p>
+{{</highlight>}}
+{{</mcr-figure>}}
+
+<p>
+Der Header (s. <a href="https://gohugo.io/content-management/front-matter/">Hugo: Front Matter</a>) 
+wird in <a href="https://yaml.org/spec/1.2/spec.html">YAML-Syntax</a> beschrieben und enthält folgende Properties:
+</p>
+<dl>
+	<dt>title</dt> 
+	<dd>der Titel der Seite, wird als <code>&lt;h1&gt;</code>-Überschrift auf der Webseite angezeigt.</dd> 
+	<dt>description</dt> 
+	<dd>eine kurze Beschreibung der Seite, wird im Kopfbereich der Seite angezeigt.
+	<dt>author</dt>
+	<dd>die wesentlichen Autoren der Seite (in YAML-Listen-Syntax).
+	<dt>mcr_version</dt>
+	<dd>optional: die MyCoRe-Version, in der die beschriebene Funktionalität eingeführt bzw. verwendet wird.
+	   Sie wird als Versions-Tag oben auf der Seite eingeblendet.
+	</dd> 
+	
+	<dt>date</dt>
+	<dd>das Datum der letzten wesentlichen Änderung.</dd>
+</dl> 
+<p>
+Für Blog- und News-Seiten gilt ein erweiterter Header. Dieser wird im Abschnitt <a href="{{<ref dev_docs_news_blog>}}">News und Blog</a> erläutert.
+</p>
 
 
 
