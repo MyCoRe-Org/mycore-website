@@ -28,10 +28,10 @@ Eine detailierte Installationsanleitung findet man in der Hugo Dokumentation <a 
 Die Dokumentation wird in dem MyCoRe-Git-Repository <a href="https://github.com/MyCoRe-Org/mycore-website"><strong>MyCoRe-Org/mycore-website</strong></a> gepflegt.  
 Commits dürfen ohne Pull-Requests direkt in den <i>master</i>-Branch erfolgen.
 </p>
-<p>
-<span class="badge badge-info">TODO</span> 
-<strong>Git-Einrichtung und Check-Out-Kommando ergänzen.</strong>
-</p>
+{{< highlight system>}}
+cd \workspaces\mycore-website\git
+git clone https://github.com/MyCoRe-Org/mycore-website
+{{< / highlight >}}
 
 <h2>Initialisierung (Maven)</h2>
 <p>
@@ -42,7 +42,7 @@ Werden die Hugo-Dokumentations-Umgebung neu eingerichtet oder die betreffenden B
 </p>
 
 {{< highlight system>}}
-cd \workspaces\mycore-website
+cd \workspaces\mycore-website\git\mycore-website
 $ mvn clean compile
 {{< / highlight >}}
 
@@ -52,7 +52,7 @@ Hugo unterstützt die Webseiten-Entwicklung mit einem lokalen Server mit Live-Re
 </p>
 
 {{< highlight system>}}
-cd \workspaces\mycore-website\mycore.org
+cd \workspaces\mycore-website\git\mycore-website\mycore.org
 $ hugo server
 {{< / highlight >}}
 

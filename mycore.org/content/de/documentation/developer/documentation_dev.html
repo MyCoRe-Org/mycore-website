@@ -50,16 +50,16 @@ date: "2016-05-26"
           enthält das Datum der aktuellen Änderung in ISO-Form: YYYY-MM-DD. Weiterhin ist anzugeben, für welcher Releases diese
           Seite Gültigkeit hat. Dabei können auch, wie im Beispiel, mehrere Release-Stände angegeben werden, wenn dies zutrifft.
         </p>
-        {{< highlight xml "linenos=table">}}
-  <header>
-    <title>Meine Testseite</title>
-    <release>2015.05</release>
-    <release>2016.06</release>
-    <version>2016-11-11</version>
-    <authors>
-      <person email="[EMAIL PROTECTED]" name="Max Mustermann" />
-    </authors>
-  </header>{{< /highlight >}}
+{{< highlight xml "linenos=table">}}
+ <header>
+  <title>Meine Testseite</title>
+  <release>2015.05</release>
+  <release>2016.06</release>
+  <version>2016-11-11</version>
+  <authors>
+     <person email="[EMAIL PROTECTED]" name="Max Mustermann" />
+  </authors>
+</header>{{< /highlight >}}
       </div>
       
       <div>
@@ -69,23 +69,21 @@ date: "2016-05-26"
           eine JavaScript-Entwicklung. Dazu muss ein <code>&lt;pre&gt;</code>-Tag mit der CSS-Klasse <code>brush: [language];</code> definiert werden:
         </p>
         {{< highlight xml "linenos=table">}}
-<pre class="brush: xml;"><![CDATA[
+<pre class="brush: xml;">
   <example>Dies ist ein XML-Codebeispiel</example>
 </pre>{{< /highlight >}}
         <p>
           Standardmäßig stehen die Layouts <code>brush: xml</code>, <code>brush: bash</code> und <code>brush: java</code>
           zur Verfügung. Sollten weitere Layouts benötigt werden, können diese wie folgt eingebunden werden, z.B. <code>brush: sql</code>,:
         </p>
-        {{< highlight xml "linenos=table">}}
-   <!--
-    You need to include a brush for every language you want to highlight
-    -->
-   <script type="text/javascript" src="/documentation/skin/shBrushSql.js"></script>
+{{< highlight xml "linenos=table">}}
+<!-- You need to include a brush for every language you want to highlight -->
+<script type="text/javascript" src="/documentation/skin/shBrushSql.js"></script>
 
-   <pre class="brush: sql; gutter: false;">
-     SELECT * FROM mcrcategory;
-   </pre>
-   {{< /highlight >}}
+<pre class="brush: sql; gutter: false;">
+   SELECT * FROM mcrcategory;
+</pre>
+{{< /highlight >}}
       </div>
       
       <div>
