@@ -2,35 +2,28 @@
 ---
 
 title: "Komponenten des MyCoRe-Kerns"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Thomas Scheffler']
 description: "
       Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
-      MyCoRe
-      nutzbare Bibliotheken.
+      MyCoRe nutzbare Bibliotheken.
     "
-date: "2018-07-03"
+date: "2019-04-10"
 
 ---
     <div>
       <h2>MyCoRe-Komponenten</h2>
       <p>
-        MyCoRe ist kein monolithisches System. Vielmehr besteht der Kern aus einzelnen Modulen, welche einzeln
-        inklusive
-        ihrer Abhängigkeiten genutzt werden können. Die
-        nachfolgende alphabetische Auflistung gibt eine Übersicht über
-        die verfügbaren Teile. Je nach Erfordernissen und
-        Entwicklungen kann es vorkommen, dass einzelne Komponenten im
-        Laufe der MyCoRe-Entwicklung im Laufe der Zeit bei
-        Releases neu hinzukommen oder entfallen. Diese Dokumentation
-        spiegelt den oben genannten Release-Stand wieder.
-        Neben dieser Dokumentation sind die einzelnen Komponenten auch
-        kurz auf den entsprechenden Git-Hub in ihren Kernpunkten
-        beschrieben (z. B.
-        <a target="blank" href="https://github.com/MyCoRe-Org/mycore/tree/2017.06.0.x/mycore-sass">https://github.com/MyCoRe-Org/mycore/tree/2017.06.0.x/mycore-sass</a>
+        MyCoRe ist kein monolithisches System. Vielmehr besteht der Kern aus Modulen, welche einzeln inklusive
+        ihrer Abhängigkeiten genutzt werden können. Die nachfolgende alphabetische Auflistung gibt eine Übersicht über
+        die verfügbaren Teile. Je nach Erfordernissen und Entwicklungen kann es vorkommen, dass einzelne Komponenten im
+        Laufe der MyCoRe-Entwicklung bei neuen LTS-Releases neu hinzukommen oder entfallen. Diese Dokumentation
+        spiegelt den oben genannten Release-Stand wieder. Neben dieser Dokumentation sind die einzelnen Komponenten auch
+        kurz auf den entsprechenden Git-Hub in ihren Kernpunkten beschrieben (z. B.
+        <a target="blank" href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass">https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass</a>
         ).
       </p>
-      <div>
+      
         <h3>Liste der Komponenten</h3>
         <table class="table">
           <tr>
@@ -59,7 +52,7 @@ date: "2018-07-03"
             <td>*</td>
             <td>Werkzeuge für die Integration von MyCoRe-Komponenten über das ANT-Build-Tool</td>
             <td>
-              <span class="label label-danger">only 2017.06</span>
+              optional <span class="badge badge-danger">only 2018.06</span>
             </td>
             <td>base</td>
           </tr>
@@ -85,23 +78,10 @@ date: "2018-07-03"
             <td>coma</td>
             <td>*</td>
             <td>Prototypische Entwicklung eines Content-Manager zu entwickeln, mit dem man
-              einen Überblick über den
-              gesamten Bestand an Daten (evtl. auch
-              Metadaten) hat.
+              einen Überblick über den gesamten Bestand an Daten (evtl. auch Metadaten) hat.
             </td>
             <td>optional</td>
             <td>base</td>
-          </tr>
-          <tr>
-            <td>complete</td>
-            <td>*</td>
-            <td>spezielle Komponente zum Zusammenbau eines mycore-complete.jar, welches alle Komponenten enthält (siehe
-              unten)
-            </td>
-            <td>
-              <span class="label label-danger">only 2017.06</span>
-            </td>
-            <td>alle</td>
           </tr>
           <tr>
             <td>ifs</td>
@@ -166,7 +146,7 @@ date: "2018-07-03"
           <tr>
             <td>migration</td>
             <td>35</td>
-            <td>Komponente mit Werkzeugen zur Migration auf das MyCoRe-Release 2016</td>
+            <td>Komponente mit Werkzeugen zur Migration auf das MyCoRe-Release 2019</td>
             <td>optional</td>
             <td>base</td>
           </tr>
@@ -191,16 +171,16 @@ date: "2018-07-03"
             </td>
           </tr>
           <tr>
-            <td>pi</td>
-            <td>*</td>
-            <td>Codesammlung zur Arbeit mit PURL - derzeit wird nur DOI unterstützt</td>
+            <td>orcid</td>
+            <td>55</td>
+            <td>ORCID Unterstützung</td>
             <td>optional</td>
             <td>base</td>
           </tr>
           <tr>
-            <td>orcid</td>
-            <td>55</td>
-            <td>ORCID Unterstützung</td>
+            <td>pi</td>
+            <td>*</td>
+            <td>Codesammlung zur Arbeit mit PURL - derzeit wird nur DOI unterstützt</td>
             <td>optional</td>
             <td>base</td>
           </tr>
@@ -233,6 +213,13 @@ date: "2018-07-03"
             <td>sword</td>
             <td>*</td>
             <td>Implementierung einer Sword-Schnittstelle, Version 2</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+           <tr>
+            <td>tei</td>
+            <td>*</td>
+            <td>Unterstützung für den Umgang mit TEI</td>
             <td>optional</td>
             <td>base</td>
           </tr>
@@ -303,13 +290,11 @@ date: "2018-07-03"
             <td>base</td>
           </tr>
         </table>
-      </div>
 
       <div>
         <h3>Liste weiterer Maven-Module</h3>
         <p>
-          Die nun aufgelisteten zusätzlichen Maven-Module sind im Subversion-System im Baum
-          <code>maven</code>
+          Die nun aufgelisteten zusätzlichen Maven-Module sind in <a href="https://github.com/MyCoRe-Org/" target="_blank">GitHub-MyCoRe</a>
           zu finden.
         </p>
         <table class="table">
@@ -349,9 +334,9 @@ date: "2018-07-03"
         .
       </p>
       <p>Folgende Versionsnummern können genutzt werden:<ul>
-        <li>LTS 2017.06 -&gt; 2017.06.0.1-SNAPSHOT</li>
-        <li>LTS 2018.06 -&gt; 2018.06.0.1-SNAPSHOT</li>
-        <li>Master -&gt; 2018.06-SNAPSHOT</li>
+        <li>LTS 2018.06 -&gt; 2018.06.0.3-SNAPSHOT</li>
+        <li>LTS 2019.06 -&gt; 2019.06.0.1-SNAPSHOT</li>
+        <li>Master -&gt; 2019.06-SNAPSHOT</li>
       </ul></p>
       {{< highlight xml "linenos=table">}}
 <project>

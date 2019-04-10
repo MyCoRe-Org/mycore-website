@@ -2,9 +2,9 @@
 ---
 
 title: "Die MyCoRe-Objekt-ID"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
-date: "2018-07-03"
+date: "2019-04-10"
 
 ---
     <p>
@@ -70,23 +70,21 @@ date: "2018-07-03"
       kann im ID-Generator der Abstand zwischen zwei IDs
       definiert werden, falls diese nicht vorlaufend vergeben werden sollen.
     </p>
+    
     <p>
-      Es sei noch einmal ausdrücklich darauf hingewiesen, das die
-      <code>MCRObjectID</code>
-      eine zentrale Rolle im ganzen
-      MyCoRe-Projekt spielt. Über sie werden alle Daten identifiziert und referenziert. Es sind daher die vorgegebenen
-      Regeln streng einzuhalten. Da es derzeit für den Datentyp zum Anhängen nur eine
-      <code>type</code>
-      -Bezeichnung gibt,
+      Es sei noch einmal ausdrücklich darauf hingewiesen, das die <code>MCRObjectID</code>
+      eine zentrale Rolle im ganzen MyCoRe-Projekt spielt. Über sie werden alle Daten identifiziert und referenziert. 
+      Es sind daher die vorgegebenen Regeln streng einzuhalten. Da es derzeit für den Datentyp zum Anhängen digitaler
+      Objekte nur eine <code>derivate</code>-Bezeichnung gibt,
       kann es beim Design eines Projektes hilfreich sein, sich für eine Gruppe von Projektkürzeln zu entscheiden, z. B.
-      <code>DOLAuthor_author_...</code>
+      <code>MIRAuthor_author_...</code>
       ,
-      <code>DOLDocument_document_...</code>
+      <code>MIRDocument_document_...</code>
       usw. So kann jedem Datenmodell eine
       dedizierte Derivate-Gruppe zugeordnet werden z. B.
-      <code>DOLAuthor_derivate_...</code>
+      <code>MIRAuthor_derivate_...</code>
       oder
-      <code>DOLDocument_derivate_...</code>
+      <code>MIRDocument_derivate_...</code>
       . Diese Trennung ist nicht zwingend, hat sich aber bei der Verwaltung großer
       Datenmengen als günstig erwiesen. Manchmal ist es sogar sinnvoll, hierzu noch mehrere Projektkürzel für ein
       Datenmodell zu verwenden, je nach Umfang des Datenbestandes und der Sicherungs- und Reparatur-Strategien des

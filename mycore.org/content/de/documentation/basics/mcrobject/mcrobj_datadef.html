@@ -2,16 +2,15 @@
 ---
 
 title: "Gestaltung eigener MyCoRe-Metadatenobjekte"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Robert Stephan', 'Jens Kupferschmidt']
 description: "In diesem Abschnitt wird der Syntax der Definitionsdatei für eigene Metadatenmodelle nach dem
-      MyCoRe-Datamodell-Prinzip 2 vorgestellt. Weiterhin folgt eine Beschreibung der Integration in den Build-Prozess.
+      MyCoRe-Datamodell-Prinzip vorgestellt. Weiterhin folgt eine Beschreibung der Integration in den Maven-Build-Prozess.
     "
-date: "2018-07-03"
+date: "2019-04-10"
 
 ---
 
-    <div>
       <h2>Das Metadatenmodell</h2>
       <p>
         In der Definition des eigenen Datenmodells müssen nur noch Teile definiert werden, welche sich im Tag
@@ -21,16 +20,18 @@ date: "2018-07-03"
         <em>def.</em>
         erweiterbar sind.
       </p>
+      
       <p>
         Um auch alte Datenmodelle über die neue Datenmodelldefinition beschreiben zu können, wurde im Element
         <em>element</em>
         das Attribut
         <em>wrapper</em>
-        eingeführt. Für ältere Definitionen des Datenmodell 2, welche nicht das Attribut
+        eingeführt. Für ältere Definitionen des Datenmodell, welche nicht das Attribut
         <em>required</em>
         nutzen
         , ist weiterhin folgende implizite Annahme gültig und wird umgesetzt:
       </p>
+      
       <ul>
         <li>
           Für
@@ -40,7 +41,9 @@ date: "2018-07-03"
           und steht damit per default auf 1.
         </li>
       </ul>
-      <p>Weiterhin gilt:</p>
+      
+      <p>Weiterhin gilt:<br/>
+      
       <ul>
         <li>
           <em>maxOccurs</em>
@@ -69,6 +72,9 @@ date: "2018-07-03"
           -Attribut sollte zur besseren Lesbarkeit der Konfiguration mit angegben werden.
         </li>
       </ul>
+      </p>
+      
+      <p>
       {{< highlight xml "linenos=table">}}
 <objecttype name="document" isChild="false" isParent="false" hasDerivates="true" 
   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
@@ -94,6 +100,9 @@ date: "2018-07-03"
     <element>
   </metadata>
 </objecttype>{{< /highlight >}}
+</p>
+
+      <p>
       <ul>
         <li>
           <em>name</em>
@@ -180,6 +189,8 @@ date: "2018-07-03"
           den MCRObjectType des Link-Ziels an.
         </li>
       </ul>
+      </p>
+      
       <table class="table">
         <tr>
           <th>
@@ -266,9 +277,7 @@ date: "2018-07-03"
           </td>
         </tr>
       </table>
-    </div>
 
-    <div>
       <h2>Erzeugen von XML-Schema-Dateien in eigenen Maven-Modulen</h2>
       <p>
         Um eine XML-Schema-Datei der eigenen Metadatendefinition, innerhalb eines zu bauenden *.jar-Files während des
@@ -280,7 +289,7 @@ date: "2018-07-03"
 <plugin>
   <groupId>org.mycore.plugins</groupId>
   <artifactId>datamodel-plugin</artifactId>
-  <version>0.5</version>
+  <version>0.6</version>
   <executions>
     <execution>
       <goals>
@@ -291,6 +300,7 @@ date: "2018-07-03"
 </plugin>{{< /highlight >}}
 
       <p>Weiterführende Informationen:</p>
+      <p>
       <ul>
         <li>
           <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2014?action=AttachFile&amp;do=view&amp;target=Stephan_MyCoRe_Datenmodell_2014.pdf">"MyCoRe Datenmodeldefinition"</a>
@@ -299,9 +309,6 @@ date: "2018-07-03"
         <li>
           <a href="http://www.mycore.de/generated/datamodel-plugin/plugin-info.html">Link zur Maven-Site mit weiterer Dokumentation</a>
         </li>
-        <li>
-          <a href="http://artifactory.mycore.de/webapp/browserepo.html?pathId=plugins-snapshots-local%3Aorg%2Fmycore%2Fplugins%2Fdatamodel-plugin">Link zum Artifactory</a>
-        </li>
       </ul>
-    </div>
+      </p>
   

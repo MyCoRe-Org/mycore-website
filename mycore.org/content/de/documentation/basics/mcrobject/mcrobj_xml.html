@@ -2,13 +2,13 @@
 ---
 
 title: "XML-Syntax eines MyCoRe-Objektes"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "
       In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des
       Syntax ist notwendig, um eigene Datensätze für zu erstellen.
     "
-date: "2018-07-03"
+date: "2019-04-10"
 
 ---
     <div>
@@ -281,9 +281,10 @@ date: "2018-07-03"
         nicht angelegt. Die <a href="http://mycore.de/classifications/state.xml">State-Klassifikation</a> kann heruntergeladen und dann
         importiert oder direkt über den folgenden CLI-Befehl geladen werden:
       </p>
+      
       {{< highlight bash "linenos=table">}}
-        load classification from url http://mycore.de/classifications/state.xml
-      {{< /highlight >}}
+        load classification from url http://mycore.de/classifications/state.xml{{< /highlight >}}
+        
       <p>Aufbau des XML-Knotens service:</p>
       {{< highlight xml "linenos=table">}}
 <service>

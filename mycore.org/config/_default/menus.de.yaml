@@ -41,7 +41,7 @@ main:
 -     {identifier: gs_solr7,                parent: getting_started,    name: Solr-Integration,              weight: -92,      url: /documentation/getting_started/gs_solr7}
 -     {identifier: gs_properties,           parent: getting_started,    name: Konfiguration & Properties,    weight: -91,      url: /documentation/getting_started/gs_properties}
 -   {identifier: basics,                  parent: documentation,      name: Basiskonzepte,                 weight: -98,      url: /documentation/basics}
--     {identifier: mcr_components,          parent: basics,             name: Komponenten,                   weight: -99,      url: /documentation/basics/mcr_components}
+-     {identifier: basics_mcr_components,   parent: basics,             name: Komponenten,                   weight: -99,      url: /documentation/basics/basics_mcr_components}
 -     {identifier: mcrobject,               parent: basics,             name: MyCoRe-Objekte,                weight: -98,      url: /documentation/basics/mcrobject}
 -       {identifier: mcrobj_xml,              parent: mcrobject,          name: XML-Format,                    weight: -99,      url: /documentation/basics/mcrobject/mcrobj_xml}
 -       {identifier: mcrobj_id,               parent: mcrobject,          name: MCRObject-ID,                  weight: -98,      url: /documentation/basics/mcrobject/mcrobj_id}
