@@ -1,0 +1,93 @@
+
+---
+
+title: "Konfiguration und Properties"
+mcr_version: ['2018.06','2019.06']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+date: "2019-04-10"
+
+---
+      <h2>Konfigurationsverzeichnis</h2>
+      <p>Die Konfiguration der MyCoRe-Anwendung befindet sich typischer Weise unter:</p>
+      <ul>
+        <li>Windows: <code>c:\Users\&lt;username&gt;\AppData\Local\MyCoRe\&lt;appname&gt;</code></li>
+        <li>Linux: <code>/home/&lt;username&gt;/.mycore/&lt;appname&gt;</code></li>
+      </ul>
+      <p>
+        Wird eine Anwendung neu initialisiert, kann das Konfigurationsverzeichnis mit dem CLI-Befehl:
+        <code>create configuration directory</code> neu angelegt werden. Bestehende Konfigurationen
+        werden dabei nicht überschrieben!
+      </p>
+      <p>
+        Aufbau des neu erstellten Konfigurations-Verzeichnisses:
+      </p>
+      {{< highlight shell "linenos=table">}}
+    /data
+    /lib
+    /resources
+      /META-INF
+        persistence.xml
+    mycore.properties{{< /highlight >}}
+      <p>
+        Weitere Informationen dazu siehe 
+        <a href="http://www.mycore.de/generated/mycore/apidocs/org/mycore/common/config/MCRConfigurationDir.html" target="_blank">MCRConfigurationDir</a>
+      </p>
+
+      <h2>SSL-Schlüssel</h2>
+      <p>Für die Arbeit mit REST ist ein entsprechendes Schlüsselpaar zu generieren, welches im Konfigurationsverzeichnis abzulegen 
+      ist. Unter Linux erfolgt das mit:</p>
+      {{< highlight shell "linenos=table">}}
+    openssl rand 4096 > $HOME/{app-name}/jwt.secret{{< /highlight >}}
+      
+      <h2>MyCoRe-Properties</h2>
+      <table class="table table-striped">
+        <caption>Übersicht der wichtigsten Properties:</caption>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Beschreibung</th>
+            <th>Beispiel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MCR.NameOfProject</td>
+            <td>Name des Projektes</td>
+            <td>MIR</td>
+          </tr>
+          <tr>
+            <td>MCR.datadir</td>
+            <td>MyCoRe-Datenverzeichnis, enthält alle Daten</td>
+            <td>%MCR.basedir%/data (default)</td>
+          </tr>
+          <tr>
+            <td>MCR.Solr.ServerURL</td>
+            <td>URL zum Server für die gegebene Anwendung</td>
+            <td>http://localhost:8983/</td>
+          </tr>
+          <tr>
+            <td>MCR.Solr.Core.main.Name</td>
+            <td>Name des Solr-Kerns vom Typ <code>main</code></td>
+            <td>mycore</td>
+          </tr>
+          <tr>
+            <td>MCR.Solr.Core.main.ServerURL</td>
+            <td>URL zum Solr-Kern für die gegebene Anwendung speziell für den Core <code>main</code>; ist im Normalbetrieb nicht erforderlich</td>
+            <td>http://localhost:8983/</td>
+          </tr>
+          <tr>
+            <td>MCR.baseurl</td>
+            <td>Basis-URL unter der die Anwendung läuft</td>
+            <td>http://mycore.de/mir/</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <h2>Automatisch generierte MyCoRe-Property-File</h2>
+      <p>Die Dateien <code>mycore.active.properties</code> und <code>mycore.resolved.properties</code> 
+      im Anwendungsverzeichnis stellen eine Zusammenfassung der Properties aus allen MyCoRe-Komponenten, den
+      Anwendungsmodulen und ggf. der aktuellen Anwendung dar. Sie werden beim Start der Anwendung automatisch
+      durch MyCoRe gebaut und sollten nicht modifiziert werden.</p>
+      <p>Daneben stehen alle Zusammenfassungen der I18N-Übersetzungen (<code>messages_{lang}.resolved.properties</code>)
+      in diesem Verzeichnis.</p>
+  

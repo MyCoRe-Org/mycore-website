@@ -1,0 +1,260 @@
+
+---
+
+title: "MIR"
+mcr_version: ['2016.06','2017.06']
+author: ['Kathleen Neumann']
+date: "2016-07-19"
+
+---
+    <div>
+      <h2>Installation</h2>
+      <h2>Voraussetzungen</h2>
+      <p>
+        Neben den allgemein für MyCoRe-Anwendungen geltenden <a href="{{< ref gs_requirements >}}">Systemanforderungen</a> benötigen Sie für den Betrieb einer
+        MIR-Anwendung noch die folgende Software:
+      </p>
+      <ul>
+        <li>bibutils</li> <!-- TODO! -->
+      </ul>
+      <h3>Download</h3>
+      <p>
+        Informationen zum aktuellen Release und ein Changelog befinden sich im <a href="{{< ref mir_release_2018 >}}">Download-Bereich</a>.
+        Bei Sonatype kann die aktuelle <a href="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&amp;g=org.mycore.mir&amp;a=mir-webapp&amp;v=LATEST&amp;e=war">MIR-Version</a>
+        (speichern als <code>mir.war</code>) heruntergeladen werden. Dieses kann mit dem Context 'mir' direkt in einen Servlet Container ausgeliefert (deployed) werden.
+      </p>
+      <p>
+        Für administrative Zwecke kann zusätzlich eine MIR-CLI in zwei verschiedenen Formaten heruntergeladen werden:
+      </p>
+      <ol>
+        <li><a href="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&amp;g=org.mycore.mir&amp;a=mir-cli&amp;v=LATEST&amp;e=zip">ZIP archive</a> (speichern als <code>mir-cli.zip</code>)</li>
+        <li><a href="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&amp;g=org.mycore.mir&amp;a=mir-cli&amp;v=LATEST&amp;e=tar.gz">tar.gz archive</a> (speichern als <code>mir-cli.tar.gz</code>)</li>
+      </ol>
+      <h3>Solr-Installation</h3>
+      <p>
+        Soll ein eigener Solr-Server aufgesetzt werden, sind weitere Informationen dazu in unserer <a href="{{< ref gs_solr7 >}}">Solr-Dokumentation</a> zu finden.
+        Den Solr-Kern für MIR liefert die Installation über den MIR-Wizard mit. Soll nicht das vom MIR-Wizard angelegte solr-home verwendet werden, so
+        muss das Verzeichnis <code>mir/data/solr/collection1</code> entsprechend umkopiert werden. Auch der Name des Solr-Kerns kann beliebig angepasst
+        werden. Wo der passende Kern gefunden werden kann, wird im MIR-Wizard konfiguriert.
+      </p>
+      <p>
+        Weitere Möglichkeiten der Konfiguration und mehr Informationen zur Solr-Installation finden sich in der
+        <a href="http://wiki.apache.org/solr/SolrInstall">Solr-Dokumentation</a>.
+      </p>
+
+      <h3>Datenbank</h3>
+      <p>
+        MIR bringt H2 und HSQLDB als im-Speicher-laufende relationale Datenbanksysteme mit. Bei der Installation können diese beiden
+        (neben verschiedenen anderen) gewählt werden. Dann ist nichts weiter zu tun. Soll eine andere Datenbank genutzt werden, so muss
+        diese entsprechend im Wizard konfiguriert werden und ggf. weitere Anpassungen in der durch den Wizard angelegten <code>hibernate.cfg.xml</code>
+        vorgenommen werden. Das zur Datenbank passende Treiber-Paket wird im <code>lib</code>-Verzeichnis abgelegt und muss ggf. ersetzt
+        werden, sollte der Wizard kein passendes Paket finden können. Weitere Information zur Konfiguration sind auf in der Dokumentation
+        zu Datenbank &amp; Hibernate zusammengetragen.
+      </p>
+
+      <h3>bibutils</h3>
+      <p>
+        bibutils ist ein kleines Kommandozeilenwerkzeug, das zwischen verschiedenen gängigen Bibliotheksformaten konvertiert. Um die Exportschnittstelle
+        bei MIR vollständig zu unterstützen, muss aus der Webanwendung heraus dieses Kommandozeilenwerkzeug ausgeführt werden können. Der Nutzer mit dem
+        der ServletContainer läuft muss also beispielsweise den Befehl <code>bib2xml</code> ausführen können (konvertiert BibTeX nach MODS-XML).
+      </p>
+      <p>
+        Dokumentation, Download und Installationsanleitung zu den bibutils sind auf der <a href="http://sourceforge.net/projects/bibutils/">Sourceforge-Projekt-Seite</a>
+        zu finden. Für Windows kann eine veraltete Version (3.4, aktuell ist 5.6 - Stand 08/2015) auf der <a href="http://bibutils.refbase.org/">ehemaligen bibutils-Homepage</a> heruntergeladen
+        werden.
+      </p>
+
+      <h2>MIR-Wizard</h2>
+      <p>
+        Nachdem das mir.war durch den ServletContainer bereitgestellt (deployed) wurde, erreicht man über die entsprechende Anwendungs-URL den MIR-Wizard,
+        mit dem die Installation abgeschlossen wird. Wird Tomcat mit den Standard-Einstellungen genutzt, wäre das beispielsweise die URL
+        <a href="http://localhost:8080/mir/">http://localhost:8080/mir/</a>.
+      </p>
+      <p>
+        Nach Aufruf dieser URL wird der MIR-Wizard gestartet, der wie Abb. 1 zeigt, ein Sicherheits-Token abfragt, das sich im Log des Servletcontainers
+        (z.B. Tomcat-Log, siehe Abb. 2) befindet. Sucht man im Log nach "Login token", findet man die entsprechende Stelle recht schnell. Das Token -
+        eine UUID - muss dann vollständig kopiert und eingefügt werden. Danach kann die Installation beginnen.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_token.png" class="border border-secondary" label="Abbildung 1" caption="MIR-Wizard - Sicherheitsabfrage nach einem Token" alt="Tokenabfrage im MIR-Wizard" width="550px" height="" />}}</div>
+      <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_install_log.png" class="border border-secondary" label="Abbildung 2" caption="MIR-Wizard - Token-Logausgabe auf der Shell" alt="Token-Logausgabe auf der Shell" width="550px" height="" />}}</div>
+      <p>
+        Auf der folgenden Konfigurationsseite des Wizards (Abb. 3) muss nun bekannt gegeben werden, wo der Solr-Kern für die MIR-Anwendung zu finden ist. Läuft Solr im
+        gleichen ServletContainer wie die MIR-Anwendung und wird die Default-Einstellung verwendet, muss hier nur ggf. der Port angepasst werden (z.B. auf 8080 bei
+        Standard-Tomcat-Installtionen). Die SMTP-Konfiguration ist optional, wird diese leer gelassen, kann die Anwendung keine Mails versenden. Mit funktionierender
+        SMTP-Konfiguration versendet die Anwendung Mails bei der Selbstregistrierung um die Mail-Adresse zu validieren und auch im Rahmen des Publikationsworkflows. Diese
+        Konfiguration kann auch nachträglich erfolgen. Als Datenbank kann zu Testzwecken ersteinmal H2 oder HSQLDB ausgewählt werden. Für den produktiven Betrieb empfehlen wir
+        jedoch keine imRAM-Datenbank zu nutzen.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_configuration.png" class="border border-secondary" label="Abbildung 3" caption="MIR-Wizard - Konfiguration der MIR-Anwendung" alt="Konfigurationsseite des MIR-Wizards" width="550px" height="" />}}</div>
+      <p>
+        Anschliessend auf "Speichern" drücken. Nun werden Konfigurationsdateien erzeugt, Datenbanktreiber heruntergeladen, ein Solr-Home mit einem Solr-Kern für die MIR-Anwendung
+        angelegt und Klassifikationen, Nutzer und Rechtedaten geladen. Sind alle Schritte auf der nachfolgenden Seite erfolgreich abgeschlossen worden, muss als nächstes der
+        ServletContainer einmal neu gestartet werden. Dazu kann man direkt den Knopf "Server Herunterfahren" am Ende der Seite verwenden. Wer nicht den gesamten ServletContainer
+        neustarten möchte, kann auch nur die MIR-Anwendung neustarten. Erst mit diesem Neustart werden die neuen Konfigurationen gefunden und eingelesen. Dann steht unter
+        <a href="http://localhost:8080/mir/">http://localhost:8080/mir/</a> die Anwendung zur Verfügung und man kann sich mit dem Standardnutzer: "administrator" und dem Standardpasswort:
+        "alleswirdgut" anmelden.
+      </p>
+      <p>
+        Im Rahmen der MIR-Installation wurde ein Konfigurationsverzeichnis angelegt. Dieses befindet sich typischer Weise unter:
+      </p>
+      <ul>
+        <li>Windows: <code>c:\Users\&lt;userName&gt;\AppData\Local\MyCoRe\mir</code></li>
+        <li>Unix: <code>~/.mycore/mir</code></li>
+      </ul>
+      <p>
+        ... wobei <code>mir</code> beispielhaft für den Context-Namen der Webanwendung steht. Diese Anleitung bezieht sich auf Tomcat als ServletContainer mit <code>mir</code>
+        und <code>solr</code> als Anwendungen direkt unter localhost:8080. Sollte die eigene Umgebung davon abweichen, muss die Konfiguration entsprechend angepasst werden.
+      </p>
+      <!-- h2>Tipps zur Installation</h2>
+      <h4>Nutzung des URIEncoding UTF-8</h4>
+      <p>
+        Hinweis: URIEncoding="UTF-8", Rechteprobleme unter Windows mit Tomcatstart
+      </p>
+      <h4>Installation erneut ausführen</h4>
+      <p>
+        Tipp: was tun, wenn wizard fehler meldet? Wie reinitialisieren?
+      </p -->
+
+      <!-- START SNIPPET: downloadCode -->
+      <script type="text/javascript">
+        "use strict";
+        (function($) {
+          $(document).ready(function() {
+            //Chrome support
+            if (typeof String.prototype.endsWith !== 'function') {
+              String.prototype.endsWith = function(suffix) {
+                return this.indexOf(suffix, this.length - suffix.length) !== -1;
+              };
+            }
+            $.fn.resolveArtifacts = function(version) {
+              this.each(function() {
+                var element = $(this);
+                var artifact = element.attr('data-artifact');
+                var suffix = element.attr('data-suffix');
+                $.getJSON('http://artifactory.mycore.de/api/search/gavc', {
+                  "g" : "org.mycore.mir",
+                  "a" : artifact,
+                  "v" : version
+                }, function(data, textStatus, jqXHR) {
+                  var results = data.results;
+                  var uris = [];
+                  for (var i = results.length - 1; i &gt;= 0; i--) {
+                    var e = results[i];
+                    if (e.uri.endsWith(suffix)) {
+                      uris.push(e.uri);
+                    }
+                  }
+                  uris.sort().reverse();
+                  $.getJSON(uris[0], function(data, textStatus, jqXHR) {
+                    element.attr('href', data.downloadUri);
+                  });
+                });
+              });
+              return this;
+            };
+            var version = "2017.07-SNAPSHOT";
+            $('[data-role=artifactResolver]').resolveArtifacts(version);
+          });
+        })(jQuery);
+      </script>
+      <!-- END SNIPPET: downloadCode -->
+    </div>
+    <div>
+      <h2>Konfiguration</h2>
+      <h2>Aufbau des Konfigurationsverzeichnisses</h2>
+      <div>{{< mcr-figure src="/images/documentation/getting_started/mir_configuration.png" class="border border-secondary" label="Abbildung 4" caption="MIR-Konfigurationsverzeichnis" alt="MIR-Konfigurationsverzeichnis" width="550px" height="" />}}</div>
+      <h2>Properties</h2>
+      <dl>
+        <dt>mycore.properties</dt>
+        <dd>enthält alle eigenen Properties, z.B. die URL zum verwendeten Solr-Core</dd>
+
+        <dt>mycore.active (nicht bearbeiten!)</dt>
+        <dd>listet alle verfügbaren (aktiven) Properties inkl. Kommentaren dazu und kann somit als Vorlage zur Übernahme in die eigenen Properties dienen</dd>
+
+        <dt>mycore.resolved (nicht bearbeiten!)</dt>
+        <dd>die aufgelösten Properties, wie sie in der laufenden Anwendung genutzt werden</dd>
+      </dl>
+    </div>
+    <div>
+      <h2>Anpassungen</h2>
+      <p>
+        Alle Anpassungen am Layout, Webseiten-Inhalten, Erfassungsmasken etc. werden im Verzeichnis <code>%MCR.datadir%/save/webpages</code>
+        hinterlegt. Beim Starten des Servlet-Containers wird der Inhalt dieses Verzeichnisses über das ausgepackte webapp-Verzeichnis
+        im Servlet-Container kopiert und somit die default-Inhalte des <code>mir.war</code> überschrieben. Die nachstehende Abbildung
+        gibt einen Überblick über typische Anpassungen bei einer eigenen MIR-Anwendung.
+      </p>
+      <div>{{< mcr-figure src="/images/documentation/getting_started/mir_content.png" class="border border-secondary" label="Abbildung 5" caption="MIR-Webseitenverzeichnis" alt="MIR-Webseitenverzeichnis" width="550px" height="" />}}</div>
+      <p>
+        Als Vorlage können dafür die Dateien in den MIR-Komponenten verwendet werden. Dateien, die an der gleichen Stelle liegen (unterhalb von <code>webpages</code>
+        == unterhalb von <code>resources</code> in den MIR-Komponenten) und den gleichen Namen haben wie in einer MIR-Komponente werden dann
+        durch die eigene Angabe überschrieben. Alle Inhaltsseiten, Erfassungsmasken und Stylesheets zur MIR-Anwendung liegen in
+        <a href="http://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-module/src/main/resources/">mir-module/src/main/resources/</a>.
+        Für Layoutanpassungen kann eine eigene css-Datei hinterlegt werden, die im Verzeichnis css wie in der obigen Abbildung dargestellt abzulegen ist.
+        Sollte das Basis-HTML angepasst werden sollen, so stehen hierfür die beiden XSL-Dateien <code>mir-flatmir-layout.xsl</code> und
+        <code>mir-flatmir-layout-utils.xsl</code> in
+        <a href="http://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-flatmir-layout/src/main/resources/xsl/">mir-flatmir-layout/src/main/resources/xsl/</a>
+        zur Verfügung.
+      </p>
+      <p>
+        Sollten diese Möglichkeiten zur Layoutanpassung nicht genügen, so empfehlen wir (auch in Hinblick auf Migrierbarkeit), ein eigenes Layoutmodul
+        analog zum mir-flatmir-layout anzulegen. Diese jar-Datei kann dann im mir/libs-Verzeichnis bereitgestellt und über das Property
+        <code>MCR.LayoutTransformerFactory.Default.Stylesheets</code> eingebunden werden.
+      </p>
+      {{< highlight shell "linenos=table">}}
+        MCR.LayoutTransformerFactory.Default.Stylesheets=xsl/mir-myapp-layout.xsl
+      {{< /highlight >}}
+
+      <div>
+        <h3>Aktivierung der Selbst-Registrierung</h3>
+        <p>
+          Um als Alternative zur Anmeldung auch eine Selbstregistrierung anzubieten, kann dies in der <code>realms.xml</code> im Verzeichnis <code>data</code>
+          konfiguriert werden. Dazu muss der nachstehende Code ergänzt werden (siehe dazu auch die <a href="/downloads/mir/realms.xml">hier verfügbare
+          vollständige realms.xml).</a>
+        </p>
+        {{< highlight xml "linenos=table">}}  <realm id="registerUser" setable="false">
+    <label xml:lang="de">Registrierung</label>
+    <label xml:lang="en">Register</label>
+    <login url="../authorization/new-author.xed" redirectParameter="url">
+      <label xml:lang="de">Neue Benutzerkennung anlegen</label>
+      <label xml:lang="en">Create new User ID</label>
+      <info>
+        <label xml:lang="de">
+          Neuen Benutzer für die Anwendung registrieren.
+        </label>
+        <label xml:lang="en">
+          Register new user for application.
+        </label>
+      </info>
+    </login>
+  </realm>{{< /highlight >}}
+        <p>
+          MIR bringt bereits entsprechende Formulare und Logik mit. Um Spam zu vermeiden nutzen diese das Google-Captcha, für das entsprechend ein
+          Schlüsselpaar registriert und in der MyCoRe-Konfiguration eingetragen werden muss. Details zur Registrierung finden Sie auf den entsprechenden
+          <a href="https://www.google.com/recaptcha">Google-Seiten</a>. Wenn Sie das Schlüsselpaar registriert haben, tragen Sie dieses in die
+          <code>mycore.properties</code> wie folgt ein:
+        </p>
+        {{< highlight shell "linenos=table">}}
+          ##############################################################################
+          #                                                                            #
+          # Google - ReCaptcha (https://www.google.com/recaptcha)                      #
+          # registered for: www.mycore.de                                              #
+          #                                                                            #
+          ##############################################################################
+
+            MIR.ReCaptcha.secret.key=1234hierkommtdannderprivateschluesselhin4321
+            MIR.ReCaptcha.site.key=5678undhierderoeffentlicheschluessel8765
+        {{< /highlight >}}
+        <p>
+          Diese Konfiguration ist so auch auf <a href="http://www.mycore.org/mir/">mycore.org/mir/</a> aktiv und kann dort getestet werden.
+        </p>
+      </div>
+    </div>
+    <div>
+      <h2>Aktualisierung</h2>
+      <p>
+        Für die Aktualisierung werden im Normalfall nur das <code>mir.war</code> und ggf. die solr-Konfigurationsdateien <code>solrconfig.xml</code> und
+        <code>schema.xml</code> ausgetauscht und danach die Webanwendung inkl. Solr neu gestartet. Sollten
+        Konfigurationen angepasst oder Daten migriert werden müssen, werden entsprechende Informationen an dieser Stelle bereitgestellt.
+      </p>
+    </div>
+  
