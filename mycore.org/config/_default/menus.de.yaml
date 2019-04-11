@@ -82,9 +82,9 @@ main:
 -     {identifier: static_content,          parent: frontend,           name: Statische Webinhalte,          weight: -99,      url: /documentation/frontend/static_content}
 -     {identifier: multilang,               parent: frontend,           name: Mehrsprachigkeit,              weight: -98,      url: /documentation/frontend/multilang}
 -     {identifier: xsl,                     parent: frontend,           name: XSL-Stylesheets,               weight: -97,      url: /documentation/frontend/xsl}
--       {identifier: layout_service,          parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/layout_service}
--       {identifier: xsl_fo,                  parent: xsl,                name: XSL-FO Unterstützung,          weight: -98,      url: /documentation/frontend/xsl_fo}
--       {identifier: xsl_extension,           parent: xsl,                name: 'Xalan-Extensions',            weight: -97,      url: /documentation/frontend/xsl_extension}
+-       {identifier: layout_service,          parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/xsl/layout_service}
+-       {identifier: xsl_fo,                  parent: xsl,                name: XSL-FO Unterstützung,          weight: -98,      url: /documentation/frontend/xsl/xsl_fo}
+-       {identifier: xsl_extension,           parent: xsl,                name: 'Xalan-Extensions',            weight: -97,      url: /documentation/frontend/xsl/xsl_extension}
 -     {identifier: mcruriresolver,          parent: frontend,           name: URI-Resolver,                  weight: -96,      url: /documentation/frontend/mcruriresolver}
 -     {identifier: mcrtextresolver,         parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/mcrtextresolver}
 -     {identifier: mcrclassbrowser,         parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/mcrclassbrowser}
@@ -96,14 +96,14 @@ main:
 -     {identifier: integrated_wcms,         parent: frontend,           name: WCMS,                          weight: -88,      url: /documentation/frontend/integrated_wcms}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
--       {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,           weight: -98,      url: /documentation/permissions/user_management}
--       {identifier: acl_permissions,         parent: permissions,        name: ACLs und Permissions,        weight: -95,      url: /documentation/permissions/acl_permissions}
--       {identifier: acl_strategies,          parent: permissions,        name: Zugriffsstrategien,           weight: -93,       url: /documentation/permissions/acl_strategies}
--       {identifier: default-permissions,     parent: permissions,        name: Standardzugriffsrechte,      weight: -92,      url: /documentation/permissions/default-permissions}
--       {identifier: login_session,           parent: permissions,        name: LoginServlet,                weight: -91,      url: /documentation/permissions/login_session}
--       {identifier: acl_integration,         parent: permissions,        name: Anwendungsintegration,       weight: -90,      url: /documentation/permissions/acl_integration}
--       {identifier: broadcasting,            parent: permissions,        name: Nachrichtenfenster,          weight: -89,      url: /documentation/permissions/broadcasting}
--       {identifier: external_user,           parent: permissions,        name: Externe Systeme,             weight: -88,      url: /documentation/permissions/external_user}
+-     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}
+-     {identifier: acl_permissions,         parent: permissions,        name: ACLs und Permissions,          weight: -95,      url: /documentation/permissions/acl_permissions}
+-     {identifier: acl_strategies,          parent: permissions,        name: Zugriffsstrategien,            weight: -93,      url: /documentation/permissions/acl_strategies}
+-     {identifier: default-permissions,     parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/default-permissions}
+-     {identifier: login_session,           parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/login_session}
+-     {identifier: acl_integration,         parent: permissions,        name: Anwendungsintegration,         weight: -90,      url: /documentation/permissions/acl_integration}
+-     {identifier: broadcasting,            parent: permissions,        name: Nachrichtenfenster,            weight: -89,      url: /documentation/permissions/broadcasting}
+-     {identifier: external_user,           parent: permissions,        name: Externe Systeme,               weight: -88,      url: /documentation/permissions/external_user}
 -   {identifier: workflow,                parent: documentation,      name: Workflow,                    weight: -93,      url: /documentation/workflow}
 -     {identifier: wf_overview,             parent: workflow,           name: Single Servlets,             weight: -99,      url: /documentation/workflow/wf_overview}
 -     {identifier: fileupload,              parent: workflow,           name: File Upload,                 weight: -98,      url: /documentation/workflow/fileupload}
