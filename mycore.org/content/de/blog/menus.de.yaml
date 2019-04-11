@@ -37,7 +37,7 @@ main:
 -     {identifier: mir_customize,           parent: getting_started,    name: MIR individualisieren,         weight: -96,      url: /documentation/getting_started/mir_customize}
 -     {identifier: maven_archetype,         parent: getting_started,    name: Maven Archetype,               weight: -95,      url: /documentation/getting_started/maven_archetype}
 -     {identifier: initialization,          parent: getting_started,    name: Initialisierung,               weight: -94,      url: /documentation/getting_started/initialization}
--     {identifier: jpa,                     parent: getting_started,    name: Datenbank & JPA,               weight: -93,      url: /documentation/getting_started/jpa}
+-     {identifier: gs_jpa,                  parent: getting_started,    name: Datenbank & JPA,               weight: -93,      url: /documentation/getting_started/gs_jpa}
 -     {identifier: gs_solr7,                parent: getting_started,    name: Solr-Integration,              weight: -92,      url: /documentation/getting_started/gs_solr7}
 -     {identifier: properties,              parent: getting_started,    name: Konfiguration & Properties,    weight: -91,      url: /documentation/getting_started/properties}
 -   {identifier: basics,                  parent: documentation,      name: Basiskonzepte,                 weight: -98,      url: /documentation/basics}
