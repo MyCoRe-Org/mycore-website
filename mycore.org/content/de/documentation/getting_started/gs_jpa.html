@@ -1,7 +1,7 @@
 
 ---
 
-title: "Datenbank / JPA"
+title: "Datenbank - JPA"
 mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
 description: "
@@ -10,7 +10,7 @@ description: "
 date: "2019-11-09"
 
 ---
-    <div id="general">
+
       <h2>Allgemeines</h2>
       <p>
         Mit Release 2016.06 wurde die Datenbankanbindung in MyCoRe von der direkten Nutzung von
@@ -19,9 +19,7 @@ date: "2019-11-09"
         <strong>Hibernate-API</strong>
         gegen eine andere JPA Implementation ausgetauscht werden kann.
       </p>
-    </div>
 
-    <div id="general">
       <h2>Konfiguration</h2>
       <p>
         Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundinstellungen mit. Lediglich die
@@ -30,6 +28,7 @@ date: "2019-11-09"
         wie der Datenbanktreiber <code>MY_DATABASE</code>, der Datenbankbenutzer<code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
       </p>
+      
       {{< highlight xml "linenos=table">}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -81,6 +80,5 @@ date: "2019-11-09"
   </persistence-unit>
 </persistence>
 {{< /highlight >}}
-    </div>
 
   

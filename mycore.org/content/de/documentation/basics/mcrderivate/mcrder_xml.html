@@ -2,14 +2,14 @@
 ---
 
 title: "XML-Syntax eines MyCoRe-Derivates"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des Syntax
     ist notwendig, um eigene Datensätze für zu erstellen."
 date: "2018-07-03"
 
 ---
-  <div>
+
    <h2>Das Speichermodell für die Multimediadaten (IFS)</h2>
    <p>
    Im bisherigen Verlauf dieses Kapitels wurden nur die beschreibenden Daten des multimedialen Objektes erläutert.
@@ -25,7 +25,7 @@ date: "2018-07-03"
    </p>
    <p>Syntax des Derivate-Datenmodells:</p>
    {{< highlight xml "linenos=table">}}
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="utf-8" ?>
   <mycorederivate
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="....xsd"
@@ -46,6 +46,7 @@ date: "2018-07-03"
     </service>
   </mycorederivate>{{< /highlight >}}
 
+<p>
    <ul>
    <li>Für xsi:noNamespaceSchemaLocation ist die entsprechende XML Schema-Datei anzugeben (Derivate.xsd)</li>
    <li>Die ID ist die eindeutige MCRObjectID.</li>
@@ -57,4 +58,4 @@ date: "2018-07-03"
        darstellen soll. Bei einzelnen Bildern ist hier noch einmal der Dateiname anzugeben. Ist nichts angegeben, so
        wird versucht Dateien wie index.html usw. zu finden.</li>
    </ul>
-  </div>
+</p>

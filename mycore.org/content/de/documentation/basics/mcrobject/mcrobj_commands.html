@@ -2,23 +2,22 @@
 ---
 
 title: "Kommandos zum Verwalten der Objekte"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Thomas Scheffler', 'Jens Kupferschmidt']
 description: "
       Der Abschnitt beschreibt alle Commandline-Kommandos, die mittels des MyCoRe Commandline Interfaces
-      
-      bzw.
-      
-      aufgerufen werden können und mit MCRObjekten arbeiten.
+      bzw. WebCLI aufgerufen werden können und mit MCRObjekten arbeiten.
     "
-date: "2018-07-03"
+date: "2019-04-10"
 
 ---
-    <div id="mcrobject_commands">
+
       <h2>Kommandos zur Verwaltung der Objekte</h2>
-      <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können folgende Befehle zur Verwaltung von 
-        MyCoRe Objekten ausgeführt werden:
+      <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> bzw. das <a href="{{< ref cli_web >}}">Web Command Line Interface</a> 
+      können folgende Befehle zur Verwaltung von MyCoRe Objekten ausgeführt werden. Ergänzt werden diese Befehle durch Kommandos,
+      welche in den einzelnen MyCoRe-Modulen implementiert sind.
       </p>
+      
       <dl>
         <dt>
           <code>load object from file {0}</code>
@@ -83,7 +82,7 @@ date: "2018-07-03"
           zu ersetzende ID mit {x}
           angegeben werden. Ein Beispiel:
           <code>execute for selected set parent
-            of {x} to DocPortal_document_00000001</code>
+            of {x} to MyMIR_ods_00000001</code>
         </dd>
         <dt>
           <code>xslt {0} with file {1}</code>
@@ -98,5 +97,4 @@ date: "2018-07-03"
           reparieren.
         </dd>
       </dl>
-    </div>
   

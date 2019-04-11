@@ -2,18 +2,18 @@
 ---
 
 title: "Die Speicherung der MyCoRe-Metadaten-Objekte"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt']
 date: "2018-07-03"
 
 ---
-    <div>
+
       <h2>Der native MyCoRe-Metadaten-Speicher</h2>
       <p>
         MyCoRe unterscheidet zwischen dem primären Datenspeicher für alle Metadaten und die daraus ableitbaren
         sekundären Metadaten wie z. B. die Link-Beziehungen (MCRLinkTableManager), der SOLR-Index usw. Die primären
-        Objekt-Metadaten werden in nativer XML-Form direkt in einer verzeichnisstruktur auf der Festplatte gespeichert.
-        Dies hat den Vorteil, dass auch eine Datensicherung mit File Level backup erfolgen kann, ohne auf spezielle
+        Objekt-Metadaten werden in nativer XML-Form direkt in einer Verzeichnisstruktur auf der Festplatte gespeichert.
+        Dies hat den Vorteil, dass auch eine Datensicherung mit File Level Backup erfolgen kann, ohne auf spezielle
         Datenbank-Backups zurückgreifen zu müssen. Alle sekundären Daten können mit Repair-Kommandos wieder erstellt
         werden (siehe dazu
         <em>Laufender Betrieb -&gt; Backup und Recovery</em>
@@ -44,8 +44,9 @@ date: "2018-07-03"
         anhand des vorkonfigurieren Slot Layouts. Das Standard Slot
         Layout ist
         <strong>n-2-2</strong>
-        wobei n die Anzahl der Stellen in der MyCoRe Object ID - 4 ist. Bei
+        wobei n die Anzahl der Stellen in der MyCoRe Object ID - 4 ist. Bei</p>
         {{< highlight  "linenos=table">}}MCR.Metadata.ObjectID.NumberPattern=00000000{{< /highlight >}}
+        <p>
         ist das Standard Layout 4-2-2, achtstellige Objekt-IDs (4+2+2=8),
         die ersten vier Ziffern der ID bilden die erste
         Verzeichnisebene,
@@ -53,9 +54,25 @@ date: "2018-07-03"
         unterhalb des Ordners für
         Projekt-ID und Objekttyp.
       </p>
-    </div>
 
-    <div>
+<h2>Konfiguration des Speichers</h2>
+<p>
+Es ist möglich, die Einstellungen zum verwendeten Store, Basisverzeichnis
+und Slot Layout individuell für einzelne Objekttypen und Projekt-IDs zu überschreiben.
+</p>
+<p>
+So könnte z. B. für einen bestimmten Objekttyp (hier MyMIR_mir)
+Versionierung aktiviert werden, für andere Objekttypen aber der schnellere MCRMetadataStore
+weiter genutzt werden.
+</p>
+      {{< highlight  "linenos=table">}}
+MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRMetadataStore
+
+MCR.IFS2.Store.MyMIR_mir.Class=org.mycore.datamodel.ifs2.MCRVersioningMetadataStore
+MCR.IFS2.Store.MyMIR_mir.SlotLayout=4-2-2
+MCR.IFS2.Store.MyMIR_mir.BaseDir=/path/to/metadata/store/mir/
+MCR.IFS2.Store.MyMIR_mir.SVNRepositoryURL=file:///path/to/local/svn/repository/mir/{{< /highlight >}}
+ 
       <h2>Speicherung mit Versionierung</h2>
       <p>
         Neben der nativen Speicherung ist es auch möglich eine Versionierung der Metadaten durchzuführen. Diese läuft
@@ -66,7 +83,7 @@ date: "2018-07-03"
         bei create/update/delete Operationen aber deutlich langsamer. Um die Versionierung einzuschalten sind die 
         folgenden Properties erforderlich.
       </p>
-      <p>Soll die SVN-Versinierung mit genutzt werden, so ist die folgende Store-Klasse zu konfigurieren.</p>
+      <p>Soll die SVN-Versionierung mit genutzt werden, so ist die folgende Store-Klasse zu konfigurieren.</p>
       {{< highlight  "linenos=table">}}MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRVersioningMetadataStore{{< /highlight >}}
       <p>
         Der Speicherort der Versionsdaten ist wie folgend anzugeben:
@@ -79,24 +96,6 @@ date: "2018-07-03"
         MyCoRe mitgeliefert.
       </p>
       <p>
-        Es ist möglich, die Einstellungen zum verwendeten Store, Basisverzeichnis
-        und Slot Layout individuell für einzelne Objekttypen und Projekt-IDs zu
-        überschreiben.
-      </p>
-      <p>
-        So könnte z. B. für einen bestimmten Objekttyp (hier MyMIR_mir)
-        Versionierung aktiviert werden, für andere Objekttypen aber der schnellere MCRMetadataStore
-        weiter genutzt werden.
-      </p>
-      {{< highlight  "linenos=table">}}
-MCR.Metadata.Store.DefaultClass=org.mycore.datamodel.ifs2.MCRMetadataStore
-
-MCR.IFS2.Store.MyMIR_mir.Class=org.mycore.datamodel.ifs2.MCRVersioningMetadataStore
-MCR.IFS2.Store.MyMIR_mir.SlotLayout=4-2-2
-MCR.IFS2.Store.MyMIR_mir.BaseDir=/path/to/metadata/store/mir/
-MCR.IFS2.Store.MyMIR_mir.SVNRepositoryURL=file:///path/to/local/svn/repository/mir/
-      {{< /highlight >}}
-      <p>
         Wenn MCRVersioningMetadataStore verwendet wird, wird das Metadatenobjekt zunächst in einer XML-Datei gespeichert,
         die dann im Anschluss via SVN commit versioniert wird. Standardmäßig wird der Zeitstempel der Datei nachträglich auf
         den exakten Zeitpunkt des SVN commits gesetzt. Dies kann unter Linux zu Fehlern aufgrund von Zugriffsrechten führen.
@@ -104,5 +103,3 @@ MCR.IFS2.Store.MyMIR_mir.SVNRepositoryURL=file:///path/to/local/svn/repository/m
       </p>
       {{< highlight  "linenos=table">}}MCR.IFS2.SyncLastModifiedOnSVNCommit=false{{< /highlight >}}
       
-    </div>
-  
