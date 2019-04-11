@@ -6,10 +6,9 @@
 	 {{- partial "side_menu.html" . -}}
 	</div>
 	<div class="col-6">
-	    
 	    <div class="text-right">
 	    {{ range .Params.mcr_version }}
-	     <span class="badge badge-primary">{{.}}</span>
+	     <span class="badge mcr-version">{{.}}</span>
 	    {{ end }}
 	    </div>
 	    <h1>{{ .Title | markdownify }}</h1>
