@@ -1,6 +1,5 @@
-     var map, select;
-      $(document).ready(function() {
-     var container = document.getElementById('popup');
+function loadMyCoReMap(kmlURL) {
+    var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
 
@@ -24,7 +23,7 @@
 
     var kml = new ol.layer.Vector({
         source: new ol.source.Vector({
-          url: '/map/mycore-standorte.kml',
+          url: kmlURL,
           format: new ol.format.KML()
         })
 	});
@@ -105,13 +104,6 @@
     		})
 	});
 
-	function isCluster(feature) {
-    	if (!feature || !feature.get('features')) { 
-    		return false; 
-  		}
-    	return feature.get('features').length > 0;
-   	}
-      
     map.on('click', function(evt) {
     	var feature = map.forEachFeatureAtPixel(evt.pixel, 
     		                  function(feature) { return feature; });
@@ -137,4 +129,12 @@
 		}
     });
     
-});
+}
+
+
+function isCluster(feature) {
+	if (!feature || !feature.get('features')) { 
+    	return false;
+  	}
+    return feature.get('features').length > 0;
+}
