@@ -1,0 +1,69 @@
+
+---
+
+title: "Datensicherheit"
+author: ['Jens Kupferschmidt']
+description: "
+      Der Abschnitt beschreibt Vorgehensweisen zur Sicherung der Daten über die vielfältigen MyCoRe-Schnittstellen.
+    "
+date: "2019-04-17"
+
+---
+
+<h2>Allgemeines</h2>
+
+<p>
+  In MyCoRe gibt es neben der Ausgabemöglichkeit der 'normalen' Webansicht noch eine ganze Reihe von
+  Schnittstellen, die Daten aus dem System herausgeben. Diese Schnittstellen sollen hier beleuchtet
+  werden. Es werden Möglichkeiten aufgezeigt, diese Schnittstellen zu kontrollieren bzw. hier nur gefilteret
+  Daten heraus zu geben.
+</p>
+
+<p>
+  Grundsätzlich prüft MyCoRe bei jedem Zugriff auf die Daten, ob entsprechende Lese- oder Schreibrechte vorhanden
+  sind. Sollen aber aus einem Datenobjekt nur bestmmte Daten für einen Nutzerkreis öffentlich sein, so müssen
+  Filter diese Daten bearbeiten und ungewünschte Informationen herausfiltern. Im Folgenden werden diese Schnittstellen
+  und ihre Konfiguration genauer beschrieben.
+</p>
+
+<h2>Zugriff über Styles</h2>
+
+<p>
+  in der Praxis ist es oft notwendig und wünschenswert, die Metadaten im nativen XML-Format weiter zu geben. Beispiel
+  wäre hier ein Export, welcher zu einer Druckvorlage weiter verarbeitet wird. Grundsätzlich geschieht das in MyCoRe
+  z. B. über eine URL der Form <code>{my_url}/receive/{my_object_id}?XSL.Style={my_stylesheet}</code>. Hierbei
+  muss das entsprechende Stylesheet dafür sorgen, dass nur erlaubte Informationen des Datensatzes nach außen dringen.
+  Besonder ist darauf zu achten, dass <strong>ALLE</strong> Stylesheets entsprechende (gleiche) Filter bereitstellen!
+</p>
+
+<h2>Zugriff über SOLR</h2>
+
+<p>
+  MyCoRe bietet die Möglichkeit, über das MCRSolrProxyServlet Abfragen direkt gegen den installierten SOLR-Server
+  zu starten. Dabei muss darauf geachtet werden, dass der antwortenden SOLR-Server nur 'stored items' zurückgibt,
+  die öffentlich zugängig sein sollen. Ggf. interne Daten aus SOLR-Felder müsse auf geeignete Weise vorher aus der 
+  Antwort entfernt  werden bzw. sollten nicht das <code>stored</code>-Attribut im Schema haben.
+</p>
+
+<p>
+{{< highlight bash "linenos=table">}}
+ {my_url}/servlets/solr/select?q=*.*&rows=25&version=4.5&XSL.Style=xml{{< /highlight >}}
+</p>
+
+<h2>Tar- / Zip-Servlet</h2>
+
+<p>
+  Der Schutz der Objekte / Derivate erfolgt über das Leserecht (read permission) für das Objekt bzw.
+  über das Derivate-Leserecht (derivate content permission) aus dem ACL-System. Weiterhin spielt bei der
+  Ausgabe der Objekte das in der Konfigurationsdatei <code>mycore.properties</code> angegebene Stylesheet
+  zur Transformation der MyCoRe-Objekt-Daten eine wichtige Rolle. Hier sollte, wenn nicht anders erforderlich,
+  das Stylesheet für die Rückgabe von <code>XSL.Style=xml</code> als Filter verwendet werden.
+</p>
+
+<h2>OAI2</h2>
+
+<p>
+  Für die Ausgabe der über OAI2 auszuliefernden Datenformate sind entsprechende separate Stylesheets zu erstellen.
+  Diese sollten nur die gewünschten Daten heraus geben und Felder wie Preise oder Herkunft von Stücken ggf.
+  herausfiltern.
+</p>

@@ -115,11 +115,12 @@ main:
 -     {identifier: iiif_support,            parent: interfaces,         name: IIIF-Unterstützung,          weight: -94,      url: /documentation/interfaces/iiif_support}
 -     {identifier: sword,                   parent: interfaces,         name: SWORD,                       weight: -93,      url: /documentation/interfaces/sword}
 -   {identifier: production,              parent: documentation,      name: Laufender Betrieb,           weight: -91,      url: /documentation/production}
--     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -99,      url: /documentation/production/backup}
--     {identifier: consistency,             parent: production,         name: Konsistenzprüfung,           weight: -96,      url: /documentation/production/consistency}
--     {identifier: batch,                   parent: production,         name: Batch-Betrieb,               weight: -95,      url: /documentation/production/batch}
--     {identifier: vhost,                   parent: production,         name: Virtueller Host,             weight: -94,      url: /documentation/production/vhost}
--     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -93,      url: /documentation/production/tips}
+-     {identifier: production_security,     parent: production,         name: Datensicherheit,             weight: -99,      url: /documentation/production/production_security}
+-     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}
+-     {identifier: consistency,             parent: production,         name: Konsistenzprüfung,           weight: -97,      url: /documentation/production/consistency}
+-     {identifier: batch,                   parent: production,         name: Batch-Betrieb,               weight: -96,      url: /documentation/production/batch}
+-     {identifier: vhost,                   parent: production,         name: Virtueller Host,             weight: -95,      url: /documentation/production/vhost}
+-     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -90,      url: /documentation/migrate}
 -     {identifier: index,                   parent: migrate,            name: Übersicht,                   weight: -99,      url: /documentation/migrate/index}
 -     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2018_06}
