@@ -53,7 +53,6 @@ main:
 -       {identifier: mcrder_xml,              parent: mcrderivate,        name: XML-Format,                    weight: -99,      url: /documentation/basics/mcrderivate/mcrder_xml}
 -       {identifier: mcrder_commands,         parent: mcrderivate,        name: Kommandos,                     weight: -98,      url: /documentation/basics/mcrderivate/mcrder_commands}
 -       {identifier: mcrder_ifs,              parent: mcrderivate,        name: IFS / IFS2,                    weight: -96,      url: /documentation/basics/mcrderivate/mcrder_ifs}
--       {identifier: mcrder_zip,              parent: mcrderivate,        name: ZIP-Dateien,                   weight: -95,      url: /documentation/basics/mcrderivate/mcrder_zip}
 -       {identifier: mcrder_streaming,        parent: mcrderivate,        name: StreamingServer,               weight: -94,      url: /documentation/basics/mcrderivate/mcrder_streaming}
 -       {identifier: mcrder_fileupload,       parent: mcrderivate,        name: File-Upload,                   weight: -93,      url: /documentation/basics/mcrderivate/mcrder_fileupload}
 -       {identifier: iview2,                  parent: mcrderivate,        name: IView2,                        weight: -92,      url: /documentation/basics/mcrderivate/iview2}
@@ -88,12 +87,13 @@ main:
 -     {identifier: mcruriresolver,          parent: frontend,           name: URI-Resolver,                  weight: -96,      url: /documentation/frontend/mcruriresolver}
 -     {identifier: mcrtextresolver,         parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/mcrtextresolver}
 -     {identifier: mcrclassbrowser,         parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/mcrclassbrowser}
--     {identifier: xeditor,                 parent: frontend,           name: Formulare erstellen,           weight: -93,      url: /documentation/frontend/xeditor}
--     {identifier: image_viewer,            parent: frontend,           name: Bildbetrachter,                weight: -92,      url: /documentation/frontend/image_viewer}
--     {identifier: mets_editor,             parent: frontend,           name: METS-Editor,                   weight: -91,      url: /documentation/frontend/mets_editor}
--     {identifier: basket,                  parent: frontend,           name: Korbfunktion,                  weight: -90,      url: /documentation/frontend/basket}
--     {identifier: webtools,                parent: frontend,           name: WebTools,                      weight: -89,      url: /documentation/frontend/webtools}
--     {identifier: integrated_wcms,         parent: frontend,           name: WCMS,                          weight: -88,      url: /documentation/frontend/integrated_wcms}
+-     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -93,      url: /documentation/frontend/frontend_tarzipservlet}
+-     {identifier: xeditor,                 parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/xeditor}
+-     {identifier: image_viewer,            parent: frontend,           name: Bildbetrachter,                weight: -91,      url: /documentation/frontend/image_viewer}
+-     {identifier: mets_editor,             parent: frontend,           name: METS-Editor,                   weight: -90,      url: /documentation/frontend/mets_editor}
+-     {identifier: basket,                  parent: frontend,           name: Korbfunktion,                  weight: -89,      url: /documentation/frontend/basket}
+-     {identifier: webtools,                parent: frontend,           name: WebTools,                      weight: -88,      url: /documentation/frontend/webtools}
+-     {identifier: integrated_wcms,         parent: frontend,           name: WCMS,                          weight: -87,      url: /documentation/frontend/integrated_wcms}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
 -     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}

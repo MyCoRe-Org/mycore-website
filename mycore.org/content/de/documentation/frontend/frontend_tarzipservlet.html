@@ -1,0 +1,51 @@
+
+---
+
+title: "Generieren von Zip-Dateien"
+mcr_version: ['2018.06','2019.06']
+author: ['Kathleen Neumann','Jens Kupferschmidt']
+date: "2019-04-17"
+
+---
+      <h2>Generieren von Tar-/Zip-Dateien</h2>
+      <p>
+        Das Tar-/Zip-Servlet, implementiert durch die Klassen <code>MCRTarServlet</code> bzw. <code>MCRZipServlet</code>, 
+        dient dem Ausliefern der Derivate und ggf. deren Objekt-Metadaten als gepackte tar- bzw. zip-Datei.
+      </p>
+      
+      <p>
+        Aus der Konfigurationsdatei <code>mycore.properties</code> holen
+        sich das Servlet über die Variable <code>MCR.zip.metadata.transformer</code> den Namen des Stylesheets, welches die
+        Metadaten-Transformation in das gewünschte Auslieferungsformat vornimmt, sofern ein MyCoRe-Objekt als <code>id</code>
+        angegeben ist. Die Metadaten werden in der Datei <code>metadata.xml</code> innerhalb des tar- bzw. zip-Archives 
+        abgelegt. Das Property gilt für beide Servlets.
+      </p>
+      
+      <p>Aufrufmöglichkeiten des Servlets:</p>
+      
+      <p>
+      {{< highlight java "linenos=table">}}
+      $ServletsBaseURL/MCRTarServlet?id={mcr_object_id}
+      $ServletsBaseURL/MCRTarServlet?id={mcr_derivate_id}
+      $ServletsBaseURL/MCRTarServlet?id={mcr_derivate_id}/{foldername}
+      
+      $ServletsBaseURL/MCRZipServlet?id={mcr_object_id}
+      $ServletsBaseURL/MCRZipServlet?id={mcr_derivate_id}
+      $ServletsBaseURL/MCRZipServlet?id={mcr_derivate_id}/{foldername}{{< /highlight >}}
+      </p>
+      
+      <p>
+        Die <strong>id</strong> ist die ID eines Objekts vom Typ <code>&lt;mycoreobject&gt;</code> oder <code>&lt;mycorederivate&gt;</code>.
+        Im Fall von <code>&lt;mycoreobject&gt;</code> werden die Dateien aller dem Objekt zugeordneten Derivate und ein
+        XML-File mit den Metadaten des Objekts zusammengepackt. Im Fall von <code>&lt;mycorederivate&gt;</code> werden alle
+        Dateien des angegebenen Derivates zusammengepackt. Die Option <code>{mcr_derivate_id}/{foldername}</code> ist nur zulässig, wenn
+        die <code>id</code> ein Objekt vom Typ <code>&lt;mycorederivate&gt;</code> bezeichnet. Dann wird nur der mit
+        <code>foldername</code> angegebene Ordner des betreffenden Derivats gezippt.
+      </p>
+      
+      <p>
+        Der Schutz der Objekte / Derivate erfolgt über das Leserecht (read permission) für das Objekt bzw.
+        übder das Derivate-Leserecht (derivate content permission) aus dem ACL-System.
+      </p>
+
+  
