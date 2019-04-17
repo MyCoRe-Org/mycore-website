@@ -9,17 +9,143 @@ date: 			"2019-04-04"
 
 <h2>Mehrsprachigkeit</h2>
 <h2>Navigation mit YAML</h2>
-<h2>Hugo Shortcode "Hightlight" für Code-Beispiele</h2>
-<ul>
-  <li>siehe Hugo-Dokumentation: [Syntax Highlighting](https://gohugo.io/content-management/syntax-highlighting).</li>
-  <li>z.B.</li>
-</ul>
-
-{{< highlight system>}}
-  {{</* highlight system */>}}
-      cd \workspaces\mycore-website
-      $ mvn clean compile
+<h2>Hugo Shortcodes</h2>
+<p>Über <a href="https://gohugo.io/content-management/shortcodes">Shortcodes</a> lassen sich in Hugo Templates für komplexere Abschnitte definieren,
+die nicht einfach mit HTML oder Markdown darstellbar sind.
+Oder sie stellen sicher, das für einen bestimmten Aspekt immer dieselbe Darstellung gewählt wird.
+</p>
+ 
+<h3><code>{{&lt;hightlight&gt;}}</code> für Codebeispiele</h3>
+<p>
+Für die Darstellung von Code-Beispielen wird der von Hugo bereitgestellte Shortcode <code>{{&lt;hightlight&gt;}}</code> verwendet.
+Die Konfiguration ist in der <a href="https://gohugo.io/content-management/syntax-highlighting#highlight-shortcode">Hugo-Dokumentation</a> beschrieben.
+Der erste Parameter enthält die <a href="https://gohugo.io/content-management/syntax-highlighting#list-of-chroma-highlighting-languages">Sprache</a> (z.B. Java, XML, ...) für die die Code-Formatierung vorgenommen werden soll.
+Zeilennummen können durch die Parameter <code>linenos=table</code> und <code>linenostart</code> eingeblendet werden.
+Mit dem Parameter <code>hl_lines</code> lassen sich einzelne Zeilen hervorheben.
+</p>
+<h4>Anwendungsbeispiel</h4>
+{{< highlight text>}}
+{{</* highlight xml "linenos=table, linenostart=11, hl_lines=1 6" */>}}
+  <category ID="article">
+    <label xml:lang="de" text="Artikel / Aufsatz"/>
+    <label xml:lang="en" text="Article / Chapter"/>
+    <label xml:lang="it" text="Articolo / Saggio"/>
+    <label xml:lang="x-mapping" text="marcgt:article diniPublType:article"/>
+  </category>
 {{</* /highlight */>}}                      {{< /highlight >}}
+
+{{<highlight xml "linenos=table, linenostart=11, hl_lines=1 6">}}
+<category ID="article">
+  <label xml:lang="de" text="Artikel / Aufsatz"/>
+  <label xml:lang="en" text="Article / Chapter"/>
+  <label xml:lang="it" text="Articolo / Saggio"/>
+  <label xml:lang="x-mapping" text="marcgt:article diniPublType:article"/>
+</category>				{{< /highlight >}}
+
+
+<p></p>
+<h3><code>{{&lt;ref&gt;}}</code> für Links auf interne Seiten</h3>
+Mit dem Hugo-Shortcode <strong><a href="https://gohugo.io/content-management/cross-references/">ref</a></strong> können Links auf andere Seiten
+des Webauftritts verlinkt werden. Es reicht, den Dateinamen der Seite anzugeben. Wenn dieser eindeutig ist, dann ermittelt Hugo automatisch den Pfad.
+Wenn die Seite nicht (mehr) existiert, bricht Hugo den Buildprozess mit einer Fehlermeldung ab.
+Dadurch werden tote Links vermieden.
+<h4>Anwendungsbeispiel</h4>
+{{<highlight text >}}
+  <span>Hier geht es zum <a href="{{</* ref blog */>}}">Blog</a>.</span>
+{{< /highlight >}}
+
+<p class="bg-light">
+ <span>Hier geht es zum <a href="{{< ref blog >}}">Blog</a>.</span>
+</p>
+
+<p></p>
+<h3><code>{{&lt;relURL&gt;}}</code> für relative URLs</h3>
+<p>
+Dieser Shortcode erlaubt Zugriff auf die Hugo Funktion <a href="https://gohugo.io/functions/relurl/">relURL</a>,
+um relative Links in die Webseite einbetten zu können. Das ist dann relevant, wenn die Webseite nicht als Root
+sondern unter einer URL mit Subpfad betrieben wird.
+</p>
+
+<h4>Anwendungsbeispiel</h4>
+{{< highlight text>}}
+Relative Adresse dieser Seite: 
+<strong>{{</*relURL "documentation/developer/dev_docs/dev_docs_howtos/" */>}}</strong>{{</highlight>}}
+
+<p class="bg-light">
+Relative Adresse dieser Seite: <strong>{{<relURL "documentation/developer/dev_docs/dev_docs_howtos/" >}}</strong>
+</p> 
+
+
+<p></p>
+<h3><code>{{&lt;mcr-version&gt;}}</code> für MyCoRe-LTS-Angaben</h3>
+<p>
+Dieser Shortcode sollte verwendet werden, im Fließtext auf MyCoRe-LTS-Tags referenziert wird.
+Mehre Versionsstände können mit Komma (<code>,</code>) getrennt werden.
+</p>
+
+<h4>Anwendungsbeispiel</h4>
+{{< highlight text>}}
+Das Feature <strong>XY</strong> wurde mit MyCoRe {{</*mcr-version "2015.06" */>}} eingeführt
+und in MyCoRe {{</* mcr-version "2016.06,2017.06" */>}} verwendet.
+{{</highlight>}}
+
+<p class="bg-light">
+Das Feature <strong>XY</strong> wurde mit MyCoRe {{<mcr-version "2015.06">}} eingeführt 
+und in MyCoRe {{<mcr-version "2016.06,2017.06">}} verwendet.
+</p> 
+
+<p></p>
+<h3><code>{{&lt;mcr-figure&gt;}}</code> für Bilder und Grafiken</h3>
+<p>
+Dieser Shortcode sollte zum einheitlichen Einbetten von Bilder und Grafiken verwendet werden.
+Theoretisch kann die Grafik auch als HTML-Code bzw. SVG-XML bestehen. 
+In Kombination mit dem <code>{{&lt;hightlight&gt;}}</code>  können auch Codebeispiele
+mit Bildunterschriften versehen werden.
+</p>
+<p>
+Folgende Parameter können verwendet werden:
+</p>
+<table>
+	<tr><td><code>src</code></td><td> URL der Bilddatei / Grafik</td></tr>
+	<tr><td><code>class</code></td><td>CSS-Klasse</td></tr>
+	<tr><td><code>alt</code></td><td>alternativer Text, wenn das Bild nicht geladen werden kann</td></tr>
+	<tr><td><code>width</code></td><td>Breite</td></tr>
+	<tr><td><code>height</code></td><td>Höhe</td></tr>
+	<tr><td><code>label</code></td><td>Fußzeile: Typ der Darstellung</td></tr>
+	<tr><td><code>caption</code></td><td>Bildbeschreibung</td></tr>
+	<tr><td><code>attr</code></td><td>Angaben zum Urheber</td></tr>
+</table>
+<h4>Anwendungsbeispiele</h4>
+
+{{< highlight text>}}
+{{</* mcr-figure src="http://localhost:1313/images/site/download/mycore_logo_powered_175x55_weiss.jpg" 
+         class="border border-primary" label="Logo" caption="powered by MyCoRe" attr="Die MyCoRe-Community" /*/>}}
+{{< /highlight >}}
+
+{{< mcr-figure src="http://localhost:1313/images/site/download/mycore_logo_powered_175x55_weiss.jpg" 
+   class="border border-primary" label="Logo" caption="powered by MyCoRe" attr="Die MyCoRe-Community" />}}
+
+{{< highlight text>}}
+{{</* mcr-figure class="border border-secondary" label="SVG-Grafik" 
+                 caption="&quot;Kugel in orange&quot;" attr="Die MyCoRe-Community" */>}}
+    <div class="text-center">
+       <svg height="50" width="50">
+          <circle cx="25" cy="25" r="20" stroke="black" stroke-width="2" fill="orange" >
+      </svg> 
+    </div>
+{{</* /mcr-figure */>}}
+
+{{< /highlight >}}
+
+
+{{< mcr-figure class="border border-secondary" label="SVG-Grafik" caption="&quot;Kugel in orange&quot;" 
+    attr="Die MyCoRe-Community" >}}
+<div class="text-center">
+ <svg height="50" width="50">
+  <circle cx="25" cy="25" r="20" stroke="black" stroke-width="2" fill="orange" >
+</svg> 
+</div>
+{{< /mcr-figure >}}
 
 <h2>Tipps und Tricks</h2>
 <h3>Hugo</h3>
