@@ -2,12 +2,12 @@
 ---
 
 title: "Die METS-Unterstützung"
-mcr_version: ['2015.05','2016.06','2017.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann']
-date: "???"
+date: "2019-04-17"
 
 ---
-   <div>
+
    <h2>Allgemein</h2>
    <p>
      Der Metadata Encoding &amp; Transmission Standard (METS) ist ein mit XML Schema definiertes
@@ -15,11 +15,9 @@ date: "???"
      einen Editor bereit, mit dessen Hilfe man METS-Daten anlegen und bearbeiten kann. Der Bildbetrachter
      liest diese Daten dann aus und stellt die METS-Informationen entsprechend dar.
    </p>
-  </div>
-  <div>
-    <h2>Kommandos</h2>
-    <div>
-      <h3>validate selected mets</h3>
+
+   <h2>Kommandos</h2>
+   <h3>validate selected mets</h3>
       <p>
         Dieses CLI-Kommando überprüft die Datenintegrität von MyCoRe-Derivaten hinsichtlich ihrer
         METS-Dateien. Um das Kommando zu nutzen muss entsprechend als erstes die MyCoRe-CLI oder
@@ -27,39 +25,52 @@ date: "???"
         ausgewählt werden. Dies geschieht mit dem Kommando <code>select objects with solr query {0}</code>
         (Web-CLI unter der Kommandogruppe "MCR SOLR Commands").
       </p>
+      
       <p>
         Das folgende Kommando selektiert z.B. alle Derivate des Objektes mit der ID
         ArchNachl_cbu_00000002:
       </p>
+      
+      <p>
       {{< highlight bash "linenos=table">}}
-select objects with solr query returnId:ArchNachl_cbu_00000002 AND objectType:derivate
-      {{< /highlight >}}
+ select objects with solr query returnId:ArchNachl_cbu_00000002 AND objectType:derivate{{< /highlight >}}
+      </p>
+
       <p>
         Als Bestätigung erscheint folgender Text:
       </p>
+      
+      <p>
       {{< highlight bash "linenos=table">}}
-&gt;INFO: Processing command:'select objects with solr query returnId:ArchNachl_cbu_00000002
-&gt;      AND objectType:derivate' (0 left)
-&gt;INFO: Syntax matched (executed): select objects with solr query {0}
-&gt;INFO: 1 objects selected
-&gt;INFO: Command processed (5 ms)
-      {{< /highlight >}}
+INFO: Processing command:'select objects with solr query returnId:ArchNachl_cbu_00000002
+      AND objectType:derivate' (0 left)
+INFO: Syntax matched (executed): select objects with solr query {0}
+INFO: 1 objects selected
+INFO: Command processed (5 ms){{< /highlight >}}
+      </p>
+      
       <p>
         Um anschließend die Überprüfung zu starten, muss das Kommando <code>validate selected mets</code>
         (Web-CLI unter der Kommandogruppe "MCR METS Commands") ausgeführt werden. Falls die Validierung
         nicht erfolgreich war erscheinen Fehlermeldungen, welche auf die entsprechende Stelle verweisen
         z.B.:
       </p>
-      {{< highlight bash "linenos=table">}}
-&gt;INFO: Validate mets.xml of ArchNachl_derivate_00000004
-&gt;ERROR: Some physical elements are not linked: [phys1]
-      {{< /highlight >}}
-    </div>
-    <div>
-      <h3>METS-Editor</h3>
+      
       <p>
-        Hier wird demnächst der METS-Editor beschrieben.
+      {{< highlight bash "linenos=table">}}
+INFO: Validate mets.xml of ArchNachl_derivate_00000004
+ERROR: Some physical elements are not linked: [phys1]{{< /highlight >}}
       </p>
-    </div>
-  </div>
+
+      <h2>Der MyCoRe-METS-Editor</h2>
+      <p>
+        MyCoRe unterstützt die Verarbeitung von
+        <a href="http://www.loc.gov/standards/mets/METSOverview.html" target="_blank">METS</a>
+        -Dateien für die Organisation von Bilddaten. Mit dem bereitgestellten Editor können diese Dateien bearbeitet und
+        anschließend gespeichert werden. So können Paginierungen und Order Label festgelegt werden. Die Integration in
+        die Anwendung erfolgt über den Aufruf:
+      </p>
+      <p>
+        <code>{baseURL}/rsc/mets/editor/start/{derivateID}</code>
+      </p>
   
