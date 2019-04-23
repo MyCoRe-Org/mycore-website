@@ -2,14 +2,13 @@
 ---
 
 title: "Die Link Tabellen"
-mcr_version: ['2016.06','2017.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "Die Seite beschreibt die Möglichkeiten, aus MyCoRe heraus Mails zu versenden."
-date: "2017-02-13"
+date: "2019-04-22"
 
 ---
 
-    <div>
       <h2>MCRMailer</h2>
       <p>
         Die Klasse
@@ -48,9 +47,7 @@ date: "2017-02-13"
           wird nur genutzt, wenn das Mail-Server-Konzept der Host-Einrichtung es für den Zugang zum Server erfordert.
         </li>
       </ul>
-    </div>
 
-    <div>
       <h2>MCRMailEventHandler</h2>
       <p>
         Der
@@ -72,7 +69,6 @@ date: "2017-02-13"
         <li>Aktionen : create, update, delete, repair</li>
       </ul>
       
-      <div>
         <h3>Generischer Ansatz</h3>
         <p>
           Unter den folgenden Referenzen ist ein generischer minimalistischer Ansatz für das Konfigurations-File zu
@@ -80,23 +76,19 @@ date: "2017-02-13"
           <code>MCR.URIResolver.xslIncludes.eventHandlerMailer=%MCR.URIResolver.xslIncludes.eventHandlerMailer%,e-mail-events-myihs2.xsl</code>
         </p>
         <p>
-          <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/xsl/e-mail-events.xsl?revision=12444&amp;view=markup" target="_blank">generisches Basis-Stylesheet</a>
+          <a href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-common/blob/master/src/main/resources/xsl/e-mail-events.xsl" target="_blank">generisches Basis-Stylesheet aus Leipzig</a>
         </p>
         <p>
-          <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/myihs/trunk/modules/myihs2/xsl/e-mail-events-myihs2.xsl?revision=12445&amp;view=markup" target="_blank">Ergänzung für ein konkretes Datenmodell</a>
+          <a href="https://git.sc.uni-leipzig.de/mycore_applications/music/dptbase-musicrepo/blob/master/src/main/resources/xsl/e-mail-events-bach.xsl" target="_blank">Ergänzung für ein konkretes Datenmodell aus Leipzig</a>
         </p>
-      </div>
       
-      <div>
         <h3>Spezielle Lösung für MIR und andere komplexe Systeme</h3>
         <p>
           Für die Anwendung
-          <strong>MIR</strong> wurde ein spezielles Stylesheet entwickelt, welches die vielen details der MIR-Applikation
+          <strong>MIR</strong> wurde ein spezielles Stylesheet entwickelt, welches die vielen Details der MIR-Applikation
             berücksichtigt und einen dediziertem Mail-Versand gestattet.
         </p>
-        <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/xsl/e-mail-events.xsl" target="_blank">Die unfangreiche Lösung in MIR</a>
-      </div>
-      
-    </div>
-
+        <p>
+        <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/xsl/e-mail-events.xsl" target="_blank">Hier die unfangreiche Lösung von MIR</a>
+        </p>
   

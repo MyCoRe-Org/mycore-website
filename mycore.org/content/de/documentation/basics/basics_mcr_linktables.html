@@ -1,0 +1,45 @@
+
+---
+
+title: "Die Link Tabellen"
+mcr_version: ['2018.06','2019.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Die Seite beschreibt die Referenztabelle über Links zwischen MyCoRe-Objekten."
+date: "2019-04-22"
+
+---
+
+    <h2>Allgemeines</h2>
+    <p>
+    Neben der Indizierung der Metadaten zur Suche wird auch über einen entsprechenden Event-Handler
+    (<strong>MCRLinkTableEventHandler</strong>) dafür gesorgt, dass Verweise zwischen den einzelnen Metadaten-Objekten
+    gesondert in einer Datenbanktabelle gespeichert werden. Über entsprechende Zugriffe sind so Abfragen von
+    Referenzen und Zählungen möglich. Die Definition der Tabellenklasse erfolgt in der Konfigurationsdatei
+    <code>mycore.private</code>
+    </p>
+
+    <p>
+    {{< highlight xml "linenos=table">}}
+ MCR.Persistence.LinkTable.Store.Class=org.mycore.backend.hibernate.MCRHIBLinkTableStore{{< /highlight >}}
+    </p>
+
+    <p>Die Tabelle enthält die Spalten MCRFROM, MCRTO, MCRTYPE, MCRATTR.</p>
+    <ul>
+    <li>MCRFROM enthält die Quelladresse (Source) des Link (i.d.R. eine MCRObjectID).</li>
+    <li>MCRTO enthält die Zieladresse (Target/Destination) des Link. Dies kann u. a. eine MCRObjectID sein. Links auf
+    Kategorien von Klassifikationen werden in der Form {classid}##{categid} abgespeichert.</li>
+    <li>MCRTYPE enthält den Typ des Links. Derzeit sind folgende Typen vorgesehen:
+    <ul><li>parent – Link zu einem Elternobjekt</li>
+        <li>child – Link zu einem Kindobjekt</li>
+        <li>derivate – Link zu einem Derivate</li>
+        <li>classid – Link zu einer Kategorie einer Klassifikation</li>
+        <li>reference – Link zu einem anderen Metadaten-Objekt</li>
+    </ul>
+    </li>
+    <li>MCRATTR – derzeit nicht belegt</li>
+    </ul>
+
+    <h2>Zugriff auf die Verweise</h2>
+    <p>
+      <strong><span style="color:red">Muss noch beschrieben werden!</span></strong>
+    </p>

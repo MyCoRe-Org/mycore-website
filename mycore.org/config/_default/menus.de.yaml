@@ -62,10 +62,10 @@ main:
 -       {identifier: classif_editor,          parent: classifications,    name: Editor,                        weight: -94,      url: /documentation/basics/classifications/classif_editor}
 -       {identifier: classif_mapping,         parent: classifications,    name: Mapping,                       weight: -93,      url: /documentation/basics/classifications/classif_mapping}
 -     {identifier: eventhandler,            parent: basics,             name: EventHandler,                  weight: -95,      url: /documentation/basics/eventhandler}
--     {identifier: mcrobj_linktables,       parent: basics,             name: Linktabellen,                  weight: -94,      url: /documentation/basics/mcrobj_linktables}
--     {identifier: mcr_mailer,              parent: basics,             name: Mailer,                        weight: -93,      url: /documentation/basics/mcr_mailer}
+-     {identifier: basics_mcr_linktables,   parent: basics,             name: Linktabellen,                  weight: -94,      url: /documentation/basics/basics_mcr_linktables}
+-     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -93,      url: /documentation/basics/basics_mcr_mailer}
 -     {identifier: mcrservlet,              parent: basics,             name: MCRServlet,                    weight: -92,      url: /documentation/basics/mcrservlet}
--     {identifier: mcrconfigdir,            parent: basics,             name: Konfiguration,                 weight: -91,      url: /documentation/basics/mcrconfigdir}
+-     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -91,      url: /documentation/basics/basics_mcr_configdir}
 -   {identifier: cli,                     parent: documentation,      name: Die Kommandozeile,             weight: -97,      url: /documentation/cli}
 -     {identifier: cli_overview,            parent: cli,                name: Übersicht,                     weight: -99,      url: /documentation/cli/cli_overview}
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
