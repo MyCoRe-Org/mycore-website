@@ -2,9 +2,9 @@
 ---
 
 title: "MIR"
-mcr_version: ['2016.06','2017.06']
-author: ['Kathleen Neumann']
-date: "2016-07-19"
+mcr_version: ['2018.06','2019.06']
+author: ['Kathleen Neumann','Jens Kupferschmidt']
+date: "2019-04-24"
 
 ---
     <div>
@@ -15,7 +15,7 @@ date: "2016-07-19"
         MIR-Anwendung noch die folgende Software:
       </p>
       <ul>
-        <li>bibutils</li> <!-- TODO! -->
+        <li>bibutils</li>
       </ul>
       <h3>Download</h3>
       <p>
@@ -30,12 +30,24 @@ date: "2016-07-19"
         <li><a href="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&amp;g=org.mycore.mir&amp;a=mir-cli&amp;v=LATEST&amp;e=zip">ZIP archive</a> (speichern als <code>mir-cli.zip</code>)</li>
         <li><a href="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&amp;g=org.mycore.mir&amp;a=mir-cli&amp;v=LATEST&amp;e=tar.gz">tar.gz archive</a> (speichern als <code>mir-cli.tar.gz</code>)</li>
       </ol>
+      
       <h3>Solr-Installation</h3>
       <p>
-        Soll ein eigener Solr-Server aufgesetzt werden, sind weitere Informationen dazu in unserer <a href="{{< ref gs_solr7 >}}">Solr-Dokumentation</a> zu finden.
-        Den Solr-Kern für MIR liefert die Installation über den MIR-Wizard mit. Soll nicht das vom MIR-Wizard angelegte solr-home verwendet werden, so
-        muss das Verzeichnis <code>mir/data/solr/collection1</code> entsprechend umkopiert werden. Auch der Name des Solr-Kerns kann beliebig angepasst
-        werden. Wo der passende Kern gefunden werden kann, wird im MIR-Wizard konfiguriert.
+        Für die Nutzung von MIR muss ein eigener Solr-Server aufgesetzt werden, sind weitere Informationen dazu in 
+        unserer <a href="{{< ref gs_solr7 >}}">Solr-Dokumentation</a> zu finden.
+        Für die MIR-Aunwendung sind darin zwei Kerne anzulegen. Nach der Grundinstallation von SOLR sind dann folgende
+        Schritte notwendig, die Cores für die Metadaten und die Klassifikationen anzulegen.
+      </p>
+      <p>
+        {{< highlight shell "linenos=table">}}
+ cd solr-7.7.1/server/solr/configset
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_main.git
+ 
+ cd solr-7.7.1/bin
+ ./solr/create -d mycore_solr_configset_classification -c mir-class
+ ./solr create -d mycore_solr_configset_main -c mir-main
+        {{< /highlight >}}
       </p>
       <p>
         Weitere Möglichkeiten der Konfiguration und mehr Informationen zur Solr-Installation finden sich in der
@@ -60,16 +72,26 @@ date: "2016-07-19"
       </p>
       <p>
         Dokumentation, Download und Installationsanleitung zu den bibutils sind auf der <a href="http://sourceforge.net/projects/bibutils/">Sourceforge-Projekt-Seite</a>
-        zu finden. Für Windows kann eine veraltete Version (3.4, aktuell ist 5.6 - Stand 08/2015) auf der <a href="http://bibutils.refbase.org/">ehemaligen bibutils-Homepage</a> heruntergeladen
+        zu finden. Für Windows kann eine veraltete Version (3.4, aktuell ist 6.7 - Stand 2018-08-31) auf der <a href="http://bibutils.refbase.org/">ehemaligen bibutils-Homepage</a> heruntergeladen
         werden.
       </p>
 
       <h2>MIR-Wizard</h2>
       <p>
         Nachdem das mir.war durch den ServletContainer bereitgestellt (deployed) wurde, erreicht man über die entsprechende Anwendungs-URL den MIR-Wizard,
-        mit dem die Installation abgeschlossen wird. Wird Tomcat mit den Standard-Einstellungen genutzt, wäre das beispielsweise die URL
+        mit dem die Installation abgeschlossen wird.
+      </p>
+      <p>
+        Wird Tomcat mit den Standard-Einstellungen genutzt, wäre das beispielsweise die URL
         <a href="http://localhost:8080/mir/">http://localhost:8080/mir/</a>.
       </p>
+      <p>
+        Für Jetty geht <strong>experimenteller</strong> folgender Ansatz. Dazu sei auch auf die <a href=""https://www.eclipse.org/jetty/documentation/9.4.x/runner.html target="_blank">Jetty-Doku</a> verwiesen.
+      </p>
+      <ul>
+        <li>Download von jetty-runner.jar vom <a href="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/" target="blank">Maven Central</a></li>
+        <li>Start des Wizzard mit <code>java -jar jetty-runner.jar mir.jar</code></li>
+      </ul>
       <p>
         Nach Aufruf dieser URL wird der MIR-Wizard gestartet, der wie Abb. 1 zeigt, ein Sicherheits-Token abfragt, das sich im Log des Servletcontainers
         (z.B. Tomcat-Log, siehe Abb. 2) befindet. Sucht man im Log nach "Login token", findet man die entsprechende Stelle recht schnell. Das Token -
@@ -78,7 +100,7 @@ date: "2016-07-19"
       <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_token.png" class="border border-secondary" label="Abbildung 1" caption="MIR-Wizard - Sicherheitsabfrage nach einem Token" alt="Tokenabfrage im MIR-Wizard" width="550px" height="" />}}</div>
       <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_install_log.png" class="border border-secondary" label="Abbildung 2" caption="MIR-Wizard - Token-Logausgabe auf der Shell" alt="Token-Logausgabe auf der Shell" width="550px" height="" />}}</div>
       <p>
-        Auf der folgenden Konfigurationsseite des Wizards (Abb. 3) muss nun bekannt gegeben werden, wo der Solr-Kern für die MIR-Anwendung zu finden ist. Läuft Solr im
+        Auf der folgenden Konfigurationsseite des Wizards (Abb. 3) muss nun bekannt gegeben werden, wo die Solr-Kerne für die MIR-Anwendung zu finden sind. Läuft Solr im
         gleichen ServletContainer wie die MIR-Anwendung und wird die Default-Einstellung verwendet, muss hier nur ggf. der Port angepasst werden (z.B. auf 8080 bei
         Standard-Tomcat-Installtionen). Die SMTP-Konfiguration ist optional, wird diese leer gelassen, kann die Anwendung keine Mails versenden. Mit funktionierender
         SMTP-Konfiguration versendet die Anwendung Mails bei der Selbstregistrierung um die Mail-Adresse zu validieren und auch im Rahmen des Publikationsworkflows. Diese
@@ -88,7 +110,8 @@ date: "2016-07-19"
       <div>{{< mcr-figure src="/images/documentation/getting_started/wizard_configuration.png" class="border border-secondary" label="Abbildung 3" caption="MIR-Wizard - Konfiguration der MIR-Anwendung" alt="Konfigurationsseite des MIR-Wizards" width="550px" height="" />}}</div>
       <p>
         Anschliessend auf "Speichern" drücken. Nun werden Konfigurationsdateien erzeugt, Datenbanktreiber heruntergeladen, ein Solr-Home mit einem Solr-Kern für die MIR-Anwendung
-        angelegt und Klassifikationen, Nutzer und Rechtedaten geladen. Sind alle Schritte auf der nachfolgenden Seite erfolgreich abgeschlossen worden, muss als nächstes der
+        angelegt und Klassifikationen, Nutzer und Rechtedaten geladen. Es erscheint eine 
+        <a href="/images/documentation/getting_started/mir-wizard_preview.pdf" target="_blank">Übersicht der Konfiguration</a>. Sind alle Schritte auf der nachfolgenden Seite erfolgreich abgeschlossen worden, muss als nächstes der
         ServletContainer einmal neu gestartet werden. Dazu kann man direkt den Knopf "Server Herunterfahren" am Ende der Seite verwenden. Wer nicht den gesamten ServletContainer
         neustarten möchte, kann auch nur die MIR-Anwendung neustarten. Erst mit diesem Neustart werden die neuen Konfigurationen gefunden und eingelesen. Dann steht unter
         <a href="http://localhost:8080/mir/">http://localhost:8080/mir/</a> die Anwendung zur Verfügung und man kann sich mit dem Standardnutzer: "administrator" und dem Standardpasswort:
