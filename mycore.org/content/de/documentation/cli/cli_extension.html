@@ -2,14 +2,14 @@
 ---
 
 title: "Eigene Erweiterungen der Kommandozeilenschnittstelle (CLI)"
-mcr_version: ['2015.05','2016.06','2017.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "Der Abschnitt beschreibt die eigenen Erweiterungen der Kommandozeilenschnittstelle.
     "
 date: "2016-05-17"
 
 ---
-    <div>
+
       <h2>Einfügen weiterer Kommandoklassen</h2>
       <p>
         Alle Kommandoklassen nutzen die Annotierungen von
@@ -18,6 +18,7 @@ date: "2016-05-17"
         <code>MCRCommand</code>
         . Die Klassen sollten folgendes Codegerüst nutzen.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}package org.mycore.frontend.cli;
 
 import org.mycore.frontend.cli.annotation.MCRCommand;
@@ -32,10 +33,10 @@ public class MCRMyCommands extends MCRAbstractCommands {
     }
 
 }{{< /highlight >}}
+      </p>
       <p>Die so erstellte Klasse kann in den mycore.properties folgender Maßen eingebunden werden.</p>
       <p>
         <code>
           MCR.CLI.Classes.External=%MCR.CLI.Classes.External%,org.mycore.frontend.cli.MCRMyCommands</code>
       </p>
-    </div>
   

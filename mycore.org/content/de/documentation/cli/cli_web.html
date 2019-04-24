@@ -2,7 +2,7 @@
 ---
 
 title: "Die Kommandos über die Web Schnittstelle (WebCli)"
-mcr_version: ['2016.06','2017.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Thomas Scheffler', 'Paul.Borchert', 'Jens Kupferschmidt', 'Kathleen Neumann']
 description: "Der Abschnitt beschreibt die Arbeit mit Kommandos direkt aus der Web-Kommandozeilenschnittstelle heraus.
     "
@@ -10,7 +10,6 @@ date: "2016-11-08"
 
 ---
 
-    <div>
       <h2>Allgemeines</h2>
       <p> Das Command Line Interface (CLI) wurde ja bereits beschrieben. MyCoRe gestattet neben der Arbeit über die
         System-Kommandozeile auch die Arbeit direkt über ein Web-Interface. Es stehen dabei auch alle Kommandos bereit,
@@ -18,9 +17,7 @@ date: "2016-11-08"
         Für die Nutzung ist ein Servlet-Container mit Unterstützung für die Servlet-API 3.1 erfordelich.
         Dafür eignet sich also ein Tomcat ab Version 8 oder Jetty ab Version 9.1.
       </p>
-    </div>
 
-    <div>
       <h2>Integration in die Web-Anwendung</h2>
       <p>
         Die Integration der Komponente ist recht einfach. Natürlich muss selbige im benutzten MyCore-Code enthalten
@@ -33,9 +30,7 @@ date: "2016-11-08"
       <p>
         <code>/modules/webcli/launchpad.xml</code>
       </p>
-    </div>
 
-    <div>
       <h2>Besonderheiten bei Verwendung von AJP</h2>
       <p>
         Betreibt man die MyCoRe-Anwendung hinter einem Apache-Web-Server, so bindet man diesen in der Regel per
@@ -47,6 +42,7 @@ date: "2016-11-08"
         <code>server.xml</code>
         für unterschiedliche Ports definiert werden. Hier ein Beispiel:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}...
     <Connector port="{HTTP-Port}" protocol="HTTP/1.1"
                connectionTimeout="20000"
@@ -56,6 +52,7 @@ date: "2016-11-08"
                redirectPort="8443" />
 ...
 {{< /highlight >}}
+      </p>
       <p>
         Nun folgt die Konfiguration des Apache-Webservers. Hier ist als erstes das Modul
         <strong>proxy_wstunnel</strong>
@@ -72,6 +69,7 @@ date: "2016-11-08"
         <code>/etc/apache2</code>
       </p>
       <p>Nun ist noch die Konfiguration im virtuellen Host erforderlich.</p>
+      <p>
       {{< highlight xml "linenos=table">}}...
         <Location />
              ProxyPass ajp://localhost:{AJP-Port}/
@@ -85,9 +83,8 @@ date: "2016-11-08"
         </Location>
 ...
 {{< /highlight >}}
-    </div>
+</p>
 
-    <div>
       <h2>Verschlüsselte Verbindung zwischen Apache und Tomcat</h2>
       <p>
         Für den Fall, dass die Kommunikation zwischen Apache und Tomcat über
@@ -106,6 +103,7 @@ date: "2016-11-08"
         <code>server.xml</code>
         ist anzupassen.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}...
     <Connector port="{HTTPS-Port}" protocol="org.apache.coyote.http11.Http11NioProtocol"
                scheme="https" SSLEnabled="true"
@@ -113,7 +111,9 @@ date: "2016-11-08"
                keystoreFile="${user.home}/.keystore" keystorePass="{AJP-Port}"  />
 ...
 {{< /highlight >}}
+      </p>
       <p>3. Der Eintrag für den WebSocket ist anzupassen.</p>
+      <p>
       {{< highlight xml "linenos=table">}}...
       <Location /ws/>
            ProxyPass wss://{Tomcat-Host}:{HTTPS-Port}/ws/
@@ -121,5 +121,5 @@ date: "2016-11-08"
       </Location>
 ...
 {{< /highlight >}}
-    </div>
+    </p>
   
