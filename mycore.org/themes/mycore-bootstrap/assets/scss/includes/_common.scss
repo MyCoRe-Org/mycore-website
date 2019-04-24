@@ -83,7 +83,7 @@ h2#mcr-project-description {
 }
 
 #mcr-member a:hover {
-  background-image: url("../images/start/icon_arrow_orange.png");
+  background-image: url("../images/icons/icon_arrow_orange.png");
   background-repeat: no-repeat;
   background-position: 0 3px;
 }
@@ -109,7 +109,7 @@ a.latestnews {
 }
 
 a.latestnews:hover {
-  background-image: url("../images/start/icon_arrow_orange.png");
+  background-image: url("../images/icons/icon_arrow_orange.png");
   background-repeat: no-repeat;
   background-position: 0 24px;
   text-decoration:none;
@@ -267,24 +267,29 @@ a.latestnews:hover {
   font-size: 1em;
 }
 
-.mcr-navbar-side a.has-children:not(.collapsed):before {
-  content: "\f067";
+.mcr-navbar-side a.has-children:not(.collapsed) {
+  background-image: url("../images/icons/icon_plus_gray.png");
 }
 
-.mcr-navbar-side a.has-children.active:before {
-  content: "\f067";// +
+.mcr-navbar-side a.has-children.active {
+  background-image: url("../images/icons/icon_plus_orange.png");
 }
 
-.mcr-navbar-side a.no-children.active:before {
-  content: "\f104"; 
+.mcr-navbar-side a.no-children.active {
+  background-image: url("../images/icons/icon_bracket_orange.png");
 }
 
-.mcr-navbar-side a.has-children:hover:before {
-  content: "\f067";
+.mcr-navbar-side a.has-children:hover {
+  background-image: url("../images/icons/icon_plus_gray.png");
 }
 
-.mcr-navbar-side a.no-children:hover:before {
-  content: "\f104";
+.mcr-navbar-side a.no-children:hover {
+  background-image: url("../images/icons/icon_bracket_gray.png");
+}
+
+.mcr-navbar-side a {
+  background-position: 0px 7px;
+  background-repeat: no-repeat;
 }
 
 .mcr-navbar-side div.mcr-blog ul {
@@ -304,6 +309,5 @@ a.latestnews:hover {
 /* MCR Version badge */
 
 span.mcr-version {
-	font-size:1em;
-	background-color: $primary;
+  background-color: $primary;
 }
