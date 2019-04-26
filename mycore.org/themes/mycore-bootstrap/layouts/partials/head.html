@@ -9,7 +9,7 @@
 	  So we use maven to build the SCSS on p
 -->
 {{if .Site.IsServer}}
-	{{ $options := (dict  "targetPath" "css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
+	{{ $options := (dict  "targetPath" "_gen/css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
 	{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
 	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 {{ else }}
