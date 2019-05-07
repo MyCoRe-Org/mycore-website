@@ -16,17 +16,16 @@ main:
 -   {identifier: list,                    parent: applications,   name: Anwendungen von A-Z,  weight: -97,      url: /site/applications/list}
 
 - {identifier: download,                                        name: Download,             weight: -96,      url: /site/download}
--   {identifier: howtoget,                parent: download,       name: Übersicht,            weight: -99,      url: /site/download/howtoget}
 -   {identifier: dl_mycore,               parent: download,       name: MyCoRe,               weight: -98,      url: /site/download/dl_mycore}
--     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2018.06,  weight: -99,      url: /site/download/mycore/release}
--     {identifier: changelog,               parent: dl_mycore,      name: Changelog,            weight: -98,      url: /site/download/mycore/changelog}
+-     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2018.06,  weight: -98,      url: /site/download/dl_mycore/release}
+-     {identifier: changelog,               parent: dl_mycore,      name: Changelog,            weight: -98,      url: /site/download/dl_mycore/changelog}
 -   {identifier: dl_mir,                  parent: download,       name: MIR,                  weight: -97,      url: /site/download/dl_mir}
--     {identifier: mir_release_2018,        parent: dl_mir,         name: Release 2018.06,      weight: -99,      url: /site/download/mir/mir_release_2018}
--     {identifier: mir_release_2017,        parent: dl_mir,         name: Release 2017.06,      weight: -98,      url: /site/download/mir/mir_release_2017}
--     {identifier: mir_changelog,           parent: dl_mir,         name: Changelog,            weight: -97,      url: /site/download/mir/mir_changelog}
+-     {identifier: mir_release_2018,        parent: dl_mir,         name: Release 2018.06,      weight: -99,      url: /site/download/dl_mir/mir_release_2018}
+-     {identifier: mir_release_2017,        parent: dl_mir,         name: Release 2017.06,      weight: -98,      url: /site/download/dl_mir/mir_release_2017}
+-     {identifier: mir_changelog,           parent: dl_mir,         name: Changelog,            weight: -97,      url: /site/download/dl_mir/mir_changelog}
 -   {identifier: dl_skeleton,             parent: download,       name: Skeleton,             weight: -96,      url: /site/download/dl_skeleton}
--     {identifier: skeleton_release,        parent: dl_skeleton,    name: Release 2016.06,      weight: -99,      url: /site/download/skeleton/skeleton_release}
--     {identifier: skeleton_changelog,      parent: dl_skeleton,    name: Changelog,            weight: -98,      url: /site/download/skeleton/skeleton_changelog}
+-     {identifier: skeleton_release,        parent: dl_skeleton,    name: Release 2016.06,      weight: -99,      url: /site/download/dl_skeleton/skeleton_release}
+-     {identifier: skeleton_changelog,      parent: dl_skeleton,    name: Changelog,            weight: -98,      url: /site/download/dl_skeleton/skeleton_changelog}
 -   {identifier: license,                 parent: download,       name: Lizenzbedingungen,    weight: -95,      url: /site/download/license}
 -   {identifier: logos,                   parent: download,       name: Material,             weight: -94,      url: /site/download/logos}
 
