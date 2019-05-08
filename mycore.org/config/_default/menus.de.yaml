@@ -74,8 +74,8 @@ main:
 -     {identifier: search_query_language,   parent: search,             name: Query-Language,                weight: -97,      url: /documentation/search/search_query_language}
 -     {identifier: search_extract,          parent: search,             name: Daten extrahieren,             weight: -96,      url: /documentation/search/search_extract}
 -   {identifier: frontend,                parent: documentation,      name: Weboberfläche,                 weight: -95,      url: /documentation/frontend}
--     {identifier: static_content,          parent: frontend,           name: Statische Webinhalte,          weight: -99,      url: /documentation/frontend/static_content}
--     {identifier: multilang,               parent: frontend,           name: Mehrsprachigkeit,              weight: -98,      url: /documentation/frontend/multilang}
+-     {identifier: frontend_multilang,      parent: frontend,           name: Mehrsprachigkeit,              weight: -99,      url: /documentation/frontend/frontend_multilang}
+-     {identifier: frontend_static_content, parent: frontend,           name: Statische Webinhalte,          weight: -98,      url: /documentation/frontend/frontend_static_content}
 -     {identifier: xsl,                     parent: frontend,           name: XSL-Stylesheets,               weight: -97,      url: /documentation/frontend/xsl}
 -       {identifier: layout_service,          parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/xsl/layout_service}
 -       {identifier: xsl_fo,                  parent: xsl,                name: XSL-FO Unterstützung,          weight: -98,      url: /documentation/frontend/xsl/xsl_fo}
@@ -84,7 +84,7 @@ main:
 -     {identifier: mcrtextresolver,         parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/mcrtextresolver}
 -     {identifier: mcrclassbrowser,         parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/mcrclassbrowser}
 -     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -93,      url: /documentation/frontend/frontend_tarzipservlet}
--     {identifier: xeditor,                 parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/xeditor}
+-     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/frontend_xeditor}
 -     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -91,      url: /documentation/frontend/frontend_fileupload}
 -     {identifier: iview2,                  parent: frontend,           name: IView2,                        weight: -90,      url: /documentation/frontend/frontend_iview2}
 -     {identifier: image_viewer,            parent: frontend,           name: Bildbetrachter,                weight: -89,      url: /documentation/frontend/image_viewer}
