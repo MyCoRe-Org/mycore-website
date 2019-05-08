@@ -70,9 +70,9 @@ main:
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
 -     {identifier: cli_extension,           parent: cli,                name: Erweiterungen,                 weight: -97,      url: /documentation/cli/cli_extension}
 -   {identifier: search,                  parent: documentation,      name: Suche,                         weight: -96,      url: /documentation/search}
--     {identifier: using_solr,              parent: search,             name: Solr Nutzung,                  weight: -99,      url: /documentation/search/using_solr}
--     {identifier: query_language,          parent: search,             name: Query-Language,                weight: -97,      url: /documentation/search/query_language}
--     {identifier: extract,                 parent: search,             name: Daten extrahieren,             weight: -96,      url: /documentation/search/extract}
+-     {identifier: search_solr_use,         parent: search,             name: Solr Nutzung,                  weight: -99,      url: /documentation/search/search_solr_use}
+-     {identifier: search_query_language,   parent: search,             name: Query-Language,                weight: -97,      url: /documentation/search/search_query_language}
+-     {identifier: search_extract,          parent: search,             name: Daten extrahieren,             weight: -96,      url: /documentation/search/search_extract}
 -   {identifier: frontend,                parent: documentation,      name: Weboberfläche,                 weight: -95,      url: /documentation/frontend}
 -     {identifier: static_content,          parent: frontend,           name: Statische Webinhalte,          weight: -99,      url: /documentation/frontend/static_content}
 -     {identifier: multilang,               parent: frontend,           name: Mehrsprachigkeit,              weight: -98,      url: /documentation/frontend/multilang}

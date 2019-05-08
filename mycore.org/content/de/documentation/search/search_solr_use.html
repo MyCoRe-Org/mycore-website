@@ -2,18 +2,17 @@
 ---
 
 title: "Solr und MyCoRe"
-mcr_version: ['2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 description: "
       Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
       Im das MyCoRe
-      Release 2018.06 LTS wurde erfolgreich mit Solr 7.4.0 getestet.
+      Release 2018.06 LTS und 2019.06 LTS wurde erfolgreich mit Solr 7.7.1 getestet.
     "
-date: "2018-06-29"
+date: "2019-05-08"
 
 ---
 
-    <div>
       <h2>Solr Konfiguration für MyCoRe</h2>
       <p>
         Falls noch kein Solr Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
@@ -36,7 +35,6 @@ date: "2018-06-29"
         in den Core geschrieben.
       </p>
 
-      <div>
         <h3>Begrifflichkeiten im Zusammenhang mit MyCoRe</h3>
         <p>Im Zusammenhang mit der Nutzung der Kommandos zur Konfiguration von SOLR-Cores in MyCoRe sind einige Begiffe
           zu definieren. Dies soll Missverständnisse bei der Nutzung vermeiden.
@@ -74,9 +72,7 @@ date: "2018-06-29"
             SOLR zu finden ist.
           </li>
         </ul>
-      </div>
 
-      <div>
         <h3>Configuration Sets laden</h3>
         <p>
           Die Basis-Konfiguration eines Solr-Cores erfolgt über <strong>Configuration Sets</strong>.
@@ -98,12 +94,12 @@ date: "2018-06-29"
           dies für
           das Klassifikations-Set aufgerufen werden:
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git
           mycore_classification{{< /highlight >}}
-      </div>
+        </p>
 
-      <div>
         <h3>Standard Solr Core (main) erzeugen</h3>
         <p>
           Basierend auf dem bereitgestellten Configuration Set wird nun ein Solr Core erzeugt.
@@ -111,10 +107,12 @@ date: "2018-06-29"
           <strong>main</strong>
           Cores kann der Name der MyCoRe-Anwendung gewählt werden.
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           .../solr/bin/solr create -c {core_name} -d {config_set}
           .../solr/bin/solr create -c my_core_name -d mycore_main
         {{< /highlight >}}
+        </p>
 
         <p>
           Falls noch nicht geschehen, sollte jetzt die Solr-Server-URL der MyCoRe-Anwendung über ein Property bekannt
@@ -134,12 +132,14 @@ date: "2018-06-29"
           muss zusätzlich das Property <code>MCR.Solr.Core.{core_id}.ServerURL</code>
           gesetzt werden. Somit können Solr-Cores auch auf verschiedenen physischen Hosts liegen.
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           MCR.Solr.ServerURL=http://localhost:8983/
           MCR.Solr.Core.main.Name=my_core_name
           MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
           ...
         {{< /highlight >}}
+        </p>
 
         <p>
           Alternativ müssen die
@@ -148,10 +148,12 @@ date: "2018-06-29"
           <code>main</code>
           ) über die MyCoRe-CLI registriert werden. Für weitere <em>CoreIds</em> gilt dies analog. 
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           mycore.sh register solr core with name {core_name} as core main
           mycore.sh register solr core with name my_core_name as core main
         {{< /highlight >}}
+        </p>
 
         <p>
           Anschließend kann über die SOLR-Web-Oberfläche geprüft werden, ob der Core richtig angelegt wurde
@@ -164,9 +166,6 @@ date: "2018-06-29"
           kann eine Liste der zu setzenden Properties in der CLI angezeigt werden.
         </p>
 
-      </div>
-
-      <div>
         <h3>Solr Konfiguration und Schema erstellen</h3>
 
         <p>
@@ -179,6 +178,7 @@ date: "2018-06-29"
           <code>main</code> weitere Definitionen für andere Core Typen (z. B.
           <code>classification</code>) definiert sind.
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           {mycore-module}/src/main/resources/components/{module_name}/config/solr
           or
@@ -195,6 +195,7 @@ date: "2018-06-29"
           .../solr-config.json -
           vorhanden, wenn das Modul die Solr-Konfiguration erweitert
         {{< /highlight >}}
+        </p>
 
         <p>
           Die JSON-Dateien bestehen aus Json-Arrays, die Kommandos der Solr-Schema bzw. Solr-Configuration API
@@ -222,10 +223,7 @@ date: "2018-06-29"
           <a href="https://lucene.apache.org/solr/guide/7_4/schema-api.html">Schema API</a> und
           <a href="https://lucene.apache.org/solr/guide/7_4/config-api.html">Config API</a>
         </p>
-      </div>
-    </div>
 
-    <div>
       <h2>Das Solr-Document</h2>
       <p>
         Die in Solr zu speichernden Daten werden als Solr-Document über eine Kette von XSLT-Transformationen generiert.
@@ -235,6 +233,7 @@ date: "2018-06-29"
         Der an Solr ausgehende Datenstrom läßt sich im Web-Browser mit der URL
         <code>http://{myapp}/receive/{mycore_id}?XSL.Style=solr-document</code> überprüfen.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:mcrxsl="xalan://org.mycore.common.xml.MCRXMLFunctions"
@@ -255,28 +254,26 @@ date: "2018-06-29"
     ...
   </template>
 </stylesheet>{{< /highlight >}}
+      </p>
 
       <p>
         Über verschiedene <code>rebuild</code> Kommandos (siehe <a href="{{< ref "#solr_commands" >}}">Kommandos zur Arbeit mit Solr</a>)
         können die Daten in den Solr Core eingespielt werden. Um alle Daten zu indexieren, kann folgendes Kommando verwendet werden:
       </p>
-      {{< highlight shell "linenos=table">}}rebuild solr metadata and content index in core main{{< /highlight >}}
+      <p>
+      {{< highlight shell "linenos=table">}} rebuild solr metadata and content index in core main{{< /highlight >}}
+      </p>
 
-
-    </div>
-
- 
-    <div>
       <h2>Eigene Request-Handler einbinden</h2>
       <p>MyCoRe verhindert grundsätzlich den Gebrauch eigener Request-Handler solange diese nicht MyCoRe bekannt 
       sind. Grundsätzlich sind nur die Handler <code>/select</code> und <code>/update</code> aus Sicherheitsgründen 
       zugelassen. Sollen weitere Handler benutzt werden, so müssen diese im Property <code>MCR.Solr.Proxy.WhiteList</code>
       hinzugefügt werden. Dies kann mit folgender Konfiguration erfolgen:</p>
-      {{< highlight shell "linenos=table">}}MCR.Solr.Proxy.WhiteList=%MCR.Solr.Proxy.WhiteList%,/myhandler{{< /highlight >}}
+      <p>
+      {{< highlight shell "linenos=table">}} MCR.Solr.Proxy.WhiteList=%MCR.Solr.Proxy.WhiteList%,/myhandler{{< /highlight >}}
+      </p>
       <!-- p>[ToDo] Beispiel Autosuggestion</p -->
-    </div>
-    
-    <div>
+
       <h2>Properties für die Solr-Komponente</h2>
       <p>
         <span class="label label-warning">Achtung:</span>
@@ -524,9 +521,7 @@ date: "2018-06-29"
           <td />
         </tr>
       </table>
-    </div>
 
-    <div id="solr_commands">
       <h2>Solr Kommandos für die MyCoRe CLI</h2>
       <p>
         Folgende Kommandos stehen für die Arbeit mit Solr an der Kommandozeile zur Verfügung.
@@ -788,17 +783,14 @@ date: "2018-06-29"
           indexiert worden sind und führt für fehlende Objekte eine Neuindexierung aus.
           <br />
         </dd>
-
-
       </dl>
-    </div>
 
-    <div>
       <h2>Solr-Abfragen über die MyCoRe-Java-API</h2>
       <p>
         Mit diesem Code-Schnipsel soll demonstriert werden, wie ein Zugriff auf die Solr-Daten mittels MyCoRe-API
         erfolgen kann.
       </p>
+      <p>
       {{< highlight java "linenos=table">}}
         import org.apache.solr.client.solrj.SolrClient;
         import org.apache.solr.client.solrj.SolrQuery;
@@ -826,6 +818,6 @@ date: "2018-06-29"
 
         ...
       {{< /highlight >}}
-    </div>
+      </p>
 
   

@@ -2,16 +2,15 @@
 ---
 
 title: "Die MyCoRe-Anfragesprache MCR-QL"
-mcr_version: ['2016.06','2015.05']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "
       Der MyCoRe-Kern stellt eine eigene, backend-unabhängige Anfragesprache zur Verfügung,
       die als einfacher String, im XML-Format oder als Java-Objekt formuliert werden kann.
     "
-date: "2017-04-05"
+date: "2019-05-08"
 
 ---
-    <div>
       <h2>Datentypen und Operatoren</h2>
       <p>
         Jedem Suchfeld ist ein definierter Datentyp zugeordnet. Der Datentyp bestimmt die möglichen Operatoren für
@@ -125,24 +124,21 @@ date: "2017-04-05"
          Zeit- und Boolean-Werte das Format für die Indizierung (wie werden die Felder zur Indizierung übergeben) und die
          spätere Suche (wie wird ein Wert in einer Query formatiert) exakt festgelegt ist (siehe Formate in obiger Tabelle).
        </p>
-      </div>
 
-      <div>
         <h2>Sortierkriterien festlegen</h2>
         <p>
           Sortierkriterien kann man mit dem Tag <code>&lt;sortBy /&gt;</code> festlegen. Darin können beliebig
           viele Felder und die jeweilige Reihenfolge (<code>ascending</code> oder <code>descending</code>)
           festgelegt werden.
         </p>
+        <p>
         {{< highlight xml "linenos=table">}}
 <sortBy>
   <field name="title" order="descending" />
   <field name="dateCreated" order="ascending" />
 </sortBy>{{< /highlight >}}
-      </div>
+        </p>
 
-
-      <div>
        <h2>Suchanfragen formulieren</h2>
        <p>
        Eine Suchanfrage kann als XML-Dokument oder als Textausdruck formuliert werden. Für Programmierer besteht weiterhin
@@ -152,6 +148,7 @@ date: "2017-04-05"
        Eine einfache Suchbedingung enthält das zu durchsuchende Feld, einen Suchoperator und den Vergleichswert, z.B.
        Suche nach dem Wort „Optik“ im Titel:
        </p>
+       <p>
        {{< highlight xml "linenos=table">}}
   title contains "Optik"
 
@@ -159,6 +156,7 @@ date: "2017-04-05"
 
   MCRFieldDef titleField = MCRFieldDef.getDef("title");
   new MCRQueryCondition( titleField, "contains", "Optik" );{{< /highlight >}}
+       </p>
        <p>
        Die Klassen <code>MCRQueryParser</code> und <code>MCRQueryCondition</code> implementieren die Java-Darstellung einer
        Query bzw. den Parser, um aus der String- oder XML-Darstellung die Java-Darstellung zu gewinnen und zwischen den
@@ -168,6 +166,7 @@ date: "2017-04-05"
        Einfache Suchbedingungen können über <code>and/or/not</code>-Ausdrücke miteinander verknüpft und so zu komplexeren
        Suchanfragen zusammengesetzt werden:
        </p>
+       <p>
        {{< highlight xml "linenos=table">}}
   ( not (title contains "Optik") ) and ( date &gt; "2006-02-22" )
 
@@ -177,6 +176,7 @@ date: "2017-04-05"
     </boolean>
     <condition field="date" operator="&amp;gt;" value="2006-02-22" />
   </boolean>{{< /highlight >}}
+        </p>
        <p>
        Solche komplexen Suchbedingungen können über die Klassen <code>MCRAndCondition</code>, <code>MCROrCondition</code>
         und <code>MCRNotCondition</code> aus dem Paket <code>org.mycore.parsers.bool</code> auch als Java-Objekte gebildet
@@ -186,6 +186,7 @@ date: "2017-04-05"
         <p>
           Hier eine vollständige Beispiel-Anfrage in MCR-QL:
         </p>
+        <p>
         {{< highlight xml "linenos=table">}}
 <query maxResults="100" numPerPage="10" mask="editor_form_search-cite-a.xml">
   <conditions format="xml">
@@ -204,4 +205,5 @@ date: "2017-04-05"
     <field name="citeCategory" order="ascending" />
   </sortBy>
 </query>{{< /highlight >}}
-       </div>
+         </p>
+ 
