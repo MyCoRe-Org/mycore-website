@@ -60,7 +60,7 @@ main:
 -       {identifier: classif_browser,         parent: classifications,    name: Browser,                       weight: -95,      url: /documentation/basics/classifications/classif_browser}
 -       {identifier: classif_editor,          parent: classifications,    name: Editor,                        weight: -94,      url: /documentation/basics/classifications/classif_editor}
 -       {identifier: classif_mapping,         parent: classifications,    name: Mapping,                       weight: -93,      url: /documentation/basics/classifications/classif_mapping}
--     {identifier: eventhandler,            parent: basics,             name: EventHandler,                  weight: -95,      url: /documentation/basics/eventhandler}
+-     {identifier: basics_eventhandler,     parent: basics,             name: EventHandler,                  weight: -95,      url: /documentation/basics/basics_eventhandler}
 -     {identifier: basics_mcr_linktables,   parent: basics,             name: Linktabellen,                  weight: -94,      url: /documentation/basics/basics_mcr_linktables}
 -     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -93,      url: /documentation/basics/basics_mcr_mailer}
 -     {identifier: mcrservlet,              parent: basics,             name: MCRServlet,                    weight: -92,      url: /documentation/basics/mcrservlet}
