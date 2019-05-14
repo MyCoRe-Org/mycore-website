@@ -94,8 +94,8 @@
        <plugin>
         <groupId>com.github.warmuuh</groupId>
         <artifactId>libsass-maven-plugin</artifactId>
-        <version>0.1.7-libsass_3.2.4</version><!-- compiled for java7 -->
-        <!-- <version>0.2.10-libsass_3.5.3</version> - current  -->
+          <!-- <version>0.1.7-libsass_3.2.4</version> --> <!-- compiled for java7-->
+          <version>0.2.10-libsass_3.5.3</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
