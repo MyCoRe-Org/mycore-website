@@ -10,10 +10,10 @@ main:
 -   {identifier: derivates,               parent: features,       name: Dateiverwaltung,      weight: -94,      url: /site/features/derivates}
 -   {identifier: acl,                     parent: features,       name: Rechteverwaltung,     weight: -93,      url: /site/features/acl}
 
-- {identifier: applications,                                    name: Beispiele,            weight: -97,      url: /site/applications}
--   {identifier: index,                   parent: applications,   name: Demo,                 weight: -99,      url: /site/applications/index}
+- {identifier: applications,                                    name: Anwendungen,          weight: -97,      url: /site/applications}
+-   {identifier: mir,                   parent: applications,   name: Demo (MIR),             weight: -99,      url: /site/applications/mir}
 -   {identifier: map,                     parent: applications,   name: Karte,                weight: -98,      url: /site/applications/map}
--   {identifier: list,                    parent: applications,   name: Anwendungen von A-Z,  weight: -97,      url: /site/applications/list}
+-   {identifier: list,                    parent: applications,   name: von A bis Z,              weight: -97,      url: /site/applications/list}
 
 - {identifier: download,                                        name: Download,             weight: -96,      url: /site/download}
 -   {identifier: dl_mycore,               parent: download,       name: MyCoRe,               weight: -98,      url: /site/download/dl_mycore}
