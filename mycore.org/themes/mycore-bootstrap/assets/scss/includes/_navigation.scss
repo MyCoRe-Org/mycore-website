@@ -1,0 +1,150 @@
+/* navigation
+ * - defines all navigation elements (like menus)
+ */
+
+// Extra large devices (large desktops) and below
+// no (xl) media query necessary (desktop first)
+// set the defaults for all responsive levels here
+
+
+    // top navigation ---------------------------
+    .mcr-navbar-main {
+        width: 100%;
+        background-color: rgba(0,0,0,0.1);
+        padding: 0.16rem 0;
+
+        a {
+            color:white;
+            margin-right:15px;
+            border-bottom: 2px solid transparent;
+            &:hover{
+                color:orange;
+                border-bottom: 2px solid orange;
+            }
+            &.active{
+                border-bottom: 2px solid white;
+            }
+        }
+    }
+
+    .navbar-nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    // side navigation --------------------------
+    .mcr-navbar-side a {
+        text-decoration:none;
+        color:black;
+    }
+
+    .mcr-navbar-side a:hover{
+        text-decoration:none;
+        color:black;
+    }
+
+    .mcr-navbar-side h5:not(:first-of-type) {
+        padding-top:30px;
+    }
+
+    .mcr-navbar-side h5 a:hover:before {
+        content: "\f104";
+        padding-right: 5px;
+    }
+
+    .mcr-navbar-side li:not(:first-of-type) h6 {
+        padding-top:20px;
+    }
+
+    .mcr-navbar-side h6 {
+        font-size: 0.85em;
+        }
+
+    .mcr-navbar-side ul h6 a {
+        margin-left: 0em;
+    }
+
+    .mcr-navbar-side > div > ul {
+        padding-left:0px;
+        list-style: none;
+    }
+
+    .mcr-navbar-side ul {
+        padding-left: 15px;
+        list-style: none;
+    }
+
+    .mcr-navbar-side a:before {
+        font-family: "Font Awesome\ 5 Free";
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .mcr-navbar-side a.active:before {
+        color: orange;
+    }
+
+    .mcr-navbar-side ul a {
+        margin-left: 0.75em;
+        padding-top: 0px;
+        padding-bottom: 5px;
+        font-size: 1em;
+    }
+
+    .mcr-navbar-side a.has-children:not(.collapsed) {
+        background-image: url("../../images/icons/icon_plus_gray.png");
+    }
+
+    .mcr-navbar-side a.has-children.active {
+        background-image: url("../../images/icons/icon_plus_orange.png");
+    }
+
+    .mcr-navbar-side a.no-children.active {
+        background-image: url("../../images/icons/icon_bracket_orange.png");
+    }
+
+    .mcr-navbar-side a.has-children:hover {
+        background-image: url("../../images/icons/icon_plus_gray.png");
+    }
+
+    .mcr-navbar-side a.no-children:hover {
+        background-image: url("../../images/icons/icon_bracket_gray.png");
+    }
+
+    .mcr-navbar-side a {
+        background-position: 0px 7px;
+        background-repeat: no-repeat;
+    }
+
+    .mcr-navbar-side div.mcr-blog ul {
+        margin-left: 15px;
+    }
+    .mcr-navbar-side div.mcr-blog li {
+        display: inline;
+
+    }
+    .mcr-navbar-side div.mcr-blog a {
+        white-space: nowrap;
+        margin-left: 0em;
+        margin-right: 15px;
+    }
+
+
+// Large devices (desktops) and below
+@include media-breakpoint-down(lg) {
+    // add/overwrite styles for responsive level lg and lower
+}
+
+// Medium devices (tablets) and below
+@include media-breakpoint-down(md) {
+    // add/overwrite styles for responsive level md and lower
+}
+
+// Small devices (landscape phones) and below
+@include media-breakpoint-down(sm) {
+    // add/overwrite styles for responsive level sm and lower
+}
+
+// Extra small devices (portrait phones)
+@include media-breakpoint-down(xs) {
+    // add/overwrite styles for responsive level xs
+}

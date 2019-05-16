@@ -2,10 +2,14 @@
 <html>
     {{- partial "head.html" . -}}
     <body>
-        {{- partial "header.html" . -}}
-        <div id="content" class="mt-5 mb-5">
-        {{- block "main" . }}{{- end }}
-        </div>
-        {{- partial "footer.html" . -}}
+        <header>
+            {{- partial "header.html" . -}}
+        </header>
+        <section id="content">
+            {{- block "main" . }}{{- end }}
+        </section>
+        <footer>
+            {{- partial "footer.html" . -}}
+        </footer>
     </body>
 </html>
