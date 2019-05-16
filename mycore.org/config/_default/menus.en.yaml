@@ -1,8 +1,11 @@
 main:
 - {identifier: welcome, name: Start, weight: -99, url: /}
-- {identifier: applications, name: Applications, weight: -97, url: /site/applications}
-- {identifier: map, parent: applications, name: Map, weight: -98, url: /site/applications/map}
-- {identifier: list, parent: applications, name: Applications A-Z, weight: -97, url: /site/applications/list}
+- {identifier: applications,                                    name: Applications,          weight: -98,      url: /site/applications}
+-   {identifier: mir,                   parent: applications,   name: Demo (MIR),             weight: -99,      url: /site/applications/mir}
+-   {identifier: map,                     parent: applications,   name: Map,                weight: -98,      url: ../site/applications/map}
+-   {identifier: list,                    parent: applications,   name: from A to Z,              weight: -97,      url: /site/applications/list}
+
+
 - {identifier: support, name: Organisation, weight: -94, url: /site/support}
 - {identifier: team, parent: support, name: Team, weight: -97, url: /site/support/team}
 - {identifier: presentations, parent: support, name: Presentations, weight: -96, url: /site/presentations}
