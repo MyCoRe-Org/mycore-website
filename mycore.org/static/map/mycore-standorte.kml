@@ -7,7 +7,7 @@
     <Style id="style_MyCoRe-Pin">
       <IconStyle>
         <Icon>
-          <href>/map/icons/pin.png</href>
+          <href>map/icons/pin.png</href>
         </Icon>
         <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
       </IconStyle>
@@ -423,7 +423,41 @@
         <coordinates>9.7308807,52.3652968,0</coordinates>
       </Point>
     </Placemark>
-
+    <Placemark>
+      <name>RepoMed</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://publikationsserver.mh-hannover.de/"><img class="icon" alt="icon" src="/map/icons/icon_hannover_mhh.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://publikationsserver.mh-hannover.de/">Repositorium der MHH</a>
+            		<span class="mcrmap_item_owner">Medizinische Hochschule Hannover</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.8027622,52.3835204,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>TiHo eLib</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://elib.tiho-hannover.de/"><img class="icon" alt="icon" src="/map/icons/icon_hannover_tiho.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://elib.tiho-hannover.de/">TiHo eLib - Repositorium</a>
+            		<span class="mcrmap_item_owner">Stiftung Tierärztliche Hochschule Hannover (TiHo)</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.7984921,52.354869,0</coordinates>
+      </Point>
+    </Placemark>
+    
 <!-- ***************************************************************************************************************** -->
 <!-- Hagen                                                                                                    -->
 <!-- ***************************************************************************************************************** -->
@@ -752,6 +786,24 @@
                 <p>
                 	<a class="mcrmap_item_name" href="http://duepublico.uni-duisburg-essen.de/">DuEPublico</a>
 					<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>OER</name>
+      <description><![CDATA[
+            <p>Universität Duisburg-Essen (Open Educational Resources)</p>
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="http://oer.uni-duisburg-essen.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_oer.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="http://oer.uni-duisburg-essen.de/">Open Educational Resources</a>
+					<span class="mcrmap_item_owner">Universität Duisburg-Essen</span>
                 </p>
             </div>
           ]]>
@@ -1456,6 +1508,27 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>6.927404,50.928763,0</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
+<!-- Münster                                                                                                              -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Corpus Musicae Ottomanicae</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://corpus-musicae-ottomanicae.de/"><img class="icon" alt="icon" src="/map/icons/icon_muenster_cmo.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://corpus-musicae-ottomanicae.de/">Corpus Musicae Ottomanicae (CMO)</a>
+					<span class="mcrmap_item_owner">Westfälische Wilhelms-Universität Münster</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.5994589,51.9711865,0</coordinates>
       </Point>
     </Placemark>
 
