@@ -1,3 +1,16 @@
+/* layout */
+
+// make footer align to the bottom
+body {
+  display: flex; // use the flex box modell
+  flex-direction: column; // sort items in a column
+  min-height: 100vh; // use full vieport height
+}
+#content {
+  flex: 1; // use all available space
+}
+// end: align footer
+
 /* general styles */
 
 #content p {
@@ -236,7 +249,7 @@ a.latestnews:hover {
 .mcr-navbar-side h6 {
   font-size: 0.85em;
   }
-  
+
 .mcr-navbar-side ul h6 a {
   margin-left: 0em;
 }
@@ -297,7 +310,7 @@ a.latestnews:hover {
 }
 .mcr-navbar-side div.mcr-blog li {
   display: inline;
-  
+
 }
 .mcr-navbar-side div.mcr-blog a {
   white-space: nowrap;
