@@ -6,4 +6,3 @@ description: "Hier berichten Entwickler über ihre aktuellen Arbeiten oder tausc
 ---
 
 <hr />
-<hr />
