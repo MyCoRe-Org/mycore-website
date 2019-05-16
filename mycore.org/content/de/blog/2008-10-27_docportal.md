@@ -21,4 +21,6 @@ DocPortal ist eine einfache Beispiel-Anwendung für MyCoRe, die einen Dokumenten
 Metadatenfeldern und den drei Objekttypen document, author und institution implementiert. Diese Anwendung ist als
 Beispiel und Referenz zu sehen, keineswegs als direkt produktiv nutzbarer Dokumentenserver. Sie können aber
 DocPortal als Ausgangssystem zur Entwicklung eigener Anwendungen nutzen.<br/>
+
+
 [Live-Demo der DocPortal Beispiel-Anwendung](http://www.mycore.de:8291/ "Link zu DocPortal")
