@@ -1,4 +1,4 @@
-<figure class="{{- if .Get "src" -}}text-center{{ end }} {{ with .Get "class" -}}{{ . }}{{ end }}">
+<figure class="{{- if .Get "src" -}}{{- if not (.Get "class") -}}text-center{{- end -}} {{- end -}}{{ with .Get "class" -}}{{ . }}{{- end -}}">
      {{- if .Get "src" -}}
     <img src="{{ .Get "src" }}" 
          {{- with .Get "alt" }} alt="{{ . }}"{{ end -}}
