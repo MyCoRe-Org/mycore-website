@@ -147,7 +147,9 @@ main:
 -     {identifier: lifecycle,               parent: developer,          name: Init-/Shutdown Handling,     weight: -87,      url: /documentation/developer/lifecycle}
 -     {identifier: plugin_dev,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/plugin_dev}
 
-- {identifier: support,                                            name: Organisation,                 weight: -94,     url: /site/support}
+- {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
+
+- {identifier: support,                                            name: Organisation,                 weight: -93,     url: /site/support}
 -   {identifier: community,             parent: support,             name: Community,                    weight: -99,     url: /site/support/community}
 -   {identifier: email,                 parent: support,             name: Kontakt zu uns,               weight: -98,     url: /site/support/email}
 -   {identifier: team,                  parent: support,             name: Team,                         weight: -97,     url: /site/support/team}
@@ -162,5 +164,3 @@ main:
 -   {identifier: bugs,                  parent: support,             name: zu MyCoRe JIRA,               weight: -95,     url: 'http://mycore.atlassian.net'}
 -   {identifier: wiki,                  parent: support,             name: zu MyCoRe Wiki,               weight: -94,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
 -   {identifier: maven,                 parent: support,             name: zu MyCoRe Maven,              weight: -93,     url: 'http://mvnrepository.com/artifact/org.mycore'}
-
-- {identifier: blog,                                               name: BLOG,                         weight: -1,      url: /blog}

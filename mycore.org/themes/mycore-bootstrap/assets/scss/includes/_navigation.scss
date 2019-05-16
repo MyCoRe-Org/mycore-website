@@ -10,7 +10,7 @@
     // top navigation ---------------------------
     .mcr-navbar-main {
         width: 100%;
-        background-color: rgba(0,0,0,0.1);
+        background-color: rgba(21, 21, 21, 0.5);
         padding: 0.16rem 0;
 
         a {
@@ -18,8 +18,8 @@
             margin-right:15px;
             border-bottom: 2px solid transparent;
             &:hover{
-                color:orange;
-                border-bottom: 2px solid orange;
+                color: $yellow;
+                border-bottom: 2px solid $yellow;
             }
             &.active{
                 border-bottom: 2px solid white;
@@ -80,7 +80,7 @@
         text-decoration: none;
     }
     .mcr-navbar-side a.active:before {
-        color: orange;
+        color: $yellow;
     }
 
     .mcr-navbar-side ul a {
