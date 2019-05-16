@@ -15,7 +15,7 @@ blog/categories:
 ---
 
 
-Projekte zur datenbankgestützten Erschließung und digitalen Bereitstellung arabischer, persischer und türkischer Handschriften
+**Projekte zur datenbankgestützten Erschließung und digitalen Bereitstellung arabischer, persischer und türkischer Handschriften**
 
 {{< mcr-figure class="text-center" src="/images/blog/applications/islamicmss.png" alt="Islamische Handschriften"
   label="Screenshot" caption="Islamische Handschriften" />}}
@@ -56,16 +56,16 @@ unterdessen als eigenständige [Demo-Version](http://myihs.dl.uni-leipzig.de/ "L
 <th>URL</th>
 </tr>
       <tr>
-       <td><b>IslamHS</b></td><td>01.08.2006-31.01.2008</td><td><a href="http://islamicmss.dl.uni-leipzig.de/" target="_blank" alt="Link zur MyCoRe-Anwendung IslamHS" title="Link zur MyCoRe-Anwendung IslamHS">http://islamicmss.dl.uni-leipzig.de/</a></td>
+       <td><b>IslamHS</b></td><td>01.08.2006 - 31.01.2008</td><td><a href="http://islamicmss.dl.uni-leipzig.de/" target="_blank" alt="Link zur MyCoRe-Anwendung IslamHS" title="Link zur MyCoRe-Anwendung IslamHS">http://islamicmss.dl.uni-leipzig.de/</a></td>
       </tr>
       <tr>
-       <td><b>Banda Aceh</b></td><td>01.01.2008-31.12.2009</td><td><a href="http://www.manuscripts-aceh.org/" target="_blank" alt="Link zur MyCoRe-Anwendung Banda Aceh" title="Link zur MyCoRe-Anwendung Banda Aceh">http://www.manuscripts-aceh.org/</a></td>
+       <td><b>Banda Aceh</b></td><td>01.01.2008 - 31.12.2009</td><td><a href="http://www.manuscripts-aceh.org/" target="_blank" alt="Link zur MyCoRe-Anwendung Banda Aceh" title="Link zur MyCoRe-Anwendung Banda Aceh">http://www.manuscripts-aceh.org/</a></td>
       </tr>
       <tr>
-       <td><b>Refaiya</b></td><td>01.10.2008-30.09.2010</td><td><a href="http://www.refaiya.uni-leipzig.de/" target="_blank" alt="Link zur MyCoRe-Anwendung Refaiya" title="Link zur MyCoRe-Anwendung Refaiya">http://www.refaiya.uni-leipzig.de/</a></td>
+       <td><b>Refaiya</b></td><td>01.10.2008 - 30.09.2010</td><td><a href="http://www.refaiya.uni-leipzig.de/" target="_blank" alt="Link zur MyCoRe-Anwendung Refaiya" title="Link zur MyCoRe-Anwendung Refaiya">http://www.refaiya.uni-leipzig.de/</a></td>
       </tr>
       <tr>
-       <td><b>Zentraljava</b></td><td>01.01.2009-31.12.2010</td><td><a href="http://www.manuscripts-java.org/" target="_blank" alt="Link zur MyCoRe-Anwendung Zentraljava" title="Link zur MyCoRe-Anwendung Zentraljava">http://www.manuscripts-java.org/</a></td>
+       <td><b>Zentraljava</b></td><td>01.01.2009 - 31.12.2010</td><td><a href="http://www.manuscripts-java.org/" target="_blank" alt="Link zur MyCoRe-Anwendung Zentraljava" title="Link zur MyCoRe-Anwendung Zentraljava">http://www.manuscripts-java.org/</a></td>
       </tr>
       <tr>
        <td><b>MyIHS</b></td><td>wird ständig verbessert</td><td><a href="http://myihs.dl.uni-leipzig.de/" target="_blank" alt="Link zur MyCoRe-Anwendung MyIHS" title="Link zur MyCoRe-Anwendung MyIHS">http://myihs.dl.uni-leipzig.de/</a></td>
