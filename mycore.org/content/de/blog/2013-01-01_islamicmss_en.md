@@ -9,7 +9,7 @@ blog/authors: ["Jens Kupferschmidt"]
 blog/periods: 2013-01
 blog/categories:
  - "Anwendungen"
- - "english"
+ - "applications [engl]"
 
 #blog/tags:
  

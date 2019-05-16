@@ -9,7 +9,7 @@ blog/authors: ["Frank Lützenkirchen"]
 blog/periods: 2008-10
 blog/categories:
  - "Anwendungen"
- - "english"
+ - "applications [engl]"
 
 #blog/tags:
  
