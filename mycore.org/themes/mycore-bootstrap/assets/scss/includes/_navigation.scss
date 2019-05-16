@@ -15,7 +15,7 @@
 
         a {
             color:white;
-            margin-right:15px;
+            margin-right: 15px;
             border-bottom: 2px solid transparent;
             &:hover{
                 color: $yellow;
@@ -115,17 +115,23 @@
         background-repeat: no-repeat;
     }
 
-    .mcr-navbar-side div.mcr-blog ul {
-        margin-left: 15px;
-    }
-    .mcr-navbar-side div.mcr-blog li {
-        display: inline;
-
-    }
     .mcr-navbar-side div.mcr-blog a {
-        white-space: nowrap;
         margin-left: 0em;
-        margin-right: 15px;
+        margin-right: 5px;
+        padding-left: 12px;
+        color: $primary;
+    }
+    .mcr-navbar-side div.mcr-blog a:hover {
+        text-decoration: underline;
+    }
+
+    .mcr-navbar-side ul.mcr-blog-latest a {
+        padding-left: 0
+    }
+
+    .mcr-blog h4 {
+        margin-bottom: 0px;
+        margin-top: .5rem;
     }
 
 

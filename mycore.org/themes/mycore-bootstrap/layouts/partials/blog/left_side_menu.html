@@ -6,11 +6,11 @@
  	</button>
  	<div class="collapse navbar-collapse" id="navbarNavSide">
  		<div class="mcr-blog">
-      		<h5><i class="fas fa-calendar-week pr-2"></i> {{i18n "blog_calendar"}}</h5>
+      		<h3>{{i18n "blog_calendar"}}</h3>
 			<ul class="mcr-blog-cal">
 				{{ with .Site.GetPage "section" "blog" }}
     				{{ range .Data.Pages.GroupByDate "2006" }}
-    					<li><h6> {{ .Key }} </h6>
+    					<li><h4> {{ .Key }} </h4>
     						{{ $monthlyPages := .Pages.GroupByDate "2006-01" }}
 							{{ if ge (len $monthlyPages) 1 }}
     							{{ range $monthlyPages.Reverse  }}
@@ -20,7 +20,7 @@
     									 <a class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
     									     href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
     									  	{{- partial "german_date" (dict "date2convert" (.Date.Format "Jan")) }}
-    									  	<span class="badge badge-secondary">{{$count}}</span>
+    									  	<span class="badge badge-success">{{$count}}</span>
     									  </a>
     									{{ end }}
     								</span>
@@ -31,27 +31,27 @@
    				{{ end }}
 			</ul>
 
-			<h5><i class="fas fa-list-ul pr-2"></i> {{i18n "blog_category"}}</h5>
+			<h3>{{i18n "blog_category"}}</h3>
 			<ul class="mcr-blog-cat">
 			{{/* instead of: 'range .Site.Taxonomies.authors' */}}
 			 {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
 			 <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			        href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
 			 		{{ $taxonomy_term }} 
-			 		<span class="badge badge-secondary">{{ len $taxonomy }}</span>
+			 		<span class="badge badge-success">{{ len $taxonomy }}</span>
 			 	  </a>
 			 </li>
 			 {{ end }}
         	</ul>
 
       	
-			<h5><i class="fas fa-tags pr-2"></i> {{i18n "blog_tags"}}</h5>
+			<h3>{{i18n "blog_tags"}}</h3>
 			<ul class="mcr-blog-tag">
 			{{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/tags"}}
 			  <li><a class='{{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			 	href='{{relLangURL "blog/tags/"}}{{ urlize $taxonomy_term }}'>
 			 		{{ $taxonomy_term }} 
-			 		<span class="badge badge-secondary">{{ len $taxonomy }}</span>
+			 		<span class="badge badge-success">{{ len $taxonomy }}</span>
 			  </a>
 			  </li>
 			 {{ end }}

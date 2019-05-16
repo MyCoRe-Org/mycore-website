@@ -8,7 +8,7 @@
 		<div class="mb-3" style="font-size:120%">
 			{{- partial "blog/badges.html" . -}}
 		</div>
-		<h1>{{ if in (index .Params "blog/categories") "News" }}<i class="fas fa-bullhorn"></i>{{ end }}
+		<h1>{{ if in (index .Params "blog/categories") "News" }}{{ end }}
 			{{ .Title }}</h1>
 			{{ .Content  }}	
 		</div>
