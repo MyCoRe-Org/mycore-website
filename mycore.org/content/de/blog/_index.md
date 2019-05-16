@@ -1,7 +1,7 @@
 ---
 
 title: "MyCoRe Blog"
-description: "Im MyCoRe Blog berichtet die MyCoRe-Community über .. und die Entwickler stellen ... vor."
+description: "Hier berichten Entwickler über ihre aktuellen Arbeiten oder tauschen HowTos aus. Weiterhin können neue Anwendungen vorgestellt und über Community-Aktivitäten berichtet werden."
 
 ---
 
