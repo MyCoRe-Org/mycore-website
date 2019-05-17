@@ -1,11 +1,13 @@
 
 ---
 
-title: "Nützliche Klassen"
-description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
+title: "Nützliche Klassen zur Frontend-Gestaltung"
+mcr_version: ['2018.06','2019.06']
+author: ['Thomas Scheffler']
+description: "Diese Funktionalitäten sollen die Gestaltung der Frontends unterstützen."
+date: "2019-05-17"
 
 ---
-    <div>
       <h2>MCRTextResolver</h2>
       <p>
       Ab MyCoRe 2.1 gibt es die neue Klasse MCRTextResolver. Diese ermöglicht es frei definierbare Variablen
@@ -13,10 +15,11 @@ description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
       Hierzu ein kleines Beispiel:
       </p>
 
-      {{< highlight xml "linenos=table">}}
+<p>
+{{< highlight xml "linenos=table">}}
   
-  „Ich programmiere in {MCR.NameOfProject}.“
-      {{< /highlight >}}
+ „Ich programmiere in {MCR.NameOfProject}.“{{< /highlight >}}
+</p>
 
       <p>
       Würde man diesen Text innerhalb des DocPortal Projekts mit dem MCRTextResolver auflösen, entsteht
@@ -42,28 +45,29 @@ description: "Funktionsprinzipien und Implementierungen von Kernkomponenten"
       Der Zugriff über die API ist denkbar einfach:
       </p>
 
-      {{< highlight xml "linenos=table">}}
+<p>
+ {{< highlight xml "linenos=table">}}
   
-  MCRTextResolver resolver=new MCRTextResolver();
-  String result=resolver.resolve("Ich programmiere in {MCR.NameOfProject}.");
-      {{< /highlight >}}
+ MCRTextResolver resolver=new MCRTextResolver();
+ String result=resolver.resolve("Ich programmiere in {MCR.NameOfProject}.");{{< /highlight >}}
+</p>
 
       <p>
       Variablen können entweder mit Hilfe einer Map an den Konstruktor übergeben, oder per
       addVariable(name, value) gesetzt werden.
       </p>
 
-      {{< highlight xml "linenos=table">}}
-  
-  Map<String, String> vars=new Hashtable<String, String>();
-  vars.put("firstname", "Max");
-  vars.put("lastname", "Mustermann");
-  MCRTextResolver resolver=new MCRTextResolver(vars);
-  resolver.addVariable("birthdate", "1977-04-04");
-  String result=resolver.resolve("Name: {firstname} {lastname}; Geburtstag: {birthdate}");
-      {{< /highlight >}}
+<p>
+{{< highlight xml "linenos=table">}}
+ Map<String, String> vars=new Hashtable<String, String>();
+ vars.put("firstname", "Max");
+ vars.put("lastname", "Mustermann");
+ MCRTextResolver resolver=new MCRTextResolver(vars);
+ resolver.addVariable("birthdate", "1977-04-04");
+ String result=resolver.resolve("Name: {firstname} {lastname}; Geburtstag: {birthdate}");{{< /highlight >}}
+</p>
 
-    </div>
+<p><span style="color:red">TODO: Input von Matthias einarbeiten</span></p>
 
 <!--
 TODO: Input von Matthias einarbeiten

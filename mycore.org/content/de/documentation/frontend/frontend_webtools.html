@@ -2,32 +2,26 @@
 ---
 
 title: "Web Tools für Administratoren"
-mcr_version: ['2016.06','2017.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt']
 date: "2017-11-13"
 
 ---
 
-  <div>
    <h2>Allgemeines</h2>
    <p>Zur besseren Arbeit mit den MyCoRe-Anwendungen, vor allem im Umfeld der Web Applikation wurden kleine Werkzeuge
     implementiert, welch den Administrator online unterstützen sollen. Diese sind in der Rubrik WebTools
     zusammengefasst.</p>
-  </div>
 
-  <div>
    <h2>Web CLI</h2>
    <p>
     Die Web CLI ist mit im Abschitt zum
     <a href="../cli/cli_web.xml" target="_self">Command Line Interface</a>
     beschrieben.
    </p>
-  </div>
 
-  <div>
    <h2>Session Listing</h2>
 
-   <div>
     <h3>Allgemeines</h3>
     <p>
      Die Komponente Session Listing ist relativ klein und einfach. Sie stellt lediglich die
@@ -39,9 +33,7 @@ date: "2017-11-13"
      Stylesheet
      durch eine eigene Variante überschrieben werden.
     </p>
-   </div>
 
-   <div>
     <h3>Zugriffsrechte</h3>
     <p>
      Das Session-Listing-System ist durch eine Zugriffsregel geschützt. Nur berechtigte Nutzer dürfen diese
@@ -52,7 +44,8 @@ date: "2017-11-13"
      <code>load permissions data from file {file}</code>
      in die Zugriffsliste einzutragen. Nachfolgend eine Beispielkonfiguration als XML-File.
     </p>
-    {{< highlight xml "linenos=table">}}
+<p>
+{{< highlight xml "linenos=table">}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <mcrpermissions
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -70,32 +63,19 @@ date: "2017-11-13"
   </mcrpermission>
 </mcrpermissions>
 {{< /highlight >}}
-   </div>
+</p>
 
-   <div>
     <h3>Integration</h3>
     <p>
      Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
      lediglich noch in der
      Navigation der Anwendung aufgerufen werden.</p>
     <p>
-     <dt>für LTS-Release 2017.06</dt>
-     <dd>
       <code>href="/modules/webtools/session/sessionListing.xml"</code>
-     </dd>
-     <dt>für LTS-Release 2016.06</dt>
-     <dd>
-      <code>href="/modules/session-listing/sessionListing.xml"</code>
-     </dd>
     </p>
-   </div>
 
-  </div>
-
-  <div>
    <h2>Processing Tool</h2>
 
-   <div>
     <h3>Allgemeines</h3>
     <p>
      Mit dem Processing Tool können interne Systemprozesse angezeigt werden. Dies sind
@@ -108,28 +88,17 @@ date: "2017-11-13"
      </ul>
      Alle Anzeigen sind erst sichtbar, wenn sie im laufenden System erstmalig benutzt worden sind.
     </p>
-   </div>
 
-   <div>
     <h3>Zugriffsrechte</h3>
     <p>Für die Anzeige sind keine weiteren Permissions erforderlich.
     </p>
-   </div>
 
-   <div>
     <h3>Integration</h3>
     <p>
      Der MyCoRe-Kern enthält schon alle Dateien für die Integration der Komponente. Sie muss
      lediglich noch in der
      Navigation der Anwendung aufgerufen werden.</p>
     <p>
-     <dt>für LTS-Release 2017.06</dt>
-     <dd>
       <code>href="/modules/webtools/processing/processing.xml"</code>
-     </dd>
     </p>
-   </div>
-
-  </div>
-
  

@@ -2,31 +2,34 @@
 ---
 
 title: "Der Klassifikations-Browser"
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
-description: "Der Abschnitt beschreibt die Nutzung des integrierten Klassifikations-Browsers.
-    "
+description: "Der Abschnitt beschreibt die Nutzung des integrierten Klassifikations-Browsers."
 date: "2015-07-03"
 
 ---
-    <div>
+
       <h2>Der Klassifikations-Browser</h2>
       <p>Der Klassifkations-Browser biete die Möglichkeit in Klassifikationen direkt auf Objekte zu navigieren. Er kann
         über einen Template-Aufruf direkt in die Web-Seiten eingebunden werden.
       </p>
-      <p class="break">
-        {{< highlight text "linenos=table">}}
-<classificationbrowser
-  classification="genres"
-  objecttype="mods"
-  restriction="+category:&quot;mir_status:published&quot;"
-  field="category"
-  addclassid="true"
-  countresults="true"
-  emptyleaves="false"
-  parameters="title asc"
-  style="bootstrap"
-  addParameter="XSL.template=template_mir"
-/>{{< /highlight >}}
+
+<p>
+{{< highlight text "linenos=table">}}
+ <classificationbrowser
+   classification="genres"
+   objecttype="mods"
+   restriction="+category:&quot;mir_status:published&quot;"
+   field="category"
+   addclassid="true"
+   countresults="true"
+   emptyleaves="false"
+   parameters="title asc"
+   style="bootstrap"
+   addParameter="XSL.template=template_mir"
+ />{{< /highlight >}}
+</p>
+
       </p>
       <p>Die einzelnen Parameter haben folgende Bedeutung:</p>
       <ul>
@@ -85,5 +88,4 @@ date: "2015-07-03"
         <code>SolrSelectProxy</code>
         für eine direkte Solr-Suche.
       </p>
-    </div>
   

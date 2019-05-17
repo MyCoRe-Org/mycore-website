@@ -2,9 +2,13 @@
 ---
 
 title: "Der Layout-Service"
+mcr_version: ['2018.06','2019.06']
+author: ['Thomas Scheffler', 'Jens Kupferschmidt']
+description: "Eine grundlegende Beschreibung des Layout-Services in MyCoRe"
+date: "2019-05-17"
 
 ---
-   <div>
+
    <h2>Der Layout-Service</h2>
    <p>
       Der Layout-Service ist Teil der MyCoRe-Basiskomponente (mycore-base) und bildet das Herzstück zum Aufbau der
@@ -13,7 +17,6 @@ title: "Der Layout-Service"
       in Export-Formate.
    </p>
 
-   <div>
      <h3>Mehrstufiger Layoutprozess (ab 2013.06)</h3>
       <p>
         Mithilfe des neuen Layoutprozesses können XSL-Stylesheets auf effiziente Weise verkettet werden. Das führt zu
@@ -30,36 +33,43 @@ title: "Der Layout-Service"
         Wer das nutzen möchte, um das Seitenlayout vom Inhalt der Seite getrennt
         zu erzeugen, kann folgende Properties verwenden:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
         MCR.LayoutTransformerFactory.Default.Stylesheets=xsl/layout.xsl
         MCR.LayoutTransformerFactory.Default.Ignore=mets,mets-dfg,alto{{< /highlight >}}
+      </p>
        <p>
          Wenn <code>MCR.ContentTransformer.foo.Stylesheet</code> nicht definiert ist, dann
          tritt folgende Standardkonfiguration in Kraft, wenn es eine foo.xsl-Datei gibt:
        </p>
+       <p>
        {{< highlight xml "linenos=table">}}
         MCR.ContentTransformer.foo.Stylesheet=xsl/foo.xsl,xsl/layout.xsl{{< /highlight >}}
+       </p>
        <p>
         Ausnahmen definiert man entweder explizit, in dem man einen
         ContentTransformer definiert oder das Ignore-Property
         setzt. Das würde z.B. bei METS-Dokumente auf folgenden Konfiguration
         ausweichen:
        </p>
+       <p>
        {{< highlight xml "linenos=table">}}
         MCR.ContentTransformer.mets.Stylesheet=xsl/mets.xsl{{< /highlight >}}
+       </p>
        <p>
          oder mit XSL.Style=dfg auf:
        </p>
+       <p>
        {{< highlight xml "linenos=table">}}
        MCR.ContentTransformer.mets-dfg.Stylesheet=xsl/mets-dfg.xsl{{< /highlight >}}
+       </p>
        <p>
        Wenn ein "MCR.ContentTransformer.*.Stylesheet"
         Property definiert ist, aber kein passendes
         "MCR.ContentTransformer.*.Class" Property, wird automatisch der
         MCRXSLTransformer benutzt.
       </p>
-    </div>
-    <div>
+
       <h3>Konfiguration von ContentTransformern</h3>
       <p>
         Als Beispiel für die Konfiguration von ContentTransformer soll die
@@ -69,7 +79,9 @@ title: "Der Layout-Service"
       <p>
         Die Transformer-ID hat folgenden Aufbau, wenn man das Fallback-Verhalten überschreiben will:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}{XML-Root-Tag}[-{XSL.Style-Parameter}]{{< /highlight >}}
+      </p>
       <p>
         Außerdem gibt es jetzt einen "XSL.Transformer"-Parameter mit dem man den Transformer direkt auswählen kann.
         Beim MCRObjectServlet kann man so mittels "?XSL.Transformer=bibtex" direkt Bibtex von einem MODS-Datensatz
@@ -80,8 +92,7 @@ title: "Der Layout-Service"
         Bibtex-Fall "{MCRObjectID}.bib". Bei der Standard-HTML-Ausgabe eben *.html. Mit "XSL.FileName" lässt
         sich der Name festlegen und hat dann Vorrang.
       </p>
-   </div>
-   <div>
+
    <h3>XSL-Info-Servlet</h3>
    <p>
      Das XSL-Info-Servlet hilft dabei die Übersicht über verwendete XSL-Stylesheets zu behalten.
@@ -89,6 +100,7 @@ title: "Der Layout-Service"
      <code>WEB-INF/lib/*.jar</code>) nach *.xsl-Stylesheets, listet deren Abhängigkeiten und die
      darin enthaltenen Templates. Das Ergebnis sieht etwa so aus, für ein einzelnes Stylesheet:
    </p>
+   <p>
    {{< highlight xml "linenos=table">}}
 <stylesheet name="MCRMetadataSchema.xsl">
   <origin>lib/mycore-complete-2.1.80-SNAPSHOT.jar</origin>
@@ -101,8 +113,8 @@ title: "Der Layout-Service"
   <xsl:template match="/configuration/metadata"/>
   <xsl:template match="/configuration/derivate"/>
   <xsl:template match="/configuration/service"/>
-</stylesheet>
-   {{< /highlight >}}
+</stylesheet>{{< /highlight >}}
+   </p>
    <p>
      Das Element origin zeigt den Ursprung der XSL-Datei und kann evtl. mehrmals auftreten
      (etwa wenn das Stylesheet in <code>classes/xsl/</code> überschrieben wird).
@@ -127,9 +139,5 @@ title: "Der Layout-Service"
      <li>rot - Stylesheet wird referenziert, ist aber nicht auffindbar</li>
    </ul>
    <p>
-     Das Frontend für das XSL-Info-Servlet ist als DocPortal-Modul verfügbar, das standardmäßig
-     nicht eingebunden wird: <code>docportal/modules/xslinfo/</code>
-     bzw. online unter <a href="http://www.mycore.de:8291/servlets/MCRXSLInfoServlet">http://www.mycore.de:8291/servlets/MCRXSLInfoServlet</a>
+     Das Frontend für das XSL-Info-Servlet ist online unter <code>{URL}/servlets/MCRXSLInfoServlet</code> aufrufbar.
    </p>
-   </div>
- </div>
