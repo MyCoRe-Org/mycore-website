@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MyCoRe jsTree Demo</title>
+    <link rel="stylesheet" href="http://static.jstree.com/3.3.0/assets/dist/themes/default/style.min.css" />
+    <script src="http://static.jstree.com/3.3.0/assets/jquery-1.10.2.min.js"></script>
+	<script src="http://static.jstree.com/3.3.0/assets/dist/jstree.min.js"></script>
+	<meta charset="UTF-8">
+	
+    <script>
+   	 $.ajax({
+		type: "GET",
+        url: "http://www.mycore.de/mir/api/v1/classifications/mir_genres?style=jstree;opened&format=json",
+        dataType: "jsonp",
+        success: function (data) {
+         	$('#jsTreeGenre').jstree({
+              'core' : {
+         		'data' : data
+          		}
+       		});
+           },
+       });
+   	 
+   	$.getJSON( "http://www.mycore.de/mir/api/v1/classifications/mir_institutes?style=jstree&format=json&callback=?", 
+   			function( data ){
+		   		$('#jsTreeInstitutions').jstree({
+        		   'core' : {
+       				'data' : data
+        		}
+     		});
+   	});
+    </script>
+</head>
+<body style="width:800px;margin-left:auto;margin-right:auto;">
+	<!-- see also: http://jquery-howto.blogspot.de/2013/09/jquery-cross-domain-ajax-request.html -->
+	<h1>MyCoRe jsTree Example</h1>
+    <p>Dieses Beispiel zeigt, wie man Klassifikationen mit dem Javascript-Framework
+       <strong>jsTree</strong> (<a href="https://www.jstree.com/">https://www.jstree.com/</a>) in eine Webseite einbindet.
+    </p>Verschiedene Lösungmöglichkeiten für das Problem "Cross Domain Ajax Reqeuest"
+        findet man auf der Webseite: <br />
+        <a href="http://jquery-howto.blogspot.de/2013/09/jquery-cross-domain-ajax-request.html">http://jquery-howto.blogspot.de/2013/09/jquery-cross-domain-ajax-request.html</a>.
+
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 50%; vertical-align: top">
+				<h2>MIR Genres Klassifikation</h2>
+				<div id="jsTreeGenre">Hier wird ein jsTree generiert ....</div>
+			</td>
+			<td style="width: 50%; vertical-align: top">
+				<h2>MIR Institutionen Klassifikation</h2>
+				<div id="jsTreeInstitutions">Hier wird ein jsTree generiert ....</div>
+			</td>
+	</table>
+</body>
+</html>
+
+

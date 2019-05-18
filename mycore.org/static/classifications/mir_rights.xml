@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="mir_rights">
+  <label xml:lang="en" text="Rights" />
+  <label xml:lang="de" text="Rechte" />
+  <label xml:lang="x-uri" text="http://www.mycore.org/classifications/mir_rights" />
+  <categories>
+    <category ID="rights_reserved">
+      <label xml:lang="de" text="Alle Rechte vorbehalten" />
+      <label xml:lang="en" text="all rights reserved" />
+    </category>
+    <category ID="oa_nlz">
+      <label xml:lang="en" text="Open Access related to alliance or national license" />
+      <label xml:lang="de" text="Open-Access im Zuge einer Allianz- bzw. Nationallizenz" />
+    </category>
+    <category ID="cc_by">
+      <label xml:lang="en" text="CC BY" />
+      <label xml:lang="de" text="CC BY" />
+    </category>
+    <category ID="cc_by-sa">
+      <label xml:lang="de" text="CC BY-SA" />
+      <label xml:lang="en" text="CC BY-SA" />
+    </category>
+    <category ID="cc_by-nd">
+      <label xml:lang="en" text="CC BY-ND" />
+      <label xml:lang="de" text="CC BY-ND" />
+    </category>
+    <category ID="cc_by-nc">
+      <label xml:lang="en" text="CC BY-NC" />
+      <label xml:lang="de" text="CC BY-NC" />
+    </category>
+    <category ID="cc_by-nc-sa">
+      <label xml:lang="de" text="CC BY-NC-SA" />
+      <label xml:lang="en" text="CC BY-NC-SA" />
+    </category>
+    <category ID="cc_by-nc-nd">
+      <label xml:lang="de" text="CC BY-NC-ND" />
+      <label xml:lang="en" text="CC BY-NC-ND" />
+    </category>
+    <category ID="odc_pddl">
+      <label xml:lang="en" text="PDDL - Public Domain Dedication and License" />
+      <label xml:lang="de" text="PDDL - Public Domain Dedication and License" />
+    </category>
+    <category ID="odc_by">
+      <label xml:lang="de" text="ODC-By - Attribution License" />
+      <label xml:lang="en" text="ODC-By - Attribution License" />
+    </category>
+    <category ID="odc_odbl">
+      <label xml:lang="de" text="ODC-ODbL - Open Database License" />
+      <label xml:lang="en" text="ODC-ODbL - Open Database License" />
+    </category>
+  </categories>
+</mycoreclass>

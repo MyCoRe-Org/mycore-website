@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MyCoRe Javascript and REST-API Demo</title>
+	<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<meta name="author" content="Robert Stephan" />
+	<!-- Synchronizing von mehreren Ajax Requests mit $.when() -->
+ 	<script type="text/javascript">
+		google.charts.load("current", {
+			packages : [ "corechart" ]
+		});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+			var mapResults = new Map(); // speichert die Ergebnisse
+			var deferreds = []; //Verwaltet die AJAX-Anfragen
+		
+			$.each(['2006', '2010', '2014', '2016'], function(i, year){
+				$.each(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'], function(i, month){
+					var y = year;
+					var ajax = $.ajax({
+						type : "GET",
+						url : "https://www.db-thueringen.de/api/v1/search?rows=0&q=category.top:%22diniPublType:doctoralThesis%22%20AND%20mods.dateIssued:"+ year+"-"+month+"*&wt=json&json.wrf=?",
+						dataType : "jsonp",
+						success : function(resp) {
+							mapResults.set(y + "-" + month, resp.response.numFound);
+						},
+					});
+					deferreds.push(ajax);
+				});
+			});
+		
+			$.when.apply($, deferreds).done(function() { 
+				//wird ausgeführt, wenn Ergebnisse für alle AJAX-Anfragen vorliegen 
+				var table = [ [ 'Anz. Diss', '2006', '2010', '2014', '2016'] ];
+				$.each(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'], function(i, month){
+					table.push([month, mapResults.get('2006-'+ month),
+									       mapResults.get('2010-'+ month),
+					                       mapResults.get('2014-'+ month),
+					                       mapResults.get('2016-'+ month)]);
+				});
+
+			var data = google.visualization.arrayToDataTable(table);
+
+			var options = {
+					title: 'Dissertationen pro Monat in den Jahren 2006, 2010, 2014, 2016',
+					hAxis: {title: 'Monat',  titleTextStyle: {color: '#333'}},
+					vAxis: {minValue: 0}
+				};
+		        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+		        chart.draw(data, options);
+			});
+		}
+	</script>
+</head>
+<body>
+	<!-- see also: http://jquery-howto.blogspot.de/2013/09/jquery-cross-domain-ajax-request.html -->
+	<h3>Neuzugänge von Dissertationen pro Monat in ausgewählten Jahren</h3>
+	<p>Für dieses Diagramm werden asynchron mehrere SOLR-Anfragen gestellt.
+	   Vor der weiteren Verarbeitung muss sichergestellt werden, dass alle Ergebnisse vorliegen.</p>
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
