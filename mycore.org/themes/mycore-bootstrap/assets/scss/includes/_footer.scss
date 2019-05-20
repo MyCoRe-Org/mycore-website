@@ -6,8 +6,10 @@
 // set the defaults for all responsive levels here
 
     footer {
+        background-image: url('../../images/_site/background_footer_blue_xml.png');
+        background-size:100% 100%;
+        padding: 10px 0;
         font-size:0.8rem;
-        padding:5px 0px;
         margin-top:30px;
         a {
             color:white;
