@@ -1,17 +1,20 @@
 
 ---
 
-title: "Virtuelle Hostnamen"
-mcr_version: ['2017.06']
+title: "Apache Kunfiguration"
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
-date: "2018-01-03"
+description: "
+      Der Abschnitt beschreibt Vorgehensweisen der Einbindung von Apache als virtuelle Server
+      und die Integration von HTTP2 sowie HTTPS.
+    "
+date: "2018-04-29"
 
 ---
 
-  <div>
    <h2>Einbindung virtueller Host-Namen mit Hilfe des Apache-Web-Servers</h2>
    <p>
-    Standardmäßig ist der Apache2 in den Installations-CDs aller gängigen Linux-Distributionen und in MacOS enthalten.
+    Standardmäßig ist der Apache2 in den Installations aller gängigen Linux-Distributionen und in MacOS enthalten.
     Für Windows muss ein gesonderter Download erfolgen. Der Quellcode des Apache2 liegt auf
     <a target="_blank" href="http://httpd.apache.org">http://httpd.apache.org</a>
     für ein Download bereit. Die folgende Beschreibung bezieht sich auf die
@@ -19,7 +22,6 @@ date: "2018-01-03"
     Windows sind die dazu korrespondierenden Pfade zu nutzen.
    </p>
 
-   <div>
     <h3>Einbindung des Proxy-Modules</h3>
     <p>
      Die Einbindung des Proxy-Modules ist relativ einfach zu bewerkstelligen.
@@ -30,12 +32,10 @@ date: "2018-01-03"
      sind in der Zeile der Variable
      <strong>APACHE_MODULES</strong>
      die Module
-     <strong>proxy,proxy_http,proxy_connect</strong>
+     <strong>proxy,proxy_http,proxy_connect,proxy_ajp,proxy_wstunnel</strong>
      hinzuzufügen. Nach der Änderung ist der Neustart des Apache-Servers erforderlich.
     </p>
-   </div>
 
-   <div>
     <h3>Die Verbindung von einer Servlet-Engine und Apache2</h3>
     <p>
      Die Verbindung zwischen dem Apache2 und der Servlet-Engine wird in den Konfigurationsfiles
@@ -53,6 +53,7 @@ date: "2018-01-03"
      Dabei sind natürlich die Pfade zu den einzelnen Verzeichnissen entsprechend den aktuellen Gegebenheiten anzupassen.
     </p>
 
+    <p>
     {{< highlight xml "linenos=table">}}
 <VirtualHost {www.myaddress.net:80}>
 
@@ -83,12 +84,36 @@ date: "2018-01-03"
   </Location>
 
 </VirtualHost>{{< /highlight >}}
+</p>
 
-    <p>
-     Nach dieser Änderung ist zuerst die Servlet-Engine zu starten. Anschließend kann der Apache-Server neu gestartet werden.
-    </p>
-   </div>
+<p>
+  Nach dieser Änderung ist zuerst die Servlet-Engine zu starten. Anschließend kann der Apache-Server neu gestartet werden.
+</p>
 
-  </div>
+<h2>Einbinden von HTTP2</h2>
+<p>
+ Inzwischen werden ja immer mehr Anwendungen mit HTTP2 betrieben. Hier sind Hinweise für die Nutzung für MyCoRe-Applikationen.
+</p> 
 
- 
+<h3>Einbindung des http2-Modules</h3>
+<p>
+  Die Einbindung des HTTP2-Modules ist relativ einfach zu bewerkstelligen.
+</p>
+<p>
+ Für <strong>SuSE</strong>: in der Datei <em>/etc/sysconfig/apache2</em>
+ sind in der Zeile der Variable <strong>APACHE_MODULES</strong>
+ die Module <strong>a2enmod,http2</strong>
+ hinzuzufügen. Nach der Änderung ist der Neustart des Apache-Servers erforderlich.
+</p>
+<p>
+  Mit dem Kommando <code>apachectl -M | sort</code> kann geprüft werden, welche Module geladen wurden.
+</p>
+
+<h3>Test</h3>
+<p>
+ Für den Test ist die Installation eines Browswer-Plugin sinnvoll, welches anzeigt (blauer Blitz), ob HTTP2 Verwendung findet.
+ <p>
+ <ul>
+  <li>für Firefox : <a target="_blank" href="https://addons.mozilla.org/de/firefox/addon/http2-indicator/">https://addons.mozilla.org/de/firefox/addon/http2-indicator/</a></li>
+  <li>für Chrome : <a target="_blank" href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin">https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin</a></li>
+ </ul>

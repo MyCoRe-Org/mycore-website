@@ -118,7 +118,7 @@ main:
 -     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}
 -     {identifier: consistency,             parent: production,         name: Konsistenzprüfung,           weight: -97,      url: /documentation/production/consistency}
 -     {identifier: batch,                   parent: production,         name: Batch-Betrieb,               weight: -96,      url: /documentation/production/batch}
--     {identifier: vhost,                   parent: production,         name: Virtueller Host,             weight: -95,      url: /documentation/production/vhost}
+-     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -90,      url: /documentation/migrate}
 -     {identifier: index,                   parent: migrate,            name: Übersicht,                   weight: -99,      url: /documentation/migrate/index}
@@ -135,7 +135,6 @@ main:
 -     {identifier: git,                     parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/git}
 -     {identifier: work_with_maven,         parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/work_with_maven}
 -     {identifier: work_with_gradle,        parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/work_with_gradle}
--     {identifier: dev_docs,                parent: developer,          name: Dokumentation,               weight: -91,      url: /documentation/developer/dev_docs}
 -       {identifier: dev_docs_overview,       parent: dev_docs,           name: "Überblick",                 weight: -99,      url: /documentation/developer/dev_docs/dev_docs_overview}
 -       {identifier: dev_docs_setup,          parent: dev_docs,           name: Einrichtung,                 weight: -98,      url: /documentation/developer/dev_docs/dev_docs_setup}
 -       {identifier: dev_docs_news_blog,      parent: dev_docs,           name: News- und Blogbeiträge,      weight: -97,      url: /documentation/developer/dev_docs/dev_docs_news_blog}
