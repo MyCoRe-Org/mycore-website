@@ -6,11 +6,6 @@
   padding-right: 10px;
 }
 
-p a, li a, dd a, td a {
-  color: $primary;
-}
-
-
 /* image styles */
 
 figure{
@@ -36,7 +31,10 @@ img.mcr-flag:hover{
 
 
 /* start page */
-#mcr-home a:hover{
+#mcr-home a {
+  color: $dark;
+}
+#mcr-home a:hover {
   text-decoration:none;
 }
 
@@ -102,6 +100,7 @@ a.latestnews {
   border-right: 1px solid #ccc;
   margin-left: -15px;
   margin-right: -10px;
+  color: $dark;
 }
 
 .mcr-news div:last-child a.latestnews {
@@ -182,4 +181,9 @@ a.latestnews:hover {
 /* MCR Version badge */
 span.mcr-version {
   background-color: $warning;
+}
+
+/* Blog content */
+.mcr-blog-listentry a:hover {
+  color: $link-color;
 }

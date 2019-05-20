@@ -14,12 +14,12 @@
         {{.Content}}
   {{ with .Site.GetPage "section" "blog" }}      
         {{ range first 5 .Pages }}
-  <div>
+  <div class="mcr-blog-listentry">
   
   	{{- partial "blog/badges.html" . -}}
     <h5 class="pt-2"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h5>
     {{ .Summary }}
-	<a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
+	  <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
 	<hr />
   </div>
 {{ end }}

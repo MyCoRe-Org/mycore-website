@@ -1,13 +1,13 @@
 /* for bootstrap theme building see https://bootstrap.build/app */
 $dark:                      #343a40;
-$blue:                      #108bc6;  /* primary */
-$yellow:                    #feb200;  /* warning */
+$blue:                      #15516e;  /* primary - mycore blue */
+$yellow:                    #ff9900;  /* warning - mycore orange*/
 $green:                     #519872;  /* success */ 
 $cyan:                      #a4b494;  /* info */
 $red:                       #a63446;  /* danger */
 $gray-600:                  #77878b;  /* secondary */
 
-$link-color:                $dark;
+$link-color:                lighten($blue, 20%); /* $dark; */
 $body-color:                #444;
 
 $font-family-base:          "Open Sans", Helvetica, Arial, sans-serif;

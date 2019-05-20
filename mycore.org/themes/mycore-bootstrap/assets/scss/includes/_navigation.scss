@@ -35,12 +35,12 @@
     // side navigation --------------------------
     .mcr-navbar-side a {
         text-decoration:none;
-        color:black;
+        color: $body-color;
     }
 
     .mcr-navbar-side a:hover{
         text-decoration:none;
-        color:black;
+        color: $body-color;
     }
 
     .mcr-navbar-side h5:not(:first-of-type) {
@@ -119,7 +119,7 @@
         margin-left: 0em;
         margin-right: 5px;
         padding-left: 12px;
-        color: $primary;
+        color: $link-color;
     }
     .mcr-navbar-side div.mcr-blog a:hover {
         text-decoration: underline;

@@ -20,7 +20,7 @@
     									 <a class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
     									     href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
     									  	{{- partial "german_date" (dict "date2convert" (.Date.Format "Jan")) }}
-    									  	<span class="badge badge-success">{{$count}}</span>
+    									  	<span class="badge badge-primary">{{$count}}</span>
     									  </a>
     									{{ end }}
     								</span>
@@ -38,7 +38,7 @@
 			 <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			        href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
 			 		{{ $taxonomy_term }} 
-			 		<span class="badge badge-success">{{ len $taxonomy }}</span>
+			 		<span class="badge badge-primary">{{ len $taxonomy }}</span>
 			 	  </a>
 			 </li>
 			 {{ end }}
@@ -51,7 +51,7 @@
 			  <li><a class='{{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			 	href='{{relLangURL "blog/tags/"}}{{ urlize $taxonomy_term }}'>
 			 		{{ $taxonomy_term }} 
-			 		<span class="badge badge-success">{{ len $taxonomy }}</span>
+			 		<span class="badge badge-primary">{{ len $taxonomy }}</span>
 			  </a>
 			  </li>
 			 {{ end }}

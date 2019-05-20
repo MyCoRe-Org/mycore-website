@@ -135,6 +135,7 @@ main:
 -     {identifier: git,                     parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/git}
 -     {identifier: work_with_maven,         parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/work_with_maven}
 -     {identifier: work_with_gradle,        parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/work_with_gradle}
+-     {identifier: dev_docs,                parent: developer,          name: Dokumentation,               weight: -91,      url: /documentation/developer/dev_doc}
 -       {identifier: dev_docs_overview,       parent: dev_docs,           name: "Überblick",                 weight: -99,      url: /documentation/developer/dev_docs/dev_docs_overview}
 -       {identifier: dev_docs_setup,          parent: dev_docs,           name: Einrichtung,                 weight: -98,      url: /documentation/developer/dev_docs/dev_docs_setup}
 -       {identifier: dev_docs_news_blog,      parent: dev_docs,           name: News- und Blogbeiträge,      weight: -97,      url: /documentation/developer/dev_docs/dev_docs_news_blog}
