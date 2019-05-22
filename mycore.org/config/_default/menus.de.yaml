@@ -135,7 +135,7 @@ main:
 -     {identifier: git,                     parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/git}
 -     {identifier: work_with_maven,         parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/work_with_maven}
 -     {identifier: work_with_gradle,        parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/work_with_gradle}
--     {identifier: dev_docs,                parent: developer,          name: Dokumentation,               weight: -91,      url: /documentation/developer/dev_doc}
+-     {identifier: dev_docs,                parent: developer,          name: Dokumentation (mit Hugo),    weight: -91,      url: /documentation/developer/dev_docs}
 -       {identifier: dev_docs_overview,       parent: dev_docs,           name: "Überblick",                 weight: -99,      url: /documentation/developer/dev_docs/dev_docs_overview}
 -       {identifier: dev_docs_setup,          parent: dev_docs,           name: Einrichtung,                 weight: -98,      url: /documentation/developer/dev_docs/dev_docs_setup}
 -       {identifier: dev_docs_news_blog,      parent: dev_docs,           name: News- und Blogbeiträge,      weight: -97,      url: /documentation/developer/dev_docs/dev_docs_news_blog}
@@ -151,7 +151,7 @@ main:
 
 - {identifier: support,                                            name: Organisation,                 weight: -93,     url: /site/support}
 -   {identifier: community,             parent: support,             name: Community,                    weight: -99,     url: /site/support/community}
--   {identifier: email,                 parent: support,             name: Kontakt zu uns,               weight: -98,     url: /site/support/email}
+-   {identifier: email,                 parent: support,             name: Kontaktaufnahme,              weight: -98,     url: /site/support/email}
 -   {identifier: team,                  parent: support,             name: Team,                         weight: -97,     url: /site/support/team}
 -   {identifier: workshops,             parent: support,             name: Workshops,                    weight: -96,     url: /site/support/workshops}
 -     {identifier: aw_workshop_2018,      parent: workshops,           name: Leipzig 2018,                 weight: -99,     url: /site/support/workshops/aw_workshop_2018}
