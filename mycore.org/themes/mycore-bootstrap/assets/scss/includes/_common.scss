@@ -143,7 +143,7 @@ a.latestnews:hover {
   padding:0.15em 0em;
 }
 .mcr-toc ul > li{
-  font-weight:bold;
+  font-weight:$font-weight-bolder;
 }
 
 .mcr-toc ul > li::before{
@@ -151,8 +151,8 @@ a.latestnews:hover {
   position:absolute;
   left:0em;
 }
-.mcr-toc ul > li > ul > li{
-  font-weight:normal;
+.mcr-toc ul > li > ul li{
+  font-weight:$font-weight-normal;
 }
 
 
