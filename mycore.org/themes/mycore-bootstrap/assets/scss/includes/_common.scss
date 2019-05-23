@@ -1,6 +1,13 @@
 /* general styles */
 
-#content p {
+.link--inverse {
+  color:white;
+  &:hover{
+    color:white;
+  }
+}
+
+p {
   -moz-hyphens: auto;
   text-rendering: optimizelegibility;
   padding-right: 10px;
