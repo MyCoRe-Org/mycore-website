@@ -8,7 +8,7 @@ draft: false
 blog/authors: ["Thomas Scheffler"]
 blog/periods: 2018-02
 blog/categories: 
-- HowTo
+- Ideen
 blog/tags:
 - Derivate
 - Entwicklung

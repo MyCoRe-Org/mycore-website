@@ -8,7 +8,7 @@ draft: false
 blog/authors: ["Thomas Scheffler"]
 blog/periods: 2018-03
 blog/categories:
-- HowTo
+- HowTos
 blog/tags:
 - Datenmodell
 - Maven

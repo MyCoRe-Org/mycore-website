@@ -8,7 +8,7 @@ draft: false
 blog/authors: ["Paul Rochowski"]
 blog/periods: 2019-02
 blog/categories: 
-- HowTo
+- HowTos
 
 ---
 
