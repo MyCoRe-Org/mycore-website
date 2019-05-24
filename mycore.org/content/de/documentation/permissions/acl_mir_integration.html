@@ -1,23 +1,14 @@
 
 ---
 
-title: "Integration in die Applikationen"
-mcr_version: ['2015.05','2016.06']
+title: "Integration in die MIR-Applikationen"
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann']
-description: "
-      Dieser Abschnitt beschreibt, wie für die Präsentation der Daten die Integration der Zugriffstest erfolgen kann.
-    "
+description: "Dieser Abschnitt beschreibt, wie für die Präsentation der Daten die Integration der Zugriffstest erfolgen kann."
 date: "2015-09-23"
 
 ---
-  <div>
-   <h2>Allgemeines</h2>
-   <p>
-     ...
-   </p>
-  </div>
 
-  <div>
     <h2>Rechte in Skeleton und MIR</h2>
     <p>
       Für MyCoRe-Objekte können folgende Rechte spezifiziert werden:
@@ -36,6 +27,7 @@ date: "2015-09-23"
       Aktuell nur in der MIR-Anwendung verfügbar gibt es ein Stylesheet (mir-rights.xsl), das diese Informationen sammelt
       und in XML-Form an die Metadaten anhängt.
     </p>
+    <p>
     {{< highlight xml "linenos=table">}}<mycoreobject xsi:noNamespaceSchemaLocation="datamodel-mods.xsd" ID="mir_mods_00000005" label="mir_mods_00000005" version="2015.03-SNAPSHOT">
   [...]
   <rights>
@@ -43,8 +35,7 @@ date: "2015-09-23"
     <right id="mir_mods_00000006" read=""/>
     <right id="Document_derivate_00000008" view="" read=""/>
   </rights>
-</mycoreobject>
-    {{< /highlight >}}
+</mycoreobject>{{< /highlight >}}
     <p>
       So wird für das Objekt selbst und alle Kind- und Elternobjekte ein Eintrag angefügt, der wenn das jeweilige Recht
       verfügbar ist, dies als Attribut mit leerem Wert enthält. Dieses XML kann dann in den Stylesheets ausgewertet werden,
@@ -53,6 +44,6 @@ date: "2015-09-23"
     {{< highlight xml "linenos=table">}}<xsl:key use="@id" name="rights" match="/mycoreobject/rights/right" />
 [...]
 <xsl:param name="accessedit" select="key('rights', $id)/@write" />
-<xsl:param name="accessdelete" select="key('rights', $id)/@delete" />
-    {{< /highlight >}}
-  </div>
+<xsl:param name="accessdelete" select="key('rights', $id)/@delete" />{{< /highlight >}}
+    </p>
+    

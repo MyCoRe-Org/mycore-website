@@ -2,15 +2,13 @@
 ---
 
 title: "Managen der internen Rollen und Nutzer"
-mcr_version: ['2015.05','2016.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt']
-description: "Beschreibung der Möglichkeiten der Administration interner Rollen und Nutzer online und über
-      das CLI.
-    "
+description: "Beschreibung der Möglichkeiten der Administration interner Rollen und Nutzer online und über das CLI."
 date: "2016-11-09"
 
 ---
-    <div>
+
       <h2>Allgemeines</h2>
       <p>
         MyCoRe bietet ein komplexes System zum Laden und Bearbeiten von Rollen und Nutzern. Dies kann
@@ -19,9 +17,7 @@ date: "2016-11-09"
         Daneben ist es möglich externe
         Authentifizierungsmechanismen einzubenden, welche aber nicht auf dieser Seite erläutert werden sollen.
       </p>
-    </div>
 
-    <div>
       <h2>Initialisierung des Rollen- und Nutzersystems</h2>
       <p>
         Beim neu Anlegen einer Anwendung ist darauf zu achten, dass das Rollen- und Nutzersystem angelegt wurde. dies
@@ -40,15 +36,13 @@ date: "2016-11-09"
         </dt>
         <dd>Das Kommando initialisiert das Benutzersystem.</dd>
       </dl>
-    </div>
 
-    <div>
       <h2>Rollen</h2>
-
       <p>
         Die XML-Ausprägung von Rollen ist relativ simpel gehalten. Sie enthält nur den Namen der Gruppe und einige
         beschreibende Elemente.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
 <?xml version="1.0" encoding="UTF-8"?>
 <role name="editor">
@@ -59,8 +53,8 @@ date: "2016-11-09"
     text="The demo editor role"
     description="A role demonstration for an editor group" />
 </role>{{< /highlight >}}
+      </p>
 
-      <div>
         <h3>Online-Administration</h3>
         <p>
           Alle Rollen in MyCoRe in einer spezielle Klassifikation
@@ -90,9 +84,7 @@ date: "2016-11-09"
           aufgerufen werden. Dieser Aufruf kann beispielweise in der Benutzernavigation bei entsprechender Berechtigung
           angeboten werden.
         </p>
-      </div>
 
-      <div id="role_commands">
         <h3>Kommandos</h3>
         <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch alle administrativen Operationen für Rollen ausgeführt
           werden.
@@ -127,13 +119,7 @@ date: "2016-11-09"
           </dt>
           <dd>Das Kommando löscht eine Rolle.</dd>
         </dl>
-      </div>
 
-      <p>
-      </p>
-    </div>
-
-    <div>
       <h2>Nutzer</h2>
       <p>
         Die Attribute von Benutzern des Systems unterteilen sich in drei Bereiche:
@@ -161,6 +147,7 @@ date: "2016-11-09"
         zeigt das
         folgende Codebeispiel:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
 <?xml version="1.0" encoding="UTF-8"?>
 <user locked="false" name="editorTest" realm="local">
@@ -180,10 +167,9 @@ date: "2016-11-09"
     <attribute name="tel"         value="+49 111 222 3333" />
   </attributes>
   <password hashType="sha1" hash="passwdsalt" />
-</user>
-    {{< /highlight >}}
+</user>{{< /highlight >}}
+      </p>
 
-      <div>
         <h3>Online-Administration</h3>
         <p>
           Für die Verarbeitung der Nutzerdaten ist das
@@ -255,9 +241,7 @@ date: "2016-11-09"
             </tr>
           </tbody>
         </table>
-      </div>
 
-      <div id="user_commands">
         <h3>Kommandos</h3>
         <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch alle administrativen Operationen für Nutzer ausgeführt
           werden.
@@ -308,7 +292,4 @@ date: "2016-11-09"
           </dt>
           <dd>Das Kommando löscht den Benutzer {0}.</dd>
         </dl>
-      </div>
-
-    </div>
   

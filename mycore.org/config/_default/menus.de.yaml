@@ -97,11 +97,10 @@ main:
 -     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}
 -     {identifier: acl_permissions,         parent: permissions,        name: ACLs und Permissions,          weight: -95,      url: /documentation/permissions/acl_permissions}
 -     {identifier: acl_strategies,          parent: permissions,        name: Zugriffsstrategien,            weight: -93,      url: /documentation/permissions/acl_strategies}
--     {identifier: default-permissions,     parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/default-permissions}
--     {identifier: login_session,           parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/login_session}
--     {identifier: acl_integration,         parent: permissions,        name: Anwendungsintegration,         weight: -90,      url: /documentation/permissions/acl_integration}
--     {identifier: broadcasting,            parent: permissions,        name: Nachrichtenfenster,            weight: -89,      url: /documentation/permissions/broadcasting}
--     {identifier: external_user,           parent: permissions,        name: Externe Systeme,               weight: -88,      url: /documentation/permissions/external_user}
+-     {identifier: acl_default-permissions, parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/acl_default-permissions}
+-     {identifier: user_login_session,      parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/user_login_session}
+-     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -90,      url: /documentation/permissions/acl_mir_integration}
+-     {identifier: user_external_ldap,      parent: permissions,        name: Externe User Systeme,          weight: -89,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: workflow,                parent: documentation,      name: Workflow,                    weight: -93,      url: /documentation/workflow}
 -     {identifier: wf_overview,             parent: workflow,           name: Single Servlets,             weight: -99,      url: /documentation/workflow/wf_overview}
 -     {identifier: fileupload,              parent: workflow,           name: File Upload,                 weight: -98,      url: /documentation/workflow/fileupload}

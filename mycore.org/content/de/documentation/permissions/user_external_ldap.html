@@ -2,13 +2,13 @@
 ---
 
 title: "Anbindung externer Systeme"
-mcr_version: ['2015.05','2016.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt']
 description: "Beschreibung der Anbindung an externe Authentifizierungs- und Authorisierungssysteme."
 date: "2016-03-03"
 
 ---
-    <div>
+
       <h2>Shibboleth</h2>
 
       <p>
@@ -20,8 +20,9 @@ date: "2016-03-03"
         Nachdem die Konfiguration abgeschlossen ist, muss die <code>realms.xml</code> angepasst
         werden. Nachfolgend ebenfalls ein Beispiel der Konfiguration in Jena.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <realms local="local">
   <realm id="local">
@@ -86,22 +87,22 @@ date: "2016-03-03"
     <passwordChangeURL>https://idmweb.uni-erfurt.de/OAS</passwordChangeURL>
   </realm>
 </realms>{{< /highlight >}}
+      </p>
       <p>
         Um zu bewirken, dass der Benutzer beim Anlegen eines Dokument auch gespeichert wird
         muss in den <code>mycore.properties</code> noch folgendes Property gesetzt werden:
       </p>
+      <p>
       {{< highlight bash "linenos=table">}}
 # can be used to persist transient user (shibboleth or ...)
-MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler
-      {{< /highlight >}}
+MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler{{< /highlight >}}
+      </p>
       <p>
         Anhand der Attribute die gemappt werden sieht man, was der IDP liefern muss.
       </p>
-    </div>
-    <div>
+
       <h2>LDAP</h2>
       <p>
         Diese Dokumentation befindet sich noch im Aufbau
       </p>
-    </div>
   
