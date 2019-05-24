@@ -5,11 +5,12 @@ main:
 -   {identifier: map,                     parent: applications,   name: Map,                weight: -98,      url: ../site/applications/map}
 -   {identifier: list,                    parent: applications,   name: from A to Z,              weight: -97,      url: /site/applications/list}
 
-
-- {identifier: support, name: Organisation, weight: -94, url: /site/support}
-- {identifier: team, parent: support, name: Team, weight: -97, url: /site/support/team}
-- {identifier: presentations, parent: support, name: Presentations, weight: -96, url: /site/presentations}
-- {identifier: publications, parent: support, name: Publications, weight: -95,   url: /site/publications}
-- {identifier: bugs, parent: support, name: zu MyCoRe JIRA, weight: -94, url: 'http://mycore.atlassian.net'}
-- {identifier: wiki, parent: support, name: zu MyCoRe Wiki, weight: -93, url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
-- {identifier: maven, parent: support, name: zu MyCoRe Maven, weight: -92, url: 'http://mvnrepository.com/artifact/org.mycore'}
+- {identifier: community,                            name: Organisation,        weight: -94, url: /site/community}
+-   {identifier: contact,         parent: community,   name: Contact,             weight: -98, url: /site/community/contact}
+-   {identifier: team,            parent: community,   name: Team,                weight: -97, url: /site/community/team}
+-   {identifier: presentations,   parent: community,   name: Presentations,       weight: -96, url: /site/community/presentations}
+-   {identifier: publications,    parent: community,   name: Publications,        weight: -95, url: /site/community/publications}
+-   {identifier: github,          parent: community,   name: MyCoRe at Github,    weight: -94, url: 'https://github.com/MyCoRe-Org'}
+-   {identifier: bugs,            parent: community,   name: MyCoRe at JIRA,      weight: -93, url: 'http://mycore.atlassian.net'}
+-   {identifier: wiki,            parent: community,   name: MyCoRe Wiki,         weight: -92, url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
+-   {identifier: maven,           parent: community,   name: MyCoRe at Maven,     weight: -91, url: 'http://mvnrepository.com/artifact/org.mycore'}
