@@ -1,14 +1,20 @@
+---
+title: "MyCoRe-Workshop auf dem 103. Bibliothekartag in Bremen"
+slug: bibliothekartag
+date: 2014-06-03
+
+draft: false
+
+blog/authors: ["Wiebke Oeltjen"]
+blog/periods: 2014-06
+blog/categories:
+ - "Workshops"
 
 ---
 
-title: "MyCoRe-Workshop auf dem 103. Bibliothekartag"
-
-
----
-
-<div>
   <h2>„Vielseitig, nachhaltig, anpassbar - MyCoRe im Einsatz“</h2>
   <p>Die MyCoRe-Community hat auf dem auf dem <a href="https://www.bibliothekartag.de/archives/2014">103. Deutschen Bibliothekartag (DBT)</a> in Bremen einen Workshop angeboten. 
+  <!--more-->
   Folgende <strong>Vorträge </strong> wurden dort am 03. Juni 2014 während des Workshops gehalten.</p>
   <p>Die Präsentationen finden Sie – soweit verfügbar – auf dem <a href="https://opus4.kobv.de/opus4-bib-info/solrsearch/index/search/searchtype/collection/id/16272">Publikationsserver</a> des <abbr title="Berufsverband Information Bibliothek e.V.">BIB</abbr>.</p>
 
@@ -52,4 +58,4 @@ title: "MyCoRe-Workshop auf dem 103. Bibliothekartag"
         <strong>„<a href="http://www.opus-bayern.de/bib-info/volltexte//2014/1711/">MyCoRe und Langzeitarchivierung: Bestandsaufnahme</a>“</strong>, 
         <nobr>URN: urn:nbn:de:0290-opus-17118</nobr></li>
     </ul>
- </div>
+

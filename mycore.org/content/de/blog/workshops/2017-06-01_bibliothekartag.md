@@ -1,15 +1,23 @@
+---
+title: "MyCoRe-Workshop auf dem 106. Bibliothekartag in Frankfurt am Main"
+slug: bibliothekartag
+date: 2017-06-01
+
+draft: false
+
+blog/authors: ["Wiebke Oeltjen"]
+blog/periods: 2017-06
+blog/categories:
+ - "Workshops"
 
 ---
 
-title: "MyCoRe-Workshop auf dem 106. Bibliothekartag"
 
----
-
-<div>
   <h2>„MyCoRe-Workshop für AnwenderInnen und Interessierte“</h2>
   <p>Die MyCoRe-Community hat auf dem <a href="https://www.bibliothekartag.de/archives/2017">106. Deutschen Bibliothekartag (DBT)</a> in Frankfurt am Main einen <a href="http://www.professionalabstracts.com/dbt2017/iplanner/#/sessiondetail/63">Workshop</a> angeboten. 
   Folgende Vorträge wurden dort am 01.06.2017 während des MyCoRe-Workshops gehalten. 
   </p>
+  <!--more--> 
   <p>
   Die Präsentationen finden Sie – soweit verfügbar – auf dem <a href="https://opus4.kobv.de/opus4-bib-info/solrsearch/index/search/searchtype/collection/id/16521">Publikationsserver</a> des <abbr title="Berufsverband Information Bibliothek e.V.">BIB</abbr>.
  </p>
@@ -41,5 +49,3 @@ title: "MyCoRe-Workshop auf dem 106. Bibliothekartag"
         <nobr>URN: urn:nbn:de:0290-opus4-30125</nobr> 
     </li>
   </ul>
-
-</div>

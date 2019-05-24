@@ -22,4 +22,4 @@ news/teaser_en:	"The first MyCoRe developer conference in 2019 will take part in
 ---
 
 Die MyCoRe-Entwickler treffen sich zur ersten MyCoRe-Entwickler-Konferenz 2019 in Jena.
-[https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/FebruarTreffen19](https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/FebruarTreffen19)
+
