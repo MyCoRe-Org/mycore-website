@@ -149,12 +149,11 @@ main:
 
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
-- {identifier: support,                                            name: Organisation,                 weight: -93,     url: /site/support}
--   {identifier: community,             parent: support,             name: Community,                    weight: -99,     url: /site/support/community}
--   {identifier: email,                 parent: support,             name: Kontaktaufnahme,              weight: -98,     url: /site/support/email}
--   {identifier: team,                  parent: support,             name: Team,                         weight: -97,     url: /site/support/team}
--   {identifier: workshops,             parent: support,             name: Workshops,                    weight: -96,     url: /site/support/workshops}
--   {identifier: bugs,                  parent: support,             name: zu MyCoRe JIRA,               weight: -95,     url: 'http://mycore.atlassian.net'}
--   {identifier: github,                parent: support,             name: zu MyCoRe Github,             weight: -94,     url: 'https://github.com/MyCoRe-Org'}
--   {identifier: wiki,                  parent: support,             name: zu MyCoRe Wiki,               weight: -93,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
--   {identifier: maven,                 parent: support,             name: zu MyCoRe Maven,              weight: -92,     url: 'http://mvnrepository.com/artifact/org.mycore'}
+- {identifier: community,                                            name: Organisation,                 weight: -93,     url: /site/community}
+-   {identifier: contact,               parent: community,             name: Kontaktaufnahme,              weight: -98,     url: /site/community/contact}
+-   {identifier: team,                  parent: community,             name: Team,                         weight: -97,     url: /site/community/team}
+-   {identifier: workshops,             parent: community,             name: Workshops,                    weight: -96,     url: /site/community/workshops}
+-   {identifier: bugs,                  parent: community,             name: zu MyCoRe JIRA,               weight: -95,     url: 'http://mycore.atlassian.net'}
+-   {identifier: github,                parent: community,             name: zu MyCoRe Github,             weight: -94,     url: 'https://github.com/MyCoRe-Org'}
+-   {identifier: wiki,                  parent: community,             name: zu MyCoRe Wiki,               weight: -93,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
+-   {identifier: maven,                 parent: community,             name: zu MyCoRe Maven,              weight: -92,     url: 'http://mvnrepository.com/artifact/org.mycore'}

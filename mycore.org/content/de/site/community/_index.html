@@ -16,6 +16,17 @@ date: "2018-10-16"
         Dieses <a href="{{< ref team >}}">Team</a> bildet die <strong>MyCoRe-Entwickler-Community</strong>.
       </p>
     </div>
+    
+    <div>
+      <h2>Wie ist die MyCoRe-Community organisiert?</h2>
+      <p>
+        Als professionelles Open-Source-Projekt mit einer großen Verantwortung für die erstellten Anwendungen ist es
+        hilfreich, entsprechende Werkzeuge zur Team-getriebenen Entwicklung einzusetzen. Die folgende Abbildung zeigt eine
+        Übersicht der Organisationsstruktur und die genutzten Werkzeuge.
+      </p>
+      {{< mcr-figure src="/images/site/support/mycore_organization.png" class="border border-secondary" label="Abbildung 1" caption="Übersicht der MyCoRe-Organisation" alt="Übersicht der MyCoRe-Organisation" width="800px" height="" />}}
+
+    </div>
 
     <div>
       <h2>Geschäftsstelle</h2>
@@ -27,7 +38,7 @@ date: "2018-10-16"
       <p>
         Zum Aufgabenbereich der Geschäftsstelle gehört u.a. die Organisation der mehrfach im Jahr stattfindenden
         Entwicklertreffen und des einmal im Jahr durchgeführten Anwender-Workshops, zu dem alle MyCoRe-Nutzer recht
-        herzlich eingeladen sind. Wie die Geschäftsstelle zu erreichen ist erfahren Sie unter <a href="{{< ref contact >}}">Kontakt</a>.
+        herzlich eingeladen sind. Wie die Geschäftsstelle zu erreichen ist erfahren Sie unter <a href="{{< ref contact >}}#mycore-geschaeftsstelle">Kontakt</a>.
       </p>
     </div>
 
@@ -35,7 +46,7 @@ date: "2018-10-16"
       <h2>Kommunikation mit den Entwicklern</h2>
       <p>
         Neben dem hier vorliegenden Internetauftritt von <strong>MyCoRe</strong> wurden für verschiedene
-        <a href="{{< ref email >}}">Mailinglisten</a> eingerichtet. Daneben wird zur ergänzenden Information der Nutzer,
+        <a href="{{< ref contact >}}#mailinglisten">Mailinglisten</a> eingerichtet. Daneben wird zur ergänzenden Information der Nutzer,
         zur Entwicklerplanung und zur Diskussion ein <a href="http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki">Wiki</a> genutzt, auf der auch viele
         <em>How to?</em>-Anleitungen abgelegt sind. Fehlermeldungen können durch die Nutzer oder Entwickler
         direkt in unser Ticket-System <a href="https://mycore.atlassian.net/">Atlassian JIRA</a>
@@ -46,12 +57,6 @@ date: "2018-10-16"
     <div>
       <h2>Werkzeuge zur Entwicklung von MyCoRe</h2>
       <p>
-        Als professionelles Open-Source-Projekt mit einer großen Verantwortung für die erstellten Anwendungen ist es
-        hilfreich, entsprechende Werkzeuge zur Team-getriebenen Entwicklung einzusetzen. Abbildung 1 zeigt eine
-        Übersicht der Organisationsstruktur und die genutzten Werkzeuge.
-      </p>
-      <div>{{< mcr-figure src="/images/site/support/mycore_organization.png" class="border border-secondary" label="Abbildung 1" caption="Übersicht der MyCoRe-Organisation" alt="Übersicht der MyCoRe-Organisation" width="800px" height="" />}}</div>
-      <p>
         Im Einzelnen wird folgende Software eingesetzt:
       </p>
       <ul>
@@ -61,9 +66,7 @@ date: "2018-10-16"
           eingesetzt.
         </li>
         <li>
-          Als Software-Versionierungssystem wird der MyCoRe-Code bei
-          <a href="https://github.com/MyCoRe-Org/" target="_blank">GitHub</a> gehostet.
-          betrieben.
+          Der MyCoRe-Code wird auf <a href="https://github.com/MyCoRe-Org/" target="_blank">GitHub</a> gehostet und versioniert.
         </li>
         <li>
           Werden Änderungen und Weiterentwicklungen in das GitHub-System commited, werden automatisch die Kommentare
@@ -72,9 +75,7 @@ date: "2018-10-16"
           im Einsatz.
         </li>
         <li>
-          In zyklischen Abständen werden mittels
-          <a href="https://bamboo.mycore.de/allPlans.action" target="_blank">Atlassian Bamboo</a>
-          Integrationstest durchgefüht.
+          In zyklischen Abständen werden mittels <strong>Atlassian Bamboo</strong> Integrationstest durchgefüht.
         </li>
         <li>
           Erfolgreiche Builds von Snapshots des Codes werden nach Prüfung durch <strong>Travis</strong> und 
