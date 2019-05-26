@@ -22,6 +22,13 @@
       <version>5.7.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.webjars.bower</groupId>
+      <artifactId>mark.js</artifactId>
+      <version>8.11.1</version>
+    </dependency>
+    
+
   </dependencies>
 
   <build>
@@ -54,7 +61,7 @@
             </goals>
             <configuration>
               <type>jar</type>
-              <includeArtifactIds>jquery,bootstrap,font-awesome</includeArtifactIds>
+              <includeArtifactIds>jquery,bootstrap,font-awesome,mark.js</includeArtifactIds>
               <outputDirectory>${project.build.directory}/_webjars</outputDirectory>
             </configuration>
           </execution>
@@ -76,6 +83,8 @@
                     <!-- font awesome -->
                     <include name="**/font-awesome/*/css/all*.css" />
                     <include name="**/font-awesome/*/webfonts/*" />
+                    <!-- mark.js -->
+                    <include name="**/dist/jquery.mark.min.js" />
                   </fileset>
                 </copy>
                 <copy todir="${basedir}/mycore.org/themes/mycore-bootstrap/assets/_gen/webjars">
