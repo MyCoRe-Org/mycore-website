@@ -3,14 +3,7 @@
 <div class="container-fluid">
   <div class="row justify-content-between justify-content-xl-around no-gutters">
 
-    <div class="col-auto">
-      {{/* project logo */}}
-      <a href='{{relLangURL "/"}}' class="home-logo-box">
-        <img src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'
-             class="home-logo-box__image"
-             alt="MyCoRe Logo" />
-      </a>
-    </div>
+
 
     <div class="col-auto">
       {{/* main nav */}}
@@ -42,6 +35,16 @@
           </div>
         </div>
       </nav>
+    </div>
+    <div class="col-auto">
+        <form action='{{relURL "search"}}'>
+            <div class="input-group mt-2 input-group-sm">
+                <input id="mcr-input-sitesearch" name="s" type="text" class="form-control" placeholder="Suche auf mycore.org" aria-label="search on website">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit" id="mcr-btn-sitesearch"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="col-auto">
