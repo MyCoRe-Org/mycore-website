@@ -1,11 +1,16 @@
+/* mycore colors */
+$mcr-blue: #15516e;
+$mcr-orange: #ff9900;
+$mcr-darkblue: #30424c;
+
 /* for bootstrap theme building see https://bootstrap.build/app */
-$dark:                      #343a40;
-$blue:                      #15516e;  /* primary - mycore blue */
-$yellow:                    #ff9900;  /* warning - mycore orange*/
-$green:                     #519872;  /* success */ 
-$cyan:                      #a4b494;  /* info */
-$red:                       #a63446;  /* danger */
-$gray-600:                  #77878b;  /* secondary */
+$dark:                    #343a40;
+$blue:                    $mcr-darkblue;  /* primary */
+$yellow:                  #ff9900;      /* warning */
+$green:                   #060707;      /* success */
+$cyan:                    #a4b494;      /* info */
+$red:                     #a63446;      /* danger */
+$gray-600:                #77878b;      /* secondary */
 
 $link-color:                lighten($blue, 20%); /* $dark; */
 $body-color:                #444;
@@ -24,3 +29,5 @@ $h5-font-size:              $font-size-base;
 $link-hover-color:          black;
 
 $badge-font-weight:         400;        /* $font-weight-normal; */
+
+$header-height: 45px;
