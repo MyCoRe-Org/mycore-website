@@ -115,9 +115,6 @@ a.latestnews:hover {
   position:sticky;
   top:30px;
   color:darkgrey;
-  margin-top:30px;
-  margin-left:30px;
-  border-left: 1px solid darkgray;
 }
 
 .mcr-toc a{
@@ -154,16 +151,27 @@ a.latestnews:hover {
 /* author styles */
 
 .mcr-footer-authors{
-  margin-top:15px;
-  padding-top:5px;
-  border-top:1px solid gray;
   text-align:right;
   font-size: smaller;
+  color: $gray-600;
+  position: relative;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  margin-top: 3rem;
 }
 .mcr-author:not(:last-child):after{
   content: ',\0020';
 }
-
+.mcr-footer-authors:before {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom: 1px solid $gray-600;
+}
 .mcr-news{
   font-size:0.9rem;
 }

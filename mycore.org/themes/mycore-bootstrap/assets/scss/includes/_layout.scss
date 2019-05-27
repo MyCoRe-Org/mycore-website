@@ -40,8 +40,31 @@
     flex: 1; // use all available space
   }
 
+  .content-box {
+    margin-top: 1rem;
+  }
+
   .content {
-    margin-top: 40px;
+    padding-top: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .sub-menu {
+    flex: 0 1 320px;
+    border-right: 1px solid rgba(0,0,0,.1);
+    padding-top: 3rem;
+  }
+
+  .toc-menu {
+    border-left: 1px solid rgba(0,0,0,.1);
+    padding-top: 3rem;
+  }
+
+  .mcr-version-box {
+    position: absolute;
+    top: 1rem;
+    right: 3rem;
   }
 
 // Large devices (desktops) and below

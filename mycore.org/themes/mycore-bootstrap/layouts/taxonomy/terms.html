@@ -1,12 +1,12 @@
 {{- define "main" -}}
 
 
-<div class="container-fluid content">
+<div class="container-fluid content-box">
   <div class="row">
-	<div class="col-3">
+	<div class="col-12 col-md-3 col-xl-2 sub-menu">
 	 {{- partial "blog/left_side_menu.html" . -}}
 	</div>
-	<div class="col-6">
+	<div class="col-12 col-md-9 col-xl-8 content">
 		<h1>{{ .Title }}</h1>
 			{{ $type := .Type }}
 {{ range $key, $value := .Data.Terms.ByCount }}
@@ -17,7 +17,7 @@
   {{ end }}
 {{ end }}
 		</div>
-			<div class="col-3">
+			<div class="d-none d-xl-block col-xl-2 toc-menu">
 	 {{- partial "blog/right_side_menu.html" . -}}
 	</div>
  	</div>
