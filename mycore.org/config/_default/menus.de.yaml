@@ -120,11 +120,9 @@ main:
 -     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -90,      url: /documentation/migrate}
--     {identifier: index,                   parent: migrate,            name: Übersicht,                   weight: -99,      url: /documentation/migrate/index}
--     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2018_06}
--     {identifier: migrate_mcr2017_06,      parent: migrate,            name: MCR 2016.06 ⇒ 2017.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2017_06}
+-     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2019_06}
+-     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2018_06}
 -     {identifier: migrate_mir2018_08,      parent: migrate,            name: MIR 2017.06 ⇒ 2018.08,       weight: -96,      url: /documentation/migrate/migrate_mir2018_08}
--     {identifier: migrateDP_MIR,           parent: migrate,            name: DocPortal ⇒ MIR,             weight: -95,      url: /documentation/migrate/migrateDP_MIR}
 -   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -89,      url: /documentation/developer}
 -     {identifier: eclipse,                 parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/eclipse}
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
