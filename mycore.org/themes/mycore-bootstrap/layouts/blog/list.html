@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-<div class="container-fluid">
+<div class="container-fluid content">
   <div class="row">
 	<div class="col-3">
 	 {{- partial "blog/left_side_menu.html" . -}}
@@ -12,10 +12,10 @@
 	    </p>
         <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
         {{.Content}}
-  {{ with .Site.GetPage "section" "blog" }}      
+  {{ with .Site.GetPage "section" "blog" }}
         {{ range first 510 .Pages }}
   <div class="mcr-blog-listentry">
-  
+
   	{{- partial "blog/badges.html" . -}}
     <h5 class="pt-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h5>
     {{ .Summary | plainify }}
