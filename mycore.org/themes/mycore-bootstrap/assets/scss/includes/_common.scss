@@ -25,18 +25,6 @@ figure h4{
   padding-top:15px;
 }
 
-img.mcr-flag{
-  height:1.5em;
-}
-img.mcr-flag.active{
-  border-bottom:2px solid white;
-}
-
-img.mcr-flag:hover{
-  border-bottom:2px solid orange;
-}
-
-
 /* start page */
 #mcr-home a {
   color: $dark;
@@ -178,7 +166,6 @@ a.latestnews:hover {
 
 .mcr-news{
   font-size:0.9rem;
-  text-align:center;
 }
 
 .mcr-news h5{
