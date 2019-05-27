@@ -7,8 +7,6 @@
 // set the defaults for all responsive levels here
 
 
-  .home-logo-box {
-  }
   .home-logo-box__image {
     height: 32px;
     margin: 0.4rem 0;
@@ -25,6 +23,7 @@
   .lang-dropdown__image {
     height: 24px;
   }
+
   .lang-dropdown__link-image {
     height: 24px;
   }
@@ -57,6 +56,24 @@
         width: 100%;
         justify-content: center;
     }
+
+  /* download banner
+   * - adds a small download row below the main menu
+   * - colored in download green
+   * - full width, but not fixed
+   * - link is centered
+   */
+  .download-banner {
+    color: white;
+    background-color: $mcr-green;
+    font-size: 14px;
+    padding: 5px 0;
+    text-align: center;
+  }
+
+  .download-banner__link {
+    color: white;
+  }
 
     // side navigation --------------------------
     .mcr-navbar-side a {
