@@ -7,16 +7,37 @@
 // set the defaults for all responsive levels here
 
 
+  .home-logo-box__image {
+    height: 32px;
+    margin: 0.4rem 0;
+  }
+
+  .mcr-navbar-top {
+    padding: 0;
+  }
+
+  .lang-dropdown__button {
+    margin: 0.4rem 0;
+  }
+
+  .lang-dropdown__image {
+    height: 24px;
+  }
+
+  .lang-dropdown__link-image {
+    height: 24px;
+  }
+
     // top navigation ---------------------------
     .mcr-navbar-main {
-        width: 100%;
-        background-color: rgba(21, 21, 21, 0.5);
-        padding: 0.16rem 0;
+        height: 100%;
+        padding: 0 3rem;
 
         a {
             color:white;
             margin-right: 15px;
             border-bottom: 2px solid transparent;
+            transition: ease-in 0.2s;
             &:hover{
                 color: $yellow;
                 border-bottom: 2px solid $yellow;
@@ -27,10 +48,32 @@
         }
     }
 
+    .navbar-expand-lg .navbar-nav .nav-link {
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
     .navbar-nav {
         width: 100%;
         justify-content: center;
     }
+
+  /* download banner
+   * - adds a small download row below the main menu
+   * - colored in download green
+   * - full width, but not fixed
+   * - link is centered
+   */
+  .download-banner {
+    color: white;
+    background-color: $mcr-green;
+    font-size: 14px;
+    padding: 5px 0;
+    text-align: center;
+  }
+
+  .download-banner__link {
+    color: white;
+  }
 
     // side navigation --------------------------
     .mcr-navbar-side a {
@@ -38,7 +81,7 @@
         color: $body-color;
     }
 
-    .mcr-navbar-side a:hover{
+    .mcr-navbar-side a:hover {
         text-decoration:none;
         color: $body-color;
     }
