@@ -1,52 +1,79 @@
 {{ $currentPage := . }}
 
 <div class="container-fluid">
+  <div class="row justify-content-center">
 
-	<div class="row">
-		<!-- Project Logo -->
-		<div class="col-6">
-			<a href='{{relLangURL "/"}}'>
-				<img alt="MyCoRe Logo" src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'>
-		    </a>
-			{{if hasPrefix $currentPage.URL (relLangURL "/blog/")}}
-				<!-- <span class="blog-header h1" style="color:white;opacity:0.75;position:relative;top:20px">BLOG</span>-->
-				<img src="{{relURL "images/_site/blog.png"}}" alt="Blog" style="opacity:.85;height:50px;position:absolute;top:9px;z-index:1"/>
-			{{end}}
-		</div>
-		<!-- Language Selector -->
-		<div class="col-6" >
-			<div class="float-right" >
-			  	<nav class="navbar mcr-navbar-top navbar-expand-md float-right">
-					<div class="navbar-nav">
-					{{ range $.Site.Home.AllTranslations }}
-						<a class="nav-item nav-link"  href="{{ .RelPermalink }}"
-					       title="{{ .Language.LanguageName }}">
-					   	 	<img src="{{relURL .Language.Params.flag}}" class="mcr-flag {{if eq .Language.LanguageName $.Site.Language.LanguageName }} active {{ end }}" />
-						</a>
-					{{ end }}
-					</div>
-				</nav>
-			</div>
-		</div>
-	</div>
+    <div class="col-auto">
+      {{/* project logo */}}
+      <a href='{{relLangURL "/"}}' class="home-logo-box">
+        <img src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'
+             class="home-logo-box__image"
+             alt="MyCoRe Logo" />
+      </a>
+    </div>
 
-	<div class="row">
-		<!-- Main Nav -->
-		<nav class="navbar mcr-navbar-main navbar-expand-md">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavTop" aria-controls="navbarNavTop" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNavTop">
-				<div class="navbar-nav">
+    <div class="col-auto">
+      {{/* main nav */}}
+      <nav class="navbar mcr-navbar-main navbar-expand-lg">
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavTop"
+                aria-controls="navbarNavTop"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavTop">
+          <div class="navbar-nav">
+            {{ $currentPage := . }}
+            {{ range .Site.Menus.main }}
+              {{/* Todo: move to function */}}
+              {{ $aktivePage := (eq $currentPage.URL (print (relLangURL .URL)))}}
+              {{ $hasPrefix := (hasPrefix $currentPage.URL (print (relLangURL .URL) "/") ) }}
+              {{ $activeEntryClass := "not-active" }}
+              {{ if (or $aktivePage $hasPrefix) }}
+                {{ $activeEntryClass = "active" }}
+              {{ end }}
+              <a class='nav-item nav-link {{ $activeEntryClass }}'
+                href="{{ relLangURL .URL }}">{{ .Name }}
+              </a>
+            {{ end }}
+          </div>
+        </div>
+      </nav>
+    </div>
 
-				{{ $currentPage := . }}
-					{{ range .Site.Menus.main }}
-					<a class='nav-item nav-link {{ if (or (eq $currentPage.URL (print (relLangURL .URL))) (hasPrefix $currentPage.URL (print (relLangURL .URL) "/") ))}} active {{ end }}'
-					href="{{ relLangURL .URL }}">{{ .Name }}</a>
-				{{ end }}
-				</div>
-			</div>
-		</nav>
-	</div>
+    <div class="col-auto">
+      <div class="dropdown lang-dropdown">
+        <button class="btn btn-primary dropdown-toggle lang-dropdown__button btn-sm"
+                type="button"
+                title="Switch language"
+                id="switch-lang-drowpdown"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+            <img src='{{ relURL "images/_site/icon-lang-switch.png" }}'
+                 class="lang-dropdown__image" />
+        </button>
+        <div class="dropdown-menu lang-dropdown__menu" aria-labelledby="switch-lang-drowpdown">
+          {{ range $.Site.Home.AllTranslations }}
+            {{ $currentLangClass := "not-active"}}
+            {{/* Todo: move to function */}}
+            {{ if (eq .Language.LanguageName $.Site.Language.LanguageName) }}
+              {{ $currentLangClass = "active" }}
+            {{ end }}
+            <a class="dropdown-item lang-dropdown__link {{ $currentLangClass }}"
+               href="{{ .RelPermalink }}"
+              title="{{ .Language.LanguageName }}">
+            <img src="{{relURL .Language.Params.flag}}"
+                 class="lang-dropdown__link-image" />
+              {{ .Language.LanguageName }}
+            </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
 
+  </div>
 </div>

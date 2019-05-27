@@ -7,16 +7,38 @@
 // set the defaults for all responsive levels here
 
 
+  .home-logo-box {
+  }
+  .home-logo-box__image {
+    height: 32px;
+    margin: 0.4rem 0;
+  }
+
+  .mcr-navbar-top {
+    padding: 0;
+  }
+
+  .lang-dropdown__button {
+    margin: 0.4rem 0;
+  }
+
+  .lang-dropdown__image {
+    height: 24px;
+  }
+  .lang-dropdown__link-image {
+    height: 24px;
+  }
+
     // top navigation ---------------------------
     .mcr-navbar-main {
-        width: 100%;
-        background-color: rgba(21, 21, 21, 0.5);
-        padding: 0.16rem 0;
+        height: 100%;
+        padding: 0 3rem;
 
         a {
             color:white;
             margin-right: 15px;
             border-bottom: 2px solid transparent;
+            transition: ease-in 0.2s;
             &:hover{
                 color: $yellow;
                 border-bottom: 2px solid $yellow;
@@ -27,6 +49,10 @@
         }
     }
 
+    .navbar-expand-lg .navbar-nav .nav-link {
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
     .navbar-nav {
         width: 100%;
         justify-content: center;
@@ -38,7 +64,7 @@
         color: $body-color;
     }
 
-    .mcr-navbar-side a:hover{
+    .mcr-navbar-side a:hover {
         text-decoration:none;
         color: $body-color;
     }
