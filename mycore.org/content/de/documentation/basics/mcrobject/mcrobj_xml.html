@@ -135,6 +135,7 @@ date: "2019-05-27"
       </p>
       <p>
         Ab <strong>LTS 2019.06</strong> wurde der Abschnitt <code>derobjects</code> umstrukturiert.
+        Für den Umstieg von LTS 2018.06 ist eine Datenmigration erforderlich!
         Jedes <code>derobject</code> ist nun vom Metadatentyp <code>MCRMetaEnrichedLinkID</code>.
         Dieses hat die folgenden Unterfelder:
       <p>
@@ -154,7 +155,7 @@ date: "2019-05-27"
     <child xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
     ...
   </children>
-  <derobjects class="MCRMetaLinkID">
+  <derobjects class="MCRMetaEnrichedLinkID">
     <derobject xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." >
       <order>{number_of_derivate</order>
       <mainDoc>{main_file_name}</mainDoc>
