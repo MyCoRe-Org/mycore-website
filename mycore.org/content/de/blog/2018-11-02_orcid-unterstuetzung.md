@@ -1,4 +1,4 @@
-  ---
+---
 title:	 "Neu: ORCID-Unterstützung"
 slug: orcid-unterstuetzung
 date: 2018-11-02
