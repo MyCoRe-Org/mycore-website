@@ -8,10 +8,9 @@ description: "
       In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des
       Syntax ist notwendig, um eigene Datensätze für zu erstellen.
     "
-date: "2019-04-10"
+date: "2019-05-27"
 
 ---
-    <div>
       <h2>Das Metadatenmodell</h2>
       <p>
         Die zu speichernden Daten einer Anwendung teilen sich in unserem Modell in Metadaten und digitale Objekte. Dies
@@ -32,6 +31,7 @@ date: "2019-04-10"
       </p>
 
       <h2>Aufbau eines MyCoRe-Objektes</h2>
+      <p>
       {{< highlight xml "linenos=table">}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <mycoreobject
@@ -50,6 +50,7 @@ date: "2019-04-10"
  ...
  </service>
 </mycoreobject>{{< /highlight >}}
+      </p>
 
       <p>
         Die oben gezeigte Syntax stellt den Rahmen eines jeden Metadaten-Objektes dar. Diese Struktur ist immer gleich
@@ -73,25 +74,19 @@ date: "2019-04-10"
           werden!
         </li>
       </ul>
-    </div>
 
-    <div>
       <h2>Aufbau des XML-Knotens structure</h2>
       <p>
         Im XML-Knoten structure sind alle Informationen über die Beziehung des Metadatenobjektes zu anderen Objekten
-        abgelegt.
-        Es werden derzeit die folgenden XML-Daten unter diesem Knoten abgelegt. Die Tag-Namen parents/parent,
-        children/child
-        und derobjects/derobject sind reserviert und dürfen NICHT anderweitig verwendet werden! Alle
-        Sub-Knoten haben einen
-        Aufbau wie für MCRMetaLinkID beschrieben.
+        abgelegt. Es werden derzeit die folgenden XML-Daten unter diesem Knoten abgelegt. Die Tag-Namen parents/parent,
+        children/child und derobjects/derobject sind reserviert und dürfen NICHT anderweitig verwendet werden! Alle
+        Sub-Knoten haben im <strong>LTS 2018.06</strong> einen Aufbau wie für MCRMetaLinkID beschrieben. Mit 
+        <strong>LTS 2018.06</strong> hat sich dies für das Tag <code>derobjects</code> geändert.
       </p>
       <p>
         In parents wird ein Link zu einem Elternobjekt gespeichert, sofern das referenzierende Objekt Eltern hat. Ob
-        dies der
-        Fall ist, bestimmt die Anwendung. Das Tag dient der Gestaltung von Vererbungsbäumen und kann durch den
-        Anwender
-        festgelegt werden. Das Thema Vererbung wird gesondert an den entsprechenden Stellen beschrieben. Die
+        dies der Fall ist, bestimmt die Anwendung. Das Tag dient der Gestaltung von Vererbungsbäumen und kann durch den
+        Anwender festgelegt werden. Das Thema Vererbung wird gesondert an den entsprechenden Stellen beschrieben. Die
         Werte für
         <em>xlink:title</em>
         und
@@ -115,35 +110,64 @@ date: "2019-04-10"
         Software entfernt.
       </p>
       <p>
-        Dasselbe gilt auch für den XML-Unterknoten
+        Dasselbe gilt unter <strong>LTS 2018.06</strong> auch für den XML-Unterknoten
         <code>derobjects</code>. In diesem Bereich werden alle Verweise auf die an
         das Metadatenobjekt angehängten digitalen Objekte
         gespeichert. Jeder Eintrag verweist mittels einer Referenz auf ein
         Datenobjekt vom Typ mycorederivate, wie es im
-        nachfolgenden Abschnitt
-        <strong>Derivate</strong>
-        näher erläutert
-        ist.
+        nachfolgenden Abschnitt <strong>Derivate</strong> näher erläutert ist.
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
 <structure>
   <parents class="MCRMetaLinkID">
     <parent xlink:type="locator" xlink:href="...mcr_id..." />
   </parents>
   <children class="MCRMetaLinkID">
-    <child xlink:type="locator" xlink:href="...mcr_id..."
-        xlink:label="..." xlink:title="..." />
+    <child xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
     ...
   </children>
   <derobjects class="MCRMetaLinkID">
-    <derobject xlink:type="locator" xlink:href="...mcr_id..."
-        xlink:label="..." xlink:title="..." />
+    <derobject xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
     ...
   </derobjects>
 </structure>{{< /highlight >}}
-    </div>
+      </p>
+      <p>
+        Ab <strong>LTS 2019.06</strong> wurde der Abschnitt <code>derobjects</code> umstrukturiert.
+        Jedes <code>derobject</code> ist nun vom Metadatentyp <code>MCRMetaEnrichedLinkID</code>.
+        Dieses hat die folgenden Unterfelder:
+      <p>
+      <ul>
+        <li><code>order</code> - Die Ordnungsnummer des Derivates im MCRObject.</li>
+        <li><code>maindoc</code> - Die Startdatei für die Anzeige des Derivates.</li>
+        <li><code>title</code> - Sprachabhängiger Titel des Derivates (wiederholbar).</li>
+        <li><code>classification</code> - Klassifkationsreferenz zu Eigenschaften des Derivates (wiederholbar).</li>
+      </ul>
+      <p>
+      {{< highlight xml "linenos=table">}}
+<structure>
+  <parents class="MCRMetaLinkID">
+    <parent xlink:type="locator" xlink:href="...mcr_id..." />
+  </parents>
+  <children class="MCRMetaLinkID">
+    <child xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
+    ...
+  </children>
+  <derobjects class="MCRMetaLinkID">
+    <derobject xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." >
+      <order>{number_of_derivate</order>
+      <mainDoc>{main_file_name}</mainDoc>
+      <title xml:lang="{lang}">{title_lang}</title>
+      ...
+      <classification classid="{classid}" categid="categid}" />
+      ...
+    </derobject>
+    ...
+  </derobjects>
+</structure>{{< /highlight >}}
+      </p>
 
-    <div>
       <h2>Aufbau des XML-Knotens metadata</h2>
       <p>
         Der Abschnitt metadata des MyCoRe-Metadatenobjektes nimmt alle Beschreibungsdaten des eigentlichen Datenmodells
@@ -202,6 +226,7 @@ date: "2019-04-10"
         Diese Information ist für die Datenpräsentation sehr hilfreich.
       </p>
 
+      <p>
       {{< highlight xml "linenos=table">}}
 <metadata>
   <... class="MCRMeta..." heritable="..." notinherit="...">
@@ -209,6 +234,7 @@ date: "2019-04-10"
   </...>
   ...
 </metadata>{{< /highlight >}}
+      </p>
 
       <p>
         Für das MyCoRe-Beispiel mit einem MODS Datenmodell werden bereits einige Metadatentypen verwendet,
@@ -216,9 +242,7 @@ date: "2019-04-10"
         MyCoRe-Kern beigefügt sind. Die Syntax der einzelnen Typen wird in den nachfolgenden Absätzen genau
         beschrieben.
       </p>
-    </div>
 
-    <div>
       <h2>Aufbau des XML-Knotens service</h2>
       <p>
         Für die Einrichtung eines Workflow und um die Wartung großer Datenmengen zu vereinfachen sowie für den Import /
@@ -283,9 +307,10 @@ date: "2019-04-10"
       </p>
       
       {{< highlight bash "linenos=table">}}
-        load classification from url http://mycore.de/classifications/state.xml{{< /highlight >}}
+ load classification from url http://mycore.de/classifications/state.xml{{< /highlight >}}
         
       <p>Aufbau des XML-Knotens service:</p>
+      <p>
       {{< highlight xml "linenos=table">}}
 <service>
   <servdates class="MCRMetaISO8601Date">
@@ -305,5 +330,5 @@ date: "2019-04-10"
     <servstate classid="..." categid="..." />
   </servstates>
 </service>{{< /highlight >}}
-    </div>
+      </p>
   
