@@ -1,5 +1,5 @@
 ---
-title:	 "Neu: ORCID-Unterstützung"
+title:	 "ORCID-Unterstützung"
 slug: orcid-unterstuetzung
 date: 2018-11-02
 
@@ -12,8 +12,7 @@ blog/categories:
 blog/tags:
  - "ORCID"
 
-news/frontpage: true
-news/title_de: "Neu: ORCID-Unterstützung"
+news/title_de: "ORCID-Unterstützung"
 news/teaser_de: "ORCID-Unterstützung für MyCoRe-Repositorien ist implementiert (siehe Mitteilung in o-bib, 5(3) 2018)."
 news/title_en: "MyCoRe integrated ORCID"
 news/teaser_en: "New in MyCoRe: ORCID integration is now implemented in MyCoRe (see notification in o-bib, 5(3) 2018)."
