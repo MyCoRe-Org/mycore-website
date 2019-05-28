@@ -8,7 +8,7 @@
 
   /* Set up page header */
   .page__header {
-    height: $header-height;
+    min-height: $header-height;
     background-color: $blue;
   }
 
