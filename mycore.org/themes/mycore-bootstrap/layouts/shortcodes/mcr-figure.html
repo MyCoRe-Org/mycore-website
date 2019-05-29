@@ -1,4 +1,5 @@
-<figure class="{{- if .Get "src" -}}{{- if not (.Get "class") -}}text-center{{- end -}} {{- end -}}{{ with .Get "class" -}}{{ . }}{{- end -}}">
+<figure>
+  <div class="{{- if .Get "src" -}}{{- if not (.Get "class") -}}text-center{{- end -}} {{- end -}}{{ with .Get "class" -}}{{ . }}{{- end -}}">
      {{- if .Get "src" -}}
     <img src="{{ .Get "src" }}" 
          {{- with .Get "alt" }} alt="{{ . }}"{{ end -}}
@@ -7,9 +8,10 @@
     /> <!-- Closing img tag -->
     {{- end }}
     {{- with .Inner }}
-      {{ . | markdownify}}
+      {{ . | markdownify }}
     {{- end -}}
     {{- if or (.Get "label") (.Get "caption") (.Get "attr") -}}
+  </div>
         <figcaption>
          {{- with .Get "attr" -}}
          <span class="mcr-fig-attribution float-right text-muted" data-container="body" data-toggle="popover" data-placement="left" data-content="{{ . | markdownify }}">
