@@ -8,7 +8,7 @@ $mcr-gray:      #666666;
 /* for bootstrap theme building see https://bootstrap.build/app */
 $dark:                    #343a40;
 $blue:                    $mcr-darkblue;  /* primary */
-$yellow:                  #ff9900;      /* warning */
+$yellow:                  $mcr-orange;    /* warning */
 $green:                   #060707;      /* success */
 $cyan:                    #a4b494;      /* info */
 $red:                     #a63446;      /* danger */
