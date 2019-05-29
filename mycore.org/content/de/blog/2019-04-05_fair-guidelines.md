@@ -22,4 +22,4 @@ news/image: "sf"
 
 ---
 
-Der Artikel "yCoRe macht Forschungsdaten FAIR" von Dr. Wiebke Oeltjen, Kathleen Neumann, Dr. Ulrike Stahl und Robert Stephan ist in der Zeitschrift "Bibliothek : Forschung und Praxis" erschienen (Vol. 43, H.1, S.82-90). https://doi.org/10.1515/bfp-2019-2013
+Der Artikel "MyCoRe macht Forschungsdaten FAIR" von Dr. Wiebke Oeltjen, Kathleen Neumann, Dr. Ulrike Stahl und Robert Stephan ist in der Zeitschrift "Bibliothek : Forschung und Praxis" erschienen (Vol. 43, H.1, S.82-90). https://doi.org/10.1515/bfp-2019-2013

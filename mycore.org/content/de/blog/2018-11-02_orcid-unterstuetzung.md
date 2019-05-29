@@ -15,7 +15,7 @@ blog/tags:
 news/title_de: "ORCID-Unterstützung"
 news/teaser_de: "ORCID-Unterstützung für MyCoRe-Repositorien ist implementiert (siehe Mitteilung in o-bib, 5(3) 2018)."
 news/title_en: "MyCoRe integrated ORCID"
-news/teaser_en: "New in MyCoRe: ORCID integration is now implemented in MyCoRe (see notification in o-bib, 5(3) 2018)."
+news/teaser_en: "ORCID integration is now implemented in MyCoRe (see notification in o-bib, 5(3) 2018)."
 
 news/image: "sf"
 
