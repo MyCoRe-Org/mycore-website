@@ -81,8 +81,8 @@
     }
 
     .mcr-navbar-side a {
-        text-decoration:none;
-        color: $body-color;
+      color: $mcr-gray;
+      text-decoration:none;
     }
 
     .mcr-navbar-side a:hover {
@@ -92,11 +92,6 @@
 
     .mcr-navbar-side h5:not(:first-of-type) {
         padding-top:30px;
-    }
-
-    .mcr-navbar-side h5 a:hover:before {
-        //content: "\f104";
-        //padding-right: 5px;
     }
 
     .mcr-navbar-side li:not(:first-of-type) h6 {
@@ -124,7 +119,7 @@
 
     .mcr-navbar-side a:before {
         //font-family: "Font Awesome\ 5 Free";
-        font-weight: bold;
+        font-weight: 600;
         text-decoration: none;
     }
     .mcr-navbar-side a.active:before {
@@ -139,7 +134,7 @@
 
     .mcr-navbar-side a.has-children,
     .mcr-navbar-side a.has-children:not(.collapsed) {
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .mcr-navbar-side a.has-children.active,
@@ -152,12 +147,9 @@
       color: $yellow;
     }
 
-    .mcr-navbar-side a.has-children:hover {
-      color: #888;
-    }
-
+    .mcr-navbar-side a.has-children:hover,
     .mcr-navbar-side a.no-children:hover {
-      color: #888;
+      color: $black;
     }
 
     .mcr-navbar-side div.mcr-blog a {
