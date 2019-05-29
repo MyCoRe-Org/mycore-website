@@ -3,7 +3,7 @@
   <div>
   	{{- partial "blog/badges.html" . -}}
     <h3 class="pt-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-    {{ .Summary | plainify}}
+    {{ .Summary | plainify| htmlUnescape | safeHTML}}
     <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
 	
 	<hr />

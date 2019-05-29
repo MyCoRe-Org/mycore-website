@@ -8,7 +8,8 @@ draft: false
 blog/authors: ["Wiebke Oeltjen"]
 blog/periods: 2017-06
 blog/categories:
- - "Workshops"
+ - Workshops
+ - Konferenzen
 
 ---
 

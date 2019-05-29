@@ -8,8 +8,8 @@ draft: false
 blog/authors: ["Wiebke Oeltjen"]
 blog/periods: 2014-06
 blog/categories:
- - "Workshops"
-
+ - Workshops
+ - Konferenzen
 ---
 
   <h2>„Vielseitig, nachhaltig, anpassbar - MyCoRe im Einsatz“</h2>
