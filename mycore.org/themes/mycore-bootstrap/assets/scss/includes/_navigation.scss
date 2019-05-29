@@ -134,6 +134,7 @@
 
     .mcr-navbar-side a.has-children,
     .mcr-navbar-side a.has-children:not(.collapsed) {
+      color: $body-color;
       font-weight: 600;
     }
 
