@@ -1,0 +1,77 @@
+
+---
+
+title: "MyCoRe-Community"
+author: ['Wiebke Oeltjen', 'Jens Kupferschmidt']
+date: "2019-05-29"
+
+---
+    <div>
+      <h2>MyCoRe</h2>
+      <p>
+        <strong>MyCoRe</strong> is an <strong>open source project</strong>, that derived from the
+        <strong>MILESS Project</strong> of the University Duisburg-Essen. An association of developers from various German universities and universities library are jointly developing the framework.
+        This <a href="{{< ref team >}}">team</a> is the <strong>MyCoRe Developer Community</strong>.
+      </p>
+    </div>
+    
+    <div>
+      <h2>How is the community organized?</h2>
+      <p>
+        As a professional open source project with a great deal of responsibility for the applications created, it is
+        helpful to use appropriate tools for team-driven development. The following figure shows a
+        overview of the organizational structure and the tools used.
+      </p>
+      {{< mcr-figure src="/images/site/support/mycore_organization.png" class="border border-secondary" label="Figure 1" caption="Übersicht der MyCoRe-Organisation" alt="Overview of the MyCoRe organization" width="100%" height="" />}}
+
+    </div>
+
+    <div>
+      <h2>the MyCoRe Office</h2>
+      <p>
+        The <strong>MyCoRe developer community</strong> has decided to improve communication
+         with the users, to coordinate the work and the external presentation of the project, a business office
+         to set up. This should be a first port of call for all interested parties.
+      </p>
+      <p>
+        The duties of the office include the organization of developer meetings and the user workshop. 
+        How to reach the office is explained below <a href="{{< ref contact >}}#mycore-geschaeftsstelle">Contact</a>.
+      </p>
+    </div>
+
+    <div>
+      <h2>Communication with the developers</h2>
+      <p>
+        You can reach us under the <a href="{{< ref contact >}}#mailinglisten">mailing lists</a>. 
+        Beside that there are additional Information for users in a <a href="http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki">Wiki</a>, with <em>How to?</em> instructions. Error messages can be sent directly to our ticket system <a href="https://mycore.atlassian.net/">Atlassian JIRA</a>.
+      </p>
+    </div>
+
+    <div>
+      <h2>Tools for development of MyCoRe</h2>
+      <p>
+        In detail, the following software is used:
+      </p>
+      <ul>
+        <li>
+          As a developer platform 
+          <a href="https://eclipse.org/" target="_blank">Eclipse</a>
+          is used.
+        </li>
+        <li>
+          The MyCoRe code is hosted and versioned on <a href="https://github.com/MyCoRe-Org/" target="_blank">GitHub</a>.
+        </li>
+        <li>
+          If changes and further developments are committed to the GitHub system, the comments are automatically transferred to the corresponding ticket. Here we are using <a href="https://mycore.atlassian.net/secure/Dashboard.jspa" target="_blank">Atlassian JIRA</a>.
+        </li>
+        <li>
+          In cyclic intervals, <strong>Atlassian Bamboo</strong> integration test are performed by <strong>Atlassian Bamboo</strong>.
+        </li>
+        <li>
+          Successful builds of snapshots are verified by <strong>Travis</strong> and 
+          <strong>Codacy</strong>, than the code is delivered to <a href="https://oss.sonatype.org/#nexus-search;quick~mycore" target="_blank">Sonatype MyCoRe-Artifactory</a>, where it is provided for delivery via <em>Maven</em>.
+          In analogy to this releases are provided in <strong>Maven-Central</strong>.
+        </li>
+      </ul>
+    </div>
+  
