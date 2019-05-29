@@ -6,7 +6,7 @@
         <div class="col-3 text-center">
           <a class="latestnews" href="{{.Permalink}}">
             <h5>{{.Param (print "news/title_" $.Site.Language.Lang) }}</h5>
-            <span class="message">{{ .Param (print "news/teaser_" $.Site.Language.Lang) }}</span>
+            <span class="message">{{ (htmlUnescape (.Param (print "news/teaser_" $.Site.Language.Lang))) }}</span>
             <div class="small text-right mt-2">
               <em>von
                 {{ range .Param "blog/authors" }}

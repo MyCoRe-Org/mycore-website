@@ -13,7 +13,7 @@ blog/categories:
 
 news/frontpage: false
 news/title_de: "Bibliothekartag 2019 in Leipzig"
-news/teaser_de: "Vortrag: &lquot;Open-Access-Monitoring mit Hilfe von Hochschulbibliographien und der Anbindung an Forschungsinformationssysteme&rquot;"
+news/teaser_de: "Vortrag: &ldquo;Open-Access-Monitoring mit Hilfe von Hochschulbibliographien und der Anbindung an Forschungsinformationssysteme&rdquo;"
 news/title_en: "Library Congress 2019 in Leipzig"
 news/teaser_en: "Conference talk about university bibliographies and research information systems based on MyCoRe."
 
