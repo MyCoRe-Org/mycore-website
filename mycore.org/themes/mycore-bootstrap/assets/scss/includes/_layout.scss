@@ -6,34 +6,89 @@
 // no (xl) media query necessary (desktop first)
 // set the defaults for all responsive levels here
 
-    // make footer align to the bottom
-    body {
-        display: flex; // use the flex box modell
-        flex-direction: column; // sort items in a column
-        min-height: 100vh; // use full vieport height
-    }
-    #content {
-        flex: 1; // use all available space
-        margin-top: 40px;
-    }
-    // end: align footer
+  /* Set up page header */
+  .page__header {
+    min-height: $header-height;
+    background-color: $blue;
+  }
+
+  /* Set up page bottom */
+  .page__footer {
+    padding: 10px 0;
+    font-size:0.8rem;
+    margin-top:30px;
+    background-color: $blue;
+  }
+
+  /* Aligns footer to the bottom
+   *
+   * This will make sure that the footer is aligned to the bottom,
+   * even when there is little page content only.
+   *
+   * - body is using the full viewport height
+   * - body elements are flex box items, orderd in a column
+   * - the page content will using all the space left
+   */
+  .page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: $header-height;
+  }
+
+  .page__content {
+    flex: 1; // use all available space
+  }
+
+  .content-box {
+    margin-top: 1rem;
+  }
+
+  .content-row {
+    justify-content: center;
+  }
+
+  .content {
+    padding-top: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: 1260px;
+  }
+
+  .sub-menu {
+    flex: 0 1 320px;
+    border-right: 1px solid rgba(0,0,0,.1);
+    padding-top: 3rem;
+  }
+
+  .toc-menu {
+    flex: 0 1 320px;
+    border-left: 1px solid rgba(0,0,0,.1);
+    padding-top: 3rem;
+  }
+
+  .mcr-version-box {
+    position: absolute;
+    top: 1rem;
+    right: 3rem;
+  }
 
 // Large devices (desktops) and below
 @include media-breakpoint-down(lg) {
-    // add/overwrite styles for responsive level lg and lower
+  // add/overwrite styles for responsive level lg and lower
 }
 
 // Medium devices (tablets) and below
 @include media-breakpoint-down(md) {
-    // add/overwrite styles for responsive level md and lower
+  // add/overwrite styles for responsive level md and lower
 }
 
 // Small devices (landscape phones) and below
 @include media-breakpoint-down(sm) {
-    // add/overwrite styles for responsive level sm and lower
+  // add/overwrite styles for responsive level sm and lower
 }
 
 // Extra small devices (portrait phones)
 @include media-breakpoint-down(xs) {
-    // add/overwrite styles for responsive level xs
+  // add/overwrite styles for responsive level xs
 }

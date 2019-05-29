@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
     {{- partial "head.html" . -}}
-    <body>
-        <header>
+    <body class="page">
+
+        <header class="page__header fixed-top">
             {{- partial "header.html" . -}}
         </header>
-        <section id="content">
+
+        <section class="page__content">
             {{- block "main" . }}{{- end }}
         </section>
-        <footer>
+
+        <footer class="page__footer">
             {{- partial "footer.html" . -}}
         </footer>
+
     </body>
 </html>

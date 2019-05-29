@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JSONP Wikidata</title>
+	<meta name="author" content="Robert Stephan" />
+	<script>
+		function show(data){
+			 var e0 = data.entities[Object.keys(data.entities)[0]];
+		 	var span = document.getElementById("output");
+		 	span.innerHTML=e0.descriptions.de.value;
+		}
+	</script>
+</head>
+<body>
+	<h3>MyCoRe</h3>
+	<p>Beschreibung in Wikipedia: 
+		<span style="font-weight:bold" id="output"></span>
+	</p>
+	
+	<script src="https://www.wikidata.org/w/api.php?action=wbgetentities&
+	             &sites=dewiki&titles=MyCoRe&languages=de&props=descriptions&
+				 &format=json&callback=show"></script>
+</body>
+</html>

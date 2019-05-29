@@ -1,19 +1,26 @@
-/* for bootstrap theme building see https://bootstrap.build/app */
-$dark:                      #343a40;
-$blue:                      #2f647e;  /* primary */
-$yellow:                    #feb200;  /* warning */
-$green:                     #519872;  /* success */ 
-$cyan:                      #a4b494;  /* info */
-$red:                       #a63446;  /* danger */
-$gray-600:                  #77878b;  /* secondary */
+/* mycore colors */
+$mcr-blue:      #15516e;
+$mcr-orange:    #ff9900;
+$mcr-darkblue:  #30424c;
+$mcr-green:     #5f9b08;
+$mcr-gray:      #666666;
 
-$link-color:                $dark;
+/* for bootstrap theme building see https://bootstrap.build/app */
+$dark:                    #343a40;
+$blue:                    $mcr-darkblue;  /* primary */
+$yellow:                  $mcr-orange;    /* warning */
+$green:                   #060707;      /* success */
+$cyan:                    #a4b494;      /* info */
+$red:                     #a63446;      /* danger */
+$gray-600:                #77878b;      /* secondary */
+
+$link-color:                lighten($mcr-blue, 20%);
 $body-color:                #444;
 
 $font-family-base:          "Open Sans", Helvetica, Arial, sans-serif;
 $headings-font-family:      "Sintony", Verdana, sans-serif;
 $headings-font-weight:      700;        /* $font-weight-bold; */
-
+$font-weight-bolder:        600;
 $font-size-base:            1rem;
 $h1-font-size:              $font-size-base * 2;
 $h2-font-size:              $font-size-base * 1.5;
@@ -24,3 +31,5 @@ $h5-font-size:              $font-size-base;
 $link-hover-color:          black;
 
 $badge-font-weight:         400;        /* $font-weight-normal; */
+
+$header-height: 45px;

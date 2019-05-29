@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="crossrefTypes">
+  <label xml:lang="de" text="Crossref Typen" />
+  <label xml:lang="en" text="Crossref Types" />
+  <categories>
+    <category ID="posted_content">
+      <category ID="working_paper" />
+      <category ID="letter" />
+      <category ID="preprint_dissertation" />
+      <category ID="report" />
+      <category ID="review" />
+      <category ID="preprint_other" />
+    </category>
+    <category ID="peer_review">
+      <label xml:lang="de" text="Review" />
+      <label xml:lang="en" text="Review" />
+    </category>
+    <category ID="database">
+      <label xml:lang="de" text="Datenbank" />
+      <label xml:lang="en" text="Database" />
+    </category>
+    <category ID="standard">
+      <label xml:lang="de" text="Standard" />
+      <label xml:lang="en" text="Standard" />
+    </category>
+    <category ID="report-paper">
+      <label xml:lang="de" text="Report" />
+      <label xml:lang="en" text="Report" />
+    </category>
+    <category ID="dissertation">
+      <label xml:lang="de" text="Dissertation" />
+      <label xml:lang="en" text="Dissertation" />
+    </category>
+    <category ID="conference">
+      <label xml:lang="en" text="Conference" />
+      <label xml:lang="de" text="Konferenz" />
+      <category ID="conference_paper">
+        <label xml:lang="de" text="Tagungsbeiträge" />
+      </category>
+      <category ID="proceedings">
+        <label xml:lang="de" text="Tagungsband" />
+      </category>
+    </category>
+    <category ID="journal">
+      <label xml:lang="en" text="Journal" />
+      <label xml:lang="de" text="Journal" />
+      <category ID="journal_issue" />
+      <category ID="journal_article" />
+    </category>
+    <category ID="book">
+      <label xml:lang="de" text="Buch" />
+      <label xml:lang="en" text="Book" />
+      <category ID="edited_book">
+        <label xml:lang="de" text="Buchbeitrag" />
+        <label xml:lang="en" text="edited Book" />
+      </category>
+      <category ID="monograph">
+        <label xml:lang="de" text="Monografie" />
+        <label xml:lang="en" text="monograph" />
+      </category>
+      <category ID="reference">
+        <label xml:lang="en" text="reference" />
+      </category>
+      <category ID="other">
+        <label xml:lang="en" text="other" />
+        <label xml:lang="de" text="Andere" />
+      </category>
+    </category>
+  </categories>
+</mycoreclass>

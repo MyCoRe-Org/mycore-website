@@ -2,7 +2,6 @@ main:
 - {identifier: welcome, name: Start, weight: -99, url: /}
 
 - {identifier: features,                                        name: Funktionen,           weight: -98,      url: /site/features}
--   {identifier: index,                   parent: features,       name: Übersicht,            weight: -99,      url: /site/features/index}
 -   {identifier: datamodel,               parent: features,       name: Datenmodell,          weight: -98,      url: /site/features/datamodel}
 -   {identifier: search,                  parent: features,       name: Suche,                weight: -97,      url: /site/features/search}
 -   {identifier: frontend,                parent: features,       name: Präsentation,         weight: -96,      url: /site/features/frontend}
@@ -77,31 +76,30 @@ main:
 -     {identifier: frontend_multilang,      parent: frontend,           name: Mehrsprachigkeit,              weight: -99,      url: /documentation/frontend/frontend_multilang}
 -     {identifier: frontend_static_content, parent: frontend,           name: Statische Webinhalte,          weight: -98,      url: /documentation/frontend/frontend_static_content}
 -     {identifier: xsl,                     parent: frontend,           name: XSL-Stylesheets,               weight: -97,      url: /documentation/frontend/xsl}
--       {identifier: layout_service,          parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/xsl/layout_service}
+-       {identifier: xsl_layout_service,      parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/xsl/xsl_layout_service}
 -       {identifier: xsl_fo,                  parent: xsl,                name: XSL-FO Unterstützung,          weight: -98,      url: /documentation/frontend/xsl/xsl_fo}
 -       {identifier: xsl_extension,           parent: xsl,                name: 'Xalan-Extensions',            weight: -97,      url: /documentation/frontend/xsl/xsl_extension}
--     {identifier: mcruriresolver,          parent: frontend,           name: URI-Resolver,                  weight: -96,      url: /documentation/frontend/mcruriresolver}
--     {identifier: mcrtextresolver,         parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/mcrtextresolver}
--     {identifier: mcrclassbrowser,         parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/mcrclassbrowser}
+-     {identifier: frontend_mcruriresolver,   parent: frontend,           name: URI-Resolver,                  weight: -96,      url: /documentation/frontend/frontend_mcruriresolver}
+-     {identifier: frontend_mcrtextresolver,  parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/frontend_mcrtextresolver}
+-     {identifier: frontend_mcrclassbrowser,  parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/frontend_mcrclassbrowser}
 -     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -93,      url: /documentation/frontend/frontend_tarzipservlet}
 -     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/frontend_xeditor}
 -     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -91,      url: /documentation/frontend/frontend_fileupload}
--     {identifier: iview2,                  parent: frontend,           name: IView2,                        weight: -90,      url: /documentation/frontend/frontend_iview2}
--     {identifier: image_viewer,            parent: frontend,           name: Bildbetrachter,                weight: -89,      url: /documentation/frontend/image_viewer}
+-     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -90,      url: /documentation/frontend/frontend_iview2}
+-     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -89,      url: /documentation/frontend/frontend_image_viewer}
 -     {identifier: frontend_mets,           parent: frontend,           name: METS / METS-Editor,            weight: -88,      url: /documentation/frontend/frontend_mets}
--     {identifier: basket,                  parent: frontend,           name: Korbfunktion,                  weight: -87,      url: /documentation/frontend/basket}
--     {identifier: webtools,                parent: frontend,           name: WebTools,                      weight: -86,      url: /documentation/frontend/webtools}
--     {identifier: integrated_wcms,         parent: frontend,           name: WCMS,                          weight: -85,      url: /documentation/frontend/integrated_wcms}
+-     {identifier: frontend_basket,         parent: frontend,           name: Korbfunktion,                  weight: -87,      url: /documentation/frontend/frontend_basket}
+-     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -86,      url: /documentation/frontend/frontend_webtools}
+-     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -85,      url: /documentation/frontend/frontend_wcms}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
 -     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}
 -     {identifier: acl_permissions,         parent: permissions,        name: ACLs und Permissions,          weight: -95,      url: /documentation/permissions/acl_permissions}
 -     {identifier: acl_strategies,          parent: permissions,        name: Zugriffsstrategien,            weight: -93,      url: /documentation/permissions/acl_strategies}
--     {identifier: default-permissions,     parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/default-permissions}
--     {identifier: login_session,           parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/login_session}
--     {identifier: acl_integration,         parent: permissions,        name: Anwendungsintegration,         weight: -90,      url: /documentation/permissions/acl_integration}
--     {identifier: broadcasting,            parent: permissions,        name: Nachrichtenfenster,            weight: -89,      url: /documentation/permissions/broadcasting}
--     {identifier: external_user,           parent: permissions,        name: Externe Systeme,               weight: -88,      url: /documentation/permissions/external_user}
+-     {identifier: acl_default-permissions, parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/acl_default-permissions}
+-     {identifier: user_login_session,      parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/user_login_session}
+-     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -90,      url: /documentation/permissions/acl_mir_integration}
+-     {identifier: user_external_ldap,      parent: permissions,        name: Externe User Systeme,          weight: -89,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: workflow,                parent: documentation,      name: Workflow,                    weight: -93,      url: /documentation/workflow}
 -     {identifier: wf_overview,             parent: workflow,           name: Single Servlets,             weight: -99,      url: /documentation/workflow/wf_overview}
 -     {identifier: fileupload,              parent: workflow,           name: File Upload,                 weight: -98,      url: /documentation/workflow/fileupload}
@@ -118,14 +116,12 @@ main:
 -     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}
 -     {identifier: consistency,             parent: production,         name: Konsistenzprüfung,           weight: -97,      url: /documentation/production/consistency}
 -     {identifier: batch,                   parent: production,         name: Batch-Betrieb,               weight: -96,      url: /documentation/production/batch}
--     {identifier: vhost,                   parent: production,         name: Virtueller Host,             weight: -95,      url: /documentation/production/vhost}
+-     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -90,      url: /documentation/migrate}
--     {identifier: index,                   parent: migrate,            name: Übersicht,                   weight: -99,      url: /documentation/migrate/index}
--     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2018_06}
--     {identifier: migrate_mcr2017_06,      parent: migrate,            name: MCR 2016.06 ⇒ 2017.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2017_06}
+-     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2019_06}
+-     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2018_06}
 -     {identifier: migrate_mir2018_08,      parent: migrate,            name: MIR 2017.06 ⇒ 2018.08,       weight: -96,      url: /documentation/migrate/migrate_mir2018_08}
--     {identifier: migrateDP_MIR,           parent: migrate,            name: DocPortal ⇒ MIR,             weight: -95,      url: /documentation/migrate/migrateDP_MIR}
 -   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -89,      url: /documentation/developer}
 -     {identifier: eclipse,                 parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/eclipse}
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
@@ -135,7 +131,7 @@ main:
 -     {identifier: git,                     parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/git}
 -     {identifier: work_with_maven,         parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/work_with_maven}
 -     {identifier: work_with_gradle,        parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/work_with_gradle}
--     {identifier: dev_docs,                parent: developer,          name: Dokumentation,               weight: -91,      url: /documentation/developer/dev_docs}
+-     {identifier: dev_docs,                parent: developer,          name: Dokumentation (mit Hugo),    weight: -91,      url: /documentation/developer/dev_docs}
 -       {identifier: dev_docs_overview,       parent: dev_docs,           name: "Überblick",                 weight: -99,      url: /documentation/developer/dev_docs/dev_docs_overview}
 -       {identifier: dev_docs_setup,          parent: dev_docs,           name: Einrichtung,                 weight: -98,      url: /documentation/developer/dev_docs/dev_docs_setup}
 -       {identifier: dev_docs_news_blog,      parent: dev_docs,           name: News- und Blogbeiträge,      weight: -97,      url: /documentation/developer/dev_docs/dev_docs_news_blog}
@@ -149,18 +145,11 @@ main:
 
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
-- {identifier: support,                                            name: Organisation,                 weight: -93,     url: /site/support}
--   {identifier: community,             parent: support,             name: Community,                    weight: -99,     url: /site/support/community}
--   {identifier: email,                 parent: support,             name: Kontakt zu uns,               weight: -98,     url: /site/support/email}
--   {identifier: team,                  parent: support,             name: Team,                         weight: -97,     url: /site/support/team}
--   {identifier: workshops,             parent: support,             name: Workshops,                    weight: -96,     url: /site/support/workshops}
--     {identifier: aw_workshop_2018,      parent: workshops,           name: Leipzig 2018,                 weight: -99,     url: /site/support/workshops/aw_workshop_2018}
--     {identifier: aw_workshop_2017,      parent: workshops,           name: Hamburg 2017,                 weight: -98,     url: /site/support/workshops/aw_workshop_2017}
--     {identifier: dbt-workshop_2017,     parent: workshops,           name: DBT-Workshop 2017,            weight: -97,     url: /site/support/workshops/dbt-workshop_2017}
--     {identifier: aw_workshop_2016,      parent: workshops,           name: Leipzig 2016,                 weight: -96,     url: /site/support/workshops/aw_workshop_2016}
--     {identifier: aw_workshop_2015,      parent: workshops,           name: Ilmenau 2015,                 weight: -95,     url: /site/support/workshops/aw_workshop_2015}
--     {identifier: dbt-workshop_2014,     parent: workshops,           name: DBT-Workshop 2014,            weight: -94,     url: /site/support/workshops/dbt-workshop_2014}
--     {identifier: aw_workshop_2014,      parent: workshops,           name: Braunschweig 2014,            weight: -93,     url: /site/support/workshops/aw_workshop_2014}
--   {identifier: bugs,                  parent: support,             name: zu MyCoRe JIRA,               weight: -95,     url: 'http://mycore.atlassian.net'}
--   {identifier: wiki,                  parent: support,             name: zu MyCoRe Wiki,               weight: -94,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
--   {identifier: maven,                 parent: support,             name: zu MyCoRe Maven,              weight: -93,     url: 'http://mvnrepository.com/artifact/org.mycore'}
+- {identifier: community,                                            name: Organisation,                 weight: -93,     url: /site/community}
+-   {identifier: contact,               parent: community,             name: Kontaktaufnahme,              weight: -98,     url: /site/community/contact}
+-   {identifier: team,                  parent: community,             name: Team,                         weight: -97,     url: /site/community/team}
+-   {identifier: workshops,             parent: community,             name: Workshops,                    weight: -96,     url: /site/community/workshops}
+-   {identifier: bugs,                  parent: community,             name: zum JIRA,               weight: -94,     url: 'http://mycore.atlassian.net'}
+-   {identifier: wiki,                  parent: community,             name: zum Wiki,               weight: -93,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
+-   {identifier: maven,                 parent: community,             name: zu Maven,               weight: -92,     url: 'http://mvnrepository.com/artifact/org.mycore'}
+-   {identifier: github,                parent: community,             name: zu Github,              weight: -91,     url: 'https://github.com/MyCoRe-Org'}

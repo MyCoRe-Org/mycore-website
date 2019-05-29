@@ -2,37 +2,33 @@
 ---
 
 title: "Zugriffskontrolle über ACL"
-mcr_version: ['2015.05','2016.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
-description: "
-      Mit Hilfe sogenannter Access Control Lists (ACL, dt. Zugriffssteuerungslisten) kann der Zugriff auf
-      Daten
+description: "Mit Hilfe sogenannter Access Control Lists (ACL, dt. Zugriffssteuerungslisten) kann der Zugriff auf Daten
       und Funktionen in MyCoRe-Anwendungen eingegrenzt werden. Eine ACL legt dabei fest, in welchem
-      Umfang einzelne
-      Nutzer oder Gruppen Zugriff auf bestimmte Objekte (Metadaten, Dateien, Webseiten ...)
-      haben. Diese können sehr
-      feingranular spezifiziert werden, z.B. lesen, erstellen, bearbeiten oder löschen.
-    "
+      Umfang einzelne Nutzer oder Gruppen Zugriff auf bestimmte Objekte (Metadaten, Dateien, Webseiten ...)
+      haben. Diese können sehr feingranular spezifiziert werden, z.B. lesen, erstellen, bearbeiten oder löschen."
 date: "2015-11-10"
 
 ---
 
-    <div>
       <h2>Allgemeines</h2>
       <p>ACLs und Privilegien sind in MyCoRe in zwei SQL-Tabellen gespeichert. Die Tabelle MCRACCESS enthält die
         Zugriffslisten und Privilegien. Ergänzt wird das system durch die Tabelle MCRACCESSRULES, welche die konkreten
         Regeln für den Zugriff enthält.
       </p>
-    </div>
 
-    <div>
       <h2>Aufrufe</h2>
-      <p>Die Aufrufe von Zugriffsrechten können über verschiedene API erfolgen. Hier die Beispiele für JAVA und XSLT.
+      <p>
+        Die Aufrufe von Zugriffsrechten können über verschiedene API erfolgen. Hier die Beispiele für JAVA und XSLT.
       </p>
-      {{< highlight xml "linenos=table">}}boolean permission = MCRAccessManager.checkPermission("create-" + mycore_id.getBase());
-{{< /highlight >}}
-      {{< highlight xml "linenos=table">}}boolean permission = MCRAccessManager.checkPermission(mycore_id, PERMISSION_WRITE);
-{{< /highlight >}}
+      <p>
+      {{< highlight xml "linenos=table">}} boolean permission = MCRAccessManager.checkPermission("create-" + mycore_id.getBase());{{< /highlight >}}
+      </p>
+      <p>
+      {{< highlight xml "linenos=table">}} boolean permission = MCRAccessManager.checkPermission(mycore_id, PERMISSION_WRITE);{{< /highlight >}}
+      </p>
+      <p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:acl="xalan://org.mycore.access.MCRAccessManager" ...  exclude-result-prefixes="... acl">
   ...
@@ -40,11 +36,9 @@ date: "2015-11-10"
     ...
   </xsl:if>
   ...
-</xsl:stylesheet>
-{{< /highlight >}}
-    </div>
+</xsl:stylesheet>{{< /highlight >}}
+      </p>
 
-    <div>
       <h2>Privilegien</h2>
       <p>
         Privilegien sind Zugriffsrechte, die sich nicht direkt auf ein einzelnes Datenobjekt beziehen. Vielmehr wird
@@ -56,6 +50,7 @@ date: "2015-11-10"
         zu nutzen. Einige nötige Privilegien sind an den jeweiligen Stellen in dieser Dokumentation beschrieben.
       </p>
       <p>Privilegien werden in einer entsprechenden Datei definiert und mittels Kommando geladen.</p>
+      <p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
 <mcrpermissions
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -80,9 +75,8 @@ date: "2015-11-10"
    </condition>
   </mcrpermission>
 </mcrpermissions>{{< /highlight >}}
-    </div>
+    </p>
 
-    <div>
       <h2>Permissions</h2>
       <p>Das Setzen der Permissions ist stark von der verwendeten Access-Strategie abhängig. So reicht die Palette von
         Rechten für ganze Datenmodell-Typen über rechte für Datenmodell-Bases (Projekt_Typ) bis hin zu feingranularen
@@ -99,9 +93,7 @@ date: "2015-11-10"
         <strong>MCRMetaAccessRule</strong>
         .
       </p>
-    </div>
 
-    <div>
       <h2>Regeln</h2>
       <p>Jede Permission beinhaltet Regeln (Conditions), die festlegen, wann das entsprechende Recht gegeben wird.In
         MyCoRe sind drei Gruppen von Regeln vorgesehen:
@@ -119,6 +111,7 @@ date: "2015-11-10"
         -Container enthalten. Alle Regeln werden in der Tabelle MCRACCESSRULES einmalig abgelegt und von dort
         referenziert. Eine Übersicht gibt der folgende XML-Ausschnitt:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="utf-8"?>
 <condition format="xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -135,9 +128,8 @@ date: "2015-11-10"
     <condition value="192.168.2.0/255.255.255.0" operator="=" field="ip" />
   </boolean>
 </condition>{{< /highlight >}}
-    </div>
+      </p>
 
-    <div id="acl_commands">
       <h2>Kommandos</h2>
       <p>Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch alle administrativen Operationen für die 
       Zugriffskontrolle ausgeführt werden.
@@ -192,5 +184,4 @@ date: "2015-11-10"
         </dt>
         <dd>Das Kommando löscht alle Permissions.</dd>
       </dl>
-    </div>
   

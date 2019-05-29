@@ -1,23 +1,15 @@
 <div class="container-fluid">
-    {{ $backImg := (absURL "images/_site/background_footer_blue_xml.png") }}
-	<div class="row mcr-footer" style="min-height:33px;background-image: url('{{ $backImg }}'); background-size:100% 100%;">
-		 <div class="col">
-				<a id="feedbackto" href="mailto:info@mycore.de?subject=MyCoRe+Dokumentation%C2%A0index.html">info@mycore.de</a>
-		</div>
-			<div class="col text-right text-white">
-			
-				<a href='{{relLangURL "site/contact/contact" }}'>{{i18n "footer_contact"}}</a> |
-            	<a href='{{relLangURL "site/imprint" }}'>{{i18n "footer_imprint"}}</a> |
-            	<a href='{{relLangURL "site/privacy" }}'>{{i18n "footer_privacy"}}</a>
-			
-			</div>
-		</div>
-	
+  <div class="row mcr-footer">
+    <div class="col text-center text-white">
+      <a href='{{relLangURL "site/community/contact" }}' class="link--inverse">{{i18n "footer_contact"}}</a> |
+      <a href='{{relLangURL "site/imprint" }}' class="link--inverse">{{i18n "footer_imprint"}}</a> |
+      <a href='{{relLangURL "site/privacy" }}' class="link--inverse">{{i18n "footer_privacy"}}</a>
+    </div>
  </div>
 
 <script src='{{ relURL "_gen/webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js"}}'></script>
 <script>
-$(function () {
-  $('[data-toggle="popover"]').popover()
-})
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  })
 </script>

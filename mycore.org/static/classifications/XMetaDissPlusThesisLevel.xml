@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="XMetaDissPlusThesisLevel">
+  <!--
+    Die DNB gibt nur die IDs vor. Die Label sind nicht standardisiert.
+    siehe: http://www.d-nb.de/standards/pdf/ref_xmetadissplus_v2-0.pdf
+  -->
+  <label xml:lang="de" text="Art des akademischen Grades"
+       description="Angabe des akademischen Grades, der mit der Hochschulschrift erworben wurde." />
+  <label xml:lang="en" text="thesis level"
+       description="Representation of the academic degree, which was reached by submitting this thesis." />
+  <label xml:lang="x-uri" text="http://www.mycore.org/classifications/XMetaDissPlusThesisLevel" />
+  <categories>
+    <category ID="thesis.doctoral">
+      <label xml:lang="de" text="Doktorarbeit" />
+      <label xml:lang="en" text="doctoral thesis" />
+    </category>
+    <category ID="thesis.habilitation">
+      <label xml:lang="de" text="Habilitation" />
+      <label xml:lang="en" text="habilitation thesis" />
+    </category>
+    <category ID="bachelor">
+      <label xml:lang="de" text="Bachelorarbeit" />
+      <label xml:lang="en" text="bachelor thesis" />
+    </category>
+    <category ID="master">
+      <label xml:lang="de" text="Masterarbeit" />
+      <label xml:lang="en" text="master thesis" />
+    </category>
+    <category ID="post-doctoral">
+      <label xml:lang="de" text="Post-doctorale Arbeit" />
+      <label xml:lang="en" text="post-doctoral thesis" />
+    </category>
+    <category ID="Staatsexamen">
+      <label xml:lang="de" text="Staatsexamensarbeit" />
+      <label xml:lang="en" text="Staatsexamen" />
+    </category>
+    <category ID="Diplom">
+      <label xml:lang="de" text="Diplomarbeit" />
+      <label xml:lang="en" text="diploma thesis" />
+    </category>
+    <category ID="Lizentiat">
+      <label xml:lang="de" text="Lizentiat" />
+      <label xml:lang="en" text="licentiate" />
+    </category>
+    <category ID="M.A.">
+      <label xml:lang="de" text="Magisterarbeit" />
+      <label xml:lang="en" text="Magister" />
+    </category>
+    <category ID="other">
+      <label xml:lang="de" text="Sonstige" />
+      <label xml:lang="en" text="other" />
+    </category>
+  </categories>
+</mycoreclass>
+

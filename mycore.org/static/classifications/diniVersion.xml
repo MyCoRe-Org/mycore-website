@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="diniVersion">
+  <!--
+    Liste "Version/Begutachtungsstatus"
+    aus "Gemeinsames Vokabular für Publikations- und Dokumenttypen"
+    DINI Schriften 12-de [Version 1.0, Juni 2010]
+  -->
+  <label xml:lang="de" text="Version/Begutachtungsstatus"
+       description="Kennzeichnung des Status im Veröffentlichungsprozess" />
+  <label xml:lang="en" text="version / state of review"
+       description="tagging the state of publication process" />
+  <label xml:lang="x-uri" text="http://www.mycore.org/classifications/diniVersion" />
+  <categories>
+    <category ID="draft">
+      <label xml:lang="de" text="Entwurf"
+           description="Eine frühe Version, die als in Arbeit befindlich in Umlauf gesetzt wurde." />
+      <label xml:lang="en" text="draft"
+           description="Early version circulated as work in progress." />
+    </category>
+    <category ID="submittedVersion">
+      <label xml:lang="de" text="eingereichte Version"
+           description="Die Version, die bei einer Zeitschrift eingereicht wurde, um durch Fachleute begutachtet zu werden." />
+      <label xml:lang="en" text="submitted version"
+           description="The version, that has been submitted to a journal for peer review." />
+    </category>
+    <category ID="acceptedVersion">
+      <label xml:lang="de" text="angenommene Version"
+           description="Die Version, die vom Autor erstellt wurde, in die die Anmerkungen der Gutachter eingeflossen sind und die zur Veröffentlichung angenommen wurde." />
+      <label xml:lang="en" text="accepted version"
+           description="The author created version that incorporates referee comments and is the accepted for publication version." />
+    </category>
+    <category ID="publishedVersion">
+      <label xml:lang="de" text="veröffentlichte Version"
+           description="Die Version, die vom Verleger erstellt und veröffentlicht wurde." />
+      <label xml:lang="en" text="published version"
+           description="The publisher created published version." />
+    </category>
+    <category ID="updatedVersion">
+      <label xml:lang="de" text="aktualisierte Version"
+           description="Eine Version, die seit der Veröffentlichung aktualisiert wurde." />
+      <label xml:lang="en" text="updated version"
+           description="A version updated since publication." />
+    </category>
+  </categories>
+</mycoreclass>
+

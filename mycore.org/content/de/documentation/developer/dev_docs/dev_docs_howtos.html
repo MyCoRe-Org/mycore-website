@@ -6,9 +6,11 @@ description: "
 author: 		['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 date: 			"2019-04-04"
 ---
-
+<!-- 
 <h2>Mehrsprachigkeit</h2>
 <h2>Navigation mit YAML</h2>
+-->
+
 <h2>Hugo Shortcodes</h2>
 <p>Über <a href="https://gohugo.io/content-management/shortcodes">Shortcodes</a> lassen sich in Hugo Templates für komplexere Abschnitte definieren,
 die nicht einfach mit HTML oder Markdown darstellbar sind.
@@ -51,11 +53,11 @@ Wenn die Seite nicht (mehr) existiert, bricht Hugo den Buildprozess mit einer Fe
 Dadurch werden tote Links vermieden.
 <h4>Anwendungsbeispiel</h4>
 {{<highlight text >}}
-  <span>Hier geht es zum <a href="{{</* ref blog */>}}">Blog</a>.</span>
+  <span>Hier geht es zum <a href="{{</* ref /blog */>}}">Blog</a>.</span>
 {{< /highlight >}}
 
 <p class="bg-light">
- <span>Hier geht es zum <a href="{{< ref blog >}}">Blog</a>.</span>
+ <span>Hier geht es zum <a href='{{< ref "/blog" >}}'>Blog</a>.</span>
 </p>
 
 <p></p>
@@ -99,13 +101,13 @@ und in MyCoRe {{<mcr-version "2016.06,2017.06">}} verwendet.
 <p>
 Dieser Shortcode sollte zum einheitlichen Einbetten von Bilder und Grafiken verwendet werden.
 Theoretisch kann die Grafik auch als HTML-Code bzw. SVG-XML bestehen. 
-In Kombination mit dem <code>{{&lt;hightlight&gt;}}</code>  können auch Codebeispiele
+In Kombination mit dem <code>{{&lt;hightlight&gt;}}</code>-Shortcode können auch Codebeispiele
 mit Bildunterschriften versehen werden.
 </p>
 <p>
 Folgende Parameter können verwendet werden:
 </p>
-<table>
+<table class="table">
 	<tr><td><code>src</code></td><td> URL der Bilddatei / Grafik</td></tr>
 	<tr><td><code>class</code></td><td>CSS-Klasse</td></tr>
 	<tr><td><code>alt</code></td><td>alternativer Text, wenn das Bild nicht geladen werden kann</td></tr>

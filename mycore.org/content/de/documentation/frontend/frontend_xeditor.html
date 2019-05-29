@@ -149,7 +149,7 @@ aus dem MyCoRe Kern überschrieben oder durch ein anderes Stylesheet ersetzt wer
     <dd>bildet den äusseren Rahmen jedes XEditor-Formulars und entspricht dem <code>&lt;form&gt;</code>-Element von HTML.</dd>
     <dt>xed:source / Zeile 7</dt>
     <dd>lädt das zu bearbeitende XML-Dokument von einer Quelle, die als URI angegeben wird.
-    In diesem Fall wird der Parameter id verwendet, um über den <a href="{{< ref mcruriresolver >}}"><code>mcrobject:</code> Resolver</a> ein MyCoRe Metadaten-Objekt (Dokument, Publikation o.ä.) zu laden.
+    In diesem Fall wird der Parameter id verwendet, um über den <a href="{{< ref frontend_mcruriresolver >}}"><code>mcrobject:</code> Resolver</a> ein MyCoRe Metadaten-Objekt (Dokument, Publikation o.ä.) zu laden.
     Wenn das Formular im Browser über <code>simpledoc.xed?id=skeleton_simpledoc_00000001</code> aufgerufen wird, wird das Objekt mit dieser ID geladen.
     </dd>
     <dt>xed:bind / Zeilen 9, 10 und 12</dt>
@@ -737,7 +737,7 @@ Aufruf mit [Seite].xed?cancelURL=receive/DocPortal_document_07910403{{< /highlig
 Alle weiteren Eigenschaften der Buttons werden über gewöhnliche HTML Syntax gestaltet.</p>
 
 <p>Vordefiniert sind die folgenden Ziele:</p>
-<table>
+<table class="table">
 <tr><td>xed:target="cancel"</td><td>Bearbeitung abbrechen</td></tr>
 <tr><td>xed:target="debug"</td><td>Für das Debugging, zeigt das bearbeitete XML und die Bearbeitungsschritte im Browser an</td></tr>
 <tr><td>xed:target="layout"</td><td>Für das Debugging, zeigt das bearbeitete XML über den MyCoRe LayoutService an (d.h. durch einen Transformer, der üblicherweise via XSL Stylesheet zu HTML rendert)</td></tr>

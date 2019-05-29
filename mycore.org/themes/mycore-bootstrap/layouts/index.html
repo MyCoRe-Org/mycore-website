@@ -1,38 +1,46 @@
 {{- define "main" -}}
 
-{{ $homepage := "Home" }}
-{{ with .Site.Menus.nav }}
-  {{ range first 1 . }}
-    {{ $homepage = .Name }}
+  {{ $homepage := "Home" }}
+  {{ with .Site.Menus.nav }}
+    {{ range first 1 . }}
+      {{ $homepage = .Name }}
+    {{ end }}
   {{ end }}
-{{ end }}
 
-{{ .Content  }}
-{{- partial "front_news.html" . -}}
+
+  {{/* TODO: we should refacture this template and remove content from here */}}
+  <div class="download-banner">
+    <a href='{{ relURL "/site/download/dl_mycore/release/" }}' class="download-banner__link">Download Version 2018.06 (LTS)</a>
+  </div>
+
+  <div id="mcr-home" class="container content">
+    {{ .Content  }}
+    {{- partial "front_news.html" . -}}
+  </div>
 
   <script>
-  $(document).ready(function() {
+    $(document).ready(function() {
       $(".sphereLink").hover(
-
-           function () {
-               var sphere = $(this).children('img.sphere');
-               sphere.attr("src", '{{ absURL "images/start/abbildung_orange_110x110.jpg" }}');
-           },
-           function () {
-               var sphere = $(this).children('img.sphere');
-               switch(sphere.attr("rel")){
-                   case "sphere_manysided":
-                       sphere.attr("src", '{{ absURL "images/start/abbildung_vielseitig.jpg" }}');
-                       break;
-                   case "sphere_adaptable":
-                       sphere.attr("src", '{{ absURL "images/start/abbildung_anpassbar.jpg" }}');
-                       break;
-                   case "sphere_lasting":
-                       sphere.attr("src", '{{ absURL "images/start/abbildung_nachhaltig.jpg" }}');
-                       break;
-               }
-           }
-       );
-   });
+        function () {
+          var sphere = $(this).children('img.sphere');
+          sphere.attr("src", '{{ absURL "images/start/abbildung_orange_110x110.jpg" }}');
+        },
+        function () {
+          var sphere = $(this).children('img.sphere');
+          switch(sphere.attr("rel")){
+            case "sphere_manysided":
+              sphere.attr("src", '{{ absURL "images/start/abbildung_vielseitig.jpg" }}');
+              break;
+            case "sphere_adaptable":
+              sphere.attr("src", '{{ absURL "images/start/abbildung_anpassbar.jpg" }}');
+              break;
+            case "sphere_lasting":
+              sphere.attr("src", '{{ absURL "images/start/abbildung_nachhaltig.jpg" }}');
+              break;
+          }
+        }
+      );
+    });
   </script>
+
 {{- end -}}

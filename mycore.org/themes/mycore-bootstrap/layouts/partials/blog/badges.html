@@ -1,19 +1,19 @@
 {{ if .Date}}
-	<span class="badge badge-primary"><i class="fas fa-calendar-alt"></i> {{ partial "german_date" (dict "date2convert" (.Date.Format "Jan 2, 2006")) -}} </span>
+	<span class="badge badge-blog"><i class="fas fa-calendar-alt"></i> {{ partial "german_date" (dict "date2convert" (.Date.Format "2. Jan 2006")) -}} </span>
 {{ end }}
 		
 {{ range (index .Params "blog/authors")}}
-	<span class="badge badge-primary"><i class="fas fa-user"></i> {{.}} </span>
+	<span class="badge badge-blog"><i class="fas fa-user"></i> {{.}} </span>
 {{ end }}
 	
 {{ if isset .Params "blog/categories"}}
-	<span class="badge badge-secondary"><i class="fas fa-list-ul"></i>
+	<span class="badge badge-blog"><i class="fas fa-list-ul"></i>
 		{{ delimit (index .Params "blog/categories") ", " }} 
 	</span>
 {{ end }}
 			
 {{ if isset .Params "blog/tags"}}
-	<span class="badge badge-secondary"><i class="fas fa-tags"></i>
+	<span class="badge badge-blog"><i class="fas fa-tags"></i>
 		{{ delimit (index .Params "blog/tags") ", " }}
 	</span>
 {{ end }}

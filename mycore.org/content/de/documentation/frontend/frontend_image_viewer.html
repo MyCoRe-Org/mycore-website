@@ -1,0 +1,481 @@
+
+---
+
+title: "Bildbetrachter - MyCoRe-Viewer"
+mcr_version: ['2018.06','2019.06']
+author: ['Sebastian Hofmann', 'Kathleen Neumann']
+description: "Die in einer MyCoRe-Anwendung abgelegten Dokumente können z.T. auch wieder präsentiert werden
+      entweder durch Anbindung einer Präsentationssoftware Dritter, oder durch den MyCoRe-eigenen Bildbetrachter."
+date: "2016-01-14"
+
+---
+
+    <div>
+      <h2>Bildbetrachter - MyCoRe-Viewer</h2>
+      <div>
+        <h3>Beschreibung</h3>
+        <p>
+          Der MyCoRe-eigene Bildbetrachter ermöglicht es, unterstütze Dateitypen direkt in der Webseite
+          zu präsentieren. Dies kann eingebettet, im Vollbildmodus oder auf mobilen Endgeräten genutzt
+          werden. Unterstützt werden dabei verschiedene Bild-Formate (u.a. jpg, png, tiff) und PDF.
+        </p>
+        <div>{{< mcr-figure src="/images/documentation/frontend/imageviewer_mir.png" class="border border-secondary" label="Abbildung" caption="Screenshot einer MIR-Anwendung mit Bildbetrachter" alt="Screenshot einer MIR-Anwendung mit Bildbetrachter" width="550px" height="" />}}</div>
+      </div>
+      <div>
+        <h3>Aufbau</h3>
+        <p>
+          Der MyCoRe-Viewer besteht aus verschiedenen Komponenten. Jede Komponente hat eine bestimmte
+          Aufgabe. Diese Komponenten werden zu Modulen zusammen gebaut. Jedes Modul entspricht einer
+          Javascript-Datei. Der MyCoRe-Viewer wird standardmäßig mit 9 Modulen ausgeliefert, jedoch
+          lässt er sich einfach um weitere Module erweitern.
+        </p>
+      </div>
+      <div>
+        <h3>Wie binde ich den Viewer ein?</h3>
+        <p>
+          Zunächst müssen alle Javascript-Modul-Dateien und CSS-Dateien geladen werden (die URLs sind relativ zur BaseURL):
+        </p>
+        {{< highlight xml "linenos=table">}}<script src="modules/iview2/js/iview-client-base.js"></script>
+          <script src="modules/iview2/js/iview-client-desktop.js"></script>
+          <script src="modules/iview2/js/iview-client-mets.js"></script>
+          <link href="modules/iview2/css/default.css" type="text/css" rel="stylesheet">
+        {{< /highlight >}}
+        <p>
+          Der MyCoRe-Viewer ist von JQuery abhängig:
+        </p>
+        {{< highlight xml "linenos=table">}}<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>{{< /highlight >}}
+        <p>
+          Der MyCoRe-Viewer in der Desktop Version ist abhängig  von Bootstrap:
+        </p>
+        {{< highlight xml "linenos=table">}}<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+          <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">{{< /highlight >}}
+        <p>
+          Nun ist es möglich eine Instanz des Viewers zu erzeugen:
+        </p>
+        {{< highlight java "linenos=table">}}window["viewer"] = new mycore.viewer.MyCoReViewer(jQuery("body"), {});{{< /highlight >}}
+        <p>
+          Der erste Parameter des Konstruktors ist das Element in dem der Viewer erzeugt wird. Der zweite
+          Parameter ist das Konfigurations-Objekt. Dieses Konfigurations-Objekt enthält die Konfiguration
+          für alle Komponenten. Welche Komponente welche Konfigurations-Parameter benötigt wird im nächsten
+          Abschnitt beschrieben.
+        </p>
+        <p>
+          Einfache Beispiele wie man den Viewer mit verschiedenen Konfigurationen einbindet findet man im
+          MyCoRe-Viewer Projekt im Ordner src/main/resources/example/. Diese Konfigurationen lassen sich
+          testen in den man im Basis-Ordner des MyCoRe-Viewer das Kommando mvn clean jetty:run ausführt.
+          Anschließend wird der Viewer Kompiliert und ein Jetty-Server gestartet, welcher über den Port
+          9201 zu erreichen ist. Für das Kompilieren des Viewers ist es nötig dass Maven und Nodejs auf
+          dem System installiert ist.
+        </p>
+        <p>
+          Für die Einbindung auf der Metadaten-Seite wird empfohlen das Frame-Modul anstelle des Desktop-Moduls zu benutzen.
+        </p>
+      </div>
+      <div>
+        <h3>Die neun Komponenten des Viewers</h3>
+        <div>
+          <h4>1. Das Base-Modul (obligatorisch)</h4>
+          <p>
+            Das Base-Modul ist der Kern des Viewers und enthält alle Komponenten die immer im Viewer benötigt
+            werden. Alle anderen Module sind automatisch abhängig vom Base-Modul.
+          </p>
+          <p>
+            Das Base-Modul bietet folgende Konfigurationsparameter:
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>mobile</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                gibt an ob die Instanz des Viewers eine Mobile-Version ist.
+              </td>
+            </tr>
+            <tr>
+              <td><code>doctype</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                gibt an welcher Dokumententyp geladen werden soll. (METS oder PDF)
+              </td>
+            </tr>
+            <tr>
+              <td><code>filePath</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                gibt an welche Datei geladen werden soll. Bei PDF der Link zur PDF Datei(relativ zum Derivat)
+                und bei METS der link zum ersten Bild.
+              </td>
+            </tr>
+            <tr>
+              <td><code>derivate</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                das MyCoRe-Derivat, welches die Datei zum Anzeigen enthält.
+              </td>
+            </tr>
+            <tr>
+              <td><code>i18nURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die URL zum I18N-Servlet. In der i18nURL kann {lang} als Platzhalter für das Sprachkürzel
+                angegeben werden. z.B. "http://foo.bar/servlets/MCRLocaleServlet/{lang}/component.iview2.*"
+              </td>
+            </tr>
+            <tr>
+              <td><code>lang</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                gibt an welche Sprache der Viewer verwenden soll z.B. de
+              </td>
+            </tr>
+            <tr>
+              <td><code>webApplicationBaseURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                ist die URL zur MyCoRe-Instanz (damit der Viewer Ressourcen nachladen kann)
+              </td>
+            </tr>
+             <tr>
+              <td><code>onClose</code></td>
+              <td>
+                <strong>(function)</strong><br />
+                  gibt eine Funktion, an die beim Schließen des Viewers ausgeführt werden soll.
+              </td>
+            </tr>
+          </table>
+          <p>
+            Folgende Parameter sind Optional:
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>imageOverview.enabled</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                bestimmt ob die Übersichtsanzeige links neben dem Bild aktiviert ist
+              </td>
+            </tr>
+            <tr>
+              <td><code>chapter.enabled</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                bestimmt ob die Kapitelübersicht angestellt werden soll
+              </td>
+            </tr>
+            <tr>
+              <td><code>chapter.showOnStart</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                bestimmt ob die Kapitelübersicht bereits geöffnet werden soll, wenn der Viewer gestartet wird.
+              </td>
+            </tr>
+            <tr>
+              <td><code>permalink.enabled</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                bestimmt ob das Permalink Feature im Viewer aktiviert werden soll.
+              </td>
+            </tr>
+            <tr>
+              <td><code>permalink.updateHistory</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                wenn das Bild im Viewer gewechselt wird, dann wird auch in die URL im Browser geändert.
+              </td>
+            </tr>
+            <tr>
+              <td><code>permalink.viewerLocationPattern</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                ist das Pattern zum erstellen des Links zum Viewer default ist: {baseURL}rsc/viewer/{derivate}/{file}
+              </td>
+            </tr>
+            <tr>
+              <td><code>canvas.overview.enabled</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                bestimmt ob die Übersichtsanzeige rechts unten im Viewer angezeigt wird
+              </td>
+            </tr>
+            <tr>
+              <td><code>canvas.startup.fitWidth</code></td>
+              <td>
+                <strong>(boolean)</strong><br />
+                legt fest, ob beim Starten des Viewers das Dokument in der Breite eingepasst wird (true) oder
+                an die Viewergröße angepasst wird
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>2. Das Desktop-Modul</h4>
+          <p>
+            Das Desktop-Modul wird benötigt um den Viewer auf normalen Desktop-PCs darzustellen. Es orientiert
+            sich an den CSS-Klassen und Javascript-Funktionen von Bootstrap und ist von diesem abhängig.
+          </p>
+          <p>
+            Keine Konfigurationsparameter.
+          </p>
+        </div>
+        <div>
+          <h4>3. Das Mobile-Modul</h4>
+          <p>
+            Das Mobile-Modul wird benötigt um den Viewer auf mobilen Geräten darzustellen. Es hat keine
+            zusätzlichen Abhängigkeiten.
+          </p>
+          <p>
+            Keine Konfigurationsparameter.
+          </p>
+        </div>
+        <div>
+          <h4>4. Das Frame-Modul</h4>
+          <p>
+            Das Frame-Modul ist eine abgespeckte Variante des Desktop-Moduls. Es wurde speziell dafür
+            entworfen den Viewer in eine extra Seite einzubinden.
+          </p>
+          <p>
+            Keine Konfigurationsparameter.
+          </p>
+        </div>
+        <div>
+          <h4>5. Das METS-Modul</h4>
+          <p>
+            Das Mets-Modul dient zur Anzeige von METS-Dateien und der zugehörigen Digitalisate über das
+            IVIEW2 Interface. Es hat keine zusätzlichen Abhängigkeiten.
+          </p>
+          <p>
+            Das Mets-Modul bietet folgende Konfigurationsparameter:
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>metsURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die absolute URL zum METS-Dokument
+              </td>
+            </tr>
+            <tr>
+              <td><code>imageXmlPath</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die absolute URL zum Iview-Interface
+              </td>
+            </tr>
+            <tr>
+              <td><code>tileProviderPath</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                eine Komma getrennte Liste von absoluten URLs zu den Iview-Interfaces
+              </td>
+            </tr>
+          </table>
+          <p>
+            folgende Parameter sind Optional:
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>pdfCreatorURI</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die URL zum mets-printer (siehe mets-printer)
+              </td>
+            </tr>
+            <tr>
+              <td><code>pdfCreatorStyle</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                das Stylesheet welches für die Transformation des mets.xml benutzt werden soll
+              </td>
+            </tr>
+            <tr>
+              <td><code>pageRange</code></td>
+              <td>
+                <strong>(number)</strong><br />
+                wie viele Seiten gedruckt werden können
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>6. Das PDF-Modul</h4>
+          <p>
+            Das PDF-Modul dient zur Anzeige von PDF-Dateien. Das Script PDF.js muss eingebunden werden, da
+            der Viewer von diesem abhängig ist.
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>pdfProviderURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die URL zum PDF-Dokument {filePath} und {derivate} können als Platzhalter verwendet werden
+                und werden vom Viewer durch die richtigen Werte ersetzt.
+              </td>
+            </tr>
+            <tr>
+              <td><code>pdfWorkerURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                PDF.js benötigt die pdf.worker.js. Diese wird automatisch nachgeladen und muss nicht extra
+                in die Seite eingebunden werden.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>7. Das Metadata-Modul</h4>
+          <p>
+            Das Metadata-Modul dient zur Anzeige von Metadaten überhalb der Strukturübersicht innerhalb des
+            Viewers.
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>metadataURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die URL zu den fertig transformierten Metadaten(HTML). In der URL können {objId} und
+                {derivateId} als Platzhalter eingesetzt werden.
+              </td>
+            </tr>
+            <tr>
+              <td><code>objId</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die Objekt Id welche in die metadataURL eingesetzt wird
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>8. Das Logo-Modul</h4>
+          <p>
+            Das Logo-Modul ermöglicht die Darstellung eines Logos in der Toolbar.
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>logoURL</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die absolute URL zum Logo welches in der Toolbar angezeigt werden soll.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>9. Das Piwik-Modul</h4>
+          <p>
+            Das Piwik-Modul bietet eine Anbindung an eine Piwik Instanz, dadurch kann verfolgt werden
+            welcher Benutzer welches Digitalisat betrachtet hat.
+          </p>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>MCR.Piwik.baseurl</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die URL zur Piwik Installation
+              </td>
+            </tr>
+            <tr>
+              <td><code>MCR.Piwik.id</code></td>
+              <td>
+                <strong>(string)</strong><br />
+                die ID der Website in Piwik
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Konfiguration der Viewer-Ressource</h3>
+        <p>
+          Der Viewer ist standardmäßig in jeder MyCoRe-Instanz eingebunden. Durch die URL %MyCoReBaseURL%/rsc/viewer/%derivateId%/%bild%
+          kann er geöffnet werden. Diese Seite wird durch die MCRViewerResource gebaut. Die MCRViewerResource benutzt eine
+          MCRViewerConfiguration um den Viewer zur verfügung zu stellen. Diese MCRViewerKonfiguration wird über das Interface
+          MCRViewerConfigurationStategy zur verfügung gestellt. Welche MCRViewerConfigurationStrategy dafür benutzt wird kann
+          über das Property MCR.Module-iview2.configuration.strategy gesteuert werden. Der Standard-Wert ist MCRViewerDefaultConfigurationStrategy.
+        </p>
+        <p>
+          Über die Klasse MCRViewerConfiguration kann gesteuert werden welche Script- und CSS-Dateien geladen werden, außerdem
+          können Properties an die Viewer-Instanz gegeben werden. Für fast alle MyCoRe-Viewer-Module gibt es eine fertige
+          MCRViewerConfiguration. Diese MCRViewerConfigurations erlauben es die Module über einfache MyCoRe-Properties zu
+          steuern und übernehmen das einbinden der richtigen Script- und CSS-Dateien.
+        </p>
+        <div>
+          <h4>MCRViewerLogoConfiguration</h4>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>MCR.Module-iview2.logoURL</code></td>
+              <td>
+                wenn dieses Property gesetzt ist, dann wird das Logo-Modul automatisch eingebunden und konfiguriert.
+              </td>
+            </tr>
+            <tr>
+              <td><code>MCR.Module-iview2.logo.css</code></td>
+              <td>
+                dieses Property dient dazu zusätzliche Logos einzublenden.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>MCRMetadataConfiguration</h4>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>MCR.Module-iview2.metadata.transformer</code></td>
+              <td>
+                bestimmt den Transformer der benutzt wird um das Objekt in HTML umzuwandeln. Es existiert
+                ein vorgefertigtes Stylesheet für MODS-Metadaten.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h4>MCRViewerPiwikConfiguration</h4>
+          <p>
+            Die Werte werden eins zu eins aus den MyCoRe-Properties durchgereicht (siehe Piwik-Modul).
+          </p>
+        </div>
+        <div>
+          <h4>Canvas-Konfiguration</h4>
+          <table class="table table-bordered">
+            <tr>
+              <td><code>MCR.Module-iview2.canvas.overview.enabled</code></td>
+              <td>
+                disables the mini overview in the bottom right corner
+              </td>
+            </tr>
+            <tr>
+              <td><code>MCR.Module-iview2.canvas.overview.minVisibleSize</code></td>
+              <td>
+                this value specifies how large the viewer container must be (in px) to show the overview on startup. If the overview should not be shown by default the value can be set to a large value like 999999
+              </td>
+            </tr>
+            <tr>
+              <td><code>MCR.Module-iview2.canvas.startup.fitWidth</code></td>
+              <td>
+                if this property set to true the viewer will fit image width on startup
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h3>Kacheln als Basis</h3>
+        <p>
+          Wird der MyCoRe-Viewer für die Ansicht von Bildern genutzt, nutzt dieser die Bildkacheln,
+          die standardmäßig beim Speichern der Daten im Hintergrund angelegt werden. Mehr dazu unter
+          Grundlagen -&gt; Derivate -&gt; <a href="{{< ref frontend_iview2 >}}">IView2</a>.
+        </p>
+      </div>
+
+      <div>
+        <h3>Download</h3>
+        <p>
+          Der MyCoRe-Viewer ist eine eigene Bibliothek die einzeln heruntergeladen und unabhägig von
+          MyCoRe genutzt werden kann. Die aktuelle Releasversion mit deren Neuerungen kann im <a href="https://mycore.atlassian.net/projects/MV?selectedItem=com.atlassian.jira.jira-projects-plugin:release-page&amp;status=released#">Jira</a> eingesehen werden.
+        </p>
+        <p>
+          Zum Download stehen die jeweiligen Releases im <a href="http://artifactory.mycore.de/webapp/#/artifacts/browse/tree/General/libs-releases-local/org/mycore/mycore-viewer">MyCoRe-Artifactory</a> zur Verfügung.
+        </p>
+      </div>
+    </div>
+
+  

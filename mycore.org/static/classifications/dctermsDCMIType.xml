@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="dctermsDCMIType">
+	<!--
+		DCMI Type Vokabular 
+		http://dublincore.org/documents/dcmi-type-vocabulary/
+		Version: 2010-10-10 http://dublincore.org/documents/2010/10/11/dcmi-type-vocabulary/
+	-->
+	<label xml:lang="de" text="DCMI Type Vokabular"
+		   description="Das DCMI Type Vokabular stellt eine allgemeine, fachübergreifende Liste von Ausdrücken bereit, die verwendet werden können, um die Art einer Ressource beschreiben." />
+	<label xml:lang="en" text="DCMI Type Vocabulary"
+		   description="The DCMI Type Vocabulary provides a general, cross-domain list of approved terms that may be used as values for the Resource Type element to identify the genre of a resource." />
+	<label xml:lang="x-uri" text="http://purl.org/dc/terms/DCMIType" />
+	<categories>
+		<category ID="Collection">
+			<label xml:lang="de" text="Sammlung"
+				   description="Eine Zusammenfassung von Ressourcen." />
+			<label xml:lang="en" text="Collection" 
+			       description="An aggregation of resources." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Collection"
+			       description="A collection is described as a group; its parts may also be separately described." />
+		</category>
+		<category ID="Dataset">
+			<label xml:lang="de" text="Datensatz"
+				   description="Daten, die in einer definierten Struktur kodiert sind." />
+			<label xml:lang="en" text="Dataset"
+				   description="Data encoded in a defined structure." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Dataset"
+			       description="Examples include lists, tables, and databases. A dataset may be useful for direct machine processing." />
+		</category>
+		<category ID="Event">
+			<label xml:lang="de" text="Ereignis"
+				   description="Eine zeitlich befristete Begebenheit." />
+			<label xml:lang="en" text="Event"
+				   description="A non-persistent, time-based occurrence." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Event"
+			       description="Metadata for an event provides descriptive information that is the basis for discovery of the purpose, location, duration, and responsible agents associated with an event." />
+			       <!--  Examples include an exhibition, webcast, conference, workshop, open day, performance, battle, trial, wedding, tea party, conflagration. -->
+		</category>
+		<category ID="Image">
+			<label xml:lang="de" text="Bild"
+				   description="Eine nicht textgebundene visuelle Darstellung." />
+			<label xml:lang="en" text="Image"
+				   description="A visual representation other than text." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Image"
+			       description="Examples include images and photographs of physical objects, paintings, prints, drawings, other images and graphics, animations and moving pictures, film, diagrams, maps, musical notation." />
+			       <!--  Note that Image may include both electronic and physical representations. -->
+			<category ID="StillImage">
+				<label xml:lang="de" text="Einzelbild"
+					   description="Eine statische visuelle Darstellung." />
+				<label xml:lang="en" text="Still Image" 
+				       description="A static visual representation." />
+				<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/StillImage"
+				       description="Examples include paintings, drawings, graphic designs, plans and maps. Recommended best practice is to assign the type Text to images of textual materials." />
+				       <!-- Instances of the type Still Image must also be describable as instances of the broader type Image. -->
+			</category>
+			<category ID="MovingImage">
+				<label xml:lang="de" text="Bewegte Bilder"
+					   description="Eine Serie visueller Darstellungen, die den Eindruck von Bewegung vermitteln, wenn sie nacheinander gezeigt werden." />
+				<label xml:lang="en" text="Moving Image"
+					   description="A series of visual representations imparting an impression of motion when shown in succession." />
+				<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/MovingImage"
+				       description="Examples include animations, movies, television programs, videos, zoetropes, or visual output from a simulation. Instances of the type Moving Image must also be describable as instances of the broader type Image." />
+			</category>
+		</category>
+		<category ID="InteractiveResource">
+			<label xml:lang="de" text="Interaktive Ressource"
+				   description="Eine Ressource, die Interaktion mit dem Nutzer erfordert, um verstanden, ausgeführt oder erfahren zu werden." />
+			<label xml:lang="en" text="Interactive Resource"
+				   description="A resource requiring interaction from the user to be understood, executed, or experienced." />
+			<label xml:lang="x-uri"
+				   text="http://purl.org/dc/dcmitype/InteractiveResource"
+				   description="Examples include forms on Web pages, applets, multimedia learning objects, chat services, or virtual reality environments." />
+		</category>
+		<category ID="PhysicalObject">
+			<label xml:lang="de" text="Physisches Objekt"
+				   description="Ein unbelebtes, dreidimensionales Objekt oder ein Stoff." />
+			<label xml:lang="en" text="Physical Object"
+				   description="An inanimate, three-dimensional object or substance." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/PhysicalObject"
+			       description="Note that digital representations of, or surrogates for, these objects should use Image, Text or one of the other types." />
+		</category>
+		<category ID="Service">
+			<label xml:lang="de" text="Dienst"
+				   description="Ein System, das eine oder mehrere Funktionen bereitstellt." />
+			<label xml:lang="en" text="Service"
+				   description="A system that provides one or more functions." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Service"
+				   description="Examples include a photocopying service, a banking service, an authentication service, interlibrary loans, a Z39.50 or Web server." />
+		</category>
+		<category ID="Software">
+			<label xml:lang="de" text="Software"
+				   description="Ein Computerprogramm als Quellcode oder in kompilierter Form." />
+			<label xml:lang="en" text="Software"
+				   description="A computer program in source or compiled form." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Software"
+				   description="Examples include a C source file, MS-Windows .exe executable, or Perl script." />
+		</category>
+		<category ID="Sound">
+			<label xml:lang="de" text="Ton"
+				   description="Eine Ressource, die hauptsächlich dazu bestimmt ist, dass man sie hört." />
+			<label xml:lang="en" text="Sound"
+				   description="A resource primarily intended to be heard." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Sound"
+				   description="Examples include a music playback file format, an audio compact disc, and recorded speech or sounds." />
+		</category>
+		<category ID="Text">
+			<label xml:lang="de" text="Text"
+				   description="Eine Ressource zum Lesen, die hauptsächlich aus Wörtern besteht." />
+			<label xml:lang="en" text="Text"
+				   description="A resource consisting primarily of words for reading." />
+			<label xml:lang="x-uri" text="http://purl.org/dc/dcmitype/Text"
+				   description="Examples include books, letters, dissertations, poems, newspapers, articles, archives of mailing lists. Note that facsimiles or images of texts are still of the genre Text." />
+		</category>
+	</categories>
+</mycoreclass>

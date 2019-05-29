@@ -2,17 +2,16 @@
 ---
 
 title: "Strategien zur Verwendung von ACL"
-mcr_version: ['2015.05','2016.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Kathleen Neumann']
 description: "
       MyCoRe bietet verschiedene Strategien um ACLs für die Beurteilung von Nutzerrechten auszuwerten. Je nach
       Anwendungslage können diese sehr unterschiedlich sein. Die vom MyCoRe-Kern angebotenen Strategien sind hier
-      beschrieben.
-    "
+      beschrieben."
 date: "2015-09-23"
 
 ---
-    <div>
+
       <h2>Zugriffsstrategien</h2>
       <p>
         Das ACL-System ist nur lose an das Datenmodell von MyCoRe gekoppelt und so sind ACL-Regeln nicht zwangsweise an
@@ -20,7 +19,7 @@ date: "2015-09-23"
         zu Nutze machen, wenn es um die Überprüfung der Zugriffsrechte geht. Bei MyCoRe gibt es drei vordefinierte Methoden,
         die über Properties ausgewählt werden.
       </p>
-      <div>
+
         <h3>Methode 1: ObjectID</h3>
         <p>
           Diese Methode ist der Standardfall von DocPortal. Zu jeder ObjectID wird die ACL-Regel mit gleicher ID
@@ -37,10 +36,9 @@ date: "2015-09-23"
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
-          MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectIDStrategy
-        {{< /highlight >}}
-      </div>
-      <div>
+          MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectIDStrategy{{< /highlight >}}
+        </p>
+
         <h3>Methode 2: Objekt-Typ</h3>
         <p>
           Diese Methode arbeitet wie Methode 1, nutzt jedoch einen anderen Eventhandler, der nicht für jedes Objekt eine Regel
@@ -51,11 +49,12 @@ date: "2015-09-23"
           die
           Kommandozeile anlegen.
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           update permission read for id default_&lt;objekttyp&gt; with rulefile grant-all.xml
           update permission writedb for id default_&lt;objekttyp&gt; with rulefile grant-admins.xml
-          update permission deletedb for id default_&lt;objekttyp&gt; with rulefile grant-admins.xml
-        {{< /highlight >}}
+          update permission deletedb for id default_&lt;objekttyp&gt; with rulefile grant-admins.xml{{< /highlight >}}
+        </p>
         <p>
           Heißt der Objekttyp
           <code>document</code>
@@ -77,13 +76,14 @@ date: "2015-09-23"
         <p>
           Folgende Properties sind für die Methode 2:
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRObjectTypeStrategy
         {{< /highlight >}}
-      </div>
-      <div>
+        </p>
+
         <h3>Methode 3: Vererbung von Regeln</h3>
         <p>
           Diese Methode arbeitet wie Methode 1, nutzt jedoch wieder den Eventhandler von Methode 2. Entsprechend müssen Regeln
@@ -93,13 +93,13 @@ date: "2015-09-23"
           Vererbungsmodell
           von MyCoRe. Folgende Properties sind für die Methode 3:
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
-          MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRParentRuleStrategy
-        {{< /highlight >}}
-      </div>
-      <div>
+          MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRParentRuleStrategy{{< /highlight >}}
+        </p>
+
         <h3>Methode 4: Urheber (Creator)</h3>
         <p>
           Bei dieser Methode darf der Autor (bzw. eine in den Properties festgelegte Rolle) Dokumente anlegen, bearbeiten und
@@ -113,10 +113,9 @@ date: "2015-09-23"
           MCR.Access.Strategy.Class=org.mycore.access.strategies.MCRCreatorRuleStrategy
           # You can also specify a comma separated list of categories like: state:submitted,state:new
           MCR.Access.Strategy.SubmittedCategory=state:submitted
-          MCR.Access.Strategy.CreatorRole=submitter
-        {{< /highlight >}}
-      </div>
-      <div>
+          MCR.Access.Strategy.CreatorRole=submitter{{< /highlight >}}
+        </p>
+
         <h3>Methode 5: Derivat-Zugriff</h3>
         <p>
           Angehangene Dokumente (Derivate) können zugriffsbeschränkt werden durch Gruppierung über Kategorisierung (Klassifikationen).
@@ -126,20 +125,21 @@ date: "2015-09-23"
           Derivate inkl. deren Dateien gilt. Es wird überlegt, ob eine flexiblere Implementierung sinnvoll ist, die es ermöglicht
           einzelne Derivate zuzuordnen. Für die Dokumente gilt die Urheber-Strategie.
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.Access.Strategy.Class=org.mycore.mir.authorization.MIRStrategy
           # You can also specify a comma separated list of categories like: state:submitted,state:new
           MCR.Access.Strategy.SubmittedCategory=state:submitted
-          MCR.Access.Strategy.CreatorRole=submitter
-        {{< /highlight >}}
-      </div>
-      <div>
+          MCR.Access.Strategy.CreatorRole=submitter{{< /highlight >}}
+        </p>
+
         <h3>Methode 6: Zugriffsschlüssel</h3>
         <p>
           Es wird geprüft, ob für das Objekt Lese- oder Schreibschlüssel vorhanden sind. Ansonsten gilt die MIRStrategy
         </p>
+        <p>
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
@@ -148,16 +148,16 @@ date: "2015-09-23"
           MCR.Access.Strategy.SubmittedCategory=state:submitted
           MCR.Access.Strategy.CreatorRole=submitter
           MIR.AccessKeyStrategy.ObjectTypes=mods,derivate
-          MCR.URIResolver.ModuleResolver.accesskeys=org.mycore.mir.authorization.accesskeys.MIRAccessKeyResolver
-        {{< /highlight >}}
-      </div>
-      <div>
+          MCR.URIResolver.ModuleResolver.accesskeys=org.mycore.mir.authorization.accesskeys.MIRAccessKeyResolver{{< /highlight >}}
+        </p>
+
         <h3>Methode 7: Besitzer</h3>
         <p>
           Diese Strategie ist analog zur Urheber-Strategie (MCRCreatorRuleStrategy), jedoch können explizit ACLs vergeben
           werden, die dann der Besitzer auf seine Objekte hat. Weiterhin kann über ein Property festgelegt werden, welche
           Strategie ansonsten gelten soll (MIR.OwnerStrategy.FallbackClass).
         </p>
+       <p>
         {{< highlight shell "linenos=table">}}
           MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
           MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
@@ -167,8 +167,6 @@ date: "2015-09-23"
           MCR.Access.Strategy.CreatorRole=submitter
           MIR.OwnerStrategy.FallbackClass=org.mycore.mir.authorization.MIRStrategy
           MIR.OwnerStrategy.ObjectTypes=mods,derivate
-          MIR.OwnerStrategy.AllowedPermissions=read,writedb
-        {{< /highlight >}}
-      </div>
-    </div>
+          MIR.OwnerStrategy.AllowedPermissions=read,writedb{{< /highlight >}}
+        </p>
   

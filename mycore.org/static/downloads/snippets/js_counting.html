@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MyCoRe Javascript and REST-API Demo</title>
+	<meta name="author" content="Robert Stephan" />
+	<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+	<script>
+		$.ajax({
+			type : "GET",
+			url : "http://mycore.de/mir/api/v1/search?q=objectType:mods&rows=0&wt=json&json.wrf=?",
+			dataType : "jsonp",
+			success : function(data) {
+				$('#doc_count').text(data.response.numFound);
+			},
+		});
+	</script>
+</head>
+<body>
+	<!-- see also: http://jquery-howto.blogspot.de/2013/09/jquery-cross-domain-ajax-request.html -->
+	<h3>MyCoRe Document Counter</h3>
+	<strong>
+		Im MIR-Repository befinden sich derzeit <span id="doc_count" style="color:darkgreen">[Anz]</span> Dokumente.
+	</strong>
+</body>
+</html>
