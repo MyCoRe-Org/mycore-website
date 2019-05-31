@@ -578,7 +578,7 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://cpr.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_cpr.png" /></a>
                 <p>
-                	<a class="mcrmap_item_info" href="http://www.mycore.de/app_archiv.html#cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung auf mycore.de"/></a>
+                	<a class="mcrmap_item_info" href="/blog/2014/07/anwendung-cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung im MyCoRe Blog"/></a>
                 	<a class="mcrmap_item_name" href="http://cpr.uni-rostock.de">Catalogus Professorum Rostochiensium</a>
             		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek und Forschungsstelle Universitätsgeschichte)</span>
                 </p>

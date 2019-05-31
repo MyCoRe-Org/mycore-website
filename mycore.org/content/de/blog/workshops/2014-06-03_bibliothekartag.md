@@ -28,7 +28,6 @@ blog/categories:
     	<strong>„<a href="http://www.opus-bayern.de/bib-info/volltexte//2014/1681/">Die Statistische Bibliothek: mit MyCoRe zu einem gemeinsamen Archiv der Online-Publikationen der Statistischen Ämter</a>“</strong>, 
     	<nobr>URN: urn:nbn:de:0290-opus-16815</nobr>
     </li>
-      
     <li>Silvio Hermann (ThULB Jena), Matthias Ludwig (Vereinigte Domstifter Naumburg)<br />
     	<strong>„Die Archiv-Anwendung an der ThULB - ein Beispiel für nachhaltige Datenerfassung“</strong>
     </li>
@@ -41,9 +40,8 @@ blog/categories:
     </li>
   </ul>
   <p></p>
-	
-	<h3>Themenschwerpunkt <strong>„Betrieb und Umgang mit Repositorien“</strong></h3>
-	<ul>
+  <h3>Themenschwerpunkt <strong>„Betrieb und Umgang mit Repositorien“</strong></h3>
+  <ul>
       <li>Kathleen Neumann ({{<mcr-orcid 0000-0002-4433-1464>}}, VZG Göttingen)<br />
         <strong>„<a href="http://www.opus-bayern.de/bib-info/volltexte//2014/1710/">Bibliografische Metadaten mit MODS erschließen</a>“</strong>, 
         <nobr>URN: urn:nbn:de:0290-opus-17104</nobr>
@@ -57,5 +55,4 @@ blog/categories:
       <li>Kathleen Neumann ({{<mcr-orcid 0000-0002-4433-1464>}}, VZG Göttingen)<br />
         <strong>„<a href="http://www.opus-bayern.de/bib-info/volltexte//2014/1711/">MyCoRe und Langzeitarchivierung: Bestandsaufnahme</a>“</strong>, 
         <nobr>URN: urn:nbn:de:0290-opus-17118</nobr></li>
-    </ul>
-
+   </ul>

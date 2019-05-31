@@ -14,13 +14,14 @@ blog/categories:
  
 ---
 
-
-{{< mcr-figure class="text-center" src="/images/blog/applications/docportal_screenshot.png" alt="Docportal Screenshot" label="Screenshot" caption="Docportal" />}}
-  
 DocPortal ist eine einfache Beispiel-Anwendung für MyCoRe, die einen Dokumentenserver mit typischen Dublin Core
 Metadatenfeldern und den drei Objekttypen document, author und institution implementiert. Diese Anwendung ist als
 Beispiel und Referenz zu sehen, keineswegs als direkt produktiv nutzbarer Dokumentenserver. Sie können aber
 DocPortal als Ausgangssystem zur Entwicklung eigener Anwendungen nutzen.<br/>
+
+{{< mcr-figure class="text-center" src="/images/blog/applications/docportal_screenshot.png" alt="Docportal Screenshot" label="Screenshot" caption="Docportal" />}}
+  
+
 
 
 [Live-Demo der DocPortal Beispiel-Anwendung](http://www.mycore.de:8291/ "Link zu DocPortal")
