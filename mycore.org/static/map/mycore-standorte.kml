@@ -150,7 +150,7 @@
       <name>Matrikelportal</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.matrikelportal.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_matrikel.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.matrikelportal.uni-hamburg.de/"><img class="icon" alt="icon"  src="/map/icons/icon_hamburg_matrikel.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="https://www.matrikelportal.uni-hamburg.de/">Hamburger Matrikelportal</a>
                 	<span class="mcrmap_item_owner">Universität Hamburg</span>
