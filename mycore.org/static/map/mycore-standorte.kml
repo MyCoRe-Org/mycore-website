@@ -147,6 +147,23 @@
       </Point>
     </Placemark>
     <Placemark>
+      <name>Matrikelportal</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.matrikelportal.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_matrikel.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.matrikelportal.uni-hamburg.de/">Hamburger Matrikelportal</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
       <name>LexM</name>
       <description><![CDATA[
             <div class="mcrmap_item">
@@ -341,6 +358,23 @@
                 <a class="mcrmap_item_icon" href="http://www.schuredo.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_schuredo.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="http://www.schuredo.uni-hamburg.de/">Die mittelalterlichen Schuld- und Rechnungsbücher des Deutschen Ordens um 1400</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Peshat</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://peshat.gwiss.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_peshat.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://peshat.gwiss.uni-hamburg.de/">Peshat</a>
                 	<span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
