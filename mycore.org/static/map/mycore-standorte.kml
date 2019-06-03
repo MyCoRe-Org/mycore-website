@@ -551,12 +551,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>KOHD</name>
+      <name>KOHD-Orientalia</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <a class="mcrmap_item_icon" href="https://orient-mss.kohd.adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
                 <p>
-                	<span class="mcrmap_item_name" >MyIHS-Teilprojekt „Katalogisierung der Orientalischen Handschriften in Deutschland“</span>
+                	<span class="mcrmap_item_name" >MyMss-Teilprojekt „Katalogisierung der Orientalischen Handschriften in Deutschland“</span>
             		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
                 </p>
             </div>
@@ -568,12 +568,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Papyri-Teilprojekt</name>
+      <name>KOHD-Coptica</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <a class="mcrmap_item_icon" href="https://coptica.kohd.adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
                 <p>
-                	<span class="mcrmap_item_name" >Papyri-Teilprojekt Katalogisierung der koptischen Papyri (nicht öffentliches Projekt)</span>
+                	<span class="mcrmap_item_name" >Papyri-Teilprojekt Katalogisierung der koptischen Papyri</span>
             		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
                 </p>
             </div>
@@ -734,7 +734,7 @@
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://orient-digital.staatsbibliothek-berlin.de/">
-                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" title="Projekt zur Einführung des Katalogprogrammes MyIHS" />
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" title="Orientalische Handschriften der SBB" />
                 </a>
                 <p>
                 	<a class="mcrmap_item_name" href="http://orient-digital.staatsbibliothek-berlin.de/">Orientalische Handschriften der SBB</a>
@@ -749,7 +749,7 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>KOHD Digital</name>
+      <name>KOHD Turfansammlung</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://turfan-digital.staatsbibliothek-berlin.de/">
@@ -926,13 +926,13 @@
 <!-- Leipzig                                                                                                           -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Papyrus und Ostraka Projekt</name>
+      <name>Papyrus- und Ostraka- Sammlungen</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <a class="mcrmap_item_icon" href="http://papyri.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                	<a class="mcrmap_item_name" href="http://papyri.uni-leipzig.de/">Papyrus- und Ostraka-Sammlungen</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a.</span>
                 </p>
             </div>
           ]]>
@@ -943,13 +943,13 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Papyrus Portal Deutschland</name>
+      <name>Organa Papyrologica</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://www.papyrusportal.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.organapapyrologica.net/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://www.papyrusportal.de/">Papyrus Portal Deutschland</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                	<a class="mcrmap_item_name" href="https://www.organapapyrologica.net/">Organa Papyrologica</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Alte Geschichte)</span>
                 </p>
             </div>
           ]]>
@@ -960,7 +960,7 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Islamische Handschriften</name>
+      <name>Islamische Handschriften der UBL</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://www.islamic-manuscripts.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_islamhandubl.png" /></a>
@@ -994,30 +994,13 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Handschriften der Region Aceh</name>
+      <name>Indonesische Handschriften</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://www.manuscripts-aceh.org/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_aceh.png" /></a>
+                <a class="mcrmap_item_icon" href="http://nusantara.dl.uni-leipzig.de"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_aceh.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://www.manuscripts-aceh.org/">Handschriften der Region Aceh (Indonesien)</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Handschriften der Region Zentral Java</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://www.manuscripts-java.org/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_java.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://www.manuscripts-java.org/">Handschriften der Region Zentral Java (Ind.)</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                	<a class="mcrmap_item_name" href="http://nusantara.dl.uni-leipzig.de">Indonesische Handschriften</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
                 </p>
             </div>
           ]]>
@@ -1096,30 +1079,13 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Publikationsserver Medien, Bühne, Film</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://139.18.24.5:8961/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_medien.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://139.18.24.5:8961/">Publikationsserver Medien, Bühne, Film</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>Bach digital</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://www.bach-digital.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_bach.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="http://www.bach-digital.de/">Bach digital</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv</span>
                 </p>
             </div>
           ]]>
@@ -1364,12 +1330,12 @@
 <!-- Gotha                                                                                                            -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>MyIHS-Teilprojekt</name>
+      <name>MyMss-Teilprojekt</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://www.manuscripts-gotha.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_gotha_uni_erfurt.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://www.manuscripts-gotha.uni-jena.de/">MyIHS-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
+                	<a class="mcrmap_item_name" href="http://www.manuscripts-gotha.uni-jena.de/">MyMss-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
 					<span class="mcrmap_item_owner">Forschungsbibliothekbibliothek Gotha der Universität Erfurt</span>
                 </p>
             </div>
@@ -1378,27 +1344,6 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.718333,50.948889,0</coordinates>
-      </Point>
-    </Placemark>
-
-    <!-- ***************************************************************************************************************** -->
-<!-- Halle                                                                                                             -->
-<!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Papyrus und Ostraka Projekt</name>
-      <description><![CDATA[
-             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://http://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt (Halle-Jena-Leipzig)</a>
-					<span class="mcrmap_item_owner">Martin-Luther-Universität Halle-Wittenberg</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>11.96973,51.48928,0</coordinates>
       </Point>
     </Placemark>
 
@@ -1443,23 +1388,6 @@
         <coordinates>8.695258,50.576192,0</coordinates>
       </Point>
     </Placemark>
-    <Placemark>
-      <name>Papyri-Gießen</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-giessen.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://papyri-giessen.dl.uni-leipzig.de/">Papyrus Projekt</a>
-					<span class="mcrmap_item_owner">Justus-Liebig-Universität Giessen (Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>8.695258,50.576192,0</coordinates>
-      </Point>
-    </Placemark>
 
 <!-- ***************************************************************************************************************** -->
 <!-- Düsseldorf                                                                                                        -->
@@ -1483,48 +1411,6 @@
     </Placemark>
 
 <!-- ***************************************************************************************************************** -->
-<!-- Würzburg                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Papyri-Würzburg</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-wuerzburg.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://papyri-wuerzburg.dl.uni-leipzig.de/">Papyrus Projekt</a>
-					<span class="mcrmap_item_owner">Universitätsbibliothek Würzburg</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>9.968973,49.782663,0</coordinates>
-      </Point>
-    </Placemark>
-
-<!-- ***************************************************************************************************************** -->
-<!-- Köln                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Papyri-Köln</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-koeln.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://papyri-koeln.dl.uni-leipzig.de/">Papyrus Projekt</a>
-					<span class="mcrmap_item_owner">Universität Köln (Institut für Altertumskunde)</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>6.927404,50.928763,0</coordinates>
-      </Point>
-    </Placemark>
-
-<!-- ***************************************************************************************************************** -->
 <!-- Münster                                                                                                              -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
@@ -1542,27 +1428,6 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.5994589,51.9711865,0</coordinates>
-      </Point>
-    </Placemark>
-
-<!-- ***************************************************************************************************************** -->
-<!-- Erlangen                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Papyri-Erlangen</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://papyri-erlangen.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://papyri-erlangen.dl.uni-leipzig.de">Papyrus Projekt</a>
-					<span class="mcrmap_item_owner">Universitätsbibliothek Erlangen-Nürnberg</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>11.007677,49.596658,0</coordinates>
       </Point>
     </Placemark>
 
@@ -1683,5 +1548,6 @@
         <coordinates>0.116667,52.2,0</coordinates>
       </Point>
     </Placemark>
+    
   </Document>
 </kml>
