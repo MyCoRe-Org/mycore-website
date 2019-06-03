@@ -79,6 +79,9 @@
 // Large devices (desktops) and below
 @include media-breakpoint-down(lg) {
   // add/overwrite styles for responsive level lg and lower
+  .content {
+    max-width: 100%;
+  }
 }
 
 // Medium devices (tablets) and below
