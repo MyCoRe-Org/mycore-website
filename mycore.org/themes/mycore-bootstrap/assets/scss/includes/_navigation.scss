@@ -31,7 +31,7 @@
     // top navigation ---------------------------
     .mcr-navbar-main {
         height: 100%;
-        padding: 0 3rem 2px 3rem;
+        padding: 2px 16px 2px 16px;
 
         a {
             color:white;
@@ -55,6 +55,11 @@
     .navbar-nav {
         width: 100%;
         justify-content: center;
+        text-align: center;
+    }
+
+    .navbar-toggler {
+      margin: 0 auto;
     }
 
   /* download banner
@@ -182,23 +187,54 @@
         margin-top: .5rem;
     }
 
+    #mcr-project-name::before {
+      content: 'xl ';
+    }
 
 // Large devices (desktops) and below
 @include media-breakpoint-down(lg) {
-    // add/overwrite styles for responsive level lg and lower
+  // add/overwrite styles for responsive level lg and lower
+
+  #mcr-project-name::before {
+    content: 'lg ';
+  }
+
+  #navbarNavTop {
+      background-color: $blue;
+  }
+
+  .mcr-navbar-main a {
+    margin-right: 0px;
+  }
 }
 
 // Medium devices (tablets) and below
 @include media-breakpoint-down(md) {
-    // add/overwrite styles for responsive level md and lower
+  // add/overwrite styles for responsive level md and lower
+  #mcr-project-name::before {
+    content: 'md ';
+  }
 }
 
 // Small devices (landscape phones) and below
 @include media-breakpoint-down(sm) {
-    // add/overwrite styles for responsive level sm and lower
+  // add/overwrite styles for responsive level sm and lower
+  #mcr-project-name::before {
+    content: 'sm ';
+  }
+  #navbarNavSide {
+    margin: 1rem 0 0 2rem;
+    border-bottom: 1px solid $mcr-gray;
+  }
+  .navbar-toggler-sub-menu {
+    margin: 0 0 0 2rem;
+  }
 }
 
 // Extra small devices (portrait phones)
 @include media-breakpoint-down(xs) {
-    // add/overwrite styles for responsive level xs
+  // add/overwrite styles for responsive level xs
+  #mcr-project-name::before {
+    content: 'xs ';
+  }
 }
