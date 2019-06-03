@@ -67,12 +67,22 @@
     color: white;
     background-color: $mcr-green;
     font-size: 14px;
-    padding: 5px 0;
     text-align: center;
+  }
+
+  .download-banner:hover {
+    background-color: darken($mcr-green,5%);
   }
 
   .download-banner__link {
     color: white;
+    display: block;
+    padding: 5px 0;
+  }
+
+  .download-banner__link:hover {
+    color: white;
+    text-decoration: none;
   }
 
     // side navigation --------------------------
