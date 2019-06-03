@@ -147,6 +147,23 @@
       </Point>
     </Placemark>
     <Placemark>
+      <name>Matrikelportal</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.matrikelportal.uni-hamburg.de/"><img class="icon" alt="icon"  src="/map/icons/icon_hamburg_matrikel.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.matrikelportal.uni-hamburg.de/">Hamburger Matrikelportal</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
       <name>LexM</name>
       <description><![CDATA[
             <div class="mcrmap_item">
@@ -341,6 +358,23 @@
                 <a class="mcrmap_item_icon" href="http://www.schuredo.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_schuredo.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="http://www.schuredo.uni-hamburg.de/">Die mittelalterlichen Schuld- und Rechnungsbücher des Deutschen Ordens um 1400</a>
+                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.986604,53.569587,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Peshat</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://peshat.gwiss.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_peshat.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://peshat.gwiss.uni-hamburg.de/">Peshat</a>
                 	<span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
@@ -578,7 +612,7 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="http://cpr.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_cpr.png" /></a>
                 <p>
-                	<a class="mcrmap_item_info" href="http://www.mycore.de/app_archiv.html#cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung auf mycore.de"/></a>
+                	<a class="mcrmap_item_info" href="/blog/2014/07/anwendung-cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung im MyCoRe Blog"/></a>
                 	<a class="mcrmap_item_name" href="http://cpr.uni-rostock.de">Catalogus Professorum Rostochiensium</a>
             		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek und Forschungsstelle Universitätsgeschichte)</span>
                 </p>
@@ -1424,27 +1458,6 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>8.695258,50.576192,0</coordinates>
-      </Point>
-    </Placemark>
-
-<!-- ***************************************************************************************************************** -->
-<!-- Freiburg                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>FREIMORE</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://freimore.uni-freiburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_freiburg_freimore.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="http://freimore.uni-freiburg.de/">FREIburger Multimedia Object REpository</a>
-					<span class="mcrmap_item_owner">Universität Freiburg (Rechenzentrum)</span>
-                </p>
-            </div>
-          ]]>
-        </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>7.848373,48.003455,0</coordinates>
       </Point>
     </Placemark>
 

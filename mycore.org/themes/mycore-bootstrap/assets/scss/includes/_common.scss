@@ -114,11 +114,11 @@ a.latestnews:hover {
 .mcr-toc{
   position:sticky;
   top:30px;
-  color:darkgrey;
+  color: $mcr-gray;
 }
 
 .mcr-toc a{
-  color:darkgrey;
+  color: $mcr-gray;
   font-size:small;
   text-decoration:none !important;
 }
@@ -182,6 +182,7 @@ a.latestnews:hover {
 
 /* MCR Version badge */
 span.mcr-version {
+  color: $yiq-text-light;
   background-color: $warning;
 }
 
@@ -189,3 +190,9 @@ span.mcr-version {
 .mcr-blog-listentry a:hover {
   color: $link-color;
 }
+
+.badge-blog {
+  background-color: #d0e2ea;
+  color: #747474;
+}
+

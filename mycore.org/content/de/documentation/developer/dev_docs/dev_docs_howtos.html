@@ -53,11 +53,11 @@ Wenn die Seite nicht (mehr) existiert, bricht Hugo den Buildprozess mit einer Fe
 Dadurch werden tote Links vermieden.
 <h4>Anwendungsbeispiel</h4>
 {{<highlight text >}}
-  <span>Hier geht es zum <a href="{{</* ref blog */>}}">Blog</a>.</span>
+  <span>Hier geht es zum <a href="{{</* ref /blog */>}}">Blog</a>.</span>
 {{< /highlight >}}
 
 <p class="bg-light">
- <span>Hier geht es zum <a href="{{< ref blog >}}">Blog</a>.</span>
+ <span>Hier geht es zum <a href='{{< ref "/blog" >}}'>Blog</a>.</span>
 </p>
 
 <p></p>
@@ -107,7 +107,7 @@ mit Bildunterschriften versehen werden.
 <p>
 Folgende Parameter können verwendet werden:
 </p>
-<table>
+<table class="table">
 	<tr><td><code>src</code></td><td> URL der Bilddatei / Grafik</td></tr>
 	<tr><td><code>class</code></td><td>CSS-Klasse</td></tr>
 	<tr><td><code>alt</code></td><td>alternativer Text, wenn das Bild nicht geladen werden kann</td></tr>

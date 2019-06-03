@@ -1,12 +1,12 @@
-<nav class="navbar mcr-navbar-side navbar-expand-md">
+<nav class="navbar mcr-navbar-side navbar-expand-md navbar-light">
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavSide" aria-controls="navbarNavSide" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
  	</button>
  	<div class="collapse navbar-collapse" id="navbarNavSide">
 			{{ $currentPage := . }}
 		    {{ range .Site.Menus.main }}
-				{{ if or ($.IsMenuCurrent "main" .)  (hasPrefix $currentPage.URL (print  (relLangURL .URL) "/"))}} 
-					
+				{{ if or ($.IsMenuCurrent "main" .)  (hasPrefix $currentPage.URL (print  (relLangURL .URL) "/"))}}
+
 					<!-- <h5 class="js-toc-ignore"><a class='nav-item nav-link' href="{{ relLangURL .URL }}">{{ .Name }}</a></h5> -->
 					{{ if .HasChildren }}
 					<ul>
@@ -41,7 +41,7 @@
 								       			   			{{ .Name }}</a></li>
 								         			{{ end }}
 								     			</ul>
-								  			{{ end }}	   
+								  			{{ end }}
 								        {{ end }}
 								     </ul>
 								  {{ end }}
@@ -49,11 +49,10 @@
 						   </ul>
 						{{ end }}
 						{{ end }}
-						
+
 					</ul>
 					{{ end }}
 				{{ end }}
 			{{ end }}
 		</div>
 </nav>
-

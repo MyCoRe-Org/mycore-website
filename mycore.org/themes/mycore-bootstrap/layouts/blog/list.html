@@ -1,7 +1,7 @@
 {{ define "main" }}
 
 <div class="container-fluid content-box">
-  <div class="row">
+  <div class="row content-row">
 	<div class="col-12 col-md-3 col-xl-2 sub-menu">
 	 {{- partial "blog/left_side_menu.html" . -}}
 	</div>
@@ -18,7 +18,7 @@
 
   	{{- partial "blog/badges.html" . -}}
     <h5 class="pt-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h5>
-    {{ .Summary | plainify }}
+    {{ .Summary | plainify | htmlUnescape | safeHTML}}
 	  <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
 	<hr />
   </div>

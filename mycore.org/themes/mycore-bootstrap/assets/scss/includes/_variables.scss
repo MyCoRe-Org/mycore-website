@@ -3,17 +3,18 @@ $mcr-blue:      #15516e;
 $mcr-orange:    #ff9900;
 $mcr-darkblue:  #30424c;
 $mcr-green:     #5f9b08;
+$mcr-gray:      #666666;
 
 /* for bootstrap theme building see https://bootstrap.build/app */
 $dark:                    #343a40;
 $blue:                    $mcr-darkblue;  /* primary */
-$yellow:                  #ff9900;      /* warning */
+$yellow:                  $mcr-orange;    /* warning */
 $green:                   #060707;      /* success */
 $cyan:                    #a4b494;      /* info */
 $red:                     #a63446;      /* danger */
 $gray-600:                #77878b;      /* secondary */
 
-$link-color:                lighten($mcr-blue, 20%); /* $dark; */
+$link-color:                lighten($mcr-blue, 20%);
 $body-color:                #444;
 
 $font-family-base:          "Open Sans", Helvetica, Arial, sans-serif;
