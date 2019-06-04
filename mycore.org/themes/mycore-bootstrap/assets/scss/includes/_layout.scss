@@ -55,7 +55,6 @@
     padding-top: 3rem;
     padding-left: 3rem;
     padding-right: 3rem;
-    //max-width: 1280px;
   }
 
   .sub-menu {
@@ -99,4 +98,12 @@
 // Extra small devices (portrait phones)
 @include media-breakpoint-down(xs) {
   // add/overwrite styles for responsive level xs
+}
+
+// set max column (content) width but only
+// if there is enough space for both side columns
+@media (min-width: $max-page-width) {
+  .content {
+    max-width: $max-content-width;
+  }
 }

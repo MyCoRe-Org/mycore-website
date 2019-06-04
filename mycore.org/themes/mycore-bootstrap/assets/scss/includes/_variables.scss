@@ -33,3 +33,12 @@ $link-hover-color:          black;
 $badge-font-weight:         400;        /* $font-weight-normal; */
 
 $header-height: 45px;
+
+// limit for the content area
+$max-page-width: 1920px;
+// width of the side columns
+$sidebar-default-width: 320px;
+$sidebar-left-width: $sidebar-default-width;
+$sidebar-right-width: $sidebar-default-width;
+// max width of the content column
+$max-content-width: $max-page-width - $sidebar-left-width - $sidebar-right-width;
