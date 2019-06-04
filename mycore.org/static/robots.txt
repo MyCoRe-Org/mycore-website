@@ -1,0 +1,221 @@
+#
+# robots.txt thanks to wikipedia.org and friends
+#
+# Please note: There are
+# some misbehaved spiders out there that go _way_ too fast. If you're
+# irresponsible, your access to the site may be blocked.
+#
+
+# advertising-related bots:
+User-agent: Mediapartners-Google*
+Disallow: /
+
+# Crawlers that are kind enough to obey, but which we'd rather not have
+# unless they're feeding search engines.
+User-agent: UbiCrawler
+Disallow: /
+
+User-agent: DOC
+Disallow: /
+
+User-agent: Zao
+Disallow: /
+
+# Some bots are known to be trouble, particularly those designed to copy
+# entire sites. Please obey robots.txt.
+User-agent: sitecheck.internetseer.com
+Disallow: /
+
+User-agent: Zealbot
+Disallow: /
+
+User-agent: MSIECrawler
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: Fetch
+Disallow: /
+
+User-agent: Offline Explorer
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: TeleportPro
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: linko
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Microsoft.URL.Control
+Disallow: /
+
+User-agent: Xenu
+Disallow: /
+
+User-agent: larbin
+Disallow: /
+
+User-agent: libwww
+Disallow: /
+
+User-agent: ZyBORG
+Disallow: /
+
+User-agent: Download Ninja
+Disallow: /
+
+#
+# Sorry, wget in its recursive mode is a frequent problem.
+# Please read the man page and use it properly; there is a
+# --wait option you can use to set the delay between hits,
+# for instance.
+#
+User-agent: wget
+Disallow: /
+
+#
+# The 'grub' distributed client has been *very* poorly behaved.
+#
+User-agent: grub-client
+Disallow: /
+
+#
+# Doesn't follow robots.txt anyway, but...
+#
+User-agent: k2spider
+Disallow: /
+
+#
+# Hits many times per second, not acceptable
+# http://www.nameprotect.com/botinfo.html
+User-agent: NPBot
+Disallow: /
+
+# A capture bot, downloads gazillions of pages with no public benefit
+# http://www.webreaper.net/
+User-agent: WebReaper
+Disallow: /
+
+#
+# self added additional lines
+#
+# fast russian crawler
+User-agent: Mail.Ru
+Disallow: /
+
+# Crawler for hire
+User-agent: 008
+Disallow: /
+
+User-agent: abot
+Disallow: /
+
+User-agent: aibot
+Disallow: /
+
+User-agent: aipbot
+Disallow: /
+
+User-agent: anbo-ubot
+Disallow: /
+
+User-agent: ccubee
+Disallow: /
+
+User-agent: ConveraCrawler
+Disallow: /
+
+User-agent: ConveraMultiMediaCrawler
+Disallow: /
+
+User-agent: http://www.almaden.ibm.com/cs/crawler
+Disallow: /
+
+User-agent: iCCrawler
+Disallow: /
+
+User-agent: Jakarta Commons-HttpClient
+Disallow: /
+
+User-agent: libwww-perl
+Disallow: /
+
+User-agent: linkwalker
+Disallow: /
+
+User-agent: MS FrontPage
+Disallow: /
+
+User-agent: obot
+Disallow: /
+
+User-agent: oBot
+Disallow: /
+
+User-agent: OmniExplorer_Bot
+Disallow: /
+
+User-agent: PhpDig
+Disallow: /
+
+User-agent: QualidatorWebSiteAnalyzer
+Disallow: /
+
+User-agent: QualidatorBot
+Disallow: /
+
+User-agent: SBIder
+Disallow: /
+
+User-agent: Scumbot
+Disallow: /
+
+User-agent: siteBot
+Disallow: /
+
+User-agent: Sosospider
+Disallow: /
+
+User-agent: Sogou web spider
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+User-agent: VEDENSBOT
+Disallow: /
+
+#
+# This is a production host
+# list only disallowed paths
+#
+
+User-agent: *
+Allow: /mir/servlets/MCRFileNodeServlet/
+Disallow: /viewvc/
+Disallow: /svn/
+Disallow: /jenkins/
+Disallow: /hudson/
+Disallow: /artifactory/
+Disallow: /documentation/archiv/
+Disallow: /mir/servlets/
+Disallow: /mir/browse/
+Disallow: /mir/rsc/
+Disallow: /mir/api/
+Sitemap: http://www.mycore.de/mir/sitemap_google.xml
