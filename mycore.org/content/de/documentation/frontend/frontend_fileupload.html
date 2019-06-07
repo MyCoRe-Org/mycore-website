@@ -3,60 +3,139 @@
 
 title: "FileUpload in MyCoRe"
 mcr_version: ['2018.06','2019.06']
-author: ['Jens Kupferschmidt']
+author: ['Sebastian Hofmann','Jens Kupferschmidt']
 description: "Der Abschnitt beschreibt die Möglichkeiten des in MyCoRe integrierten Datei-Uploads."
-date: "26.06.2017"
+date: "2018-07-04"
 
 ---
-    <div>
-      <h2>FileUpload mit MyCoRe</h2>
-      <p>
-        Neben der Methode Bilder und andere digitale Objekte über die Kommandozeile via derivate-Import in die
-        Anwendung einzubringen, biete MyCoRe die Möglichkeit, diese Objekte auch über ein Web-Frontend hochzuladen.
-        Diese Schnittstelle arbeite auf den Techniken von HTML5. neben der Drag-and-Drop-Methode wird seitens MyCoRe
-        noch ein Upload einzelner Dateien (maximal 3) in einem Formular angeboten.
-      </p>
-      <p>
-        <strong>Bitte Beachten Sie, dass immer nur Dateien verarbeitet werden können!</strong>
-        Um ein Verzeichneis zu laden, muss dieses vorher in das zip-Format gepackt werden. MyCoRe entpackt dieses dann
-        selbstständig.
-      </p>
-    </div>
-
-    <div>
-      <h2>Integration in die eigene Webseite</h2>
-      <p>
-        Derzeit gibt es keine direkten Vorlagen im MyCoRe-Kern. Daher seine an dieser Stelle zwei Codeschnippsel
-        angeführt, die in die eigene
-        <code>fileupload.xml</code>
-        einzubauen sind. Dabei stellt
-        <strong>modern</strong>
-        die moderne HTML5 Variante dar, während
-        <strong>classic</strong>
-        die dateiweise Variante ist.
-      </p>
+<h2>FileUpload mit MyCoRe</h2>
+<p>
+ MyCoRe hat über die Jahre immer wieder neuere Lösungen für den File-Upload. in diese wird die aktuelle Variante 
+ beschrieben.  Ggf. könnten noch altere Varianten eingesetzt werden, jedoch sollten diese mittelfristig ersetzt
+ werden.
+</p>
+      
+<h2>Integration in die Web-Seite</h2>
+<p>
+Für das 2018.06 Release wurde einen neuen Datei Upload entwickelt. Dieser basiert auf der 
+[WebkitEntry](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitEntries#Browser_compatibility) 
+API und wird von Firefox, Chrome und Edge unterstützt. Für alle anderen Browser gibt es einen Fallback.
+Um den neuen Upload zu benutzen muss man die MyCoRe-Webtools einbinden.
+In die Seite mit dem Upload muss man folgende Skripte einbinden
+</p>
+<p>
+{{< highlight html "linenos=table" >}}
+<script src="{$WebApplicationBaseURL}modules/webtools/upload/js/upload-api.js"></script>
+<script src="{$WebApplicationBaseURL}modules/webtools/upload/js/upload-gui.js"></script>
+<link rel="stylesheet" type="text/css" href="{$WebApplicationBaseURL}modules/webtools/upload/css/upload-gui.css" />
+{{< / highlight >}}
+</p>
+<p>
+Außerdem versucht das Skript aus der globalen Javascript-Variable die Eigenschaft **mycoreUploadSettings** auszulesen, 
+also definiert man diese folgendermaßen:
+</p>
+<p>
+{{< highlight html "linenos=table" >}}
+<script>
+  window["mycoreUploadSettings"] = {
+    webAppBaseURL:"<xsl:value-of select='$WebApplicationBaseURL' />"
+  }
+</script> 
+{{< / highlight >}}
+</p>
+<p>
+Das Script ist jetzt fertig eingebunden und konfiguriert. Jetzt muss ein Bereich (z.B. div-Element) bestimmt werden in 
+dem die Datei abgelegt werden muss.
+<p>
+<p>
+{{< highlight html "linenos=table" >}}
+<div class="file-upload-box well" data-upload-object="{$objID}" data-upload-target="/">
+  <i class="fa fa-upload"></i>
+  <xsl:value-of disable-output-escaping="yes" select="concat(' ', i18n:translate('upload.drop.derivate'))"/>
+</div>
+<script>
+  mycore.upload.enable(document.querySelector(".file-upload-box").parentElement);
+</script>  
+{{< / highlight >}}
+</p>
+<p>
+Das Attribut **data-upload-object** bestimmt in welches MyCoRe-Objekt die Dateien geladen werden sollen, entweder 
+ein Derivat oder ein Objekt zu dem automatisch ein Derivat erstellt wird. Das Attribut **data-upload-target** bestimmt 
+in welchen Ordner die Dateien hochgeladen werden. Die Script-Zeile am Ende aktiviert dann den Fileupload für das 
+Div-Element.
+</p>
+<p>
+Die Übersetzung für den Text in der Box ist wie folgt definiert:
+</p>
+<p>
+{{< highlight system "linenos=table" >}}
+ mir.upload.drop.derivate=Dateien/Verzeichnisse zum Anhängen ablegen oder <a class="mcr-upload-show">durchsuchen</a>.
+{{< / highlight >}}
+</p>
+<p>
+  In der Übersetzung steckt ein Link für den Fallback für Browser die WebKitEntry nicht unterstützen. Wichtig ist das 
+  dieser die Klasse **mcr-upload-show** hat.
+</p>
+<p>
+  Damit der Benutzer weiß das er die Dateien fallen lassen kann (Drag&Drop) kann man die Box beim Dragover noch färben. 
+  Dafür kann man folgendes CSS nutzen:
+</p>
+<p>
+{{< highlight css "linenos=table" >}}
+.dragover {
+  background-color:LightBlue ;
+  color:white;  
+{{< / highlight >}}
+</p>
+      
+<h2>Das MCRUploadViaFormServlet</h2>
+<p>
+  Dieses Servlet nimmt Daten aus einem Upload Formular entgegen und legt die digitalen Objekte im MyCoRe-System
+  als Derivate ab. Um ganze Verzeichnisse abzulegen, sind diese in ein Zip-File zu packen. Selbiges wird dann
+  automatisch ausgepackt. Um Zip-Files direkt abzulegen ist unten stehendes Property zu setzten.
+</p>
+ <p>
+   Syntax des Servlet-Aufrufes:
+ </p>
       {{< highlight xml "linenos=table">}}
-<?xml version="1.0" encoding="UTF-8" ?>
-<div>
-  <div id="modern">
-    <fileupload_html5 />
-  </div>
-  <div id="classic">
-    <fileupload_classic />
-  </div>
-</div> {{< /highlight >}}
-      <p>
-        Nun muss noch das Stylesheet an die entsprechende Stelle im Suchpfad. Da die Gestaltung der Uploads
-        Anwendungsspezifisch ist, soll an dieser Stelle auf eine
-        <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/xsl/fileupload.xsl?view=markup&amp;pathrev=12812" target="_blank">Beispielimplementation</a>
-        verweisen werden. Weiterhin sind noch zwei JavaScript-Files notwendig, die unter dem folgenden
-        <a href="http://svnextern.dl.uni-leipzig.de/viewsvn/maven/dptbase-common/trunk/src/main/resources/META-INF/resources/js/fileupload/" target="_blank">Verzeichnis</a>
-        beispielhaft liegen. Natürlich fehlt hier noch die Gestaltung, die jedoch dem Anwender überlassen werden soll.
-      </p>
-    </div>
- 
-   <!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
-    <script type="text/javascript">
-      SyntaxHighlighter.all()
-    </script>
+{$WebApplicationBaseURL}servlets/MCRUploadViaFormServlet?uploadId={$uploadId}&amp;method=formBasedUpload&amp;cancelUrl={cancelUrl}&amp;parentObjectID={$parentObjectID}&amp;derivateID={$derivateID}{{< /highlight >}}
+      <ul>
+        <li>
+          <code>uploadId</code>
+          - eine eindeutige ID für den Upload. Diese wird beim Aufruf der Upload-Seite generiert.
+        </li>
+        <li>
+          <code>method</code>
+          - hier ist derzeit nur die Methode
+          <code>formBasedUpload</code>
+          definiert.
+        </li>
+        <li>
+          <code>cancelURL</code>
+          - die URL für den Cancel Button.
+        </li>
+        <li>
+          <code>parentObjectID</code>
+          - Die MyCoRe ID des Objektes.
+        </li>
+        <li>
+          <code>derivateID</code>
+          - Die MyCoRe ID des zugehörigen Derivates.
+        </li>
+        <li>
+          <code>filename[]</code>
+          - liste der Einzeldateien.
+        </li>
+      </ul>
+      <p>Properties:</p>
+      <ul>
+        <li>
+          <code>MCR.FileUpload.DecompressZip=[true|false]</code>
+          -
+          <code>true</code>
+          bedeutet das Dekomprimieren der Zip-Dateien,
+          <code>false</code>
+          unterdrückt das.
+        </li>
+      </ul>
   

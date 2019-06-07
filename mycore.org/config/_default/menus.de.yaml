@@ -84,13 +84,14 @@ main:
 -     {identifier: frontend_mcrclassbrowser,  parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/frontend_mcrclassbrowser}
 -     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -93,      url: /documentation/frontend/frontend_tarzipservlet}
 -     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/frontend_xeditor}
--     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -91,      url: /documentation/frontend/frontend_fileupload}
--     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -90,      url: /documentation/frontend/frontend_iview2}
--     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -89,      url: /documentation/frontend/frontend_image_viewer}
--     {identifier: frontend_mets,           parent: frontend,           name: METS / METS-Editor,            weight: -88,      url: /documentation/frontend/frontend_mets}
--     {identifier: frontend_basket,         parent: frontend,           name: Korbfunktion,                  weight: -87,      url: /documentation/frontend/frontend_basket}
--     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -86,      url: /documentation/frontend/frontend_webtools}
--     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -85,      url: /documentation/frontend/frontend_wcms}
+-     {identifier: frontend_wf_servlets,    parent: frontend,           name: Workflow Servlets,             weight: -91,      url: /documentation/frontend/frontend_xeditor}
+-     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -90,      url: /documentation/frontend/frontend_fileupload}
+-     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -89,      url: /documentation/frontend/frontend_iview2}
+-     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -88,      url: /documentation/frontend/frontend_image_viewer}
+-     {identifier: frontend_mets,           parent: frontend,           name: METS / METS-Editor,            weight: -87,      url: /documentation/frontend/frontend_mets}
+-     {identifier: frontend_basket,         parent: frontend,           name: Korbfunktion,                  weight: -86,      url: /documentation/frontend/frontend_basket}
+-     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -85,      url: /documentation/frontend/frontend_webtools}
+-     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -84,      url: /documentation/frontend/frontend_wcms}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
 -     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}
@@ -100,9 +101,6 @@ main:
 -     {identifier: user_login_session,      parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/user_login_session}
 -     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -90,      url: /documentation/permissions/acl_mir_integration}
 -     {identifier: user_external_ldap,      parent: permissions,        name: Externe User Systeme,          weight: -89,      url: /documentation/permissions/user_external_ldap}
--   {identifier: workflow,                parent: documentation,      name: Workflow,                    weight: -93,      url: /documentation/workflow}
--     {identifier: wf_overview,             parent: workflow,           name: Single Servlets,             weight: -99,      url: /documentation/workflow/wf_overview}
--     {identifier: fileupload,              parent: workflow,           name: File Upload,                 weight: -98,      url: /documentation/workflow/fileupload}
 -   {identifier: interfaces,              parent: documentation,      name: Schnittstellen,              weight: -92,      url: /documentation/interfaces}
 -     {identifier: rest,                    parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/rest}
 -     {identifier: oai,                     parent: interfaces,         name: OAI,                         weight: -98,      url: /documentation/interfaces/oai}
