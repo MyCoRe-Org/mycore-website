@@ -64,6 +64,8 @@ main:
 -     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -93,      url: /documentation/basics/basics_mcr_mailer}
 -     {identifier: mcrservlet,              parent: basics,             name: MCRServlet,                    weight: -92,      url: /documentation/basics/mcrservlet}
 -     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -91,      url: /documentation/basics/basics_mcr_configdir}
+-     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -90,      url: /documentation/basics/basics_common_classes}
+-     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,     weight: -87,      url: /documentation/basics/basics_lifecycle}
 -   {identifier: cli,                     parent: documentation,      name: Die Kommandozeile,             weight: -97,      url: /documentation/cli}
 -     {identifier: cli_overview,            parent: cli,                name: Übersicht,                     weight: -99,      url: /documentation/cli/cli_overview}
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
@@ -121,25 +123,23 @@ main:
 -     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2018_06}
 -     {identifier: migrate_mir2018_08,      parent: migrate,            name: MIR 2017.06 ⇒ 2018.08,       weight: -96,      url: /documentation/migrate/migrate_mir2018_08}
 -   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -89,      url: /documentation/developer}
--     {identifier: eclipse,                 parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/eclipse}
+-     {identifier: dev_eclipse,             parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/dev_eclipse}
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
 -     {identifier: conventions,             parent: developer,          name: Namenskonventionen,          weight: -97,      url: /documentation/developer/conventions}
 -     {identifier: release_docu,            parent: developer,          name: Releases,                    weight: -96,      url: /documentation/developer/release_docu}
--     {identifier: jira,                    parent: developer,          name: JIRA,                        weight: -95,      url: /documentation/developer/jira}
--     {identifier: git,                     parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/git}
--     {identifier: work_with_maven,         parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/work_with_maven}
--     {identifier: work_with_gradle,        parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/work_with_gradle}
--     {identifier: dev_docs,                parent: developer,          name: Dokumentation (mit Hugo),    weight: -91,      url: /documentation/developer/dev_docs}
+-     {identifier: dev_jira,                parent: developer,          name: JIRA,                        weight: -95,      url: /documentation/developer/dev_jira}
+-     {identifier: dev_work_with_git,       parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/dev_work_with_git}
+-     {identifier: dev_work_with_maven,     parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/dev_work_with_maven}
+-     {identifier: dev_work_with_gradle,    parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/dev_work_with_gradle}
+-     {identifier: dev_docs,                parent: developer,          name: Dokumentation mit Hugo,      weight: -91,      url: /documentation/developer/dev_docs}
 -       {identifier: dev_docs_overview,       parent: dev_docs,           name: "Überblick",                 weight: -99,      url: /documentation/developer/dev_docs/dev_docs_overview}
 -       {identifier: dev_docs_setup,          parent: dev_docs,           name: Einrichtung,                 weight: -98,      url: /documentation/developer/dev_docs/dev_docs_setup}
 -       {identifier: dev_docs_news_blog,      parent: dev_docs,           name: News- und Blogbeiträge,      weight: -97,      url: /documentation/developer/dev_docs/dev_docs_news_blog}
 -       {identifier: dev_docs_guidelines,     parent: dev_docs,           name: Richtlinien,                 weight: -96,      url: /documentation/developer/dev_docs/dev_docs_guidelines}
 -       {identifier: dev_docs_howto,          parent: dev_docs,           name: Tipps und Tricks,            weight: -95,      url: /documentation/developer/dev_docs/dev_docs_howtos}
 -     {identifier: apidocs,                 parent: developer,          name: Javadocs,                    weight: -90,      url: 'http://www.mycore.de/generated/mycore/apidocs'}
--     {identifier: classes,                 parent: developer,          name: Allgemeine Klassen,          weight: -89,      url: /documentation/developer/classes}
 -     {identifier: app_structure,           parent: developer,          name: Anwendungsstruktur,          weight: -88,      url: /documentation/developer/app_structure}
--     {identifier: lifecycle,               parent: developer,          name: Init-/Shutdown Handling,     weight: -87,      url: /documentation/developer/lifecycle}
--     {identifier: plugin_dev,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/plugin_dev}
+-     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/dev_plugin}
 
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
