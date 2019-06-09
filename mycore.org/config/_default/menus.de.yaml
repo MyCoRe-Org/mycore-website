@@ -102,13 +102,13 @@ main:
 -     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -90,      url: /documentation/permissions/acl_mir_integration}
 -     {identifier: user_external_ldap,      parent: permissions,        name: Externe User Systeme,          weight: -89,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: interfaces,              parent: documentation,      name: Schnittstellen,              weight: -92,      url: /documentation/interfaces}
--     {identifier: rest,                    parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/rest}
--     {identifier: oai,                     parent: interfaces,         name: OAI,                         weight: -98,      url: /documentation/interfaces/oai}
--     {identifier: pid,                     parent: interfaces,         name: Persistent Identifier,       weight: -97,      url: /documentation/interfaces/pid}
--     {identifier: google,                  parent: interfaces,         name: Google-Sitemap,              weight: -96,      url: /documentation/interfaces/google}
--     {identifier: dfgviewer,               parent: interfaces,         name: DFG-Viewer,                  weight: -95,      url: /documentation/interfaces/dfgviewer}
--     {identifier: iiif_support,            parent: interfaces,         name: IIIF-Unterstützung,          weight: -94,      url: /documentation/interfaces/iiif_support}
--     {identifier: sword,                   parent: interfaces,         name: SWORD,                       weight: -93,      url: /documentation/interfaces/sword}
+-     {identifier: interface_rest,          parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/interface_rest}
+-     {identifier: interface_oai,           parent: interfaces,         name: OAI,                         weight: -98,      url: /documentation/interfaces/interface_oai}
+-     {identifier: interface_pid,           parent: interfaces,         name: Persistent Identifier,       weight: -97,      url: /documentation/interfaces/interface_pid}
+-     {identifier: interface_google,        parent: interfaces,         name: Google-Sitemap,              weight: -96,      url: /documentation/interfaces/interface_google}
+-     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -95,      url: /documentation/interfaces/interface_dfgviewer}
+-     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF-Unterstützung,          weight: -94,      url: /documentation/interfaces/interface_iiif_support}
+-     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -93,      url: /documentation/interfaces/interface_sword}
 -   {identifier: production,              parent: documentation,      name: Laufender Betrieb,           weight: -91,      url: /documentation/production}
 -     {identifier: production_security,     parent: production,         name: Datensicherheit,             weight: -99,      url: /documentation/production/production_security}
 -     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}

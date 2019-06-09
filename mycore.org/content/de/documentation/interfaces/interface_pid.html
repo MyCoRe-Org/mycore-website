@@ -2,6 +2,8 @@
 ---
 
 title: "Persistent Identifier"
+mcr_version: ['2018.06','2019.06']
+author: ['Kathleen Neumann']
 description: "
       MyCoRe bietet verschiedene Möglichkeiten an, Persistente Identifier zu generieren. Es ist
       möglich URNs oder Handle zu erzeugen. Für die Registrierung einer DOI wird aktuell ein
@@ -11,31 +13,31 @@ description: "
 
 ---
 
-  <div>
     <h2>Nutzung der URN-Vergabe</h2>
-    <div>
+
       <h3>URN in der Anwendung</h3>
       <p>
         Um die URN-Vergabe für Dokumente und deren Derivate zu aktivieren, muss das folgende
         Property für die entsprechenden MyCoRe-Objekttypen definiert werden:
       </p>
+      <p>
       {{< highlight bash "linenos=table">}}
-        MCR.URN.Enabled.Objects=mods
-      {{< /highlight >}}
+        MCR.URN.Enabled.Objects=mods{{< /highlight >}}
+      </p>
       <p>
         Soll für mehrere Objekttypen die URN-Vergabe ermöglicht werden, so
         müssen alle Typen durch Komma getrennt an dieser Stelle angegeben werden:
       </p>
+      <p>
       {{< highlight bash "linenos=table">}}
-        MCR.URN.Enabled.Objects=document,file,certificate
-      {{< /highlight >}}
+        MCR.URN.Enabled.Objects=document,file,certificate{{< /highlight >}}
+      </p>
       <p>
         In der Anwendung MIR ist die URN-Vergabe für MODS-Dokumente standardmäßig
         aktiviert. Werden Dateien angehangen, so kann über das Aktionen-Menü des
         jeweiligen Derivates eine URN für das Derivat erzeugt werden.
       </p>
-    </div>
-    <div>
+
       <h3>Das MCRAddURNToObjectServlet</h3>
       <p>
         In der Anwendung kann das <a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/servlets/MCRAddURNToObjectServlet.html">MCRAddURNToObjectServlet</a> genutzt werden, um je nach Anforderung die URN zu erzeugen. Dafür stehen die folgenden
@@ -69,13 +71,13 @@ description: "
       <p>
         Wird die URN in den Metadaten-Abschnitt generiert, so hat diese folgende Form:
       </p>
+      <p>
       {{< highlight xml "linenos=table">}}
         <def.identifier>
           <identifier type="urn">urn:foo:bar</identifier>
-        </def.identifier>
-      {{< /highlight >}}
-    </div>
-    <div>
+        </def.identifier>{{< /highlight >}}
+      </p>
+
       <h3>Die Implementierung</h3>
       <p>
         Die URN-Funktionalität wird in der MyCoRe-Komponente <code>mycore-urn</code> bereitgestellt.
@@ -84,14 +86,15 @@ description: "
         In der Basisimplementierung sorgt der <a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/services/MCRURNProvider.html">MCRURNProvider</a> für die Erzeugung
         der URN. Dieser generiert die URN nach einem in den Properties definierten Schema:
       </p>
+      <p>
       {{< highlight bash "linenos=table">}}
           MCR.URN.Provider.Class=org.mycore.urn.services.MCRURNProvider
         # CHANGE: Subnamespace for Campus MyCoRe
           MCR.URN.SubNamespace.Default.Prefix=urn:nbn:de:mcr:1-
           MCR.URN.SubNamespace.Default.NISSBuilder=org.mycore.urn.services.MCRNISSBuilderDateCounter
           MCR.URN.SubNamespace.Default.NISSPattern=yyyyMMdd-HHmmss-
-          #MCR.URN.SubNamespace.Default.NISSBuilder=org.mycore.urn.services.MCRNISSBuilderUUID
-      {{< /highlight >}}
+          #MCR.URN.SubNamespace.Default.NISSBuilder=org.mycore.urn.services.MCRNISSBuilderUUID{{< /highlight >}}
+      </p>
       <p>
         Die gelisteten Properties zeigen die Standard-Konfiguration. Diese können (und sollten) entsprechend in den
         Properties der Anwendung angepasst werden. Die Komponente <code>mycore-urn</code> bringt zwei Möglichkeiten mit,
@@ -111,9 +114,7 @@ description: "
         Die erzeugten URNs werden sowohl in der Datenbanktabelle
         <code>MCRURN</code>, als auch im Derivate bzw. Objekt selber abgelegt.
       </p>
-    </div>
-  </div>
-  <div>
+
     <h2>DOI-Registrierung über datacite</h2>
     <p>
       <span class="label label-info">2016.06</span><span class="label label-info">2017.06</span> Um DOIs aus der MyCoRe-Anwendung heraus
@@ -122,6 +123,7 @@ description: "
       basiert auf dem MyCoRe-MODS-Datenmodell. Mit der folgenden Konfiguration kann die
       DOI-Registrierung aktiviert werden:
     </p>
+    <p>
     {{< highlight bash "linenos=table">}}
   MCR.DOI.Prefix=10.5072
   MCR.DOI.HostingInstitution=MyCoRe Community
@@ -138,15 +140,16 @@ description: "
   MCR.PI.Generator.UUIDDOI=org.mycore.pi.doi.MCRUUIDDOIGenerator
   MCR.PI.Generator.DateDOI=org.mycore.pi.doi.MCRCreateDateDOIGenerator
   MCR.PI.MetadataManager.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierMetadataManager
-  MCR.PI.Parsers.doi=org.mycore.pi.doi.MCRDOIParser
-    {{< /highlight >}}
+  MCR.PI.Parsers.doi=org.mycore.pi.doi.MCRDOIParser{{< /highlight >}}
+    </p>
     <p>
       <span class="label label-alert">Achtung!</span>Wichtig für die Version 2016.06: In dieser Version heisst der MetadataManager noch Inscriber!
     </p>
+    <p>
     {{< highlight bash "linenos=table">}}
   MCR.PI.Registration.Datacite.Inscriber=MODSDOI
-  MCR.PI.Inscriber.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierInscriber
-    {{< /highlight >}}
+  MCR.PI.Inscriber.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierInscriber{{< /highlight >}}
+    </p>
     <p>
       Für den Umstieg auf Version 2018.06 muss ebenfalls eine Migration der Properties erfolgen.
       Details dazu siehe <a href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-migration">mycore-migration</a>.
@@ -163,5 +166,4 @@ description: "
       <code>MIR.registerDOI=true</code> gesetzt wird. Dann erscheint im Aktionen-Menü eines
       einzelnen Objektes ein weiterer Menüpunkt "DOI Registrieren".
     </p>
-  </div>
   

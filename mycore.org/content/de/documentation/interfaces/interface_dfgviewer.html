@@ -2,7 +2,7 @@
 ---
 
 title: "Daten für den DFG-Viewer"
-mcr_version: ['2017.06','2018.06']
+mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
 description: "
       Viele geförderte Drittmittelprojekte, speziell aber die der DFG fordern die Bereitstellung der Bildanzeige für den
@@ -14,7 +14,6 @@ date: "2018-02-06"
 
 ---
 
-    <div>
       <h2>Aufruf des DFG-Viewers</h2>
       <p>
         Der DFG-Viewer wird über die folgende URL aufgerufen.
@@ -28,9 +27,7 @@ date: "2018-02-06"
         <em>mets-dfg.xsl</em>
         .
       </p>
-    </div>
 
-    <div>
       <h2>Die Stylesheets</h2>
       <p>
         Das Stylesheet
@@ -48,9 +45,7 @@ date: "2018-02-06"
         <a href="https://github.com/MyCoRe-Org/mir/tree/master/mir-module/src/main/resources/xsl/mets" target="_blank">https://github.com/MyCoRe-Org/mir/tree/master/mir-module/src/main/resources/xsl/mets
         </a>
       </p>
-    </div>
 
-    <div>
       <h2>Das WebFragment</h2>
       <p>
       Um dem DFG-Viewer den Zugriff auf die einzelnen Bilder zu ermöglichen, sind noch zwei Servlets für den Web-Kontext
@@ -80,6 +75,4 @@ date: "2018-02-06"
   <servlet-name>MCRDFGThumbServlet</servlet-name>
   <url-pattern>/servlets/MCRDFGThumbnail/*</url-pattern>
 </servlet-mapping>{{< /highlight >}}
-    </div>
-
   
