@@ -15,9 +15,9 @@ blog/tags:
 
 news/frontpage: true
 news/title_de: "Open Repositories 2019"
-news/teaser_de: "Sie finden uns vom 10.-13. Juni 2019 bei der Postersession der Open Repositories 2019. Wir freuen uns auf Ihren Besuch!"
+news/teaser_de: "Vom 10.-13. Juni 2019 nahmen wir an der Postersession der Open Repositories 2019 teil."
 news/title_en: "Open Repositories 2019"
-news/teaser_en: "Visit us at the Open Repositories conference 10th - 13th June 2019 in Hamburg."
+news/teaser_en: "We presented two MyCoRe posters at the Open Repositories conference June 2019 in Hamburg."
 
 ---
 
