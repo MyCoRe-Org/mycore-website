@@ -21,8 +21,8 @@ news/teaser_en: "Visit us at the Open Repositories conference 10th - 13th June 2
 
 ---
 
-Die "Open Repositories 2019" findet dieses Jahr an der Universität Hamburg statt.
-Wir sind mit folgenden Präsentationen in der Postersession vertreten:
+Die "Open Repositories 2019" fand dieses Jahr an der Universität Hamburg statt.
+Wir waren mit folgenden Präsentationen in der Postersession vertreten:
 
  * &ldquo;MyCoRe - the repository software framework&rdquo;  
    Wiebke Oeltjen (MyCoRe Community Office, Universität Hamburg), Robert Stephan (Universität Rostock)
