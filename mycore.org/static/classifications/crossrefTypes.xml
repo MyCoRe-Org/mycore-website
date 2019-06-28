@@ -4,16 +4,36 @@
   <label xml:lang="en" text="Crossref Types" />
   <categories>
     <category ID="posted_content">
-      <category ID="working_paper" />
-      <category ID="letter" />
-      <category ID="preprint_dissertation" />
-      <category ID="report" />
-      <category ID="review" />
-      <category ID="preprint_other" />
+        <label xml:lang="de" text="Geposteter Inhalt" />
+        <label xml:lang="en" text="Posted Content" />
+      <category ID="working_paper">
+        <label xml:lang="de" text="Arbeitspapier" />
+        <label xml:lang="en" text="Working Paper" />
+      </category>
+      <category ID="letter">
+        <label xml:lang="de" text="Brief" />
+        <label xml:lang="en" text="Letter" />
+      </category>
+      <category ID="preprint_dissertation">
+        <label xml:lang="de" text="Preprint Dissertation" />
+        <label xml:lang="en" text="Preprint Dissertation" />
+      </category>
+      <category ID="report">
+        <label xml:lang="de" text="Report" />
+        <label xml:lang="en" text="report" />
+      </category>
+      <category ID="review">
+        <label xml:lang="de" text="Gutachten" />
+        <label xml:lang="en" text="review" />
+      </category>
+      <category ID="preprint_other">
+        <label xml:lang="de" text="Sonstiges Preprint" />
+        <label xml:lang="en" text="preprint_other" />
+      </category>
     </category>
     <category ID="peer_review">
-      <label xml:lang="de" text="Review" />
-      <label xml:lang="en" text="Review" />
+      <label xml:lang="de" text="Peer Review" />
+      <label xml:lang="en" text="Peer Review" />
     </category>
     <category ID="database">
       <label xml:lang="de" text="Datenbank" />
@@ -24,8 +44,8 @@
       <label xml:lang="en" text="Standard" />
     </category>
     <category ID="report-paper">
-      <label xml:lang="de" text="Report" />
-      <label xml:lang="en" text="Report" />
+      <label xml:lang="de" text="Report Paper" />
+      <label xml:lang="en" text="Report Paper" />
     </category>
     <category ID="dissertation">
       <label xml:lang="de" text="Dissertation" />
@@ -36,33 +56,42 @@
       <label xml:lang="de" text="Konferenz" />
       <category ID="conference_paper">
         <label xml:lang="de" text="Tagungsbeiträge" />
+		<label xml:lang="en" text="Conference Paper" />
       </category>
       <category ID="proceedings">
         <label xml:lang="de" text="Tagungsband" />
+		<label xml:lang="en" text="Proceedings" />
       </category>
     </category>
     <category ID="journal">
       <label xml:lang="en" text="Journal" />
       <label xml:lang="de" text="Journal" />
-      <category ID="journal_issue" />
-      <category ID="journal_article" />
+      <category ID="journal_issue">
+        <label xml:lang="de" text="Zeitschriftenheft" />
+        <label xml:lang="en" text="Journal Issue" />
+      </category>
+      <category ID="journal_article">
+        <label xml:lang="de" text="Zeitschriftenartikel" />
+        <label xml:lang="en" text="Journal Article" />
+      </category>
     </category>
     <category ID="book">
       <label xml:lang="de" text="Buch" />
       <label xml:lang="en" text="Book" />
       <category ID="edited_book">
-        <label xml:lang="de" text="Buchbeitrag" />
-        <label xml:lang="en" text="edited Book" />
+        <label xml:lang="de" text="Buchbearbeitung" />
+        <label xml:lang="en" text="Edited Book" />
       </category>
       <category ID="monograph">
         <label xml:lang="de" text="Monografie" />
-        <label xml:lang="en" text="monograph" />
+        <label xml:lang="en" text="Monograph" />
       </category>
       <category ID="reference">
-        <label xml:lang="en" text="reference" />
+	    <label xml:lang="de" text="Referenz" />
+        <label xml:lang="en" text="Reference" />
       </category>
       <category ID="other">
-        <label xml:lang="en" text="other" />
+        <label xml:lang="en" text="Other" />
         <label xml:lang="de" text="Andere" />
       </category>
     </category>
