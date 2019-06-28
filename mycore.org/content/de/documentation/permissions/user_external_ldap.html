@@ -1,108 +1,120 @@
 
 ---
 
-title: "Anbindung externer Systeme"
+title: "Anbindung von LDAP"
 mcr_version: ['2018.06','2019.06']
-author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+author: ['Frank Lützenkirchen', 'Jens Kupferschmidt']
 description: "Beschreibung der Anbindung an externe Authentifizierungs- und Authorisierungssysteme."
-date: "2016-03-03"
+date: "2016-06-25"
 
 ---
 
-      <h2>Shibboleth</h2>
+<h2>LDAP</h2>
+<p>
+  MyCoRe gestattet die Anbindung des Lightweight Directory Access Protocol (LDAP) als Verzeichnisdienst an das
+  Benutzersystem. Dies ermöglicht die Integration in Registrierungsprozesse der betreibenden Einrichtung.
+  Folgende Schritte sind grundsätzlich zu tun:
+</p>
 
-      <p>
-        Im ersten Schritt muss Shibboleth installiert und konfiguriert werden. Dazu steht
-        eine <a href="/downloads/Install_Konf_SP.pdf">Anleitung aus Jena</a> zur Verfügung,
-        die einen möglichen Weg beschreibt.
-      </p>
-      <p>
-        Nachdem die Konfiguration abgeschlossen ist, muss die <code>realms.xml</code> angepasst
-        werden. Nachfolgend ebenfalls ein Beispiel der Konfiguration in Jena.
-      </p>
-      <p>
-      {{< highlight xml "linenos=table">}}
-<?xml version="1.0" encoding="UTF-8"?>
+<ul>
+  <li>login.xml eingebauen und an den Stellen, wo ein login erfolgen soll, direkt auf dieses verwiesen</li>
+  <li>Java Classen in die Anwendung eingebauen (MCRCascadingAuthenticationHandler, MCRLDAPAuthenticationHandler, 
+      MCRLocalAuthenticationHandler ...) (siehe <a href="https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login" target="_blank">https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login</a>)</li>
+  <li>in der <code>realms.xml</code> sind zwei realms (local und ldap) zu definieren</li>
+  <li>In der Datei <code>mycore.properties</code> sind die entsprechenden Properties anzulegen bzw. anzupassen.</li>
+</ul>
 
-<realms local="local">
-  <realm id="local">
-    [...]
-  </realm>
-  <realm id="shibboleth" setable="false">
-    <label xml:lang="de">Shibboleth</label>
-    <label xml:lang="en">Shibboleth</label>
-    <login url="MCRShibbolethLoginServlet" redirectParameter="url">
-      <label xml:lang="de">Anmelden mit dem Login Ihrer Heimateinrichtung</label>
-      <label xml:lang="en">Login with your user credentials of your home institution</label>
-      <info>
-        <label xml:lang="de">
-          Falls unterstützt, müssen Sie sich ggf. nur einmalig anmelden.
-        </label>
-        <label xml:lang="en">
-          This login uses single-sign-on facilities provided by your home institution.
-        </label>
-      </info>
+<!-- 
+<p>
+  ToDo: hier muss die beschriebene login.xml hin
+</p>
+-->
+
+<!--       
+<p>
+  {{< highlight xml "linenos=table">}}MCR.user2.CascadingLogin.Realms=local lvr
+MCR.user2.CascadingLogin.lvr=java.package.pfad.zum.LDAPAuthenticationHandler
+
+MCR.user2.LDAP.Realm=lvr
+MCR.user2.LDAP.ProviderURL=ldaps://ldap2.uni-duisburg-essen.de
+MCR.user2.LDAP.ReadTimeout=5000
+
+# Base DN, uid of user on actual login will be used!
+# We do not use any "global" credentials, just the user's own uid and password to connect
+MCR.user2.LDAP.BaseDN=uid=%s,ou=people,dc=uni-duisburg-essen,dc=de
+
+# Filter for user ID
+MCR.user2.LDAP.UIDFilter=(uid=%s)
+
+# Mapping from LDAP attribute to real name of user
+MCR.user2.LDAP.Mapping.Name=cn
+
+# Mapping from LDAP attribute to E-Mail address of user
+MCR.user2.LDAP.Mapping.E-Mail=mail
+
+# Default group membership (optional)
+MCR.user2.LDAP.Mapping.Group.DefaultGroup=submitter
+
+# Mapping of any attribute.value combination to group membership of user
+# eduPersonScopedAffiliation may be faculty|staff|employee|student|alum|member|affiliate
+# MCR.user2.LDAP.Mapping.Group.eduPersonScopedAffiliation.staff@uni-duisburg-essen.de=submitter
+
+# Integrate an own realm.xml
+MCR.user2.Realms.URI=resource:realms-duepublico.xml{{< /highlight >}}
+</p>
+-->
+
+<p>
+  Dazu wurde eine eigene realm-Konfiguration angelegt.
+</p>
+
+<!-- 
+<p>
+  {{< highlight xml "linenos=table">}}<realms local="local">
+
+  <realm id="cascading" setable="false">
+    <label xml:lang="de">Für Studierende, Mitarbeiter und alle anderen Nutzer von DuEPublico:</label>
+    <label xml:lang="de">For students, staff and all other users of DuEPublico:</label>
+    <login url="../authorization/login.xed" redirectParameter="url">
+      <label xml:lang="de">Login mit der Unikennung der Universität Duisburg-Essen, oder mit einer lokalen DuEPublico Kennung</label>
+      <label xml:lang="en">Login with credentials from University of Duisburg-Essen, or a local DuEPublico account</label>
     </login>
   </realm>
-  <realm id="tu-ilmenau.de">
-    <label xml:lang="de">TU Ilmenau</label>
-    <label xml:lang="en">TU Ilmenau</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="affiliation" separator=";">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://www.tu-ilmenau.de/unirz/it-service-desk/password/</passwordChangeURL>
-  </realm>
-  <realm id="uni-jena.de">
-    <label xml:lang="de">FSU Jena</label>
-    <label xml:lang="en">FSU Jena</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="eduPersonAffiliation">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://portal.uni-jena.de/</passwordChangeURL>
-  </realm>
-  <realm id="uni-erfurt.de">
-    <label xml:lang="de">Universität Erfurt</label>
-    <label xml:lang="en">University Erfurt</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="eduPersonAffiliation">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://idmweb.uni-erfurt.de/OAS</passwordChangeURL>
-  </realm>
-</realms>{{< /highlight >}}
-      </p>
-      <p>
-        Um zu bewirken, dass der Benutzer beim Anlegen eines Dokument auch gespeichert wird
-        muss in den <code>mycore.properties</code> noch folgendes Property gesetzt werden:
-      </p>
-      <p>
-      {{< highlight bash "linenos=table">}}
-# can be used to persist transient user (shibboleth or ...)
-MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler{{< /highlight >}}
-      </p>
-      <p>
-        Anhand der Attribute die gemappt werden sieht man, was der IDP liefern muss.
-      </p>
 
-      <h2>LDAP</h2>
-      <p>
-        Diese Dokumentation befindet sich noch im Aufbau
-      </p>
+  <realm id="ude">
+    <label xml:lang="de">Für Studierende und Mitarbeiter der UDE:</label>
+    <label xml:lang="en">For students and staff of UDE:</label>
+    <login url="../authorization/login.xed" redirectParameter="url">
+     <label xml:lang="de">Login mit der Unikennung der Universität Duisburg Essen</label>
+      <label xml:lang="en">Login with credentials from University of Duisburg-Essen</label>
+    </login>
+  </realm>
+
+  <realm id="local">
+    <label xml:lang="de">Für sonstige registrierte Anwender:</label>
+    <label xml:lang="en">For other registered users:</label>
+    <login url="../authorization/login.xed" redirectParameter="url">
+      <label xml:lang="de">Anmeldung mit lokaler DuEPublico Nutzerkennung</label>
+      <label xml:lang="en">Login with local DuEPublico user account</label>
+    </login>
+    <passwordChangeURL>../authorization/change-password.xed?action=password</passwordChangeURL>
+  </realm>
+
+</realms>{{< /highlight >}}
+</p>
+-->
+
+<p>
+In der Datei <code>login.xed</code> ist der Java Package-Namen in folgender Zeile anzupassen.
+</p>
+
+</p>
+  {{< highlight xml "linenos=table">}} <xed:validate xpath="/login" class="unidue.ub.login.CascadingLoginServlet" method="validateLogin" display="global" i18n="component.user2.login.invalidUserPwd" />{{< /highlight >}}
+</p>
+
+<p>
+  Siehe auch die entsprechende Konfiguration von <a href="https://github.com/gbv/oer/" target="_blank">https://github.com/gbv/oer/</a> .
+</p>
+
+      
   
