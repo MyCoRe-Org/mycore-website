@@ -40,5 +40,6 @@ $max-page-width: 1920px;
 $sidebar-default-width: 320px;
 $sidebar-left-width: $sidebar-default-width;
 $sidebar-right-width: $sidebar-default-width;
+$tolerance-range: 80px;
 // max width of the content column
-$max-content-width: $max-page-width - $sidebar-left-width - $sidebar-right-width;
+$max-content-width: $max-page-width - $sidebar-left-width - $sidebar-right-width - $tolerance-range;
