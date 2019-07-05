@@ -64,8 +64,8 @@ date: "2018-07-04"
  </p>
  
  <p>
-  Das Attribut **data-upload-object** bestimmt in welches MyCoRe-Objekt die Dateien geladen werden sollen, entweder 
-  ein Derivat oder ein Objekt zu dem automatisch ein Derivat erstellt wird. Das Attribut **data-upload-target** bestimmt 
+  Das Attribut <b>data-upload-object</b> bestimmt in welches MyCoRe-Objekt die Dateien geladen werden sollen, entweder
+  ein Derivat oder ein Objekt zu dem automatisch ein Derivat erstellt wird. Das Attribut <b>data-upload-target</b> bestimmt
   in welchen Ordner die Dateien hochgeladen werden. Die Script-Zeile am Ende aktiviert dann den Fileupload für das 
   Div-Element.
  </p>
@@ -81,7 +81,7 @@ date: "2018-07-04"
  
  <p>
  In der Übersetzung steckt ein Link für den Fallback für Browser die WebKitEntry nicht unterstützen. Wichtig ist das 
- dieser die Klasse **mcr-upload-show** hat.
+ dieser die Klasse <b>mcr-upload-show</b> hat.
  </p>
  
  <p>
@@ -93,7 +93,8 @@ date: "2018-07-04"
  {{< highlight css "linenos=table" >}}
 .dragover {
   background-color:LightBlue ;
-  color:white;{{< / highlight >}}
+  color:white;
+ }{{< / highlight >}}
  </p>
       
  <h2>Das MCRUploadViaFormServlet</h2>
@@ -158,5 +159,4 @@ date: "2018-07-04"
 {{< highlight xml "linenos=table">}}
  MCR.MCRUploadHandlerIFS.FileProcessors=org.mycore.mets.tools.MCRGoobiMetsPostUploadProcessor{{< /highlight >}}
  </p>
-  
   
