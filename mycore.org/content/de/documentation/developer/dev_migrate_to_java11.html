@@ -1,0 +1,46 @@
+
+---
+
+title: "Festlegungen zur Umstellung der Code Basis auf Java 11 Modulsystem"
+mcr_version: ['2020.06']
+author: ['Jens Kupferschmidt']
+date: "201-07-08"
+
+---
+
+<h2>Allgemeines</h2>
+
+<p>Mit erscheinen des Java 11 LTS ergibt sich die Notwendigkeit, den bestehenden Code für Release 2020.06 schrittweise
+ in das Java-Modulsystem zu überführen. Die folgenden Schritte und darin getroffenen Festlegungen sollen dies
+ ermöglichen.
+</p>
+
+<p>
+ siehe <strong>Modularisierung mit Java 9; Oelmann, Guido; ISBN 978-3-86490-477-6</strong>
+</p>
+
+<h2>Schritt 1 - Eineindeutige Package-Namen</h2>
+<p>Für den Umstieg auf das neue Java-Modulsystem ist es zwingend erforderlich, eine eineindeutige Bezeichnung der 
+ Packages einzuführen. Eine Splittung in mehrern MyCoRe-Modulen, welche dann in einer Anwendung zusammengeführt sind,
+ ist nicht mehr zulässig. Daher sind die Pakete für LTS 2020 wie folgend neu zu bezeichen:
+</p>
+
+<p>
+ Die Package-Name sind für die <strong>MyCoRe-Kern-Komponenten</strong> wie folgend zu ändern:
+</p>
+ 
+<p>
+{{< highlight xml "linenos=table">}}
+ org.mycore.{old_package_name} -> org.mycore.component.{component_name}{old_package_name}{{< /highlight >}}
+</p>
+
+<p>
+ Analog dazu können die Package-Name sind für die <strong>Anwendungen</strong> wie folgend geändert werden:
+</p>
+ 
+<p>
+{{< highlight xml "linenos=table">}}
+ org.mycore.{old_package_name} -> org.mycore.module.{modul_name}{old_package_name}
+ 
+ org.mycore.frontend.cli -> org.mycore.module.mir.frontend.cli{{< /highlight >}}
+</p> 
