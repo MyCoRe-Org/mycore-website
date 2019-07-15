@@ -3,39 +3,63 @@
 
 title: "Anbindung von LDAP"
 mcr_version: ['2018.06','2019.06']
-author: ['Frank Lützenkirchen', 'Jens Kupferschmidt']
+author: ['Frank Lützenkirchen', 'Jens Kupferschmidt', 'Arne Klemenz']
 description: "Beschreibung der Anbindung an externe Authentifizierungs- und Authorisierungssysteme."
-date: "2016-06-25"
+date: "2016-07-15"
 
 ---
 
 <h2>LDAP</h2>
 <p>
-  MyCoRe gestattet die Anbindung des Lightweight Directory Access Protocol (LDAP) als Verzeichnisdienst an das
-  Benutzersystem. Dies ermöglicht die Integration in Registrierungsprozesse der betreibenden Einrichtung.
+  MyCoRe gestattet grundsätzlich die Anbindung des Lightweight Directory Access Protocol (LDAP) als Verzeichnisdienst an das Benutzersystem. Dies ermöglicht die Integration in Registrierungsprozesse der betreibenden Einrichtung.
+</p>
+
+<h3>LDAP Konfiguration per Tomcat Realm</h3>
+
+<p>
+  Im einfachsten Fall wird die LDAP Anbindung direkt als Tomcat Realm innerhalb der <code>server.xml</code> im Konfigurationsverzeichnis des Tomcat Application Containers definiert. Dafür muss die folgende Konfiguration um die Institutions-spezifischen Parameter ergänzt werden:
+</p>
+
+<p>
+  {{< highlight xml "linenos=table">}}<Realm className="org.apache.catalina.realm.JNDIRealm"
+       connectionURL="ldaps://ldap..."
+       userBase="o=..."
+       userSubtree="true"
+       userSearch="(&(objectClass=...)(cn={0})(groupMembership=cn=...,ou=...,o=...))"
+       commonRole="submitter">
+  ...
+</Realm>{{< /highlight >}}
+</p>
+
+<p>
+  Zusätzlich ist es notwendig, in der <code>realms.xml</code> die Definition des Realms mit der id "servlet3" zu aktivieren und nach den eigenen Vorstellungen anzupassen. Dies umfasst insbesondere Parameter wie die <code>passwordChangeURL</code> und die Sektion, durch die Erstellung eines neuen Accounts konfiguriert wird (<code>create</code>).
+</p>
+
+<h3>LDAP Konfiguration mittels des CascadingAuthenticationServlets</h3>
+
+<p>
+  Sofern LDAP in Kombination mit weiteren Authentifizierungs-Mechanismen verwendet werden soll (im folgenden Beispiel: lokale Nutzerverwaltung in Kombination mit LDAP-Nutzerverwaltung), kommt die Verwendung des <code>MCRCascadingAuthenticationHandler</code>s in Frage. Der <code>MCRCascadingAuthenticationHandler</code> ist zum aktuellen Zeitpunkt noch nicht Teil des MyCoRe Frameworks. Eine Integration ist zum späteren Zeitpunkt aber geplant.
+</p>
+
+<p>
   Folgende Schritte sind grundsätzlich zu tun:
-</p>
-
 <ul>
-  <li>login.xml eingebauen und an den Stellen, wo ein login erfolgen soll, direkt auf dieses verwiesen</li>
-  <li>Java Classen in die Anwendung eingebauen (MCRCascadingAuthenticationHandler, MCRLDAPAuthenticationHandler, 
-      MCRLocalAuthenticationHandler ...) (siehe <a href="https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login" target="_blank">https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login</a>)</li>
-  <li>in der <code>realms.xml</code> sind zwei realms (local und ldap) zu definieren</li>
-  <li>In der Datei <code>mycore.properties</code> sind die entsprechenden Properties anzulegen bzw. anzupassen.</li>
+  <li>Java Klassen in die eigene Anwendung einbauen ( CascadingLoginServlet, CascadingAuthenticationHandler, LDAPAuthenticationHandler,
+    LocalAuthenticationHandler ...) (siehe <a href="https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login" target="_blank">https://github.com/gbv/oer/tree/master/src/main/java/unidue/ub/login</a>)</li>
+  <li>das Formular <code>login.xed</code> in die eigene Anwendung einbauen (siehe <a href="https://github.com/gbv/oer/tree/master/src/main/webapp/authorization/login.xed" target="_blank">https://github.com/gbv/oer/tree/master/src/main/webapp/authorization/login.xed</a>)</li>
+  <li>in der <code>login.xed</code> den Java-Package-Namen des CascadingLoginServlets anpassen</li>
+  <li>an den Stellen, wo ein Login erfolgen soll, direkt auf das Formular <code>login.xed</code> verweisen</li>
+  <li>in der <code>realms.xml</code> (siehe unten) sind zwei Realms (local und ldap) zu definieren</li>
+  <li>in den <code>mycore.properties</code> (siehe unten) sind die entsprechenden Properties anzulegen bzw. anzupassen.</li>
 </ul>
-
-<!-- 
-<p>
-  ToDo: hier muss die beschriebene login.xml hin
 </p>
--->
 
-<!--       
+<h4>Konfigurationsbeispiel der mycore.properties</h4>
 <p>
-  {{< highlight xml "linenos=table">}}MCR.user2.CascadingLogin.Realms=local lvr
-MCR.user2.CascadingLogin.lvr=java.package.pfad.zum.LDAPAuthenticationHandler
+  {{< highlight xml "linenos=table">}}MCR.user2.CascadingLogin.Realms=local ldap
+MCR.user2.CascadingLogin.ldap=java.package.pfad.zum.LDAPAuthenticationHandler
 
-MCR.user2.LDAP.Realm=lvr
+MCR.user2.LDAP.Realm=ldap
 MCR.user2.LDAP.ProviderURL=ldaps://ldap2.uni-duisburg-essen.de
 MCR.user2.LDAP.ReadTimeout=5000
 
@@ -62,13 +86,8 @@ MCR.user2.LDAP.Mapping.Group.DefaultGroup=submitter
 # Integrate an own realm.xml
 MCR.user2.Realms.URI=resource:realms-duepublico.xml{{< /highlight >}}
 </p>
--->
 
-<p>
-  Dazu wurde eine eigene realm-Konfiguration angelegt.
-</p>
-
-<!-- 
+<h4>Beispiel der realms.xml</h4>
 <p>
   {{< highlight xml "linenos=table">}}<realms local="local">
 
@@ -81,7 +100,7 @@ MCR.user2.Realms.URI=resource:realms-duepublico.xml{{< /highlight >}}
     </login>
   </realm>
 
-  <realm id="ude">
+  <realm id="ldap">
     <label xml:lang="de">Für Studierende und Mitarbeiter der UDE:</label>
     <label xml:lang="en">For students and staff of UDE:</label>
     <login url="../authorization/login.xed" redirectParameter="url">
@@ -102,19 +121,3 @@ MCR.user2.Realms.URI=resource:realms-duepublico.xml{{< /highlight >}}
 
 </realms>{{< /highlight >}}
 </p>
--->
-
-<p>
-In der Datei <code>login.xed</code> ist der Java Package-Namen in folgender Zeile anzupassen.
-</p>
-
-</p>
-  {{< highlight xml "linenos=table">}} <xed:validate xpath="/login" class="unidue.ub.login.CascadingLoginServlet" method="validateLogin" display="global" i18n="component.user2.login.invalidUserPwd" />{{< /highlight >}}
-</p>
-
-<p>
-  Siehe auch die entsprechende Konfiguration von <a href="https://github.com/gbv/oer/" target="_blank">https://github.com/gbv/oer/</a> .
-</p>
-
-      
-  
