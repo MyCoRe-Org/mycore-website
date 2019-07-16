@@ -1,21 +1,40 @@
 
 {{ define "main" }}
-<section class="resume-section p-3 p-lg-5 d-flex flex-column">
-  <div class="my-auto" >
-    <form action="{{ "search" | absURL }}">
-      <input id="search-query" name="s"/>
-    </form>
-    <div id="search-results">
-     <h3>Matching pages</h3>
-    </div>
-  </div>
-</section>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
 
+<div class="container-fluid content-box">
+  <div class="row content-row">
+	<div class="col-12 col-md-3 col-xl-2 sub-menu">
+	 {{- partial "side_menu.html" . -}}
+	</div>
+	<div class="col-12 col-md-9 col-xl-8 content">
+		<h1>{{i18n "search_on_mycore_org"}}</h1>
+	    <form action="{{ "search" | absURL }}" class="mt-3">
+	    	<div class="input-group mt-2 input-group-sm">
+              <input id="search-query" name="s" type="text" class="form-control" placeholder="Suche auf mycore.org" aria-label="search on website">
+              <div class="input-group-append">
+                <button class="btn btn-secondary" type="submit" id="mcr-btn-sitesearch"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+    	</form>
+    	<h3 class="mt-4">{{i18n "search_hits"}}</h3>
+    	<div id="search-results" class="mt-3" >
+     	
+    	</div>
+  	</div>
+
+	<div class="d-none d-xl-block col-xl-2 toc-menu">
+		{{/* 
+			{{- partial "toc.html" . -}}    
+		 */}}
+	</div>
+ </div>
+</div>
+
+
+<script src='{{ relURL "_gen/webjars/fuse.js/3.4.2/dist/fuse.min.js"}}'></script>
 <script src="{{ "js/search.js" | absURL }}"></script>
 <!-- this template is sucked in by search.js and appended to the search-results div above. So editing here will adjust style -->
+
 <script id="search-result-template" type="text/x-js-template">
     <div id="summary-${key}">
       <h4><a href="${link}">${title}</a></h4>

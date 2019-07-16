@@ -22,10 +22,14 @@ if(searchQuery){
   $("#search-query").val(searchQuery);
   executeSearch(searchQuery);
 }else {
-  $('#search-results').append("<p>Please enter a word or phrase above</p>");
+	var pathname = window.location.pathname;
+	if(pathname.includes('/en/')){
+		$('#search-results').append("<p>Please enter a word or phrase above</p>");
+	}
+	else{
+		$('#search-results').append("<p>Bitte geben Sie einen Suchbegriff ein.</p>");
+	}
 }
-
-
 
 function executeSearch(searchQuery){
   $.getJSON( "/index.json", function( data ) {
@@ -36,7 +40,13 @@ function executeSearch(searchQuery){
     if(result.length > 0){
       populateResults(result);
     }else{
-      $('#search-results').append("<p>No matches found</p>");
+    	var pathname = window.location.pathname;
+    	if(pathname.includes('/en/')){
+    		$('#search-results').append("<p>No matches found</p>");
+    	}
+    	else{
+    		$('#search-results').append("<p>Keine Treffer gefunden.</p>");
+    	}
     }
   });
 }

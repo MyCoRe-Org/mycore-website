@@ -9,3 +9,6 @@ blog_tags: {other: "tags"}
 blog_news: {other: "news"}
 
 nav_on_this_page: {other: "on this page ..."}
+
+search_on_mycore_org: {other: "search at mycore.org"}
+search_hits: {other: "search results"}
