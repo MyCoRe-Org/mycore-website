@@ -10,5 +10,6 @@ blog_news: {other: "Aktuelle Einträge"}
 
 nav_on_this_page: {other: "Auf dieser Seite"}
 
-search_on_mycore_org: {other: "Suche auf mycore.org"}
+search_on_mycore_org: {other: "Suche auf mycore.de"}
+search_input: {other: "Suche ..."}
 search_hits: {other: "Suchergebnisse"}
