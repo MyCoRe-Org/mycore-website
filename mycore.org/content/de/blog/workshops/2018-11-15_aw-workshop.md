@@ -17,7 +17,7 @@ blog/categories:
 </p>
 <!--more--> 
 <div>
-  <h2>Dokumentation des Wokshops</h2>
+  <h2>Dokumentation des Workshops</h2>
   <p>
   Ergebnisse des 13. MyCoRe-Workshops wurden auf der Wiki-Seite der MyCoRe-Community gesammelt und können dort eingesehen werden. Auch sind dort <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2018#Ergebnisprotokoll_vom_14.11.2018">Präsentationen, Links und Downloads</a> verfügbar.
   </p>
