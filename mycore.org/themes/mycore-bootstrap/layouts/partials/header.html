@@ -39,13 +39,29 @@
                 href="{{ relLangURL .URL }}">{{ .Name }}
               </a>
             {{ end }}
+
+              <div class="dropdown pl-5">
+				<a class="nav-item nav-link not-active" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{i18n "search_on_mycore_org"}}">
+    				<i class="fas fa-search"></i>
+  				</a>
+  				<div class="dropdown-menu px-3 pb-3 pt-1" style="width: 15em;background-color: #30424c; border:none" aria-labelledby="dropdownMenuButton">
+    				<form action='{{relURL "search"}}'>
+            			<div class="input-group mt-2 input-group-sm">
+                			<input id="mcr-input-sitesearch" name="s" type="text" class="form-control" placeholder="{{i18n "search_on_mycore_org"}}" aria-label="search on website">
+                			<div class="input-group-append">
+                    			<button class="btn btn-secondary" type="submit" id="mcr-btn-sitesearch"><i class="fas fa-search"></i></button>
+                			</div>
+            			</div>
+        			</form>
+  				  </div>
+			   </div>
           </div>
         </div>
       </nav>
     </div>
     
     <div class="col-auto">
-      <div class="dropdown lang-dropdown float-right">
+      <div class="dropdown lang-dropdown">
         <button class="btn btn-primary dropdown-toggle lang-dropdown__button btn-sm"
                 type="button"
                 title="Switch language"
@@ -73,23 +89,6 @@
           {{ end }}
         </div>
       </div>
-      
-      <div class="dropdown float-right mr-3">
-        <a class="nav-item nav-link not-active" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{i18n "search_on_mycore_org"}}">
-    	  <i class="fas fa-search text-secondary"></i>
-  		</a>
-  		<div class="dropdown-menu bg-dark px-3 pb-3 pt-1" style="width: 15em" aria-labelledby="dropdownMenuButton">
-    	  <form action='{{relURL "search"}}'>
-            <div class="input-group mt-2 input-group-sm">
-              <input id="mcr-input-sitesearch" name="s" type="text" class="form-control" placeholder="{{i18n "search_on_mycore_org"}}" aria-label="search on website">
-                <div class="input-group-append">
-                  <button class="btn btn-secondary" type="submit" id="mcr-btn-sitesearch"><i class="fas fa-search"></i></button>
-                </div>
-             </div>
-          </form>
-  		</div>
-	  </div>
-	      
     </div>
 
   </div>
