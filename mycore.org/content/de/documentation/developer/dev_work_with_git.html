@@ -79,7 +79,7 @@ date: "2018-08-16"
       <p>Nun sind die gewünschten Änderungen in den Code einzuarbeiten und lokal zu testen. Um Probleme mit
       dem CI im GitHub zu vermeiden, sollten folgende Tests erfolgreich sein:</p>
       <ul>
-        <li><code>export CI=true; mvn clean install</code></li>
+        <li><code>export CI=true; export MAVEN_OPTS= ; mvn clean install</code></li>
         <li><code>mvn javadoc:javadoc</code></li>
       </ul>
       <p>
