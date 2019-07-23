@@ -98,6 +98,15 @@
 // Extra small devices (portrait phones)
 @include media-breakpoint-down(xs) {
   // add/overwrite styles for responsive level xs
+
+  // on xs we have two rows for the header and need twice the height
+  .page__header {
+    min-height: $header-height + $header-height;
+  }
+  // don't let the header hide the content
+  .page {
+    padding-top: $header-height + $header-height;
+  }
 }
 
 // set max column (content) width but only

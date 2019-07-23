@@ -43,3 +43,7 @@ $sidebar-right-width: $sidebar-default-width;
 $tolerance-range: 80px;
 // max width of the content column
 $max-content-width: $max-page-width - $sidebar-left-width - $sidebar-right-width - $tolerance-range;
+
+// overwrite bootstrap search highlight modification to make it more visible
+$mark-padding: 0;
+$mark-bg:      #ffff00;

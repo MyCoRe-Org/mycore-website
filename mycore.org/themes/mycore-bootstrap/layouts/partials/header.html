@@ -3,14 +3,14 @@
 <div class="container-fluid">
   <div class="row justify-content-between justify-content-xl-around no-gutters">
 
-    <div class="col-auto">
-      {{/* project logo */}}
-      <a href='{{relLangURL "/"}}' class="home-logo-box">
-        <img src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'
-             class="home-logo-box__image"
-             alt="MyCoRe Logo" />
-      </a>
-    </div>
+      <div class="col-12 col-sm-auto">
+          {{/* project logo */}}
+          <a href='{{relLangURL "/"}}' class="home-logo-box">
+              <img src='{{relURL "images/_site/logo_mycore_my_content_repository.png"}}'
+                   class="home-logo-box__image"
+                   alt="MyCoRe Logo" />
+          </a>
+      </div>
 
     <div class="col-auto">
       {{/* main nav */}}
@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-auto">
-      <div class="dropdown lang-dropdown">
+      <div class="dropdown lang-dropdown float-right">
         <button class="btn btn-primary dropdown-toggle lang-dropdown__button btn-sm"
                 type="button"
                 title="Switch language"
@@ -73,6 +73,57 @@
           {{ end }}
         </div>
       </div>
+
+      <div class="dropdown float-right mr-3">
+        <form id="search-form" action='{{relURL "search"}}'>
+          <div class="input-group input-group-sm">
+            <input
+              id="mcr-input-sitesearch"
+              name="s"
+              type="text"
+              class="form-control mcr-input-sitesearch mcr-input-sitesearch--hidden"
+              placeholder='{{i18n "search_on_mycore_org"}}'
+              aria-label="search on website" />
+            <div class="input-group-append">
+              <button
+                id="mcr-btn-sitesearch"
+                class="btn btn-secondary mcr-btn-sitesearch mcr-btn-sitesearch--hidden"
+                type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        (function($) {
+          // show search field on clicking search button
+          // and put the cursor inside without submiting the request
+          $("#mcr-btn-sitesearch").on('click', function(e) {
+            if( $('#mcr-input-sitesearch').is(":hidden") ) {
+              e.preventDefault();
+              $('#mcr-btn-sitesearch').removeClass('mcr-btn-sitesearch--hidden');
+              $('#mcr-input-sitesearch').fadeIn('slow');
+              $('#mcr-input-sitesearch').focus();
+              return false;
+            }
+          });
+          // hide search field on clicking else where
+          // but not on the search button
+          $(document).click(function(e) {
+            var target = e.target;
+            if (
+              $('#mcr-input-sitesearch').is(":visible") &&
+              !$(target).is('#mcr-btn-sitesearch')
+            ) {
+              $('#mcr-input-sitesearch').fadeOut('slow');
+              $('#mcr-btn-sitesearch').addClass('mcr-btn-sitesearch--hidden');
+            }
+          })
+        })(jQuery);
+      </script>
+
     </div>
 
   </div>

@@ -196,3 +196,59 @@ span.mcr-version {
   color: #747474;
 }
 
+/* ============================================================================
+ *   search the page
+ *
+ *   - hide the search field
+ *   - put it over all other elements when visible
+ *   - make it looking like the language switch
+ *     (by overwriting bootstrap settings)
+ * ========================================================================== */
+#search-form {
+  margin-top: 8px;
+}
+#mcr-input-sitesearch {
+  position: absolute;
+  right: 1px;
+  top: 0;
+  width: 200px;
+  z-index: 1;
+  box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.2);
+  &.mcr-input-sitesearch--hidden {
+    display: none;
+  }
+}
+.mcr-btn-sitesearch--hidden {
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 0.2rem !important;
+
+  &:hover {
+    border-color: #1c272d;
+    background-color: #212e35;
+  }
+  &:active,
+  &:focus {
+    box-shadow: 0 0 0 .2rem rgba(79,94,103,0.5);
+  }
+}
+/* ========================================================================== */
+
+// Large devices (desktops) and below
+@include media-breakpoint-down(lg) {
+}
+
+// Medium devices (tablets) and below
+@include media-breakpoint-down(md) {
+  // add/overwrite styles for responsive level md and lower
+}
+
+// Small devices (landscape phones) and below
+@include media-breakpoint-down(sm) {
+}
+
+// Extra small devices (portrait phones)
+@include media-breakpoint-down(xs) {
+  // add/overwrite styles for responsive level xs
+}
