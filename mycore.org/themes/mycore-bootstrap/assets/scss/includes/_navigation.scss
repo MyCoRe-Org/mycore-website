@@ -17,7 +17,7 @@
   }
 
   .lang-dropdown__button {
-    margin: 5px 0;
+    margin-top: 8px;
   }
 
   .lang-dropdown__image {
@@ -219,4 +219,9 @@
 // Extra small devices (portrait phones)
 @include media-breakpoint-down(xs) {
   // add/overwrite styles for responsive level xs
+
+  // align the burger menu to the left on xs
+  .mcr-navbar-main {
+    padding: 2px 0px 2px 0px;
+  }
 }
