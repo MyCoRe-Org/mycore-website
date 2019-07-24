@@ -62,7 +62,7 @@ main:
 -     {identifier: basics_eventhandler,     parent: basics,             name: EventHandler,                  weight: -95,      url: /documentation/basics/basics_eventhandler}
 -     {identifier: basics_mcr_linktables,   parent: basics,             name: Linktabellen,                  weight: -94,      url: /documentation/basics/basics_mcr_linktables}
 -     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -93,      url: /documentation/basics/basics_mcr_mailer}
--     {identifier: mcrservlet,              parent: basics,             name: MCRServlet,                    weight: -92,      url: /documentation/basics/mcrservlet}
+-     {identifier: basics_mcr_servlet,      parent: basics,             name: MCRServlet,                    weight: -92,      url: /documentation/basics/basics_mcr_servlet}
 -     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -91,      url: /documentation/basics/basics_mcr_configdir}
 -     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -90,      url: /documentation/basics/basics_common_classes}
 -     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,     weight: -87,      url: /documentation/basics/basics_lifecycle}

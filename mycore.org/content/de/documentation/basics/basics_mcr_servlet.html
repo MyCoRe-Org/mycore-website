@@ -1,0 +1,33 @@
+
+---
+
+title: "MCRServlet"
+mcr_version: ['2018.06','2019.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler']
+description: "
+      Die vorliegende Seite behandelt das MCRServlet, welches als Grundlage für die Arbeit mit eigenen Servlets
+      unter dem MyCoRe-System darstellt.
+    "
+date: "2019-07-24"
+
+---
+<h2>Struktur des MCRServlet</h2>
+<p>
+Das MCRServlet stellt die Grundfunktionalitäten für alle davon abgeleiteten Servlets zur Arbeit unter MyCoRe bereit.
+Wichtigster Punkt ist dabei die prüfung der Korrektheit der Nutzung der bestehenden Session. Hierbei wird auch geprüft,
+ob die Session von der gleichen IP aus betrieben wird.
+</p>
+<p>
+  {{< mcr-figure src="/images/documentation/basics/progguide_2frontend_mcrservlet.jpg" class="border border-secondary" label="" caption="" alt="Java-Klassen" width="" height="" />}}
+</p>
+
+<h3>Konfiguration des IP-Range</h3>
+<p>
+  Da es bei der Prüfung der IP-Adresse bei Cleint-Systemen mit dynamischer Adresszuweisung durch den Adresswechsel zur Ablehnung der
+  Session kommen kann, wurde die Möglichkeit eines Tests unter Berücksichtigung einer Netzmaske geschaffen. In der 
+  Konfigurationsdatei <code>mycore.properties</code> können dafür folgende Werte gesetzt werden.
+<p>
+<ul>
+  <li><code>MCR.Servlet.Session.NetMask.IPv4</code> - default ist <strong>255.255.255.255</strong></li>
+  <li><code>MCR.Servlet.Session.NetMask.IPv6</code> - default ist <strong>FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF</strong></li>
+</ul>
