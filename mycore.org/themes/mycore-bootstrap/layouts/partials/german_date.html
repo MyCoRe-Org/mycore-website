@@ -1,1 +1,17 @@
-{{ replace (replace (replace (replace (replace (replace (replace (replace (replace (replace (replace .date2convert "Mar" "Mär") "May" "Mai") "Oct" "Okt") "Dec" "Dez") "Mon" "Mo") "Tue" "Di") "Wed" "Mi") "Thu" "Do") "Fri" "Fr") "Sat" "Sa") "Sun" "So"}}
+{{ $ranslatedDate := .date2convert }}
+{{ $ranslatedDate := replace $ranslatedDate "January" "Januar" }}
+{{ $ranslatedDate := replace $ranslatedDate "February" "Februar" }}
+{{ $ranslatedDate := replace $ranslatedDate "March" "März" }}
+{{ $ranslatedDate := replace $ranslatedDate "May" "Mai" }}
+{{ $ranslatedDate := replace $ranslatedDate "June" "Juni" }}
+{{ $ranslatedDate := replace $ranslatedDate "July" "Juli" }}
+{{ $ranslatedDate := replace $ranslatedDate "October" "Oktober" }}
+{{ $ranslatedDate := replace $ranslatedDate "December" "Dezember" }}
+{{ $ranslatedDate := replace $ranslatedDate "Mon" "Mo" }}
+{{ $ranslatedDate := replace $ranslatedDate "Tue" "Di" }}
+{{ $ranslatedDate := replace $ranslatedDate "Wed" "Mi" }}
+{{ $ranslatedDate := replace $ranslatedDate "Thu" "Do" }}
+{{ $ranslatedDate := replace $ranslatedDate "Fri" "Fr" }}
+{{ $ranslatedDate := replace $ranslatedDate "Sat" "Sa" }}
+{{ $ranslatedDate := replace $ranslatedDate "Sun" "So" }}
+{{ $ranslatedDate }}

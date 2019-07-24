@@ -6,30 +6,67 @@
  	</button>
  	<div class="collapse navbar-collapse" id="navbarNavSide">
  		<div class="mcr-blog">
-      		<h3>{{i18n "blog_calendar"}}</h3>
-			<ul class="mcr-blog-cal">
-				{{ with .Site.GetPage "section" "blog" }}
-    				{{ range .Data.Pages.GroupByDate "2006" }}
-    					<li><h4> {{ .Key }} </h4>
-    						{{ $monthlyPages := .Pages.GroupByDate "2006-01" }}
-							{{ if ge (len $monthlyPages) 1 }}
-    							{{ range $monthlyPages.Reverse  }}
-    								<span>
-    								    {{$count := len .Pages}}
-    									{{ range first 1 .Pages  }}
-    									 <a class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
-    									     href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
-    									  	{{- partial "german_date" (dict "date2convert" (.Date.Format "Jan")) }}
-    									  	<span class="badge badge-blog">{{$count}}</span>
-    									  </a>
-    									{{ end }}
-    								</span>
-    							{{ end }}
-    					   	{{ end }}
-    					  </li>
-    				{{ end }}
-   				{{ end }}
-			</ul>
+          <h3>{{i18n "blog_calendar"}}</h3>
+
+          <div class="accordion" id="accordionCalendar">
+            {{ $showEntries := 5 }}
+            {{ $entriesHidden := false }}
+
+            {{ with .Site.GetPage "section" "blog" }}
+              {{ range $index, $element := .Data.Pages.GroupByDate "2006" }}
+                {{ if (gt $index (sub $showEntries 1)) }}
+                  {{ $entriesHidden = true }}
+                {{ end }}
+                <div class="card {{ if $entriesHidden }}mcr-hidden-entry{{ end }}">
+                  <div class="card-header" id="heading{{ .Key }}">
+                    <h2 class="mb-0">
+                      <a class="{{ if not (eq $index 0) }}collapsed{{ end }}" data-toggle="collapse" data-target="#collapse{{ .Key }}" aria-expanded="true" aria-controls="collapse{{ .Key }}">
+                        {{ .Key }}
+                        <i class="fas fa-angle-down"></i>
+                        <i class="fas fa-angle-up"></i>
+                      </a>
+                    </h2>
+                  </div>
+                  <div id="collapse{{ .Key }}" class="collapse {{ if (eq $index 0) }}show{{ end }}" aria-labelledby="headingOne" data-parent="#accordionCalendar">
+                    <div class="card-body">
+                      {{ $monthlyPages := .Pages.GroupByDate "2006-01" }}
+                        {{ if ge (len $monthlyPages) 1 }}
+                          {{ range $monthlyPages.Reverse  }}
+                            <div>
+                              {{$count := len .Pages}}
+                              {{ range first 1 .Pages  }}
+                                <a
+                                  class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
+                                  href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
+                                  <span class="badge badge-blog">{{$count}}</span>
+                                  {{- partial "german_date" (dict "date2convert" (.Date.Format "January")) }}
+                                </a>
+                              {{ end }}
+                            </div>
+                        {{ end }}
+                      {{ end }}
+                    </div>
+                  </div>
+                </div>
+
+              {{ end }}
+            {{ end }}
+
+            {{ if $entriesHidden }}
+              <div class="text-center">
+                <button class="btn btn-link mcr-js-show-all-blog-entries"><sub>Mehr anzeigen</sub></button>
+              </div>
+            {{ end }}
+            <script>
+                (function($) {
+                  // xxx
+                  $(".mcr-js-show-all-blog-entries").on('click', function() {
+                    $( ".mcr-js-show-all-blog-entries" ).hide();
+                    $("#accordionCalendar .card").show("slow");
+                  });
+                })(jQuery);
+            </script>
+          </div>
 
 			<h3>{{i18n "blog_category"}}</h3>
 			<ul class="mcr-blog-cat">
@@ -37,9 +74,9 @@
 			 {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
 			 <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			        href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
-			 		{{ $taxonomy_term }}
 			 		<span class="badge badge-blog">{{ len $taxonomy }}</span>
-			 	  </a>
+			 		{{ $taxonomy_term }}
+        </a>
 			 </li>
 			 {{ end }}
         	</ul>
@@ -50,9 +87,9 @@
 			{{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/tags"}}
 			  <li><a class='{{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
 			 	href='{{relLangURL "blog/tags/"}}{{ urlize $taxonomy_term }}'>
-			 		{{ $taxonomy_term }}
 			 		<span class="badge badge-blog">{{ len $taxonomy }}</span>
-			  </a>
+			 		{{ $taxonomy_term }}
+        </a>
 			  </li>
 			 {{ end }}
 			</ul>

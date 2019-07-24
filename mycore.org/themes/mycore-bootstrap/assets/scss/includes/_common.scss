@@ -190,12 +190,16 @@ span.mcr-version {
 .mcr-blog-listentry a:hover {
   color: $link-color;
 }
-
-.badge-blog {
-  background-color: #d0e2ea;
-  color: #747474;
+.mcr-blog-seperator {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
-
+.badge-blog {
+  background-color: #fff;
+  color: #888787;
+  border: 1px solid #b8b5b5;
+  margin-right: 5px;
+}
 /* ============================================================================
  *   search the page
  *

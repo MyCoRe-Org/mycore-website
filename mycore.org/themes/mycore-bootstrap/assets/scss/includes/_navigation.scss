@@ -168,6 +168,13 @@
       color: $black;
     }
 
+    // blog --------------------------
+    .mcr-navbar-side div.mcr-blog {
+      width: 100%;
+    }
+    .mcr-navbar-side .mcr-blog ul {
+      padding: 0;
+    }
     .mcr-navbar-side div.mcr-blog a {
         margin-left: 0em;
         margin-right: 5px;
@@ -177,17 +184,63 @@
     .mcr-navbar-side div.mcr-blog a:hover {
         text-decoration: underline;
     }
-
     .mcr-navbar-side ul.mcr-blog-latest a {
         padding-left: 0
     }
-
     .mcr-blog h4 {
         margin-bottom: 0px;
         margin-top: .5rem;
     }
+    // blog calendar
+    #accordionCalendar {
+      margin-bottom: 16px;
+    }
+    #accordionCalendar .card {
+      border: none;
+    }
+    .mcr-hidden-entry {
+      display: none;
+    }
+    #accordionCalendar .card-header {
+      padding: 8px 0px;
+      border: none;
+      background-color: transparent;
+    }
+    #accordionCalendar .card-header .fa-angle-down {
+      display: none;
+    }
+    #accordionCalendar .card-header .collapsed .fa-angle-down {
+      display: inline;
+    }
+    #accordionCalendar .card-header .collapsed .fa-angle-up {
+      display: none;
+    }
+    #accordionCalendar .card-header a {
+      margin: 0;
+      display: block;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    #accordionCalendar .card-header a:hover {
+      text-decoration: none;
+    }
+    .mcr-navbar-side .badge-blog {
+      margin-right: 6px;
+      background-color: #3f7593;
+      color: white;
+      border: none;
+    }
+    #accordionCalendar .card-body {
+      padding: 1rem 0 1rem 0.5rem;
+      border: 1px solid #ccc;
+      border-width: 1px 0;
+    }
 
-// Large devices (desktops) and below
+    #navbarNavSide .mcr-blog-latest li {
+      margin-bottom: 1rem;
+    }
+
+    // Large devices (desktops) and below
 @include media-breakpoint-down(lg) {
   // add/overwrite styles for responsive level lg and lower
   #navbarNavTop {
