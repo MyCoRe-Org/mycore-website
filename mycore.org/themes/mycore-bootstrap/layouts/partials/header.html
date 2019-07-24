@@ -107,6 +107,12 @@
               $('#mcr-input-sitesearch').fadeIn('slow');
               $('#mcr-input-sitesearch').focus();
               return false;
+            } else {
+              if ( $('#mcr-input-sitesearch').val() == "" ) {
+                e.preventDefault();
+                $('#mcr-input-sitesearch').focus();
+                return false;
+              }
             }
           });
           // hide search field on clicking else where
