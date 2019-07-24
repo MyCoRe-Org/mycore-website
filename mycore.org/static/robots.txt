@@ -213,9 +213,11 @@ Disallow: /svn/
 Disallow: /jenkins/
 Disallow: /hudson/
 Disallow: /artifactory/
+Disallow: /forrest/
 Disallow: /documentation/archiv/
 Disallow: /mir/servlets/
 Disallow: /mir/browse/
 Disallow: /mir/rsc/
 Disallow: /mir/api/
-Sitemap: http://www.mycore.de/mir/sitemap_google.xml
+Sitemap: https://www.mycore.de/sitemap.xml
+Sitemap: https://www.mycore.de/mir/sitemap_google.xml
