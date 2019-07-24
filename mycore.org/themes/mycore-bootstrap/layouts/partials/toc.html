@@ -10,6 +10,7 @@
 var content = document.querySelector('body')
 var headings = content.querySelectorAll('h2, h3, h4, h5, h6, h7')
 var headingMap = {}
+var menuHeight = $(".page__header").height() + 10; // menu height plus some spacing
 
 Array.prototype.forEach.call(headings, function(heading) {
   var id = heading.id ? heading.id : heading.textContent.toLowerCase().replace(/[^a-z0-9\s]/ig, '')
@@ -23,6 +24,8 @@ Array.prototype.forEach.call(headings, function(heading) {
 });
 
 tocbot.init({
+  scrollSmooth: true,
+  scrollSmoothOffset: menuHeight*-1,
   tocSelector: '#js-toc',   // Where to render the table of contents.
   contentSelector: 'body', // Where to grab the headings to build the table of contents.
   headingSelector: 'h2, h3, h4, h5, h6, h7',  // Which headings to grab inside of the contentSelector element.
