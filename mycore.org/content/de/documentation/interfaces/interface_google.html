@@ -4,7 +4,7 @@
 title: "Google-Sitemap"
 mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
-date: "2016-11-16"
+date: "2019-07-25"
 
 ---
 
@@ -12,20 +12,23 @@ date: "2016-11-16"
    <h2>Erzeugen einer Google-Sitemap</h2>
    <p>
    In MyCoRe gibt es im Indexing-Module ein kleines Servlet, welches eine Datei erzeugt, die den Konventionen des
-   <a title="Link zu Google" href="https://www.google.com/webmasters/sitemaps/docs/de/protocol.html">Sitemap-Protokolls</a>
-   von Google entspricht. Der Zugriff vom Internet aus erfolgt mit der <em>URL http://myhost/sitemap_google.xml</em>.
+   <a title="Link zu Google" href="https://support.google.com/webmasters/answer/156184?hl=de">Sitemap-Protokolls</a>
+   von Google entspricht. Der Zugriff erfolgt mit der URL: <em>http://myhost/sitemap_google.xml</em>
+   </p>
+   <p>
    Für die Konfiguration dieser XML-Ausgabe stehen folgende Properties zur Verfügung:
    </p>
    <dl>
    <dt><code>MCR.GoogleSitemap.SolrQuery</code></dt>
-   <dd>enthält eine SOLR Query zum Selektieren der Objekte(Bsp.:<code>objectType:mods</code>)</dd>
+   <dd>enthält eine SOLR Query zum Selektieren der Objekte (z.B. <code>objectType:mods</code>)</dd>
    <dt><code>MCR.GoogleSitemap.Freq</code></dt>
-   <dd>Zugriffsfrequenz von Google – Standard ist monthly – weiter möglich sind: allways / hourly / daily / weekly /
-   monthly / yearly / never</dd>
+   <dd>Zugriffsfrequenz von Google – Standard ist <code>monthly</code> <br />
+   Weiterhin möglich sind: 
+   <code>allways</code> / <code>hourly</code> / <code>daily</code> / <code>weekly</code> / <code>monthly</code> / <code>yearly</code> / <code>never</code></dd>
    <dt><code>MCR.GoogleSitemap.Directory</code></dt>
    <dd>Verzeichnis (relativ zum Webapplication-Verzeichnis) in dem die generierten sitemap-Dateien gespeichert werden sollen - Standard ist keine Angabe</dd>
    <dt><code>MCR.GoogleSitemap.Style</code></dt>
-   <dd>Layout-Angabe für Ausgabe (?XSL.Style={style}) - Standard ist keine Angabe</dd>
+   <dd>Layout-Angabe für Ausgabe (<code>?XSL.Style={style}</code>) - Standard ist keine Angabe</dd>
    <dt><code>MCR.GoogleSitemap.ObjectPath</code></dt>
    <dd>Pfad (Teil nach Anwendungs URL) unter dem die Detailansicht der Objekte abgerufen werden kann.
    - Standard ist: <code>receive/</code></dd>
@@ -33,9 +36,12 @@ date: "2016-11-16"
    <dd>Maximale Anzahl der Einträge pro Sitemap Datei. - Standard ist: <code>10.000</code></dd>
    </dl>
    <p>
-   Entsprechend der <a href="http://www.sitemaps.org/protocol.html#submit_robots">offiziellen Dokumentation auf sitemaps.org</a>,
-   muss die URL der Sitemap noch über die robots.txt bekannt gemacht werden. Um genauer zu prüfen, was indiziert wird, ob es
-   Fehler gibt etc. können zum Beispiel die <a href="http://www.google.com/webmasters/tools/home">Google Webmastertools</a> verwendet
+   Entsprechend der offiziellen <a href="http://www.sitemaps.org/protocol.html#submit_robots">Dokumentation auf sitemaps.org</a>,
+   muss die URL der Sitemap noch über die <strong>robots.txt</strong> bekannt gemacht werden. 
+   </p>
+   <p>
+   Um genauer zu prüfen, was indiziert wird, ob es
+   Fehler gibt, etc. kann die <a href="https://search.google.com/search-console/">Google Search Console</a> verwendet
    werden.
    </p>
   </div>
