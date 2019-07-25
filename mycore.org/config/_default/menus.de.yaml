@@ -141,6 +141,7 @@ main:
 -     {identifier: apidocs,                 parent: developer,          name: Javadocs,                    weight: -90,      url: 'http://www.mycore.de/generated/mycore/apidocs'}
 -     {identifier: app_structure,           parent: developer,          name: Anwendungsstruktur,          weight: -88,      url: /documentation/developer/app_structure}
 -     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/dev_plugin}
+-     {identifier: ressource_override,      parent: developer,          name: Resourcen überschreiben,     weight: -84,      url: /documentation/developer/ressource_override}
 
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 

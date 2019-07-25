@@ -6,14 +6,12 @@ mcr_version: ['2018.06','2019.06']
 author: ['Sebastian Hofmann', 'Kathleen Neumann']
 description: "Die in einer MyCoRe-Anwendung abgelegten Dokumente können z.T. auch wieder präsentiert werden
       entweder durch Anbindung einer Präsentationssoftware Dritter, oder durch den MyCoRe-eigenen Bildbetrachter."
-date: "2016-01-14"
+date: "2019-07-04"
 
 ---
 
-    <div>
-      <h2>Bildbetrachter - MyCoRe-Viewer</h2>
       <div>
-        <h3>Beschreibung</h3>
+        <h2>Beschreibung</h2>
         <p>
           Der MyCoRe-eigene Bildbetrachter ermöglicht es, unterstütze Dateitypen direkt in der Webseite
           zu präsentieren. Dies kann eingebettet, im Vollbildmodus oder auf mobilen Endgeräten genutzt
@@ -22,7 +20,7 @@ date: "2016-01-14"
         <div>{{< mcr-figure src="/images/documentation/frontend/imageviewer_mir.png" class="border border-secondary" label="Abbildung" caption="Screenshot einer MIR-Anwendung mit Bildbetrachter" alt="Screenshot einer MIR-Anwendung mit Bildbetrachter" width="550px" height="" />}}</div>
       </div>
       <div>
-        <h3>Aufbau</h3>
+        <h2>Aufbau</h2>
         <p>
           Der MyCoRe-Viewer besteht aus verschiedenen Komponenten. Jede Komponente hat eine bestimmte
           Aufgabe. Diese Komponenten werden zu Modulen zusammen gebaut. Jedes Modul entspricht einer
@@ -31,7 +29,7 @@ date: "2016-01-14"
         </p>
       </div>
       <div>
-        <h3>Wie binde ich den Viewer ein?</h3>
+        <h2>Wie binde ich den Viewer ein?</h2>
           <p>
               Seit dem 2018.06 Release bietet MyCoRe die Möglichkeit den Viewer über ein einfaches Script einzubinden.
           </p>
@@ -54,9 +52,9 @@ date: "2016-01-14"
 
           {{< highlight shell "linenos=table">}} MCR.Viewer.bootstrapURL=%WebApplicationBaseURL%/assets/bootstrap/{{< /highlight >}}
       </div>
-    </div>
-    <div>
-      <h3>Konfiguration des Viewers</h3>
+
+      <div>
+      <h2>Konfiguration des Viewers</h2>
       <p>
         Wenn das mycore-viewer jar eingebunden ist, dann kann der Viewer durch die URL
         %MyCoReBaseURL%/rsc/viewer/%derivateId%/%bild%
@@ -74,14 +72,15 @@ date: "2016-01-14"
         Diese MCRViewerConfigurations erlauben es die Module über einfache MyCoRe-Properties zu steuern und übernehmen
         das einbinden der richtigen Script- und CSS-Dateien.
       </p>
+      </div>
       <div>
-        <h3>Konfiguration über MyCoRe-Properties</h3>
+        <h2>Konfiguration über MyCoRe-Properties</h2>
         <p>
           Die folgenden Konfigurationen sind in der MCRViewerDefaultConfigurationStrategy> enthalten und können ohne
           Anpassung genutzt werden:
         </p>
         <div>
-          <h4>MCRViewerLogoConfiguration</h4>
+          <h3>MCRViewerLogoConfiguration</h3>
           <table class="table table-bordered">
             <tr>
               <td><code>MCR.Module-iview2.logoURL</code></td>
@@ -98,7 +97,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>MCRMetadataConfiguration</h4>
+          <h3>MCRMetadataConfiguration</h3>
           <table class="table table-bordered">
             <tr>
               <td><code>MCR.Module-iview2.metadata.transformer</code></td>
@@ -110,13 +109,13 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>MCRViewerPiwikConfiguration</h4>
+          <h3>MCRViewerPiwikConfiguration</h3>
           <p>
             Die Werte werden eins zu eins aus den MyCoRe-Properties durchgereicht (siehe Piwik-Modul).
           </p>
         </div>
         <div>
-          <h4>Canvas-Konfiguration</h4>
+          <h3>Canvas-Konfiguration</h3>
           <table class="table table-bordered">
             <tr>
               <td><code>MCR.Module-iview2.canvas.overview.enabled</code></td>
@@ -140,7 +139,7 @@ date: "2016-01-14"
         </div>
       </div>
       <div>
-        <h3 id="configuration_strategy">Konfiguration über Strategy</h3>
+        <h2 id="configuration_strategy">Konfiguration über Strategy</h2>
         <p>
           Da MyCoRe-Properties statisch sind und man keine unterscheidung zwischen PDFs, IView und Epub machen kann,
           bietet MyCoRe eine flexiblere und genauere Möglichkeit den Viewer zu Konfigurieren.
@@ -164,7 +163,7 @@ date: "2016-01-14"
           gesetzt werden können.
         </p>
         <div>
-          <h4>1. Das Base-Modul (obligatorisch)</h4>
+          <h3>1. Das Base-Modul (obligatorisch)</h3>
           <p>
             Das Base-Modul ist der Kern des Viewers und enthält alle Komponenten die immer im Viewer benötigt
             werden. Alle anderen Module sind automatisch abhängig vom Base-Modul.
@@ -296,7 +295,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>2. Das Desktop-Modul</h4>
+          <h3>2. Das Desktop-Modul</h3>
           <p>
             Das Desktop-Modul wird benötigt um den Viewer auf normalen Desktop-PCs darzustellen. Es orientiert
             sich an den CSS-Klassen und Javascript-Funktionen von Bootstrap und ist von diesem abhängig.
@@ -306,7 +305,7 @@ date: "2016-01-14"
           </p>
         </div>
         <div>
-          <h4>3. Das Mobile-Modul</h4>
+          <h3>3. Das Mobile-Modul</h3>
           <p>
             Das Mobile-Modul wird benötigt um den Viewer auf mobilen Geräten darzustellen. Es hat keine
             zusätzlichen Abhängigkeiten.
@@ -316,7 +315,7 @@ date: "2016-01-14"
           </p>
         </div>
         <div>
-          <h4>4. Das Frame-Modul</h4>
+          <h3>4. Das Frame-Modul</h3>
           <p>
             Das Frame-Modul ist eine abgespeckte Variante des Desktop-Moduls. Es wurde speziell dafür
             entworfen den Viewer in eine extra Seite einzubinden.
@@ -326,7 +325,7 @@ date: "2016-01-14"
           </p>
         </div>
         <div>
-          <h4>5. Das METS-Modul</h4>
+          <h3>5. Das METS-Modul</h3>
           <p>
             Das Mets-Modul dient zur Anzeige von METS-Dateien und der zugehörigen Digitalisate über das
             IVIEW2 Interface. Es hat keine zusätzlichen Abhängigkeiten.
@@ -385,7 +384,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>6. Das PDF-Modul</h4>
+          <h3>6. Das PDF-Modul</h3>
           <p>
             Das PDF-Modul dient zur Anzeige von PDF-Dateien. Das Script PDF.js muss eingebunden werden, da
             der Viewer von diesem abhängig ist.
@@ -410,7 +409,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>7. Das Metadata-Modul</h4>
+          <h3>7. Das Metadata-Modul</h3>
           <p>
             Das Metadata-Modul dient zur Anzeige von Metadaten überhalb der Strukturübersicht innerhalb des
             Viewers.
@@ -434,7 +433,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>8. Das Logo-Modul</h4>
+          <h3>8. Das Logo-Modul</h3>
           <p>
             Das Logo-Modul ermöglicht die Darstellung eines Logos in der Toolbar.
           </p>
@@ -449,7 +448,7 @@ date: "2016-01-14"
           </table>
         </div>
         <div>
-          <h4>9. Das Piwik-Modul</h4>
+          <h3>9. Das Piwik-Modul</h3>
           <p>
             Das Piwik-Modul bietet eine Anbindung an eine Piwik Instanz, dadurch kann verfolgt werden
             welcher Benutzer welches Digitalisat betrachtet hat.
@@ -474,7 +473,7 @@ date: "2016-01-14"
       </div>
 
       <div>
-        <h3>Kacheln als Basis</h3>
+        <h2>Kacheln als Basis</h2>
         <p>
           Wird der MyCoRe-Viewer für die Ansicht von Bildern genutzt, nutzt dieser die Bildkacheln,
           die standardmäßig beim Speichern der Daten im Hintergrund angelegt werden. Mehr dazu unter
@@ -483,7 +482,7 @@ date: "2016-01-14"
       </div>
 
       <div>
-        <h3>Viewer ohne MyCoRe einbinden</h3>
+        <h2>Viewer ohne MyCoRe einbinden</h2>
         <p>
           Einfache Beispiele wie man den Viewer mit verschiedenen Konfigurationen einbindet findet man im
           MyCoRe-Viewer Projekt im Ordner src/main/resources/example/. Diese Konfigurationen lassen sich
@@ -498,7 +497,7 @@ date: "2016-01-14"
         </p>
       </div>
       <div>
-        <h3>Download</h3>
+        <h2>Download</h2>
         <p>
           Der MyCoRe-Viewer ist eine eigene Bibliothek die einzeln heruntergeladen und unabhägig von
           MyCoRe genutzt werden kann. Die aktuelle Releasversion mit deren Neuerungen kann im <a href="https://mycore.atlassian.net/projects/MV?selectedItem=com.atlassian.jira.jira-projects-plugin:release-page&amp;status=released#">Jira</a> eingesehen werden.
@@ -507,5 +506,4 @@ date: "2016-01-14"
           Zum Download stehen die jeweiligen Releases im <a href="http://artifactory.mycore.de/webapp/#/artifacts/browse/tree/General/libs-releases-local/org/mycore/mycore-viewer">MyCoRe-Artifactory</a> zur Verfügung.
         </p>
       </div>
-    </div>
 
