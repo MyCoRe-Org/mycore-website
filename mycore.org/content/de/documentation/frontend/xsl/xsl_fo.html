@@ -5,10 +5,26 @@ title: "XSL-FO"
 mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt']
 description: "Es wir die Integration eines XSL-FO-Formatters beschrieben."
-date: "2019-05-17"
+date: "2019-07-25"
 
 ---
 <h2>XSL-FO</h2>
+<p>
+  Um ab <strong>LTS 2019-06</strong> die Erweiterungen zu XSL:FO verwenden, muss die <code>mycore-fo</code>-Komponente
+  in den <em>dependencies</em> eingetragen werden. Für <strong>LTS 2018-06</strong> ist dies noch in der <code>mycore-base</code>
+  -Komponente verankert.
+</p>
+<p>
+  {{< highlight bash "linenos=table">}}<dependency>
+  <groupId>org.mycore</groupId>
+  <artifactId>mycore-fo</artifactId>
+  <version>${mycore.version}</version>
+</dependency>{{< /highlight >}}
+</p>
+<p>
+  Mit der Komponente wird das Property <code>MCR.Layout.Transformer.Factory</code> auf 
+  <strong>org.mycore.component.fo.common.content.xml.MCRLayoutTransformerFoFactory</strong> gesetzt.
+</p>
 <p>
   Im LayoutService von MyCoRe ist es neben der Umsetzung von
   XML-Dateien via XSLT und dem Durchreichen von Daten auch möglich einen
