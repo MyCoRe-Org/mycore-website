@@ -89,7 +89,7 @@ Diese Eingriffe erfolgen dann jedoch ambulant.
 
 
 {{< mcr-figure src="/images/blog/applications/2019_perspectivia_recensio_moskau.png" 
-         class="text-center"
+         class="text-center" width="90%"
          label="Screenshot" caption="Zeitschrift Recensio Moskau mit integrierter Reihennavigation rechts" attr="Max Weber Stiftung" />}}
 
 [erschienen in [VZG Aktuell 2019 Ausgabe 1](https://www.gbv.de/Verbundzentrale/Publikationen/broschueren/vzg-aktuell/VZG_Aktuell_2019_01.pdf)]
