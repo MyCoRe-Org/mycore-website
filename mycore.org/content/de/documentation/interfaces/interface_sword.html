@@ -3,7 +3,7 @@
 
 title: "MyCoRe-SWORD-Schnittstelle"
 mcr_version: ['2018.06','2019.06']
-author: ['Kathleen Neumann']
+author: ['Sebastian Hofmann','Kathleen Neumann']
 date: "2019-07-02"
 description: "
     Auf dieser Seite wird die SWORDv2-Schnittstelle von MyCoRe beschrieben.
@@ -27,16 +27,14 @@ description: "
       <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html"
       >Profilbeschreibung</a> veröffentlicht.
     </p>
-
-    <!-- 
-    Workflow mit MyCoRe + Intranda
-    https://www.youtube.com/watch?v=JNRKgRAyDos
-    -->
-
-    <!--
-      Service Document
-      /swordv2/sd/
-    -->
+    <p>
+      SWORD kann beispielsweise genutzt werden um MyCoRe an verschiedene Workflow-Systeme
+      (z.B. OJS, Goobi-Workflow) oder auch die Datendrehscheibe DeepGreen
+      anzubinden. Ein Beispiel dafür
+      ist die Ablieferung digitalisierter Objekte aus dem Goobi-Workflow, der in dem Video
+      <a href="https://www.youtube.com/watch?v=JNRKgRAyDos">Goobi ingest into MyCore using
+      the Sword interface</a> gezeigt wird. 
+    </p>
 
   </div>
   
@@ -55,6 +53,16 @@ description: "
       enthaltenen Collection zu ersetzen. Der Wert des Properties legt fest welche Klasse die
       genaue Konfiguration zur Verfügung stellt. Siehe dazu die Klasse MCRSword2CollectionProvider.
     </p>
+    <p>
+      Nach erfolgreicher Konfiguration erreicht man das Sword-Service-Dokument über den Pfad
+      <code>/sword2/sd/</code>. Ein Beispiel dafür kann in der Demo-MIR-Anwendung aufgerufen werden:
+      <a href="http://mycore.de/mir/sword2/sd/">http://mycore.de/mir/sword2/sd/</a>
+      (Nutzer: <code>administrator</code>, Passwort: <code>alleswirdgut</code>).
+    </p>
+    <!-- ToDo:
+      * ACL-Spezifikationen
+      * Implementierung für MODS
+     -->
   </div>
   <div>
     <h2>Implementation eines MCRSword2CollectionProvider</h2>
