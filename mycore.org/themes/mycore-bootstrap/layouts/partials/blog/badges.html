@@ -1,19 +1,39 @@
 {{ if .Date}}
-  <span class="badge badge-blog"><i class="fas fa-calendar-alt"></i> {{ partial "german_date" (dict "date2convert" (.Date.Format "2. Jan 2006")) -}} </span>
+  {{ $badgeLink := print (relLangURL "blog/periods/") (urlize (.Date.Format "2006-01")) }}
+  <a href="{{ $badgeLink }}">
+    <span class="badge badge-blog">
+      <i class="fas fa-calendar-alt"></i>
+      {{ partial "german_date" (dict "date2convert" (.Date.Format "2. Jan 2006")) }}
+    </span>
+  </a>
 {{ end }}
 
 {{ range (index .Params "blog/authors")}}
-  <span class="badge badge-blog"><i class="fas fa-user"></i> {{.}} </span>
+  {{ $badgeLink := print (relLangURL "blog/authors/") (urlize (lower .)) }}
+  <a href="{{ $badgeLink }}">
+    <span class="badge badge-blog">
+      <i class="fas fa-user"></i>
+      {{.}}
+    </span>
+  </a>
 {{ end }}
 
-{{ if isset .Params "blog/categories"}}
-  <span class="badge badge-blog"><i class="fas fa-list-ul"></i>
-    {{ delimit (index .Params "blog/categories") ", " }}
-  </span>
+{{ range (index .Params "blog/categories")}}
+  {{ $badgeLink := print (relLangURL "blog/categories/") (urlize (lower .)) }}
+    <a href="{{ $badgeLink }}">
+      <span class="badge badge-blog">
+        <i class="fas fa-list-ul"></i>
+        {{(lower .)}}
+      </span>
+    </a>
 {{ end }}
 
-{{ if isset .Params "blog/tags"}}
-  <span class="badge badge-blog"><i class="fas fa-tags"></i>
-    {{ delimit (index .Params "blog/tags") ", " }}
-  </span>
+{{ range (index .Params "blog/tags")}}
+  {{ $badgeLink := print (relLangURL "blog/tags/") (urlize (lower .)) }}
+  <a href='{{ $badgeLink }}'>
+    <span class="badge badge-blog">
+      <i class="fas fa-tags"></i>
+      {{(lower .)}}
+    </span>
+  </a>
 {{ end }}

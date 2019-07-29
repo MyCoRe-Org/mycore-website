@@ -1,11 +1,11 @@
  {{ $currentPage := . }}
 
 <nav class="navbar mcr-navbar-side navbar-expand-md navbar-light">
-	<button class="navbar-toggler navbar-toggler-sub-menu" type="button" data-toggle="collapse" data-target="#navbarNavSide" aria-controls="navbarNavSide" aria-expanded="false" aria-label="Toggle navigation">
-    	<span class="navbar-toggler-icon"></span>
- 	</button>
- 	<div class="collapse navbar-collapse" id="navbarNavSide">
- 		<div class="mcr-blog">
+  <button class="navbar-toggler navbar-toggler-sub-menu" type="button" data-toggle="collapse" data-target="#navbarNavSide" aria-controls="navbarNavSide" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarNavSide">
+     <div class="mcr-blog">
           <h3>{{i18n "blog_calendar"}}</h3>
 
           <div class="accordion" id="accordionCalendar">
@@ -68,31 +68,40 @@
             </script>
           </div>
 
-			<h3>{{i18n "blog_category"}}</h3>
-			<ul class="mcr-blog-cat">
-			{{/* instead of: 'range .Site.Taxonomies.authors' */}}
-			 {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
-			 <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
-			        href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
-			 		<span class="badge badge-blog">{{ len $taxonomy }}</span>
-			 		{{ $taxonomy_term }}
+      <h3>{{i18n "blog_category"}}</h3>
+      <ul class="mcr-blog-cat">
+      {{/* instead of: 'range .Site.Taxonomies.authors' */}}
+       {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
+       <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
+              href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
+           <span class="badge badge-blog">{{ len $taxonomy }}</span>
+           {{ $taxonomy_term }}
         </a>
-			 </li>
-			 {{ end }}
-        	</ul>
+       </li>
+       {{ end }}
+          </ul>
 
 
-			<h3>{{i18n "blog_tags"}}</h3>
-			<ul class="mcr-blog-tag">
-			{{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/tags"}}
-			  <li><a class='{{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
-			 	href='{{relLangURL "blog/tags/"}}{{ urlize $taxonomy_term }}'>
-			 		<span class="badge badge-blog">{{ len $taxonomy }}</span>
-			 		{{ $taxonomy_term }}
-        </a>
-			  </li>
-			 {{ end }}
-			</ul>
-		</div>
-	</div>
+      <h3>{{i18n "blog_tags"}}</h3>
+      <ul class="mcr-blog-tag">
+      {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/tags"}}
+        {{ $activeClass := "not-active" }}
+        {{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}
+          {{ $activeClass = "active" }}
+        {{ end }}
+        {{ $blogLink := print (relLangURL "blog/tags/") (urlize $taxonomy_term) }}
+        <li>
+
+          <a
+            class="{{$activeClass}} no-children"
+            href="{{$blogLink}}">
+           <span class="badge badge-blog">{{ len $taxonomy }}</span>
+           {{ $taxonomy_term }}
+
+          </a>
+        </li>
+       {{ end }}
+      </ul>
+    </div>
+  </div>
 </nav>
