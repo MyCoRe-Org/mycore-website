@@ -6,16 +6,16 @@ $mcr-green:     #5f9b08;
 $mcr-gray:      #666666;
 
 /* for bootstrap theme building see https://bootstrap.build/app */
-$dark:                    #343a40;
 $blue:                    $mcr-darkblue;  /* primary */
 $yellow:                  $mcr-orange;    /* warning */
 $green:                   #060707;      /* success */
 $cyan:                    #a4b494;      /* info */
 $red:                     #a63446;      /* danger */
+$dark:                    #444;
 $gray-600:                #77878b;      /* secondary */
 
 $link-color:                lighten($mcr-blue, 20%);
-$body-color:                #444;
+$body-color:                $dark;
 
 $font-family-base:          "Open Sans", Helvetica, Arial, sans-serif;
 $headings-font-family:      "Sintony", Verdana, sans-serif;
