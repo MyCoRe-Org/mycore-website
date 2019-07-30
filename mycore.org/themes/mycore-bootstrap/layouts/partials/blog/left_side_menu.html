@@ -6,105 +6,92 @@
    </button>
    <div class="collapse navbar-collapse" id="navbarNavSide">
      <div class="mcr-blog">
-          <h3>{{i18n "blog_calendar"}}</h3>
+      <h3>{{i18n "blog_calendar"}}</h3>
 
-          <div class="accordion" id="accordionCalendar">
-            {{ $showEntries := 5 }}
-            {{ $entriesHidden := false }}
+      <div class="accordion" id="accordionCalendar">
+        {{ $showEntries := 3 }}
+        {{ $entriesHidden := false }}
 
-            {{ with .Site.GetPage "section" "blog" }}
-              {{ range $index, $element := .Data.Pages.GroupByDate "2006" }}
-                {{ if (gt $index (sub $showEntries 1)) }}
-                  {{ $entriesHidden = true }}
-                {{ end }}
-                <div class="card {{ if $entriesHidden }}mcr-hidden-entry{{ end }}">
-                  <div class="card-header" id="heading{{ .Key }}">
-                    <h2 class="mb-0">
-                      <a class="{{ if not (eq $index 0) }}collapsed{{ end }}" data-toggle="collapse" data-target="#collapse{{ .Key }}" aria-expanded="true" aria-controls="collapse{{ .Key }}">
-                        {{ .Key }}
-                        <i class="fas fa-angle-down"></i>
-                        <i class="fas fa-angle-up"></i>
-                      </a>
-                    </h2>
-                  </div>
-                  <div id="collapse{{ .Key }}" class="collapse {{ if (eq $index 0) }}show{{ end }}" aria-labelledby="headingOne" data-parent="#accordionCalendar">
-                    <div class="card-body">
-                      {{ $monthlyPages := .Pages.GroupByDate "2006-01" }}
-                        {{ if ge (len $monthlyPages) 1 }}
-                          {{ range $monthlyPages.Reverse  }}
-                            <div>
-                              {{$count := len .Pages}}
-                              {{ range first 1 .Pages  }}
-                                <a
-                                  class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
-                                  href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
-                                  <span class="badge badge-blog">{{$count}}</span>
-                                  {{- partial "german_date" (dict "date2convert" (.Date.Format "January")) }}
-                                </a>
-                              {{ end }}
-                            </div>
-                        {{ end }}
-                      {{ end }}
-                    </div>
-                  </div>
-                </div>
-
-              {{ end }}
+        {{ with .Site.GetPage "section" "blog" }}
+          {{ range $index, $element := .Data.Pages.GroupByDate "2006" }}
+            {{ if (gt $index (sub $showEntries 1)) }}
+              {{ $entriesHidden = true }}
             {{ end }}
-
-            {{ if $entriesHidden }}
-              <div class="text-center">
-                <button class="btn btn-link mcr-js-show-all-blog-entries">
-                  <sub>
+            <div class="card {{ if $entriesHidden }}mcr-hidden-entry{{ end }}">
+              <div class="card-header" id="heading{{ .Key }}">
+                <h2 class="mb-0">
+                  <a class="{{ if not (eq $index 0) }}collapsed{{ end }}" data-toggle="collapse" data-target="#collapse{{ .Key }}" aria-expanded="true" aria-controls="collapse{{ .Key }}">
+                    {{ .Key }}
                     <i class="fas fa-angle-down"></i>
-                    <span>Mehr Jahre anzeigen</span>
-                  </sub>
-                </button>
+                    <i class="fas fa-angle-up"></i>
+                  </a>
+                </h2>
               </div>
-            {{ end }}
-            <script>
-                (function($) {
-                  // xxx
-                  $(".mcr-js-show-all-blog-entries").on('click', function() {
-                    $( ".mcr-js-show-all-blog-entries" ).hide();
-                    $("#accordionCalendar .card").show("slow");
-                  });
-                })(jQuery);
-            </script>
-          </div>
+              <div id="collapse{{ .Key }}" class="collapse {{ if (eq $index 0) }}show{{ end }}" aria-labelledby="headingOne" data-parent="#accordionCalendar">
+                <div class="card-body">
+                  {{ $monthlyPages := .Pages.GroupByDate "2006-01" }}
+                    {{ if ge (len $monthlyPages) 1 }}
+                      {{ range $monthlyPages.Reverse  }}
+                        <div>
+                          {{$count := len .Pages}}
+                          {{ range first 1 .Pages  }}
+                            <a
+                              class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
+                              href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
+                              <span class="badge badge-blog">{{$count}}</span>
+                              {{- partial "german_date" (dict "date2convert" (.Date.Format "January")) }}
+                            </a>
+                          {{ end }}
+                        </div>
+                    {{ end }}
+                  {{ end }}
+                </div>
+              </div>
+            </div>
 
-      <h3>{{i18n "blog_category"}}</h3>
-      <ul class="mcr-blog-cat">
-      {{/* instead of: 'range .Site.Taxonomies.authors' */}}
-       {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
-       <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
-              href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
-           <span class="badge badge-blog">{{ $taxonomy.Count }}</span>
-           {{ $taxonomy.Page.Title }}
-        </a>
-       </li>
-       {{ end }}
-          </ul>
-
-
-      <h3>{{i18n "blog_tags"}}</h3>
-      <ul class="mcr-blog-tag">
-      {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/tags"}}
-        {{ $activeClass := "not-active" }}
-        {{ if in $currentPage.URL (print "/blog/tags/" (urlize $taxonomy_term) "/")}}
-          {{ $activeClass = "active" }}
+          {{ end }}
         {{ end }}
-        {{ $blogLink := print (relLangURL "blog/tags/") (urlize $taxonomy_term) }}
-        <li>
-          <a
-            class="{{$activeClass}} no-children"
-            href="{{$blogLink}}">
-           <span class="badge badge-blog">{{ $taxonomy.Count }}</span>
-           {{ $taxonomy.Page.Title }}
-          </a>
-        </li>
-       {{ end }}
+
+        {{ if $entriesHidden }}
+          <div class="text-center">
+            <button class="btn btn-link mcr-js-show-all-blog-entries">
+              <sub>
+                <i class="fas fa-angle-down"></i>
+                <span>Alle Jahre anzeigen</span>
+              </sub>
+            </button>
+          </div>
+        {{ end }}
+        <script>
+            (function($) {
+              // xxx
+              $(".mcr-js-show-all-blog-entries").on('click', function() {
+                $( ".mcr-js-show-all-blog-entries" ).hide();
+                $("#accordionCalendar .card").show("slow");
+              });
+            })(jQuery);
+        </script>
+      </div>
+
+      <h3 class="mt-5 mb-3">
+        {{i18n "blog_category"}}
+      </h3>
+      <ul class="mcr-blog-cat">
+        {{/* instead of: 'range .Site.Taxonomies.authors' */}}
+        {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
+          <li>
+            <a
+              class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
+              href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
+              <span class="badge badge-blog">
+                {{ $taxonomy.Count }}
+              </span>
+              {{ $taxonomy.Page.Title }}
+            </a>
+          </li>
+        {{ end }}
       </ul>
+
     </div>
   </div>
 </nav>

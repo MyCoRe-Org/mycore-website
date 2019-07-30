@@ -1,34 +1,43 @@
 {{ define "main" }}
 
-<div class="container-fluid content-box">
-  <div class="row content-row">
-  <div class="col-12 col-md-3 col-xl-2 sub-menu">
-   {{- partial "blog/left_side_menu.html" . -}}
-  </div>
-  <div class="col-12 col-md-9 col-xl-8 content">
+  <div class="container-fluid content-box">
+    <div class="row content-row">
+
+      <div class="col-12 col-md-3 col-xl-2 sub-menu">
+        {{- partial "blog/left_side_menu.html" . -}}
+      </div>
+
+      <div class="col-12 col-md-9 col-xl-8 content">
         <h1>{{.Title}}</h1>
         <p class="mcr-description">
-        {{ .Description }}
-      </p>
+          {{ .Description }}
+        </p>
+
         <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
         {{.Content}}
-  {{ with .Site.GetPage "section" "blog" }}
-        {{ range first 510 .Pages }}
-  <div class="mcr-blog-listentry">
-    <hr class="mcr-blog-seperator" />
-    {{- partial "blog/badges.html" . -}}
-    <h5 class="pt-4"><a href="{{ .Permalink }}">{{ .Title }}</a></h5>
-    {{ .Summary | plainify | htmlUnescape | safeHTML}}
-    <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
-  </div>
-{{ end }}
-{{ end }}
 
+        {{ with .Site.GetPage "section" "blog" }}
+          {{ range first 20 .Pages }}
+            <div class="mcr-blog-listentry">
+              <hr class="mcr-blog-seperator" />
+              {{- partial "blog/badges.html" . -}}
+              <h5 class="pt-4">
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+              </h5>
+              {{ .Summary | plainify | htmlUnescape | safeHTML}}
+              <a class="pl-1" href="{{ .Permalink }}">
+                <i class="fas fa-book-reader"></i>
+              </a>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <div class="d-none d-xl-block col-xl-2 toc-menu">
+        {{- partial "blog/right_side_menu.html" . -}}
+      </div>
+
+    </div>
   </div>
-    <div class="d-none d-xl-block col-xl-2 toc-menu">
-   {{- partial "blog/right_side_menu.html" . -}}
-  </div>
- </div>
-</div>
 
 {{ end }}

@@ -207,6 +207,16 @@ span.mcr-version {
 .linked-badge:hover {
   text-decoration: none;
 }
+.tag-cloud {
+  padding: 5px 15px 5px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tag-cloud__link {
+  white-space: nowrap;
+}
 
 /* ============================================================================
  *   search the page
