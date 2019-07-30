@@ -1,4 +1,5 @@
 {{ $ranslatedDate := .date2convert }}
+{{/* order is important, complex pattern first */}}
 {{ $ranslatedDate := replace $ranslatedDate "January" "Januar" }}
 {{ $ranslatedDate := replace $ranslatedDate "February" "Februar" }}
 {{ $ranslatedDate := replace $ranslatedDate "March" "März" }}
@@ -7,6 +8,11 @@
 {{ $ranslatedDate := replace $ranslatedDate "July" "Juli" }}
 {{ $ranslatedDate := replace $ranslatedDate "October" "Oktober" }}
 {{ $ranslatedDate := replace $ranslatedDate "December" "Dezember" }}
+{{/* greedy pattern last */}}
+{{ $ranslatedDate := replace $ranslatedDate "Mar" "Mär" }}
+{{ $ranslatedDate := replace $ranslatedDate "Oct" "Okt" }}
+{{ $ranslatedDate := replace $ranslatedDate "Dec" "Dez" }}
+
 {{ $ranslatedDate := replace $ranslatedDate "Mon" "Mo" }}
 {{ $ranslatedDate := replace $ranslatedDate "Tue" "Di" }}
 {{ $ranslatedDate := replace $ranslatedDate "Wed" "Mi" }}

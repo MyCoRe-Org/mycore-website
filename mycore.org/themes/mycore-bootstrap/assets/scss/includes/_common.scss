@@ -195,11 +195,19 @@ span.mcr-version {
   margin-bottom: 0.5rem;
 }
 .badge-blog {
-  background-color: #fff;
+  background-color: white;
   color: #888787;
   border: 1px solid #b8b5b5;
   margin-right: 5px;
+  &:hover {
+    color: $dark;
+    border: 1px solid $dark;
+  }
 }
+.linked-badge:hover {
+  text-decoration: none;
+}
+
 /* ============================================================================
  *   search the page
  *

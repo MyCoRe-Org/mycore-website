@@ -54,7 +54,12 @@
 
             {{ if $entriesHidden }}
               <div class="text-center">
-                <button class="btn btn-link mcr-js-show-all-blog-entries"><sub>Mehr anzeigen</sub></button>
+                <button class="btn btn-link mcr-js-show-all-blog-entries">
+                  <sub>
+                    <i class="fas fa-angle-down"></i>
+                    <span>Mehr Jahre anzeigen</span>
+                  </sub>
+                </button>
               </div>
             {{ end }}
             <script>
@@ -74,8 +79,8 @@
        {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
        <li><a class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
               href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
-           <span class="badge badge-blog">{{ len $taxonomy }}</span>
-           {{ $taxonomy_term }}
+           <span class="badge badge-blog">{{ $taxonomy.Count }}</span>
+           {{ $taxonomy.Page.Title }}
         </a>
        </li>
        {{ end }}
@@ -91,13 +96,11 @@
         {{ end }}
         {{ $blogLink := print (relLangURL "blog/tags/") (urlize $taxonomy_term) }}
         <li>
-
           <a
             class="{{$activeClass}} no-children"
             href="{{$blogLink}}">
-           <span class="badge badge-blog">{{ len $taxonomy }}</span>
-           {{ $taxonomy_term }}
-
+           <span class="badge badge-blog">{{ $taxonomy.Count }}</span>
+           {{ $taxonomy.Page.Title }}
           </a>
         </li>
        {{ end }}

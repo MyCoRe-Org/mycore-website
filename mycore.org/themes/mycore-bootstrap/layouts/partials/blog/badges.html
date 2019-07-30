@@ -1,6 +1,6 @@
 {{ if .Date}}
   {{ $badgeLink := print (relLangURL "blog/periods/") (urlize (.Date.Format "2006-01")) }}
-  <a href="{{ $badgeLink }}">
+  <a href="{{ $badgeLink }}" class="linked-badge">
     <span class="badge badge-blog">
       <i class="fas fa-calendar-alt"></i>
       {{ partial "german_date" (dict "date2convert" (.Date.Format "2. Jan 2006")) }}
@@ -10,7 +10,7 @@
 
 {{ range (index .Params "blog/authors")}}
   {{ $badgeLink := print (relLangURL "blog/authors/") (urlize (lower .)) }}
-  <a href="{{ $badgeLink }}">
+  <a href="{{ $badgeLink }}" class="linked-badge">
     <span class="badge badge-blog">
       <i class="fas fa-user"></i>
       {{.}}
@@ -20,20 +20,20 @@
 
 {{ range (index .Params "blog/categories")}}
   {{ $badgeLink := print (relLangURL "blog/categories/") (urlize (lower .)) }}
-    <a href="{{ $badgeLink }}">
+    <a href="{{ $badgeLink }}" class="linked-badge">
       <span class="badge badge-blog">
         <i class="fas fa-list-ul"></i>
-        {{(lower .)}}
+        {{.}}
       </span>
     </a>
 {{ end }}
 
 {{ range (index .Params "blog/tags")}}
   {{ $badgeLink := print (relLangURL "blog/tags/") (urlize (lower .)) }}
-  <a href='{{ $badgeLink }}'>
+  <a href="{{ $badgeLink }}" class="linked-badge">
     <span class="badge badge-blog">
       <i class="fas fa-tags"></i>
-      {{(lower .)}}
+      {{.}}
     </span>
   </a>
 {{ end }}
