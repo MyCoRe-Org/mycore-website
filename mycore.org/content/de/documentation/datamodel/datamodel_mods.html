@@ -1,0 +1,55 @@
+
+---
+
+title: "MyCoRe-Datenmodell-Template für MODS"
+mcr_version: ['2019.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+date: "2018-07-31"
+
+---
+
+<h2>Das Datenmodell-Template für MODS</h2>
+
+<p>
+  Da im MyCoRe viele Applikationen das Standard-Datenmodell <a href="http://www.loc.gov/standards/mods/mods-outline-3-7.html#titleInfo" 
+  target="_blank">MODS - Version 3.7</a> nutzen, wurden gemeinsam nutzbare Teile in der Komponente <code>mycore-mods</code>
+  zusammengefasst.
+</p>
+
+<h3>Integration von MyCoRe-Klassifikationen in das MODS-Modell</h3>
+<p>
+  Im MODS-Datenmodell können Verweise auf MyCoRe-Klassifikationen zum Beispiel im Element <code>classification</code> eingetragen
+  werden. Auch in anderen Feldelementen ist dies, so es die MODS-Syntax erlaubt, möglich. Entscheidend ist die Gestaltung der
+  Attribute <code>authorityURI</code> und <code>valueURI</code>.
+</p>
+<p>
+{{< highlight xml "linenos=table">}} <mods:classification authorityURI="http://mycore.de/classifications/geoMapsColor" valueURI="http://mycore.de/classifications/geoMapsColor#geo_maps_color_multicolored" displayLabel="color">mehrfarbig</mods:classification>{{< /highlight >}}
+</p>
+<p>
+  Entscheidend ist vor allem das Feld <code>valueURI</code>. Hier wird sowohl die <strong>classid</strong> wie auch die
+  <strong>categid</strong> (nach dem #) festgelegt. Die URL vorher, also <em>http://mycore.de/classifications</em> muss
+  nicht existieren und ist rein fiktiv.
+</p>
+<p>
+  Wichtig ist, dass in der Definition der Klassifikation die Zeile mit <code>xml:lang="x-uri"</code> und der angegebenen
+  URI enthalten ist. Somit werden die Klassifikationsverweise auch in den SOLR-Index MyCoRe-gerecht integriert.
+</p>
+<p>
+{{< highlight xml "linenos=table">}} <?xml version="1.0" encoding="UTF-8"?>
+ <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" 
+   ID="geoMapsColor">
+   <label xml:lang="de" text="Farbe"/>
+   <label xml:lang="en" text="Color"/>
+   <label xml:lang="x-uri" text="http://mycore.uni-leipzig.de/classifications/geoMapsColor" />
+   <categories>
+   ...
+   </categories>
+</mycoreclass>{{< /highlight >}}
+</p>
+<p>
+  Nun muss noch dafür gesorgt werden, dass die Klassifikationen und deren genutzte Kategorien in die MyCoRe-internen
+  SQL-Tabellen eingetragen werden. Hierfür ist ein zusätzlicher Event Handler in die Kette via Property einzufügen.
+</p>
+<p>
+{{< highlight xml "linenos=table">}} MCR.EventHandler.MCRObject.040.Class=org.mycore.mods.MCRMODSLinksEventHandler{{< /highlight >}}
+</p>
