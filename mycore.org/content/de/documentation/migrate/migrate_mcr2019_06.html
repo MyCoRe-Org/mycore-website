@@ -78,5 +78,40 @@ date: "2019-07-15"
       XSLT-Stylesheets ist zu entfernen.
       </p>
 
+      <h3>Migration nach Bootstrap 4</h3>
+      <p>
+        Für alle im Kern mitgelieferten Frontend-Webseiten, die Xeditor-Komponente und alle Administrationswerkzeuge
+        wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/" target="_blank">Bootstrap 4</a> vorausgesetzt. Damit einher geht auch der Erstaz der
+        Glyph-Icons durch <a target="_blank" href="https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself">fontawesome</a>.
+        In die eigene Anwendung sidn also folgende Dinge einzubinden:
+      </p>
+      <p>
+      <table style="width:100%; vertical-align:top;">
+        <tr>
+          <th>&#160;</th>
+          <th>CSS</th>
+          <th>Java Script</th>
+          <th>sonstiges</th>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">für Bootstrap</td>
+          <td style="vertical-align:top;">bootstrap.min.css</td>
+          <td style="vertical-align:top;">jquery.min.js<br/>jquery-ui.min.js<br/>bootstrap.min.js</td>
+          <td style="vertical-align:top;">&#160;</td>
+        </tr>
+        <tr>
+          <td>für fontawesome</td>
+          <td>all.min.css</td>
+          <td style="vertical-align:top;">&#160;</td>
+          <td style="vertical-align:top;">das Verzeichnis webfonts aus der Distribution</td>
+        </tr>
+      </table>
+      </p>
+      <p>
+        Dies bedeutet auch, dass in den eigenen Stylesheets verschiedene Anpassungen gemäß der
+        <a href="https://getbootstrap.com/docs/4.3/migration/" target="_blank">Bootstarp 4 Migrations-Anleitung</a>
+        durchzuführen sind. Das kann etwas arbeitsaufwändig werden, ist aber im Sinne einer langfristigen Anwendungspflege
+        notwendig.
+      </p>
     </div>
     
