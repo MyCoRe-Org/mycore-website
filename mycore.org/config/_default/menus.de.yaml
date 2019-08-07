@@ -2,17 +2,17 @@ main:
 - {identifier: welcome, name: Start, weight: -99, url: /}
 
 - {identifier: features,                                        name: Funktionen,           weight: -98,      url: /site/features}
--   {identifier: datamodel,               parent: features,       name: Datenmodell,          weight: -98,      url: /site/features/datamodel}
--   {identifier: search,                  parent: features,       name: Suche,                weight: -97,      url: /site/features/search}
--   {identifier: frontend,                parent: features,       name: Präsentation,         weight: -96,      url: /site/features/frontend}
--   {identifier: interfaces,              parent: features,       name: Schnittstellen,       weight: -95,      url: /site/features/interfaces}
--   {identifier: derivates,               parent: features,       name: Dateiverwaltung,      weight: -94,      url: /site/features/derivates}
--   {identifier: acl,                     parent: features,       name: Rechteverwaltung,     weight: -93,      url: /site/features/acl}
+-   {identifier: features_datamodel,    parent: features,       name: Datenmodell,          weight: -98,      url: /site/features/datamodel}
+-   {identifier: features_search,       parent: features,       name: Suche,                weight: -97,      url: /site/features/search}
+-   {identifier: features_frontend,     parent: features,       name: Präsentation,         weight: -96,      url: /site/features/frontend}
+-   {identifier: features_interfaces,   parent: features,       name: Schnittstellen,       weight: -95,      url: /site/features/interfaces}
+-   {identifier: features_derivates,    parent: features,       name: Dateiverwaltung,      weight: -94,      url: /site/features/derivates}
+-   {identifier: features_acl,          parent: features,       name: Rechteverwaltung,     weight: -93,      url: /site/features/acl}
 
 - {identifier: applications,                                    name: Anwendungen,          weight: -97,      url: /site/applications}
 -   {identifier: mir,                   parent: applications,   name: Demo (MIR),             weight: -99,      url: /site/applications/mir}
--   {identifier: map,                     parent: applications,   name: Karte,                weight: -98,      url: /site/applications/map}
--   {identifier: list,                    parent: applications,   name: von A bis Z,              weight: -97,      url: /site/applications/list}
+-   {identifier: map,                   parent: applications,   name: Karte,                  weight: -98,      url: /site/applications/map}
+-   {identifier: list,                  parent: applications,   name: von A bis Z,            weight: -97,      url: /site/applications/list}
 
 - {identifier: download,                                        name: Download,             weight: -96,      url: /site/download}
 -   {identifier: dl_mycore,               parent: download,       name: MyCoRe,               weight: -98,      url: /site/download/dl_mycore}
@@ -86,7 +86,7 @@ main:
 -     {identifier: frontend_mcrclassbrowser,  parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/frontend_mcrclassbrowser}
 -     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -93,      url: /documentation/frontend/frontend_tarzipservlet}
 -     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -92,      url: /documentation/frontend/frontend_xeditor}
--     {identifier: frontend_wf_servlets,    parent: frontend,           name: Workflow Servlets,             weight: -91,      url: /documentation/frontend/frontend_xeditor}
+-     {identifier: frontend_wf_servlets,    parent: frontend,           name: Workflow Servlets,             weight: -91,      url: /documentation/frontend/frontend_wf_servlets}
 -     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -90,      url: /documentation/frontend/frontend_fileupload}
 -     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -89,      url: /documentation/frontend/frontend_iview2}
 -     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -88,      url: /documentation/frontend/frontend_image_viewer}
