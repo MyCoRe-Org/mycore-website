@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - OR
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Open Repositories 2019"
 news/teaser_de: "Vom 10.-13. Juni 2019 nahmen wir an der Postersession der Open Repositories 2019 teil."
 news/title_en: "Open Repositories 2019"

@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - "Treffen"
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"Ankündigung"
 news/teaser_de: 	"Die Planungen für den „MyCoRe-Workshop 2019“ sind in vollem Gange. Er findet vom 6.-7.11.2019 in Essen statt."
 news/title_en: 		"Announcement"
