@@ -25,8 +25,8 @@ news/teaser_en:	  "The MyCoRe Workshop 2019 will take place in Essen. Save the d
   Der diesjährige **MyCoRe-Anwenderworkshop** findet vom 6. bis 7. November an der 
   __Universität Duisburg-Essen__ im Bibliothekssaal in Essen statt.
 
-* __Anreisetag:__ Dienstag, 5.11.2019, *Get-together um 19 Uhr in Gelsenkirchen*, 
-* **Workshop:** Mittwoch, 6.11.2019, Beginn: 9 Uhr, ganztägig.
+* Anreisetag: Dienstag, 5.11.2019, *Get-together um 19 Uhr in Gelsenkirchen*, 
+* Workshop: Mittwoch, 6.11.2019, Beginn: 9 Uhr, ganztägig.
 * *Hands-on-Workshop:* Donnerstag, 7.11.2019, Beginn: 9 Uhr, voraussichtliches Ende: 11:30 Uhr.
    
    Ziel des Workshops ist es, einen Erfahrungsaustausch zwischen MyCoRe-Anwenderinnen, MyCoRe-Anwendern, den Entwicklern und Interessierten zu ermöglichen. Kurze Beiträge und Berichte über eigene Entwicklungen sind gewünscht und willkommen! Die MyCoRe-Entwickler werden neue Entwicklungen vorstellen und es wird Gelegenheit für Fragen an die Entwickler geben. </p>
@@ -40,6 +40,6 @@ Zur Anmeldung bitte eine formlose <a href="mailto:info@mycore.de">e-Mail</a> an 
 
 ## Hotel-Informationen ##
   
-  Es steht ein Kontingent an Zimmern im Hotel [Good Morning Gelsenkirchen] (https://ligula.se/de/goodmorninghotels/gelsenkirchen-city/) bereit. Zum verbindlichen Reservieren eines Zimmers bitte eine E-Mail mit dem Stichwort „MyCoRe-Workshop“ an die Adresse [gelsenkirchencity@gmorninghotels.de] (mailto:gelsenkirchencity@gmorninghotels.de) schicken. Die Kosten (138 € inkl. Frühstück für zwei Übernachtungen im Einzelzimmer bzw. 158 € für ein Doppelzimmer) sind bei Anreise zu zahlen. Adresse: Bahnhofsvorplatz 12, Gelsenkirchen. (Das Kontingent steht bis zum 20.10.2019 zur Verfügung)
+  Es steht ein Kontingent an Zimmern im Hotel [Good Morning Gelsenkirchen] (https://ligula.se/de/goodmorninghotels/gelsenkirchen-city/) bereit. Zum verbindlichen Reservieren eines Zimmers bitte eine E-Mail mit dem Stichwort „MyCoRe-Workshop“ an die Adresse [gelsenkirchencity@gmorninghotels.de] (mailto:gelsenkirchencity@gmorninghotels.de) schicken. Die Kosten sind bei Anreise zu zahlen: 138&thinsp;€ inkl. Frühstück für zwei Übernachtungen im Einzelzimmer, bzw. 158&thinsp;€ für ein Doppelzimmer. Der Frühstückspreis im Zimmerpreis beträgt 4,50&thinsp;€ pro Person/Tag.<br />Adresse: Bahnhofsvorplatz 12, Gelsenkirchen. (Das Kontingent steht bis zum 20.10.2019 zur Verfügung)
     
-  Für weitere Informationen wenden Sie sich gerne an unsere <a title="Geschäftsstelle" href="site:contact">MyCoRe Geschäftsstelle</a>.
+  Für weitere Informationen wenden Sie sich gerne an unsere <a href="{{< ref contact >}}">MyCoRe Geschäftsstelle</a>.
