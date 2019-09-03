@@ -1,7 +1,7 @@
 
 ---
 
-title: "Nutzungsvoraussetzungen Release LTS 2019.06"
+title: "Migration MyCoRe LTS 2018.06 nach 2019.06"
 mcr_version: ['2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "
@@ -13,7 +13,7 @@ date: "2019-07-15"
 ---
 
     <div id="requirements_201906">
-      <h2>Systemanforderungen</h2>
+      <h2>Systemanforderungen MyCoRe LTS 2019.06</h2>
       <p>
         Im weiteren werden die grundlegenden Systemanforderungen beschrieben, welche für den Betrieb einer
         MyCoRe-Anwendung unter LTS 2019.06 erforderlich sind.
@@ -47,7 +47,7 @@ date: "2019-07-15"
         <li>Apache Maven 3.6.0 oder höher</li>
       </ul>
       
-      <h2>Durchzuführende Migrationen</h2>
+      <h2>Migrationsschritte</h2>
       <p>
         Um die Migrationskommandos nutzen zu können, muss die Komponente <code>mycore-migration</code> eingebunden werden.
       </p>
@@ -62,7 +62,7 @@ date: "2019-07-15"
  
       <h3>Umstrukturierung des derobject-Tags im mycoreobject</h3>
       <p>
-        Mit dem LTS 2019-06 wurde die Struktur des derobject-Tags innerhalb eines mycoreobject geändert (siehe <a href="{{< ref mcrobj_xml >}}">XML-Syntax eines MyCoRe-Objektes</a>). 
+        Mit dem LTS 2019.06 wurde die Struktur des derobject-Tags innerhalb eines mycoreobject geändert (siehe <a href="{{< ref mcrobj_xml >}}">XML-Syntax eines MyCoRe-Objektes</a>). 
         Diese Änderung kann mittels Migrationskommando automatisiert durchgeführt werden.
       </p>
       <p>
@@ -81,9 +81,9 @@ date: "2019-07-15"
       <h3>Migration nach Bootstrap 4</h3>
       <p>
         Für alle im Kern mitgelieferten Frontend-Webseiten, die Xeditor-Komponente und alle Administrationswerkzeuge
-        wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/" target="_blank">Bootstrap 4</a> vorausgesetzt. Damit einher geht auch der Erstaz der
+        wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/" target="_blank">Bootstrap 4</a> vorausgesetzt. Damit einher geht auch der Ersatz der
         Glyph-Icons durch <a target="_blank" href="https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself">fontawesome</a>.
-        In die eigene Anwendung sidn also folgende Dinge einzubinden:
+        In die eigene Anwendung sind also folgende Dinge einzubinden:
       </p>
       <p>
       <table style="width:100%; vertical-align:top;">
@@ -93,11 +93,11 @@ date: "2019-07-15"
           <th>Java Script</th>
           <th>sonstiges</th>
         </tr>
-        <tr>
-          <td style="vertical-align:top;">für Bootstrap</td>
-          <td style="vertical-align:top;">bootstrap.min.css</td>
-          <td style="vertical-align:top;">jquery.min.js<br/>jquery-ui.min.js<br/>bootstrap.min.js</td>
-          <td style="vertical-align:top;">&#160;</td>
+        <tr style="vertical-align:top;">
+          <td>für Bootstrap</td>
+          <td>bootstrap.min.css</td>
+          <td>jquery.min.js<br/>jquery-ui.min.js<br/>bootstrap.min.js</td>
+          <td>&#160;</td>
         </tr>
         <tr>
           <td>für fontawesome</td>
@@ -109,9 +109,8 @@ date: "2019-07-15"
       </p>
       <p>
         Dies bedeutet auch, dass in den eigenen Stylesheets verschiedene Anpassungen gemäß der
-        <a href="https://getbootstrap.com/docs/4.3/migration/" target="_blank">Bootstarp 4 Migrations-Anleitung</a>
-        durchzuführen sind. Das kann etwas arbeitsaufwändig werden, ist aber im Sinne einer langfristigen Anwendungspflege
-        notwendig.
+        <a href="https://getbootstrap.com/docs/4.3/migration/" target="_blank">Bootstrap 4 Migrations-Anleitung</a>
+        durchzuführen sind. Das ist mit etwas Aufwand verbunden, aber im Sinne einer langfristigen Anwendungspflege notwendig.
       </p>
     </div>
     
