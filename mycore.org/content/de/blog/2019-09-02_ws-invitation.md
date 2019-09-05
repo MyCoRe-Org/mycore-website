@@ -35,6 +35,7 @@ news/teaser_en:	  "The MyCoRe Workshop 2019 will take place in Essen. Save the d
 ## Themenvorschläge ##
   Wer ein Workshop-Thema vorschlagen möchten, kann den Vorschlag entweder auf der [Themenvorschlagsseite] (https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/ThemenVorschlag) eintragen oder eine Nachricht an die MyCoRe Geschäftsstelle (info@mycore.de) schicken. 
   
+## Anmeldung ##
   Zur Anmeldung bitte eine formlose <a href="mailto:info@mycore.de?subject=Anmeldung%20zum%20MyCoRe-Workshop%202019&body=Hallo,%0D%0A%0D%0Ahiermit%20melde%20ich%20mich%20zum%20MyCoRe-Workshop%20am%206.%20und%207.%20November%20in%20Essen%20an.%0D%0A%0D%0AIch%20nehme%20an%20folgenden%20Abendveranstaltungen%20(auf%20Selbstzahlerbasis)%20teil:%0D%0A-%20Get-together%20am%20Dienstagabend,%20dem%205.%20November%20ab%2019%20Uhr,%0D%0A-%20gemeinsames%20Essen%20am%20Mittwoch,%20dem%206.%20November%202019.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A%0D%0A">E-Mail</a> an die <a title="Geschäftsstelle" href="https://www.mycore.de/site/community/contact/">MyCoRe Geschäftsstelle</a> senden und im Nachrichtentext angeben, an welchen Tagen bzw. Abendveranstaltungen Sie teilnehmen möchten.
 
 
