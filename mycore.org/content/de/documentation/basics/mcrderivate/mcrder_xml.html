@@ -6,7 +6,7 @@ mcr_version: ['2018.06','2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des Syntax
     ist notwendig, um eigene Datensätze für zu erstellen."
-date: "2018-07-03"
+date: "2019-09-05"
 
 ---
 
@@ -17,7 +17,7 @@ date: "2018-07-03"
    Im MyCoRe Projekt wurde zur Ablage der digitalen Objekte das Konzept des IFS entwickelt. Hier ist es möglich, über
    spezielle Konfigurationen festzulegen, in welchen Speicher (Store) die einzelnen Dateien gespeichert werden sollen.
    </p>
-   <p class="Standard">Das Laden von Objekten erfolgt mittels einer Metadaten-Datei, welche alle Informationen über die
+   <p>Das Laden von Objekten erfolgt mittels einer Metadaten-Datei, welche alle Informationen über die
    zu speichernde(n) Datei(en) und ihre Beziehung(en) zu den Metadaten enthält. Die zu speichernden multimedialen
    Objekte werden im Weiteren als Derivate, also Abkömmlinge, bezeichnet, da ein Objekt in mehreren Formen,
    Grafikformaten, auftreten kann. Die Struktur der XML-Datei für Derivate ist fest vorgegeben, alle Felder, die
@@ -40,6 +40,13 @@ date: "2018-07-03"
       <internals class="MCRMetaIFS">
         <internal sourcepath="..." maindoc="..."/>
       </internals>
+      <titles class="MCRMetaLangText" heritable="false">
+        <title xml:lang="en" inherited="0" form="plain">test title</title>
+        <title xml:lang="de" inherited="0" form="plain">Testtitel</title>
+      </titles>
+      <classifications class="MCRMetaClassification" heritable="false">
+        <classification inherited="0" classid="derivate_types" categid="content" />
+      </classifications>
     </derivate>
     <service>
       ...
@@ -57,5 +64,16 @@ date: "2018-07-03"
        dienen soll. Aus diesen Dateien kann nun eine Datei ausgewählt werden, welche den Einstiegspunkt bei HTML-Seiten
        darstellen soll. Bei einzelnen Bildern ist hier noch einmal der Dateiname anzugeben. Ist nichts angegeben, so
        wird versucht Dateien wie index.html usw. zu finden.</li>
+   <li>Der Titel kann für jedes Derivate im mehreren Sprachen angegeben werden. Der Grundbaustein dieses Eelemnts ist
+       <a href="{{< ref mcrobj_datatypes >}}">MCRMetaLangText</a>.</li>
+   <li>Über eine oder mehrere beliebige Klassifikationen können Eigenschaften des Objektes festgelegt werden.  Der Grundbaustein dieses Eelemnts ist
+       <a href="{{< ref mcrobj_datatypes >}}">MCRMetaClassification</a>.</li>
    </ul>
 </p>
+
+<h2>Kopie der Daten im MCRObject</h2>
+<p>
+  Es hat sich als sinnvoll herausgestellt, im <a href="{{< ref mcrobj_xml >}}">mycoreobject</a> einen Teil der hier erfassten
+  Metadaten als Kopie abzulegen. Der Aufbau der Derivat-Daten im mycoreobject ist auf der entsprechenden Seite beschrieben.
+</p> 
+
