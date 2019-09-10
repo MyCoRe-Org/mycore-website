@@ -116,9 +116,9 @@
       <name>MyCoRe Geschäftsstelle</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://www.mycore.de/contact/index.html"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mycore.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.mycore.de/site/community/contact/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mycore.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://www.mycore.de/contact/index.html">MyCoRe Geschäftsstelle</a>
+                	<a class="mcrmap_item_name" href="https://www.mycore.de/site/community/contact/">MyCoRe Geschäftsstelle</a>
             		<span class="mcrmap_item_owner">Universität Hamburg (Regionales Rechenzentrum)</span>
                 </p>
             </div>
@@ -537,9 +537,9 @@
       <name>VZG-Journals</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://journals.gbv.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
+                <a class="mcrmap_item_icon" href=""><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://journals.gbv.de/">VZG-Journals</a>
+                	<a class="mcrmap_item_name" href="">VZG-Journals</a>
             		<span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
                 </p>
             </div>
