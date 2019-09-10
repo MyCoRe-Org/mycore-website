@@ -5,21 +5,20 @@ title: "Migration MyCoRe LTS 2018.06 nach 2019.06"
 mcr_version: ['2019.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "
-      Diese Seite fasst Informationen für die Nutzung von MyCoRe LTS 2019-06 und die Migration vom LTS-Release
-      2018.06 zum LTS-Release 2019.06 zusammen.
+      Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2019.06 und die Migration von Version
+      2018.06 zu 2019.06 zusammen.
     "
-date: "2019-07-15"
+date: "2019-09-10"
 
 ---
 
     <div id="requirements_201906">
       <h2>Systemanforderungen MyCoRe LTS 2019.06</h2>
       <p>
-        Im weiteren werden die grundlegenden Systemanforderungen beschrieben, welche für den Betrieb einer
-        MyCoRe-Anwendung unter LTS 2019.06 erforderlich sind.
+        Für den Betrieb einer MyCoRe-Anwendung unter LTS 2019.06 sind folgende Voraussetzungen zu erfüllen:
       </p>
 
-      <h2>Betriebssystem</h2>
+      <h3>Betriebssystem</h3>
       <p>MyCoRe LTS 2019 ist auf diesen Betriebsystemen im Einsatz. Höhere Versionen sollten kein Problem darstellen.
       </p>
       <ul>
@@ -30,7 +29,7 @@ date: "2019-07-15"
         <li>Windows 10 für Test- und Entwicklungssysteme</li>
       </ul>
 
-      <h2>Standardsoftware</h2>
+      <h3>Standardsoftware</h3>
       <p>Zur Arbeit mit MyCoRe LTS 2019 sind folgende Softwarekomponenten erforderlich bzw. empfohlen. Diese sind alle
         von Drittanbietern und im Normalfall in den Distributionen enthalten.
       </p>
@@ -52,7 +51,7 @@ date: "2019-07-15"
         Um die Migrationskommandos nutzen zu können, muss die Komponente <code>mycore-migration</code> eingebunden werden.
       </p>
         <p>
-          {{< highlight text "linenos=table">}}
+          {{< highlight xml "linenos=table">}}
  <dependency>
    <groupId>org.mycore</groupId>
    <artifactId>mycore-migration</artifactId>
@@ -66,7 +65,7 @@ date: "2019-07-15"
         Diese Änderung kann mittels Migrationskommando automatisiert durchgeführt werden.
       </p>
       <p>
-        {{< highlight text "linenos=table">}}
+        {{< highlight shell "linenos=table">}}
  mycore.sh
    -> select objects with solr query -derCount:0 AND -objectType:derivate OR -objectType:data_file in core main
    -> execute for selected migrate derivatelink for object {x}{{< /highlight >}}
@@ -74,23 +73,25 @@ date: "2019-07-15"
       
       <h3>host-Parameter</h3>
       <p>
-      Der Stylesheet-Parameter <code>host</code> ist mit Ticket MCR-1013 erstzlos entfallen. Die Verwendung in alten
-      XSLT-Stylesheets ist zu entfernen.
+        Der Stylesheet-Parameter <code>host</code> ist mit Ticket <a href="https://mycore.atlassian.net/browse/MCR-1013">MCR-1013</a>
+        ersatzlos entfallen. Die Verwendung in alten XSLT-Stylesheets ist zu entfernen. Als Vorlage können die entsprechenden
+        Anpassungen in der MIR-Anwendung dienen:
+        <a href="https://github.com/MyCoRe-Org/mir/pull/348/files">MCR-1013 remove host parameter support</a>.
       </p>
 
       <h3>Migration nach Bootstrap 4</h3>
       <p>
-        Für alle im Kern mitgelieferten Frontend-Webseiten, die Xeditor-Komponente und alle Administrationswerkzeuge
-        wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/" target="_blank">Bootstrap 4</a> vorausgesetzt. Damit einher geht auch der Ersatz der
-        Glyph-Icons durch <a target="_blank" href="https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself">fontawesome</a>.
+        Für alle im Kern mitgelieferten Frontend-Webseiten, die xEditor-Komponente und alle Administrationswerkzeuge
+        wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/">Bootstrap 4</a> vorausgesetzt.
+        Damit einher geht auch der Ersatz der Glyphicons durch <a href="https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself">Fontawesome</a>.
         In die eigene Anwendung sind also folgende Dinge einzubinden:
       </p>
       <p>
-      <table style="width:100%; vertical-align:top;">
+      <table class="table">
         <tr>
           <th>&#160;</th>
           <th>CSS</th>
-          <th>Java Script</th>
+          <th>Javascript</th>
           <th>sonstiges</th>
         </tr>
         <tr style="vertical-align:top;">
@@ -100,7 +101,7 @@ date: "2019-07-15"
           <td>&#160;</td>
         </tr>
         <tr>
-          <td>für fontawesome</td>
+          <td>für Fontawesome</td>
           <td>all.min.css</td>
           <td style="vertical-align:top;">&#160;</td>
           <td style="vertical-align:top;">das Verzeichnis webfonts aus der Distribution</td>
@@ -109,8 +110,41 @@ date: "2019-07-15"
       </p>
       <p>
         Dies bedeutet auch, dass in den eigenen Stylesheets verschiedene Anpassungen gemäß der
-        <a href="https://getbootstrap.com/docs/4.3/migration/" target="_blank">Bootstrap 4 Migrations-Anleitung</a>
+        <a href="https://getbootstrap.com/docs/4.3/migration/">Bootstrap 4 Migrations-Anleitung</a>
         durchzuführen sind. Das ist mit etwas Aufwand verbunden, aber im Sinne einer langfristigen Anwendungspflege notwendig.
+        Als hilfreiches Werzeug hat sich auch das <a href="http://upgrade-bootstrap.bootply.com/">Bootply Migration Tool</a>
+        erwiesen.
+      </p>
+      <p>
+        Die Bootstrap-Klassen zur Validierung existieren in der alten Form nicht mehr. Daher wurden MyCoRe-eigene Klassen
+        definiert und verwendet (betrifft ACL-Editor, Login & xEditor). Damit die Darstellung wie gewohnt aussieht, muss
+        das CSS in der Anwendung wie folgt erweitert werden: 
+      </p>
+      <p>
+        {{< highlight css "linenos=table">}}
+/* bootstrap 4 fix
+ * this is only a workaround for server side validation, we should
+ * refacture the html an use html5 features here - TODO
+ */
+.mcr-invalid {
+  label {
+    color: red;
+  }
+  input,
+  select {
+    border: 1px solid red;
+    padding-right: calc((1em + .75rem) * 3 / 4 + 1.75rem);
+  }
+}
+.mcr-valid {
+  label {
+    color: green;
+  }
+  input,
+  select {
+    border: 1px solid green;
+  }
+}{{< /highlight >}}
       </p>
     </div>
-    
+
