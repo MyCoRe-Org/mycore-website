@@ -71,7 +71,7 @@ date: "2019-07-15"
       </p>
       <p>Das Secret kann auch händisch z.B. mit folgendem Befehl erzeugt werden:</p>
       {{< highlight shell "linenos=table">}}
-        openssl rand 4096 > ~/.mycore/{MCR.AppName}/jwt.secret
+        openssl rand 4096 &gt; ~/.mycore/{MCR.AppName}/jwt.secret
       {{< /highlight >}}
       <p>Weiterhin MUSS der Parameter -DMCR.AppName={MCR.AppName} beim Tomcat-Start mit gegeben werden.</p>
       
