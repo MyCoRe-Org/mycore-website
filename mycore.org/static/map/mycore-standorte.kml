@@ -1031,9 +1031,9 @@
       <name>DOL</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://dol.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_dol.png" /></a>
+                <a class="mcrmap_item_icon" href="https://dol.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_dol.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://dol.uni-leipzig.de/">Digital Objects Leipzig</a>
+                	<a class="mcrmap_item_name" href="https://dol.dl.uni-leipzig.de/">Digital Objects Leipzig</a>
 					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
                 </p>
             </div>
