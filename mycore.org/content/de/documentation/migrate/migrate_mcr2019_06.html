@@ -61,14 +61,18 @@ date: "2019-09-10"
  
       <h3>Umstrukturierung des derobject-Tags im mycoreobject</h3>
       <p>
-        Mit dem LTS 2019.06 wurde die Struktur des derobject-Tags innerhalb eines mycoreobject geändert (siehe <a href="{{< ref mcrobj_xml >}}">XML-Syntax eines MyCoRe-Objektes</a>). 
+        Mit dem LTS 2019.06 wurde die Struktur des derobject-Tags innerhalb eines mycoreobject geändert (siehe <a href="{{< ref mcrobj_xml >}}">XML-Syntax eines MyCoRe-Objektes</a>).
         Diese Änderung kann mittels Migrationskommando automatisiert durchgeführt werden.
+      </p>
+      <p>
+        Falls das <code>label</code>-Attribut genutzt wurde um das Derivat zu kategorisieren, kann vor der Migration eine passende Klassifikation mit dem Namen <code>derivate_types</code>
+        angelegt werden. Dann werden die <code>label</code>-Einträge in eine entsprechenden Klassifikationseintrag überführt. Eine Beispielklassifikation kann hier heruntergeladen werden:
+        <code><a href="https://www.mycore.de/classifications/derivate_types.xml">derivate_types.xml</a></code>.
       </p>
       <p>
         {{< highlight shell "linenos=table">}}
  mycore.sh
-   -> select objects with solr query -derCount:0 AND -objectType:derivate OR -objectType:data_file in core main
-   -> execute for selected migrate derivatelink for object {x}{{< /highlight >}}
+   -> migrate all derivates{{< /highlight >}}
       </p>
       
       <h3>host-Parameter</h3>
