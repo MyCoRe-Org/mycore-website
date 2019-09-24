@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2019.06 und die Migration von Version
       2018.06 zu 2019.06 zusammen.
     "
-date: "2019-09-10"
+date: "2019-09-20"
 
 ---
 
@@ -36,7 +36,7 @@ date: "2019-09-10"
       <ul>
         <li>Java 11 (OpenJDK)</li>
         <li>Tomcat 8.4 oder Tomcat 9.0 bzw. Jetty 9.4.18 (alternativ ein System mit Unterstützung von Servlet-3.1)</li>
-        <li>SOLR 7.7.1 oder höher</li>
+        <li>SOLR 7.7.2 oder höher</li>
         <li>
           eine
           <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
@@ -47,18 +47,77 @@ date: "2019-09-10"
       </ul>
       
       <h2>Migrationsschritte</h2>
+      <h3>Migrationskommandos einbinden</h3>
       <p>
         Um die Migrationskommandos nutzen zu können, muss die Komponente <code>mycore-migration</code> eingebunden werden.
       </p>
-        <p>
-          {{< highlight xml "linenos=table">}}
+      <p>
+        {{< highlight xml "linenos=table">}}
  <dependency>
    <groupId>org.mycore</groupId>
    <artifactId>mycore-migration</artifactId>
-   <version>2019.06-SNAPSHOT</version>
+   <version>2019.06.2-SNAPSHOT</version>
  </dependency>{{< /highlight >}}
-        </p>
- 
+      </p>
+
+      <h3>Solrkonfiguration und Index aktualisieren</h3>
+      <p>
+        Im Zuge der im nachfolgenden Abschnitt beschriebenen Umstrukturierung des <code>derobject</code>-Tags im <code>mycoreobject</code> sind neue Index-Felder im Solr-Dokument ergänzt
+        worden. Das entsprechende Solr-Dokument kann wie folgt angeschaut werden <code>{$WebApplicationBaseURL}/receive/mir_derivate_00000001?XSL.Transformer=mycoreobject-solrdocument</code>.
+        Hier eine kurze Übersicht der Änderungen:
+      </p>
+      <table class="table">
+        <tr>
+          <th>Status</th>
+          <th>Feldname</th>
+          <th>Typ</th>
+          <th>wiederholbar</th>
+          <th>betrifft</th>
+        </tr>
+        <tr>
+          <td>neu</td>
+          <td>derivateTitle</td>
+          <td>text_general</td>
+          <td>nein</td>
+          <td>derivate</td>
+        </tr>
+        <tr>
+          <td>neu</td>
+          <td>derivateTitle.de</td>
+          <td>text_de</td>
+          <td>nein</td>
+          <td>derivate</td>
+        </tr>
+        <tr>
+          <td>neu</td>
+          <td>derivateTitle.en</td>
+          <td>text_en</td>
+          <td>nein</td>
+          <td>derivate</td>
+        </tr>
+        <tr>
+          <td>neu</td>
+          <td>derivateOrder</td>
+          <td>pint</td>
+          <td>nein</td>
+          <td>derivate</td>
+        </tr>
+        <tr>
+          <td>umbenannt</td>
+          <td>maindoc -> derivateMaindoc</td>
+          <td>string</td>
+          <td>nein</td>
+          <td>derivate</td>
+        </tr>
+      </table>
+      <p>
+        Zur Index-Aktualisierung muss in der MyCoRe-CLI die Konfiguration neu geladen und der Metadatenindex aktualsiert werden.
+        {{< highlight shell "linenos=table">}}
+ mycore.sh
+   -> reload solr configuration main in core main
+   -> rebuild solr metadata index in core main{{< /highlight >}}
+      </p>
+
       <h3>Umstrukturierung des derobject-Tags im mycoreobject</h3>
       <p>
         Mit dem LTS 2019.06 wurde die Struktur des derobject-Tags innerhalb eines mycoreobject geändert (siehe <a href="{{< ref mcrobj_xml >}}">XML-Syntax eines MyCoRe-Objektes</a>).
@@ -74,8 +133,8 @@ date: "2019-09-10"
  mycore.sh
    -> migrate all derivates{{< /highlight >}}
       </p>
-      
-      <h3>host-Parameter</h3>
+
+      <h3>Obsoleten host-Parameter entfernen</h3>
       <p>
         Der Stylesheet-Parameter <code>host</code> ist mit Ticket <a href="https://mycore.atlassian.net/browse/MCR-1013">MCR-1013</a>
         ersatzlos entfallen. Die Verwendung in alten XSLT-Stylesheets ist zu entfernen. Als Vorlage können die entsprechenden
@@ -83,14 +142,13 @@ date: "2019-09-10"
         <a href="https://github.com/MyCoRe-Org/mir/pull/348/files">MCR-1013 remove host parameter support</a>.
       </p>
 
-      <h3>Migration nach Bootstrap 4</h3>
+      <h3>Migration nach Bootstrap v4</h3>
       <p>
         Für alle im Kern mitgelieferten Frontend-Webseiten, die xEditor-Komponente und alle Administrationswerkzeuge
         wird unter LTS 2019.06 jetzt die Verwendung von <a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/">Bootstrap 4</a> vorausgesetzt.
         Damit einher geht auch der Ersatz der Glyphicons durch <a href="https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself">Fontawesome</a>.
         In die eigene Anwendung sind also folgende Dinge einzubinden:
       </p>
-      <p>
       <table class="table">
         <tr>
           <th>&#160;</th>
@@ -111,13 +169,12 @@ date: "2019-09-10"
           <td style="vertical-align:top;">das Verzeichnis webfonts aus der Distribution</td>
         </tr>
       </table>
-      </p>
       <p>
         Dies bedeutet auch, dass in den eigenen Stylesheets verschiedene Anpassungen gemäß der
         <a href="https://getbootstrap.com/docs/4.3/migration/">Bootstrap 4 Migrations-Anleitung</a>
         durchzuführen sind. Das ist mit etwas Aufwand verbunden, aber im Sinne einer langfristigen Anwendungspflege notwendig.
-        Als hilfreiches Werzeug hat sich auch das <a href="http://upgrade-bootstrap.bootply.com/">Bootply Migration Tool</a>
-        erwiesen.
+        Als hilfreiche Werzeuge haben sich auch das <a href="http://upgrade-bootstrap.bootply.com/">Bootply Migration Tool</a>
+        und <a href="https://bootstrap.build/app">Bootstrap Build</a> erwiesen.
       </p>
       <p>
         Die Bootstrap-Klassen zur Validierung existieren in der alten Form nicht mehr. Daher wurden MyCoRe-eigene Klassen
@@ -127,8 +184,7 @@ date: "2019-09-10"
       <p>
         {{< highlight css "linenos=table">}}
 /* bootstrap 4 fix
- * this is only a workaround for server side validation, we should
- * refacture the html an use html5 features here - TODO
+ * this is a workaround for server side validation
  */
 .mcr-invalid {
   label {
