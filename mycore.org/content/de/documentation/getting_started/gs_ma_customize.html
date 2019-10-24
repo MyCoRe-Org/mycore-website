@@ -6,6 +6,8 @@ mcr_version: ['2018.06']
 author: ['Kathleen Neumann', 'Robert Stephan']
 
 ---
+<p>Die folgende Anleitung geht davon aus, dass eine neue Anwendung mit dem Namen <code>skeleton</code> eingerichtet werden soll.
+
 <h2>Installation</h2>
 <h3>1. CLI erstellen</h3>
 <p>
@@ -55,18 +57,21 @@ author: ['Kathleen Neumann', 'Robert Stephan']
     Die Konfigutation wird wim Abschnitt <a href="{{< ref gs_solr7 >}}">Solr-Integration</a>
     beschrieben.
 </p>
-<p>Der Solr-Core sollte wie die Anwendung benannt werden<code>skeleton</code> und kann mit folgendem
-   Kommando angelegt werden.
- {{< highlight txt>}}.../solr/bin/solr create -c skeleton -d mycore_main{{< /highlight>}}
+<p>Der Solr-Core sollte wie die Anwendung (<code>skeleton</code>) benannt werden und kann mit folgendem
+   Kommando angelegt werden:
+ {{< highlight txt>}}
+ .../solr/bin/solr create -c skeleton -d mycore_main{{< /highlight>}}
  
         <p>Abschließend wird in der Datei <code>mycore.properties</code> im MyCoRe-Konfigurationsverzeichnis
         der Core definiert:</p>
- {{< highlight txt>}}MCR.Solr.ServerURL=http://localhost:8983/
- MCR.Solr.Core.main.Name=skeleton{{< /highlight>}}
-
- <h3>3. Daten laden</h3>
+ {{< highlight txt>}}
+  MCR.Solr.ServerURL=http://localhost:8983/
+  MCR.Solr.Core.main.Name=skeleton{{< /highlight>}}
+ 
+ 
+<h3>3. Anwendung initialisieren</h3>
 <p>
-   Nun können die Klassifikationen und Nutzer der MyCoRe-Anwendung in die DB geladen werden.
+   Nun können die Klassifikationen, Nutzer der MyCoRe-Anwendung und und die SOLR-Core-Konfiguration in die DB geladen werden.
    Dazu wird folgendes Kommando verwendet:
 </p>
 <dl>

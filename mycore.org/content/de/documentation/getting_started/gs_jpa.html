@@ -12,10 +12,9 @@ date: "2018-11-09"
       <h2>Allgemeines</h2>
       <p>
         Mit Release 2016.06 wurde die Datenbankanbindung in MyCoRe von der direkten Nutzung von
-        <strong>Hibernate</strong> auf die <strong>Java Persitence API (JPA)</strong>
+        <strong>Hibernate</strong> auf die <strong>Java Persistence API (JPA)</strong>
         umgestellt. Dies hat den Vorteil, dass bei Bedarf die darunter liegende
-        <strong>Hibernate-API</strong>
-        gegen eine andere JPA Implementation ausgetauscht werden kann.
+        <strong>Hibernate-API</strong> gegen eine andere JPA Implementation ausgetauscht werden kann.
       </p>
 
       <h2>Konfiguration</h2>
@@ -23,11 +22,11 @@ date: "2018-11-09"
         Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
         Konfigurationsdatei <em>persistence.xml</em>
         muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter 
-        wie der Datenbanktreiber <code>MY_DATABASE</code>, der Datenbankbenutzer<code>DATABASE_USER</code>
+        wie der Datenbankname <code>MY_DATABASE</code>, das Schema <code>MY_SCHEMA</code>, der Datenbankbenutzer <code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
       </p>
-      
-      {{< highlight xml "linenos=table">}}
+      {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
+{{< highlight xml "linenos=table" >}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
@@ -44,12 +43,11 @@ date: "2018-11-09"
 
       <!--  PostgreSQL -->
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE?currentSchema=MY_SCHEMA" />
 
       <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
       <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
       
-      <property name="hibernate.default_schema" value="" />
       <property name="hibernate.hbm2ddl.auto" value="update" />
 
       <!-- second-level cache  -->
@@ -78,5 +76,9 @@ date: "2018-11-09"
   </persistence-unit>
 </persistence>
 {{< /highlight >}}
+{{< /mcr-figure >}}
 
+  <h2>Datenbank-Treiber</h2>
+Der für den Zugriff auf die Datenbank notwendige JDBC-Treiber (i.d.R. eine JAR-Datei) kann im <code>lib</code> Ordner
+des Konfigurationsverzeichnisses abgelegt werden.
   

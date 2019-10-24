@@ -86,9 +86,8 @@ date: "2019-05-08"
           Um das Set in den Solr-Server zu integrieren, können folgende Kommandos ausgeführt werden:
         </p>
         {{< highlight shell "linenos=table">}}
-          cd .../solr/server/solr/configsets
-          git clone
-          https://github.com/MyCoRe-Org/mycore_solr_configset_main.git mycore_main{{< /highlight >}}
+ cd .../solr/server/solr/configsets
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_main.git mycore_main{{< /highlight >}}
         <p>
           Alternativ kann das Verzeichnis auch manuell heruntergeladen und in diesen Ordner kopiert werden. Analog kann
           dies für
@@ -96,8 +95,7 @@ date: "2019-05-08"
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
-          git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git
-          mycore_classification{{< /highlight >}}
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git mycore_classification{{< /highlight >}}
         </p>
 
         <h3>Standard Solr Core (main) erzeugen</h3>
@@ -109,8 +107,8 @@ date: "2019-05-08"
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
-          .../solr/bin/solr create -c {core_name} -d {config_set}
-          .../solr/bin/solr create -c my_core_name -d mycore_main
+ .../solr/bin/solr create -c {core_name} -d {config_set}
+ .../solr/bin/solr create -c my_core_name -d mycore_main
         {{< /highlight >}}
         </p>
 
@@ -142,11 +140,10 @@ date: "2019-05-08"
         </p>
 
         <p>
-          Alternativ müssen die
-          <em>CoreIds</em>
+          Alternativ können die <em>CoreIds</em>
           (auf jeden Fall die CoreId
           <code>main</code>
-          ) über die MyCoRe-CLI registriert werden. Für weitere <em>CoreIds</em> gilt dies analog. 
+          ) über die MyCoRe-CLI registriert werden. Diese Einstelllungen sind jedoch nicht persistent. 
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
@@ -174,27 +171,24 @@ date: "2019-05-08"
           für alle MyCoRe-Anwendungen befindet sich in der Komponente <code>mycore-solr</code>.
         </p>
         <p>
-          In Einzelfällen kann es erforderlich sein, dass neben dem Solr-Core vom Typ
+          Je nach Anwendungsfall kann es sein, dass neben dem Solr-Core vom Typ
           <code>main</code> weitere Definitionen für andere Core Typen (z. B.
-          <code>classification</code>) definiert sind.
+          <code>classification</code>) erstellt werden müssen.
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
-          {mycore-module}/src/main/resources/components/{module_name}/config/solr
-          or
-          {application-module}/src/main/resources/config/{application-module}/solr
+ {mycore-module}/src/main/resources/components/{module_name}/config/solr
+   or
+ {application-module}/src/main/resources/config/{application-module}/solr
 
-          .../main - the core that use each
-          MyCoRe application
-          .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
-          .../solr-config.json - vorhanden, wenn das Modul die Solr-Konfiguration erweitert
+ .../main - the core that use each MyCoRe application
+    .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
+    .../solr-config.json - vorhanden, wenn das Modul die Solr-Konfiguration erweitert
 
-          .../{other_type} - other core
-          definitions
-          .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
-          .../solr-config.json -
-          vorhanden, wenn das Modul die Solr-Konfiguration erweitert
-        {{< /highlight >}}
+ .../{other_type} - other core definitions
+    .../solr-schema.json - vorhanden, wenn das Modul das Solr-Schema erweitert
+    .../solr-config.json - vorhanden, wenn das Modul die Solr-Konfiguration erweitert
+{{< /highlight >}}
         </p>
 
         <p>
@@ -204,11 +198,11 @@ date: "2019-05-08"
           dies über <code>replace</code>-Anweisungen in den JSON-Konfigurationsdateien erfolgen.
         </p>
         <p>
-          Über das MyCoRe-CLI Kommando wird die Konfiguration geladen. Für den Normalfall lautet das Kommando:
+          Über ein MyCoRe-CLI Kommando wird die Konfiguration geladen. <br />Im Normalfall lautet das Kommando:
         </p>
-        {{< highlight shell "linenos=table">}}
-          mycore.sh reload solr configuration {core_config_type} in core {core_id}
-          mycore.sh reload solr configuration main in core main{{< /highlight >}}
+{{< highlight shell "linenos=table">}}
+ mycore.sh reload solr configuration {core_config_type} in core {core_id}
+ mycore.sh reload solr configuration main in core main{{< /highlight >}}
 
         <p>
           Anschließend sollte noch einmal über die Solr-Web-Oberfläche geprüft werden, ob der Core vollständig
