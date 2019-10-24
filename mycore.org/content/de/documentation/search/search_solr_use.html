@@ -7,7 +7,7 @@ author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 description: "
       Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
       Im das MyCoRe
-      Release 2018.06 LTS und 2019.06 LTS wurde erfolgreich mit Solr 7.7.1 getestet.
+      Release 2018.06 LTS und 2019.06 LTS wurde erfolgreich mit Solr 7.7.2 getestet.
     "
 date: "2019-05-08"
 
@@ -278,6 +278,11 @@ date: "2019-05-08"
         bezeichnet. Mit dem LTS 2018.06 sind diese deprecated!
       </p>
       <table class="table table-condensed solr-properties-table">
+      <colgroup>
+      	<col width="30%" />
+      	<col width="60%" />
+      	<col width="10%" />
+      </colgroup>
         <tr>
           <th>Property in 2018</th>
           <th>Bedeutung</th>
@@ -488,30 +493,30 @@ date: "2019-05-08"
         </tr>
         <tr>
           <td>
-            <code>MCR.Solr.TikaFileds</code>
+            <code>MCR.Solr.TikaFields</code>
           </td>
           <td>eine Liste von Feldnamen für Tika-Metadaten</td>
           <td />
         </tr>
         <tr>
           <td>
-            <code>MCR.Solr.JoinQueryFileds</code>
+            <code>MCR.Solr.JoinQueryFields</code>
           </td>
           <td>
-            enthält die Liste der Properties
+            enthält die Liste der Properties<br />
             <code>MCR.Solr.ContentBaseFields</code>
             ,
             <code>MCR.Solr.AVExtenderFields</code>
             ,
-            <code>MCR.Solr.TikaFileds</code>
+            <code>MCR.Solr.TikaFields</code>
           </td>
           <td />
         </tr>
         <tr>
           <td>
-            <code>MCR.Solr.netsedDocuments</code>
+            <code>MCR.Solr.NestedDocuments</code>
           </td>
-          <td>default=true ; ???</td>
+          <td>default=true; <br />aktiviert den Support für Nested Documents</td>
           <td />
         </tr>
       </table>
@@ -786,32 +791,26 @@ date: "2019-05-08"
       </p>
       <p>
       {{< highlight java "linenos=table">}}
-        import org.apache.solr.client.solrj.SolrClient;
-        import org.apache.solr.client.solrj.SolrQuery;
-        import org.apache.solr.client.solrj.SolrServerException;
-        import org.apache.solr.common.SolrDocumentList;
+ import org.apache.solr.client.solrj.SolrClient;
+ import org.apache.solr.client.solrj.SolrQuery;
+ import org.apache.solr.client.solrj.SolrServerException;
+ import org.apache.solr.common.SolrDocumentList;
 
-        import
-        org.mycore.solr.MCRSolrClientFactory;
-        import org.mycore.solr.MCRSolrUtils;
+ import org.mycore.solr.MCRSolrClientFactory;
+ import org.mycore.solr.MCRSolrUtils;
 
-        ...
-        SolrClient solrClient =
-        MCRSolrClientFactory.getMainSolrClient();
+ ...
+ SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
 
-        oder
+  //oder:
+ SolrClient solrClient = MCRSolrClientFactory.get("{coreID}").getClient();
 
-        SolrClient solrClient =
-        MCRSolrClientFactory.get("{coreID}").getClient();
-
-        SolrQuery query = new SolrQuery();
-        query.setQuery("title:foo");
-        query.setRows(10);
-        SolrDocumentList results =
-        solrClient.query(query).getResults();
-
-        ...
-      {{< /highlight >}}
+ SolrQuery query = new SolrQuery();
+ query.setQuery("title:foo");
+ query.setRows(10);
+ SolrDocumentList results = solrClient.query(query).getResults();
+ ...
+{{< /highlight >}}
       </p>
 
   
