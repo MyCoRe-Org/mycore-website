@@ -1,0 +1,43 @@
+
+---
+
+title: "Der History Manager"
+mcr_version: ['2018.06','2019.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Die Seite beschreibt den Zweck und die Verwendung des MCRHistoryManagers."
+date: "2019-11-01"
+
+---
+
+ <h2>Allgemeines</h2>
+ <p>
+   Die "Deletion Policy“ braucht man zwingend für DINI-Repositorien und OAI2. Daher muss der
+   MCRMetadataHistoryManager im Einsatz seien. Werden Datensätze gelöscht, wird dies vermerkt und die 
+   entsprechende MyCoRe-Id wird nicht erneut vergeben. Ein Löschen der Daten des Managers sollte nur
+   auf Testsystemen erfolgen.
+ </p>
+ 
+ <h2>Kommandos</h2>
+ <p>
+   Folgende Kommandos dienen der Manipulation des MCRHistoryManagers:
+ </p>
+ <p>
+   {{< highlight shell "linenos=table">}}
+ mycore.sh clear metadata history completely
+     clears metadata history completely
+
+ mycore.sh clear metadata history of base {0}
+     clears metadata history of all objects with base id {0}
+
+ mycore.sh clear metadata history of id {0}
+     clears metadata history of object/derivate with id {0}
+ 
+ mycore.sh build metadata history completely
+     build metadata history completely
+
+ mycore.sh build metadata history of base {0}
+     build metadata history of all objects with base id {0}
+
+ mycore.sh build metadata history of id {0}
+     build metadata history of object/derivate with id {0}{{< /highlight >}}
+ </p>
