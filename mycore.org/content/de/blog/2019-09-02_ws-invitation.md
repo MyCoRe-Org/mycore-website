@@ -14,7 +14,7 @@ blog/tags:
  - "Treffen"
 
 news/frontpage: 	true
-news/title_de: 		"Einladung zum MyCoRe-Workshop"
+news/title_de: 		"MyCoRe-Workshop 2019"
 news/teaser_de: 	"Wir laden herzlich zum MyCoRe-Anwenderworkshop 2019 ein. Er findet vom 6.-7.11. in Essen statt."
 news/title_en: 		"Invitation"
 news/teaser_en:	  "The MyCoRe Workshop 2019 will take place in Essen. Save the date: 6. and 7. November 2019."

@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - OAT
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Open-Access-Tage 2019"
 news/teaser_de: "Vom 30.09. bis 2.10. finden die Open-Access-Tage 2019 in Hannover statt. MyCoRe ist dabei."
 news/title_en: "Open-Access-Tage 2019"
