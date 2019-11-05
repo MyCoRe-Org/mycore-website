@@ -1,9 +1,8 @@
 ---
 
 title: "Archiv"
-mcr_version: ['2018.06']
-author: ['Kathleen Neumann', 'Jens Kupferschmidt']
-date: "2019-05-29"
+author: ['Kathleen Neumann']
+date: "2019-09-20"
 
 description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert ist das
  Release 2.0. Danach wurde die Benennung geändert, so gibt es jetzt statt eines
@@ -12,6 +11,71 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
  Seit diesem Zeiptunkt gibt es LTS-Releases und 'normale' Releases.
 ---
  
+
+<h2>Release 2018.08</h2>
+      <h3>Was ist neu?</h3>
+      <ul>
+        <li>Umgestellt auf Maven-Central, siehe <a href="https://mvnrepository.com/artifact/org.mycore">https://mvnrepository.com/artifact/org.mycore</a></li>
+        <li>Umstieg auf Solr 7 - siehe <a href="{{< ref search_solr_use >}}">Solr Nutzung</a></li>
+        <li>ORCID-Integration</li>
+        <li>Datacite-Schema konfigurierbar</li>
+        <li>Überarbeiteter FileUpload - siehe entsprechender <a href="{{<relURL "/blog/2018/06/datei-upload" >}}">Blogeintrag</a></li>
+        <li>Datei-Informationen werden vollständig aus der DB gelesen, nicht mehr teilweise von der Platte (bessere Performance des Derivat-Listings)</li>
+        <li>Unterstützung von Proxy-Header</li>
+        <li>Abrundung der PI-Komponente</li>
+        <li>Sprachklassifikation RFC5646 löst RFC4646 ab</li>
+        <li>MCRConfiguration2</li>
+        <li>Komponenten entfernt: mycore-urn, mycore-complete und mycore-buildtools </li>
+      </ul>
+      <h3>Einbindung der Komponenten</h3>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2018.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und die
+        Maven-Repositories angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <properties>
+    <mycore.version>2018.06.0.1-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>  
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artififactId>mycore-base</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
+
+
+
 <h2>Release 2016.12 - ‚Heiss &amp; Weiss‘</h2>
     <p>
       All changes, new features etc. are summarized below.

@@ -10,118 +10,17 @@ description: "
       Stylesheet angeboten, das aus MyCoRe-MODS-Objekten ein datacite-Format generiert, das dann
       entsprechend zur Registrierung genutzt werden kann.
     "
+date: "2019-11-05"
 
 ---
 
-    <h2>Nutzung der URN-Vergabe</h2>
-
-      <h3>URN in der Anwendung</h3>
-      <p>
-        Um die URN-Vergabe für Dokumente und deren Derivate zu aktivieren, muss das folgende
-        Property für die entsprechenden MyCoRe-Objekttypen definiert werden:
-      </p>
-      <p>
-      {{< highlight bash "linenos=table">}}
-        MCR.URN.Enabled.Objects=mods{{< /highlight >}}
-      </p>
-      <p>
-        Soll für mehrere Objekttypen die URN-Vergabe ermöglicht werden, so
-        müssen alle Typen durch Komma getrennt an dieser Stelle angegeben werden:
-      </p>
-      <p>
-      {{< highlight bash "linenos=table">}}
-        MCR.URN.Enabled.Objects=document,file,certificate{{< /highlight >}}
-      </p>
-      <p>
-        In der Anwendung MIR ist die URN-Vergabe für MODS-Dokumente standardmäßig
-        aktiviert. Werden Dateien angehangen, so kann über das Aktionen-Menü des
-        jeweiligen Derivates eine URN für das Derivat erzeugt werden.
-      </p>
-
-      <h3>Das MCRAddURNToObjectServlet</h3>
-      <p>
-        In der Anwendung kann das <a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/servlets/MCRAddURNToObjectServlet.html">MCRAddURNToObjectServlet</a> genutzt werden, um je nach Anforderung die URN zu erzeugen. Dafür stehen die folgenden
-        Optionen zur Verfügung:
-      </p>
-      <table class="table">
-        <tr>
-          <th>URL-Parameter</th>
-          <th>Werte</th>
-          <th>Beschreibung</th>
-        </tr>
-        <tr>
-          <td>object</td>
-          <td>ObjectID / DerivatID</td>
-          <td>Pflichtangabe, übergibt die ID des Objektes bzw. Derivates, für das eine URN erzeugt werden soll; ohne weitere Parameter wird bei Angabe einer
-              Objekt-ID eine URN in den Metadaten eingetragen, bei Angabe einer Derivat-ID bekommt das Derivat eine URN und alle enthaltenen Dateien bekommen
-              eine darauf aufbauende URN-granular</td>
-        </tr>
-        <tr>
-          <td>target</td>
-          <td>"file" oder "derivate"</td>
-          <td>optional und nur in Kombination mit <code>object=&lt;DerivatID&gt;</code> möglich; "file" gibt an, dass die URN
-              für eine einzelne Datei erzeugt werden soll; "derivate" gibt an, dass die URN nur für das Derivat erzeugt werden soll</td>
-        </tr>
-        <tr>
-          <td>file</td>
-          <td>Pfad zur Datei innerhalb des Derivates, für die eine URN erzeugt werden soll</td>
-          <td>optional und nur in Kombination mit <code>object=&lt;DerivatID&gt;</code> und <code>target=file</code></td>
-        </tr>
-      </table>
-      <p>
-        Wird die URN in den Metadaten-Abschnitt generiert, so hat diese folgende Form:
-      </p>
-      <p>
-      {{< highlight xml "linenos=table">}}
-        <def.identifier>
-          <identifier type="urn">urn:foo:bar</identifier>
-        </def.identifier>{{< /highlight >}}
-      </p>
-
-      <h3>Die Implementierung</h3>
-      <p>
-        Die URN-Funktionalität wird in der MyCoRe-Komponente <code>mycore-urn</code> bereitgestellt.
-      </p>
-      <p>
-        In der Basisimplementierung sorgt der <a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/services/MCRURNProvider.html">MCRURNProvider</a> für die Erzeugung
-        der URN. Dieser generiert die URN nach einem in den Properties definierten Schema:
-      </p>
-      <p>
-      {{< highlight bash "linenos=table">}}
-          MCR.URN.Provider.Class=org.mycore.urn.services.MCRURNProvider
-        # CHANGE: Subnamespace for Campus MyCoRe
-          MCR.URN.SubNamespace.Default.Prefix=urn:nbn:de:mcr:1-
-          MCR.URN.SubNamespace.Default.NISSBuilder=org.mycore.urn.services.MCRNISSBuilderDateCounter
-          MCR.URN.SubNamespace.Default.NISSPattern=yyyyMMdd-HHmmss-
-          #MCR.URN.SubNamespace.Default.NISSBuilder=org.mycore.urn.services.MCRNISSBuilderUUID{{< /highlight >}}
-      </p>
-      <p>
-        Die gelisteten Properties zeigen die Standard-Konfiguration. Diese können (und sollten) entsprechend in den
-        Properties der Anwendung angepasst werden. Die Komponente <code>mycore-urn</code> bringt zwei Möglichkeiten mit,
-        eine URN zu generieren. Es kann eine UUID (<a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/services/MCRNISSBuilderUUID.html">MCRNISSBuilderUUID</a>) erzeugt werden, oder anhand des Zeitpunktes, zu dem die URN
-        erzeugt wird. Das genaue Muster dafür kann mittels des NISSPattern-Properties
-        (<a href="http://www.mycore.de/generated/mycore/apidocs/index.html?org/mycore/urn/services/MCRNISSBuilderDateCounter.html">MCRNISSBuilderDateCounter</a>) definiert werden.
-      </p>
-      <p>
-        Reichen die Optionen über die Properties nicht aus und die URNs sollen mit einem
-        anderen Aufbau generiert werden, so muss dafür eine eigene Klasse geschrieben werden,
-        die das <code>org.mycore.services.urn.IURNProvider</code>-Interface implementiert oder
-        einfacher gleich von <code>org.mycore.services.urn.AbstractURNProvider</code>
-        abgeleitet wird. Die neue Klasse muss dann mit dem vollen Klassenpfad als Wert
-        für das Property <code>MCR.URN.Provider.Class</code> gesetzt werden.
-      </p>
-      <p>
-        Die erzeugten URNs werden sowohl in der Datenbanktabelle
-        <code>MCRURN</code>, als auch im Derivate bzw. Objekt selber abgelegt.
-      </p>
-
-    <h2>DOI-Registrierung über datacite</h2>
+    <h2>DOI-Registrierung</h2>
     <p>
-      <span class="label label-info">2016.06</span><span class="label label-info">2017.06</span> Um DOIs aus der MyCoRe-Anwendung heraus
-      zu prägen und bei DataCite über die REST-API zu registrieren stellt MyCoRe die Komponente
-      <code>mycore-pi</code> mit einer entsprechenden Implementierung bereit. Diese
-      basiert auf dem MyCoRe-MODS-Datenmodell. Mit der folgenden Konfiguration kann die
-      DOI-Registrierung aktiviert werden:
+      Um DOIs aus der MyCoRe-Anwendung heraus zu prägen und beispielsweise bei DataCite über die REST-API
+      zu registrieren stellt MyCoRe die Komponente <code>mycore-pi</code> mit einer entsprechenden Implementierung
+      bereit. Mit der folgenden Konfiguration kann die DOI-Registrierung bei Datacite aktiviert werden. Diese
+      Beispielkonfiguration geht von MyCoRe-MODS als Datenmodell aus. Für ein anderes Datenmodell müsste entsprechend
+      ein eigener Transformer und Inscriber implementiert werden.
     </p>
     <p>
     {{< highlight bash "linenos=table">}}
@@ -134,7 +33,7 @@ description: "
   MCR.PI.Registration.Datacite.RegisterBaseURL=https://intr2dok.vifa-recht.de
   MCR.PI.Registration.Datacite.Username=
   MCR.PI.Registration.Datacite.Password=
-#  MCR.PI.Registration.Datacite.UseTestPrefix=true
+#  MCR.PI.Registration.Datacite.UseTestServer=true
 
   MCR.PI.Registration.Datacite.Transformer=datacite
   MCR.PI.Generator.UUIDDOI=org.mycore.pi.doi.MCRUUIDDOIGenerator
@@ -143,7 +42,18 @@ description: "
   MCR.PI.Parsers.doi=org.mycore.pi.doi.MCRDOIParser{{< /highlight >}}
     </p>
     <p>
-      <span class="label label-alert">Achtung!</span>Wichtig für die Version 2016.06: In dieser Version heisst der MetadataManager noch Inscriber!
+      <span class="badge badge-danger">Achtung!</span> für die Version 2018.06 muss ein JobUser spezifiziert werden, der
+      dann entsprechende Rechte hat das MyCoRe-Objekt zu bearbeiten um DOI und Service-Flags zu ergänzen. Wenn kein Nutzer
+      gesetzt ist, dann ist das der "System" Nutzer, dieser hat aus Sicherheitsgründen keine Schreibrechte.
+      Ab Version 2019.06 wird für PI der MCRJanitor genutzt.
+    </p>
+    <p>
+    {{< highlight bash "linenos=table">}}
+  MCR.PI.Registration.Datacite.JobApiUser=dataciteBot{{< /highlight >}}
+    </p>
+
+    <p>
+      <span class="badge badge-danger">Achtung!</span> für die Version 2016.06: In dieser Version heisst der MetadataManager noch Inscriber!
     </p>
     <p>
     {{< highlight bash "linenos=table">}}
@@ -166,4 +76,10 @@ description: "
       <code>MIR.registerDOI=true</code> gesetzt wird. Dann erscheint im Aktionen-Menü eines
       einzelnen Objektes ein weiterer Menüpunkt "DOI Registrieren".
     </p>
-  
+
+    <h2>URN-Registrierung</h2>
+    <p>
+      Die Konfiguration für URN erfolgt analog zu DOI. Eine Beispiel für eine Konfiguration kann in
+      den <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/config/mir/mycore.properties#L81"
+      >MIR-Properties</a> gefunden werden.
+    </p>

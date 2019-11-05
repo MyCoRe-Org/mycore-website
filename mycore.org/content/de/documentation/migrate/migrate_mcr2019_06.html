@@ -141,6 +141,17 @@ date: "2019-09-20"
         Anpassungen in der MIR-Anwendung dienen:
         <a href="https://github.com/MyCoRe-Org/mir/pull/348/files">MCR-1013 remove host parameter support</a>.
       </p>
+      
+      <h3>Konfiguration von mycore-pi anpassen</h3>
+      <p>
+        <code>MCR.PI.Registration.Datacite.JobApiUser</code> ist obsolete und wird durch die Verwendung eines MyCoRe-internen Nutzers MCRJanitor ersetzt. Dieses
+        Property kann also aus der Konfiguration entfernt werden.
+      </p>
+      <p>
+        Weiterhin hat Datacite das Testprefix abgeschafft und bietet statt dessen einen Testserver an. Wenn dieser netzt werden soll müssen entsprechend die
+        Zugangsdaten für den Testserver und das Property <code>MCR.PI.Registration.Datacite.UseTestServer=true</code> gesetzt werden.
+        <code>MCR.PI.Registration.Datacite.UseTestPrefix=true</code> ist veraltet und wird in 2020 abgeschafft.
+      </p>
 
       <h3>Migration nach Bootstrap v4</h3>
       <p>

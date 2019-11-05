@@ -197,7 +197,7 @@ realisiert werden.
 
 {{< mcr-figure src="/images/io/documentation/getting_started/formbuilder.png"  title="Schnell zum Bootstrap-Formular mit dem Formbuilder" width="75%" />}}
 
-<span class="label label-warning">Achtung:</span> Der Formbuilder setzt <code>name</code>-Attribute für Buttons, Input-Felder, etc.
+<span class="badge badge-warning">Achtung:</span> Der Formbuilder setzt <code>name</code>-Attribute für Buttons, Input-Felder, etc.
 Diese kann der XEditor nicht verarbeiten und produziert Fehler. Diese Attribute also bitte unbedingt entfernen!
 
 Nachdem das HTML-Formular fertig ist, muss dies mit den entsprechenden XEditor-Bestandteilen angereichert werden. Alle Details

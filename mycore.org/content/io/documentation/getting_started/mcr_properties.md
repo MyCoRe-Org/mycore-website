@@ -57,17 +57,17 @@ Weitere Informationen dazu siehe [MCRConfigurationDir](http://www.mycore.de/gene
             <td>%MCR.basedir%/data (default)</td>
           </tr>
           <tr>
-            <td>MCR.Solr.ServerURL <span class="label label-warning">2018.06</span></td>
+            <td>MCR.Solr.ServerURL <span class="badge badge-warning">2018.06</span></td>
             <td>URL zum Server für die gegebene Anwendung</td>
             <td>http://localhost:8983/</td>
           </tr>
           <tr>
-            <td>MCR.Solr.Core.main.Name <span class="label label-warning">2018.06</span></td>
+            <td>MCR.Solr.Core.main.Name <span class="badge badge-warning">2018.06</span></td>
             <td>Name des Solr-Kerns vom Typ <code>main</code></td>
             <td>mycore</td>
           </tr>
           <tr>
-            <td>MCR.Module-solr.ServerURL <span class="label label-warning">2017.06</span></td>
+            <td>MCR.Module-solr.ServerURL <span class="badge badge-warning">2017.06</span></td>
             <td>URL zum Solr-Kern für die gegebene Anwendung</td>
             <td>http://localhost:8080/solr/mycore</td>
           </tr>
