@@ -12,7 +12,7 @@ blog/categories:
 blog/tags:
  - "Website"
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Umstieg auf Hugo"
 news/teaser_de: "MyCoRe goes Hugo und ersetzt damit das XML-Publishing-Framework Apache Forrest für den Webauftritt. Diese Arbeiten sind noch nicht abgeschlossen."
 news/title_en: "Switch to Hugo"
