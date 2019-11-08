@@ -3,7 +3,7 @@ title:  "Einladung zum 14. Anwenderworkshop 2019 in Essen"
 slug: 	mycore-workshop
 date:   2019-09-02
 
-draft: 	false
+draft: 	true
 
 blog/authors: 	["Wiebke Oeltjen"]
 blog/periods: 	2019-09
@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - "Treffen"
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2019"
 news/teaser_de: 	"Wir laden herzlich zum MyCoRe-Anwenderworkshop 2019 ein. Er findet vom 6.-7.11. in Essen statt."
 news/title_en: 		"Invitation"

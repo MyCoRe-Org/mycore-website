@@ -3,7 +3,7 @@ title:  "Ankündigung: 14. Anwenderworkshop 2019 in Essen"
 slug: 	mycore-treffen
 date:   2019-07-18
 
-draft: 	false
+draft: 	true
 
 blog/authors: 	["Wiebke Oeltjen"]
 blog/periods: 	2019-07
