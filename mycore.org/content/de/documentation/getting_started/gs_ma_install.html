@@ -2,13 +2,13 @@
 ---
 
 title: "Maven Archetype als Basis für neue MyCoRe Anwendungen"
-mcr_version: ['2018.06']
+mcr_version: ['2018.06', '2019.06']
 author: ['Robert Stephan', 'Kathleen Neumann']
 description: "
       Zur Entwicklung einer eigenen MyCoRe-Anwendung stellen wir ein Anwendungsgerüst
       (Maven-Archetype) zur Verfügung, das als Grundlage für eigene Anwendung dienen kann.
     "
-date: "2018-11-15"
+date: "2019-11-05"
 
 ---
 <p>
@@ -52,7 +52,7 @@ mvn clean install
    Danach wechselt man in dieses Verzeichnis und ruft das Maven-Kommando zum Erstellen der Anwendung auf:
 </p>
    {{< highlight shell "linenos=table">}}
-mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersion=2018.06.0.2-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersion=2019.06.2-SNAPSHOT
   {{< /highlight >}}    
 
 <p>Das Kommando fragt dann die folgenden Parameter ab:</p>
