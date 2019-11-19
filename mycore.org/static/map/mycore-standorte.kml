@@ -1372,12 +1372,12 @@
 <!-- Gießen                                                                                                            -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Giessener Elektronische Bibliothek</name>
+      <name>Giessener Elektronische Bibliothek (Lehrmaterialien)</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="http://semapp.ub.uni-giessen.de/"><img class="icon" alt="icon" src="/map/icons/icon_giessen_elbib.png" /></a>
+                <a class="mcrmap_item_icon" href="http://semapp.ub.uni-giessen.de/semapp/"><img class="icon" alt="icon" src="/map/icons/icon_giessen_elbib.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="http://semapp.ub.uni-giessen.de/">Giessener Elektronische Bibliothek</a>
+                	<a class="mcrmap_item_name" href="http://semapp.ub.uni-giessen.de/semapp/">Giessener Elektronische Bibliothek (Lehrmaterialien)</a>
 					<span class="mcrmap_item_owner">Justus-Liebig-Universität Giessen (Universitätsbibliothek)</span>
                 </p>
             </div>
