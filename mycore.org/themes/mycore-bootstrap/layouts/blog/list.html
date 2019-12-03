@@ -8,6 +8,11 @@
       </div>
 
       <div class="col-12 col-md-9 col-xl-8 content">
+        {{ with .OutputFormats.Get "rss" -}}
+        <div class="float-right h3 pt-2">
+    		<a href="{{.Permalink}}" title='{{ i18n "blog_rss_abo" }}' ><i class="fas fa-rss"></i></a>
+    	</div>
+		{{ end -}}
         <h1>{{.Title}}</h1>
         <p class="mcr-description">
           {{ .Description }}

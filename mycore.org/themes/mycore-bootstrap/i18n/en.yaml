@@ -7,6 +7,7 @@ blog_calendar: {other: "calendar"}
 blog_category: {other: "category"}
 blog_tags: {other: "tags"}
 blog_news: {other: "news"}
+blog_rss_abo: {other: "subscribe to RSS feed"}
 
 nav_on_this_page: {other: "on this page ..."}
 
