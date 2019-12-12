@@ -17,7 +17,7 @@ Der Publikationsserver dient vor allem der Veröffentlichung von studentischen A
 und umfasst derzeit mehr als 1.800 Dokumente.
 <!--more-->
 
-https://www.digibib.hs-nb.de
+https://digibib.hs-nb.de
 
 Im Rahmen der Umstellung wurden u.a. die Metadaten von Dublin Core nach MODS migriert, das Layout 
 an das Corporate Design der Hochschule angepasst und der Zugriff via HTTPS ermöglicht. 
