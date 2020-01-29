@@ -150,6 +150,42 @@ Folgende Parameter können verwendet werden:
 </div>
 {{< /mcr-figure >}}
 
+<p></p>
+<h3><code>{{&lt;mcr-table&gt;}}</code> für Markdown-Tabellen</h3>
+<p>
+Dieser Shortcode kann verwendet werden, um Markdown-generierte Tabellen mit class und style Attributen anzureichern.
+Damit lässt sich u.a. das Tabellen-Layout von Bootstrap nachnutzen. 
+</p>
+<p>
+Folgende Parameter können verwendet werden:
+</p>
+<table class="table">
+	<tr><td><code>id</code></td><td>id Attribut</td></tr>
+	<tr><td><code>class</code></td><td>CSS Klasse</td></tr>
+	<tr><td><code>style</code></td><td>CSS Style Attribut</td></tr>
+	<tr><td><code>col-styles</code></td><td>Style-Attribute (mit <code>|</code> getrennt), <br />die im <code>&lt;colgroup&gt;</code>-Header der Tabelle gesetzt werden.</td></tr>
+</table>
+<h4>Anwendungsbeispiel</h4>
+
+{{< highlight text>}}
+{{</*mcr-table id="tab_fruits" class="table table-sm table-bordered" style="width:50%"
+             col-styles="width:70%;background-color:lightblue;|width:30%" */>}}
+    | Fruit        | Color  |
+    |--------------|--------|
+    |Apple         | red    | 
+    |Banana        | yellow |
+{{</*/mcr-table*/>}}         
+{{< /highlight >}}
+
+{{<mcr-table id="tab_fruits" class="table table-sm table-bordered"  style="width:50%"
+             col-styles="width:70%;background-color:lightblue;|width:30%;">}}
+| Fruit        | Color  |
+|--------------|--------|
+|Apple         | red    | 
+|Banana        | yellow |
+{{</mcr-table>}}         
+
+
 <h2>Tipps und Tricks</h2>
 <h3>Hugo</h3>
 
