@@ -1,0 +1,22 @@
+{{ $htmlTable := .Inner | markdownify }}
+<table {{ with .Get "id" -}}id="{{ . }}"{{ end }} {{ with .Get "class" -}}class="{{ . }}"{{ end }}>
+{{- if .Get "col-styles"}}
+  <colgroup>
+ {{range split (.Get "col-styles") "|"}}
+ 	<col style="{{safeCSS .}}" />
+ {{end}}
+  </colgroup>
+{{ end }}
+{{ $htmlTable := replace $htmlTable "<table>" "" }}
+{{ $htmlTable | safeHTML }}
+
+{{/* Example:
+
+{{<mcr-table id="tab_fruits" class="table table-sm table-bordered" col-styles="width:80%|width:20%">}}
+| Fruit        | Color  |
+|--------------|--------|
+|Apple         | red    | 
+|Banana        | yellow |
+{{</mcr-table>}}
+
+ */}}
