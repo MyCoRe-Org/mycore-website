@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2019"
 news/teaser_de: 	"MyCoRe-Anwendungsentwickler trafen sich mit den Kernentwicklern in Essen."
 news/title_en: 		"MyCoRe-Workshop 2019"
