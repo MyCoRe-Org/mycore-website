@@ -12,7 +12,6 @@ blog/categories:
 blog/tags:
  - DeepGreen
 
-news/frontpage: true
 news/title_de: "DeepGreen-Testphase"
 news/teaser_de: "Weitere MyCoRe-Repositorien sind an der erweiterten DeepGreen-Testphase beteiligt."
 news/title_en: "DeepGreen test phase"

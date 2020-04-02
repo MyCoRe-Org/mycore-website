@@ -8,17 +8,344 @@ title: "Changes"
   <h2>Changes in MyCoRe</h2>
 
   <div>
-    <h3>Version 2019.11 - Current Head</h3>
+    <h3>Version 2020.05 - Current Head</h3>
 
     {{< highlight xml "linenos=table">}}
       <dependency>
         <groupId>org.mycore</groupId>
         <artifactId>mycore-{component}</artifactId>
-        <version>2019.06.0-SNAPSHOT</version>
+        <version>2020.05-SNAPSHOT</version>
       </dependency>
     {{< /highlight >}}
     <p>more details see <a href="http://www.mycore.de/generated/mycore/project-reports.html">maven site</a></p>
+  </div>
 
+  <div>
+      <h3>Version 2019.06.3 - LTS</h3>
+      
+      {{< highlight xml "linenos=table">}}
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-{component}</artifactId>
+      <version>2019.06.2</version>
+    </dependency>
+  {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2019.06.3/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2074'>MCR-2074</a>] -         MCRURNGranularRESTService does not register urn for landing page after urn assignment
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2085'>MCR-2085</a>] -         mycoreobject can be parent / child of itself
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2086'>MCR-2086</a>] -         can set mods relatedItem href to itself an create a circular circuit
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2131'>MCR-2131</a>] -         When replacing a file with an urn in a derivate the urn is removed from the derivate xml
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2136'>MCR-2136</a>] -         edit user link is shown even if user is not editable
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2137'>MCR-2137</a>] -         MCRTileServlet does not use MCRTileFileProvider
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2143'>MCR-2143</a>] -         expert search mask looks broken since bootstrap 4
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2147'>MCR-2147</a>] -         MODS Merger throws NPE if name element only contains &#39;-&#39;
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2148'>MCR-2148</a>] -         org.mycore.common.MCRGeoUtilities#toDegreeMinuteSecond(double) should round the second part of coordinates
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2149'>MCR-2149</a>] -         Viewer Button for &quot;90° rotation&quot; shows wrong direction
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2150'>MCR-2150</a>] -         URN cannot be registered
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2153'>MCR-2153</a>] -         Video player is not visible in metadata page after uploading video in derivate as main file
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2154'>MCR-2154</a>] -         Language may not be detected on first request
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2155'>MCR-2155</a>] -         Setting MCR.NIO.DefaultScheme=ifs2 leads to java.lang.ClassCastException when invoking MCRFilenodeServlet
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2160'>MCR-2160</a>] -         iview2-solrresponse.xsl shoud use field derivateMaindoc and not maindoc
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2163'>MCR-2163</a>] -         ClassCastException in *.niofs.ifs2.MCRDirectoryStream.MD5FileAttributeViewImpl#readAllAttributes
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2164'>MCR-2164</a>] -         ifs2: MCRDirectoryStream may not read right attributes
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2165'>MCR-2165</a>] -         ifs2: MCRDirectoryStream does not implement move method
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2167'>MCR-2167</a>] -         MCRSession does not support scoped IPv6 addresses
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2168'>MCR-2168</a>] -         ifs2: triggers no path events
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2178'>MCR-2178</a>] -         JWT token does not validate IPv6 addresses correctly
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2180'>MCR-2180</a>] -         MCRStore.isEmpty() returns negated result
+              </li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2128'>MCR-2128</a>] -         improve MCRObjectService
+              </li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2020.02 - Mojito</h3>
+      
+      {{< highlight xml "linenos=table">}}
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-{component}</artifactId>
+      <version>2020.02</version>
+    </dependency>
+  {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2020.02/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2074'>MCR-2074</a>] -         MCRURNGranularRESTService does not register urn for landing page after urn assignment
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2127'>MCR-2127</a>] -         MCRAutoDeploy does not overwrite files that differ
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2129'>MCR-2129</a>] -         DB connection leak in MCRServlet
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2131'>MCR-2131</a>] -         When replacing a file with an urn in a derivate the urn is removed from the derivate xml
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2132'>MCR-2132</a>] -         REST-API returns wrong result URLs
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2133'>MCR-2133</a>] -         MCRPrioritySupplier is not unique
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2134'>MCR-2134</a>] -         wrong mailto-URL in viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2136'>MCR-2136</a>] -         edit user link is shown even if user is not editable
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2137'>MCR-2137</a>] -         MCRTileServlet does not use MCRTileFileProvider
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2143'>MCR-2143</a>] -         expert search mask looks broken since bootstrap 4
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2147'>MCR-2147</a>] -         MODS Merger throws NPE if name element only contains &#39;-&#39;
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2148'>MCR-2148</a>] -         org.mycore.common.MCRGeoUtilities#toDegreeMinuteSecond(double) should round the second part of coordinates
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2150'>MCR-2150</a>] -         URN cannot be registered
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2153'>MCR-2153</a>] -         Video player is not visible in metadata page after uploading video in derivate as main file
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2154'>MCR-2154</a>] -         Language may not be detected on first request
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2155'>MCR-2155</a>] -         Setting MCR.NIO.DefaultScheme=ifs2 leads to java.lang.ClassCastException when invoking MCRFilenodeServlet
+              </li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2080'>MCR-2080</a>] -         Make user attributes repeatable
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2146'>MCR-2146</a>] -         MCRStaticContentGenerator
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2151'>MCR-2151</a>] -         display alert box to move users from internet explorer to more modern browsers
+              </li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2116'>MCR-2116</a>] -         Update OAI-PMH libraries to 2.0
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2125'>MCR-2125</a>] -         Update dependencies
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2130'>MCR-2130</a>] -         Remove dependency to Xerces
+              </li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2118'>MCR-2118</a>] -         add support external IIIF manifests to viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2128'>MCR-2128</a>] -         improve MCRObjectService
+              </li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2019.06.2 - LTS</h3>
+      
+      {{< highlight xml "linenos=table">}}
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-{component}</artifactId>
+      <version>2019.06.2</version>
+    </dependency>
+  {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2019.06.2/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2027'>MCR-2027</a>] -         Mods merger can not handle empty nameFragments
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2094'>MCR-2094</a>] -         type &#39;image&#39; is missing in mets editor
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2106'>MCR-2106</a>] -         Fix maven build errors (found by Eclipse)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2107'>MCR-2107</a>] -         big pdf files load slow in viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2108'>MCR-2108</a>] -         fix dropdown icons in mycore viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2111'>MCR-2111</a>] -         pdfs with cmaps are displayed wrong
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2113'>MCR-2113</a>] -         Delay SOLR Indexing
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2123'>MCR-2123</a>] -         CLI: &quot;check IFS2 compatibily&quot; fails on empty files
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2129'>MCR-2129</a>] -         DB connection leak in MCRServlet
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2132'>MCR-2132</a>] -         REST-API returns wrong result URLs
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2133'>MCR-2133</a>] -         MCRPrioritySupplier is not unique
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2134'>MCR-2134</a>] -         wrong mailto-URL in viewer
+              </li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2110'>MCR-2110</a>] -         Cleanup Code
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2117'>MCR-2117</a>] -         Remove &quot;ifsid&quot; from derivate XML
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2119'>MCR-2119</a>] -         Update Jackson
+              </li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2109'>MCR-2109</a>] -         mods if no publication date present use date of parent 
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2114'>MCR-2114</a>] -         create pi command
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2118'>MCR-2118</a>] -         add support external IIIF manifests to viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2122'>MCR-2122</a>] -         MCRAutoDeploy: increase unzip speed of web resources
+              </li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2019.11 - Monkey Gland</h3>
+      
+      {{< highlight xml "linenos=table">}}
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-{component}</artifactId>
+      <version>2019.11</version>
+    </dependency>
+  {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2019.11/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2027'>MCR-2027</a>] -         Mods merger can not handle empty nameFragments
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2035'>MCR-2035</a>] -         MCRURIResolver can deadlock
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2055'>MCR-2055</a>] -         fix incorrect stream handling and file reading
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2057'>MCR-2057</a>] -         Field list in expert search is sometimes missing
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2064'>MCR-2064</a>] -         Fix security issues
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2065'>MCR-2065</a>] -         NPE in MCRNameMerger
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2066'>MCR-2066</a>] -         Fix JSON output for MCRMetaEnrichedLinkID
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2068'>MCR-2068</a>] -         Invoking document(&lt;url&gt;) leads to IOException (Cannot determine DOCTYPE as it would destroy underlaying InputStream)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2070'>MCR-2070</a>] -         ALTO does not render without style information
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2077'>MCR-2077</a>] -         epub framed viewer does not load
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2078'>MCR-2078</a>] -         MCRPIJob updates objects everytime
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2081'>MCR-2081</a>] -         epub viewer sometimes jumps to wrong chapter
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2088'>MCR-2088</a>] -         MCRXSLInfoServlet throws NPE
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2091'>MCR-2091</a>] -         epub viewer does not work in ie
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2094'>MCR-2094</a>] -         type &#39;image&#39; is missing in mets editor
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2099'>MCR-2099</a>] -         improve derivatelink migration commmands and label handling
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2102'>MCR-2102</a>] -         fix MODS-Schema (LoC&#39;s use of &quot;fixed attributes&quot; is wrong)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2104'>MCR-2104</a>] -         make MCRUser serializable
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2106'>MCR-2106</a>] -         Fix maven build errors (found by Eclipse)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2107'>MCR-2107</a>] -         big pdf files load slow in viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2108'>MCR-2108</a>] -         fix dropdown icons in mycore viewer
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2111'>MCR-2111</a>] -         pdfs with cmaps are displayed wrong
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2113'>MCR-2113</a>] -         Delay SOLR Indexing
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2123'>MCR-2123</a>] -         CLI: &quot;check IFS2 compatibily&quot; fails on empty files
+              </li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2090'>MCR-2090</a>] -         add support for IIIF to viewer
+              </li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-1792'>MCR-1792</a>] -         update to new mods version 3.7 
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2110'>MCR-2110</a>] -         Cleanup Code
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2117'>MCR-2117</a>] -         Remove &quot;ifsid&quot; from derivate XML
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2119'>MCR-2119</a>] -         Update Jackson
+              </li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-1978'>MCR-1978</a>] -         Selection of correct IP-addresses via netmask in MCRServlet
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2025'>MCR-2025</a>] -         remove IFS1 classes layer and map NIO directly to IFS2
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2041'>MCR-2041</a>] -         migrate MyCoRe to bootstrap 4
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2061'>MCR-2061</a>] -         Support class attribute parameter in template iViewLinkPrev (iview2-solrresponse.xsl)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2067'>MCR-2067</a>] -         add datacite v4 schema to mycore-pi
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2072'>MCR-2072</a>] -         extract classes for using xsl:fo to a separate MyCoRe component
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2076'>MCR-2076</a>] -         pdfbox needs update
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2082'>MCR-2082</a>] -         improve mods crossref xsl
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2084'>MCR-2084</a>] -         Configurable IView2 preview image size
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2101'>MCR-2101</a>] -         MCRJobQueue should have public MCRJob getJobs(...)
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2109'>MCR-2109</a>] -         mods if no publication date present use date of parent 
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2114'>MCR-2114</a>] -         create pi command
+              </li>
+              <li>[<a href='https://mycore.atlassian.net/browse/MCR-2122'>MCR-2122</a>] -         MCRAutoDeploy: increase unzip speed of web resources
+              </li>
+            </ul>
+        </li>
+      </ul>
   </div>
 
   <div>

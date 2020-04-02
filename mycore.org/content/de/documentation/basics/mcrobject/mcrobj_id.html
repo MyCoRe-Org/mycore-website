@@ -11,23 +11,22 @@ date: "2019-04-10"
       Die Identifikation eines jeden MyCoRe-Objektes erfolgt grundsätzlich über eine eindeutige ID.
       Die ID kann per Hand vergeben oder auch automatisch via API generiert werden. Diese hat für alle Objekte einen
       einheitlichen Aufbau, dessen Inhalt für jedes Projekt und jeden Datentyp festzulegen ist:
-      <code>ID = “projektkürzel_type_nummer”</code>
+      <code>ID = “project_type_number”</code>
     </p>
 
     <table class="table">
       <tr>
         <td valign="top">
-          <strong>Projektkürzel</strong>
+          <strong>Project (Projektkürzel)</strong>
         </td>
         <td>Dieses Element ist für ein Projekt und/oder eine Einrichtung / Datengruppe festzulegen, zum Beispiel
-          UBLPapyri
-          oder MyCoReDocument. In MyCoRe wird es teilweise auch zur Identifikation einzelner Konfigurationsdaten mit
-          genutzt.
+          <code>UBLPapyri</code> oder <code>mir</code>. In MyCoRe wird es teilweise auch zur Identifikation einzelner Konfigurationsdaten mit
+          genutzt. Es sollen nur Buchstaben (ohne Umlaute und Sonderzeichen) oder Zahlen verwendet werden.
         </td>
       </tr>
       <tr>
         <td valign="top">
-          <strong>Typ</strong>
+          <strong>Type (Typ)</strong>
         </td>
         <td>Das Element beschreibt den Datenmodelltyp, d. h. der type verweist auf die zugehörige
           Datenmodell-Konfiguration,
@@ -37,7 +36,7 @@ date: "2019-04-10"
       </tr>
       <tr>
         <td valign="top">
-          <strong>Nummer</strong>
+          <strong>Number (Nummer)</strong>
         </td>
         <td>Ist eine frei wählbare positive Integerzahl. Diese Zahl kann in Verantwortung des Projektmanagers per Hand
           oder
@@ -50,13 +49,8 @@ date: "2019-04-10"
 
     <p>
       Im MyCoRe-Projekt sind zwei MCRObjectID-Typnamen reserviert und dürfen nicht für anderweitige Objekte genutzt
-      werden.
-      Der Typ
-      <code>class</code>
-      steht für Klassifikationen, der Typ
-      <code>derivate</code>
-      wird für Multimediaobjekte
-      verwendet.
+      werden. Der Typ <code>class</code> steht für Klassifikationen, der Typ <code>derivate</code> wird für Multimediaobjekte
+      verwendet. Die Kombination aus Projektkürzel und Typ wird <code>base</code> genannt.
     </p>
     <p>
       Das Property für die Länge der generierten Nummer lautet:
