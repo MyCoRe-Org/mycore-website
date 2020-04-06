@@ -1,0 +1,39 @@
+
+---
+
+title: "Der Klassifikations-Browser"
+mcr_version: ['2018.06','2019.06']
+author: ['Jens Kupferschmidt']
+description: "Der Abschnitt beschreibt die Nutzung des integrierten Klassifikations-Editors."
+date: "2020-04-06"
+
+---
+
+<h2>Der Klassifikations-Browser</h2>
+<p>Der Klassifkations-Editor biete die Möglichkeit im System gespeicherten Klassifikationen direkt zu bearbeiten. Er kann
+   über einen Template-Aufruf direkt in eine externe Web-Seiten eingebunden werden.
+</p>
+
+<p>
+{{< highlight text "linenos=table">}}
+ <classificationEditor
+   classiId="my_classification"
+   showId="true"
+ />{{< /highlight >}}
+</p>
+
+<p>Die einzelnen Parameter haben folgende Bedeutung:</p>
+  <ul>
+    <li>
+      <code>classiId</code> gibt die Klassifikation an, welche bearbeitet werden soll.
+    </li>
+    <li>
+      <code>showId</code> ...
+    </li>
+  </ul>
+</p>
+ 
+<p>Als Zugriffsrechte sind das Privileg <code>create-class</code> für das Anlegen neuer Klassifikationen und das Zugriffsrecht
+   <code>writedb</code> für Änderungen erforderlich.
+</p>
+ 
