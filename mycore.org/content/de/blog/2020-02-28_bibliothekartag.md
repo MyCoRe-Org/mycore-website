@@ -1,5 +1,5 @@
 ---
-title: "Bibliothekartag 2020"
+title: "Bibliothekartag 2020: abgesagt"
 slug: dbt2020
 date: 2020-02-28
 
@@ -11,15 +11,14 @@ blog/categories:
  - News
  - Konferenzen
 
-news/frontpage: true
-news/title_de: "Bibliothekartag 2020"
+news/frontpage: false
+news/title_de: "Bibliothekartag 2020: Abgesagt"
 news/teaser_de: "Hands-On Lab und Vorträge mit Mitgliedern der MyCoRe-Community auf dem Bibliothekartag Hannover"
-news/title_en: "Library Congress 2020"
+news/title_en: "Library Congress 2020: canceled"
 news/teaser_en: "'Digital Lab' and Conference talks with members of the MyCoRe-Community at the Bibliothekartag in Hannover."
 
 ---
-
-Der 109. Bibliothekartag findet vom 26. bis 29. Mai 2020 in Hannover statt. Mitglieder der MyCoRe-Community sind im Themenkreis 6 „Forschungsdaten und forschungsnahe Dienstleistungen“ mit folgenden Beiträgen vertreten:
+Wegen der Corona-Pandemie ist der 109. Bibliothekartag, der vom 26. bis 29. Mai 2020 in Hannover stattfinden sollte, abgesagt. Mitglieder der MyCoRe-Community wollten im Themenkreis 6 „Forschungsdaten und forschungsnahe Dienstleistungen“ mit folgenden Beiträgen vertreten sein:
 
 ***
 
