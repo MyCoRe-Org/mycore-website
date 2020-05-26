@@ -2,20 +2,20 @@
 ---
 
 title: "Solr und MyCoRe"
-mcr_version: ['2018.06','2019.06']
+mcr_version: ['2019.06','2020.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 description: "
       Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
-      Die MyCoRe-Releases 2018.06 LTS und 2019.06 LTS wurden erfolgreich mit Solr 7.7.2 getestet.
+      Die MyCoRe-Releases 2019.06 LTS und 2020.06 LTS wurden erfolgreich mit Solr 8.5.1 getestet.
     "
-date: "2019-05-08"
+date: "2020-05-25"
 
 ---
 
       <h2>Solr Konfiguration für MyCoRe</h2>
       <p>
         Falls noch kein Solr Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
-        <a href="{{< ref gs_solr7 >}}">Einrichtung eines Solr-7-Servers</a>
+        <a href="{{< ref gs_solr8 >}}">Einrichtung eines Solr-8-Servers</a>
         installiert werden.
       </p>
       <p>
@@ -30,7 +30,7 @@ date: "2019-05-08"
         direkt
         in den Modulen definiert werden. Mittels eines MyCoRe-Kommandos werden diese Definitonsdateien ausgelesen
         und über die
-        <a href="https://lucene.apache.org/solr/guide/7_4/schema-api.html">Solr Schema API</a>
+        <a href="https://lucene.apache.org/solr/guide/8_5/schema-api.html">Solr Schema API</a>
         in den Core geschrieben.
       </p>
 
@@ -212,9 +212,9 @@ date: "2019-05-08"
         </p>
         <p>
           siehe
-          <a href="https://lucene.apache.org/solr/guide/7_4/solr-control-script-reference.html">Solr Control Script Reference</a>,
-          <a href="https://lucene.apache.org/solr/guide/7_4/schema-api.html">Schema API</a> und
-          <a href="https://lucene.apache.org/solr/guide/7_4/config-api.html">Config API</a>
+          <a href="https://lucene.apache.org/solr/guide/8_5/solr-control-script-reference.html">Solr Control Script Reference</a>,
+          <a href="https://lucene.apache.org/solr/guide/8_5/schema-api.html">Schema API</a> und
+          <a href="https://lucene.apache.org/solr/guide/8_5/config-api.html">Config API</a>
         </p>
 
       <h2>Das Solr-Document</h2>
@@ -268,14 +268,6 @@ date: "2019-05-08"
       <!-- p>[ToDo] Beispiel Autosuggestion</p -->
 
       <h2>Properties für die Solr-Komponente</h2>
-      <p>
-        <span class="badge badge-warning">Achtung:</span>
-        In LTS 2017.06 sind die Properties noch mit
-        <code>MCR.Module-solr</code>
-        statt mit
-        <code>MCR.Solr</code>
-        bezeichnet. Mit dem LTS 2018.06 sind diese deprecated!
-      </p>
       <table class="table table-condensed solr-properties-table">
       <colgroup>
       	<col width="30%" />
@@ -516,6 +508,14 @@ date: "2019-05-08"
             <code>MCR.Solr.NestedDocuments</code>
           </td>
           <td>default=true; <br />aktiviert den Support für Nested Documents</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.HTTPResponseHeader.{response_header_attribute_name}</code>
+          </td>
+          <td>leere Werte löschen das Response-Attribute <br />ersetzt das Angegebene Attribut des Solr-Response-Headers 
+          mit dem angegebenen Wert</td>
           <td />
         </tr>
       </table>

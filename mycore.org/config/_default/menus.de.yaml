@@ -36,8 +36,9 @@ main:
 -     {identifier: gs_ma_install,           parent: getting_started,    name: Maven Archetype (MA),          weight: -95,      url: /documentation/getting_started/gs_ma_install}
 -     {identifier: gs_ma_customize,         parent: getting_started,    name: MA Initialisierung,            weight: -94,      url: /documentation/getting_started/gs_ma_customize}
 -     {identifier: gs_jpa,                  parent: getting_started,    name: Datenbank - JPA,               weight: -93,      url: /documentation/getting_started/gs_jpa}
--     {identifier: gs_solr7,                parent: getting_started,    name: Solr-Integration,              weight: -92,      url: /documentation/getting_started/gs_solr7}
--     {identifier: gs_properties,           parent: getting_started,    name: Konfiguration & Properties,    weight: -91,      url: /documentation/getting_started/gs_properties}
+-     {identifier: gs_solr8,                parent: getting_started,    name: Solr8-Integration,             weight: -92,      url: /documentation/getting_started/gs_solr8}
+-     {identifier: gs_solr7,                parent: getting_started,    name: Solr7-Integration,             weight: -91,      url: /documentation/getting_started/gs_solr7}
+-     {identifier: gs_properties,           parent: getting_started,    name: Konfiguration & Properties,    weight: -90,      url: /documentation/getting_started/gs_properties}
 -   {identifier: basics,                  parent: documentation,      name: Basiskonzepte,                 weight: -98,      url: /documentation/basics}
 -     {identifier: basics_mcr_components,   parent: basics,             name: Komponenten,                   weight: -99,      url: /documentation/basics/basics_mcr_components}
 -     {identifier: mcrobject,               parent: basics,             name: MyCoRe-Objekte,                weight: -98,      url: /documentation/basics/mcrobject}
@@ -124,6 +125,7 @@ main:
 -     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -89,      url: /documentation/migrate}
+-     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -99,      url: /documentation/migrate/migrate_mcr2020_06}
 -     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2019_06}
 -     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2018_06}
 -     {identifier: migrate_mir2018_08,      parent: migrate,            name: MIR 2017.06 ⇒ 2018.08,       weight: -96,      url: /documentation/migrate/migrate_mir2018_08}

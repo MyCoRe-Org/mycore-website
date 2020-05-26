@@ -1,0 +1,83 @@
+
+---
+
+title: "Migration MyCoRe LTS 2019.06 nach 2020.06"
+mcr_version: ['2020.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2020.06 und die Migration von Version
+      2019.06 zu 2020.06 zusammen.
+    "
+date: "2020-05-25"
+
+---
+
+    <div id="requirements_202006">
+      <h2>Systemanforderungen MyCoRe LTS 2020.06</h2>
+      <p>
+        Für den Betrieb einer MyCoRe-Anwendung unter LTS 2020.06 sind folgende Voraussetzungen zu erfüllen:
+      </p>
+
+      <h3>Betriebssystem</h3>
+      <p>MyCoRe LTS 2020 ist auf diesen Betriebsystemen im Einsatz. Höhere Versionen sollten kein Problem darstellen.
+      </p>
+      <ul>
+        <li>Open SuSE Leap 15 / 15.1</li>
+        <li>SuSE SLES 15 / 15.1</li>
+        <li>Ubuntu 18.04 LTS</li>
+        <li>CentOS 8</li>
+        <li>RHEL 8</li>
+        <li>Windows 10 für Test- und Entwicklungssysteme</li>
+      </ul>
+
+      <h3>Standardsoftware</h3>
+      <p>Zur Arbeit mit MyCoRe LTS 2020 sind folgende Softwarekomponenten erforderlich bzw. empfohlen. Diese sind alle
+        von Drittanbietern und im Normalfall in den Distributionen enthalten.
+      </p>
+      <ul>
+        <li>Java 11 (OpenJDK) (muss in CentOS/RedHat extern nachinstalliert werden)</li>
+        <li>Tomcat 9.0 bzw. Jetty 9.4.18 (alternativ ein System mit Unterstützung von Servlet-3.1)</li>
+        <li>SOLR 8.5.1 oder höher</li>
+        <li>
+          eine
+          <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
+          relationale Datenbank wie PostgreSQL 10, MySQL/Maria-DB 10, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
+        </li>
+        <li>Git 2.26 oder höher</li>
+        <li>Apache Maven 3.6.0 oder höher</li>
+      </ul>
+      
+      <h2>Migrationsschritte</h2>
+      <h3>Migrationskommandos einbinden</h3>
+      <p>
+        Um die Migrationskommandos nutzen zu können, muss die Komponente <code>mycore-migration</code> eingebunden werden.
+      </p>
+      <p>
+        {{< highlight xml "linenos=table">}}
+ <dependency>
+   <groupId>org.mycore</groupId>
+   <artifactId>mycore-migration</artifactId>
+   <version>2020.06.2-SNAPSHOT</version>
+ </dependency>{{< /highlight >}}
+      </p>
+
+      <h3>Solrkonfiguration und Index aktualisieren</h3>
+      <p>
+        Mit der Umstellung auf SOLR 8 muss der Index neu aufgebaut werden. Die Konfiguration der Kerne wird im Abschnitt
+         <a href="{{< ref search_solr_use >}}">Solr-Nutzung</a> beschrieben. Nach der Index-Aktualisierung muss im MyCoRe-CLI
+          die Konfiguration neu geladen sowie der Metadaten- und Contentindex neu erstellt werden. Die Kommandos müssen INNERHALB 
+          der <code>mycore.sh</code> abgearbeitet werden!
+        {{< highlight shell "linenos=table">}}
+ mycore.sh
+   -> reload solr configuration main in core main
+   -> rebuild solr metadata index in core main
+   -> rebuild solr content index in core main{{< /highlight >}}
+      </p>
+
+      <h3>REST-API V2</h3>
+      <p>
+        ...
+      </p>
+      
+    </div>
+
