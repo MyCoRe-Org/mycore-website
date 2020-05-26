@@ -2,13 +2,13 @@
 ---
 
 title: "Komponenten des MyCoRe-Kerns"
-mcr_version: ['2018.06','2019.06']
+mcr_version: ['2019.06','2020.06']
 author: ['Jens Kupferschmidt', 'Thomas Scheffler']
 description: "
       Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
       MyCoRe nutzbare Bibliotheken.
     "
-date: "2019-04-10"
+date: "2020-05-25"
 
 ---
     <div>
@@ -48,15 +48,6 @@ date: "2019-04-10"
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td>buildtools</td>
-            <td>*</td>
-            <td>Werkzeuge für die Integration von MyCoRe-Komponenten über das ANT-Build-Tool</td>
-            <td>
-              optional <span class="badge badge-danger">only 2018.06</span>
-            </td>
-            <td>base</td>
-          </tr>
-          <tr>
             <td>classbrowser</td>
             <td>25</td>
             <td>Anzeigekomponente für Klassifikationen</td>
@@ -84,10 +75,17 @@ date: "2019-04-10"
             <td>base</td>
           </tr>
            <tr>
+            <td>csl</td>
+            <td>*</td>
+            <td>???</td>
+            <td>optional <span class="badge badge-danger">since 2020.06</span></td>
+            <td>base</td>
+          </tr>
+           <tr>
             <td>fo</td>
             <td>31</td>
-            <td>Integration von XSL:FO Formatter</td>
-            <td>optional <span class="badge badge-danger">since 2019.06</span></td>
+            <td>Integration von XSL:FO Formatter; FOP is supported by default</td>
+            <td>optional</td>
             <td>base</td>
           </tr>
           <tr>
@@ -231,15 +229,6 @@ date: "2019-04-10"
             <td>base</td>
           </tr>
           <tr>
-            <td>urn</td>
-            <td>*</td>
-            <td>Implementierung einer URN-Vergabe für Objekte der Anwendung</td>
-            <td>
-              <span class="badge badge-danger">deprecate</span>
-            </td>
-            <td>base</td>
-          </tr>
-          <tr>
             <td>user2</td>
             <td>15</td>
             <td>Implementierung des Nutzer-Systems, Version 2</td>
@@ -257,7 +246,7 @@ date: "2019-04-10"
               MyCoRe-Anwendung integriert genutzt werden.
             </td>
             <td>
-              <span class="badge badge-danger">deprecate</span>
+              <span class="badge badge-danger">deprecate since 2019</span>
             </td>
             <td>base</td>
           </tr>
@@ -340,8 +329,8 @@ date: "2019-04-10"
         <a href="https://jcp.org/en/jsr/detail?id=340">Servlet-3.1-Regeln</a>.
       </p>
       <p>Folgende Versionsnummern können genutzt werden:<ul>
-        <li>LTS 2018.06 -&gt; 2018.06.0.3-SNAPSHOT</li>
-        <li>LTS 2019.06 -&gt; 2019.06.4-SNAPSHOT</li>
+         <li>LTS 2019.06 -&gt; 2019.06.4-SNAPSHOT</li>
+         <li>LTS 2020.06 -&gt; 2020.06.1-SNAPSHOT</li>
         <li>Master -&gt; 2020.05-SNAPSHOT</li>
       </ul></p>
       {{< highlight xml "linenos=table">}}
