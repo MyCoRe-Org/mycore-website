@@ -3,11 +3,11 @@
 
 title: "Batch-Betrieb über das Commandline-Tool"
 author: ['Jens Kupferschmidt']
-mcr_version: ['2018.06','2019.06']
+mcr_version: ['2019.06','2020.06']
 description: "
       Der Abschnitt beschreibt Vorgehensweisen bei der Nutzung des CLI im Batch-Betrieb.
     "
-date: "2015-03-05"
+date: "2020-06-04"
 
 ---
 
@@ -49,6 +49,9 @@ date: "2015-03-05"
       </p>
       <div>
         <h3>Kommandos für SOLR</h3>
+        <p><span style="color:red">Achtung, Kommandos für die SOLR-Indizierung sollten nicht im Batch, sondern nur direkt im CLI-Tool
+        ausgeführt werden. Es ist auch darauf zu achten, dass mit dem <code>quit</code>-Befehl gewartet wird, bis alle Responses von SOLR
+        im CLI eingetroffen sind. Andernfalls kann es zu Datenverlusten im SOLR-Server kommen!</span></p>
         <dl>
           <dt>
             <code>mycore.sh restricted rebuild solr metadata index for selected</code>

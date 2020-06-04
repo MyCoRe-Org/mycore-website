@@ -2,12 +2,12 @@
 ---
 
 title: "Datensicherheit"
-mcr_version: ['2018.06','2019.06']
+mcr_version: ['2019.06','2020.06']
 author: ['Jens Kupferschmidt']
 description: "
       Der Abschnitt beschreibt Vorgehensweisen zur Sicherung der Daten über die vielfältigen MyCoRe-Schnittstellen.
     "
-date: "2019-04-17"
+date: "2020-06-04"
 
 ---
 
@@ -33,8 +33,9 @@ date: "2019-04-17"
   in der Praxis ist es oft notwendig und wünschenswert, die Metadaten im nativen XML-Format weiter zu geben. Beispiel
   wäre hier ein Export, welcher zu einer Druckvorlage weiter verarbeitet wird. Grundsätzlich geschieht das in MyCoRe
   z. B. über eine URL der Form <code>{my_url}/receive/{my_object_id}?XSL.Style={my_stylesheet}</code>. Hierbei
-  muss das entsprechende Stylesheet dafür sorgen, dass nur erlaubte Informationen des Datensatzes nach außen dringen.
-  Besonder ist darauf zu achten, dass <strong>ALLE</strong> Stylesheets entsprechende (gleiche) Filter bereitstellen!
+  muss das entsprechende Stylesheet <code>mycoreobject-{my_stylesheet}</code> dafür sorgen, dass nur erlaubte 
+  Informationen des Datensatzes nach außen dringen.
+  Besonders ist darauf zu achten, dass <strong style="color:red;">ALLE</strong> Stylesheets entsprechende (gleiche) Filter bereitstellen!
 </p>
 
 <h2>Zugriff über SOLR</h2>
@@ -48,7 +49,7 @@ date: "2019-04-17"
 
 <p>
 {{< highlight bash "linenos=table">}}
- {my_url}/servlets/solr/select?q=*.*&rows=25&version=4.5&XSL.Style=xml{{< /highlight >}}
+ {my_url}/servlets/solr/select?q=*%3A*&rows=25&XSL.Style=xml{{< /highlight >}}
 </p>
 
 <h2>Tar- / Zip-Servlet</h2>
@@ -68,3 +69,7 @@ date: "2019-04-17"
   Diese sollten nur die gewünschten Daten heraus geben und Felder wie Preise oder Herkunft von Stücken ggf.
   herausfiltern.
 </p>
+
+<h2>REST V1 und V2</h2>
+
+<p>[ToDo Robert]</p>
