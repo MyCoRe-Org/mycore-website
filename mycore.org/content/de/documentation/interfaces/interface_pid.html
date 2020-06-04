@@ -2,7 +2,7 @@
 ---
 
 title: "Persistent Identifier"
-mcr_version: ['2018.06','2019.06']
+mcr_version: ['2019.06','2020.06']
 author: ['Kathleen Neumann']
 description: "
       MyCoRe bietet verschiedene Möglichkeiten an, Persistente Identifier zu generieren. Es ist
@@ -10,7 +10,7 @@ description: "
       Stylesheet angeboten, das aus MyCoRe-MODS-Objekten ein datacite-Format generiert, das dann
       entsprechend zur Registrierung genutzt werden kann.
     "
-date: "2019-11-05"
+date: "2020-06-04"
 
 ---
 
@@ -40,29 +40,6 @@ date: "2019-11-05"
   MCR.PI.Generator.DateDOI=org.mycore.pi.doi.MCRCreateDateDOIGenerator
   MCR.PI.MetadataManager.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierMetadataManager
   MCR.PI.Parsers.doi=org.mycore.pi.doi.MCRDOIParser{{< /highlight >}}
-    </p>
-    <p>
-      <span class="badge badge-danger">Achtung!</span> für die Version 2018.06 muss ein JobUser spezifiziert werden, der
-      dann entsprechende Rechte hat das MyCoRe-Objekt zu bearbeiten um DOI und Service-Flags zu ergänzen. Wenn kein Nutzer
-      gesetzt ist, dann ist das der "System" Nutzer, dieser hat aus Sicherheitsgründen keine Schreibrechte.
-      Ab Version 2019.06 wird für PI der MCRJanitor genutzt.
-    </p>
-    <p>
-    {{< highlight bash "linenos=table">}}
-  MCR.PI.Registration.Datacite.JobApiUser=dataciteBot{{< /highlight >}}
-    </p>
-
-    <p>
-      <span class="badge badge-danger">Achtung!</span> für die Version 2016.06: In dieser Version heisst der MetadataManager noch Inscriber!
-    </p>
-    <p>
-    {{< highlight bash "linenos=table">}}
-  MCR.PI.Registration.Datacite.Inscriber=MODSDOI
-  MCR.PI.Inscriber.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierInscriber{{< /highlight >}}
-    </p>
-    <p>
-      Für den Umstieg auf Version 2018.06 muss ebenfalls eine Migration der Properties erfolgen.
-      Details dazu siehe <a href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-migration">mycore-migration</a>.
     </p>
     <p>
       Nachdem die Anwendung entsprechend konfiguriert wurde, kann mittels des URL-Parameters
