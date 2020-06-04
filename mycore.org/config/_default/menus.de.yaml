@@ -116,7 +116,9 @@ main:
 -     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF-Unterstützung,          weight: -94,      url: /documentation/interfaces/interface_iiif_support}
 -     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -93,      url: /documentation/interfaces/interface_sword}
 -   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -91,      url: /documentation/datamodel}
--     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -99,      url: /documentation/datamodel/datamodel_mods}
+-     {identifier: datamodel_common,        parent: datamodel,          name: Allgemeines,                 weight: -99,      url: /documentation/datamodel/datamodel_common}
+-     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -98,      url: /documentation/datamodel/datamodel_mods}
+-     {identifier: datamodel_lido,          parent: datamodel,          name: LIDO,                        weight: -97,      url: /documentation/datamodel/datamodel_lido}
 -   {identifier: production,              parent: documentation,      name: Laufender Betrieb,           weight: -90,      url: /documentation/production}
 -     {identifier: production_security,     parent: production,         name: Datensicherheit,             weight: -99,      url: /documentation/production/production_security}
 -     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}
