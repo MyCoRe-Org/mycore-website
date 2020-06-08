@@ -13,7 +13,7 @@ blog/categories:
 news/frontpage: true
 news/title_de: "Statistische Bibliothek"
 news/teaser_de: "Die Statistischen Ämter des Bundes und der Länder veröffentlichen einen Relaunch der „Statistischen Bibliothek“."
-news/title_en: "Relaunch"
+news/title_en: "Statistical Library"
 news/teaser_en: "The statistical offices of the Federation and the Länder published a relaunch of the Statistical Library"
 
 news/image: "destatis"
