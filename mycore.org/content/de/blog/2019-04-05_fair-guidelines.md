@@ -12,7 +12,7 @@ blog/categories:
 blog/tags:
  - "FAIR"
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Forschungsdaten"
 news/teaser_de: "Artikel erschienen: MyCoRe macht Forschungsdaten FAIR (in Bibliothek : Forschung und Praxis Vol.43, H.1, S.82-90)."
 news/title_en: "MyCoRe makes Research Data FAIR"
