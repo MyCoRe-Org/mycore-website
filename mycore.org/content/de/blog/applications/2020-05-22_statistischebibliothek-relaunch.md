@@ -1,7 +1,7 @@
 ---
 title: "Relaunch der Statistischen Bibliothek"
 slug: anwendung-statistischebibliothek
-date: 2020-06-08
+date: 2020-06-18
 
 draft: false
 
@@ -24,8 +24,7 @@ Die *[„Statistische Bibliothek“](https://www.statistischebibliothek.de)* ist
 
 https://www.statistischebibliothek.de
 
-„In der Statistischen Bibliothek werden alle elektronischen Veröffentlichungen der Statistischen Ämter des Bundes und der Länder zentral im Format PDF/A-1b archiviert. Die Publikationen werden von allen statistischen Ämtern auch für zurückliegende Jahre schrittweise eingepflegt“ (Quelle: https://www.statistikportal.de/de/statistische-bibliothek, abgerufen am 22.5.2020). Für den Webserver und die technische Verfügbarkeit der Website ist das Statistische Bundesamt verantwortlich. 
-
+„In der Statistischen Bibliothek werden alle elektronischen Veröffentlichungen der Statistischen Ämter des Bundes und der Länder zentral im Format PDF/A-1b archiviert. Die Publikationen werden von allen statistischen Ämtern auch für zurückliegende Jahre schrittweise eingepflegt“ (Quelle: https://www.statistikportal.de/de/statistische-bibliothek, abgerufen am 22.5.2020). 
 
 
 {{< mcr-figure src="/images/blog/applications/2020_destatis_statbib.png" 
