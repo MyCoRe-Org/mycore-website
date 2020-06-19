@@ -1,24 +1,22 @@
 ---
 title: "Relaunch der Statistischen Bibliothek"
 slug: anwendung-statistischebibliothek
-date: 2020-05-22
+date: 2020-06-18
 
-draft: true
+draft: false
 
 blog/authors: ["Wiebke Oeltjen"]
-blog/periods: 2020-05
+blog/periods: 2020-06
 blog/categories:
  - "Anwendungen"
-#blog/tags:
-# - "Relaunch"
 
-#news/frontpage: true
-#news/title_de: "Relaunch"
-#news/teaser_de: "Die Statistischen Ämter des Bundes und der Länder veröffentlichen einen Relaunch der „Statistischen Bibliothek“."
-#news/title_en: "Relaunch"
-#news/teaser_en: "The statistical offices of the Federation and the Länder published a relaunch of the Statistical Library"
+news/frontpage: true
+news/title_de: "Statistische Bibliothek"
+news/teaser_de: "Die Statistischen Ämter des Bundes und der Länder veröffentlichen einen Relaunch der „Statistischen Bibliothek“."
+news/title_en: "Statistical Library"
+news/teaser_en: "The statistical offices of the Federation and the Länder published a relaunch of the Statistical Library"
 
-#news/image: "destatis"
+news/image: "destatis"
 
 ---
 
@@ -26,8 +24,7 @@ Die *[„Statistische Bibliothek“](https://www.statistischebibliothek.de)* ist
 
 https://www.statistischebibliothek.de
 
-„In der Statistischen Bibliothek werden alle elektronischen Veröffentlichungen der Statistischen Ämter des Bundes und der Länder zentral im Format PDF/A-1b archiviert. Die Publikationen werden von allen statistischen Ämtern auch für zurückliegende Jahre schrittweise eingepflegt“ (Quelle: https://www.statistikportal.de/de/statistische-bibliothek, abgerufen am 22.5.2020). Für den Webserver und die technische Verfügbarkeit der Website ist das Statistische Bundesamt verantwortlich. 
-
+„In der Statistischen Bibliothek werden alle elektronischen Veröffentlichungen der Statistischen Ämter des Bundes und der Länder zentral im Format PDF/A-1b archiviert. Die Publikationen werden von allen statistischen Ämtern auch für zurückliegende Jahre schrittweise eingepflegt“ (Quelle: https://www.statistikportal.de/de/statistische-bibliothek, abgerufen am 22.5.2020). 
 
 
 {{< mcr-figure src="/images/blog/applications/2020_destatis_statbib.png" 

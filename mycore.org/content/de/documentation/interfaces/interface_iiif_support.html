@@ -1,61 +1,195 @@
-
+--- 
+  title: "IIIF API" 
+  mcr_version: ['2019.06','2020.06']
+  author: ['Jens Kupferschmidt', 'Sebastian Hofmann', 'Robert Stephan']
+  description: "Dieser Abschnitt beschreibt die Integration des International
+    Image Interoperability Frameworks (IIIF)." 
+  date: "2020-06-12" 
 ---
+<div>
+	<h2>Einführung</h2>
+	<p>
+		Mit dem MyCoRe Modul
+		<code>mycore-iiif</code>
+		ist es möglich, Metadaten und Bilder über URLs im IIIF API Format bereitzustellen. 
+        Dadurch können beispielsweise in MyCoRe-Anwendungen gespeicherten Bilddaten auch in externen IIIF Viewern angezeigt
+		werden.
+	</p>
+    <p>MyCoRe{{<mcr-version "2020.06">}} implementiert die <a href="https://iiif.io/api/image/2.1/">IIIF Image API Version 2.1.1</a>.
+	<p>
+		Die Konfigurationsmöglichkeiten wurden in {{<mcr-version "2020.06">}} überarbeitet.<br />
+		Dabei wurde u.a. die Basis-URL von
+		<code>/rsc/iiif</code>
+		auf
+		<code>/api/iiif</code>
+		geändert.
+	</p>
 
-title: "IIIF Unterstützung"
-mcr_version: ['2019.06','2020.06']
-author: ['Jens Kupferschmidt', 'Sebastian Hofmann']
-description: "Der Artikel beschreibt die Funktionsunterstützung für IIIF"
-date: "2020-06-04"
+    <h2>Installation und Konfiguration</h2>
+    <p>
+    Das Modul <code>mycore-iiif</code> wird in die <em>pom.xml</em> der MyCoRe-Anwendung als Abhängigkeit eingetragen.
+    </p>
+    <p>Da eine MyCoRe-Anwendung im Image-Identifier in der Regel  URL-codierte Slashes (<code>/ = %2F</code>) verwendet,
+     muss der Webserver dafür entsprechend konfiguriert werden:</p>
+    <h4>Tomcat</h4>
+    <p>
+    Im Tomcat muss das System-Property <code>org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true</code> gesetzt werden.<br />
+    Das kann durch Eintrag in die Konfigurationsdatei <code>catalina.opts</code> erfolgen oder indem der Tomcat mit dem Parameter
+    <code>-Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true</code> gestartet wird.
+    </p>
+    <p>
+    In aktuellen Tomcat-Versionen (&gt;= 8.5.54, &gt;= 9.0.34, &gt;= 10) erfolgt die Konfiguration statt dessen über das Connector-Attribut <code>encodedSolidusHandling="passthrough"</code>
+    in der Konfigurationsdatei <code>server.xml</code>. 
+    <br />(siehe: <a href="https://tomcat.apache.org/tomcat-8.5-doc/config/http.html#Common_Attributes">https://tomcat.apache.org/tomcat-8.5-doc/config/http.html#Common_Attributes</a>).
+    </p>
+    <h4>Tomcat + Apache</h4>
+    <p>
+    <span class="badge badge-primary">TODO</span>
+    </p>
+    <h4>Jetty</h4>
+    <p>
+      <span class="badge badge-primary">TODO</span>
+    </p>
+    <p></p>
+    <h2>IIIF Image API</h2>
+    <h3>Aufbau der URL</h3>
+    <p>Gemäß <a href="https://iiif.io/api/image/2.1/#image-request-uri-syntax">IIIF Image API Spezifikation</a> haben URLs die folgende Struktur:<br />
+    <code>{scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}</code>.
+    </p>
+    <h4>{scheme}://{server}</h4>
+    <p>entspricht der Basis-URL der MyCoRe-Anwendung</p>
+    <h4>{prefix}</h4>
+    <p>kann aus mehreren Pfad-Bestandteilen bestehen. Optional kann es an erster Stelle den Pfad zur Anwendung enthalten, z.B. in <code>http://localhost:8080/skeleton/api/v2/...</code>
+    <p>Die weiteren Pfad-Bestandteile bilden den Pfad zur IIIF API. Sie können ggf. eine ID für eine konkrete Implementierung enthalten, z.B.: 
+    <code>/api/iiif/image/v2</code> bzw. <code>/api/iiif/image/Iview</code> bzw. <code>/api/iiif/image/thumbnail</code>.
+    
+    <h4>{identifier}</h4>
+    <p>
+    Der Image-Identifier hat in der MyCoRe-Standardimplementierung die Syntax:
+    <code>derivate_id/pfad/zum/image.ext</code> <br />
+   Slashes sind in ihrer URL-codierten Form (<code>%2F</code>) zu verwenden, <br />
+   z.B.: <tt>skeleton_derivate_00000024%2Fsample1.png</tt>
+    </p>
+    
+    <h4>/{region}/{size}/{rotation}/{quality}.{format}</h4>
+    <p>
+    Diese Parameter werden gemäß der IIIF API Spezifikation verwendet.
+    </p>
+    
+    <h4>Beispiele</h4>
+    <ul>
+      <li><a href="http://localhost:8080/skeleton/api/iiif/image/skeleton_derivate_00000024%2Fsample1.png/full/max/0/default.jpg">
+        http://localhost:8080/skeleton/api/iiif/image/skeleton_derivate_00000024%2Fsample1.png/full/max/0/default.jpg</a>
+      </li>
+      <li><a href="http://localhost:8080/skeleton/api/iiif/image/Iview/skeleton_derivate_00000024%2Fsample1.png/full/max/0/default.jpg">
+        http://localhost:8080/skeleton/api/iiif/image/Iview/skeleton_derivate_00000024%2Fsample1.png/full/max/0/default.jpg</a>
+      </li>
+      <li><a href="http://localhost:8080/skeleton/api/iiif/image/Iview/skeleton_derivate_00000024%2Fsample1.png/info.json">
+         http://localhost:8080/skeleton/api/iiif/image/Iview/skeleton_derivate_00000024%2Fsample1.png/info.json</a>
+      </li>
+    </ul>
+    <p></p>
+    
+    <h3>Verschiedene Implementierungen</h3>
+    <p>
+    Es lassen sich verschiedene Implementierungen der IIIF API in MyCoRe verwenden.<br /> 
+    Die Standardimplementierung <code>Iview</code>
+    arbeitet mit den gekachelten Bilddateien, die für MyCoRe-Viewer verwendet werden.
+    </p>
+    
+    Folgende Properties können für die Konfiguration der Implementierung verwendet werden:
+{{< mcr-figure label="Konfiguration" caption="<code>mycore.properties</code>">}}
+{{< highlight text "linenos=table">}}
+# setzt die ID der Standardimplementierung, welche dadurch in der IIIF URL weggelassen werden kann
+MCR.IIIFImage.Default=myimpl
+    
+# definiert die konkrete Klasse für die Implementierung
+MCR.IIIFImage.myimpl=org.mycore.iview2.iiif.MCRIVIEWIIIFImageImpl
 
----
-    <div>
-      <h2>Allgemein</h2>
-      <p>
-        Mit dem MyCoRe-Modul
-        <code>mycore-iiif</code>
-        ist es möglich, auf Metadaten und Bilder im
-        <strong>IIIF</strong>
-        -Format zu referenzieren. Damit können die in den MyCoRe-Anwendungen gespeicherten Bilddaten auch über
-        IIIF-Viewer angezeit werden.
-      </p>
-    </div>
+# definiert die maximale Größe eines ausgelieferten Images in Bytes.
+# Bei größeren Bildern muss eine skalierte Größe (mit reduzierter Breite und Höhe)
+# oder ein Ausschnitt definiert werden.
+MCR.IIIFImage.myimpl.MaxImageBytes=1073741824
 
-    <div>
-      <h2>Konfiguration</h2>
-      <p>
-        Die Konfiguration ist recht einfach. Auf jeden Fall muss das Modul
-        <code>mycore-iiif</code>
-        in der
-        <em>pom.xml</em>
-        als Abhängigkeit eingetragen werden. Weiterhin sind folgende Properties in der
-        <em>mycore.properties</em>
-        zu setzten:
-      </p>
-      <ul>
-        <li>MCR.IIIFImage.IView=org.mycore.iview2.iiif.MCRIVIEWIIIFImageImpl</li>
-        <li>MCR.IIIFImage.IView.TransparentFormats=png,gif</li>
-      </ul>
-      <p>
-        Dabei gibt
-        <em>IView</em>
-        im Property-Namen den Typ der Implementierung an.
-        <code>MCRIVIEWIIIFImageImpl</code>
-        ist dann die Klasse der konkreten Implementierung. Die Lösung mit
-        <em>MCRIVIEWIIIFImageImpl</em>
-        benötigt das weitere Property
-        <em>TransparentFormats</em>
-        .
-      </p>
-    </div>
+# gibt an, für welche Bildformate ein transparenter Hintergrund zurückgeliefert wird 
+MCR.IIIFImage.myimpl.TransparentFormats=png
 
-    <div>
-      <h2>Nutzung</h2>
-      <p>Die Daten können nun wie folgen angesprochen werden. Dabei ist darauf zu achen, das der Pfad zu den Bildern
-        encoded ist (/ -&gt; %2F).</p>
-      <ul>
-        <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/image/IView/... (Image API)</li>
-        <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/presentation/IView/ (Presentation API)</li>
-      </ul>
-    </div>
+# bei der Verwendung von MCRIVIEWIIIFImageImpl:
+# gibt eine Klasse mit einer alternativen Implementierung von org.mycore.iview2.backend.MCRTileFileProvider
+# an, die zu einem gegebenen Identifier den Ablageort für die gekachelten Iview2-Bilddateien zurückliefert.
+MCR.IIIFImage.myimpl.TileFileProvider=org.myinstiution.myimplementation.MyTileFileProvider
 
+{{< /highlight >}}   
+{{< /mcr-figure >}}
+  </p>
+  <h3>Implementierung für Thumbnails (von Bilder und PDF-Dateien)</h3>
+  <p>
+  MyCoRe liefert eine Spezialimplementierung für Vorschaubilder (Thumbnails) mit. In dieser Implementierung wird als Image-Identifier 
+  an Stelle einer Bilddatei die ID eines MyCoRe-Objektes angegeben.
+  </p>
+  <p>Für PDFs werden die Vorschaubilder beim Speichern der MyCoRe-Objekte über einen Eventhandler extrahiert und im internen Bildformat abgelegt.
+  </p>
+  Es kann konfiguriert werden, welche Derivate-Typen der Eventhandler für die Thumbnail-Generierung berücksichtigen soll:  
   
+{{< mcr-figure label="Konfiguration" caption="<code>mycore.properties</code>">}}
+{{< highlight text "linenos=table" >}}
+# aktiviert die IIIF API Implementierung für Thumbnails
+MCR.IIIFImage.thumbnail=org.mycore.iview2.iiif.MCRThumbnailImageImpl
+
+# reduziert die zurückgelieferte Bildgröße (breite x höhe x farbtiefe = 1024 x 1024 x 3)
+MCR.IIIFImage.thumbnail.MaxImageBytes=3145728
+
+# Formate, für die ein transparenter Hintergrund gesetzt werden kann
+MCR.IIIFImage.thumbnail.TransparentFormats=png
+
+# Derivate Typen (Einträge aus der Klassifikation derivate_types), 
+# die für die Thumbnail-Auslieferung in Frage kommen 
+MCR.IIIFImage.thumbnail.Derivate.Types=derivate_types:thumbnail,derivate_types:content
+
+# Eventhandler für die Generierung von Thumbnails aus PDF-Dateien
+MCR.EventHandler.MCRDerivate.080.Class=org.mycore.iview2.events.MCRThumbnailForPdfEventHandler
+
+# Derivate Typen (Einträge aus der Klassifikation derivate_types), 
+#die für die Thumbnail-Erstellung in Frage kommen
+MCR.IIIFImage.Iview.ThumbnailForPdfEventHandler.Derivate.Types=derivate_types:content
+{{< /highlight >}}   
+{{< /mcr-figure >}}  
+
+<h4>Beispiele</h4>
+    <ul>
+      <li><a href="http://localhost:8080/skeleton/api/iiif/image/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg">
+        http://localhost:8080/skeleton/api/iiif/image/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg</a>
+      </li>
+    </ul>
+    <p></p>    
+</div>
+
+<hr />
+<div>
+  <h2>
+    Konfiguration und Verwendung <small>{{<mcr-version "2019.06">}}</small>
+  </h2>
+  <p>
+    Die Konfiguration ist recht einfach. Auf jeden Fall muss das Modul
+    <code>mycore-iiif</code>
+    in der <em>pom.xml</em> als Abhängigkeit eingetragen werden. Weiterhin sind folgende Properties in der <em>mycore.properties</em>
+    zu setzen:
+  </p>
+  <ul>
+    <li>MCR.IIIFImage.IView=org.mycore.iview2.iiif.MCRIVIEWIIIFImageImpl</li>
+    <li>MCR.IIIFImage.IView.TransparentFormats=png,gif</li>
+  </ul>
+  <p>
+    Dabei gibt <em>IView</em> im Property-Namen den Typ der Implementierung an.
+    <code>MCRIVIEWIIIFImageImpl</code>
+    ist dann die Klasse der konkreten Implementierung. Die Lösung mit <em>MCRIVIEWIIIFImageImpl</em> benötigt das
+    weitere Property <em>TransparentFormats</em> .
+  </p>
+  <p>Die Daten können nun wie folgt abgerufen werden. Dabei ist darauf zu achen, das der Pfad zu den Bildern encoded
+    ist (/ -&gt; %2F).</p>
+  <ul>
+    <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/image/IView/... (Image API)</li>
+    <li>http://my.mycore.repository.org/mycore_context/rsc/iiif/presentation/IView/ (Presentation API)</li>
+  </ul>
+</div>
+

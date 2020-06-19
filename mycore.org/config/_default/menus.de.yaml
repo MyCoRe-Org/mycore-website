@@ -109,12 +109,12 @@ main:
 -     {identifier: user_external_ldap,      parent: permissions,        name: Nutzung LDAP,                  weight: -88,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: interfaces,              parent: documentation,      name: Schnittstellen,              weight: -92,      url: /documentation/interfaces}
 -     {identifier: interface_rest,          parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/interface_rest}
--     {identifier: interface_oai,           parent: interfaces,         name: OAI,                         weight: -98,      url: /documentation/interfaces/interface_oai}
--     {identifier: interface_pid,           parent: interfaces,         name: Persistent Identifier,       weight: -97,      url: /documentation/interfaces/interface_pid}
--     {identifier: interface_google,        parent: interfaces,         name: Google-Sitemap,              weight: -96,      url: /documentation/interfaces/interface_google}
--     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -95,      url: /documentation/interfaces/interface_dfgviewer}
--     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF-Unterstützung,          weight: -94,      url: /documentation/interfaces/interface_iiif_support}
--     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -93,      url: /documentation/interfaces/interface_sword}
+-     {identifier: interface_oai,           parent: interfaces,         name: OAI,                         weight: -97,      url: /documentation/interfaces/interface_oai}
+-     {identifier: interface_pid,           parent: interfaces,         name: Persistent Identifier,       weight: -96,      url: /documentation/interfaces/interface_pid}
+-     {identifier: interface_google,        parent: interfaces,         name: Google-Sitemap,              weight: -95,      url: /documentation/interfaces/interface_google}
+-     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -94,      url: /documentation/interfaces/interface_dfgviewer}
+-     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF API,                    weight: -93,      url: /documentation/interfaces/interface_iiif_support}
+-     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -92,      url: /documentation/interfaces/interface_sword}
 -   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -91,      url: /documentation/datamodel}
 -     {identifier: datamodel_common,        parent: datamodel,          name: Allgemeines,                 weight: -99,      url: /documentation/datamodel/datamodel_common}
 -     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -98,      url: /documentation/datamodel/datamodel_mods}
