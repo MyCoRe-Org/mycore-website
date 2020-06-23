@@ -56,7 +56,7 @@
   </xsl:template>
   
   <xsl:template match="text()" mode="id">
-    <xsl:value-of select="." />
+    <xsl:value-of select="replace(replace(replace(.,' ','_'),'&amp;',''),'__','_')" />
   </xsl:template>
 
 </xsl:stylesheet>

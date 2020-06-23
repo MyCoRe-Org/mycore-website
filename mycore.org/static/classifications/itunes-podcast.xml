@@ -17,16 +17,16 @@
          <category ID="Design">
             <label xml:lang="en" text="Design"/>
          </category>
-         <category ID="Fashion &amp; Beauty">
+         <category ID="Fashion_Beauty">
             <label xml:lang="en" text="Fashion &amp; Beauty"/>
          </category>
          <category ID="Food">
             <label xml:lang="en" text="Food"/>
          </category>
-         <category ID="Performing Arts">
+         <category ID="Performing_Arts">
             <label xml:lang="en" text="Performing Arts"/>
          </category>
-         <category ID="Visual Arts">
+         <category ID="Visual_Arts">
             <label xml:lang="en" text="Visual Arts"/>
          </category>
       </category>
@@ -53,7 +53,7 @@
       </category>
       <category ID="Comedy">
          <label xml:lang="en" text="Comedy"/>
-         <category ID="Comedy Interviews">
+         <category ID="Comedy_Interviews">
             <label xml:lang="en" text="Comedy Interviews"/>
          </category>
          <category ID="Improv">
@@ -68,10 +68,10 @@
          <category ID="Courses">
             <label xml:lang="en" text="Courses"/>
          </category>
-         <category ID="How To">
+         <category ID="How_To">
             <label xml:lang="en" text="How To"/>
          </category>
-         <category ID="Language Learning">
+         <category ID="Language_Learning">
             <label xml:lang="en" text="Language Learning"/>
          </category>
          <category ID="Self-Improvement">
@@ -80,13 +80,13 @@
       </category>
       <category ID="Fiction">
          <label xml:lang="en" text="Fiction"/>
-         <category ID="Comedy Fiction">
+         <category ID="Comedy_Fiction">
             <label xml:lang="en" text="Comedy Fiction"/>
          </category>
          <category ID="Drama">
             <label xml:lang="en" text="Drama"/>
          </category>
-         <category ID="Science Fiction">
+         <category ID="Science_Fiction">
             <label xml:lang="en" text="Science Fiction"/>
          </category>
       </category>
@@ -96,9 +96,9 @@
       <category ID="History">
          <label xml:lang="en" text="History"/>
       </category>
-      <category ID="Health &amp; Fitness">
+      <category ID="Health_Fitness">
          <label xml:lang="en" text="Health &amp; Fitness"/>
-         <category ID="Alternative Health">
+         <category ID="Alternative_Health">
             <label xml:lang="en" text="Alternative Health"/>
          </category>
          <category ID="Fitness">
@@ -107,7 +107,7 @@
          <category ID="Medicine">
             <label xml:lang="en" text="Medicine"/>
          </category>
-         <category ID="Mental Health">
+         <category ID="Mental_Health">
             <label xml:lang="en" text="Mental Health"/>
          </category>
          <category ID="Nutrition">
@@ -117,24 +117,24 @@
             <label xml:lang="en" text="Sexuality"/>
          </category>
       </category>
-      <category ID="Kids &amp; Family">
+      <category ID="Kids_Family">
          <label xml:lang="en" text="Kids &amp; Family"/>
-         <category ID="Education for Kids">
+         <category ID="Education_for_Kids">
             <label xml:lang="en" text="Education for Kids"/>
          </category>
          <category ID="Parenting">
             <label xml:lang="en" text="Parenting"/>
          </category>
-         <category ID="Pets &amp; Animals">
+         <category ID="Pets_Animals">
             <label xml:lang="en" text="Pets &amp; Animals"/>
          </category>
-         <category ID="Stories for Kids">
+         <category ID="Stories_for_Kids">
             <label xml:lang="en" text="Stories for Kids"/>
          </category>
       </category>
       <category ID="Leisure">
          <label xml:lang="en" text="Leisure"/>
-         <category ID="Animation &amp; Manga">
+         <category ID="Animation_Manga">
             <label xml:lang="en" text="Animation &amp; Manga"/>
          </category>
          <category ID="Automotive">
@@ -152,50 +152,50 @@
          <category ID="Hobbies">
             <label xml:lang="en" text="Hobbies"/>
          </category>
-         <category ID="Home &amp; Garden">
+         <category ID="Home_Garden">
             <label xml:lang="en" text="Home &amp; Garden"/>
          </category>
-         <category ID="Video Games">
+         <category ID="Video_Games">
             <label xml:lang="en" text="Video Games"/>
          </category>
       </category>
       <category ID="Music">
          <label xml:lang="en" text="Music"/>
-         <category ID="Music Commentary">
+         <category ID="Music_Commentary">
             <label xml:lang="en" text="Music Commentary"/>
          </category>
-         <category ID="Music History">
+         <category ID="Music_History">
             <label xml:lang="en" text="Music History"/>
          </category>
-         <category ID="Music Interviews">
+         <category ID="Music_Interviews">
             <label xml:lang="en" text="Music Interviews"/>
          </category>
       </category>
       <category ID="News">
          <label xml:lang="en" text="News"/>
-         <category ID="Business News">
+         <category ID="Business_News">
             <label xml:lang="en" text="Business News"/>
          </category>
-         <category ID="Daily News">
+         <category ID="Daily_News">
             <label xml:lang="en" text="Daily News"/>
          </category>
-         <category ID="Entertainment News">
+         <category ID="Entertainment_News">
             <label xml:lang="en" text="Entertainment News"/>
          </category>
-         <category ID="News Commentary">
+         <category ID="News_Commentary">
             <label xml:lang="en" text="News Commentary"/>
          </category>
          <category ID="Politics">
             <label xml:lang="en" text="Politics"/>
          </category>
-         <category ID="Sports News">
+         <category ID="Sports_News">
             <label xml:lang="en" text="Sports News"/>
          </category>
-         <category ID="Tech News">
+         <category ID="Tech_News">
             <label xml:lang="en" text="Tech News"/>
          </category>
       </category>
-      <category ID="Religion &amp; Spirituality">
+      <category ID="Religion_Spirituality">
          <label xml:lang="en" text="Religion &amp; Spirituality"/>
          <category ID="Buddhism">
             <label xml:lang="en" text="Buddhism"/>
@@ -227,16 +227,16 @@
          <category ID="Chemistry">
             <label xml:lang="en" text="Chemistry"/>
          </category>
-         <category ID="Earth Sciences">
+         <category ID="Earth_Sciences">
             <label xml:lang="en" text="Earth Sciences"/>
          </category>
-         <category ID="Life Sciences">
+         <category ID="Life_Sciences">
             <label xml:lang="en" text="Life Sciences"/>
          </category>
          <category ID="Mathematics">
             <label xml:lang="en" text="Mathematics"/>
          </category>
-         <category ID="Natural Sciences">
+         <category ID="Natural_Sciences">
             <label xml:lang="en" text="Natural Sciences"/>
          </category>
          <category ID="Nature">
@@ -245,22 +245,22 @@
          <category ID="Physics">
             <label xml:lang="en" text="Physics"/>
          </category>
-         <category ID="Social Sciences">
+         <category ID="Social_Sciences">
             <label xml:lang="en" text="Social Sciences"/>
          </category>
       </category>
-      <category ID="Society &amp; Culture">
+      <category ID="Society_Culture">
          <label xml:lang="en" text="Society &amp; Culture"/>
          <category ID="Documentary">
             <label xml:lang="en" text="Documentary"/>
          </category>
-         <category ID="Personal Journals">
+         <category ID="Personal_Journals">
             <label xml:lang="en" text="Personal Journals"/>
          </category>
          <category ID="Philosophy">
             <label xml:lang="en" text="Philosophy"/>
          </category>
-         <category ID="Places &amp; Travel">
+         <category ID="Places_Travel">
             <label xml:lang="en" text="Places &amp; Travel"/>
          </category>
          <category ID="Relationships">
@@ -278,7 +278,7 @@
          <category ID="Cricket">
             <label xml:lang="en" text="Cricket"/>
          </category>
-         <category ID="Fantasy Sports">
+         <category ID="Fantasy_Sports">
             <label xml:lang="en" text="Fantasy Sports"/>
          </category>
          <category ID="Football">
@@ -318,24 +318,24 @@
       <category ID="Technology">
          <label xml:lang="en" text="Technology"/>
       </category>
-      <category ID="True Crime">
+      <category ID="True_Crime">
          <label xml:lang="en" text="True Crime"/>
       </category>
-      <category ID="TV &amp; Film">
+      <category ID="TV_Film">
          <label xml:lang="en" text="TV &amp; Film"/>
-         <category ID="After Shows">
+         <category ID="After_Shows">
             <label xml:lang="en" text="After Shows"/>
          </category>
-         <category ID="Film History">
+         <category ID="Film_History">
             <label xml:lang="en" text="Film History"/>
          </category>
-         <category ID="Film Interviews">
+         <category ID="Film_Interviews">
             <label xml:lang="en" text="Film Interviews"/>
          </category>
-         <category ID="Film Reviews">
+         <category ID="Film_Reviews">
             <label xml:lang="en" text="Film Reviews"/>
          </category>
-         <category ID="TV Reviews">
+         <category ID="TV_Reviews">
             <label xml:lang="en" text="TV Reviews"/>
          </category>
       </category>
