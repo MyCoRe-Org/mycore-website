@@ -61,14 +61,14 @@
     <h4>{prefix}</h4>
     <p>kann aus mehreren Pfad-Bestandteilen bestehen. Optional kann es an erster Stelle den Pfad zur Anwendung enthalten, z.B. in <code>http://localhost:8080/skeleton/api/v2/...</code>
     <p>Die weiteren Pfad-Bestandteile bilden den Pfad zur IIIF API. Sie können ggf. eine ID für eine konkrete Implementierung enthalten, z.B.: 
-    <code>/api/iiif/image/v2</code> bzw. <code>/api/iiif/image/Iview</code> bzw. <code>/api/iiif/image/thumbnail</code>.
+    <code>/api/iiif/image/v2</code> bzw. <code>/api/iiif/image/v2/Iview</code> bzw. <code>/api/iiif/image/v2/thumbnail</code>.
     
     <h4>{identifier}</h4>
     <p>
     Der Image-Identifier hat in der MyCoRe-Standardimplementierung die Syntax:
-    <code>derivate_id/pfad/zum/image.ext</code> <br />
+    <code>derivate_id:/pfad/zum/image.ext</code> <br />
    Slashes sind in ihrer URL-codierten Form (<code>%2F</code>) zu verwenden, <br />
-   z.B.: <tt>skeleton_derivate_00000024%2Fsample1.png</tt>
+   z.B.: <tt>skeleton_derivate_00000024:%2Fsample1.png</tt>
     </p>
     
     <h4>/{region}/{size}/{rotation}/{quality}.{format}</h4>
@@ -157,8 +157,8 @@ MCR.IIIFImage.Iview.ThumbnailForPdfEventHandler.Derivate.Types=derivate_types:co
 
 <h4>Beispiele</h4>
     <ul>
-      <li><a href="http://localhost:8080/skeleton/api/iiif/image/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg">
-        http://localhost:8080/skeleton/api/iiif/image/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg</a>
+      <li><a href="http://localhost:8080/skeleton/api/iiif/image/v2/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg">
+        http://localhost:8080/skeleton/api/iiif/image/v2/thumbnail/skeleton_simpledoc_00000003/full/!256,256/0/default.jpg</a>
       </li>
     </ul>
     <p></p>    
