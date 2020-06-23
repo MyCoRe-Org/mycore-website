@@ -512,6 +512,28 @@ xslInclude:components{{< /highlight >}}
  xslTransform:mycoreobject-txt:file:object.txt{{< /highlight >}}
 </p>
 
+        <h3>i18n:[message_property]</h3>
+        <p>
+          liefert eine einzelne Übersetzung oder eine Liste von Übersetzungen für die altuelle Sprache zurück. Bei einzelnen
+          Properties wird eine verkürzte Form (siehe Ausgabe 1) zurückgegeben. Andernfalls erfolgt die Rückgabe mittels Liste.
+        </p>
+<p>
+{{< highlight bash "linenos=table">}}
+ i18n:{property | property* | property{*}, property{*}, ...}
+
+ i18n:myapp.user.login
+ i18n:myapp.user*
+ i18n:myapp*,mycore*
+ 
+ <i18n>Hier geht es zum Login</i18n>
+ 
+ <i18n>
+   <translation key="myapp.user.password">Passwort</translation>
+   <translation key="myapp.user.login">Hier geht es zum Login</translation>
+   ...
+ </i18n>{{< /highlight >}}
+</p>
+
         <h3>data:[DataURLParams]</h3>
         <p>
           liefert den Inhalt einer Data-URL zurück.

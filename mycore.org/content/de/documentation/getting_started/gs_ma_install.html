@@ -52,7 +52,7 @@ mvn clean install
    Danach wechselt man in dieses Verzeichnis und ruft das Maven-Kommando zum Erstellen der Anwendung auf:
 </p>
    {{< highlight shell "linenos=table">}}
-mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersion=2019.06.2-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersion={version}-SNAPSHOT
   {{< /highlight >}}    
 
 <p>Das Kommando fragt dann die folgenden Parameter ab:</p>
@@ -72,6 +72,10 @@ mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifac
   <tr>
     <td><code>package:</code></td>
     <td><tt>org.myinstition.skeleton</tt> (default)</td>
+  </tr>
+  <tr>
+    <td><code>mcrSolrClassCoreName:</code></td>
+    <td><tt>skeleton_class</tt></td>
   </tr>
   <tr>
     <td><code>mcrSolrMainCoreName:</code></td>
