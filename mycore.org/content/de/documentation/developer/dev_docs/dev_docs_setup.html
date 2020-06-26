@@ -115,39 +115,37 @@ Da Hugo valide HTML-Dateien erzeugt, muss in der Apache-Konfiguration lediglich 
 <Location /mycore-hugo>
   Require ip 123.45.67.0/24
 </Location>
-Alias "/mycore-hugo" "/opt/mycore-hugo/www/mycore.org"
+Alias "/mycore-hugo" "/var/www/mycore-hugo"
 {{</highlight>}}
 {{</mcr-figure>}}
 
 <h3>Autodeploy Skript</h3>
 <p>
-Das Autodeploy Skript prüft zunächst, ob Update auf dem Git-Server commited wurden und lädt diese herunter.
-Wenn das letzte Commmit weniger als 4 min. zurückliegt, stoppt es, um auf weitere Commits zu warten.
+Das Autodeploy Skript <code>update-website.sh</code> prüft zunächst, ob Updates auf dem Git-Server commited wurden und lädt diese herunter.
+Wenn das letzte Commmit weniger als 4 min alt ist, stoppt es, um auf weitere Commits zu warten.
 Ist die Wartezeit abgelaufen, wird die Webseite mit Maven und Hugo gebaut und das Ergebnis in den Webordner kopiert.
 </p>
-<p>Direkt auf dem Server kann das Script mit dem Paramter <code>now</code> aufgerufen werden,
-dann wird die Webseite sofort ohne Update-Check und Wartezeit neugebaut und deployed.
+<p>Das Script kann direkt auf dem Server mit dem Parameter <code>force</code> aufgerufen werden,
+dann wird die Webseite sofort ohne Update-Check und Wartezeit neu gebaut und deployed.
 </p> 
- {{< mcr-figure label="Bash" caption="```/opt/mycore-hugo/update-website.sh```" width="100%">}}
+ {{< mcr-figure label="Bash" caption="```/mcr/mycore.de/hugo/update-website.sh```" width="100%">}}
 {{<highlight bash>}}
 #!/bin/bash
-
 # This script will download the MyCoRe website from Git, 
-# rebuild is with Maven and Hugo an deploy it.
-# If the last commit was less than 4 min ago, nothing will be done 
+# rebuild it with Maven and Hugo and deploy it.
+# If the last commit was less than 4 min ago, nothing will be done
 # (waiting for other commits).
-# A rebuild can be forced by calling the script with the parameter "now".
+# A rebuild can be forced by calling the script with the parameter "force".
 
-NOW=$1
-cd /opt/mycore-hugo/git/mycore-website
+cd /mcr/mycore.de/hugo/mycore-website
 
 LOCAL_HASH=$(git rev-parse HEAD)
 REMOTE_HASH=$(git ls-remote)
 echo "Local: $LOCAL_HASH"
 echo "Remote: $REMOTE_HASH"
 
-if [[$NOW != "now"]]; then
-  if [[ $REMOTE_HASH == *$LOCAL_HASH* ]]; then
+if [[ $REMOTE_HASH == *$LOCAL_HASH* ]]; then
+  if [[ "$1" != "force" ]]; then
     echo "Up to date"
     exit 0
   fi
@@ -156,11 +154,11 @@ fi
 echo "Do fetch"
 git fetch
 
-if [[$NOW != "now"]]; then
-  REMOTE_TS=$(git log -1 --format="%ct" --abbrev-commit remotes/origin/master)
-  NOW_TS=$(date +%s)
+REMOTE_TS=$(git log -1 --format="%ct" --abbrev-commit remotes/origin/master)
+NOW_TS=$(date +%s)
 
-  if (($NOW_TS - $REMOTE_TS < 4 * 60)); then
+if (($NOW_TS - $REMOTE_TS < 4 * 60)); then
+  if [[ "$1" != "force" ]]; then
     echo "Time is not ready for action yet - waiting for other commmits"
     exit 0;
   fi
@@ -169,18 +167,19 @@ fi
 echo "Time is ready - starting website rebuild now"
 git merge -X theirs origin/master
 
-cd /opt/mycore-hugo/git/mycore-website
-mvn clean compile
+cd /mcr/mycore.de/hugo/mycore-website
+/opt/apache-maven/bin/mvn clean compile
 
-cd /opt/mycore-hugo/git/mycore-website/mycore.org/
+cd /mcr/mycore.de/hugo/mycore-website/mycore.org/
 export HUGO_DISABLELANGUAGES="io"
-/opt/mycore-hugo/bin/hugo --baseURL https://lab.ub.uni-rostock.de/mycore-hugo --cleanDestinationDir
+../../bin/hugo -b https://www.mycore.de/ --cleanDestinationDir
 
 STATUS=$?
 if (($STATUS == 0)); then
-  echo "Hugo build finished successfully - deploying to www dir"
-  rm -Rf /opt/mycore-hugo/www/mycore.org
-  mv /opt/mycore-hugo/git/mycore-website/mycore.org/public /opt/mycore-hugo/www/mycore.org
+  echo "Hugo build finished successfully"
+# deploy to www dir (optional)
+  rm -Rf /var/www/mycore-hugo
+  mv /mcr/mycore.de/hugo/mycore-website/mycore.org/public /var/www/mycore-hugo
 fi
 
 exit $STATUS
@@ -190,11 +189,11 @@ exit $STATUS
 
 Das Skript muss ausführbar sein:
 {{<highlight system>}}
-$ sudo chmod +x update-mycore-hugo.sh
+$ sudo chmod +x update-website.sh
 {{</highlight>}}
 
 <h4>Crontab</h4>
-Das Skript wir in der Crontab für <strong>root</strong> eingetragen und als User <strong>www-data</strong> ausgeführt.
+Das Skript wir in der Crontab für <strong>root</strong> eingetragen und als User <strong>mycore</strong> ausgeführt.
 Es soll alle 5 Minuten gestartet werden.
 
 {{<highlight cmd>}}
@@ -202,6 +201,6 @@ $ sudo crontab -e
 {{</highlight>}}
 {{<highlight text>}}
 # m h  dom mon dow   command
-01,06,11,16,21,26,31,36,41,46,51,56 * * * * sudo -u www-data /opt/mycore-hugo/bin/update-mycore-hugo.sh
+01,06,11,16,21,26,31,36,41,46,51,56 * * * * sudo -u mycore /mcr/mycore.de/hugo/update-mycore-hugo.sh
 {{</highlight>}}
 
