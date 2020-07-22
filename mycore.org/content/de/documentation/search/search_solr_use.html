@@ -197,7 +197,19 @@ date: "2020-05-25"
           dies über <code>replace</code>-Anweisungen in den JSON-Konfigurationsdateien erfolgen.
         </p>
         <p>
-          Über ein MyCoRe-CLI Kommando wird die Konfiguration geladen. <br />Im Normalfall lautet das Kommando:
+          In solr wird die anwenderseitige Konfiguration in der gesonderten Datei <em>configoverlay.json</em>
+          im jeweiligen Kern abgelegt. Hier können Einträge aus den Gruppen stehen, welche im Property
+          <code>MCR.Solr.ObserverConfigTypes</code> definiert sind. Ggf. sind in diesen Definitionen auch Verweise 
+          auf eigene SOLR-FieldTypes vorhanden. Diese Elemente (z. B. ein RequestHandler) müssne beim Reload der
+          SOLR-Kern-Konfiguration vorher gelöscht werden. Um nicht all Konfigurationen wahllos zu löschen, sind
+          diese im <em>mycore.properties</em> des jeweiligen Datenmodells explizit zum Löschen anzugeben. 
+        </p>
+        <p>
+        {{< highlight shell "linenos=table">}}
+ MCR.Solr.ObserverConfigTypes.{observedType}.toClean={my_request_handler},...{{< /highlight >}}
+        </p>
+        <p>
+          Über ein MyCoRe-CLI Kommando wird die Konfiguration geladen. Im Normalfall lautet das Kommando:
         </p>
 {{< highlight shell "linenos=table">}}
  mycore.sh reload solr configuration {core_config_type} in core {core_id}
