@@ -2,18 +2,18 @@
 ---
 
 title: "Maven Archetype als Basis für neue MyCoRe Anwendungen"
-mcr_version: ['2018.06', '2019.06']
+mcr_version: ['2019.06', '2020.06']
 author: ['Robert Stephan', 'Kathleen Neumann']
 description: "
       Zur Entwicklung einer eigenen MyCoRe-Anwendung stellen wir ein Anwendungsgerüst
       (Maven-Archetype) zur Verfügung, das als Grundlage für eigene Anwendung dienen kann.
     "
-date: "2019-11-05"
+date: "2020-07-27"
 
 ---
 <p>
   Bis zur Version 2017.06 diente die MyCoRe-Anwendung „Skeleton“ als
-  Template für neue Anwendungen. Mit dem Maven-Archetype bieten wir nun eine fortgeschrittenere Lösung an. 
+  Template für neue Anwendungen. Mit dem Maven-Archetype bieten wir nun eine fortgeschrittenere Lösung an.<br /> 
   Nach Abfrage von verschiedenen Parametern generiert es eine neue MyCoRe-Anwendung, 
   in der bereits die typische Ordnerstruktur erzeugt und eine Reihe von Voreinstellungen gesetzt sind.
   Dadurch entfällt das bisher notwendige Umbenennen von Dateien und Ordner sowie das Suchen und Ersetzen 
@@ -52,8 +52,7 @@ mvn clean install
    Danach wechselt man in dieses Verzeichnis und ruft das Maven-Kommando zum Erstellen der Anwendung auf:
 </p>
    {{< highlight shell "linenos=table">}}
-mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersion={version}-SNAPSHOT
-  {{< /highlight >}}    
+mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersionId=2020.06.0-SNAPSHOT{{< /highlight >}}    
 
 <p>Das Kommando fragt dann die folgenden Parameter ab:</p>
 <table class="table w-75 mx-auto">
@@ -87,14 +86,17 @@ mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifac
   </tr>  
 </table>      
 
-<p>Die drei ersten Parameter werden in den zu erstellenden <code>*.pom</code> Dateien verwendet.
-<code>package</code> ist das Root-Package für die zu erstellenden Java-Klassen. <code>mcrSolrMainCoreName</code>
-bezeichnet den Namen (URL-Pfad auf dem SOLR-Server) des Haupt-Solr-Kerns für die Anwendung. Aus <code>projectName</code>
-wird u.a. der Titel der Webanwendung abgeleitet.</p>
+<ul>
+  <li>Die drei ersten Parameter werden in den zu erstellenden Maven <code>*.pom</code> - Dateien verwendet.</li>
+  <li><code>package</code> ist das Root-Package für die zu erstellenden Java-Klassen.</li>
+  <li><code>mcrSolrMainCoreName</code> bezeichnet den Namen (URL-Pfad auf dem SOLR-Server) des Haupt-Solr-Kerns der Anwendung.</li>
+  <li><code>mcrSolrClassCoreName</code> bezeichnet den Namen (URL-Pfad auf dem SOLR-Server) des Solr-Kerns für Klassifikationen der Anwendung.</li>
+  <li>Aus <code>projectName</code> wird der Titel der Webanwendung abgeleitet.</li>
+</ul>
   
 <h3>b) als neues Eclipse-Projekt</h3>
 <p>In der Entwicklungsumgebung Eclipse kann eine neue Anwendung als Eclipse-Projekt über einen Wizzard erstellt werden.</p>
-<p>Der Wizzard wird über <code>New &gt; Maven Project</code> gestartet.</p>
+<p>Der Wizzard wird über <code>File &gt; New &gt; Maven Project</code> gestartet.</p>
 
 {{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard01.png" class="text-center" label="Abbildung" caption="Eclipse - New Maven project starten" alt="Maven Archetype auswählen" width="550px" height="" />}}
 
