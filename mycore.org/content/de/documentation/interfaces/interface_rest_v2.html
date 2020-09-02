@@ -1,0 +1,416 @@
+---
+
+title: "REST-API v2"
+mcr_version: ['2020.06']
+author: ['Robert Stephan']
+description: "Die REST-API kann vor allem durch externe Tools für den lesenden und schreibenden Zugriff
+       auf MyCoRe-Objekte benutzt werden."
+date: "2020-09-01"
+draft: false
+---
+<div>
+  <div class="badge badge-danger mb-3">WORK_IN_PROGRESS: Es wurden noch nicht alle Endpoints der REST-API v2 vollständig beschrieben!</div>
+  <h2>Allgemeines</h2>
+  <p>
+    Mit dem <span class="badge badge-info">LTS 2020.06</span> wurde die MyCoRe-REST-API überarbeitet.
+    Neben dem lesenden Zugriff besteht jetzt auch die Möglichkeit Objekte zu erstellen, bearbeiten und zu löschen.
+    Die Basis-URL der neuen REST-API lautet: <code>${WebApplicationBaseURL}api/v2</code>.
+  </p>
+
+  <h3>Dokumentation</h3>
+  <p>
+    Neben der Beschreibung auf dieser Webseite, liefert jede MyCoRe-Anwendung auch eine Dokumentation
+    der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="http://mycore.de/mir/api/v2/openapi.json">http://mycore.de/mir/api/v2/openapi.json</a>.  
+   </p>
+   <h3>Zugriffsschutz</h3>
+   <p>Die Nutzung der REST-API wird durch 
+        <a href="{{< ref acl_permissions >}}">ACLs</a> geschützt.
+   </p>
+   <p>
+     Für den lesenden Zugriff muss immer eine ACL auf <code>restapi:/</code>
+     mit dem Recht <code>read</code> gesetzt sein.
+     Der Zugriff auf einzelne Pfade wie <code>/objects</code>, <code>/search</code> oder
+     <code>/classifications</code> kann durch entsprechende ACLs (z.B. <code>restapi:/v2/objects</code>) 
+     zusätzlich beschränkt werden.
+   </p>
+   <p>
+     Für den schreibenden Zugriff muss eine eine ACL auf <code>restapi:/</code>
+     mit dem Recht <code>writedb</code> gesetzt sein.
+   </p>
+   <p>Durch Setzen entsprechender ACL-Regeln kann der Zugriff komplett freigeschaltet (<code>TRUE</code>), 
+      auf einzelne Nutzer oder Rollen beschränkt oder auf bestimmte IP-Adressen / IP-Bereiche begrenzt werden.</p>
+
+   <h2>Objekt-Metadaten verwalten</h2>
+   <h3><span class="badge badge-secondary">GET</span> /objects</h3>
+   <p>Dieser Request liefert eine Liste der vorhandenen MyCoRe-Objekte zurück.</p>
+   <h4>Format</h4>
+   <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
+      Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
+      oder via URL-Endung (<code>/objects.json</code> bzw. <code>/objects.xml</code>) definiert werden.
+   </p>
+   <h4>Beispiel-Requests</h4>
+   <ul>
+     <li><a href="http://www.mycore.de/mir/api/v2/objects">http://www.mycore.de/mir/api/v2/objects</a></li>
+     <li><a href="http://www.mycore.de/mir/api/v2/objects.json">http://www.mycore.de/mir/api/v2/objects.json</a></li>
+   </ul>
+   <p></p>
+   <h3><span class="badge badge-secondary">GET</span> /objects/{$id}</h3>
+     <p>Dieser Request liefert die internen XML-Metadaten eines MyCoRe-Objektes zurück.</p>
+     <table class="table table-bordered">
+       <cols><col width="100px" /></cols>
+       <tr>
+            <td><code>{$id}</code></td>
+            <td>
+              entspricht im Standardfall der MyCoRe-Objekt-ID. Führende Nullen werden ggf. automatisch ergänzt.<br />
+              Anstelle der ID können alternative Identifier verwenden werden. Voraussetzung dafür ist, dass sie 
+              als SOLR-Feld definiert wurden, dass genau ein Dokument zurückliefert.<br />
+              Über das Property <code>MCR.RestAPI.V2.AlternativeIdentifier.Objects.Keys</code> kann eine Liste von Feldern angegeben werden:
+              <br /><br />
+               
+               {{< highlight shell>}}
+ MCR.RestAPI.V2.AlternativeIdentifier.Objects.Keys=doi,issn,recordIdentifier      {{< /highlight >}}
+
+              In der URL kann diese ID in der Form <code>key:value</code> verwendet werden.
+            </td>
+          </tr>
+     </table>
+        
+     <h4>Beispiel-Requests</h4>
+     <ul>
+       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003</a></li>
+       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03">http://www.mycore.de/mir/api/v2/objects/mir_mods_03</a></li>
+       <li><a href="http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281">http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281</a></li>
+     </ul>
+     {{< highlight shell>}}
+ curl -o skeleton_simpledoc_00000036.xml
+       http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000036
+{{< /highlight >}}
+     <p></p>
+     
+     <h3><span class="badge badge-secondary">GET</span> /objects/{$id}/metadata</h3>
+     <p>Dieser Request liefert die <code>&lt;metadata&gt;</code>-Sektion eines MyCoRe-Objektes zurück.</p>
+     <table class="table table-bordered">
+       <cols><col width="100px" /></cols>
+       <tr>
+            <td><code>{$id}</code></td>
+            <td>
+              entspricht im Standardfall der MyCoRe-Objekt-ID. Führende Nullen werden ggf. automatisch ergänzt.<br />
+              Anstelle der ID können alternative Identifier verwenden werden (s. oben).
+           </td>
+          </tr>
+     </table>
+        
+     <h4>Beispiel-Requests</h4>
+     <ul>
+       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata</a></li>
+       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata</a></li>
+       <li><a href="http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281/metadata">http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281/metadata</a></li>
+     </ul>
+     {{< highlight shell>}}
+ curl -o metadata-for-skeleton_simpledoc_00000036.xml 
+       http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000036/metadata
+{{< /highlight >}}
+     <p></p>
+     
+     <h3><span class="badge badge-danger">POST</span> /objects</h3>
+     <p>erstellt ein neues MyCoRe-Objekt.</p>
+     <p>Im Request-Body muss ein valides MyCoRe-Objekt mitgeliefert werden.
+     Aus der MyCoRe-ID werden Projekt und Objekttyp übernommen, der Zählerbestandteil wird vom System mit dem aktuellen Wert überschrieben.
+     Der Response enthält einen <code>Location</code>-Header mit der URL des neuen MyCoRe-Objektes.
+     </p>
+        
+     <h4>Beispiel-Aufruf</h4>
+     {{< highlight shell>}}
+curl -D -X POST -u administrator:*PASSWORD*  
+     -H "Content-Type: application/xml" 
+     -d "@skeleton_simpledoc_00000001.xml" 
+     - http://localhost:8080/skeleton/api/v2/objects
+{{< /highlight >}}    
+     {{< mcr-figure class="border border-secondary p-3" label="Daten für Upload" caption="MyCoRe-Objekt als XML in Datei <code>skeleton_simpledoc_00000001.xml</code>">}}
+{{< highlight xml>}}
+<mycoreobject ID="skeleton_simpledoc_00000001">
+  <structure />
+  <metadata>
+    <def.title class="MCRMetaLangText" heritable="false" notinherit="true">
+      <title inherited="0" form="plain">Meine erste Publikation</title>
+    </def.title>
+    <def.language class="MCRMetaClassification" heritable="false" notinherit="true">
+      <language inherited="0" classid="rfc4646" categid="en"/>
+    </def.language>
+  </metadata>
+  <service>
+    <servstates class="MCRMetaClassification">
+      <servstate inherited="0" classid="state" categid="submitted"/>
+    </servstates>
+  </service>
+</mycoreobject>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+    <p></p>          
+
+    <h3><span class="badge badge-danger">PUT</span> /objects/{$id}</h3>
+    <p>aktualisiert die internen XML-Metadaten eines MyCoRe-Objektes.</p>
+
+     <h4>Beispiel-Aufruf</h4>
+     {{< highlight shell>}}
+curl -D - -X PUT -u administrator:*PASSWORD*  
+     -H "Content-Type: application/xml" 
+     -d "@skeleton_simpledoc_00000036.xml" 
+     http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000036
+{{< /highlight >}}       
+    <p>&nbsp;</p>
+     <h3><span class="badge badge-danger">PUT</span> /objects/${id}/metadata</h3>
+     <p>aktualisiert die <code>&lt;metadata&gt;</code>-Sektion eines MyCoRe-Objektes.</p>
+        
+     <h4>Beispiel-Aufruf</h4>
+     {{< highlight shell>}}
+curl -D - -X PUT -u administrator:*PASSWORD*  
+     -H "Content-Type: application/xml" 
+     -d "@metadata-for-dskeleton_simpledoc_00000001.xml" 
+     http://localhost:8080/skeleton/api/v2/objects/metadata
+{{< /highlight >}}    
+{{< mcr-figure class="border border-secondary p-3" label="Daten für Upload" caption="Metadaten als XML-Datei <code>metata-for-skeleton_simpledoc_00000001.xml</code>">}}
+{{< highlight xml>}}
+  <metadata>
+    <def.title class="MCRMetaLangText" heritable="false" notinherit="true">
+      <title inherited="0" form="plain">Meine aktualisierte Publikation</title>
+    </def.title>
+    <def.language class="MCRMetaClassification" heritable="false" notinherit="true">
+      <language inherited="0" classid="rfc4646" categid="en"/>
+    </def.language>
+  </metadata>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+    <p></p>     
+
+     <h2>Derivate verwalten</h2>
+     <h3><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates</h3>
+     <p>listet die Derivate eines MyCoRe-Objektes auf.</p>
+     <h4>Parameter</h4>
+     <table class="table table-bordered">
+       <col width="100px" />
+       <tr>
+         <td><code>{$id}</code></td>
+         <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+       </tr>
+     </table>
+        
+     <h4>Format</h4>
+     <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
+        Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
+        oder via URL-Endung (<code>/derivates.json</code> bzw. <code>/derivates.xml</code>) definiert werden.
+      </p>
+       
+      <h4>Beispiel-Requests</h4>
+      <ul>
+        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates</a></li>
+        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates.xml">http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates.xml</a></li>
+      </ul>
+      {{< highlight shell>}}
+curl -H "Accept: application/json" 
+     http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates
+{{< /highlight >}}    
+      
+     <h3><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}</h3>
+     <p>Dieser Request liefert das interne XML eines MyCoRe-Derivates zurück</p>
+     <table class="table table-bordered">
+       <col width="100px" />
+       <tr>
+         <td><code>{$id}</code></td>
+         <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+       </tr>
+       <tr>
+         <td><code>{$derid}</code></td>
+         <td>
+              entspricht im Standardfall der MyCoRe-Derivate-ID. Führende Nullen werden ggf. automatisch ergänzt.<br />
+              Anstelle der ID können alternative Identifier verwenden werden. Voraussetzung dafür ist, dass sie 
+              als SOLR-Feld definiert wurden, dass genau ein Dokument zurückliefert.<br />
+              Über das Property <code>MCR.RestAPI.V2.AlternativeIdentifier.Derivates.Keys</code> kann eine Liste von Feldern angegeben werden:
+              <br /><br />
+               
+               {{< highlight shell>}}
+ MCR.RestAPI.V2.AlternativeIdentifier.Derivates.Keys=derivateType      {{< /highlight >}}
+
+              In der URL kann diese ID in der Form <code>key:value</code> verwendet werden.
+         </td>
+       </tr>
+     </table>
+
+     <h4>Beispiel-Requests</h4>
+     <ul>
+       <li><a href="http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/skeleton_derivate_00000003">http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/skeleton_derivate_00000003</a></li>
+       <li><a href="http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/derivateType:thumbnail">http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/derivateType:thumbnail</a></li>
+     </ul>
+<!-- 
+        <h3>/objects/{$id}/derivates/{$derid}/open</h3>
+        <h4>Öffnen der Hauptdatei eines Derivates</h4>
+        <p>Mit diesem Request lässt sich die Hauptdatei eines Derivates anzeigen. Es erfolgt ein Redirect-Request auf
+        die MyCoRe File API.</p>
+
+         <table class="table table-bordered">
+          <cols><col width="100px" /></cols>
+          <tr>
+            <td><code>{$id}</code></td>
+            <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+          </tr>
+          <tr>
+            <td><code>{$derid}</code></td>
+            <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+          </tr>
+        </table>
+
+        <h4>Beispiel-Requests</h4>
+         <ul>
+          <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open</a></li>
+          <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open</a></li>
+          <li><a href="http://rosdok.uni-rostock.de/api/v1/objects/recordIdentifier:rosdok%252Fppn746606281/derivates/label:Cover/open">http://rosdok.uni-rostock.de/api/v1<br />/objects/recordIdentifier:rosdok%252Fppn746606281/derivates/label:Cover/open</a></li>
+        </ul>
+-->
+        <h3><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/contents/{$path}</h3>
+        <p>Mit diesem Request erhält man ein Directory-Listing für im Derivate enthaltene Ordner oder lädt die spezifizierte Datei herunter.</p>
+
+         <table class="table table-bordered">
+          <col width="100px" />
+          <tr>
+            <td><code>{$id}</code></td>
+            <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+          </tr>
+          <tr>
+            <td><code>{$derid}</code></td>
+            <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+          </tr>
+          <tr>
+            <td><code>{$path}</code></td>
+            <td>optional: Pfad zu einem Verzeichnis im Derivate, dessen Inhalt hier ausgegeben werden soll
+             bzw. zu einer Datei die heruntergeladen werden soll.
+            </td>
+          </tr>
+        </table>
+        <!-- Trennung Download <-> File/Directory-Metadaten / Directory-Listing über mehrere Ebenen -->
+        <h4>Format</h4>
+        <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
+            Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
+            oder via URL-Endung (<code>/contents.json</code> bzw. <code>/contents.xml</code>) definiert werden.
+        </p>
+
+        <h4>Beispiel-Requests</h4>
+         <ul>
+          <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents</a></li>
+          <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents/document.pdf">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents/document.pdf</a></li>
+         </ul>
+        
+        <p><span class="badge badge-secondary">Hinweis:</span> Datei-Downloads sind auch über die File-API realisierbar:</p>
+   
+        <h4>Beispiel-Requests</h4>
+        <ul>
+          <li><a href="http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf">http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf</a></li>
+          <li><a href="http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg">http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg</a></li>
+        </ul>
+        
+      <h3><span class="badge badge-danger">POST</span> /objects/{$id}/derivates</h3>
+      <p>erstellt ein neues MyCoRe-Derivate.</p>
+      <p>Die initialen Metadaten werden als Form-Parameter übergeben.
+        Der Response enthält einen <code>Location</code>-Header mit der URL des neuen MyCoRe-Objektes.
+      </p>
+      
+      <h4>Parameter</h4>
+      <table class="table table-bordered">
+          <col width="150px" />
+          <tr>
+            <td><code>order</code></td>
+            <td>Reihenfolge (Position) des Derivates in den MyCoRe-Metadaten</td>
+          </tr>
+          <tr>
+            <td><code>maindoc</code></td>
+            <td>Pfad zur Hauptdatei im Derivate</td>
+          </tr>
+          <tr>
+            <td><code>classification</code></td>
+            <td>(wiederholbar) Klassifikationseinträge für das Derivate in der Form <code>classid:categid</code></td>
+          </tr>
+          <tr>
+            <td><code>title</code></td>
+            <td>(wiederholbar) Title des Derivates, die Sprache kann dem Text in runden Klammern vorangestellt werden, z.B.
+                <code>(en)published article</code></td>
+          </tr>
+        </table>
+     <h4>Beispiel-Aufruf</h4>
+     {{< highlight shell>}}
+curl -D -X POST -u administrator:*PASSWORD*  
+     -H "Content-Type: application/x-www-form-urlencoded" 
+     -F "order=1"
+     -F "title=(de)Volltextdokument" 
+     -F "title=(en)fulltext document"
+     -F "classification=derivate_types:content"
+     - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates
+{{< /highlight >}}    
+     
+       <h3><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/${derid}/contents/${path}</h3>
+      <p>lädt eine neue Datei hoch bzw. aktualisiert eine existierende Datei.</p>
+      
+      <p>Der Response hat den Statuscode <code>201</code>, wenn eine neue Datei erstellt wurde<br /> 
+         oder den Statuscode <code>204</code>, wenn eine bestehende Datei aktualisiert wurde.
+     <h4>Beispiel-Aufruf</h4>
+     {{< highlight shell>}}
+curl -D - -X PUT -u administrator:*PASSWORD*  
+     -H "Content-Type: application/xml" 
+     -d "@fulltext.pdf" 
+     - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates/skeleton_derivate_00000032/contents/fulltext.pdf
+{{< /highlight >}}    
+      <p>&nbsp;</p>
+
+        <h2>Klassifikationen verwalten</h2>
+      
+        <h3><span class="badge badge-secondary">GET</span>  /classifications</h3>
+        <p>Dieser Request listet alle in der Anwendung installierten Klassifikationen auf.</p>
+        
+        <h4>Format</h4>
+        <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
+            Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
+            oder via URL-Endung (<code>/classifications.xml</code> bzw. <code>/classifications.json</code>) definiert werden.
+        </p>
+
+        <h4>Beispiel-Requests</h4>
+        <ul>
+          <li><a href="http://www.mycore.de/mir/api/v2/classifications">http://www.mycore.de/mir/api/v2/classifications</a></li>
+          <li><a href="http://www.mycore.de/mir/api/v2/classifications.json">http://www.mycore.de/mir/api/v2/classifications.json</a></li>
+        </ul>
+
+        
+        <h3><span class="badge badge-secondary">GET</span> /classifications/{$classid}</h3>
+        <h4>Anzeigen einer Klassifikation</h4>
+        <p>Dieser Request zeigt eine Klassifikation aus der MyCoRe-Anwendung an.</p>
+        <table class="table table-bordered">
+          <col width="150px" />
+          <tr><td><code>{$classid}</code></td><td>entspricht der ID einer Klassifikation</td></tr>
+        </table>
+
+        <h4>Format</h4>
+        <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
+            Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
+            oder via URL-Endung (<code>/{$classid}.json</code> bzw. <code>/{$classid}.xml</code>) definiert werden.
+        </p>
+
+        <h4>Beispiel-Requests</h4>
+        <ul>
+          <li><a href="http://www.mycore.de/mir/api/v2/classifications/state">http://www.mycore.de/mir/api/v2/classifications/state</a></li>
+          <li><a href="http://www.mycore.de/mir/api/v2/classifications/state.xml">http://www.mycore.de/mir/api/v2/classifications/state.xml</a></li>
+        </ul>
+
+<!-- 
+        <p>&nbsp;</p>
+        <h2>Explore-Endpoint</h2>
+        <p>implementiert nur im JSPDocportal</p>
+        <h4>Beispiel-Requests</h4>
+        <ul>
+          <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml">http://localhost:8080/skeleton/api/v2/explore.xml</a></li>
+          <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml?sort=modified%20desc">http://localhost:8080/skeleton/api/v2/explore.xml?sort=modified%20desc</a></li>
+          
+          <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml?start=5&rows=10">http://localhost:8080/skeleton/api/v2/explore.xml?start=5&amp;rows=10</a></li>
+          <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml?filter=id:skeleton_simpledoc_00000002">http://localhost:8080/skeleton/api/v2/explore.xml?filter=id:skeleton_simpledoc_00000002</a></li>
+          
+        </ul>  
+-->
+    </div>
+    
+  

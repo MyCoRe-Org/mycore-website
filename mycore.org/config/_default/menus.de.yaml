@@ -109,6 +109,7 @@ main:
 -     {identifier: user_external_ldap,      parent: permissions,        name: Nutzung LDAP,                  weight: -88,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: interfaces,              parent: documentation,      name: Schnittstellen,              weight: -92,      url: /documentation/interfaces}
 -     {identifier: interface_rest,          parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/interface_rest}
+-     {identifier: interface_rest_v2,       parent: interfaces,         name: REST v2,                     weight: -98,      url: /documentation/interfaces/interface_rest_v2}
 -     {identifier: interface_oai,           parent: interfaces,         name: OAI,                         weight: -97,      url: /documentation/interfaces/interface_oai}
 -     {identifier: interface_pid,           parent: interfaces,         name: Persistent Identifier,       weight: -96,      url: /documentation/interfaces/interface_pid}
 -     {identifier: interface_google,        parent: interfaces,         name: Google-Sitemap,              weight: -95,      url: /documentation/interfaces/interface_google}
