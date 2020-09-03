@@ -197,8 +197,61 @@ MCR.IIIFImage.Iview.ThumbnailForPdfEventHandler.Derivate.Types=derivate_types:co
          <img class="d-block pl-5" src="https://www.mycore.de/mir/api/iiif/image/v2/thumbnail/mir_mods_00000003/full/!256,256/0/default.jpg" title="Thumbnail vom PDF" />
       </li>
     </ul>    
-    <p></p>    
+    <p></p>
+    
+    <h2>IIIF Presentation API</h2>
+    MyCoRe implementiert die <a href="https://iiif.io/api/presentation/2.1/">IIIF Presentation API v.2.1.1</a>. Diese kann verwendet werden, um Inhalte aus MyCoRe-Repositorien
+    in anderen Webanwendungen mit standardisierten Viewern anzuzeigen. Beispielimplementierungen für IIIF-Viewer sind:
+    <ul>
+      <li><a href="https://projectmirador.org/">Mirador</a></li>
+      <li><a href="http://universalviewer.io/">Universal Viewer</a>
+      <li> weitere Viewer auf der Seite <a href="https://iiif.io/apps-demos/#image-viewing-clients">iiif.io - Apps & Demos</a>
+    </ul>
+    <h3>Konfiguration</h3>
+    <p>
+    In MyCoRe lassen sich verschiedenen Implementierungen der IIIF Presentation API verwenden. Die Standardimplementierung <code>mets</code>
+    erstellt die Manifest-Datei aus einer bestehenden MyCoRe-Viewer-METS-Datei.
+    </p>
+    <p>
+      Folgende Properties können für die Konfiguration der Implementierung verwendet werden:
+    </p>
+{{< mcr-figure label="Konfiguration" caption="<code>mycore.properties</code>">}}
+{{< highlight text "linenos=table">}}
+# setzt die ID der Standardimplementierung, welche dadurch in der IIIF URL weggelassen werden kann
+MCR.IIIFPresentation.Default=Mets
+
+# definiert die konkrete Klasse für die Implementierung
+MCR.IIIFPresentation.Mets=org.mycore.mets.iiif.MCRMetsIIIFPresentationImpl
+
+# definiert den XSLT-Transformer für die Konvertierung der METS Datei in eine IIIF-Manifest-Datei
+MCR.IIIFPresentation.Mets.Transformer=mets-dfg
+
+{{< /highlight >}}   
+{{< /mcr-figure >}}
+    <h4>Beispiele</h4>
+    <ul>
+       <li>IIIF Presentation MANIFEST Datei:<br />
+         <a href="https://www.mycore.de/mir/api/iiif/presentation/v2/dbbs_derivate_00000169/manifest">
+          https://www.mycore.de/mir/api/iiif/presentation/v2/dbbs_derivate_00000169/manifest</a>
+         <br />
+      </li>
+      <li>IIIF Presentation MANIFEST Datei (mit Angabe einer konkreten Implementierung):<br />
+         <a href="https://www.mycore.de/mir/api/iiif/presentation/v2/Mets/dbbs_derivate_00000169/manifest">
+          https://www.mycore.de/mir/api/iiif/presentation/v2/Mets/dbbs_derivate_00000169/manifest</a>
+         <br />
+      </li>
+      
+      <li>Einbindung der MANIFEST Datei in den Universal Viewer:<br />
+        <a href="http://universalviewer.io/uv.html?manifest=https://www.mycore.de/mir/api/iiif/presentation/v2/dbbs_derivate_00000169/manifest">
+          http://universalviewer.io/uv.html?manifest=https://www.mycore.de/mir/api/iiif/presentation/v2/dbbs_derivate_00000169/manifest</a>
+      </li>
+    </ul>    
+    <p></p>  
 </div>
+
+<h3></h3>
+
+
 
 <hr />
 <div>
