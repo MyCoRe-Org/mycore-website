@@ -5,17 +5,19 @@ title: "Allgemeines zu den MyCoRe-Datenmodell-Templates"
 mcr_version: ['2019.06','2020.06']
 author: ['Jens
 Kupferschmidt', 'Kathleen Neumann']
-date: "2020-06-04"
+date: "2020-09-03"
 
 ---
 
 <h2>Datenmodellunterstützung Allgemein</h2>
 
+<!-- 
 <p>
   <span class="badge badge-danger">Diese Seite ist als Draft zu verstehen und die darin beschriebenen Dinge sind noch nicht
     entgültig festgelegt!
   </span>
 </p>
+-->
 
 <p>
   MyCoRe bietet neben der Möglichkeit der Gestaltung eigenr Datenmodelle auf Grundlage der MyCoRe-Datentypen noch einen
@@ -32,27 +34,73 @@ date: "2020-06-04"
   oder
   <a href="https://github.com/music-encoding/" target="_blank">MEI</a>
   gedacht. Für einige dieser Modelle wurde bereits eine extra MyCoRe-Komponente erstellt, welche die
-  generischen Teile der Implementierung enthalten soll.
+  generischen Teile
+  der Implementierung enthalten soll.
 </p>
 
-<h3>Dinge, die enthalten sind</h3>
+<h3>Dinge, die in einer Datenmodell-Komponente enthalten sein können</h3>
 
 <ul>
-  <li>das MyCoRe Datenmodell-Schema</li>
-  <li>ein Stylesheet für die Ausgabe nach XML inklusive Absicherung gemäß Zugriffsrechten (?XSL.Style=xml)</li>
-  <li>die Konfiguration des SOLR-Servers mit fieldtype- und field-Definitionen</li>
-  <li>ein Stylesheet zur Konvertierung der Daten nach SOLR gemäß Konfiguration</li>
-  <li>mycore.properties für die generelle Einbindung des Datenmodells</li>
-  <li>eine EventHandler-Klasse zur Integration des MyCoRe-Klassification-Modells</li>
-  <li>ein Stylesheet für das Cleaning nach dem Editor-Aufruf</li>
+  <li>die MyCoRe Datenmodell Schema Definition, darin enthalten</li>
+  <ul>
+    <li>die MyCoRe Datenmodell Konfiguration, aus welcher das Schema generiert wird</li>
+    <li>
+      die Datei
+      <code>catalog.xml</code>
+    </li>
+    <li>
+      das eigentliche originale Schema im Verzeichnis
+      <code>xsd</code>
+    </li>
+  </ul>
+  <li>die Konfiguration des SOLR-Servers mit fieldtype- und field-Definitionen, welche in diesem Modul verwendet werden,
+    sowie für den Identifier im Datenmodell
+  </li>
+  <li>
+    ein Stylesheet zur Konvertierung der Daten nach SOLR gemäß Konfiguration mit dem Namen
+    <code>{datamodel}2solr.xsl</code>
+  </li>
+  <li>Java-Code für die Einbindung des Datenmodells in MyCoRe Klassifikationen, Links usw.</li>
+  <li>
+    die Datei
+    <code>mycore.properties</code>
+    für die generelle Einbindung des Datenmodells
+  </li>
+  <li>
+    Stylesheet für die Umsetzung des Datenmodells nach Dublin Core sowie in weitere Standardformate mit den Namen
+    <code>{datamodel}2{other_datamodel}</code>
+  </li>
+</ul>
+
+<h3>Dinge, die nicht enthalten sind und die selbst erstellt werden müssen</h3>
+
+<ul>
+  <li>zusätzliche SOLR-Felddefinitionen</li>
+  <li>Stylesheets für die Darstellung des SOLR-Response</li>
+  <li>
+    Stylesheets zur Ergänzung von
+    <code>mycoreobject-xml.xsl</code>
+    und in andere Ausgabeformate
+  </li>
+  <li>Stylesheets für die Darstellung einer Detailansicht der Daten</li>
+  <li>Editor-Formulare sowie Pre- und Postprozessor und Cleaning-Scripts dafür</li>
+  <li>Konfigurationen für eine Indexdarstellung der Daten</li>
   <li>ein Stylesheet für die Generierung der Daten des CUD-Mail-Aufrufs</li>
 </ul>
 
-<h3>Dinge, die nicht enthalten sind</h3>
+<h3>Beispiel für eigene propietäre Datenmodelle</h3>
 
+<p>Sind die Standarddatenmodelle nicht ausreichend, so können auch komplett eigene Datenmodelle Erstllt werden. Im
+  folgenden ist eine Liste von produktiv genutzten Datenmodellen zu finden. Diese können auch Standardmodelle vervollständigen.</p>
+  
 <ul>
-  <li>Stylesheets für die Darstellung des SOLR-Response</li>
-  <li>Stylesheets für die Darstellung einer Detailansicht der Daten</li>
-  <li>Pre- und Postprozessor für den Editor</li>
-  <li>Konfigurationen für eine Indexdarstellung der Daten</li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-agent">Datenmodell zur Speicherung von GND-Personen mit nützlichen Ergänzungen</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-lido">Ergänzung des LIDO-Datenmodells</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-glossary">Datenmodell für ein kleines Glossar</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-news">Datenmodell für Projekt-News</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/collection/dptbase-biocol">Datenmodell für biologische Sammlungen</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/papyri/dptbase-papdata">komplexes Datenmodell für Papyrusdaten</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/papyri/dptbase-dictionary">Datenmodell für ein Wörterbuch</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/music/dptbase-musicrepo">komplexes Datenmodell für Bach digital</a></li>
+  <li><a target="_blank" href="https://git.sc.uni-leipzig.de/mycore_applications/orient/mymss-common">komplexes Datenmodell für Handschriften (im Aufbau)</a></li>
 </ul>
