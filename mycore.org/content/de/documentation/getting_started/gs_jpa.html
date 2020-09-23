@@ -62,7 +62,8 @@ date: "2020-05-25"
       <!-- Echo all executed SQL to stdout -->
       <property name="hibernate.show.sql" value="true" />
       <property name="hibernate.format.sql" value="true" />
-
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+      
       <!-- configuration pool via c3p0 -->
       <!-- HowTo: http://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
       <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
