@@ -1,0 +1,154 @@
+
+---
+
+title: "Die Nutzung von XSLT 3"
+mcr_version: ['2020.06']
+author: ['Jens Kupferschmidt','Thomas Scheffler']
+description: "Der Abschnitt beschreibt die Nutzung von XSLT 3 zur Transformation von Layouts und Daten sowie die zusätzlichen MyCoRe-Funktionen"
+date: "2020-09-22"
+
+---
+<h2>Einbindung von Saxon in die MyCoRe-Transformationen</h2>
+<p>
+  In MyCoRe ist es möglich, gekapselte Transformationsprozesse, z. B. für Datenexporte, generieren von PDF-Dateien u.
+  ä.
+  bereits auf XSLT 3 schrittweise umzustellen, ohne dies schon für die Gesamtanwendung tun zu müssen.
+  <a target="_blank" href="https://www.saxonica.com/html/documentation/about/">Saxon</a>
+  ist dabei das Mittel der Wahl.
+  Um einen Transformationsprozess umzustellen, sind folgende Konfigurationen notwendig.
+</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  MCR.ContentTransformer.{my_process}.Class=org.mycore.common.content.transformer.MCRXSLTransformer
+  MCR.ContentTransformer.{my_process}.Stylesheet=xsl/{my_stylesheet}.xsl
+  MCR.ContentTransformer.{my_process}.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl{{< /highlight >}}
+</p>
+<p>Wird die TransformerFactoryClass nicht gesetzt, ist Xalan der Fallback. Unabhängig davon kann durch Konfiguration
+  auch die Gesamte Anwendung schon auf XSLT 3 umgestellt werden, wenn dies alle Transformations-Stylesheets
+  unterstützen.
+</p>
+
+<h2>Zusätzliche XSLT 3 Funktionen aus MyCoRe</h2>
+<p>
+  MyCoRe bietet für die Integration interner Funktionen für XSLT3 eine Alternative zum URI-Resolver. Diese Funktionen
+  werden im Folgenden beschrieben. Jedes der angegebenen Stylesheets muss dabei inkludiert werden. Weiterhin muss
+  jeweils
+  ein
+  <b>Namespace definiert</b>
+  werden.
+</p>
+
+<h3>I18N Integration</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente :</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet :</th>
+    <td style="padding-left:10px;">xsl/functions/i18n.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace :</th>
+    <td style="padding-left:10px;">xmlns:mcri18n="http://www.mycore.de/xslt/i18n"</td>
+  </tr>
+</table>
+<p>Für die Integration von I18N-properties sind zwei XSLT-Funktionen konzipiert. Die erste Funktion enthält als Argument
+  nur den String des einzelnen Properties. In der zweiten Variante können der Transformation auch zusätzliche Argumente
+  mit gegeben werden.
+</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  <xsl:value-of select="mcri18n:translate({i18n_property_string})" />
+
+  <xsl:value-of select="mcri18n:translate-with-params({i18n_property_string}, ({arg_1}, ...))" />{{< /highlight >}}
+</p>
+<p>Hier die Beispiele dazu</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  <xsl:value-of select="mcri18n:translate('my_message_string')" />
+
+  <xsl:value-of select="mcri18n:translate-with-params('my_message_string_with_args', ('arg_1', 'arg_2'))" />{{< /highlight >}}
+</p>
+
+<h3>Test der Zugriffsrechte</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente :</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet :</th>
+    <td style="padding-left:10px;">xsl/functions/acl.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace :</th>
+    <td style="padding-left:10px;">xmlns:mcracl="http://www.mycore.de/xslt/acl"</td>
+  </tr>
+</table>
+<p>
+  Es wurde eine XSLT Funktion konzipiert, welche die Zugriffsrechte für Objekte und Permissions testet und eine
+  boolschen Wert als Ergebnis zurückgibt.
+  <em>mcracl:check-permission</em>
+  liefert ein Boolean zurück und hat zwei Parameter ‚id‘
+  und ‚permission‘, dabei kann id auch die leere Sequenz sein - ()
+  .
+</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  mcracl:check-permission({id}, {permission})
+  mcracl:check-permission((), {permission}){{< /highlight >}}
+</p>
+<p>Hier die Beispiele dazu</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  mcracl:check-permission(‚mir_mods_00004711‘, ‚delete‘)
+  mcracl:check-permission((), ‚create-mods'){{< /highlight >}}
+</p>
+
+<h3>Umwandeln von Klassifikationseinträgen in eine MODS-URI und umgekehrt</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente :</th>
+    <td style="padding-left:10px;">mycore-mods</td>
+  </tr>
+  <tr>
+    <th>Stylesheet :</th>
+    <td style="padding-left:10px;">xsl/functions/mods.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace :</th>
+    <td style="padding-left:10px;">xmlns:mcrmods="http://www.mycore.de/xslt/mods"</td>
+  </tr>
+</table>
+<p>mcrmods:mcrmods:to-uri() liefert für ein Element (per XPath) eine (‚modsclass:‘)-URI zurück, wenn das Element eine 
+Klassifikationsangabe hat (z.B. über @authorityURI und @valueURI). Diese Funktion wird hauptsächlich interne gebraucht.
+</p>
+<p>Hier ein Beispiel dazu</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  mcrmods:to-uri($node){{< /highlight >}}
+</p>
+<p>
+mcrmods:to-mycoreclass() liefert eine MyCoRe-Klassifikations-XML-Auschnitt zurück für ein Element (1. Parameter) und einen 
+mode (2. Parameter). Der erste Parameter ist ein MODS-Element, das ggf. eine Klassifikationsangabe enthält (s.o.) und der 
+zweite Parameter kann entweder ‚parent‘ oder ’single’ sein. Bei ‚parent‘ werden alle Elternkategorien mit ausgeliefert 
+(die gesuchte Kategorie ist also die, die keine Kinder mehr enthält) und bei ’single’ gibt es nur die gewünschte Kategorie 
+mit allen Labels zurück eingebettet in den üblichen ‚mycoreclass‘-Container</p>  
+<p>Hier ein Beispiel dazu</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  mcrmods:to-mycoreclass(mods:classification, 'parent'){{< /highlight >}}
+</p>
+<p>
+mcrmods:is-supported() gibt true für ein Element (s.o.) zurück, wenn es prinzipiell geeignet ist eine Klassifikationsangabe 
+zu enthalten. Das ist auch eine Hilfsfunktion und wird hauptsächlich intern benutzt.
+</p>
+<p>Hier die Beispiele dazu</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  mcrmods:is-supported(mods:classification)  —> IMMER true
+  mcrmods:is-supported(/mycoreobject)  —> IMMER false{{< /highlight >}}
+</p>
+<p>Weiterhin gibt es noch ein XSL-Template das mit mode=‚parent* auf mycoreclass-Elemente matched und auch nur intern verwendet wird.
+</p>
