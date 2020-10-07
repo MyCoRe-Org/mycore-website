@@ -40,50 +40,50 @@ date: "2020-05-25"
     openssl rand 4096 > ~/.mycore/{app-name}/jwt.secret{{< /highlight >}}
       
       <h2>MyCoRe-Properties</h2>
-       {{< mcr-figure label="Tabelle" caption="Übersicht der wichtigsten Properties">}}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Beschreibung</th>
-            <th>Beispiel</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>MCR.NameOfProject</td>
-            <td>Name des Projektes</td>
-            <td>MIR</td>
-          </tr>
-          <tr>
-            <td>MCR.baseurl</td>
-            <td>Basis-URL unter der die Anwendung läuft</td>
-            <td>http://mycore.de/mir/</td>
-          </tr>
-          <tr>
-            <td>MCR.datadir</td>
-            <td>MyCoRe-Datenverzeichnis, enthält alle Daten</td>
-            <td>%MCR.basedir%/data (default)</td>
-          </tr>
-          <tr>
-            <td>MCR.Solr.ServerURL</td>
-            <td>URL zum Solr-Server für die gegebene Anwendung</td>
-            <td>http://localhost:8983/</td>
-          </tr>
-          <tr>
-            <td>MCR.Solr.Core.main.Name</td>
-            <td>Name des Solr-Kerns vom Typ <code>main</code></td>
-            <td>skeleton</td>
-          </tr>
-          <tr>
-            <td>MCR.Solr.Core.main.ServerURL</td>
-            <td>optional: URL für den Solr-Kern <code>main</code> für die gegebene Anwendung;<br />
-            Defaultwert ist <code>%MCR.Solr.ServerURL%</code></td>
-            <td>http://localhost:8983/</td>
-          </tr>
-        </tbody>
-      </table>
-      {{< /mcr-figure >}}
+{{< mcr-figure label="Tabelle" caption="Übersicht der wichtigsten Properties">}}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Beschreibung</th>
+      <th>Beispiel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MCR.NameOfProject</td>
+      <td>Name des Projektes</td>
+      <td>MIR</td>
+    </tr>
+    <tr>
+      <td>MCR.baseurl</td>
+      <td>Basis-URL unter der die Anwendung läuft</td>
+      <td>http://mycore.de/mir/</td>
+      </tr>
+    <tr>
+      <td>MCR.datadir</td>
+      <td>MyCoRe-Datenverzeichnis, enthält alle Daten</td>
+      <td>%MCR.basedir%/data (default)</td>
+    </tr>
+    <tr>
+      <td>MCR.Solr.ServerURL</td>
+      <td>URL zum Solr-Server für die gegebene Anwendung</td>
+      <td>http://localhost:8983/</td>
+    </tr>
+    <tr>
+      <td>MCR.Solr.Core.main.Name</td>
+      <td>Name des Solr-Kerns vom Typ <code>main</code></td>
+      <td>skeleton</td>
+    </tr>
+    <tr>
+      <td>MCR.Solr.Core.main.ServerURL</td>
+      <td>optional: URL für den Solr-Kern <code>main</code> für die gegebene Anwendung;<br />
+          Defaultwert ist <code>%MCR.Solr.ServerURL%</code></td>
+      <td>http://localhost:8983/</td>
+    </tr>
+  </tbody>
+</table>
+{{< /mcr-figure >}}
     
       <h2>Automatisch generierte MyCoRe-Property Dateien</h2>
       <p>Die Dateien <code>mycore.active.properties</code> und <code>mycore.resolved.properties</code> 

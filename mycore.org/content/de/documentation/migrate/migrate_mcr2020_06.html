@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2020.06 und die Migration von Version
       2019.06 zu 2020.06 zusammen.
     "
-date: "2020-05-25"
+date: "2020-09-23"
 
 ---
 
@@ -47,6 +47,37 @@ date: "2020-05-25"
         <li>Apache Maven 3.6.0 oder höher</li>
       </ul>
       
+      <h2>Geänderte Einstellungen</h2>
+      <p>Nachfolgende Grundeinstellungen wurden in den Properties geändert.</p>
+      <p><b>*IFS2* - MCR-2275</b>
+      <br/>
+        Standardmäßig ist nun das IFS2 aktiv. Wer noch nicht umgestellt hat,
+        muss das folgende Property lokal setzen um das alte Verhalten zu behalten:
+      </p>
+      <p>
+        {{< highlight shell "linenos=table">}} MCR.NIO.DefaultScheme=ifs{{< /highlight >}}
+      </p>
+      <p><b>*NestedDocuments* - MCR-2210</b>
+      <br/>
+        Ab Solr8 werden Nested Documents von der Solr-API korrekt behandelt und
+        der MyCoRe-eigene Code muss nicht mehr ausgeführt werden. Wer noch mit
+        Solr 7 oder älter arbeitet und NestedDocuments nutzt (z.B. bei MIR),
+        muss das Property lokal setzen:
+      </p>
+      <p>
+        {{< highlight shell "linenos=table">}} MCR.Solr.NestedDocuments=true{{< /highlight >}}
+      </p>
+      <p><b>*DynamicSolrFields* - MCR-2211</b>
+      <br/>
+        Wir haben uns dafür entschieden, dass wie die dynamische Generierung von
+        Solr-Feldern nicht mehr als Default-Verhalten von MyCoRe anbieten
+        wollen. Auch das muss man aktivieren. Wer diese Felder nutzt muss nun
+        also auch lokal das Verhalten einstellen:
+      </p>
+      <p>
+       {{< highlight shell "linenos=table">}} MCR.Solr.DynamicFields=true{{< /highlight >}}
+      </p>
+      
       <h2>Migrationsschritte</h2>
       <h3>Migrationskommandos einbinden</h3>
       <p>
@@ -74,6 +105,36 @@ date: "2020-05-25"
    -> rebuild solr content index in core main{{< /highlight >}}
       </p>
 
+      <h3>Derivate-Zugriffe</h3>
+      <p>
+        Die Nutzung des Schemas ifs oder ifs2 wird über das Property ‚MCR.NIO.DefaultScheme‘ gesteuert. Mit 2020.06.x ist der 
+        Standardwert nicht mehr ‚ifs‘ sondern ‚ifs2‘. Wer bereits eine Anwendung laufen hat und bislang nicht das Property schon 
+        auf ‚ifs2‘ gesetzt hatte, muss es also vorerst auf ‚ifs‘ manuell setzten und schauen, ob er einfach migrieren kann. Das 
+        ist <b>GANZ WICHTIG!!!</b>
+      </p>
+      <p>Migration:</p>
+      <p>
+        {{< highlight shell "linenos=table">}} MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.frontend.cli.MCRIFSCommands{{< /highlight >}}
+      </p>
+      <p>
+        Damit werden die alten IFS-Kommandos aktiviert. Das Kommando zum Überprüfen lautet <code>check IFS2 compatibility</code>. Gibt das 
+        die Meldung aus: "Your content is ready for MyCoRe LTS 2019“, dann ist alles in Ordnung und man kann mit dem DefaultScheme <code>ifs2</code>
+        arbeiten. Andernfalls müssen ggf. Punkte zur manuellen Umstellung durchgeführt werden.
+      </p> 
+      <ol>
+       <li>Es darf nur einen ContentStore geben und der muss IFS2 sein (MCRCStoreIFS2)</li>
+       <li>Die MD5-Summen für alle Dateien aus MCRFSNODES muss sich mit den Angaben aus mcrdata.xml decken.</li>
+      </ol>
+      <p>
+        Falls der zweite Punkt fehlschlägt, kann man die MD5-Summen aus MCRFSNODES mit dem Kommando <code>update IFS2 MD5 sums</code>
+        darüberkopieren. Nach erfolgreichen Kompatibilitätscheck kann man die Änderungen an der Properties rückgängig machen und ggf. 
+        die Tabelle <em>MCRFSNODES</em> leeren.
+      </p>
+      <p>
+        Vorteil der Umstellung ist, dass weniger Softwareschichten in der Verarbeitung der Dateien beteiligt werden und damit die 
+        Performance besser sein sollte und wir die Fehlerquellen reduzieren können.
+      </p>
+      
       <h3>REST-API V2</h3>
       <p>
         ...

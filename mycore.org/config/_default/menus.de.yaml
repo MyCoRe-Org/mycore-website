@@ -82,21 +82,22 @@ main:
 -     {identifier: xsl,                     parent: frontend,           name: XSL-Stylesheets,               weight: -97,      url: /documentation/frontend/xsl}
 -       {identifier: xsl_layout_service,      parent: xsl,                name: Layout-Service,                weight: -99,      url: /documentation/frontend/xsl/xsl_layout_service}
 -       {identifier: xsl_fo,                  parent: xsl,                name: XSL-FO Unterstützung,          weight: -98,      url: /documentation/frontend/xsl/xsl_fo}
--       {identifier: xsl_extension,           parent: xsl,                name: 'Xalan-Extensions',            weight: -97,      url: /documentation/frontend/xsl/xsl_extension}
--     {identifier: frontend_mcruriresolver,   parent: frontend,           name: URI-Resolver,                  weight: -96,      url: /documentation/frontend/frontend_mcruriresolver}
--     {identifier: frontend_mcrtextresolver,  parent: frontend,           name: TextResolver,                  weight: -95,      url: /documentation/frontend/frontend_mcrtextresolver}
--     {identifier: frontend_mcrclassbrowser,  parent: frontend,           name: ClassificationBrowser,         weight: -94,      url: /documentation/frontend/frontend_mcrclassbrowser}
--     {identifier: frontend_mcrclasseditor,   parent: frontend,           name: ClassificationEditor,          weight: -93,      url: /documentation/frontend/frontend_mcrclasseditor}
--     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -92,      url: /documentation/frontend/frontend_tarzipservlet}
--     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -91,      url: /documentation/frontend/frontend_xeditor}
--     {identifier: frontend_wf_servlets,    parent: frontend,           name: Workflow Servlets,             weight: -90,      url: /documentation/frontend/frontend_wf_servlets}
--     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -89,      url: /documentation/frontend/frontend_fileupload}
--     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -88,      url: /documentation/frontend/frontend_iview2}
--     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -87,      url: /documentation/frontend/frontend_image_viewer}
--     {identifier: frontend_mets,           parent: frontend,           name: METS / METS-Editor,            weight: -86,      url: /documentation/frontend/frontend_mets}
--     {identifier: frontend_basket,         parent: frontend,           name: Korbfunktion,                  weight: -85,      url: /documentation/frontend/frontend_basket}
--     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -84,      url: /documentation/frontend/frontend_webtools}
--     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -83,      url: /documentation/frontend/frontend_wcms}
+-       {identifier: xsl_xslt3,               parent: xsl,                name: 'XSLT 3 Nutzung',              weight: -97,      url: /documentation/frontend/xsl/xsl_xslt3}
+-       {identifier: xsl_extension,           parent: xsl,                name: 'Xalan-Extensions',            weight: -96,      url: /documentation/frontend/xsl/xsl_extension}
+-     {identifier: frontend_mcruriresolver,   parent: frontend,           name: URI-Resolver,                  weight: -95,      url: /documentation/frontend/frontend_mcruriresolver}
+-     {identifier: frontend_mcrtextresolver,  parent: frontend,           name: TextResolver,                  weight: -94,      url: /documentation/frontend/frontend_mcrtextresolver}
+-     {identifier: frontend_mcrclassbrowser,  parent: frontend,           name: ClassificationBrowser,         weight: -93,      url: /documentation/frontend/frontend_mcrclassbrowser}
+-     {identifier: frontend_mcrclasseditor,   parent: frontend,           name: ClassificationEditor,          weight: -92,      url: /documentation/frontend/frontend_mcrclasseditor}
+-     {identifier: frontend_tarzipservlet,  parent: frontend,           name: Tar- / Zip-Servlet,            weight: -91,      url: /documentation/frontend/frontend_tarzipservlet}
+-     {identifier: frontend_xeditor,        parent: frontend,           name: Formulare erstellen,           weight: -90,      url: /documentation/frontend/frontend_xeditor}
+-     {identifier: frontend_wf_servlets,    parent: frontend,           name: Workflow Servlets,             weight: -89,      url: /documentation/frontend/frontend_wf_servlets}
+-     {identifier: frontend_fileupload,     parent: frontend,           name: File-Upload,                   weight: -88,      url: /documentation/frontend/frontend_fileupload}
+-     {identifier: frontend_iview2,         parent: frontend,           name: IView2,                        weight: -87,      url: /documentation/frontend/frontend_iview2}
+-     {identifier: frontend_image_viewer,   parent: frontend,           name: Bildbetrachter,                weight: -86,      url: /documentation/frontend/frontend_image_viewer}
+-     {identifier: frontend_mets,           parent: frontend,           name: METS / METS-Editor,            weight: -85,      url: /documentation/frontend/frontend_mets}
+-     {identifier: frontend_basket,         parent: frontend,           name: Korbfunktion,                  weight: -84,      url: /documentation/frontend/frontend_basket}
+-     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -83,      url: /documentation/frontend/frontend_webtools}
+-     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -82,      url: /documentation/frontend/frontend_wcms}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
 -     {identifier: user_management,         parent: permissions,        name: Nutzer und Rollen,             weight: -98,      url: /documentation/permissions/user_management}

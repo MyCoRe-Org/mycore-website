@@ -81,7 +81,7 @@ Relative Adresse dieser Seite: <strong>{{<relURL "documentation/developer/dev_do
 <p></p>
 <h3><code>{{&lt;mcr-version&gt;}}</code> für MyCoRe-LTS-Angaben</h3>
 <p>
-Dieser Shortcode sollte verwendet werden, im Fließtext auf MyCoRe-LTS-Tags referenziert wird.
+Dieser Shortcode sollte verwendet werden, wenn im Fließtext auf MyCoRe-LTS-Tags referenziert wird.
 Mehre Versionsstände können mit Komma (<code>,</code>) getrennt werden.
 </p>
 
@@ -198,6 +198,24 @@ Folgende Parameter können verwendet werden:
 |Apple         | red    | 
 |Banana        | yellow |
 {{</mcr-table>}}         
+
+
+<h3><code>{{&lt;mcr-comment&gt;}}</code> für Kommentare in der Dokumentation</h3>
+<p>
+Dieser Shortcode kann für Kommentare im Quellcode der Dokumentation verwendet werden. 
+Der Inhalt wird beim Rendern der HTML-Seite ignoriert.
+So lassen sich beispielsweise einzelne Dokumentationsabschnitte vorübergehend aus der
+HTML-Seite ausblenden, oder Anmerkungen hinzufügen. 
+</p>
+
+<h4>Anwendungsbeispiel</h4>
+{{< highlight text>}}
+{{</*mcr-comment */>}}
+  RS: Das ist ein interner Kommentar.
+{{</*/mcr-comment */>}}
+{{</highlight>}}
+
+
 
 
 <h2>Tipps und Tricks</h2>
