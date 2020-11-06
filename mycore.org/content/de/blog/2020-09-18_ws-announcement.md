@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - MyCoRe-Jubiläum
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Ankündigung"
 news/teaser_de: "Am 4.11.2020 findet der MyCoRe-Workshop online statt. Die MyCoRe-Jubiläumsfeier wird auf den 3.11.2021 verschoben."
 news/title_en: "Announcement"
