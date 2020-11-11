@@ -6,7 +6,7 @@ mcr_version: ['2019.06','2020.06']
 author: ['Thomas Scheffler', 'Wiebke Oeltjen', 'Jens Kupferschmidt', 'Robert Stephan']
 description: "URIResolver sind ein Standard-Erweiterungsmechanismus für XSLT. Damit können anwendungsspezifische Methoden aufgerufen 
 	           oder weitere Daten (XML) in den XSLT-Verarbeitungsprozess integriert werden."
-date: "2020-09-22"
+date: "2020-11-11"
 
 ---
 <p>Da die XSLT-Verarbeitung in MyCoRe-Anwendungen eine bedeutende Rolle spielt, stellt das MyCoRe-Framework 
@@ -292,6 +292,23 @@ RS: Es sieht so aus, als ob dieser URI-Resolver nur intern in mycore-base verwen
   access:action=writedb&amp;object=mir_mods_07910401{{< /highlight >}}
 </p>
 
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>checkPermission:{id}:{permission} / checkPermission:{permission}</h3>
+<p>gibt <em>true</em> oder <em>false</em> zurück ,je nach dem, wie die Permission für ein Objekt für den aktuellen Benutzer
+gesetzt ist. Im zweiten Fall wird geprüft, ob eine übergebene Permission zulässig ist oder nicht.
+</p>
+<p>
+{{< highlight txt "linenos=table">}}
+   checkPermission:{id}:{permission}
+   checkPermission:MIR_mods_00000001:read
+   
+   checkPermission:{permission}
+   checkPermission:{create-class}{{< /highlight >}}
+</p>
+erzeugt:
+{{< highlight xml "linenos=table">}}
+  <boolean>true</boolean>{{< /highlight >}}
+  
 {{< mcr-comment >}}
 RS: Die Implementierung ist auf das "?" in der URL angewiesen und geht sonst "kaputt".
     Ich würde den Resolver komplett entfernen - Die Funktionalität erscheint mir in dieser Form sinnfrei.
