@@ -22,7 +22,7 @@ news/teaser_en: "The MyCoRe Workshop 2020 take place online at 4. November 2020.
 
 ---
 
-Der MyCoRe-Workshop 2020 fand am 4.11. mit einem prall gefüllten Programm erfolgreich als Online-Veranstaltung statt. In Vorträgen und Präsentationen wurden die Neuentwicklungen in MyCoRe und MIR vorgestellt. MyCoRe-Anwendungen wurden präsentiert und viele Themen wurden diskutiert. Weitere Informationen mit Links zu den Präsentationen werden im [MyCoRe-Wiki](https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/NovemberTreffen20) bereitgestellt. 
+Der MyCoRe-Workshop 2020 fand am 4.11. mit einem prall gefüllten Programm erfolgreich als Online-Veranstaltung statt. In Vorträgen und Präsentationen wurden die Neuentwicklungen in MyCoRe und MIR vorgestellt. MyCoRe-Anwendungen wurden präsentiert und viele Themen wurden diskutiert. Weitere Informationen mit Links zu den Präsentationen werden im [MyCoRe-Wiki](https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2020) bereitgestellt. 
 
 
 <h4>Ankündigung</h4>
