@@ -8,7 +8,7 @@ description: "
       Der Abschnitt beschreibt alle Commandline-Kommandos, die mittels des MyCoRe Commandline Interfaces
       bzw. WebCLI aufgerufen werden können und mit MCRObjekt-Objekten arbeiten.
     "
-date: "2020-05-25"
+date: "2020-11-18"
 
 ---
 
@@ -36,6 +36,23 @@ date: "2020-05-25"
         </dt>
         <dd>Das Kommando lädt oder aktualisiert alle MCRObject, welche sich in dem vollständigen Verzeichnispfad {0}
           befinden.
+        </dd>
+        <dt>
+          <code>repair metadata search of ID {0}</code>
+        </dt>
+        <dd>Das Kommando aktualisiert alle sekundären Einträge (SOLR, Links usw.) des MCRObjects, welches mit der ID {0} angegeben wurde.
+        </dd>
+        <dt>
+          <code>repair metadata search of type {0}</code>
+        </dt>
+        <dd>Das Kommando aktualisiert alle sekundären Einträge (SOLR, Links usw.) der MCRObjects, welche für den Datenmodell-Typ {0}
+          gespeichert sind.
+        </dd>
+        <dt>
+          <code>repair metadata search of base {0}</code>
+        </dt>
+        <dd>Das Kommando aktualisiert alle sekundären Einträge (SOLR, Links usw.) der MCRObjects, welche für die MCRBaseID {0}
+          gespeichert sind.
         </dd>
         <dt>
           <code>export object {0} to directory {1} with {2}</code>
