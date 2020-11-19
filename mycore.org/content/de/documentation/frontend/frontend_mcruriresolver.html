@@ -62,7 +62,7 @@ RS: Warum sollte man das tun, neue HTTP-Session, kein Login, anderer Session Nut
 <p>
 	liest eine (XML-)Datei aus dem CLASSPATH der Web-Applikation, d.h. die Datei befindet sich 
 	in der Regel im Verzeichnis <code>WEB-INF/classes/</code> oder in einer der jar-Dateien im Verzeichnis
-	<code>WEB-INF/lib/</code> der Web-Applikation.
+	<code>WEB-INF/lib/</code> der Web-Anwendung
 </p>
 <p>Da MyCoRe den CLASSPATH erweitert, kann die Datei auch von anderen Stellen eingelesen werden, <br />
     z.B. aus dem <code>resources</code>-Unterordner im <a href="{{<relURL "documentation/basics/basics_mcr_configdir/" >}}">MyCoRe-Konfigurationssverzeichnis</a>.        
@@ -365,234 +365,258 @@ erzeugt:
 {{< /highlight >}}
 </p>
       
-
-<h3>language:[Code]</h3>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>language:{code}</h3>
 <p>
-  kann verwendet werden, um zwischen verschiedenen Codes für die gleiche Sprache zu konvertieren. Das
-  zurückgegebene XML
-  enthält die ISO 639-1 und ISO 639-2 Sprachcodes für die angefragte Sprache.
+  kann verwendet werden, um zwischen verschiedenen Codes für eine Sprache zu konvertieren. Das
+  zurückgegebene XML enthält die ISO 639-1 und ISO 639-2 Sprachcodes für die angefragte Sprache.
 </p>
 <p>
-{{< highlight bash "linenos=table">}}
- language:{code}
-
- language:de
+{{< highlight txt "linenos=table">}}
+  language:de
 {{< /highlight >}}
 </p>
-<p>erzeugt folgenden XML-Output:</p>
+<p>erzeugt folgendes XML:</p>
 <p>
-{{< highlight xml "linenos=table">}} <language xmlCode="de" biblCode="ger" termCode="deu" />{{< /highlight >}}
+{{< highlight xml "linenos=table">}}
+  <language xmlCode="de" biblCode="ger" termCode="deu" />
+{{< /highlight >}}
 </p>
 
-        <h3>basket:[BasketAddr]</h3>
-        <p>
-          liefert Einträge aus der Korbfunktion einer Session einer MyCoRe-Anwendung. Der Resolver wird z. B. für den
-          Input des Korb-Editors genutzt.
-        </p>
+{{< mcr-comment >}}
+RS: TODO Link auf Beschreibung der Warenkorbfunktion
+{{< /mcr-comment >}}
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>basket:{typeID}:{basketID}</h3>
 <p>
-{{< highlight bash "linenos=table">}} basket:{typeID}:{entryID}{{< /highlight >}}
+  liefert Einträge aus dem Warenkorb der Session in einer MyCoRe-Anwendung. <br />
+  Der Resolver wird z. B. für den Input des Warenkorb-Editors genutzt.
 </p>
-        <ul>
-          <li>
-            Die
-            <code>typeID</code>
-            beschreibt den Typ des Korbes. In der Session können mehrere Körbe mit verschiedenen
-            <code>typeID</code>
-            existieren. Bisher ist nur die
-            <em>objects</em>
-            in Gebrauch.
-          </li>
-          <li>
-            Die
-            <code>entryID</code>
-            ist eine passende ID, im Normalfall ist es die
-            <strong>MCRObjectID</strong>
-          </li>
-        </ul>
+<ul>
+	<li>Die <code>typeID</code> beschreibt den Typ des Korbes. <br />
+	    In der Session können mehrere Körbe mit verschiedenen <code>typeID</code> existieren. 
+	    Bisher ist nur die ID <tt>objects</tt> in Gebrauch.
+    </li>
+    <li>Die <code>basketID</code> ist eine konkrete Warenkorb-ID. <br />
+        Sie hat in der Standardimplementierung die Form einer <strong>MCRObjectID</strong>.
+    </li>
+</ul>
 <p>
-{{< highlight bash "linenos=table">}} basket:objects:MyCoRe_basket_00000001{{< /highlight >}}
+{{< highlight bash "linenos=table">}} 
+  basket:objects:MyCoRe_basket_00000001
+{{< /highlight >}}
 </p>
 
-        <h3>versioninfo:[MCRObjectID]</h3>
-        <p>
-          liefert Versionsinformationen über ein MyCoRe-Objekt im XML-Format. Ist die Versionierung abgeschaltet, wird
-          nur eine Versionszeile mit den Datum der letzten Änderung ausgegeeben.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>versioninfo:{mcrObjectID}</h3>
+<p>
+  liefert Versionierungsinformationen über ein MyCoRe-Objekt im XML-Format. 
+  Ist die Versionierung abgeschaltet, wird nur eine Versionszeile mit den Datum der letzten Änderung ausgegeben.
+</p>
 <p>
 {{< highlight bash "linenos=table">}}
- versioninfo:{MCRObjectID}
-
- versioninfo:MyCore_document_00000001{{< /highlight >}}
+  versioninfo:MyCore_document_00000001
+{{< /highlight >}}
+</p>
+erzeugt folgendes XML:
 <p>
-<p>erzeugt folgenden XML-Output:</p>
-<p>
-{{< highlight xml "linenos=table">}}<versions>
- <version user="editor" date="2015-06-19" r="12345" action="update"/>
- ...
-</versions>{{< /highlight >}}
+{{< highlight xml "linenos=table">}}
+  <versions>
+    <version user="editor" date="2015-06-19" r="12345" action="update"/>
+    ...
+  </versions>
+{{< /highlight >}}
 </p>
 
-        <h3>xslInclude:[IncludeParms]</h3>
-        <p>
-          Erzeugt ein XSL-Stylesheet, dass weitere Stylesheets
-          inkludiert. Welche definiert das
-          <code>MCR.URIResolver.xslIncludes.{include_name}</code>
-          Property. Zu Laufzeit können so
-          weitere XSL-Dateien hinzugeladen werden, um zusätzliche Templates
-          bereitszustellen oder vorhandene zu Überschreiben.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>xslInclude:{include_name}</h3>
 <p>
+  Erzeugt ein XSL-Stylesheet, dass weitere Stylesheets
+  inkludiert. Welche definiert das
+  <code>MCR.URIResolver.xslIncludes.{include_name}</code>
+  Property. Zu Laufzeit können so
+  weitere XSL-Dateien hinzugeladen werden, um zusätzliche Templates
+  bereitszustellen oder vorhandene zu Überschreiben.
+</p>
+<p>
+{{< highlight txt "linenos=table">}}
+  MCR.URIResolver.xslIncludes.components=iview.xsl,wcms.xsl
+{{< /highlight >}}
 {{< highlight bash "linenos=table">}}
-MCR.URIResolver.xslInclude.{include_name}={xsl_file1},{xsl_file2}...
-          
-xslImport:{import_name}:{xsl_file...}
-
-MCR.URIResolver.xslIncludes.components=iview.xsl,wcms.xsl
-
-xslInclude:components{{< /highlight >}}
+  <xsl:include href="xslInclude:components"/>
+{{< /highlight >}}
 </p>
-<p>erzeugt folgenden XML-Output:</p>
+erzeugt folgendes XML:
 <p>
 {{< highlight xml "linenos=table">}}<xsl:stylesheet version="1.0">
  <xsl:include href="iview.xsl"/>
  <xsl:include href="wcms.xsl"/>
 </xsl:stylesheet>{{< /highlight >}}
 </p>
+<p>Startet <code>import_name</code> mit dem Prefix <tt>class.</tt>, werden die
+<code>href</code>-Attribute von einer Klasse bereitgestellt, die das Interface
+<code>org.mycore.common.xml.MCRURIResolver.MCRXslIncludeHrefs</code> implementiert.
+</p>
+{{< highlight txt "linenos=table">}}
+  MCR.URIResolver.xslIncludes.class.template=org.foo.XSLHrefs
+{{< /highlight >}}
 
-        <h3>xslImport:[ImportParms]</h3>
-        <p>
-          Erzeugt ähnlich wie "xslInclude" ein XSL-Stylesheet, jedoch
-          werden nicht alle XSL-Dateien inkludiert, sonder in
-          einer Kaskade
-          importiert. Das ermöglicht die Erweiterung bestimmter Templates mittels
-          <code>&lt;xsl:apply-imports /&gt;</code>
-          , um z.B. zusätzliche Felder bei der
-          SOLR-Indizierung (hier ein Link zur Doku, falls vorhanden) zu erzeugen.
-          Die Liste wird im Property
-          <code>MCR.URIResolver.xslImports.{import_name}</code>
-          definiert.
-        </p>
-<p>
 {{< highlight bash "linenos=table">}}
- MCR.URIResolver.xslImports.{import_name}={xsl_file1},{xsl_file2}...
+  <xsl:include href="xslInclude:class.template"/>
+{{< /highlight >}}
 
- xslImport:{import_name}:{xsl_file...}
-
- MCR.URIResolver.xslImports.components=first.xsl,second.xsl
+{{< mcr-comment >}}
+JK: hier ein Link zur Doku, falls vorhanden
+{{< /mcr-comment >}}
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>xslImport:{import_name}:{xsl_file}</h3>
+<p>erzeugt ähnlich wie "xslInclude" ein XSL-Stylesheet, jedoch werden nicht alle 
+   XSL-Dateien inkludiert, sonder in einer Kaskade importiert. 
+   Das ermöglicht die Erweiterung bestimmter Templates mittels 
+   <code>&lt;xsl:apply-imports /&gt;</code>, um z.B. zusätzliche Felder bei der
+   SOLR-Indizierung  zu erzeugen.<br />
+   Die Liste wird im Property <code>MCR.URIResolver.xslImports.{import_name}</code> definiert.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  MCR.URIResolver.xslImports.components=third.xsl,second.xsl
 {{< /highlight >}}
 </p>
 <p>
- {{< highlight xml "linenos=table">}} <xsl:import href="xslImport:components:first.xsl"/>{{< /highlight >}}
+{{< highlight xml "linenos=table">}}
+   <xsl:import href="xslImport:components:first.xsl"/>
+{{< /highlight >}}
 </p>
 
-        <h3>redirect:[RedirectAlias]</h3>
-        <p>
-          liest das Alias-Property und leitet die Daten an die URL weiter, welche im Property
-          <code>MCR.URIResolver.redirect.{alias}</code>
-          definiert ist.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>redirect:{alias}</h3>
 <p>
+  liest das Alias-Property aus und leitet die Daten an die URL weiter, welche im Property
+  <code>MCR.URIResolver.redirect.{alias}</code> definiert ist.
+</p>
 {{< highlight bash "linenos=table">}}
  MCR.URIResolver.redirect.{alias}={href}
+ MCR.URIResolver.redirect.alias=webapp:path/to/alias.xml
+{{< /highlight >}}
 
- MCR.URIResolver.redirect.alias=webapp:path/to/alias.xml{{< /highlight >}}
-</p>
-
-        <h3>notnull:[URI]</h3>
-        <p>
-          dieses Vorschaltelement für andere URI stellt sicher, dass es bei Aufruf der genannten URI keine
-          NullPointerException gibt. Sollte es bei
-          Verarbeitung der
-          anhängenden URI eine Exception geben, wird diese
-          geloggt. Im Falle einer Exception oder wenn
-          die URI den Wert
-          NULL
-          zurückgibt, liefert dieser Resolver stattdessen
-          eine leere XML-Datei. Dies ist z.B.
-          hilfreich, um in XSL Stylesheets
-          URIs zu verwenden, aber gegen Fehler
-          abzusichern.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>notnull:{uri}</h3>
 <p>
+  Dieses Präfix für eine andere URI stellt sicher, dass es bei Aufruf der genannten URI keine
+  NullPointerException gibt. Sollte es bei Verarbeitung der
+  anhängenden URI eine Exception geben, wird diese
+  geloggt. Im Falle einer Exception oder wenn die URI den Wert NULL
+  zurückgibt, liefert dieser Resolver stattdessen eine leere XML-Datei. 
+  Dies ist z.B. hilfreich, um in XSL Stylesheets URIs zu verwenden, 
+  aber gegen Fehler abzusichern.
+</p>
 {{< highlight bash "linenos=table">}}
  notnull:{uri}
+ notnull:mcrobject:mir_mods_07910401
+{{< /highlight >}}
 
- notnull:mcrobject:mir_mods_07910401{{< /highlight >}}
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>catchEx:{uri}</h3>
+<p>
+  Dieses Präfix für eine andere URI stellt sicher, dass es bei Aufruf der genannten URI keine
+  Exception gibt. Tritt eine Exception auf, wird diese abgefangen und als XML ausgegeben.
 </p>
-        <h3>xslStyle:[stylesheet][param]:[URI]</h3>
-        <p>
-          dieses Vorschaltelement für andere URI wendet das Stylesheet [stylesheet] auf die XML-Auagabedatei der
-          nachfolgenden URI an und gibt das
-          Ergebnis als
-          XML zurück. Das Stylesheet befindet sich im Classpath der
-          Anwendung. Die Extension .xsl entfällt
-          im Parameter
-          <code>{stylesheet}</code>
-          .Es ist als möglich noch Parameter zu übergeben und der Ausgabe von einem
-          Stylesheet gleich durch ein zweites
-          zu weiterzuleiten.
-        </p>
-<p>
 {{< highlight bash "linenos=table">}}
- xslStyle:{stylesheet},{stylesheet}{?param1=value1{&amp;param2=value2}}:{anyMyCoReURI}
+ catchEx:{uri}
+ catchEx:mcrobject:mir_mods_07910401
+{{< /highlight >}}
 
- xslStyle:mycoreobject-mods,mods2dc?derivate=mycore_derivate_00000001:mcrobject:mycore_doc_00000001{{< /highlight >}}
- </p>
-        <p>
-          Dabei würde das Objekt erst in ein MODS-Dokument umgewandelt, um danach
-          letztendlich als Dublin-Core-Dokument ausgegeben worden zu sein.
-        </p>
-
-        <h3>xslTransform:[TransformParms]</h3>
-        <p>
-          dieses Vorschaltelement funktioniert wie
-          <strong>xslInclude</strong>
-          . Nur wird ein definierter
-          <code>MCRContentTransformer</code>
-          verwendet, statt einer
-          vordefinierten Liste von Stylesheets. Im gegensatz zu "xslStyle" ist das
-          Verhalten also noch konfigurierbar und prinzipiell nicht auf "XSL"
-          beschränkt.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>xslStyle:{stylesheets}?{params}:{uri}</h3>
 <p>
-{{< highlight bash "linenos=table">}}
- xslTransform:{stylesheet}[?param1=value1[&amp;param2=value2]...]:{anyMyCoReURI}
-
- xslTransform:mycoreobject-txt:file:object.txt{{< /highlight >}}
+  Dieses Präfix für andere URI wendet das Stylesheet [stylesheet] auf die XML-Auagabedatei der
+  nachfolgenden URI an und gibt das Ergebnis als XML zurück.
+</p>
+<p>
+  Das Stylesheet befindet sich im Classpath der Anwendung. Die Extension <code>.xsl</code> entfällt
+  im Parameter <code>{stylesheet}</code>. 
+  Es ist möglich, Parameter zu übergeben und der Ausgabe von einem Stylesheet gleich an ein zweites
+  zu weiterzuleiten.
 </p>
 
-        <h3>i18n:[message_property]</h3>
-        <p>
-          liefert eine einzelne Übersetzung oder eine Liste von Übersetzungen für die altuelle Sprache zurück. Bei einzelnen
-          Properties wird eine verkürzte Form (siehe Ausgabe 1) zurückgegeben. Andernfalls erfolgt die Rückgabe mittels Liste.
-        </p>
-<p>
 {{< highlight bash "linenos=table">}}
- i18n:{property | property* | property{*}, property{*}, ...}
+  xslStyle:{stylesheet},{stylesheet}{?param1=value1{&amp;param2=value2}}:{anyMyCoReURI}
+  xslStyle:mycoreobject-mods,mods2dc?derivate=mycore_derivate_00000001:mcrobject:mycore_doc_00000001
+{{< /highlight >}}
+<p>In diesem Beispiel würde das MyCoRe-Objekt zuerst in ein MODS-Dokument umgewandelt, und anschließend
+   nach Dublin-Core transformiert werden.
+</p>
 
- i18n:myapp.user.login
- i18n:myapp.user*
- i18n:myapp*,mycore*
- 
- <i18n>Hier geht es zum Login</i18n>
- 
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>xslTransform:[TransformParms]</h3>
+<p>
+  Dieses Präfix funktioniert wie <strong>xslStyle</strong>.
+  Nur wird ein definierter <code>MCRContentTransformer</code> verwendet, statt einer
+  vordefinierten Liste von Stylesheets. Im Gegensatz zu <strong>xslStyle</strong> ist das Verhalten 
+  also noch weiter konfigurierbar und prinzipiell nicht auf "XSL" beschränkt.
+</p>
+
+{{< highlight bash "linenos=table">}}
+  xslTransform:{stylesheet}[?param1=value1[&amp;param2=value2]...]:{anyMyCoReURI}
+  xslTransform:mycoreobject-txt:file:object.txt
+{{< /highlight >}}
+
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>i18n:{message_property}</h3>
+<p>
+  liefert eine einzelne Übersetzung oder eine Liste von Übersetzungen für die aktuelle Sprache zurück. Bei einzelnen
+  Properties wird eine verkürzte Form zurückgegeben. Andernfalls erfolgt die Rückgabe mittels Liste.
+</p>
+{{< highlight bash "linenos=table">}}
+  i18n:{property | property* | property{*}, property{*}, ...}
+  i18n:myapp.user.login
+  i18n:myapp.user*
+  i18n:myapp*,mycore*
+{{< /highlight >}}
+
+{{< highlight bash "linenos=table">}}  <i18n>Hier geht es zum Login</i18n>
+{{< /highlight >}}
+
+{{< highlight bash "linenos=table">}}
  <i18n>
    <translation key="myapp.user.password">Passwort</translation>
    <translation key="myapp.user.login">Hier geht es zum Login</translation>
    ...
- </i18n>{{< /highlight >}}
-</p>
+ </i18n>
+{{< /highlight >}}
 
-        <h3>data:[DataURLParams]</h3>
-        <p>
-          liefert den Inhalt einer Data-URL zurück.
-        </p>
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>data:{DataURLParams}</h3>
 <p>
+  liefert den Inhalt einer Data-URL zurück.
+</p>
 {{< highlight bash "linenos=table">}}
  data:[mime-type[;param1=value1[;param2=value=2]]]{,content}
 
- data:text/html;charset=utf-8,%3Ch1%3EHello%20MyCoRe!%3C%2Fh1%3E{{< /highlight >}}
+ data:text/html;charset=utf-8,%3Ch1%3EHello%20MyCoRe!%3C%2Fh1%3E
+{{< /highlight >}}
+
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>file:{path}</h3>
+<p>
+  lädt eine physische Datei vom Server.
 </p>
+<p>
+{{< highlight txt "linenos=table">}}
+  file:/home/mcradmin/data.xml
+{{< /highlight >}}
+
+<span class="badge badge-secondary float-right">mycore-base</span>
+<h3>http:{path}  /  https:{path}</h3>
+<p>
+  lädt eine Ressource aus dem Internet. Sie wird serverseitig gecached.
+</p>
+<p>
+{{< highlight txt "linenos=table">}}
+  https://www.mycore.de/classifications/state.xml
+{{< /highlight >}}
+
+
       <h2>MCRURIResolverFilter</h2>
       <p>
         Der MCRURIResolverFilter liefert, bei XML- oder HTML-Output und wenn der
