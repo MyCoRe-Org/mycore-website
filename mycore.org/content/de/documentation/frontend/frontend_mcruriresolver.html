@@ -6,7 +6,7 @@ mcr_version: ['2019.06','2020.06']
 author: ['Thomas Scheffler', 'Wiebke Oeltjen', 'Jens Kupferschmidt', 'Robert Stephan']
 description: "URIResolver sind ein Standard-Erweiterungsmechanismus für XSLT. Damit können anwendungsspezifische Methoden aufgerufen 
 	           oder weitere Daten (XML) in den XSLT-Verarbeitungsprozess integriert werden."
-date: "2020-11-11"
+date: "2021-02-17"
 
 ---
 <p>Da die XSLT-Verarbeitung in MyCoRe-Anwendungen eine bedeutende Rolle spielt, stellt das MyCoRe-Framework 
@@ -565,13 +565,16 @@ JK: hier ein Link zur Doku, falls vorhanden
 <h3>i18n:{message_property}</h3>
 <p>
   liefert eine einzelne Übersetzung oder eine Liste von Übersetzungen für die aktuelle Sprache zurück. Bei einzelnen
-  Properties wird eine verkürzte Form zurückgegeben. Andernfalls erfolgt die Rückgabe mittels Liste.
+  Properties wird eine verkürzte Form zurückgegeben. Andernfalls erfolgt die Rückgabe mittels Liste. Für einzelne
+  Properties kann auch eine Parameterisierung erfolgen. Parameter werden im Property mit {nummer} angegeben.
 </p>
 {{< highlight bash "linenos=table">}}
   i18n:{property | property* | property{*}, property{*}, ...}
   i18n:myapp.user.login
   i18n:myapp.user*
   i18n:myapp*,mycore*
+  i18n:{þroperty}:{parameter}[:{parameter}...]
+  i18n:myapp.parameter:param1:param2 für myapp.parameter={0} und {1}
 {{< /highlight >}}
 
 {{< highlight bash "linenos=table">}}  <i18n>Hier geht es zum Login</i18n>
