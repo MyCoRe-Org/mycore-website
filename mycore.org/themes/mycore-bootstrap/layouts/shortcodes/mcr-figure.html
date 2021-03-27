@@ -1,3 +1,4 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
 <figure>
   <div class="{{- if .Get "src" -}}{{- if not (.Get "class") -}}text-center{{- end -}} {{- end -}}{{ with .Get "class" -}}{{ . }}{{- end -}}">
      {{- if .Get "src" -}}
@@ -8,7 +9,7 @@
     /> <!-- Closing img tag -->
     {{- end }}
     {{- with .Inner }}
-      {{ . | markdownify }}
+      {{ . }}
     {{- end -}}
     {{- if or (.Get "label") (.Get "caption") (.Get "attr") -}}
   </div>
