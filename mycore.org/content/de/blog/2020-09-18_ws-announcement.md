@@ -1,7 +1,8 @@
 ---
 title: "Online-Workshop: 4.11.2020"
-slug: mycore-online-treffen
-date: 2020-10-07
+slug: ankuendigung-mycore-online-treffen
+date: 2020-11-03
+publishDate: 2020-10-07
 
 draft: false
 

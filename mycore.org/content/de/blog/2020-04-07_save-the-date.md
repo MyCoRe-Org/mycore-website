@@ -1,7 +1,8 @@
 ---
 title: "Save the date: 3.11.2021"
 slug: mycore-jubilee
-date: 2020-10-07
+date: 2021-11-03
+publishDate: 2020-10-07
 
 draft: false
 
@@ -13,7 +14,7 @@ blog/tags:
  - MyCoRe-Jubiläum
 
 news/frontpage: false
-news/title_de: "Save the date: 3.11.2021"
+news/title_de: "Save the date: 03.11.2021"
 news/teaser_de: "Jubiläum: 20 Jahre MyCoRe! Das wird am 3.11.2021 an der Universität Leipzig gefeiert."
 news/title_en: "Save the date: 3. Nov. 2021"
 news/teaser_en: "The MyCoRe Community celebrates its 20th anniversary and is planning an event in 2021."
