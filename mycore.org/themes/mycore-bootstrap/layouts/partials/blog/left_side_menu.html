@@ -13,7 +13,7 @@
         {{ $entriesHidden := false }}
 
         {{ with .Site.GetPage "section" "blog" }}
-          {{ range $index, $element := .Data.Pages.GroupByDate "2006" }}
+          {{ range $index, $element := .Pages.GroupByDate "2006" }}
             {{ if (gt $index (sub $showEntries 1)) }}
               {{ $entriesHidden = true }}
             {{ end }}
