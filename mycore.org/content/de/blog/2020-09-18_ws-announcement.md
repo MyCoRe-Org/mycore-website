@@ -28,4 +28,5 @@ Wir bedauern es sehr, dass wir uns dieses Jahr nicht zur *MyCoRe-Jubiläumsfeier
 	<li>Das *MyCoRe-Jubiläum* feiern wir am 3.11.2021 in Leipzig.</li>
 </ul>
 
+ <!--more--> 
 Die genauen Daten zur Teilnahme und das Programm werden wir rechtzeitig vorher bekannt geben. 
