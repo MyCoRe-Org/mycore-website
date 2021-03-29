@@ -3,7 +3,7 @@ title: "HowTo: Ein multifunktionaler Download-Button"
 slug: howto-download-button
 date: 2021-03-29
 
-draft: false
+draft: true
 
 blog/authors: ["Robert Stephan"]
 blog/periods: 2021-03
