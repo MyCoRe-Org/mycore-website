@@ -49,7 +49,7 @@ Weiterhin besteht die Möglichkeit eine Datei herunterzuladen, die eine MD5-Prü
 
 Über die URL <tt>/receive/{mcrobjectid}?XSL.Style=xml</tt> können wir uns das interne XML eines MyCoRe-Objektes
 ansehen. Zur Generierung von Detailansichten (Frontpage) werden in den Kopfbereich des Objektes
-seit Version {{< mcr-version 2019.06 >}} weitere Informationen zu den Derivaten 
+seit Version {{< mcr-version "2019.06" >}} weitere Informationen zu den Derivaten 
 (Name der Hauptdatei und Derivate-Typ-Klassifikation) eingebettet.
 
 {{< highlight xml "linenos=table" >}}
@@ -143,7 +143,7 @@ Im Ergebnis werden diese nun im XML-Code des MyCoRe-Objektes gespeichert:
 {{< /mcr-figure>}}
 
 ## Erzeugen des Detailansicht mit XSLT3
-Zur Erzeugung des HTML-Codes der Detailansicht (Frontpage) können wir ab Version {{< mcr-version 2020.06 >}} XSLT3 verwenden.
+Zur Erzeugung des HTML-Codes der Detailansicht (Frontpage) können wir ab Version {{< mcr-version "2020.06" >}} XSLT3 verwenden.
 Ein neues Feature sind XSLT-Funktionen. Die MyCoRe-Community stellt einige [XSLT-Funktionen](http://www.mycore.de/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen) zur Verfügung, die 
 beispielsweise die Arbeit mit Übersetzungen (I18N) oder Anzeige von Klassifikationen erleichtern.
 
