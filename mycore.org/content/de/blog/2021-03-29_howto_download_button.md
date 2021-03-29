@@ -1,9 +1,9 @@
 ---
 title: "HowTo: Ein multifunktionaler Download-Button"  
-slug: howto-donwload-button
-date: 2021-03-27
+slug: howto-download-button
+date: 2021-03-29
 
-draft: true
+draft: false
 
 blog/authors: ["Robert Stephan"]
 blog/periods: 2021-03
@@ -12,10 +12,9 @@ blog/categories:
 
 ---
 
-In diesem Tutorial möchte ich am Beispiel eines *Download-Buttons* einige Features demonstrieren, 
-die in diesem oder dem letzten Release in MyCoRe integriert wurden. 
-Dabei geht es um die Anreicherung weiterer Informationen aus den Derivaten im ``<structure>``-Teil
-des MyCoRe-Objektes, XSLT-Funktionen und Data-URLs.
+In diesem Tutorial werde ich am Beispiel eines *Download-Buttons* einige Features demonstrieren, 
+die mit diesem oder dem letzten Release in MyCoRe integriert wurden. 
+Im Speziellen geht es dabei um die Anreicherung zusätzlicher Informationen aus den Derivaten im ``<structure>``-Teil des MyCoRe-Objektes, XSLT-Funktionen und Data-URLs.
 <!--more-->
 
 Schauen wir uns zunächst das *Endergebnis* und den dazugehörigen HTML-Quellcode an an:
@@ -25,7 +24,7 @@ Schauen wir uns zunächst das *Endergebnis* und den dazugehörigen HTML-Quellcod
          label="Abbildung" caption="der fertige Download-Button" />}}
 
 Der Button zeigt ein Dateityp-abhängiges Symbol, den Derivate-Typ als Label, die Dateigröße und den Dateinamen. 
-Weiterhin besteht die Möglichkeit eine Datei mit der MD5-Summe dieser Datei herunterzuladen.
+Weiterhin besteht die Möglichkeit eine Datei herunterzuladen, die eine MD5-Prüfsumme für die Validierung enthält.
 
 {{< mcr-figure label="Quellcode" caption="HTML-Code für den Download-Button" >}}
 {{< highlight html "linenos=table" >}}
@@ -36,8 +35,8 @@ Weiterhin besteht die Möglichkeit eine Datei mit der MD5-Summe dieser Datei her
       <i class="fas fa-download pb-1"></i><br>MD5
   </a>
   <a class="btn btn-primary ir-button-download d-inline-block"target="_blank" 
-     href="http://localhost:8880/rosdok/file/rosdok_disshab_00001234/rosdok_derivate_00005678/Mustermann_Dissertation_2020.pdf">
-     <img src="http://localhost:8880/rosdok/images/download_pdf.png" title="PDF Download" align="left" />
+     href="http://localhost:8080/rosdok/file/rosdok_disshab_00001234/rosdok_derivate_00005678/Mustermann_Dissertation_2020.pdf">
+     <img src="http://localhost:8080/rosdok/images/download_pdf.png" title="PDF Download" align="left" />
      <span class="float-right"><small>(20.2 MB)</small></span>
      <strong>Volltext</strong><br />
      <small>Mustermann_Dissertation_2020.pdf</small>
@@ -46,12 +45,12 @@ Weiterhin besteht die Möglichkeit eine Datei mit der MD5-Summe dieser Datei her
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-## Erweiterung des <structure>-Headers mit Derivate-Informationen (MCRMetaEnrichedLinkID)
+## Anreicherung des &lt;structure&gt;-Headers mit Derivate-Informationen (MCRMetaEnrichedLinkID)
 
-Über die URL <tt>/receive/{mcr-object-id}?XSL.Style=xml</tt> bekommen wir einen Einblick in das interne XML
-eines MyCoRe-Objektes. Zur Generierung von Detailansichten (Frontpages) werden im Kopf des Objektes
+Über die URL <tt>/receive/{mcrobjectid}?XSL.Style=xml</tt> können wir uns das interne XML eines MyCoRe-Objektes
+ansehen. Zur Generierung von Detailansichten (Frontpage) werden in den Kopfbereich des Objektes
 seit Version {{< mcr-version 2019.06 >}} weitere Informationen zu den Derivaten 
-(Name der Hauptdatei und Derivate-Typ-Klassifikation) angezeigt.
+(Name der Hauptdatei und Derivate-Typ-Klassifikation) eingebettet.
 
 {{< highlight xml "linenos=table" >}}
 <mycoreobject ID="rosdok_disshab_00001234" version="2020.06">
@@ -67,7 +66,8 @@ seit Version {{< mcr-version 2019.06 >}} weitere Informationen zu den Derivaten
   ...
 {{< / highlight >}}
 
-Wir wollen diese Informationen erweitern und zusätzlich noch die *Dateigröße* und die *MD5-Summe* der Hauptdatei integrieren.
+Wir wollen diese Informationen erweitern und zusätzlich noch die Dateigröße und die MD5-Prüfsumme 
+der Hauptdatei (<tt>maindoc</tt>) integrieren.
 
 Dazu muss die abstrakte Klasse [org.mycore.datamodel.metadata.MCRMetaEnrichedLinkIDFactory](https://github.com/MyCoRe-Org/mycore/blob/2020.06.x/mycore-base/src/main/java/org/mycore/datamodel/metadata/MCREditableMetaEnrichedLinkID.java) implementiert bzw. erweitert und als Property registriert werden.
 
@@ -77,14 +77,11 @@ MCR.Metadata.EnrichedDerivateLinkIDFactory.Class=org.mycore.jspdocportal.common.
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-Mit ein wenig Aufwand könnte auch die XML-Struktur innerhalb von ``<derobject>`` angepasst werden.
+Mit etwas zusätzlichem Aufwand könnte auch die XML-Struktur innerhalb von ``<derobject>`` angepasst werden.
 Für unsere Zwecke nutzen wir aber das bereits vorhandene <tt>&lt;title&gt;</tt> Element nach.
 Das Element hat den Datentyp [MCRMetaLangText](https://www.mycore.de/documentation/basics/mcrobject/mcrobj_datatypes#freier-text-mcrmetalangtext).
-Ursprünglich ist es dazu gedacht, den optional vorhandenen Titel des Derivates anzuzeigen. 
-Mit individuellen ``type`` Attributen lassen sich auch unsere neuen Metadaten darin abspeichern.
-
-In der überschriebenen Methode <code>getDerivateLink()</code> erweitern wir die Liste der <tt>title</tt>-Elemente
-um Einträge für Dateigröße und MD5-Summe der Hauptdatei (<tt>maindoc</tt>).
+Ursprünglich ist es dazu gedacht, den optional vorhandenen Titel des jeweiligen Derivates anzuzeigen. 
+Mit individuellen <tt>type</tt> Attributen lassen sich auch unsere neuen Metadaten darin abspeichern.
 
 {{< mcr-figure label="Quellcode" caption="MCRExtendedDerivateLinkIDFactory.java" >}}
 {{< highlight java "linenos=table" >}}
@@ -118,8 +115,12 @@ public class MCRExtendedDerivateLinkIDFactory extends MCRDefaultEnrichedDerivate
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-Im Ergebnis wird nun die Dateigröße und MD5-Summe im XML-Code des MyCoRe-Objektes gespeichert:
+In der überschriebenen Methode <code>getDerivateLink()</code> erweitern wir die Liste der <tt>title</tt>-Elemente
+um Einträge für Dateigröße und MD5-Prüfsumme der Hauptdatei (<tt>maindoc</tt>).  
 
+Im Ergebnis werden diese nun im XML-Code des MyCoRe-Objektes gespeichert:
+
+{{< mcr-figure label="Quellcode" caption="XML-Kopfbereich des MyCoRe-Objektes" >}}
 {{< highlight xml "linenos=table" >}}
 <mycoreobject ID="rosdok_disshab_00001234" version="2020.06">
   <structure>
@@ -139,14 +140,16 @@ Im Ergebnis wird nun die Dateigröße und MD5-Summe im XML-Code des MyCoRe-Objek
   </structure>
   ...
 {{< / highlight >}}
+{{< /mcr-figure>}}
 
-## Erzeugen des HTML-Codes mit XSLT3
-Zur Erzeugung der Detailansicht (Frontpage) können wir ab Version {{< mcr-version 2020.06 >}} XSLT3 verwenden.
-Ein neues Feature sind XSLT-Funktionen. Die MyCoRe-Community stellt [XSLT-Funktionen](http://www.mycore.de/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen) für wichtige Features, wie
-Übersetzungen (I18N) oder Anzeige von Klassifikationen bereit.
+## Erzeugen des Detailansicht mit XSLT3
+Zur Erzeugung des HTML-Codes der Detailansicht (Frontpage) können wir ab Version {{< mcr-version 2020.06 >}} XSLT3 verwenden.
+Ein neues Feature sind XSLT-Funktionen. Die MyCoRe-Community stellt einige [XSLT-Funktionen](http://www.mycore.de/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen) zur Verfügung, die 
+beispielsweise die Arbeit mit Übersetzungen (I18N) oder Anzeige von Klassifikationen erleichtern.
 
 Um die Funktionen nutzen zu können muss im ``<stylesheet>``- Element deren  Namespace deklariert werden
-und die Funktionen via ```<xsl:import>```eingebunden werden. Wir nutzen den <tt>resource:</tt>-URI-Resolver
+und die Funktionen selbst noch einmal via ``<xsl:import>`` eingebunden werden. 
+Wir nutzen den <tt>resource:</tt>-URI-Resolver
 um die XSLT-Dateien mit den Funktionsdefinitionen aus dem Classpath laden zu können.
 
 {{< mcr-figure label="XSLT" caption="Einbinden von Funktionen" >}}
@@ -163,15 +166,17 @@ um die XSLT-Dateien mit den Funktionsdefinitionen aus dem Classpath laden zu kö
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-Anschließend können die Funktionen beim Erzeugen des HTML-Codes genutzt werden, z.B:
+Anschließend können die Funktionen in den Stylesheets zum Erzeugen des HTML-Codes genutzt werden, z.B:
 
+{{< mcr-figure label="Quellcode" caption="XSLT-Fragment" >}}
 {{< highlight xml "linenos=table" >}}
 <img align="left" src="{$WebApplicationBaseURL}images/download_zip.png" 
      title="{mcri18n:translate('Webpage.docdetails.zipdownload')}" />
 <strong>{mcrclass:current-label-text(./classification[@classid='derivate_types'])}</strong>
 {{< /highlight >}}
+{{< /mcr-figure>}}
 
-An dieser Stelle noch einmal das vollständige XSLT-Skript zur Generierung des Download-Buttons:
+Am Ende dieses Abschnitts können wir noch einmal das vollständige XSLT-Skript zur Generierung des Download-Buttons betrachten:
 
 {{< mcr-figure label="Quellcode" caption="docdetails.xsl" >}}
 {{< highlight xml "linenos=table" >}}
@@ -186,8 +191,7 @@ An dieser Stelle noch einmal das vollständige XSLT-Skript zur Generierung des D
   exclude-result-prefixes="mods xlink"
   expand-text="yes">
 
-  <xsl:param name="WebApplicationBaseURL" select="'http://rosdok.uni-rostock.de/'"/>
-  <xsl:param name="WebApplicationTitle" select="'RosDok'"/>
+  <xsl:param name="WebApplicationBaseURL" select="'http://localhost:8080/rosdok/'"/>
   <xsl:param name="CurrentLang" />
   <xsl:param name="DefaultLang" />
   
@@ -216,8 +220,7 @@ An dieser Stelle noch einmal das vollständige XSLT-Skript zur Generierung des D
          href="data:text/plain;charset=US-ASCII,{encode-for-uri(concat(./title[@type='maindoc_md5'],'  ', ./maindoc))}">
          <i class="fas fa-download pb-1"></i><br />MD5
       </a>
-      <a class="btn btn-primary ir-button-download d-inline-block"
-         href="{$fulltext_url}" target="_blank">
+      <a class="btn btn-primary ir-button-download d-inline-block" href="{$fulltext_url}" target="_blank">
          <xsl:choose>
            <xsl:when test="ends-with(./maindoc, '.zip')">
              <img align="left" src="{$WebApplicationBaseURL}images/download_zip.png" title="{mcri18n:translate('Webpage.docdetails.zipdownload')}" />
@@ -247,11 +250,11 @@ Mit [Data-URLs](https://de.wikipedia.org/wiki/Data-URL) lassen sich Dateien (z.B
 Sie werden entweder als <tt>ASCII</tt> oder als <tt>Base64</tt> kodiert und direkt in den HTML-Quellcode eingebettet.
 
 Diese Möglichkeit erspart uns die Implementation eines zusätzlichen Servlets oder einer anderen serverseitigen Komponente, 
-die die MD5-Checksummen-Datei erzeugt. 
+die die MD5-Prüfsummen-Datei erzeugt. 
 
 Die Datei besteht in unserem Fall aus nur einer Zeile:
-{{< highlight text "linenos=table" >}}
-{MD5}  {Dateiname}
+{{< highlight xml "linenos=table" >}}
+  {MD5}  {Dateiname}
 {{< /highlight >}}
 
 Folgendes XSLT-Skript kann für die Generierung verwendet werden. Auch hier nutzen wir wieder die Informationen aus dem 
@@ -266,12 +269,12 @@ angereicherten ``<structure>``-Element.
 Das Ergebnis als HTML:
 {{< mcr-figure caption="HTML-Quellcode">}}
 {{< highlight xml "linenos=table" >}}
-<a href="data:text/plain;charset=US-ASCII,77cfc859cb00158cf1d12e657b882eae%20%20Mustermann_Dissertation_2020.pdf"
-   download="Mustermann_Dissertation_2020.pdf.md5">MD5</a>
+  <a href="data:text/plain;charset=US-ASCII,77cfc859cb00158cf1d12e657b882eae%20%20Mustermann_Dissertation_2020.pdf"
+     download="Mustermann_Dissertation_2020.pdf.md5">MD5</a>
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-Im ``href``-Attribut wird eingeleitet mit <tt>data:</tt> und anschließendem Mime-Type der Inhalt der zukünftigen Datei spezifiziert. 
+Im ``href``-Attribut wird eingeleitet mit <tt>data:</tt> und anschließendem Mime-Type der Inhalt der zukünftigen Datei codiert. 
 Das ``download``-Atttribut gibt den Dateinamen vor, den unsere MD5-Datei beim Download erhalten soll.
 
 Und so sieht dann die heruntergeladene MD5-Datei aus:
