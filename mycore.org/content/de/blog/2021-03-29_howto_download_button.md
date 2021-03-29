@@ -17,7 +17,7 @@ die mit diesem oder dem letzten Release in MyCoRe integriert wurden.
 Im Speziellen geht es dabei um die Anreicherung zusätzlicher Informationen aus den Derivaten im ``<structure>``-Teil des MyCoRe-Objektes, XSLT-Funktionen und Data-URLs.
 <!--more-->
 
-Schauen wir uns zunächst das *Endergebnis* und den dazugehörigen HTML-Quellcode an an:
+Schauen wir uns zunächst das *Endergebnis* und den dazugehörigen HTML-Quellcode an:
 
 {{< mcr-figure src="/images/blog/howtos/download_button.png" 
          class="text-center" 
