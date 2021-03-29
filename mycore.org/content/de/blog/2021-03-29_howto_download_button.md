@@ -3,7 +3,7 @@ title: "HowTo: Ein multifunktionaler Download-Button"
 slug: howto-download-button
 date: 2021-03-29
 
-draft: true
+draft: false
 
 blog/authors: ["Robert Stephan"]
 blog/periods: 2021-03
@@ -77,11 +77,8 @@ MCR.Metadata.EnrichedDerivateLinkIDFactory.Class=org.mycore.jspdocportal.common.
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-Mit etwas zusätzlichem Aufwand könnte auch die XML-Struktur innerhalb von ``<derobject>`` angepasst werden.
-Für unsere Zwecke nutzen wir aber das bereits vorhandene <tt>&lt;title&gt;</tt> Element nach.
-Das Element hat den Datentyp [MCRMetaLangText](https://www.mycore.de/documentation/basics/mcrobject/mcrobj_datatypes#freier-text-mcrmetalangtext).
-Ursprünglich ist es dazu gedacht, den optional vorhandenen Titel des jeweiligen Derivates anzuzeigen. 
-Mit individuellen <tt>type</tt> Attributen lassen sich auch unsere neuen Metadaten darin abspeichern.
+In der überschriebenen Methode <code>getDerivateLink()</code> erweitern wir die Liste der XML-Elemente
+um Einträge für Dateigröße und MD5-Prüfsumme der Hauptdatei (<tt>maindoc</tt>).  
 
 {{< mcr-figure label="Quellcode" caption="MCRExtendedDerivateLinkIDFactory.java" >}}
 {{< highlight java "linenos=table" >}}
@@ -98,10 +95,8 @@ public class MCRExtendedDerivateLinkIDFactory extends MCRDefaultEnrichedDerivate
         try {
           @SuppressWarnings("rawtypes")
           MCRFileAttributes attrs = Files.readAttributes(mcrPath, MCRFileAttributes.class);
-          List<MCRMetaLangText> titles = derivateLinkID.getTitle();
-          titles.add(new MCRMetaLangText("title", "zxx", "maindoc_size", 0, "", Long.toString(attrs.size())));
-          titles.add(new MCRMetaLangText("title", "zxx", "maindoc_md5", 0, "", attrs.md5sum()));
-          derivateLinkID.setTitles(titles);
+          derivateLinkID.setOrCreateElement("maindoc_size", Long.toString(attrs.size()));
+          derivateLinkID.getContentList().add(new Element("maindoc_md5").setText(attrs.md5sum()));
         } catch (IOException e) {
           LOGGER.error(e);
         }
@@ -115,10 +110,11 @@ public class MCRExtendedDerivateLinkIDFactory extends MCRDefaultEnrichedDerivate
 {{< /highlight >}}
 {{< /mcr-figure>}}
 
-In der überschriebenen Methode <code>getDerivateLink()</code> erweitern wir die Liste der <tt>title</tt>-Elemente
-um Einträge für Dateigröße und MD5-Prüfsumme der Hauptdatei (<tt>maindoc</tt>).  
+Mit der Methode ``setOrCreateElement()`` kann ein neues Element mit Textinhalt erzeugt werden.
+Über die Methode ``getContentList()`` erhält man Zugriff auf die Liste der Kindelemente von <tt>&lt;derobject&gt;</tt> und kann diese
+um weitere, bei Bedarf auch komplexere Elemente erweitern. Als XML-Bibliothek wird in MyCoRe [JDOM](http://www.jdom.org/) verwendet.
 
-Im Ergebnis werden diese nun im XML-Code des MyCoRe-Objektes gespeichert:
+Im Ergebnis sehen wir nun die neuen XML-Elemente <tt>&lt;maindoc_size&gt;</tt> und <tt>&lt;maindoc_md5&gt;</tt>:
 
 {{< mcr-figure label="Quellcode" caption="XML-Kopfbereich des MyCoRe-Objektes" >}}
 {{< highlight xml "linenos=table" >}}
@@ -128,13 +124,9 @@ Im Ergebnis werden diese nun im XML-Code des MyCoRe-Objektes gespeichert:
       <derobject inherited="0" xlink:type="locator" xlink:href="rosdok_derivate_0005678">
         <order>1</order>
         <maindoc>Mustermann_Dissertation_2020.pdf</maindoc>
-        <title xml:lang="zxx" type="maindoc_size" inherited="0" form="plain">
-          21175865
-        </title>
-        <title xml:lang="zxx" type="maindoc_md5" inherited="0" form="plain">
-          77cfc859cb00158cf1d12e657b882eae
-        </title>
         <classification classid="derivate_types" categid="fulltext"/>
+        <maindoc_size>21175865</maindoc_size>
+        <maindoc_md5>7a06ba98cd541566ffb94a1a6bb41bb3</maindoc_md5>
       </derobject>
     </derobjects>
   </structure>
@@ -217,7 +209,7 @@ Am Ende dieses Abschnitts können wir noch einmal das vollständige XSLT-Skript 
      <div class="w-100 position-relative" style="padding-right:3em">
       <a class="badge border border-primary text-secondary position-absolute px-1 py-1" 
          style="right:0;bottom:0;height:3.0em"  download="{./maindoc}.md5" 
-         href="data:text/plain;charset=US-ASCII,{encode-for-uri(concat(./title[@type='maindoc_md5'],'  ', ./maindoc))}">
+         href="data:text/plain;charset=US-ASCII,{encode-for-uri(concat(./maindoc_md5,'  ', ./maindoc))}">
          <i class="fas fa-download pb-1"></i><br />MD5
       </a>
       <a class="btn btn-primary ir-button-download d-inline-block" href="{$fulltext_url}" target="_blank">
@@ -232,7 +224,7 @@ Am Ende dieses Abschnitts können wir noch einmal das vollständige XSLT-Skript 
              <img align="left" src="{$WebApplicationBaseURL}images/download_other.png" title="{mcri18n:translate('Webpage.docdetails.otherdownload')}" />
            </xsl:otherwise>
          </xsl:choose>
-         <span class="float-right"><small>({mcrstring:pretty-filesize(./title[@type='maindoc_size'])})</small></span>
+         <span class="float-right"><small>({mcrstring:pretty-filesize(./maindoc_size)})</small></span>
          <strong>{mcrclass:current-label-text(./classification[@classid='derivate_types'])}</strong>
          <br /><small>{mcrstring:abbreviate-center(./maindoc, 40)}</small>
       </a>
@@ -261,7 +253,7 @@ Folgendes XSLT-Skript kann für die Generierung verwendet werden. Auch hier nutz
 angereicherten ``<structure>``-Element.
 {{< mcr-figure caption="XSLT-Quellcode">}}
 {{< highlight xml "linenos=table" >}}
-  <a href="data:text/plain;charset=US-ASCII,{encode-for-uri(concat(./title[@type='maindoc_md5'],'  ', ./maindoc))}"
+  <a href="data:text/plain;charset=US-ASCII,{encode-for-uri(concat(./maindoc_md5, '  ', ./maindoc))}"
      download="{./maindoc}.md5">MD5</a>
 {{< /highlight >}}
 {{< /mcr-figure>}}
