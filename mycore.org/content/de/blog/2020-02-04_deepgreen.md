@@ -12,7 +12,7 @@ blog/categories:
 blog/tags:
  - DeepGreen
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "DeepGreen-Workshop"
 news/teaser_de: "Auf dem Workshop wurde in einem Impulsvortrag die Anbindung von MyCoRe an DeepGreen vorgestellt."
 news/title_en: "DeepGreen Workshop"
