@@ -48,11 +48,22 @@ date: "2020-06-02"
 
           <p>
               Der Viewer setzt vorraus das JQuery in der Seite eingebunden wurde.
-              Der Viewer lädt außerdem ein Bootstrap nach, welches über ein Property festgelegt wird.
+              Der Viewer lädt außerdem ein Bootstrap nach, dessen Basis-URL über ein Property festgelegt wird.
               Falls dieses Bootstrap schon in der Seite vorhanden ist, dann wird es nicht nachgeladen.
           </p>
+          <p>
+              Für die Anzeige von Icons wird außerdem Fontawesome benötigt, welches ebenfalls über ein Property
+              eingebunden wird.
+          </p>
 
-          {{< highlight shell "linenos=table">}} MCR.Viewer.bootstrapURL=%WebApplicationBaseURL%/assets/bootstrap/{{< /highlight >}}
+{{< highlight shell "linenos=table">}}
+MCR.Viewer.bootstrapURL=%WebApplicationBaseURL%assets/bootstrap/
+MCR.Viewer.FontaweSomeURL=https://use.fontawesome.com/releases/v5.8.1/css/all.css
+{{< /highlight >}}
+          
+          <p>Für den Produktivbetrieb wird empfohlen, diese Javascript-Bibliotheken als <a href="https://www.webjars.org/">WebJars</a>
+             in die eigene Anwendung zu integrieren, um so unabhängig von externen Servern zu sein.
+          </p>
       </div>
 
       <div>
