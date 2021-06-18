@@ -28,6 +28,43 @@ date: "2021-02-20"
 {{< /highlight >}}
 </p>
 <p>&nbsp;</p>
+<h2>Development-Mode</h2>
+Durch Setzen einiger Properties im Entwicklungssystem lässt sich die Arbeit mit XSLT-Stylesheets vereinfachen.
+{{< highlight text "linenos=table">}}
+  MCR.Developer.Resource.Override=/opt/workspace/mir/mir-module/src/main/resources,/opt/workspace/mir/mir-layout/src/main/resources
+  MCR.UseXSLTemplateCache=false
+  MCR.LayoutService.LastModifiedCheckPeriod=0
+  MCR.SASS.DeveloperMode=true
+{{< /highlight >}}
+
+<p>
+In <code>MCR.Developer.Resource.Override</code> kann eine Liste von Ordnern angegeben werden,
+die beim Laden der Template- und Konfigurationsdateien zuerst ausgelesen werden.
+Dadurch ist es möglich, Templates zu editieren und die Änderungen unmittelbar (ohne erneutes Kompilieren
+und Bauen der JAR-Datei) in der gestarteten Anwendung zu nutzen. Gleich benannte Templates in den JAR-Dateien
+werden überschrieben.
+</p>
+<p>
+Mittels <code>MCR.UseXSLTemplateCache</code> wird das Caching der XSLT-Templates deaktiviert,
+über <code>MCR.LayoutService.LastModifiedCheckPeriod</code> werden Caches für den Layout-Service ausgeschaltet und
+mit <code>MCR.SASS.DeveloperMode</code> werden die SASS-Stylesheets bei jedem Aufruf neu gebaut.
+</p>
+<p>
+<em>
+Diese Properties sollten nur im Entwicklungssystem und nicht im Produktivsystem gesetzt werden!!!
+</em> <br />Der beste Ort dafür ist die <code>mycore.properties</code>-Datei im 
+<a href="{{< ref "documentation/getting_started/gs_properties#konfigurationsverzeichnis" >}}">
+Benutzerverzeichnis</a> des Entwicklungssystems.
+</p>
+
+
+
+
+
+ 
+
+
+<p>&nbsp;</p>
 <h2>MyCoRe XSLT3 Funktionen</h2>
 <p>
   MyCoRe stellt für bestimmte Aufgaben (Mehrsprachigkeit, Verarbeitung von Klassifikationen, ...) 
