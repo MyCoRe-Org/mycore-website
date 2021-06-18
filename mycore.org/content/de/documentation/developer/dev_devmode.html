@@ -1,0 +1,58 @@
+---
+
+title: "Developer-Modus"
+mcr_version: ['2019.06','2020.06']
+author: ['Sebastian Hofmann']
+description: "Dieser Abschnitt beschreibt die Möglichkeit verschiedene Ressourcen zur Laufzeit zu überschreiben, ohne MyCoRe oder die Anwendung neu zu bauen."
+date: "2021-06-18"
+
+---
+
+<div>
+    <h2>Konfiguration</h2>
+    <p>
+        Zusammengefasst sieht eine mögliche Konfiguration z.B. für die Viewer- und MIR-Entwicklung wie folgt aus:
+    {{< highlight shell "linenos=table">}}
+MCR.Developer.Resource.Override=/Pfad-zu-mir/mir-layout/src/main/resources,/Pfad-zu-mycore/mycore-viewer/src/main/resources
+MCR.LayoutService.LastModifiedCheckPeriod=0
+MCR.UseXSLTemplateCache=false
+MCR.SASS.DeveloperMode=true{{< /highlight >}}
+    </p>
+    
+<p>
+Im Property <code>MCR.Developer.Resource.Override</code> kann eine Liste von Ordnern angegeben werden,
+die beim Laden der Template- und Konfigurationsdateien zuerst ausgelesen werden.
+Dadurch ist es möglich, Templates zu editieren und die Änderungen unmittelbar (ohne erneutes Kompilieren
+und Bauen der JAR-Datei) in der gestarteten Anwendung zu nutzen. Gleich benannte Templates in den JAR-Dateien
+werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine höhere Priorität.
+</p>
+ <p>Das Überschreiben von Ressourcen funktioniert für folgende Ressource-Typen:</p>
+    <ul>
+        <li>XSL-Stylesheets</li>
+        <li>XEditor-Formulare</li>
+        <li>Sass-Stylesheets</li>
+    </ul>
+  <p>
+  <p>Das Überschreiben einer Resource wird beim Abrufen mit einer Log-Meldung quittiert:
+        
+{{< highlight shell "linenos=table">}}
+  Found overridden Resource: /Pfad-zu-mir/mir-layout/src/main/resources/{{< /highlight >}}
+  </p>
+  <p>
+    Damit das Überschreiben von XSL-Stylesheets funktioniert, muss mittels <code>MCR.UseXSLTemplateCache=false</code> 
+    das Caching der XSLT-Templates deaktiviert und mit <code>MCR.LayoutService.LastModifiedCheckPeriod=0</code> 
+    das Caching für den Layout-Service ausgeschaltet werden.
+  </p>
+  <p>
+    Im MyCoRe-Standardbetrieb werden Sass-Stylesheets nur einmal in CSS übersetzt und das Ergebnis gespeichert.
+    Wünscht man eine permanente CSS-Übersetzung, kann man mit mit <code>MCR.SASS.DeveloperMode=true</code>
+    den Sass-Entwickler-Modus einschalten.
+  </p>
+  <p>
+    <em>Diese Properties sollten nur im Entwicklungssystem und nicht im Produktivsystem gesetzt werden!!!</em> <br />
+    Der beste Ort dafür ist die <code>mycore.properties</code>-Datei im 
+    <a href="{{< ref "documentation/getting_started/gs_properties#konfigurationsverzeichnis" >}}">
+    Benutzerverzeichnis</a> des Entwicklungssystems.
+  </p>
+
+</div>
