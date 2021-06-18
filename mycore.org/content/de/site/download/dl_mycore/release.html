@@ -1,29 +1,31 @@
 
 ---
 
-title: "Release 2019.06 (LTS)"
-mcr_version: ['2019.06']
-author: ['Kathleen Neumann']
-date: "2020-04-02"
+title: "Release 2020.06 (LTS)"
+mcr_version: ['2020.06']
+author: ['Wiebke Oeltjen']
+date: "2021-06-18"
 
 ---
     <p>
-      Informationen zur Migration vom LTS 2018.06 finden Sie im
-      <a href="{{< ref migrate_mcr2019_06 >}}">Abschnitt zur Migration</a>.
+      Informationen zur Migration vom LTS 2019.06 finden Sie im
+      <a href="{{< ref migrate_mcr2020_06 >}}">Abschnitt zur Migration</a>.
     </p>
 	
     <div>
       <h2>Was ist neu?</h2>
       <ul>
-        <li>Umstellung auf Java 11 als Entwicklungs- und Laufzeitumgebung</li>
-        <li>Umstellung auf Bootstrap 4 und FontAwesome</li>
-        <li>Überarbeitung des Derivat-Metadaten-XML und Übernahme der Informationen in den &lt;derobject />-Abschnitt
-            des MyCoRe-Objektes um einen performanteren Zugriff auf die Derivat-Metadaten zu erlauben</li>
-        <li>Anbindung ans Dateisystem wurde deutlich vereinfacht und benötigt nun keine Datenbank-Tabellen mehr,
-            ausserdem gibt es nur noch genau einen IFS-ContentStore</li>
-        <li>der MyCoRe-Viewer versteht nun auch IIIF, so dass externe Bildressourcen angebunden werden können</li>
-        <li>es gibt ein neues Kommando um Batch-Änderungen auf der CLI auszuführen</li>
-        <li>neue Komponente mycore-fo - ermöglicht den XSL:FO-Formatter optional einzubinden (war vorher Teil von mycore-base)</li>
+        <li>Die „REST-API v2“ wurde finalisiert, dokumentiert und kann nun parallel zur ersten Version genutzt werden. Der REST-Client ist jetzt ein Projekt auf GitHub.</li>
+        <li>Der Umstieg auf XSLT, Version 3.0 (XSLT v3) wurde begonnen. Dazu haben sich die Entwicklerinnen und Entwickler teilweise bereits in XSLT v3 eingearbeitet. Nun sollen alte XSL-Stylesheets schrittweise umgearbeitet und neue direkt in dem Format umgesetzt werden. </li>
+        <li>Es gab Neuerungen rund um Solr mit einem Upgrade auf Solr Version 8.4: Durch den Wechsel auf Solr v8 können wir einen Workaround für die Behandlung von verschachtelten Index-Dokumenten aus MyCoRe entfernen. Dies wird nun von Solr selbst korrekt realisiert.</li>
+        <li>Im Rahmen der Umstellung auf Solr v8 konnte außerdem die Anbindung optimiert werden, so dass u.a. nun wieder eine parallele und damit performantere Indizierung möglich ist. </li>
+        <li>Weiter gibt es Neues zum Thema Internationalisierung: Ein neuer i18n-Mechanismus wurde entwickelt, um einheitlich in Webseiten, Formularen und XSL Stylesheets sprachabhängige Ausgaben definieren zu können. Dieser kann parallel zu den bereits bestehenden Mechanismen eingesetzt werden.</li>
+        <li>Ein Transformer wurde entwickelt, mit dessen Hilfe Teile statisch vorgeneriert und per URI-Resolver eingebunden werden können (MCRStaticContentGenerator). Dies wird z.B. verwendet um die Versionshistorie von Metadaten als HTML-Schnipsel bereitzustellen.</li>
+        <li>Mit der neuen MyCoRe-Komponente „mycore-csl“ (Citation Style Language) können Objekte in verschiedene Zitationsstile transformiert werden. Damit ist es für das „Metadata Object Description Schema“ (MODS) möglich, alle in CSL angebotenen Zitierstile auszu­geben.</li>
+        <li>Es gibt Neuerungen im Modul zum Generieren der „Persistent Identifier“ (PI-Modul), so können z.B. Regeln definiert werden, die gegebenenfalls dazu führen, dass automatisch ein oder mehrere Persistente IDs (PI) für das entsprechende MyCoRe-Objekt generiert werden (z.B. wenn ein bestimmter Dokumentstatus vorliegt, das Dokument vom Typ Artikel ist und noch keine DOI angegeben ist). </li>
+        <li>Auch ist es möglich xPath-Angaben in das PI-Schema mit aufzunehmen; bisher war es nur möglich die ID des MyCoRe-Objektes oder Systemdaten dafür zu nutzen. Nun können Metadaten wie beispielsweise der Dokumenttyp und/oder die zugeordnete Einrichtungs-ID Teil des PI-Schemas sein.</li>
+        <li>Das Rechtemanagement für die Derivate (zum Objekt zugehörige Dateicontainer) wurde überarbeitet, vereinheitlicht und entsprechend dokumentiert. Es gibt nun mit read, view und preview drei Permissions, die festlegen ob Dateien innerhalb eines Containers gelesen, nur angeschaut (z.B. im MyCoRe-Viewer) oder nur ein definiertes Vorschaubild angezeigt werden darf.</li>
+        <li>Es wurde entschieden, dass die Unterstützung für den Microsoft Internet Explorer (IE) mittelfristig eingestellt werden soll. Dafür wird beispielsweise in MIR-Anwendungen standardmäßig eine entsprechende Meldung ausgegeben, wenn die Seiten mit dem IE auf­gerufen werden. Die Community hat beschlossen, dass die Statistiken der Anwendungen regelmäßig geprüft werden und wenn die IE-Nutzung deutlich zurück gegangen ist, soll die Unterstützung eingestellt werden.</li>
       </ul>
     </div>
 	
@@ -32,7 +34,7 @@ date: "2020-04-02"
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
         <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
-        LTS 2019.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        LTS 2020.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
         angepasst werden:
       </p>
 
@@ -42,11 +44,11 @@ date: "2020-04-02"
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-parent</artifactId>
-    <version>41</version>
+    <version>46</version>
   </parent>
   ...
   <properties>
-    <mycore.version>2019.06.4-SNAPSHOT</mycore.version>
+    <mycore.version>2020.06.3-SNAPSHOT</mycore.version>
   </properties>
   ...
   <dependencies>

@@ -10,7 +10,51 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
  finden. Mit dem Prerelease 2013.05 ist die Benennung nun auf <code>Jahr.Monat</code> geändert worden.
  Seit diesem Zeiptunkt gibt es LTS-Releases und 'normale' Releases.
 ---
- 
+
+<h2>Release 2019.08</h2> 
+      <h3>Was ist neu?</h3>
+      <ul>
+        <li>Umstellung auf Java 11 als Entwicklungs- und Laufzeitumgebung</li>
+        <li>Umstellung auf Bootstrap 4 und FontAwesome</li>
+        <li>Überarbeitung des Derivat-Metadaten-XML und Übernahme der Informationen in den &lt;derobject />-Abschnitt
+            des MyCoRe-Objektes um einen performanteren Zugriff auf die Derivat-Metadaten zu erlauben</li>
+        <li>Anbindung ans Dateisystem wurde deutlich vereinfacht und benötigt nun keine Datenbank-Tabellen mehr,
+            ausserdem gibt es nur noch genau einen IFS-ContentStore</li>
+        <li>der MyCoRe-Viewer versteht nun auch IIIF, so dass externe Bildressourcen angebunden werden können</li>
+        <li>es gibt ein neues Kommando um Batch-Änderungen auf der CLI auszuführen</li>
+        <li>neue Komponente mycore-fo - ermöglicht den XSL:FO-Formatter optional einzubinden (war vorher Teil von mycore-base)</li>
+      </ul>
+      <h2>Einbindung der Komponenten</h2>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2019.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <parent>
+    <groupId>org.mycore</groupId>
+    <artifactId>mycore-parent</artifactId>
+    <version>41</version>
+  </parent>
+  ...
+  <properties>
+    <mycore.version>2019.06.4-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-meta</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
 
 <h2>Release 2018.08</h2>
       <h3>Was ist neu?</h3>

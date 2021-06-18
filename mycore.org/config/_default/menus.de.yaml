@@ -16,7 +16,7 @@ main:
 
 - {identifier: download,                                        name: Download,             weight: -96,      url: /site/download}
 -   {identifier: dl_mycore,               parent: download,       name: MyCoRe,               weight: -98,      url: /site/download/dl_mycore}
--     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2019.06,  weight: -98,      url: /site/download/dl_mycore/release}
+-     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2020.06,  weight: -98,      url: /site/download/dl_mycore/release}
 -     {identifier: changelog,               parent: dl_mycore,      name: Changelog,            weight: -97,      url: /site/download/dl_mycore/changelog}
 -     {identifier: archive,                 parent: dl_mycore,      name: Archiv,               weight: -96,      url: /site/download/dl_mycore/archive}
 -   {identifier: dl_mir,                  parent: download,       name: MIR,                  weight: -97,      url: /site/download/dl_mir}
