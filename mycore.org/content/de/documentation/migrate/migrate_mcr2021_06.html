@@ -1,0 +1,40 @@
+
+---
+
+title: "Migration MyCoRe LTS 2020.06 nach 2021.06"
+mcr_version: ['2021.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2021.06 und die Migration von Version
+      2020.06 zu 2021.06 zusammen.
+    "
+date: "2021-06-22"
+
+---
+
+    <div id="requirements_202106">
+
+      <h2>Migrationsschritte</h2>
+      <h3>Migrationskommandos einbinden</h3>
+      <p>
+        Um die Migrationskommandos nutzen zu können, muss die Komponente <code>mycore-migration</code> eingebunden werden.
+      </p>
+      <p>
+        {{< highlight xml "linenos=table">}}
+ <dependency>
+   <groupId>org.mycore</groupId>
+   <artifactId>mycore-migration</artifactId>
+   <version>2020.21.1-SNAPSHOT</version>
+ </dependency>{{< /highlight >}}
+      </p>
+
+      <h3>Java 16</h3>
+      <p>
+        CLI und ältere Tomcat-Versionen funktionieren nicht mit Java 16
+        Damit das wieder funktioniert muss ein aktueller Tomcat genutzt werden und zusätzliche Parameter in der CLI ergänzt werden.
+        Siehe dazu z.B. https://mycore.atlassian.net/browse/MIR-1031 bzw. https://github.com/MyCoRe-Org/mir/commit/13e014cb0359d5f618924b5823c7ce6087c918ab
+      </p>
+
+      
+    </div>
+
