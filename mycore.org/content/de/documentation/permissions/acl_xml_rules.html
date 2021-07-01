@@ -1,0 +1,190 @@
+
+---
+
+title: "Regelbasiertes ACL-System (Neuentwicklung)"
+mcr_version: ['2021.06']
+author: ['Robert Stephan']
+description: "Im Rahmen einer Neuimplementierung soll das bestehende (Datenbank-basierte) ACL-System 
+              und das darauf aufbauende Stragegy-Konzept durch ein neues System abgelöst werden, 
+              welches auf einer Regeldatei im XML-Format basiert."
+date: "2020-06-28"
+
+---
+<h2>Konfiguration</h2>
+<p>
+Um das neue System zu aktivieren müssen folgende MyCoRe-Properties gesetzt werden:
+{{< highlight text "linenos=table">}}
+MCR.Access.Strategy.Class=org.mycore.access.xml.MCRXMLAccessSystem
+MCR.Access.Class=org.mycore.access.xml.MCRXMLAccessSystem
+{{< /highlight >}}
+</p>
+<p>
+Außerdem empfielt es sich in der Log4J-Konfiguration das Level für das Package <code>org.mycore.access.xml</code> auf <code>DEBUG</code> zu setzen.
+</p>
+
+<h2>XML-Regeldatei</h2>
+<h3>Konfiguration</h3>
+<p>
+Die komplette Konfiguration des ACL-Systems erfolgt in einer XML-basierten Regeldatei. Mittels
+boolescher Algebra können darin sämtliche Berechtigungen für die MyCoRe-Anwendung konfiguriert werden.
+Standardmäßig heißt die Datei <code>rules.xml</code> und befindet sich auf oberster Ebene im Classpath.
+Es wird empfohlen, sie im <code>resources</code>-Ordner im Konfigurationsverzeichnis der Anwendung abzulegen.
+
+Über das Property <code>MCR.Access.RulesURI</code> kann eine andere Regel-Datei konfiguriert werden.
+
+<h3>Aufbau der Regel-Datei</h3>
+<p>
+Die Beschreibung der Regel-Datei efolgt in einem einfachen XML-Format.
+</p>
+<p>Ein Beispiel:</p>
+{{< highlight xml "linenos=table">}}
+<or>
+  <!-- Administratoren dürfen alles -->
+  <and>
+    <role>admin</role>
+  </and>
+  <!-- Jedermann kann Dokumente im Status "published" lesen -->
+  <and>
+    <action>read</action>
+    <status>published</status>
+  </and>
+</or>    
+{{< /highlight >}}
+
+<h4>Boolesche Operatoren</h4>
+Mit den Elementen <code>&lt;and&gt;</code>, <code>&lt;or&gt;</code> und <code>&lt;not&gt;</code> können beliebig verschachtelte boolesche Ausdrücke
+definiert werden. Auch die Regeldatei selbst bildet einen komplexen booleschen Ausdruck. Es wird empfohlen, auf der obersten Ebene die Regeln mit
+<code>&lt;or&gt;</code> zu verknüpfen und jede einzelne Regel in einem <code>&lt;and&gt;</code>-Block zu definieren. 
+
+<h4>Aktionen (<code>&lt;action&gt;</code>)</h4>
+<p>
+  Die drei Standard-Aktionen heißen <code>read</code>, <code>write</code> und <code>delete</code>.
+</p>
+<p>Für Derivate können zusätzlich noch die Aktionen <code>view</code> (Anzeige im Viewer) und <code>preview</code> (Anzeige eines Vorschaubildes)
+definiert werden.</p>
+<p>Aus weiteren MyCoRe-Komponenten oder eigenen Anwendungen können weitere Aktionen hinzu kommen.<br />
+(z.B.: <code>create-user</code>, <code>register-Datacite</code>, ...) 
+ 
+<h4>Zielobjekte (<code>&lt;target&gt;</code>)</h4>
+Access-Regeln können auf folgende Ziele beschränkt werden:
+<ul>
+  <li><code>metadata</code> (MyCoRe-Objekte)</li>
+  <li><code>files</code> (Dateien = Inhalte der MyCoRe-Derivate)</li>
+  <li><code>webpage</code> (Webseiten = URLs mit statischen Inhalten)</li>
+  <li><code>solr</code> (SOLR = URLs für <a href="https://solr.apache.org/guide/8_8/requesthandlers-and-searchcomponents-in-solrconfig.html">SOLR-Requesthandler</a>)</li>
+</ul>
+
+<h4>Nutzer, Rollen (<code>&lt;user&gt;</code>, <code>&lt;role&gt;</code>)</h4>
+<p>
+Die Regeln können auf bestimmte Nutzer und Rollen beschränkt werden.
+</p>
+
+<h4>Erstellt von (<code>&lt;createdby&gt;</code>)</h4>
+<p>
+Für die Person, die das Objekt erstellt hat, können individuelle Regeln definiert werden.
+</p>
+
+<h4>Klassifikationseintrag (<code>&lt;category&gt;</code>)</h4>
+<p>
+Es wird geprüft, ob das Objekt der angegebenen Klassifikation zugeordnet wurde.
+</p>
+<p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+für das Derivate und nicht für das Objekt erfolgen soll.
+
+{{< highlight xml "linenos=table">}}
+  <category fact="derivateid">derivate_type:fulltext</category>  
+{{< /highlight >}}
+
+<h4>Status (<code>&lt;status&gt;</code>)</h4>
+<p>
+Es wird geprüft, ob im <code>&lt;service&gt;</code>-Bereich des MyCoRe-Objektes der angegebenen Status gesetzt wurde.
+</p>
+<p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+für das Derivate und nicht für das Objekt erfolgen soll.
+{{< highlight xml "linenos=table">}}
+  <status fact="derivateid">published</status>  
+{{< /highlight >}}
+
+
+<h4>Regulärer Ausdruck (<code>&lt;regexp&gt;</code>)</h4>
+Mit diesem Operator können die oben beschriebenen Fakten über reguläre Ausdrücke geprüft werden.
+Als zusätzliche Fakten stehen die MyCoRe-Objekt-ID (<code>id</code>) und ggf. die Derivate-ID (<code>derivateid</code>)
+zur Überprüfung zur Verfügung.
+{{< highlight xml "linenos=table">}}
+  <regexp fact="id">mir_mods_.*</regexp>  
+  <regexp fact="user">.*admin</regexp>
+  <regexp fact="category">ddc:.*</regexp>
+  <regexp fact="id">webpage:/content/search/.*_intern.xed</regexp>
+{{< /highlight >}}
+
+<h3>Beispiele</h3>
+Es folgen ein paar komplexere Anwendungsszenarien, wie sie in Dokumentenservern vorkommen können:
+
+{{< highlight xml "linenos=table">}}
+  <or>
+    <!-- Alle Dokumente im Status 'published' sind öffentlich zugänglich, 
+         außer Dateien von Dokumenten in der Kategorie mir_access:intern
+         (Die Metadaten dieser Dokumente sind jedoch frei zugänglich) -->
+    <and>
+      <status>published</status>
+      <action>read</action>
+      <or>
+        <not>
+          <category>mir_access:intern</category>
+        </not>
+        <target>metadata</target>
+      </or>
+    </and>
+  
+    <!-- Editoren dürfen 'alles' für Dokumente im Status 'submitted oder 'embargo' -->
+    <and>
+      <role>editor</role>
+      <or>
+        <target>metadata</target>
+        <target>files</target>
+      </or>
+      <or>
+        <action>read</action>
+        <action>write</action>
+        <action>delete</action>
+        <action>register-DNBURN</action>
+        <action>register-Datacite</action>
+      </or>
+      <or>
+        <status>submitted</status>
+        <status>embargo</status>
+      </or>
+    </and>
+
+    <!-- Alle Webseite sind öffentlich zugänglich, 
+         außer Seiten, die auf 'intern.xed' Enden -->
+    <and>
+      <target>webpage</target>
+      <action>read</action>
+      <and>
+        <regexp fact="id">webpage:.*</regexp>
+        <not>
+          <regexp fact="id">webpage:/content/search/.*_intern.xed</regexp>
+        </not>
+      </and>
+    </and>
+  
+    <!-- Der /find-RequestHandler von SOLR ist frei zugänglich -->
+    <and>
+      <target>solr</target>
+      <action>read</action>
+      <id>solr:/find</id>
+    </and>
+  </or>  
+{{< /highlight >}}
+
+
+
+
+
+<h3>Erweiterbarkeit</h3>
+Neue Fakten können auf einfache Weise hinzugefügt werden.
+<br /><br/>
+TODO!
+
+    
