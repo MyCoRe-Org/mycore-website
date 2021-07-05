@@ -1,12 +1,12 @@
 
 ---
 
-title: "Regelbasiertes ACL-System (Neuentwicklung)"
+title: "Faktenbasiertes Access-System (Neuentwicklung)"
 mcr_version: ['2021.06']
 author: ['Robert Stephan']
 description: "Im Rahmen einer Neuimplementierung soll das bestehende (Datenbank-basierte) ACL-System 
               und das darauf aufbauende Stragegy-Konzept durch ein neues System abgelöst werden, 
-              welches auf einer Regeldatei im XML-Format basiert."
+              welches (ausgehend von einer Regeldatei im XML-Format) Fakten ermittelt und daraus die Zugriffsrechte ableitet."
 date: "2020-06-28"
 
 ---
@@ -14,12 +14,23 @@ date: "2020-06-28"
 <p>
 Um das neue System zu aktivieren müssen folgende MyCoRe-Properties gesetzt werden:
 {{< highlight text "linenos=table">}}
-MCR.Access.Strategy.Class=org.mycore.access.xml.MCRXMLAccessSystem
-MCR.Access.Class=org.mycore.access.xml.MCRXMLAccessSystem
+MCR.Access.Strategy.Class=org.mycore.access.facts.MCRFactsAccessSystem
+MCR.Access.Class=org.mycore.access.facts.MCRFactsAccessSystem
 {{< /highlight >}}
 </p>
 <p>
-Außerdem empfielt es sich in der Log4J-Konfiguration das Level für das Package <code>org.mycore.access.xml</code> auf <code>DEBUG</code> zu setzen.
+Außerdem empfielt es sich während der Konfigurationsphase das Log-Level (in der <code>log4j2.xml</code>) für das Package <code>org.mycore.access.facts</code> auf <code>DEBUG</code> zu setzen.
+</p>
+
+<h2>Funktionsweise</h2>
+<p>
+Ausgangsbasis ist eine Regeldatei im XML-Format, die sämtliche Zugriffsberechtigungen auf die Dokumente 
+und Objekte des Repositories beschreibt. Sie stellt insgesamt einen booleschen Ausdruck dar, in dem 
+einzelne Bedingungen miteinander verknüpft sind.
+</p>
+<p>
+Ist eine Bedingung <code>wahr</code> wird das als Fakt in einer Faktenliste vermerkt. Sollte dieselbe Regel an einer
+anderen Stelle erneut verwendet werden, ist das Ergebnis der Auswertung bereits bekannt und sie wird nicht erneut geprüft.
 </p>
 
 <h2>XML-Regeldatei</h2>
@@ -72,6 +83,7 @@ Access-Regeln können auf folgende Ziele beschränkt werden:
   <li><code>files</code> (Dateien = Inhalte der MyCoRe-Derivate)</li>
   <li><code>webpage</code> (Webseiten = URLs mit statischen Inhalten)</li>
   <li><code>solr</code> (SOLR = URLs für <a href="https://solr.apache.org/guide/8_8/requesthandlers-and-searchcomponents-in-solrconfig.html">SOLR-Requesthandler</a>)</li>
+  <li><code>restapi</code> (REST-API)</li>
 </ul>
 
 <h4>Nutzer, Rollen (<code>&lt;user&gt;</code>, <code>&lt;role&gt;</code>)</h4>
@@ -92,7 +104,7 @@ Es wird geprüft, ob das Objekt der angegebenen Klassifikation zugeordnet wurde.
 für das Derivate und nicht für das Objekt erfolgen soll.
 
 {{< highlight xml "linenos=table">}}
-  <category fact="derivateid">derivate_type:fulltext</category>  
+  <category basefact="derid">derivate_type:fulltext</category>  
 {{< /highlight >}}
 
 <h4>Status (<code>&lt;status&gt;</code>)</h4>
@@ -102,19 +114,19 @@ Es wird geprüft, ob im <code>&lt;service&gt;</code>-Bereich des MyCoRe-Objektes
 <p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
 für das Derivate und nicht für das Objekt erfolgen soll.
 {{< highlight xml "linenos=table">}}
-  <status fact="derivateid">published</status>  
+  <status basefact="derid">published</status>  
 {{< /highlight >}}
 
 
 <h4>Regulärer Ausdruck (<code>&lt;regexp&gt;</code>)</h4>
 Mit diesem Operator können die oben beschriebenen Fakten über reguläre Ausdrücke geprüft werden.
-Als zusätzliche Fakten stehen die MyCoRe-Objekt-ID (<code>id</code>) und ggf. die Derivate-ID (<code>derivateid</code>)
+Als Fakten stehen beispielsweise die MyCoRe-Objekt-ID (<code>objid</code>) und ggf. die Derivate-ID (<code>derid</code>)
 zur Überprüfung zur Verfügung.
 {{< highlight xml "linenos=table">}}
-  <regexp fact="id">mir_mods_.*</regexp>  
-  <regexp fact="user">.*admin</regexp>
-  <regexp fact="category">ddc:.*</regexp>
-  <regexp fact="id">webpage:/content/search/.*_intern.xed</regexp>
+  <regexp basefact="objid">mir_mods_.*</regexp>  
+  <regexp basefact="user">.*admin</regexp>
+  <regexp basefact="category">ddc:.*</regexp>
+  <regexp>webpage:/content/search/.*_intern.xed</regexp>  <!-- default: basefact='id' -->
 {{< /highlight >}}
 
 <h3>Beispiele</h3>
@@ -157,14 +169,14 @@ Es folgen ein paar komplexere Anwendungsszenarien, wie sie in Dokumentenservern 
     </and>
 
     <!-- Alle Webseite sind öffentlich zugänglich, 
-         außer Seiten, die auf 'intern.xed' Enden -->
+         außer Seiten, die auf 'intern.xed' enden -->
     <and>
       <target>webpage</target>
       <action>read</action>
       <and>
-        <regexp fact="id">webpage:.*</regexp>
+        <regexp>webpage:.*</regexp>
         <not>
-          <regexp fact="id">webpage:/content/search/.*_intern.xed</regexp>
+          <regexp>webpage:/content/search/.*_intern.xed</regexp>
         </not>
       </and>
     </and>
@@ -178,13 +190,46 @@ Es folgen ein paar komplexere Anwendungsszenarien, wie sie in Dokumentenservern 
   </or>  
 {{< /highlight >}}
 
+<h3>Verarbeitung der Regeln</h3>
+Zu Beginn werden anhand der Anfrage einige Standardfakten gesetzt:
+<ul>
+  <li><code>id</code> = ID des zu prüfenden Objektes</li>
+  <li><code>objid</code> = ID des MyCoRe-Objektes (wenn zutreffend)</li>
+  <li><code>derid</code> = ID des MyCoRe-Derivates (wenn zutreffend)</li>
+  <li><code>target</code> = Ziel der Prüfung: <tt>metadata</tt>, <tt>files</tt>,... (s.o.)
+</ul>
+<p>
+Anschließend wird der boolesche Ausdruck in der Regeldatei verarbeitet.
+Ergibt eine Regel <code>true</code>, wird das als Fact vermerkt.
+Der Name des Faktes entspricht dem Namen der Regel. Mit dem optionalen Attribut <code>fact</code> 
+kann der Faktname geändert werden. Das ist sinnvoll, wenn eine Regel in verschiedenen Zusammenhängen genutzt wird
+(z.B gleichzeitig für Objekte und Derivate), oder wenn in anderen Regeln (z.B. <code>regex</code>) explizit darauf
+zugegriffen werden soll.
+</p>
+<p>
+Einige Regeln (z.B. für Reguläre Ausdrücke) nutzen Fakten aus anderen Regeln.
+Sollten diese Fakten noch nicht verfügbar sein, versucht das System anhand des Faktnamens zu ermitteln welche
+Regel für die Bereitstellung des Faktes verantwortlich ist und zieht deren Ausführung vor.
+</p>
 
+<h2>Erweiterbarkeit</h2>
+<h3>Klassen und Interfaces</h3>
+{{< mcr-figure src="/images/documentation/permissions/classdiagram_factbased_access_system.svg" class="border border-secondary text-center p-3" label="Abbildung" caption="Klassendiagramm für Factbased Access System" alt="Klassendiagramm" width="90%"/>}}
 
+<h3>Implementierung</h3>
+<p>
+Das System lässt sich einfach um neue Regeln erweitern.
+Diese sollten die Klasse <code>MCRAbstractFactCondition</code> erweitern. In der Regel ist es dabei ausreichend
+die Methode <code>computeFact(MCRFacts facts)</code> zu implementieren.
+Diese prüft, ob anhand der vorhandenen Fakten neue Fakten erzeugt werden können. Dabei greift sie gegebenenFalls
+auf weitere Informationen aus der Session oder dem zu prüfenden Objekt zurück.
+Abschließend ist die Regel in die mycore.properties einzutragen.
+</p>
+{{< highlight xml "linenos=table">}}
+  MCR.Access.Facts.Condition.name=org.myapplication.facts.condition.MyConditionImplementation
+{{< /highlight >}}
+Der Name im Property entspricht dem Namen des XML-Elements in der Regel-Datei.
 
-
-<h3>Erweiterbarkeit</h3>
-Neue Fakten können auf einfache Weise hinzugefügt werden.
 <br /><br/>
-TODO!
 
     
