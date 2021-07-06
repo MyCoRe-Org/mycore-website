@@ -100,10 +100,11 @@ Für die Person, die das Objekt erstellt hat, können individuelle Regeln defini
 <p>
 Es wird geprüft, ob das Objekt der angegebenen Klassifikation zugeordnet wurde.
 </p>
-<p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+<p>Mit dem Attribute <code>basefact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
 für das Derivate und nicht für das Objekt erfolgen soll.
 
 {{< highlight xml "linenos=table">}}
+  <category>genre:dissertation</category>  
   <category basefact="derid">derivate_type:fulltext</category>  
 {{< /highlight >}}
 
@@ -114,20 +115,52 @@ Es wird geprüft, ob im <code>&lt;service&gt;</code>-Bereich des MyCoRe-Objektes
 <p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
 für das Derivate und nicht für das Objekt erfolgen soll.
 {{< highlight xml "linenos=table">}}
+  <status>review</status>  
   <status basefact="derid">published</status>  
 {{< /highlight >}}
 
 
-<h4>Regulärer Ausdruck (<code>&lt;regexp&gt;</code>)</h4>
+<h4>Regulärer Ausdruck (<code>&lt;regex&gt;</code>)</h4>
 Mit diesem Operator können die oben beschriebenen Fakten über reguläre Ausdrücke geprüft werden.
 Als Fakten stehen beispielsweise die MyCoRe-Objekt-ID (<code>objid</code>) und ggf. die Derivate-ID (<code>derid</code>)
 zur Überprüfung zur Verfügung.
 {{< highlight xml "linenos=table">}}
-  <regexp basefact="objid">mir_mods_.*</regexp>  
-  <regexp basefact="user">.*admin</regexp>
-  <regexp basefact="category">ddc:.*</regexp>
-  <regexp>webpage:/content/search/.*_intern.xed</regexp>  <!-- default: basefact='id' -->
+  <regex basefact="objid">mir_mods_.*</regex>
+  <regex basefact="user">.*admin</regex>
+  <regex basefact="category">ddc:.*</regex>
+  <regex>webpage:/content/search/.*_intern.xed</regex>  <!-- default: basefact='id' -->
 {{< /highlight >}}
+
+<h4>IPAdresse (<code>&lt;ip&gt;</code>)</h4>
+Mit diesem Operator kann geprüft werden, ob die IP-Adresse des Nutzers in einer bestimmten IP-Range liegt.
+zur Überprüfung zur Verfügung.
+{{< highlight xml "linenos=table">}}
+  <ip>192.168.0.0/255.255.0.0</ip> <!-- lokales Netzwerk -->
+  <ip />                           <!-- default: localhost -->   
+{{< /highlight >}}
+
+<h5>Konfigurationsmöglichkeiten</h5>
+Der Wert der zu prüfenden IP-Adresse/IP-Bereich ist konfigurierbar. Über Properties lassen sich Regeln für verschiedene
+Anwendungsszenarien umsetzen (z.B. Zugriff nur aus dem Netz der eigenen Institution).
+Die zu prüfenden IP-Adressen können mit dem MyCoRe-Property-Mechanismus für jede Anwendung individuell konfiguriert werden.
+
+{{< mcr-figure label="Properties" caption="mycore.properties" >}}
+{{< highlight text "linenos=table">}}
+MCR.Access.Facts.Condition.ip-from-institution=org.mycore.access.facts.condition.MCRIPCondition
+MCR.Access.Facts.Condition.ip-from-institution.IP=123.45.0.0/255.255.0.0
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
+{{< mcr-figure label="Regel" caption="rules.xml" >}}
+{{< highlight xml "linenos=table">}}
+<and>
+  <action>read</action>
+  <target>files</target>
+  <ip-from-institution />
+</and>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
 
 <h3>Beispiele</h3>
 Es folgen ein paar komplexere Anwendungsszenarien, wie sie in Dokumentenservern vorkommen können:
@@ -200,7 +233,7 @@ Zu Beginn werden anhand der Anfrage einige Standardfakten gesetzt:
 </ul>
 <p>
 Anschließend wird der boolesche Ausdruck in der Regeldatei verarbeitet.
-Ergibt eine Regel <code>true</code>, wird das als Fact vermerkt.
+Ergibt eine Regel <code>true</code>, wird das als Fakt vermerkt.
 Der Name des Faktes entspricht dem Namen der Regel. Mit dem optionalen Attribut <code>fact</code> 
 kann der Faktname geändert werden. Das ist sinnvoll, wenn eine Regel in verschiedenen Zusammenhängen genutzt wird
 (z.B gleichzeitig für Objekte und Derivate), oder wenn in anderen Regeln (z.B. <code>regex</code>) explizit darauf
