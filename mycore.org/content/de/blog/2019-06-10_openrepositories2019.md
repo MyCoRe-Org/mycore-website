@@ -24,9 +24,13 @@ news/teaser_en: "We presented two MyCoRe posters at the Open Repositories confer
 Die "Open Repositories 2019" fand dieses Jahr an der Universität Hamburg statt.
 Wir waren mit folgenden Präsentationen in der Postersession vertreten:
 
- * &ldquo;MyCoRe - the repository software framework&rdquo;  
-   Wiebke Oeltjen (MyCoRe Community Office, Universität Hamburg), Robert Stephan (Universität Rostock)
- * &ldquo;Automatic data enrichment: merging metadata from several sources&rdquo;  
-   Frank Lützenkirchen (Universität Duisburg-Essen), Kathleen Neumann (VZG)
+ * Frank Lützenkirchen (Universität Duisburg-Essen), Kathleen Neumann (VZG):  
+   *&ldquo;Automatic data enrichment: merging metadata from several sources&rdquo;*  
+   Siehe Zenodo: http://doi.org/10.5281/zenodo.3554372  
+   
+ * Wiebke Oeltjen (MyCoRe Community Office, Universität Hamburg), Robert Stephan (Universität Rostock):  
+   *&ldquo;MyCoRe - the repository software framework&rdquo;*  
+   Siehe Zenodo: http://doi.org/10.5281/zenodo.5083084  
+   
 <!--more-->
-[Open Repositories 2019 - Poster Session](https://www.conftool.net/or2019/index.php?page=browseSessions&form_session=361)
+[Open Repositories 2019](https://archiv.gwin.gwiss.uni-hamburg.de/or2019/), siehe [Programm](https://archiv.gwin.gwiss.uni-hamburg.de/or2019/program/)
