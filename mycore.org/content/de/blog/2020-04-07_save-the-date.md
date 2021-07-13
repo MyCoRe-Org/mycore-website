@@ -22,7 +22,7 @@ news/teaser_en: "The MyCoRe Community celebrates its 20th anniversary and is pla
 
 ---
 
-Im November 2010 wurde an der Universität Leipzig im Ziegenledersaal die Basis für die Open-Source-Software MyCoRe gelegt. Deshalb wollten wir im November 2020 feiern. Das wurde uns leider durch die Corona-Pandemie unmöglich gemacht. Nun laden wir für das folgende Jahr ein: Am 03.11.2021 wollen wir das MyCoRe-Jubiläum feiern.
+Im November 2000 wurde an der Universität Leipzig im Ziegenledersaal die Basis für die Open-Source-Software MyCoRe gelegt. Deshalb wollten wir im November 2020 feiern. Das wurde uns leider durch die Corona-Pandemie unmöglich gemacht. Nun laden wir für das folgende Jahr ein: Am 03.11.2021 wollen wir das MyCoRe-Jubiläum feiern.
 
 <!--more-->
 
