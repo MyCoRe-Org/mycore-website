@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - MyCoRe-Jubiläum
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "MyCoRe-Workshop 2020"
 news/teaser_de: "Der MyCoRe-Workshop 2020 fand am 4.11. online statt. In Vorträgen und Präsentationen wurde Neues in MyCoRe und MIR vorgestellt."
 news/title_en: "MyCoRe-Workshop 2020"
