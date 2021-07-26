@@ -10,7 +10,7 @@ blog/periods: 2020-06
 blog/categories:
  - "Anwendungen"
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Statistische Bibliothek"
 news/teaser_de: "Die Statistischen Ämter des Bundes und der Länder veröffentlichen einen Relaunch der „Statistischen Bibliothek“."
 news/title_en: "Statistical Library"
