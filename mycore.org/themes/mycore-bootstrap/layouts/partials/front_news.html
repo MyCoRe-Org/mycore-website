@@ -12,7 +12,7 @@
                 {{ range .Param "blog/authors" }}
                   <span class="author">{{ . }}</span>,
                 {{ end }}
-                <span class="date">
+                <span class="date text-nowrap">
                   {{- partial "german_date" (dict "date2convert" (.PublishDate.Format "2. Jan  2006")) -}}
                 </span>
               </em>
