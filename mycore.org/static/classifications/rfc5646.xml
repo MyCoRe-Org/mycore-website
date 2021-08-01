@@ -10305,6 +10305,12 @@
       <label text="slo" xml:lang="x-bibl"/>
       <label text="slk" xml:lang="x-term"/>
     </category>
+    <category ID="sla">
+      <label text="Slavic languages" xml:lang="en"/>
+      <label text="Slawische Sprachen (Andere)" xml:lang="de"/>
+      <label text="sla" xml:lang="x-bibl"/>
+      <label text="sla" xml:lang="x-term"/>
+    </category>
     <category ID="sl">
       <label text="Slovenian" xml:lang="en"/>
       <label text="Slowenisch" xml:lang="de"/>
