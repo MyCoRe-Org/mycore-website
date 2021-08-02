@@ -104,10 +104,11 @@ main:
 -     {identifier: acl_permissions,         parent: permissions,        name: ACLs und Permissions,          weight: -95,      url: /documentation/permissions/acl_permissions}
 -     {identifier: acl_strategies,          parent: permissions,        name: Zugriffsstrategien,            weight: -93,      url: /documentation/permissions/acl_strategies}
 -     {identifier: acl_default-permissions, parent: permissions,        name: Standardzugriffsrechte,        weight: -92,      url: /documentation/permissions/acl_default-permissions}
--     {identifier: user_login_session,      parent: permissions,        name: LoginServlet,                  weight: -91,      url: /documentation/permissions/user_login_session}
--     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -90,      url: /documentation/permissions/acl_mir_integration}
--     {identifier: user_external_shibboleth, parent: permissions,        name: Nutzung Shibboleth,           weight: -89,      url: /documentation/permissions/user_external_shibboleth}
--     {identifier: user_external_ldap,      parent: permissions,        name: Nutzung LDAP,                  weight: -88,      url: /documentation/permissions/user_external_ldap}
+-     {identifier: acl_factbased,           parent: permissions,        name: Factbased Access System,       weight: -91,      url: /documentation/permissions/acl_factbased}
+-     {identifier: user_login_session,      parent: permissions,        name: LoginServlet,                  weight: -90,      url: /documentation/permissions/user_login_session}
+-     {identifier: acl_mir_integration,     parent: permissions,        name: MIR-Integration,               weight: -89,      url: /documentation/permissions/acl_mir_integration}
+-     {identifier: user_external_shibboleth, parent: permissions,        name: Nutzung Shibboleth,           weight: -88,      url: /documentation/permissions/user_external_shibboleth}
+-     {identifier: user_external_ldap,      parent: permissions,        name: Nutzung LDAP,                  weight: -87,      url: /documentation/permissions/user_external_ldap}
 -   {identifier: interfaces,              parent: documentation,      name: Schnittstellen,              weight: -92,      url: /documentation/interfaces}
 -     {identifier: interface_rest,          parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/interface_rest}
 -     {identifier: interface_rest_v2,       parent: interfaces,         name: REST v2,                     weight: -98,      url: /documentation/interfaces/interface_rest_v2}

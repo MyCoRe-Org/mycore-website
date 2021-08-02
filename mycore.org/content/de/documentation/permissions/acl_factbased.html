@@ -12,7 +12,7 @@ date: "2020-06-28"
 ---
 <h2>Konfiguration</h2>
 <p>
-Um das neue System zu aktivieren müssen folgende MyCoRe-Properties gesetzt werden:
+Um das neue System zu aktivieren, müssen folgende MyCoRe-Properties gesetzt werden:
 {{< highlight text "linenos=table">}}
 MCR.Access.Strategy.Class=org.mycore.access.facts.MCRFactsAccessSystem
 MCR.Access.Class=org.mycore.access.facts.MCRFactsAccessSystem
@@ -25,11 +25,11 @@ Außerdem empfielt es sich während der Konfigurationsphase das Log-Level (in de
 <h2>Funktionsweise</h2>
 <p>
 Ausgangsbasis ist eine Regeldatei im XML-Format, die sämtliche Zugriffsberechtigungen auf die Dokumente 
-und Objekte des Repositories beschreibt. Sie stellt insgesamt einen booleschen Ausdruck dar, in dem 
+und Objekte des Repositories beschreibt. Sie stellt einen komplexen booleschen Ausdruck dar, in dem 
 einzelne Bedingungen miteinander verknüpft sind.
 </p>
 <p>
-Ist eine Bedingung <code>wahr</code> wird das als Fakt in einer Faktenliste vermerkt. Sollte dieselbe Regel an einer
+Ist eine Bedingung <code>wahr</code>, wird dieser Umstand als Fakt in einer Faktenliste vermerkt. Sollte dieselbe Regel an einer
 anderen Stelle erneut verwendet werden, ist das Ergebnis der Auswertung bereits bekannt und sie wird nicht erneut geprüft.
 </p>
 
@@ -39,7 +39,7 @@ anderen Stelle erneut verwendet werden, ist das Ergebnis der Auswertung bereits 
 Die komplette Konfiguration des ACL-Systems erfolgt in einer XML-basierten Regeldatei. Mittels
 boolescher Algebra können darin sämtliche Berechtigungen für die MyCoRe-Anwendung konfiguriert werden.
 Standardmäßig heißt die Datei <code>rules.xml</code> und befindet sich auf oberster Ebene im Classpath.
-Es wird empfohlen, sie im <code>resources</code>-Ordner im Konfigurationsverzeichnis der Anwendung abzulegen.
+Es wird empfohlen, sie  im Konfigurationsverzeichnis im <code>resources</code>-Ordner der Anwendung abzulegen.
 
 Über das Property <code>MCR.Access.RulesURI</code> kann eine andere Regel-Datei konfiguriert werden.
 
@@ -63,7 +63,7 @@ Die Beschreibung der Regel-Datei erfolgt in einem einfachen XML-Format.
 {{< /highlight >}}
 
 <h4>Boolesche Operatoren</h4>
-Mit den Elementen <code>&lt;and&gt;</code>, <code>&lt;or&gt;</code> und <code>&lt;not&gt;</code> können beliebig verschachtelte boolesche Ausdrücke
+Mit den Elementen <code>&lt;and&gt;</code>, <code>&lt;or&gt;</code> und <code>&lt;not&gt;</code> können beliebig tief verschachtelte boolesche Ausdrücke
 definiert werden. Auch die Regeldatei selbst bildet einen komplexen booleschen Ausdruck. Es wird empfohlen, auf der obersten Ebene die Regeln mit
 <code>&lt;or&gt;</code> zu verknüpfen und jede einzelne Regel in einem <code>&lt;and&gt;</code>-Block zu definieren. 
 
@@ -73,7 +73,7 @@ definiert werden. Auch die Regeldatei selbst bildet einen komplexen booleschen A
 </p>
 <p>Für Derivate können zusätzlich noch die Aktionen <code>view</code> (Anzeige im Viewer) und <code>preview</code> (Anzeige eines Vorschaubildes)
 definiert werden.</p>
-<p>Aus weiteren MyCoRe-Komponenten oder eigenen Anwendungen können weitere Aktionen hinzu kommen.<br />
+<p>Aus anderen MyCoRe-Komponenten oder der eigen Anwendung können weitere Aktionen hinzu kommen.<br />
 (z.B.: <code>create-user</code>, <code>register-Datacite</code>, ...) 
  
 <h4>Zielobjekte (<code>&lt;target&gt;</code>)</h4>
@@ -95,6 +95,10 @@ Die Regeln können auf bestimmte Nutzer und Rollen beschränkt werden.
 <p>
 Für die Person, die das Objekt erstellt hat, können individuelle Regeln definiert werden.
 </p>
+{{< highlight xml "linenos=table">}}
+  <createdby />                        <!-- Objekt wurde vom aktuellen Nutzer erstellt -->  
+  <createdby>administrator</createdby> <!-- Objekt wurde vom Administrator erstellt -->  
+{{< /highlight >}}
 
 <h4>Klassifikationseintrag (<code>&lt;category&gt;</code>)</h4>
 <p>
@@ -105,14 +109,14 @@ für das Derivate und nicht für das Objekt erfolgen soll.
 
 {{< highlight xml "linenos=table">}}
   <category>genre:dissertation</category>  
-  <category basefact="derid">derivate_type:fulltext</category>  
+  <category basefact="derid">derivate_type:fulltext</category>  <!-- Klassifikation im Derivate -->
 {{< /highlight >}}
 
 <h4>Status (<code>&lt;status&gt;</code>)</h4>
 <p>
 Es wird geprüft, ob im <code>&lt;service&gt;</code>-Bereich des MyCoRe-Objektes der angegebenen Status gesetzt wurde.
 </p>
-<p>Mit dem Attribute <code>fact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+<p>Mit dem Attribute <code>basefact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
 für das Derivate und nicht für das Objekt erfolgen soll.
 {{< highlight xml "linenos=table">}}
   <status>review</status>  
@@ -254,10 +258,11 @@ Regel für die Bereitstellung des Faktes verantwortlich ist und zieht deren Ausf
 Das System lässt sich einfach um neue Regeln erweitern.
 Diese sollten die Klasse <code>MCRAbstractFactCondition</code> erweitern. In der Regel ist es dabei ausreichend
 die Methode <code>computeFact(MCRFacts facts)</code> zu implementieren.
-Diese prüft, ob anhand der vorhandenen Fakten neue Fakten erzeugt werden können. Dabei greift sie gegebenenFalls
-auf weitere Informationen aus der Session oder dem zu prüfenden Objekt zurück.
-Abschließend ist die Regel in die mycore.properties einzutragen.
+Grundlage für die Überprüfung sind Informationen aus der Session, das zu prüfende Objekt und die bereits ermittelten Fakten.
+Ist das Ergebnis <code>wahr</code>, wird für die Regel ein neuer Fakt in dei Faktenliste eingetragen.
 </p>
+<p>
+Die neue Regel ist in die mycore.properties einzutragen:
 {{< highlight xml "linenos=table">}}
   MCR.Access.Facts.Condition.name=org.myapplication.facts.condition.MyConditionImplementation
 {{< /highlight >}}
