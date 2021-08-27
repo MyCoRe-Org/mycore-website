@@ -2,6 +2,7 @@
 footer_contact: {other: "Kontakt"}
 footer_privacy: {other: "Datenschutz"}
 footer_imprint: {other: "Impressum"}
+footer_accessibility: {other: "Barrierefreiheit"}
 
 blog_calendar: {other: "Kalender"}
 blog_category: {other: "Kategorien"}
