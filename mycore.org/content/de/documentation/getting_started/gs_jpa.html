@@ -2,10 +2,10 @@
 ---
 
 title: "Datenbank - JPA"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2020.06','2021.06']
 author: ['Jens Kupferschmidt']
 description: "Diese Dokumentationsseite beschreibt die Integration der Java Persistence API (JPA) ab Release 2016.06."
-date: "2020-05-25"
+date: "2021-09-01"
 
 ---
 
@@ -19,7 +19,7 @@ date: "2020-05-25"
 
       <h2>Konfiguration</h2>
       <p>
-        Grundsätzlich bringt der MyCore-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
+        Grundsätzlich bringt der MyCoRe-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
         Konfigurationsdatei <em>persistence.xml</em>
         muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter 
         wie der Datenbankname <code>MY_DATABASE</code>, das Schema <code>MY_SCHEMA</code>, der Datenbankbenutzer <code>DATABASE_USER</code>
@@ -48,6 +48,7 @@ date: "2020-05-25"
       <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
       <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
       
+      <property name="hibernate.default_schema" value="" />
       <property name="hibernate.hbm2ddl.auto" value="update" />
 
       <!-- second-level cache  -->
@@ -62,13 +63,12 @@ date: "2020-05-25"
       <!-- Echo all executed SQL to stdout -->
       <property name="hibernate.show.sql" value="true" />
       <property name="hibernate.format.sql" value="true" />
-      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
       
       <!-- configuration pool via c3p0 -->
       <!-- HowTo: http://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
       <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
-      <property name="hibernate.c3p0.min_size" value="2" />
-      <property name="hibernate.c3p0.max_size" value="5" />
+      <property name="hibernate.c3p0.min_size" value="5" />
+      <property name="hibernate.c3p0.max_size" value="60" />
       <property name="hibernate.c3p0.acquire_increment" value="2" />
       <property name="hibernate.c3p0.max_statements" value="30" />
       <property name="hibernate.c3p0.timeout" value="1800" />

@@ -2,13 +2,13 @@
 ---
 
 title: "Komponenten des MyCoRe-Kerns"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2020.06','2021.06']
 author: ['Jens Kupferschmidt', 'Thomas Scheffler']
 description: "
       Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
       MyCoRe nutzbare Bibliotheken.
     "
-date: "2020-05-25"
+date: "2021-09-01"
 
 ---
     <div>
@@ -32,6 +32,13 @@ date: "2020-05-25"
             <th>Beschreibung</th>
             <th>&nbsp;</th>
             <th>abhängig von</th>
+          </tr>
+          <tr>
+            <td>acl</td>
+            <td>*</td>
+            <td>Access Control List System</td>
+            <td></td>
+            <td>base</td>
           </tr>
           <tr>
             <td>acl-editor2</td>
@@ -72,6 +79,13 @@ date: "2020-05-25"
               einen Überblick über den gesamten Bestand an Daten (evtl. auch Metadaten) hat.
             </td>
             <td>optional</td>
+            <td>base</td>
+          </tr>
+           <tr>
+            <td>cronjob</td>
+            <td>*</td>
+            <td></td>
+            <td>optional <span class="badge badge-danger">since 2021.06</span></td>
             <td>base</td>
           </tr>
            <tr>
@@ -175,6 +189,13 @@ date: "2020-05-25"
               <br />
               solr
             </td>
+          </tr>
+          <tr>
+            <td>ocfl</td>
+            <td>*</td>
+            <td>Erste Implementierung einer OCFL-Versionierung</td>
+            <td>experimentell <span class="badge badge-danger">since 2021.06</span></td>
+            <td>base</td>
           </tr>
           <tr>
             <td>orcid</td>
@@ -328,9 +349,9 @@ date: "2020-05-25"
         <a href="https://jcp.org/en/jsr/detail?id=340">Servlet-3.1-Regeln</a>.
       </p>
       <p>Folgende Versionsnummern können genutzt werden:<ul>
-         <li>LTS 2019.06 -&gt; 2019.06.4-SNAPSHOT</li>
-         <li>LTS 2020.06 -&gt; 2020.06.1-SNAPSHOT</li>
-        <li>Master -&gt; 2020.05-SNAPSHOT</li>
+         <li>LTS 2020.06 -&gt; 2020.06.3-SNAPSHOT</li>
+         <li>LTS 2021.06 -&gt; 2021.06.0-SNAPSHOT</li>
+        <li>Mainr -&gt; 2021.11-SNAPSHOT</li>
       </ul></p>
       {{< highlight xml "linenos=table">}}
 <project>
