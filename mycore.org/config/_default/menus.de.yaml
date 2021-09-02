@@ -45,8 +45,7 @@ main:
 -       {identifier: mcrobj_id,               parent: mcrobject,          name: MCRObject-ID,                  weight: -98,      url: /documentation/basics/mcrobject/mcrobj_id}
 -       {identifier: mcrobj_datadef,          parent: mcrobject,          name: Datenmodell,                   weight: -97,      url: /documentation/basics/mcrobject/mcrobj_datadef}
 -       {identifier: mcrobj_datatypes,        parent: mcrobject,          name: Datentypen,                    weight: -96,      url: /documentation/basics/mcrobject/mcrobj_datatypes}
--       {identifier: mcrobj_store,            parent: mcrobject,          name: Metadatenspeicher,             weight: -95,      url: /documentation/basics/mcrobject/mcrobj_store}
--       {identifier: mcrobj_commands,         parent: mcrobject,          name: Kommandos,                     weight: -94,      url: /documentation/basics/mcrobject/mcrobj_commands}
+-       {identifier: mcrobj_commands,         parent: mcrobject,          name: Kommandos,                     weight: -95,      url: /documentation/basics/mcrobject/mcrobj_commands}
 -     {identifier: mcrderivate,             parent: basics,             name: MyCoRe-Derivate,                 weight: -97,      url: /documentation/basics/mcrderivate}
 -       {identifier: mcrder_xml,              parent: mcrderivate,        name: XML-Format,                    weight: -99,      url: /documentation/basics/mcrderivate/mcrder_xml}
 -       {identifier: mcrder_commands,         parent: mcrderivate,        name: Kommandos,                     weight: -98,      url: /documentation/basics/mcrderivate/mcrder_commands}
@@ -59,14 +58,16 @@ main:
 -       {identifier: classif_browser,         parent: classifications,    name: Browser,                       weight: -95,      url: /documentation/basics/classifications/classif_browser}
 -       {identifier: classif_editor,          parent: classifications,    name: Editor,                        weight: -94,      url: /documentation/basics/classifications/classif_editor}
 -       {identifier: classif_mapping,         parent: classifications,    name: Mapping,                       weight: -93,      url: /documentation/basics/classifications/classif_mapping}
--     {identifier: basics_eventhandler,     parent: basics,             name: EventHandler,                  weight: -95,      url: /documentation/basics/basics_eventhandler}
--     {identifier: basics_mcr_linktables,   parent: basics,             name: Linktabellen,                  weight: -94,      url: /documentation/basics/basics_mcr_linktables}
--     {identifier: basics_mcr_historymgr,   parent: basics,             name: History Manager,               weight: -93,      url: /documentation/basics/basics_mcr_historymgr}
--     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -92,      url: /documentation/basics/basics_mcr_mailer}
--     {identifier: basics_mcr_servlet,      parent: basics,             name: MCRServlet,                    weight: -91,      url: /documentation/basics/basics_mcr_servlet}
--     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -90,      url: /documentation/basics/basics_mcr_configdir}
--     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -89,      url: /documentation/basics/basics_common_classes}
--     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,       weight: -88,      url: /documentation/basics/basics_lifecycle}
+-     {identifier: basics_mcr_store,        parent: basics,             name: Metadatenspeicher,             weight: -95,      url: /documentation/basics/basics_mcr_store}
+-     {identifier: basics_mcr_ocfl,         parent: basics,             name: Versionierung mit OCFL,        weight: -94,      url: /documentation/basics/basics_mcr_ocfl}
+-     {identifier: basics_eventhandler,     parent: basics,             name: EventHandler,                  weight: -93,      url: /documentation/basics/basics_eventhandler}
+-     {identifier: basics_mcr_linktables,   parent: basics,             name: Linktabellen,                  weight: -92,      url: /documentation/basics/basics_mcr_linktables}
+-     {identifier: basics_mcr_historymgr,   parent: basics,             name: History Manager,               weight: -91,      url: /documentation/basics/basics_mcr_historymgr}
+-     {identifier: basics_mcr_mailer,       parent: basics,             name: Mailer,                        weight: -90,      url: /documentation/basics/basics_mcr_mailer}
+-     {identifier: basics_mcr_servlet,      parent: basics,             name: MCRServlet,                    weight: -89,      url: /documentation/basics/basics_mcr_servlet}
+-     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -88,      url: /documentation/basics/basics_mcr_configdir}
+-     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -87,      url: /documentation/basics/basics_common_classes}
+-     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,       weight: -86,      url: /documentation/basics/basics_lifecycle}
 -   {identifier: cli,                     parent: documentation,      name: Die Kommandozeile,             weight: -97,      url: /documentation/cli}
 -     {identifier: cli_overview,            parent: cli,                name: Übersicht,                     weight: -99,      url: /documentation/cli/cli_overview}
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
