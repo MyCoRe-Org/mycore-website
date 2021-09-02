@@ -1,0 +1,125 @@
+---
+
+title: "Job-Api"
+mcr_version: ['2018.06','2019.06']
+author: ['Sebastian Hofmann']
+
+---
+
+<!--
+  ~ This file is part of ***  M y C o R e  ***
+  ~ See http://www.mycore.de/ for details.
+  ~
+  ~ MyCoRe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MyCoRe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with MyCoRe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<section>
+    <h2>Wozu die Job-API?</h2>
+    <p>
+        Es gibt Prozesse die sehr viel Rechenzeit benötigen oder Fehlschlagen können und dann zu einem späteren
+        Zeitpunkt wiederholt werden sollen. Für diese Prozesse gibt es die Job-API.
+        Ein Beispiel ist das Registrieren einer DOI bei einem DOI-Service-Provider.
+        Wenn der Service-Provider gerade nicht erreichbar ist, dann kann die DOI generiert und einem Objekt zugewiesen werden und
+        zu einem späteren Zeitpunkt in einem extra Job registriert werden.
+    </p>
+</section>
+<section>
+    <h2>Wie funktioniert die Job-API?</h2>
+    <p>
+        Für die Job-Api werden Aufgaben in Form von <a
+            href="https://www.mycore.de/generated/mycore/apidocs/org/mycore/services/queuedjob/MCRJobAction.html">MCRJobAction</a>
+        implementiert. Diese Aufgaben erhalten verschiedene Argumente in Form von String-Schlüssel-Wertepaaren, welche
+        in einem MCRJob gespeichert werden.
+    </p>
+    <p>
+        Ein MCRJob besteht aus JobAction, Parametern, Erstellungsdatum, Start-Datum, End-Datum, id und den
+        aktuellen Status. Diese Jobs werden in den Tabellen MCRJob und MCRJobParameter in der Datenbank gespeichert
+        und gehen so nach einem Neustart der Anwendung nicht verloren.
+    </p>
+    <p>
+        Die Jobs werden in der MCRJobQueue abgearbeitet. Folgende Properties stehen für die JobQueue zur verfügung:
+    </p>
+    <dl>
+        <dt>MCR.QueuedJob.KlassenName.JobThreads=2</dt>
+        <dd>Wie viele Jobs dieser Klasse sollen parallel abgearbeitet werden.</dd>
+        <dt>MCR.QueuedJob.KlassenName.TimeTillReset=10</dt>
+        <dd>Die Zeit in Minuten ab der dieser Job als "Fehlgeschlagen" angesehen wird und anschließend neu gestartet wird.</dd>
+    </dl>
+</section>
+<section>
+    <h2>Wie implementiert man einen eigenen Job?</h2>
+    <p>
+        Zunächst muss eine Aufgabe programmiert werden, welche in einem Job ausgelagert werden soll. Dafür legt man eine
+        Klasse an, welche dann von der MyCoRe-Klasse <a
+            href="https://www.mycore.de/generated/mycore/apidocs/org/mycore/services/queuedjob/MCRJobAction.html">MCRJobAction</a>
+        erbt. Anschließend muss man folgende Methoden implementieren:
+    </p>
+    <dl>
+        <dt>void execute()</dt>
+        <dd>Diese Methode wird aufgerufen wenn der Job aus der Datenbank ausgelesen wurde und ausgeführt werden soll.
+            Hier soll der rechenintensive oder wiederholbare Code rein.
+        </dd>
+        <dt>boolean isActivated()</dt>
+        <dd>Wenn false dann wird der Job (execute()) nicht ausgeführt.</dd>
+        <dt>String name()</dt>
+        <dd>Gibt einen Namen für den Job zurück, welcher z.B. in der MyCoRe-Prozessliste angezeigt wird</dd>
+        <dt>void rollback()</dt>
+        <dd>Macht ggf. Änderungen im Fehlerfall rückgängig</dd>
+    </dl>
+    {{< highlight java "linenos=table">}}
+public class MeineJobAction extends MCRJobAction {
+
+    public MeineJobAction(){
+    }
+
+    @Override
+    public boolean isActivated() {
+        return true;
+    }
+
+    @Override
+    public String name() {
+        return "Meine Job Action " + this.job.getParameter("Objekt");
+    }
+
+    @Override
+    public void execute() throws ExecutionException {
+        // Aufwendiger Code
+        final MCRObject objekt = MCRMetadataManager
+        .retrieveMCRObject(MCRObjectID.getInstance(this.job.getParameter("Objekt")));
+    }
+
+    @Override
+    public void rollback() {
+    // Rollback
+    }
+}
+    {{< /highlight >}}
+
+    <p>
+        Achtung: Die Klasse muss einen Konstruktor haben. Mit this.job.getParameters() kann man auf die
+        Parameter des Jobs zugreifen.
+    </p>
+    <p>
+        Um einen Job anzulegen muss eine Instanz der Klasse MCRJob erstellen. Als Argument übergibt man die Klasse, welche
+        man im vorherigen Schritt angelegt hat und setzt dann die nötigen Parameter mit den Methoden setParameter​ oder
+        setParameters. Anschließend kann man die Instanz an die MCRJobQueue weitergeben.
+    </p>
+    {{< highlight java "linenos=table">}}
+MCRJobQueue queue = MCRJobQueue.getInstance(MeineJobAction.class)
+MCRJob meinJob = new MCRJob(MeineJobAction.class)
+meinJob.setParameter("Objekt", "mir_mods_00000001");
+queue.add(meinJob);
+    {{< /highlight >}}
+</section>

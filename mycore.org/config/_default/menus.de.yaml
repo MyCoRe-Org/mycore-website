@@ -156,7 +156,9 @@ main:
 -     {identifier: dev_migrate_java11,      parent: developer,          name: Code-Migration nach Java 11, weight: -87,      url: /documentation/developer/dev_migrate_to_java11}
 -     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/dev_plugin}
 -     {identifier: dev_devmode,             parent: developer,          name: Developer-Modus,              weight: -84,      url: /documentation/developer/dev_devmode}
-
+#-   {identifier: api,               parent: documentation,      name: API-Konzepte,              weight: -87,      url: /documentation/api}
+#-     {identifier: api_configurable_instance,             parent: api,          name: Konfigurierbare Klasseninstanzen,     weight: -99,      url: /documentation/api/api_configurable_instance}
+#-     {identifier: api_job_api,             parent: api,          name: Job-API,     weight: -98,      url: /documentation/api/api_job_api}
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
 - {identifier: community,                                            name: Organisation,                 weight: -93,     url: /site/community}

@@ -1,0 +1,114 @@
+---
+
+title: "Konfigurierbare Klasseninstanzen"
+mcr_version: ['2021.06']
+author: ['Sebastian Hofmann']
+description: "
+Oft ist es nötig Implementierungen auszutauschen, diese Implementierungen benötigen oft zusätzliche
+Properties. Um die Austauschbarkeit und das Zuweisen von weiteren Properties zu vereinfachen, ist es möglich
+Instanzen einer Klasse mit der Angabe eines Properties von MyCoRe erzeugen zu lassen.
+"
+date: '2021-08-02'
+
+---
+<!--
+  ~ This file is part of ***  M y C o R e  ***
+  ~ See http://www.mycore.de/ for details.
+  ~
+  ~ MyCoRe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MyCoRe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with MyCoRe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<div>
+    <h2>Erzeugen einer Instanz</h2>
+    <p>
+        Für das Erzeugen einer Instanz kann die statische Methode <b>getInstanceOf</b> in der Klasse
+        <b>org.mycore.common.config.MCRConfiguration2</b> verwendet werden.
+    </p>
+
+    Java-Code:
+    {{< highlight java "linenos=table">}}
+Optional<MeinInterface> instanz = MCRConfiguration2.getInstanceOf("Mein.Interface.Implementierung"); {{< /highlight >}}
+
+    Properties:
+    {{< highlight bash "linenos=table">}}
+Mein.Interface.Implementierung=org.gbv.MeineKlasse {{< /highlight >}}
+
+    <h2>Zuweisen von Properties mit @MCRProperty</h2>
+    <p>
+        Falls die Klasse <b>org.gbv.MeineKlasse</b> zusätzliche Properties benötigt, dann kann man diese über die
+        Annotation <code>@MCRProperty</code> einem Feld oder einer Setter-Methode zuweisen. Das Feld muss public sein und den
+        Typ String haben. Die Setter-Methode muss public und vom Typ void sein und als einzigen Parameter einen
+        String akzeptieren.
+    </p>
+
+    Properties:
+    {{< highlight bash "linenos=table">}}
+Mein.Interface.Implementierung=org.gbv.MeineKlasse
+Mein.Interface.Implementierung.Foo=bar
+Mein.Interface.Implementierung.Foobar=baz {{< /highlight >}}
+
+    Java-Code in der Klasse <b>org.gbv.MeineKlasse</b>:
+    {{< highlight java "linenos=table">}}
+private String foo;
+
+@MCRProperty(name = "Foobar", required = false)
+public String foobar;
+
+@MCRProperty(name = "Foo")
+public void setFoo(String foo){
+    this.foo = foo;
+}
+
+@MCRProperty(name = "*")
+public Map<String, String> bat; {{< /highlight >}}
+
+    <p>
+        In dem oberen Beispiel würde der Inhalt <b>bar</b> des Properties <b>Mein.Interface.Implementierung.Foo</b> an
+        die Methode setFoo übergeben werden. Falls das Property nicht gesetzt ist, dann wird ein Fehler geworfen,
+        weil die Properties als benötigt (required=true) voreingestellt sind. Wird ein Property nicht unbedingt
+        benötigt, dann kann man die required auf false setzen, wie in dem oberen Beispiel das Property Foobar.
+    </p>
+    <p>
+        Falls man alle Properties benötigt gibt es die Möglichkeit mit einem Wildcard-Symbol als Namen eine Map zu
+        bekommen. Die Schlüssel sind dabei die Namen (Foo, Foobar) und die Werte der Inhalt der Properties (bar, baz).
+    </p>
+    <h2>Initialisierungsreihenfolge</h2>
+    <p>
+        Die Reihenfolge der Initialisierung ist:
+    </p>
+    <ol>
+        <li>Aufrufen des Konstruktors</li>
+        <li>Zuweisung der annotierten Felder</li>
+        <li>Aufrufen der annotierten Methoden</li>
+        <li>Aufrufen der mit <code>@MCRPostConstruction</code> annotierten Methode</li>
+    </ol>
+    <h2>Nachträgliche Initialisierung mit @MCRPostConstruction</h2>
+    <p>
+        Da man Felder eines Objektes nicht zuweisen kann bevor der Konstruktor aufgerufen wurde, aber man für die
+        Initialisierung trotzdem die zugewiesenen Felder benötigt, gibt es die Möglichkeit eine weitere Methode
+        nach der Initialisierung aufrufen zu lassen. Dazu muss die Methode public sein und einen String-Parameter
+        besitzen und mit <code>@MCRPostConstruction</code> annotiert sein.
+    </p>
+    Java-Code:
+    {{< highlight java "linenos=table">}}
+@MCRPostConstruction
+public void init(String property) {
+  assert this.foo!=null;
+} {{< /highlight >}}
+    <p>
+        Das Property in dem die Klasse definiert wurde, wird der annotierten Methode als parameter übergeben.
+        Im oberen Beispiel wäre das <b>Mein.Interface.Implementierung</b>.
+    </p>
+
+</div>
