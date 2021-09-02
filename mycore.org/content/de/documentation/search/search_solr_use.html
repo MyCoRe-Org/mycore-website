@@ -2,13 +2,13 @@
 ---
 
 title: "Solr und MyCoRe"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2020.06','2021.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 description: "
       Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
-      Die MyCoRe-Releases 2019.06 LTS und 2020.06 LTS wurden erfolgreich mit Solr 8.5.1 getestet.
+      Die MyCoRe-Releases 2020.06 LTS und 2021.06 LTS wurden erfolgreich mit Solr 8.5.1 getestet.
     "
-date: "2020-05-25"
+date: "2021-09-02"
 
 ---
 
@@ -30,7 +30,7 @@ date: "2020-05-25"
         direkt
         in den Modulen definiert werden. Mittels eines MyCoRe-Kommandos werden diese Definitonsdateien ausgelesen
         und über die
-        <a href="https://lucene.apache.org/solr/guide/8_5/schema-api.html">Solr Schema API</a>
+        <a href="https://lucene.apache.org/solr/guide/8_9/schema-api.html">Solr Schema API</a>
         in den Core geschrieben.
       </p>
 
@@ -224,9 +224,9 @@ date: "2020-05-25"
         </p>
         <p>
           siehe
-          <a href="https://lucene.apache.org/solr/guide/8_5/solr-control-script-reference.html">Solr Control Script Reference</a>,
-          <a href="https://lucene.apache.org/solr/guide/8_5/schema-api.html">Schema API</a> und
-          <a href="https://lucene.apache.org/solr/guide/8_5/config-api.html">Config API</a>
+          <a href="https://lucene.apache.org/solr/guide/8_9/solr-control-script-reference.html">Solr Control Script Reference</a>,
+          <a href="https://lucene.apache.org/solr/guide/8_9/schema-api.html">Schema API</a> und
+          <a href="https://lucene.apache.org/solr/guide/8_9/config-api.html">Config API</a>
         </p>
 
       <h2>Das Solr-Document</h2>
@@ -279,6 +279,16 @@ date: "2020-05-25"
       </p>
       <!-- p>[ToDo] Beispiel Autosuggestion</p -->
 
+      <h2>Solr und Content Security Policy</h2>
+      <p>Mit Solr8 kommt bei den Responses die <a href="https://www.w3.org/TR/CSP3/" target="_blank">Content Security Policy (CSP)</a>
+       im Header zum tragen. Diese Policies werden in MyCoRe an die
+      Layout-Komponenten weiter gegeben. Nutzt die Webseite externe Referenzen, kann das zu Konflikten führen. Um die CSP zu
+      überschreiben, wurde das folgende Property eingeführt. Diese kann die CSP aus Solr ersetzen oder, wenn es leer ist, diese
+      abschalten.
+      </p>
+      {{< highlight shell "linenos=table">}}
+  MCR.Solr.HTTPResponseHeader.Content-Security-Policy=default-src 'none'; base-uri 'none'; connect-src 'self'; form-action 'self'; font-src 'self'; frame-ancestors 'none'; img-src 'self'; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://...; worker-src 'self';{{< /highlight >}}
+      
       <h2>Properties für die Solr-Komponente</h2>
       <table class="table table-condensed solr-properties-table">
       <colgroup>
@@ -527,6 +537,13 @@ date: "2020-05-25"
             <code>MCR.Solr.ObserverConfigTypes</code>
           </td>
           <td>default=requestHandler,searchComponent</td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <code>MCR.Solr.HTTPResponseHeader.Content-Security-Policy</code>
+          </td>
+          <td>das Property ist nicht gesetzt</td>
           <td />
         </tr>
       </table>
