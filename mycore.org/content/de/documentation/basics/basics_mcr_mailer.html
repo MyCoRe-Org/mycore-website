@@ -2,10 +2,10 @@
 ---
 
 title: "Mail Connector"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2020.06','2021.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann']
 description: "Die Seite beschreibt die Möglichkeiten, aus MyCoRe heraus Mails zu versenden."
-date: "2020-05-27"
+date: "2021-09-02"
 
 ---
 
@@ -14,7 +14,7 @@ date: "2020-05-27"
         Die Klasse
         <code>org.mycore.common.MCRMailer</code>
         gestatte es, aus der MyCoRe-Anwendung heraus Mails zu generieren und zu versenden. Eine entsprechende API ist
-        implementiert. Dafür sind die folgenden Konfigurationsmaöglichkeiten vorgesehen:
+        implementiert. Dafür sind die folgenden Konfigurationsmöglichkeiten vorgesehen:
       </p>
       <ul>
         <li>
@@ -52,7 +52,7 @@ date: "2020-05-27"
       <p>
         Der
         <code>MCRMailEventHandler</code>
-        ist Bstandteil der MyCoRe-Workflow-Komponente (wfc). Er wird über die Index-Nummer 900 des EventHandlers
+        ist Bestandteil der MyCoRe-Workflow-Komponente (wfc). Er wird über die Index-Nummer 900 des EventHandlers
         angesprochen. Die Konfiguration erfolgt einerseit über die oben genannten Properties, andererseits über eine
         XML-Steue- und Nachrichtendatei,
         welche über das Stylesheet
@@ -76,10 +76,10 @@ date: "2020-05-27"
           <code>MCR.URIResolver.xslIncludes.eventHandlerMailer=%MCR.URIResolver.xslIncludes.eventHandlerMailer%,e-mail-events-myihs2.xsl</code>
         </p>
         <p>
-          <a href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-common/blob/dptbase-common_2019_06/src/main/resources/xsl/e-mail-events.xsl" target="_blank">generisches Basis-Stylesheet aus Leipzig</a>
+          <a href="https://git.sc.uni-leipzig.de/mycore_applications/common/dptbase-common/blob/dptbase-common_2021_06/src/main/resources/xsl/e-mail-events.xsl" target="_blank">generisches Basis-Stylesheet aus Leipzig</a>
         </p>
         <p>
-          <a href="https://git.sc.uni-leipzig.de/mycore_applications/music/dptbase-musicrepo/blob/dptbase-musicrepo_2019_06/src/main/resources/xsl/e-mail-events-bach.xsl" target="_blank">Ergänzung für ein konkretes Datenmodell aus Leipzig</a>
+          <a href="https://git.sc.uni-leipzig.de/mycore_applications/music/dptbase-musicrepo/blob/dptbase-musicrepo_2021_06/src/main/resources/xsl/e-mail-events-bach.xsl" target="_blank">Ergänzung für ein konkretes Datenmodell aus Leipzig</a>
         </p>
       
         <h3>Spezielle Lösung für MIR und andere komplexe Systeme</h3>
