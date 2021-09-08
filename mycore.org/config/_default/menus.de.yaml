@@ -68,6 +68,8 @@ main:
 -     {identifier: basics_mcr_configdir,    parent: basics,             name: Konfiguration,                 weight: -88,      url: /documentation/basics/basics_mcr_configdir}
 -     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -87,      url: /documentation/basics/basics_common_classes}
 -     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,       weight: -86,      url: /documentation/basics/basics_lifecycle}
+-     {identifier: basics_configurable_instance, parent: basics,        name: Konfigurierbare Klasseninstanzen, weight: -85,   url: /documentation/basics/basics_configurable_instance}
+-     {identifier: basics_job_api,          parent: basics,             name: Job-API,                       weight: -84,      url: /documentation/basics/basics_job_api}
 -   {identifier: cli,                     parent: documentation,      name: Die Kommandozeile,             weight: -97,      url: /documentation/cli}
 -     {identifier: cli_overview,            parent: cli,                name: Übersicht,                     weight: -99,      url: /documentation/cli/cli_overview}
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
@@ -156,9 +158,6 @@ main:
 -     {identifier: dev_migrate_java11,      parent: developer,          name: Code-Migration nach Java 11, weight: -87,      url: /documentation/developer/dev_migrate_to_java11}
 -     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/dev_plugin}
 -     {identifier: dev_devmode,             parent: developer,          name: Developer-Modus,              weight: -84,      url: /documentation/developer/dev_devmode}
-#-   {identifier: api,               parent: documentation,      name: API-Konzepte,              weight: -87,      url: /documentation/api}
-#-     {identifier: api_configurable_instance,             parent: api,          name: Konfigurierbare Klasseninstanzen,     weight: -99,      url: /documentation/api/api_configurable_instance}
-#-     {identifier: api_job_api,             parent: api,          name: Job-API,     weight: -98,      url: /documentation/api/api_job_api}
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
 - {identifier: community,                                            name: Organisation,                 weight: -93,     url: /site/community}
