@@ -1,0 +1,88 @@
+---
+title: "Zugriffsschlüssel"
+mcr_version: ['2021.06']
+author: ['Lennard Golsch']
+description: "Zugriffsschlüssel sind die Grundlage für einen alternativen Autorierungsmechanismus, der mittels einer annehmbaren Strategie das Schreiben oder Lesen von Objekten oder Derivaten ermöglicht."
+date: "2021-09-09"
+---
+<div>
+  <h2>Einführung</h2>
+  <p>
+    Mit einer zugehörigen <a href="{{< ref "acl_strategies#accesskeys" >}}">Strategie</a> können <i>Zugriffsschlüssel</i> die Grundlage für einen unabhängigen oder nebenläufigen Autorierungsansatz schaffen.
+    Eine wesentliche Motivation ist die Autorisierung unabhängig vom Nutzersystem (Nutzer) für Dritte (Gäste), exemplarisch beleuchtet etwa für <i>Peer-Reviews</i>.
+    Dabei zielt der Ansatz auf das Lesen, aber auch Schreiben von Objekten oder Derivaten.
+    <br>
+    Denn fundamental wird zwischen <i>Lese</i>- und <i>Schreibzugriffsschlüssel</i> unterschieden, der <i>persistent</i> oder <i>temporär</i> aktiviert werden kann.
+    Ein Nutzer kann für ein Objekt oder Derivat genau einen Zugriffsschlüssel persistent aktivieren.
+    Zusätzlich können Gäste oder Nutzer gegebenenfalls Zugriffsschlüssel temporär für ein Objekt oder Derivat aktivieren.
+    Hierbei unterliegt der Zugriffsschlüssel der Browser-Session.
+    Zugriffsschlüssel können grundsätzlich deaktiviert werden.
+    Die Gültigkeit kann optional zeitlich über ein Ablaufdatum beschränkt werden.
+    Die <a href="{{< ref "interface_rest_v2#accesskeys" >}}">REST-API V2</a> bietet eine Möglichkeit für die Verwaltung von Zugriffsschlüsseln.
+    Dafür die Verwaltung muss ein Nutzer oder Gast mindestens über Schreibrechte verfügen.
+    Gegebenenfalls muss die REST-API zusätzlich <a href="{{< ref "interface_rest_v2#security" >}}">aktiviert</a> werden, wenn beispielsweise die Verwaltung von Zugriffschlüsseln für Gäste zugelassen werden soll.
+    Darüber hinaus steht ein Ansatz für eine <a href="{{< ref "frontend_accesskeys" >}}">Webapplikation</a> zur Verwaltung von Zugriffsschlüsseln bereit.
+  </p>
+</div>
+<div>
+  <h2 id="anatomy">Anatomie</h2>
+  <p>
+    Anatomisch betrachtet setzt sich ein Zugriffsschlüssel substanziell aus einem <i>Secret</i> und <i>Type</i> zusammen.
+    Secret definiert das Geheimnis, das ein Nutzer kennen muss, um den Zugriffsschlüssel zu aktivieren.
+    Der Wert kann frei gewählt werden, jedoch kann der Wert nach dem Hinzufügen des Zugriffsschlüssels nicht mehr eingesehen oder geändert werden.
+    Type spiegelt die Berechtigung wieder, die sich aus der Aktivierung des Zugriffsschlüssels für ein Objekt oder Derivat ergibt.
+    Der Ansatz unterstützt Lese- und Schreibzugriffsschlüssel: Der Type eines Lesezugriffschlüssels wird mit dem Wert <code>read</code> beschrieben, ein Schreibzugriffsschlüssel mit dem Wert <code>writedb</code>.
+  </p>
+  <p>
+    Optional kann der Status eines Zugriffsschlüssels mit <i>IsActive</i> beschrieben werden.
+    Hiermit kann der Zugriffsschlüssel de- und aktiviert werden
+    IsActive wird mit <code>true</code> (aktiviert) oder <code>false</code> (deaktiviert) beschrieben.
+    Mit <i>Expiration</i> kann ein Ablaufdatum für den Zugriffsschlüssel gesetzt werden.
+    Damit lässt sich die Gültigkeit zeitlich einschränken.
+    Als Wert wird prinzipiell ein <a href="https://www.unixtimestamp.com/">Unix Timestamp</a> erwartet.
+    <i>Comment</i> dient für zusätzliche Informationen, die eventuell wichtig für die Verwaltung sind.
+    <br>
+    Die folgende Ansicht zeigt einen Zugriffsschlüssel im JSON-Format mit allen manipulierbaren Eigenschaften:
+  </p>
+  {{< highlight json "linenos=table">}}
+{
+  "secret": "mycore+accesskey==love",
+  "type": "read",
+  "isActive": true,                       //optional
+  "expiration": "1631256328",             //optional
+  "comment": "Test",                      //optional
+}{{< /highlight >}}
+  </p>
+</div>
+<div>
+  <h2>Gebrauch</h2>
+  <p>
+    Zugriffsschlüssel können persistent oder temporär aktiviert werden.
+    Für das Aktivieren persistenter Zugriffsschlüssel steht aktuell kein Front-End zur Verfügung.
+  </p>
+  <h3>Filter</h3>
+  <p>
+    Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der default für das Object-Servlet aktiviert wird.
+    In Kombination mit der bereitgestellten Strategie wird und kann der Filter abgeleitet aus <code>MCR.AccessKey.Session.AllowedPermissionTypes</code> de- oder aktiviert werden.
+    Sofern der Filter aktiviert ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
+    Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser aktiviert - ansonsten ignoriert.
+    Der Filter erwarted das Secret codiert in <a href=="https://www.base64url.com/">Base64URL</a>.
+  </p>
+</div>
+<div>
+  <h2 id="commands">Kommandos</h2>
+  <p>
+    Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch administrative Operationen für Zugriffsschlüssel ausgeführt werden.
+  </p>
+  <dl>
+    <dt>
+      <code>Deletes all access keys</code>
+    </dt>
+    <dd>Das Kommando löscht alle Zugriffsschlüssel.</dd>
+    <dt>
+      <code>clear all access keys of id {0}</code>
+    </dt>
+    <dd>Das Kommando löscht alle Zugriffsschlüssel eines Objekts.</dd>
+  </dl>
+</div>
+

@@ -1,0 +1,64 @@
+---
+title: "Access Key Manager"
+mcr_version: ['2021.06']
+author: ['Lennard Golsch']
+description: "Dieses Kapitel stellt mit dem Access Key Manager eine Oberfläche zur Verwaltung von Zugriffsschlüsseln vor."
+date: "2021-09-10"
+---
+<h2 id="access-key-manager">Allgemeines</h2>
+<p>
+  Für die Verwaltung von <a href="{{< ref "accesskeys" >}}">Zugriffsschlüsseln</a> steht mit dem <i>Access Key Manager</i> eine <a href="https://developer.mozilla.org/de/docs/Web/Web_Components">Web Component</a> in deutscher und englischer Sprache bereit.
+  Damit lassen sich Zugriffsschlüssel betrachten, hinzufügen, aktualisieren und löschen.
+  Die Web Componente unterstützt das Format vollständig mit allen Eigenschaften.
+  Zusätzlich sind Information wie der Ersteller, das Erstelldatum, der letzte Änderer und das Datum der letzten Änderung sichtbar.
+  Die Zugriffsschlüssel werden initial sortiert anhand der letzten Änderung absteigend sortiert ausgegeben.
+  Für die Einbindung sind dennoch diverse <a href="{{< ref "#requirements" >}}">Voraussetzungen</a> notwendig.
+  Die Web Component besitzt keinen <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM">Shadow DOM</a>, somit werden übergeordnete Styles übernommen.
+  Abbildung 1 zeigt einen Screenshot der eingebundenen Web Component.
+</p>
+<div>{{< mcr-figure src="/images/documentation/permissions/access_key_manager.png" label="Abbildung 1" caption="Screenshot der Access Key Manager Web Component" />}}</div>
+<h2 id="requirements">Voraussetzungen</h2>
+<p>
+  Voraussetzungen für die Nutzung sind die Einbindungen von <i>accessKeyManager.js</i>, <a href="https://vuejs.org/">Vue.js</a> V2 und <a href="https://getbootstrap.com/">Bootstrap</a> V4.
+  Kurzerhand kann die Web Component anschließend über <code>&lt;access-key-manager /&gt;</code> im HTML eingebunden werden, ein nutzbares Template steht bereit.
+</p>
+<h2>Konfiguration</h2>
+<p>
+  Die Verwaltung geschieht über die REST-API V2, die Autorisierung geschieht über <a href="https://jwt.io/">JWT</a>.
+  Dafür ist die Web Component auf die <i>WebApplicationBaseURL</i> angewiesen, die im <i>Javascript Global Namespace</i> respektive <i>window</i> Objekt unter <code>webApplicationBaseURL</code> verfügbar sein muss:
+</p>
+</p>
+{{< highlight xml "linenos=table">}}
+<script>
+  const webApplicationBaseURL = <!--WebApplicationBaseURL-->;
+</script>{{< /highlight >}}
+</p>
+<p>
+  Die <i>Id</i> eines zu verwaltenden Objekts sollte grundsätzlich im <i>Query-String</i> der Seite, die die Component einbindet, mit <code>objectID</code> verfügbar sein, beispielsweise <code>&lt;WebApplicationBaseURL&gt;/accesskeys/manager.xml?objectID=&lt;Id&gt;</code>.
+  <br>
+  <b>Achtung</b>: Die Id muss eine achtstellige Zahl sein, sonst können möglicherweise Probleme auftreten.
+  Alternativ kann die Id dennoch im window Objekt unter <code>objectID</code> gesetzt werden:
+</p>
+{{< highlight xml "linenos=table">}}
+<script>
+  const objectID = <!--Id-->;
+</script>{{< /highlight >}}
+</p>
+<p>
+  <b>Achtung</b>: Bei einem Derivat muss analog zu einem Objekt zusätzlich die Id des Parent Objekts angegeben werden mit <code>parentID</code> im Query-String oder window Objekt: <code>&lt;WebApplicationBaseURL&gt;/accesskeys/manager.xml?objectID=&lt;Id&gt;&parentID=&lt;Parent&gt;</code>.
+</p>
+<p>
+  Optional kann die Sprache explizit über <code>currentLang</code> im window Objekt eingestellt werden, ansonsten wird die Sprache als Fallback auf dem HTML oder der Browser-Umgebung abgeleitet. Der Manager steht in <code>de</code> (Deutsch) und <code>en</code> (Englisch) zur Verfügung:
+{{< highlight xml "linenos=table">}}
+<script>
+  const currentLang = <!--{de, en}-->;
+</script>{{< /highlight >}}
+</p>
+<p>
+  Standardmäßig nimmt der Manager an, dass der temporärer Zugriff möglich ist und zeigt bei der Erstellung eines Zugriffsschlüssel die URL für den direkt Zugriff an.
+  Um dies zu deaktivieren, kann muss im window Objekt <code>accessKeySession</code> auf <code>"false"</code> gesetzt werden:
+{{< highlight xml "linenos=table">}}
+<script>
+  const accessKeySession= "false";
+</script>{{< /highlight >}}
+</p>

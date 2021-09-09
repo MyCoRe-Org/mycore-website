@@ -2,7 +2,7 @@
 
 title: "REST-API v2"
 mcr_version: ['2020.06']
-author: ['Robert Stephan']
+author: ['Robert Stephan', 'Lennard Golsch']
 description: "Die REST-API kann vor allem durch externe Tools für den lesenden und schreibenden Zugriff
        auf MyCoRe-Objekte benutzt werden."
 date: "2020-09-01"
@@ -22,7 +22,7 @@ draft: false
     Neben der Beschreibung auf dieser Webseite, liefert jede MyCoRe-Anwendung auch eine Dokumentation
     der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="http://mycore.de/mir/api/v2/openapi.json">http://mycore.de/mir/api/v2/openapi.json</a>.  
    </p>
-   <h3>Zugriffsschutz</h3>
+   <h3 id="security">Zugriffsschutz</h3>
    <p>Die Nutzung der REST-API wird durch 
         <a href="{{< ref acl_permissions >}}">ACLs</a> geschützt.
    </p>
@@ -411,6 +411,111 @@ curl -D - -X PUT -u administrator:*PASSWORD*
           
         </ul>  
 -->
-    </div>
-    
-  
+
+  <h2 id="accesskeys" >Zugriffsschlüssel verwalten</h2>
+  Zugriffsschlüssel können grundsätzlich nur im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> verwaltet werden.
+  <div>
+    <h3><span class="badge badge-secondary">GET</span> /objects{$id}/accesskeys?offset={$offset}&limit={$limit}</h3>
+    <p>
+      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objects zurück.
+    </p>
+    <h4>Format</h4>
+      <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$offset}</code></td>
+        <td>Optional. Legt das Offset der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>0</code>.</td>
+      </tr>
+      <tr>
+        <td><code>{$limit}</code></td>
+        <td>Optional. Legt das Limit der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>128</code>.</td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <h3><span class="badge badge-secondary">GET</span> /objects{$id}/accesskeys/{keyid}</h3>
+    <p>
+      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objects zurück.
+    </p>
+    <h4>Format</h4>
+      <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$keyid}</code></td>
+        <td>ID des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <h3><span class="badge badge-danger">POST</span> /objects{$id}/accesskeys</h3>
+    <p>
+      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Object.
+      Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
+    </p>
+    <h4>Format</h4>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <h3><span class="badge badge-danger">PUT</span> /objects{$id}/accesskeys/{keyid}</h3>
+    <p>
+      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Object.
+      Beim Update werden nur Properties berücksichtig, die in der Anfrage enthalten sind.
+    </p>
+    <h4>Format</h4>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$keyid}</code></td>
+        <td>ID des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <h3><span class="badge badge-danger">DELETE</span> /objects{$id}/accesskeys/{keyid}</h3>
+    <p>
+      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objects.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$keyid}</code></td>
+        <td>ID des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+

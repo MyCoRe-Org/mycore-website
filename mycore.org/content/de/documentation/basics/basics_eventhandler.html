@@ -135,6 +135,17 @@ date: "2021-09-02"
             </td>
            </tr>
            <tr>
+            <td title="Nr. in Pipeline">optional <br />011</td>
+            <td title="Klasse">Enthalten in mycore-acl<br />org.mycore.mcr.acl.accesskey.MCRAccessKeyEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRAccessKeyEventHandler importiert Zugriffsschlüssel beim Import/Erstellung eines MyCoRe Objekts aus dem accesskey Servflag und löscht das Servflag anschließend.
+            Beim Löschen eines Objekts werden alle Zugriffsschlüssel gelöscht.
+            Beim Updaten eines Objekts wird der Servflag gelöscht und somit nicht verarbeitet bzw. ignoriert.
+            </td>
+           </tr>
+           <tr>
             <td title="Nr. in Pipeline">optional<br />013</td>
             <td title="Klasse">Enthalten in mycore-mods<br />org.mycore.mods.MCRExtractRelatedItemsEventHandler</td>
            </tr>
@@ -275,6 +286,17 @@ date: "2021-09-02"
             Der MCRRemoveAclEventHandler entfernt alle ACL-Informationen aus dem Objekt. Er ist für Access-Strategien
             gedacht, welche von globalen Zugriffsrechten für Objektgruppen von MCR-Projekten oder MCR-Typen implementieren.
             Dieser Handler sollte in dem Fall den MCRAccessEventHandler überlagern.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">optional <br />011</td>
+            <td title="Klasse">Enthalten in mycore-acl<br />org.mycore.mcr.acl.accesskey.MCRAccessKeyEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Der MCRAccessKeyEventHandler importiert Zugriffsschlüssel beim Import/Erstellung eines MyCoRe Derivats aus dem accesskey Servflag und löscht das Servflag anschließend.
+            Beim Löschen eines Derivats werden alle Zugriffsschlüssel gelöscht.
+            Beim Updaten eines Derivats wird der Servflag gelöscht und somit nicht verarbeitet bzw. ignoriert.
             </td>
            </tr>
            <tr>
