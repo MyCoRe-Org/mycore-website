@@ -135,22 +135,28 @@ date: "2020-06-02"
           MCR.Access.Strategy.CreatorRole=submitter{{< /highlight >}}
         </p>
 
-        <h3>Methode 6: Zugriffsschlüssel</h3>
+        <h3 id="accesskeys" >Methode 6: Zugriffsschlüssel</h3>
         <p>
-          Es wird geprüft, ob für das Objekt Lese- oder Schreibschlüssel vorhanden sind. Ansonsten gilt die MIRStrategy
+          Für diese Strategie werden <a href="{{<ref accesskeys>}}">Zugriffsschlüssel</a> vorausgesetzt.
+          Grundsätzlich prüft die Strategie, ob ein Nutzer oder Gast einen passenden persistenten oder temporären Lese -oder Schreibschlüssel für ein Objekt oder Derivat innehat. 
+          Sollte ein persistenter und ein temporärer Zugriffsschlüssel vorhanden sein, werden ggf. beide Schlüssel geprüft.
+        </p>
+        <p>
+          Persistente Zugriffsschlüssel können mit folgender Einstellung eingeschränkt werden:
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
-          MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRRemoveAclEventHandler
-          MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRRemoveAclEventHandler
-          MCR.Access.Strategy.Class=org.mycore.mir.authorization.accesskeys.MIRAccessKeyStrategy
-          # You can also specify a comma separated list of categories like: state:submitted,state:new
-          MCR.Access.Strategy.SubmittedCategory=state:submitted
-          MCR.Access.Strategy.CreatorRole=submitter
-          MIR.AccessKeyStrategy.ObjectTypes=mods,derivate
-          MCR.URIResolver.ModuleResolver.accesskeys=org.mycore.mir.authorization.accesskeys.MIRAccessKeyResolver{{< /highlight >}}
+            MCR.AccessKey.Session.AllowedPermissionTypes=read{{< /highlight >}}
         </p>
-
+        <p>  
+          Hiermit können beispielsweise temporäre Schreibschlüssel auf Leseschreibschlüssel beschränkt werden. 
+          So wird verhindert, dass temporäre Schreibschlüssel aktiviert werden können.
+          Damit kann beispielsweise die Schreib-Berechtigung gegenüber Gästen verhindert werden.
+          Um später von temporären Zugriffschlüsseln etwa im Front-End beispielsweise in Verbindung mit der REST-API profitieren zu können, muss der Attribute-Präfix <code>acckey_</code> der Zugriffsschlüssel für <i>Session-Attribute</i> im JWT zugelassen werden:
+        </p>
+        {{< highlight shell "linenos=table">}}
+            MCR.RestAPI.JWT.AllowedSessionAttributePrefixes=acckey_{{< /highlight >}}
+        </p>
         <h3>Methode 7: Besitzer</h3>
         <p>
           Diese Strategie ist analog zur Urheber-Strategie (MCRCreatorRuleStrategy), jedoch können explizit ACLs vergeben
