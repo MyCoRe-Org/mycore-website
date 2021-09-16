@@ -39,6 +39,31 @@ draft: false
    </p>
    <p>Durch Setzen entsprechender ACL-Regeln kann der Zugriff komplett freigeschaltet (<code>TRUE</code>), 
       auf einzelne Nutzer oder Rollen beschränkt oder auf bestimmte IP-Adressen / IP-Bereiche begrenzt werden.</p>
+   <h3>Für Entwickler</h3>
+   <p>
+     Eventuell gibt es REST-Klasse/Methoden, die im Zuge der Entwicklung noch nicht stabil für den produktiven Einsatz sind.
+     Jene können deshalb mit <code>MCRApiDraft</code> sowie einem Wert annotiert werden und damit explizit de- oder aktiviert werden.
+     <br>
+     Beispielsweise wird hier die Klasse <i>MCRRestObjects</i> mit dem Wert <i>MCRObjects</i> annotiert:
+   </p>
+   <p>
+  {{< highlight java "linenos=table">}}
+@MCRApiDraft("MCRObjects")
+@Path("/objects")
+public class MCRRestObjects {
+  //...
+}{{< /highlight >}}
+   </p>
+   <p>
+     Standardmäßig ist eine annotierte Klasse/Methode deaktiviert.
+     Um eine annotierte Klasse/Methode zu aktiveren, muss die Konfiguration wie folgt um eine MyCoRe-Property mit dem Namen <code>MCR.RestApi.Draft.&lt;Wert&gt;</code> und <code>true</code> als Wert erweitert werden:
+   </p>
+  {{< highlight shell "linenos=table">}}
+  #true|false
+  MCR.RestApi.Draft.MCRObjects=true{{< /highlight >}}
+   <p>
+     Analog kann jene explizit mit <code>false</code> deaktiviert werden.
+   </p>
 
    <h2>Objekt-Metadaten verwalten</h2>
    <h3><span class="badge badge-secondary">GET</span> /objects</h3>
