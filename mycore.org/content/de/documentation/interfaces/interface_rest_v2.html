@@ -1,7 +1,7 @@
 ---
 
 title: "REST-API v2"
-mcr_version: ['2020.06']
+mcr_version: ['2020.06', '2021.06']
 author: ['Robert Stephan', 'Lennard Golsch']
 description: "Die REST-API kann vor allem durch externe Tools für den lesenden und schreibenden Zugriff
        auf MyCoRe-Objekte benutzt werden."
@@ -40,6 +40,7 @@ draft: false
    <p>Durch Setzen entsprechender ACL-Regeln kann der Zugriff komplett freigeschaltet (<code>TRUE</code>), 
       auf einzelne Nutzer oder Rollen beschränkt oder auf bestimmte IP-Adressen / IP-Bereiche begrenzt werden.</p>
    <h3>Für Entwickler</h3>
+   <h4>MCRApiDraft{{<mcr-version "2021.06" >}}</h4>
    <p>
      Eventuell gibt es REST-Klasse/Methoden, die im Zuge der Entwicklung noch nicht stabil für den produktiven Einsatz sind.
      Jene können deshalb mit <code>MCRApiDraft</code> sowie einem Wert annotiert werden und damit explizit de- oder aktiviert werden.
@@ -437,7 +438,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         </ul>  
 -->
 
-  <h2 id="accesskeys" >Zugriffsschlüssel verwalten</h2>
+  <h2 id="accesskeys" >Zugriffsschlüssel verwalten {{<mcr-version "2021.06" >}}</h2>
   Zugriffsschlüssel können grundsätzlich nur im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> verwaltet werden.
   <div>
     <h3><span class="badge badge-secondary">GET</span> /objects{$id}/accesskeys?offset={$offset}&limit={$limit}</h3>
