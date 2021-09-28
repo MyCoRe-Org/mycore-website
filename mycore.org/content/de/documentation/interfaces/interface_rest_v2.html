@@ -462,6 +462,125 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}    
       <p>&nbsp;</p>
 
+
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys?offset={$offset}&limit={$limit}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Derivats zurück.
+    </p>
+    <h5>Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$offset}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>0</code>.</td>
+      </tr>
+      <tr>
+        <td><code>{$limit}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>128</code>.</td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Derivats zurück.
+    </p>
+    <h5>Format</h5>
+      <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">POST</span> /objects/{$id}/derivates/{$derid}/accesskeys<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Derivat.
+      Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
+    </p>
+    <h5>Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Derivat.
+      Beim Update werden nur Properties berücksichtig, die in der Anfrage enthalten sind.
+    </p>
+    <h5>Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Derivats.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
         <h3>Klassifikationen verwalten</h3>
       
         <h4><span class="badge badge-secondary">GET</span>  /classifications</h4>
