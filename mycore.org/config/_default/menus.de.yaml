@@ -43,6 +43,7 @@ main:
 -       {identifier: mir_migration,           parent: apps_mir,           name: Migrieren,                     weight: -97,      url: /documentation/apps/mir/migration}
 -         {identifier: migrate_mir2021_06,      parent: mir_migration,      name: MIR 2020.06 ⇒ 2021.06,       weight: -96,      url: /documentation/apps/mir/migration/migrate_mir2021_06}
 -         {identifier: migrate_mir2020_06,      parent: mir_migration,      name: MIR 2019.06 ⇒ 2020.06,       weight: -95,      url: /documentation/apps/mir/migration/migrate_mir2020_06}
+-         {identifier: migrate_mir2018_08,      parent: mir_migration,      name: MIR 2017.06 ⇒ 2018.08,       weight: -94,      url: /documentation/apps/mir/migration/migrate_mir2018_08}
 -     {identifier: apps_ubo,                parent: apps,               name: UBO,                           weight: -98,      url: /documentation/apps/ubo}
 -       {identifier: ubo_about,               parent: apps_ubo,           name: Einleitung,                    weight: -98,      url: /documentation/apps/ubo/ubo_about}
 -       {identifier: ubo_install,             parent: apps_ubo,           name: Installieren,                  weight: -97,      url: /documentation/apps/ubo/ubo_install}
@@ -146,7 +147,6 @@ main:
 -     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2020_06}
 -     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2019_06}
 -     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -96,      url: /documentation/migrate/migrate_mcr2018_06}
--     {identifier: migrate_mir2018_08,      parent: migrate,            name: MIR 2017.06 ⇒ 2018.08,       weight: -95,      url: /documentation/migrate/migrate_mir2018_08}
 -     {identifier: migrate_solr7,           parent: migrate,            name: Solr7-Integration,           weight: -94,      url: /documentation/migrate/migrate_solr7}
 -   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -88,      url: /documentation/developer}
 -     {identifier: dev_eclipse,             parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/dev_eclipse}
