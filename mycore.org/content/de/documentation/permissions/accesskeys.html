@@ -50,7 +50,7 @@ date: "2021-09-09"
   "type": "read",
   "isActive": true,                       //optional
   "expiration": "1631256328",             //optional
-  "comment": "Test",                      //optional
+  "comment": "Test"                       //optional
 }{{< /highlight >}}
   </p>
 </div>
@@ -62,11 +62,11 @@ date: "2021-09-09"
   </p>
   <h3>Filter</h3>
   <p>
-    Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der default für das Object-Servlet aktiviert wird.
+    Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der stardardmäßig für das Object-Servlet aktiviert ist.
     In Kombination mit der bereitgestellten Strategie wird und kann der Filter abgeleitet aus <code>MCR.AccessKey.Session.AllowedPermissionTypes</code> de- oder aktiviert werden.
     Sofern der Filter aktiviert ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
     Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser aktiviert - ansonsten ignoriert.
-    Der Filter erwarted das Secret codiert in <a href=="https://www.base64url.com/">Base64URL</a>.
+    Der Filter erwartet das Secret codiert in <a href="https://www.base64url.com/">Base64URL</a>.
   </p>
 </div>
 <div>

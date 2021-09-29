@@ -16,8 +16,12 @@ draft: false
     Neben dem lesenden Zugriff besteht jetzt auch die Möglichkeit Objekte zu erstellen, bearbeiten und zu löschen.
     Die Basis-URL der neuen REST-API lautet: <code>${WebApplicationBaseURL}api/v2</code>.
   </p>
+  <p>
+    Mit dem <span class="badge badge-info">LTS 2021.06</span> wurden <a href="{{< ref "accesskeys" >}}">Zugriffsschlüssel</a> in <span class="badge badge-info">mycore-acl</span> eingeführt.
+    Zugriffsschlüssel können grundsätzlich nur im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> verwaltet werden.
+  </p>
 
-  <h3>Dokumentation</h3>
+  <h3>OpenAPI-Dokumentation</h3>
   <p>
     Neben der Beschreibung auf dieser Webseite, liefert jede MyCoRe-Anwendung auch eine Dokumentation
     der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="http://mycore.de/mir/api/v2/openapi.json">http://mycore.de/mir/api/v2/openapi.json</a>.  
@@ -44,12 +48,12 @@ draft: false
    <h3>Objekt-Metadaten verwalten</h3>
    <h4><span class="badge badge-secondary">GET</span> /objects</h4>
    <p>Dieser Request liefert eine Liste der vorhandenen MyCoRe-Objekte zurück.</p>
-   <h5>Format</h5>
+   <h5 class="js-toc-ignore">Format</h5>
    <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
       Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
       oder via URL-Endung (<code>/objects.json</code> bzw. <code>/objects.xml</code>) definiert werden.
    </p>
-   <h5>Beispiel-Requests</h5>
+   <h5 class="js-toc-ignore">Beispiel-Requests</h5>
    <ul>
      <li><a href="http://www.mycore.de/mir/api/v2/objects">http://www.mycore.de/mir/api/v2/objects</a></li>
      <li><a href="http://www.mycore.de/mir/api/v2/objects.json">http://www.mycore.de/mir/api/v2/objects.json</a></li>
@@ -76,7 +80,7 @@ draft: false
           </tr>
      </table>
         
-     <h5>Beispiel-Requests</h5>
+     <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003</a></li>
        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03">http://www.mycore.de/mir/api/v2/objects/mir_mods_03</a></li>
@@ -101,7 +105,7 @@ draft: false
           </tr>
      </table>
         
-     <h5>Beispiel-Requests</h5>
+     <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata</a></li>
        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata</a></li>
@@ -120,7 +124,7 @@ draft: false
      Der Response enthält einen <code>Location</code>-Header mit der URL des neuen MyCoRe-Objektes.
      </p>
         
-     <h5>Beispiel-Aufruf</h5>
+     <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
 curl -D -X POST -u administrator:*PASSWORD*  
      -H "Content-Type: application/xml" 
@@ -152,7 +156,7 @@ curl -D -X POST -u administrator:*PASSWORD*
     <h4><span class="badge badge-danger">PUT</span> /objects/{$id}</h4>
     <p>aktualisiert die internen XML-Metadaten eines MyCoRe-Objektes.</p>
 
-     <h5>Beispiel-Aufruf</h5>
+     <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
 curl -D - -X PUT -u administrator:*PASSWORD*  
      -H "Content-Type: application/xml" 
@@ -163,7 +167,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
      <h4><span class="badge badge-danger">PUT</span> /objects/${id}/metadata</h4>
      <p>aktualisiert die <code>&lt;metadata&gt;</code>-Sektion eines MyCoRe-Objektes.</p>
         
-     <h5>Beispiel-Aufruf</h5>
+     <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
 curl -D - -X PUT -u administrator:*PASSWORD*  
      -H "Content-Type: application/xml" 
@@ -183,11 +187,111 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}
 {{< /mcr-figure >}}
     <p></p>     
+    <h3>Verwaltung von Zugriffsschlüsseln auf Objekte</h3>
+    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
+    
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys?offset={$offset}&limit={$limit}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objekts zurück.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$offset}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
+      </tr>
+      <tr>
+        <td><code>{$limit}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objekts zurück.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">POST</span> /objects/{$id}/accesskeys<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Objekt.
+      Der Zugriffsschlüssel ist standardmäßig aktiviert. Er kann in den Metadaten über <code>isActive</code> explizit deaktiviert werden.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Objekt.
+      Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objekts.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
 
      <h3>Derivate verwalten</h3>
      <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates</h4>
      <p>listet die Derivate eines MyCoRe-Objektes auf.</p>
-     <h5>Parameter</h5>
+     <h5 class="js-toc-ignore">Parameter</h5>
      <table class="table table-bordered">
        <col width="100px" />
        <tr>
@@ -196,13 +300,13 @@ curl -D - -X PUT -u administrator:*PASSWORD*
        </tr>
      </table>
         
-     <h5>Format</h5>
+     <h5 class="js-toc-ignore">Format</h5>
      <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
         Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
         oder via URL-Endung (<code>/derivates.json</code> bzw. <code>/derivates.xml</code>) definiert werden.
       </p>
        
-      <h5>Beispiel-Requests</h5>
+      <h5 class="js-toc-ignore">Beispiel-Requests</h5>
       <ul>
         <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates</a></li>
         <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates.xml">http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates.xml</a></li>
@@ -237,14 +341,14 @@ curl -H "Accept: application/json"
        </tr>
      </table>
 
-     <h5>Beispiel-Requests</h5>
+     <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
        <li><a href="http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/skeleton_derivate_00000003">http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/skeleton_derivate_00000003</a></li>
        <li><a href="http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/derivateType:thumbnail">http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000001/derivates/derivateType:thumbnail</a></li>
      </ul>
 <!-- 
         <h4>/objects/{$id}/derivates/{$derid}/open</h4>
-        <h5>Öffnen der Hauptdatei eines Derivates</h5>
+        <h5 class="js-toc-ignore">Öffnen der Hauptdatei eines Derivates</h5>
         <p>Mit diesem Request lässt sich die Hauptdatei eines Derivates anzeigen. Es erfolgt ein Redirect-Request auf
         die MyCoRe File API.</p>
 
@@ -260,7 +364,7 @@ curl -H "Accept: application/json"
           </tr>
         </table>
 
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
          <ul>
           <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open</a></li>
           <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open</a></li>
@@ -288,13 +392,13 @@ curl -H "Accept: application/json"
           </tr>
         </table>
         <!-- Trennung Download <-> File/Directory-Metadaten / Directory-Listing über mehrere Ebenen -->
-        <h5>Format</h5>
+        <h5 class="js-toc-ignore">Format</h5>
         <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
             Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
             oder via URL-Endung (<code>/contents.json</code> bzw. <code>/contents.xml</code>) definiert werden.
         </p>
 
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
          <ul>
           <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents</a></li>
           <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents/document.pdf">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents/document.pdf</a></li>
@@ -302,7 +406,7 @@ curl -H "Accept: application/json"
         
         <p><span class="badge badge-secondary">Hinweis:</span> Datei-Downloads sind auch über die File-API realisierbar:</p>
    
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
           <li><a href="http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf">http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf</a></li>
           <li><a href="http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg">http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg</a></li>
@@ -314,7 +418,7 @@ curl -H "Accept: application/json"
         Der Response enthält einen <code>Location</code>-Header mit der URL des neuen MyCoRe-Objektes.
       </p>
       
-      <h5>Parameter</h5>
+      <h5 class="js-toc-ignore">Parameter</h5>
       <table class="table table-bordered">
           <col width="150px" />
           <tr>
@@ -335,7 +439,7 @@ curl -H "Accept: application/json"
                 <code>(en)published article</code></td>
           </tr>
         </table>
-     <h5>Beispiel-Aufruf</h5>
+     <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
 curl -D -X POST -u administrator:*PASSWORD*  
      -H "Content-Type: application/x-www-form-urlencoded" 
@@ -346,12 +450,12 @@ curl -D -X POST -u administrator:*PASSWORD*
      - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates
 {{< /highlight >}}    
      
-       <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/${derid}/contents/${path}</h4>
+       <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/contents/{$path}</h4>
       <p>lädt eine neue Datei hoch bzw. aktualisiert eine existierende Datei.</p>
       
       <p>Der Response hat den Statuscode <code>201</code>, wenn eine neue Datei erstellt wurde<br /> 
          oder den Statuscode <code>204</code>, wenn eine bestehende Datei aktualisiert wurde.
-     <h5>Beispiel-Aufruf</h5>
+     <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
 curl -D - -X PUT -u administrator:*PASSWORD*  
      -H "Content-Type: application/pdf" 
@@ -360,18 +464,138 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}    
       <p>&nbsp;</p>
 
+    <h3>Verwaltung von Zugriffsschlüsseln auf Derivate</h3>
+    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys?offset={$offset}&limit={$limit}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Derivats zurück.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$offset}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
+      </tr>
+      <tr>
+        <td><code>{$limit}</code></td>
+        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Derivats zurück.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">POST</span> /objects/{$id}/derivates/{$derid}/accesskeys<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Derivat.
+      Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Derivat.
+      Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
+    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Derivats.
+    </p>
+    <table class="table table-bordered">
+      <col width="150px" />
+      <tr>
+        <td><code>{$id}</code></td>
+        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$derid}</code></td>
+        <td>analog zu <a href="#/objects/{$id}/derivates/{$derid}">/objects/{$id}/derivates/{$derid}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret}</code></td>
+        <td>Secret des Zugriffsschlüssels</a></td>
+      </tr>
+    </table>
+
         <h3>Klassifikationen verwalten</h3>
       
         <h4><span class="badge badge-secondary">GET</span>  /classifications</h4>
         <p>Dieser Request listet alle in der Anwendung installierten Klassifikationen auf.</p>
         
-        <h5>Format</h5>
+        <h5 class="js-toc-ignore">Format</h5>
         <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
             Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
             oder via URL-Endung (<code>/classifications.xml</code> bzw. <code>/classifications.json</code>) definiert werden.
         </p>
 
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
           <li><a href="http://www.mycore.de/mir/api/v2/classifications">http://www.mycore.de/mir/api/v2/classifications</a></li>
           <li><a href="http://www.mycore.de/mir/api/v2/classifications.json">http://www.mycore.de/mir/api/v2/classifications.json</a></li>
@@ -385,13 +609,13 @@ curl -D - -X PUT -u administrator:*PASSWORD*
           <tr><td><code>{$classid}</code></td><td>entspricht der ID einer Klassifikation</td></tr>
         </table>
 
-        <h5>Format</h5>
+        <h5 class="js-toc-ignore">Format</h5>
         <p>Die Liste kann im XML-Format (default) oder JSON-Format zurückgeliefert werden.
             Das Format kann entweder via HTTP-Header (<code>Accept: application/json</code> bzw. <code>Accept: application/xml</code>)
             oder via URL-Endung (<code>/{$classid}.json</code> bzw. <code>/{$classid}.xml</code>) definiert werden.
         </p>
 
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
           <li><a href="http://www.mycore.de/mir/api/v2/classifications/state">http://www.mycore.de/mir/api/v2/classifications/state</a></li>
           <li><a href="http://www.mycore.de/mir/api/v2/classifications/state.xml">http://www.mycore.de/mir/api/v2/classifications/state.xml</a></li>
@@ -401,7 +625,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         <p>&nbsp;</p>
         <h3>Explore-Endpoint</h3>
         <p>implementiert nur im JSPDocportal</p>
-        <h5>Beispiel-Requests</h5>
+        <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
           <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml">http://localhost:8080/skeleton/api/v2/explore.xml</a></li>
           <li><a href="http://localhost:8080/skeleton/api/v2/explore.xml?sort=modified%20desc">http://localhost:8080/skeleton/api/v2/explore.xml?sort=modified%20desc</a></li>
@@ -412,112 +636,6 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         </ul>  
 -->
 
-  <h3 id="accesskeys"><div class="float-right">{{<mcr-version "2021.06" >}}</div>Zugriffsschlüssel verwalten</h3>
-  Zugriffsschlüssel können grundsätzlich nur im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> verwaltet werden.
-  <div>
-    <h4><span class="badge badge-secondary">GET</span> /objects{$id}/accesskeys?offset={$offset}&limit={$limit}</h4>
-    <p>
-      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objects zurück.
-    </p>
-    <h5>Format</h5>
-      <p>
-      Die Liste wird im JSON-Format zurückgeliefert.
-    </p>
-    <table class="table table-bordered">
-      <col width="150px" />
-      <tr>
-        <td><code>{$id}</code></td>
-        <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
-      </tr>
-      <tr>
-        <td><code>{$offset}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>0</code>.</td>
-      </tr>
-      <tr>
-        <td><code>{$limit}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>128</code>.</td>
-      </tr>
-    </table>
-  </div>
-  <div>
-    <h4><span class="badge badge-secondary">GET</span> /objects{$id}/accesskeys/{keyid}</h4>
-    <p>
-      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objects zurück.
-    </p>
-    <h5>Format</h5>
-      <p>
-      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
-    </p>
-    <table class="table table-bordered">
-      <col width="150px" />
-      <tr>
-        <td><code>{$id}</code></td>
-        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
-      </tr>
-      <tr>
-        <td><code>{$keyid}</code></td>
-        <td>ID des Zugriffsschlüssels</a></td>
-      </tr>
-    </table>
-  </div>
-  <div>
-    <h4><span class="badge badge-danger">POST</span> /objects{$id}/accesskeys</h4>
-    <p>
-      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Object.
-      Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
-    </p>
-    <h5>Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
-    </p>
-    <table class="table table-bordered">
-      <col width="150px" />
-      <tr>
-        <td><code>{$id}</code></td>
-        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
-      </tr>
-    </table>
-  </div>
-  <div>
-    <h4><span class="badge badge-danger">PUT</span> /objects{$id}/accesskeys/{keyid}</h4>
-    <p>
-      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Object.
-      Beim Update werden nur Properties berücksichtig, die in der Anfrage enthalten sind.
-    </p>
-    <h5>Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
-    </p>
-    <table class="table table-bordered">
-      <col width="150px" />
-      <tr>
-        <td><code>{$id}</code></td>
-        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
-      </tr>
-      <tr>
-        <td><code>{$keyid}</code></td>
-        <td>ID des Zugriffsschlüssels</a></td>
-      </tr>
-    </table>
-  </div>
-  <div>
-    <h4><span class="badge badge-danger">DELETE</span> /objects{$id}/accesskeys/{keyid}</h4>
-    <p>
-      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objects.
-    </p>
-    <table class="table table-bordered">
-      <col width="150px" />
-      <tr>
-        <td><code>{$id}</code></td>
-        <td>analog zu <a href="#/objects/{$id}">/objects/{$id}</a></td>
-      </tr>
-      <tr>
-        <td><code>{$keyid}</code></td>
-        <td>ID des Zugriffsschlüssels</a></td>
-      </tr>
-    </table>
-  </div>
-  
      <h2>Für Entwickler</h2>
    <h3><div class="float-right">{{<mcr-version "2021.06" >}}</div>Annotation <code>@MCRApiDraft</code></h3>
    
