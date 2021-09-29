@@ -21,7 +21,7 @@ draft: false
     Zugriffsschlüssel können grundsätzlich nur im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> verwaltet werden.
   </p>
 
-  <h3>Dokumentation</h3>
+  <h3>OpenAPI-Dokumentation</h3>
   <p>
     Neben der Beschreibung auf dieser Webseite, liefert jede MyCoRe-Anwendung auch eine Dokumentation
     der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="http://mycore.de/mir/api/v2/openapi.json">http://mycore.de/mir/api/v2/openapi.json</a>.  
@@ -187,10 +187,12 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}
 {{< /mcr-figure >}}
     <p></p>     
-
+    <h3>Verwaltung von Zugriffsschlüsseln auf Objekte</h3>
+    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
+    
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys?offset={$offset}&limit={$limit}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
-      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objects zurück.
+      Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objekts zurück.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
     <p>
@@ -204,17 +206,17 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$offset}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>0</code>.</td>
+        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
       </tr>
       <tr>
         <td><code>{$limit}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>128</code>.</td>
+        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
       </tr>
     </table>
 
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
-      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objects zurück.
+      Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objekts zurück.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>
@@ -234,8 +236,8 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 
     <h4><span class="badge badge-danger">POST</span> /objects/{$id}/accesskeys<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
-      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Object.
-      Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
+      Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Objekt.
+      Der Zugriffsschlüssel ist standardmäßig aktiviert. Er kann in den Metadaten über <code>isActive</code> explizit deaktiviert werden.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>
@@ -251,8 +253,8 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 
     <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
-      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Object.
-      Beim Update werden nur Properties berücksichtig, die in der Anfrage enthalten sind.
+      Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Objekt.
+      Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>
@@ -272,7 +274,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 
     <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
-      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objects.
+      Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objekts.
     </p>
     <table class="table table-bordered">
       <col width="150px" />
@@ -462,7 +464,8 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}    
       <p>&nbsp;</p>
 
-
+    <h3>Verwaltung von Zugriffsschlüsseln auf Derivate</h3>
+    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys?offset={$offset}&limit={$limit}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
       Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Derivats zurück.
@@ -483,11 +486,11 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$offset}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>0</code>.</td>
+        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
       </tr>
       <tr>
         <td><code>{$limit}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest, standardmäßig <code>128</code>.</td>
+        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
       </tr>
     </table>
 
@@ -539,7 +542,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}<div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
     <p>
       Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Derivat.
-      Beim Update werden nur Properties berücksichtig, die in der Anfrage enthalten sind.
+      Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>
