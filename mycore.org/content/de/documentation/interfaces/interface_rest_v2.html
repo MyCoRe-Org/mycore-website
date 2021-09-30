@@ -172,7 +172,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 curl -D - -X PUT -u administrator:*PASSWORD*  
      -H "Content-Type: application/xml" 
      -d "@metadata-for-skeleton_simpledoc_00000001.xml" 
-     http://localhost:8080/skeleton/api/v2/objects/metadata
+     http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_000000001/metadata
 {{< /highlight >}}    
 {{< mcr-figure class="border border-secondary p-3" label="Daten für Upload" caption="Metadaten als XML-Datei <code>metata-for-skeleton_simpledoc_00000001.xml</code>">}}
 {{< highlight xml>}}
@@ -287,6 +287,24 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         <td>Secret des Zugriffsschlüssels</a></td>
       </tr>
     </table>
+    
+     <h3>Verwaltung des Objektstatus</h3>
+     Dieses Feature ist derzeit prototypisch umgesetzt. Seine Implementierung kann sich ggf. noch ändern. 
+     <br />Es muss deshalb explizit per Property eingeschaltet werden:
+         
+    {{< highlight text>}}
+ MCR.RestApi.Draft.MCRObjectState=true
+{{< /highlight >}}
+     <h4><div class="float-right"><span class="badge badge-info">DRAFT</span> {{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div> 
+     <span class="badge badge-secondary">GET</span> /objects/{$id}/service/state</h4>
+ 
+    <p>
+      Dieser Request liefert den Wert der <code>state</code>-Klassifikation im <code>&lt;service&gt;</code>-Teil des MyCoRe-Objektes zurück.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Es wird ein Redirect auf den API-Endpoint <code>/classifications</code> mit der dazugehörigen Kategorie ausgeführt.
+    </p>
 
      <h3>Derivate verwalten</h3>
      <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates</h4>
