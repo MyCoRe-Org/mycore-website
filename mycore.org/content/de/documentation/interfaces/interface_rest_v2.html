@@ -306,6 +306,25 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       Es wird ein Redirect auf den API-Endpoint <code>/classifications</code> mit der dazugehörigen Kategorie ausgeführt.
     </p>
 
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/service/state<div class="float-right"><span class="badge badge-info">DRAFT</span> {{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div></h4>
+    <p>
+      Dieser Request setzt die <code>state</code>-Klassifikation im <code>&lt;service&gt;</code>-Teil des MyCoRe-Objektes.
+    </p>
+    <h5 class="js-toc-ignore">Format</h5>
+      <p>
+      Der Wert wird als Plain-Text im Body des Requests übergeben.
+    </p>
+    <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
+   {{< highlight shell>}}
+curl -D - -X PUT -u administrator:*PASSWORD*  
+     -H "Content-Type: text/plain" 
+     -d "deleted" 
+     - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/service/state
+{{< /highlight >}}    
+      <p>&nbsp;</p>
+    
+      
+     
      <h3>Derivate verwalten</h3>
      <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates</h4>
      <p>listet die Derivate eines MyCoRe-Objektes auf.</p>
