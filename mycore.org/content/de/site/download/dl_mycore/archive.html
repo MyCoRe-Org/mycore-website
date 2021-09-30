@@ -2,7 +2,7 @@
 
 title: "Archiv"
 author: ['Kathleen Neumann']
-date: "2019-09-20"
+date: "2021-09-29"
 
 description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert ist das
  Release 2.0. Danach wurde die Benennung geändert, so gibt es jetzt statt eines
@@ -10,6 +10,54 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
  finden. Mit dem Prerelease 2013.05 ist die Benennung nun auf <code>Jahr.Monat</code> geändert worden.
  Seit diesem Zeiptunkt gibt es LTS-Releases und 'normale' Releases.
 ---
+
+<h2>Release 2020.06 (LTS)</h2> 
+      <h3>Was ist neu?</h3>
+      <ul>
+        <li>Die „REST-API v2“ wurde finalisiert, dokumentiert und kann nun parallel zur ersten Version genutzt werden. Der REST-Client ist jetzt ein Projekt auf GitHub.</li>
+        <li>Der Umstieg auf XSLT, Version 3.0 (XSLT v3) wurde begonnen. Dazu haben sich die Entwicklerinnen und Entwickler teilweise bereits in XSLT v3 eingearbeitet. Nun sollen alte XSL-Stylesheets schrittweise umgearbeitet und neue direkt in dem Format umgesetzt werden. </li>
+        <li>Es gab Neuerungen rund um Solr mit einem Upgrade auf Solr Version 8.4: Durch den Wechsel auf Solr v8 können wir einen Workaround für die Behandlung von verschachtelten Index-Dokumenten aus MyCoRe entfernen. Dies wird nun von Solr selbst korrekt realisiert.</li>
+        <li>Im Rahmen der Umstellung auf Solr v8 konnte außerdem die Anbindung optimiert werden, so dass u.a. nun wieder eine parallele und damit performantere Indizierung möglich ist. </li>
+        <li>Weiter gibt es Neues zum Thema Internationalisierung: Ein neuer i18n-Mechanismus wurde entwickelt, um einheitlich in Webseiten, Formularen und XSL Stylesheets sprachabhängige Ausgaben definieren zu können. Dieser kann parallel zu den bereits bestehenden Mechanismen eingesetzt werden.</li>
+        <li>Ein Transformer wurde entwickelt, mit dessen Hilfe Teile statisch vorgeneriert und per URI-Resolver eingebunden werden können (MCRStaticContentGenerator). Dies wird z.B. verwendet um die Versionshistorie von Metadaten als HTML-Schnipsel bereitzustellen.</li>
+        <li>Mit der neuen MyCoRe-Komponente „mycore-csl“ (Citation Style Language) können Objekte in verschiedene Zitationsstile transformiert werden. Damit ist es für das „Metadata Object Description Schema“ (MODS) möglich, alle in CSL angebotenen Zitierstile auszu­geben.</li>
+        <li>Es gibt Neuerungen im Modul zum Generieren der „Persistent Identifier“ (PI-Modul), so können z.B. Regeln definiert werden, die gegebenenfalls dazu führen, dass automatisch ein oder mehrere Persistente IDs (PI) für das entsprechende MyCoRe-Objekt generiert werden (z.B. wenn ein bestimmter Dokumentstatus vorliegt, das Dokument vom Typ Artikel ist und noch keine DOI angegeben ist). </li>
+        <li>Auch ist es möglich xPath-Angaben in das PI-Schema mit aufzunehmen; bisher war es nur möglich die ID des MyCoRe-Objektes oder Systemdaten dafür zu nutzen. Nun können Metadaten wie beispielsweise der Dokumenttyp und/oder die zugeordnete Einrichtungs-ID Teil des PI-Schemas sein.</li>
+        <li>Das Rechtemanagement für die Derivate (zum Objekt zugehörige Dateicontainer) wurde überarbeitet, vereinheitlicht und entsprechend dokumentiert. Es gibt nun mit read, view und preview drei Permissions, die festlegen ob Dateien innerhalb eines Containers gelesen, nur angeschaut (z.B. im MyCoRe-Viewer) oder nur ein definiertes Vorschaubild angezeigt werden darf.</li>
+        <li>Es wurde entschieden, dass die Unterstützung für den Microsoft Internet Explorer (IE) mittelfristig eingestellt werden soll. Dafür wird beispielsweise in MIR-Anwendungen standardmäßig eine entsprechende Meldung ausgegeben, wenn die Seiten mit dem IE auf­gerufen werden. Die Community hat beschlossen, dass die Statistiken der Anwendungen regelmäßig geprüft werden und wenn die IE-Nutzung deutlich zurück gegangen ist, soll die Unterstützung eingestellt werden.</li>
+      </ul>
+      <h3>Einbindung der Komponenten</h3>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2021.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <parent>
+    <groupId>org.mycore</groupId>
+    <artifactId>mycore-parent</artifactId>
+    <version>46</version>
+  </parent>
+  ...
+  <properties>
+    <mycore.version>2020.06.3-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-meta</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
+
 
 <h2>Release 2019.08</h2> 
       <h3>Was ist neu?</h3>
@@ -24,7 +72,7 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
         <li>es gibt ein neues Kommando um Batch-Änderungen auf der CLI auszuführen</li>
         <li>neue Komponente mycore-fo - ermöglicht den XSL:FO-Formatter optional einzubinden (war vorher Teil von mycore-base)</li>
       </ul>
-      <h2>Einbindung der Komponenten</h2>
+      <h3>Einbindung der Komponenten</h3>
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
         <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
