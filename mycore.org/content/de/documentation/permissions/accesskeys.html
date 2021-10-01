@@ -12,7 +12,7 @@ date: "2021-09-09"
     Eine wesentliche Motivation ist die Autorisierung unabhängig vom Nutzersystem (Nutzer) für Dritte (Gäste), exemplarisch beleuchtet etwa für <i>Peer-Reviews</i>.
     Dabei zielt der Ansatz auf das Lesen, aber auch Schreiben von Objekten oder Derivaten.
     <br>
-    Denn fundamental wird zwischen <i>Lese</i>- und <i>Schreibzugriffsschlüssel</i> unterschieden, die <i>persistent</i> oder <i>temporär</i> aktiviert werden kann.
+    Denn fundamental wird zwischen <i>Lese</i>- und <i>Schreibzugriffsschlüssel</i> unterschieden, die <i>persistent</i> oder <i>temporär</i> aktiviert werden kann, siehe <a href="{{< ref "accesskeys#usage" >}}">Gebrauch</a>.
     Ein Nutzer kann für ein Objekt oder Derivat genau einen Zugriffsschlüssel persistent aktivieren.
     Zusätzlich können Gäste oder Nutzer gegebenenfalls Zugriffsschlüssel temporär für ein Objekt oder Derivat aktivieren.
     Hierbei unterliegt der Zugriffsschlüssel der Browser-Session.
@@ -25,11 +25,28 @@ date: "2021-09-09"
   </p>
 </div>
 <div>
-  <h2 id="anatomy">Anatomie</h2>
+  <h2 id="configuration">Konfiguration</h2>
   <p>
-    Anatomisch betrachtet setzt sich ein Zugriffsschlüssel substanziell aus einem <i>Secret</i> und <i>Type</i> zusammen.
+    Zusammenfassung aller Properties mit default Werten und Beispielen, die Zugriffsschlüssel betreffen:
+  </p>
+{{< highlight shell "linenos=table">}}
+MCR.AccessKey.Strategy.AllowedObjectTypes=
+# MCR.AccessKey.Strategy.AllowedObjectTypes=mods,derivate
+MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=
+# MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=read,writedb
+MCR.ACL.AccessKey.Secret.Hashing.Enabled=true
+MCR.ACL.AccessKey.Secret.HashIterations=1000
+{{< /highlight >}}
+  </p>
+</div>
+<div>
+  <h2 id="anatomy">Struktur eines Zugriffsschlüssels</h2>
+  <p>
+    Strukturell betrachtet setzt sich ein Zugriffsschlüssel substanziell aus einem <i>Secret</i> und <i>Type</i> zusammen.
     Secret definiert das Geheimnis, das ein Nutzer kennen muss, um den Zugriffsschlüssel zu aktivieren.
     Der Wert kann frei gewählt werden, jedoch kann der Wert nach dem Hinzufügen des Zugriffsschlüssels nicht mehr eingesehen oder geändert werden.
+    Das Secret wird default gehasht im Backend abgelegt.
+    Hashing kann aber mit: {{< highlight "linenos=table">}}MCR.ACL.AccessKey.Secret.Hashing.Enabled=false{{< /highlight >}} deaktiviert werden.
     Type spiegelt die Berechtigung wieder, die sich aus der Aktivierung des Zugriffsschlüssels für ein Objekt oder Derivat ergibt.
     Der Ansatz unterstützt Lese- und Schreibzugriffsschlüssel: Der Type eines Lesezugriffschlüssels wird mit dem Wert <code>read</code> beschrieben, ein Schreibzugriffsschlüssel mit dem Wert <code>writedb</code>.
   </p>
@@ -48,25 +65,27 @@ date: "2021-09-09"
 {
   "secret": "mycore+accesskey==love",
   "type": "read",
-  "isActive": true,                       //optional
-  "expiration": "1631256328",             //optional
-  "comment": "Test"                       //optional
+  "isActive": true,
+  "expiration": "1631256328",
+  "comment": "Test"
 }{{< /highlight >}}
   </p>
 </div>
 <div>
-  <h2>Gebrauch</h2>
+  <h2 id="usage">Gebrauch</h2>
   <p>
     Zugriffsschlüssel können persistent oder temporär aktiviert werden.
-    Für das Aktivieren persistenter Zugriffsschlüssel steht aktuell kein Front-End zur Verfügung.
+    Persistent bedeutet, dass der Zugriffschlüssel als Attribut im Nutzerdatensatz in der Datenbank abgelegt wird.
+    Diese Funktionalität kann derzeit noch nicht über das Front-End genutzt werden.
+    Temporär bedeutet, dass der Zugriffsschlüssel in der HTTP-Session abgelegt wird und nach Ablauf der Session erneut übermittelt werden muss.
   </p>
   <h3>Filter</h3>
   <p>
-    Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der stardardmäßig für das Object-Servlet aktiviert ist.
-    In Kombination mit der bereitgestellten Strategie wird und kann der Filter abgeleitet aus <code>MCR.AccessKey.Session.AllowedPermissionTypes</code> de- oder aktiviert werden.
-    Sofern der Filter aktiviert ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
-    Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser aktiviert - ansonsten ignoriert.
-    Der Filter erwartet das Secret codiert in <a href="https://www.base64url.com/">Base64URL</a>.
+    Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der default für das Object-Servlet aktiviert werden kann.
+    In Kombination mit der bereitgestellten Strategie kann der Filter abgeleitet aus <code>MCR.AccessKey.Strategy.AllowedSessionPermissionTypes</code> eingeschaltet werden.
+    Sofern der Filter eingeschaltet ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
+    Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser temporär für die HTTP-Session aktiviert - ansonsten ignoriert.
+    Der Filter erwarted das Secret codiert in <a href=="https://www.base64url.com/">Base64URL</a>.
   </p>
 </div>
 <div>
@@ -76,13 +95,41 @@ date: "2021-09-09"
   </p>
   <dl>
     <dt>
-      <code>clear access key</code>
+      <code>clear all access keys </code>
     </dt>
     <dd>Das Kommando löscht alle Zugriffsschlüssel.</dd>
     <dt>
-      <code>clear all access keys of id {0}</code>
+      <code>clear all access keys for {0}</code>
     </dt>
-    <dd>Das Kommando löscht alle Zugriffsschlüssel eines Objekts.</dd>
+    <dd>Das Kommando löscht alle Zugriffsschlüssel eines Objekts/Derivats.</dd>
+    <dt>
+      <code>create access key for {0} from file {1}</code>
+    </dt>
+    <dd>Das Kommando erwartet einen Pfad für einen Zugriffsschlüssel, der im JSON-Format spezifiziert werden muss, und erstellt jenen für ein Objekt/Derivat.</dd>
+    <dt>
+      <code>update access key for {0} with secret {1} from file {2}</code>
+    </dt>
+    <dd>Das Kommando erwartet einen Pfad für einen Zugriffsschlüssel, der im JSON-Format spezifiziert werden muss, und updatet jenen für ein Objekt/Derivat. Dabei wird das Secret zusätzlich als Referenz erwartet und muss ggf. gehasht werden.</dd>
+    <dt>
+      <code>delete access key for {0} with secret {1}</code>
+    </dt>
+    <dd>Das Kommando löscht einen Zugriffsschlüssel eines Objekts/Derivats. Dabei wird zusätzlich das Secret als Referenz erwartet und muss ggf. gehasht werden.</dd>
+    <dt>
+      <code>import access keys for {0} from file {1}</code>
+    </dt>
+    <dd>Das Kommando importiert alle Zugriffsschlüssel für ein Objekt/Derivat, etwa ein Back-up. Dabei wird der Pfad einer Datei erwartet, die Zugriffsschlüssel in einem JSON-Array spezifiziert. Achtung: Beim Import werden Zugriffsschlüssel nicht mehr verarbeitet, sondern direkt übernommen, und ggf. müssen die Secrets gehasht werden. Das Kommando sollte als das Inverse des Export-Kommandos gesehen werden.</dd>
+    <dt>
+      <code>export access keys for {0} to file {1}</code>
+    </dt>
+    <dd>Das Kommando exportiert alle Zugriffsschlüssel für ein Objekt/Derivat. Dabei wird der Pfad des Speicherorts erwartet. Die Zugriffsschlüssel werden in einem JSON-Array spezifiziert. Dieses Kommando eignet sich für ein Back-up für ein Objekt/Derivat.</dd>
+    <dt>
+      <code>clean up access key user attributes</code>
+    </dt>
+    <dd>Das Kommando überprüft die Beständigkeit der Zugriffschlüssel-User-Attribute aller User und löscht diese ggf., wenn der zugehörige Schlüssel nicht mehr existiert.</dd>
+    <dt>
+      <code>hash access key secret {0} for {1}</code>
+    </dt>
+    <dd>Das Kommando hasht einen String für ein Objekt/Derivat.</dd>
   </dl>
 </div>
 

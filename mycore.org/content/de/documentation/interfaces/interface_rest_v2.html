@@ -245,6 +245,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Objekt.
       Der Zugriffsschlüssel ist standardmäßig aktiviert. Er kann in den Metadaten über <code>isActive</code> explizit deaktiviert werden.
+      Die Response enthält einen <code>Location</code>-Header mit der URL des neuen Zugriffsschlüssels.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>
@@ -585,6 +586,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Derivat.
       Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
+      Die Response enthält einen <code>Location</code>-Header mit der URL des neuen Zugriffsschlüssels.
     </p>
     <h5 class="js-toc-ignore">Format</h5>
       <p>

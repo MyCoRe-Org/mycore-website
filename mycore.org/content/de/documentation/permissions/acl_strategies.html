@@ -140,13 +140,19 @@ date: "2020-06-02"
           Für diese Strategie werden <a href="{{<ref accesskeys>}}">Zugriffsschlüssel</a> vorausgesetzt.
           Grundsätzlich prüft die Strategie, ob ein Nutzer oder Gast einen passenden persistenten oder temporären Lese -oder Schreibschlüssel für ein Objekt oder Derivat innehat. 
           Sollte ein persistenter und ein temporärer Zugriffsschlüssel vorhanden sein, werden ggf. beide Schlüssel geprüft.
+          Zugriffsschlüssel können für Objekte oder Derivate aktiviert werden:
         </p>
+        <p>
+        {{< highlight shell "linenos=table">}}
+            MCR.AccessKey.Strategy.AllowedObjectTypes=mods,derivat{{< /highlight >}}
+        </p>
+
         <p>
           Persistente Zugriffsschlüssel können mit folgender Einstellung eingeschränkt werden:
         </p>
         <p>
         {{< highlight shell "linenos=table">}}
-            MCR.AccessKey.Session.AllowedPermissionTypes=read{{< /highlight >}}
+            MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=read{{< /highlight >}}
         </p>
         <p>  
           Hiermit können beispielsweise temporäre Schreibschlüssel auf Leseschreibschlüssel beschränkt werden. 
