@@ -158,7 +158,7 @@ date: "2020-06-02"
           Hiermit können beispielsweise temporäre Schreibschlüssel auf Leseschreibschlüssel beschränkt werden. 
           So wird verhindert, dass temporäre Schreibschlüssel aktiviert werden können.
           Damit kann beispielsweise die Schreib-Berechtigung gegenüber Gästen verhindert werden.
-          Um später von temporären Zugriffschlüsseln etwa im Front-End beispielsweise in Verbindung mit der REST-API profitieren zu können, muss der Attribute-Präfix <code>acckey_</code> der Zugriffsschlüssel für <i>Session-Attribute</i> im JWT zugelassen werden:
+          Um später von temporären Zugriffsschlüsseln etwa im Front-End beispielsweise in Verbindung mit der REST-API profitieren zu können, muss der Attribute-Präfix <code>acckey_</code> der Zugriffsschlüssel für <i>Session-Attribute</i> im JWT zugelassen werden:
         </p>
         {{< highlight shell "linenos=table">}}
             MCR.RestAPI.JWT.AllowedSessionAttributePrefixes=acckey_{{< /highlight >}}
