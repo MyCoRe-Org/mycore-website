@@ -20,7 +20,7 @@ date: "2021-09-09"
     Die Gültigkeit kann optional zeitlich über ein Ablaufdatum beschränkt werden.
     Die <a href="{{< ref "interface_rest_v2#accesskeys" >}}">REST-API V2</a> bietet eine Möglichkeit für die Verwaltung von Zugriffsschlüsseln.
     Dafür die Verwaltung muss ein Nutzer oder Gast mindestens über Schreibrechte verfügen.
-    Gegebenenfalls muss die REST-API zusätzlich <a href="{{< ref "interface_rest_v2#security" >}}">aktiviert</a> werden, wenn beispielsweise die Verwaltung von Zugriffschlüsseln für Gäste zugelassen werden soll.
+    Gegebenenfalls muss die REST-API zusätzlich <a href="{{< ref "interface_rest_v2#security" >}}">aktiviert</a> werden, wenn beispielsweise die Verwaltung von Zugriffsschlüsseln für Gäste zugelassen werden soll.
     Darüber hinaus steht ein Ansatz für eine <a href="{{< ref "frontend_accesskeys" >}}">Webapplikation</a> zur Verwaltung von Zugriffsschlüsseln bereit.
   </p>
 </div>
@@ -75,7 +75,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
   <h2 id="usage">Gebrauch</h2>
   <p>
     Zugriffsschlüssel können persistent oder temporär aktiviert werden.
-    Persistent bedeutet, dass der Zugriffschlüssel als Attribut im Nutzerdatensatz in der Datenbank abgelegt wird.
+    Persistent bedeutet, dass der Zugriffsschlüssel als Attribut im Nutzerdatensatz in der Datenbank abgelegt wird.
     Diese Funktionalität kann derzeit noch nicht über das Front-End genutzt werden.
     Temporär bedeutet, dass der Zugriffsschlüssel in der HTTP-Session abgelegt wird und nach Ablauf der Session erneut übermittelt werden muss.
   </p>
@@ -92,6 +92,10 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
   <h2 id="commands">Kommandos</h2>
   <p>
     Über die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> können auch administrative Operationen für Zugriffsschlüssel ausgeführt werden.
+    Für den Export von Objekten/Derivaten liegt jeweils ein Style-Sheet <code>save-accesskey</code> bereit, das alle Zugriffsschlüssel in einem JSON-Array in einem ServFlag <code>accesskeys</code> abelegt.
+    Allgemein werden Zugriffsschlüssel bei einem Update eines Objekts/Derivates nicht berücksichtigt.
+    Beim Löschen eines Objekts/Derivats werden alle zugehörigen Zugriffsschlüssel gelöscht.
+    Beim Import eines Objekts/Derivats werden die ServFlags mit dem Typ <code>accesskeys</code> erwartet im JSON-Array-Format.
   </p>
   <dl>
     <dt>
@@ -125,7 +129,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
     <dt>
       <code>clean up access key user attributes</code>
     </dt>
-    <dd>Das Kommando überprüft die Beständigkeit der Zugriffschlüssel-User-Attribute aller User und löscht diese ggf., wenn der zugehörige Schlüssel nicht mehr existiert.</dd>
+    <dd>Das Kommando überprüft die Beständigkeit der Zugriffsschlüssel-User-Attribute aller User und löscht diese ggf., wenn der zugehörige Schlüssel nicht mehr existiert.</dd>
     <dt>
       <code>hash access key secret {0} for {1}</code>
     </dt>
