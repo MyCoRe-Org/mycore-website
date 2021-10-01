@@ -27,6 +27,7 @@ date: "2021-10-01"
           Default werden Zugriffsschlüssel ab sofort gehasht im Backend abgelegt.
           Vor der Migration sollte konfiguriert werden, wie die Secrets in Zukunft abgelegt werden sollen, siehe <a href="{{<ref "accesskeys#configuration" >}}">Konfiguration</a>.
           Sofern der Klartext bedeutsam ist, sollte Hashing deaktiviert werden.
+          Allgemien sollte zusätzlich noch die <a href="{{< ref "acl_strategies#accesskeys" >}}">Strategie</a> konfiguriert werden.
           Als Fallback wird der Klartext bei der Migration im Kommentarfeld des jeweiligen Zugriffsschlüssels abgelegt.
         </p>
         Folgendes CLI-Kommando migriert Zugriffsschlüsselpaare zu Zugriffsschlüssel:
