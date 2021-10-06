@@ -34,7 +34,7 @@ MCR.AccessKey.Strategy.AllowedObjectTypes=
 # MCR.AccessKey.Strategy.AllowedObjectTypes=mods,derivate
 MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=
 # MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=read,writedb
-MCR.ACL.AccessKey.Secret.Hashing.Enabled=true
+MCR.ACL.AccessKey.Secret.Hashing=true
 MCR.ACL.AccessKey.Secret.HashIterations=1000
 {{< /highlight >}}
   </p>
@@ -46,7 +46,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
     Secret definiert das Geheimnis, das ein Nutzer kennen muss, um den Zugriffsschlüssel zu aktivieren.
     Der Wert kann frei gewählt werden, jedoch kann der Wert nach dem Hinzufügen des Zugriffsschlüssels nicht mehr eingesehen oder geändert werden.
     Das Secret wird default gehasht im Backend abgelegt.
-    Hashing kann aber mit: {{< highlight "linenos=table">}}MCR.ACL.AccessKey.Secret.Hashing.Enabled=false{{< /highlight >}} deaktiviert werden.
+    Hashing kann aber mit: {{< highlight "linenos=table">}}MCR.ACL.AccessKey.Secret.Hashing=false{{< /highlight >}} deaktiviert werden.
     Type spiegelt die Berechtigung wieder, die sich aus der Aktivierung des Zugriffsschlüssels für ein Objekt oder Derivat ergibt.
     Der Ansatz unterstützt Lese- und Schreibzugriffsschlüssel: Der Type eines Lesezugriffschlüssels wird mit dem Wert <code>read</code> beschrieben, ein Schreibzugriffsschlüssel mit dem Wert <code>writedb</code>.
   </p>
@@ -85,7 +85,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
     In Kombination mit der bereitgestellten Strategie kann der Filter abgeleitet aus <code>MCR.AccessKey.Strategy.AllowedSessionPermissionTypes</code> eingeschaltet werden.
     Sofern der Filter eingeschaltet ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
     Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser temporär für die HTTP-Session aktiviert - ansonsten ignoriert.
-    Der Filter erwarted das Secret codiert in <a href=="https://www.base64url.com/">Base64URL</a>.
+    Sonderzeichen (Secret) sollten im Pfad codiert werden, siehe <a href=="https://de.wikipedia.org/wiki/URL-Encoding">URL-Encoding</a>.
   </p>
 </div>
 <div>
