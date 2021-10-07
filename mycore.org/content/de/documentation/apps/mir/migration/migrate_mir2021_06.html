@@ -19,17 +19,34 @@ date: "2021-10-01"
       </p>
 
       <div>
-        <h3>Zugriffsschlüssel</h3>
+        <h3>Zugriffsschlüsselpaare</h3>
         <p>
           Mit 2021.06 werden <a href="{{<ref accesskeys>}}">Zugriffsschlüssel</a> eingeführt.
           Zugriffsschlüssel sind der Nachfolger der bisherigen Zugriffsschlüsselpaare.
-          Fundamental kann der Wert eines Zugriffsschlüssels nicht geändert werden, ansonsten sind Zugriffsschlüssel kompatibel mit Zugriffsschlüsselpaaren und bringen weitere nützliche Freature mit sich.
+          Fundamental kann der Wert eines Zugriffsschlüssels nicht geändert werden, ansonsten sind Zugriffsschlüssel kompatibel mit Zugriffsschlüsselpaaren und bringen weitere nützliche Features mit sich.
           Default werden Zugriffsschlüssel ab sofort gehasht im Backend abgelegt.
+        </p>
+        <h4>persistence.xml</h4>
+        <p>
+          <code>persistence-unit</code> in <code>persistence.xml</code> muss um die Mappings für <code>mycore-acl</code> wie folgt ergänzt werden:
+{{< highlight xml "linenos=table">}}
+  <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
+    ...
+    <mapping-file>META-INF/mycore-acl-mappings.xml</mapping-file>
+    ...
+  </persistence-unit>
+{{< /highlight >}}
+        </p>
+        <h4>mycore.properties</h4>
+        <p>
           Vor der Migration sollte konfiguriert werden, wie die Secrets in Zukunft abgelegt werden sollen, siehe <a href="{{<ref "accesskeys#configuration" >}}">Konfiguration</a>.
           Sofern der Klartext bedeutsam ist, sollte Hashing deaktiviert werden.
-          Allgemien sollte zusätzlich noch die <a href="{{< ref "acl_strategies#accesskeys" >}}">Strategie</a> konfiguriert werden.
+          Allgemein sollte zusätzlich noch die <a href="{{< ref "acl_strategies#accesskeys" >}}">Strategie</a> konfiguriert werden.
           Als Fallback wird der Klartext bei der Migration im Kommentarfeld des jeweiligen Zugriffsschlüssels abgelegt.
+          Der Name folgender Property muss ggf. angepasst werden:<br>
+          <code>MIR.Strategy.AccessKey.ObjectTypes</code> =&gt; <code>MCR.ACL.AccessKey.Strategy.AllowedObjectTypes</code>
         </p>
+        <h4>Zugriffsschlüsselpaare</h4>
         Folgendes CLI-Kommando migriert Zugriffsschlüsselpaare zu Zugriffsschlüssel:
         <p>
           <code>mycore.sh migrate all access key pairs</code>
