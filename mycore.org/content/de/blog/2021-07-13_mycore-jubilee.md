@@ -12,7 +12,7 @@ blog/categories:
 blog/tags:
  - MyCoRe-Jubiläum
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "MyCoRe-Jubiläum"
 news/teaser_de: "Herzlichen Glückwunsch, MyCoRe! Vor 20 Jahren wurde die erste MyCoRe-Java-Klasse committet!"
 news/title_en: "MyCoRe jubilee"
