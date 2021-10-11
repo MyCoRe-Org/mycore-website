@@ -188,16 +188,12 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /mcr-figure >}}
     <p></p>     
     <h3>Verwaltung von Zugriffsschlüsseln auf Objekte</h3>
-    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
+    Die Zugriffsschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys?offset={$offset}&limit={$limit}</h4>
+    <h4 id="get-accesskeys"><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys?offset={$offset}&limit={$limit}</h4>
     <p>
       Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objekts zurück.
-    </p>
-    <h5 class="js-toc-ignore">Format</h5>
-    <p>
-      Die Liste wird im JSON-Format zurückgeliefert.
     </p>
     <table class="table table-bordered">
       <col width="150px" />
@@ -207,36 +203,44 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$offset}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
+        <td>optional: Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
       </tr>
       <tr>
         <td><code>{$limit}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
+        <td>optional: Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
     </div>
     
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys/{$secret}</h4>
+    <h4 id="get-accesskey"><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objekts zurück.
     </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
-    </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>Geheimnis des Zugriffsschlüssels.</td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>optional: Beschreibt die Codierung von <code>{$secret_format}</code>. Dabei wird <code>base64url</code> als Format unterstützt.</td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
     </div>
 
     <div>
@@ -245,10 +249,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Objekt.
       Der Zugriffsschlüssel ist standardmäßig aktiviert. Er kann in den Metadaten über <code>isActive</code> explizit deaktiviert werden.
-    </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+      Die Response enthält einen <code>Location</code>-Header mit der URL des neuen Zugriffsschlüssels.
     </p>
     <table class="table table-bordered">
       <col width="150px" />
@@ -257,47 +258,59 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
     </div>
 
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/accesskeys/{$secret}</h4>
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_endcoding}</h4>
     <p>
       Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Objekt.
       Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
     </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
-    </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
     </div>
     
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/accesskeys/{$secret}</h4>
+    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objekts.
     </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
       </tr>
     </table>
     </div>
@@ -519,17 +532,13 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       <p>&nbsp;</p>
 
     <h3>Verwaltung von Zugriffsschlüsseln auf Derivate</h3>
-    Die Zugriffschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
+    Die Zugriffsschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
     
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys?offset={$offset}&limit={$limit}</h4>
     <p>
       Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Derivats zurück.
-    </p>
-    <h5 class="js-toc-ignore">Format</h5>
-    <p>
-      Die Liste wird im JSON-Format zurückgeliefert.
     </p>
     <table class="table table-bordered">
       <col width="150px" />
@@ -543,27 +552,27 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$offset}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt das Offset der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>0</code>.</td>
+        <td>analog zu <a href="#get-accesskeys">/objects/{$id}/accesskeys</a></td>
       </tr>
       <tr>
         <td><code>{$limit}</code></td>
-        <td>Optional. (Paginierung)<br /> Legt die Größe der Liste der zuletzt verwalteten Zugriffsschlüssel fest. Default: <code>128</code>.</td>
+        <td>analog zu <a href="#get-accesskeys">/objects/{$id}/accesskeys</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
     </div>
     
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}</h4>
+    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Derivats zurück.
     </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
-    </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
@@ -574,9 +583,17 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel wird im JSON-Format zurückgeliefert.
+    </p>
     </div>
 
     <div>
@@ -585,10 +602,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Derivat.
       Der Zugriffsschlüssel ist default aktiviert, wenn dieser über <code>isActive</code> nicht explizit deaktiviert wurde.
-    </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+      Die Response enthält einen <code>Location</code>-Header mit der URL des neuen Zugriffsschlüssels.
     </p>
     <table class="table table-bordered">
       <col width="150px" />
@@ -601,21 +615,21 @@ curl -D - -X PUT -u administrator:*PASSWORD*
         <td>analog zu <a href="#get-objectsidderivates">/objects/{$id}/derivates/{$derid}</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
     </div>
     
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}</h4>
+    <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Derivat.
       Beim Update werden nur Properties berücksichtigt, die in der Anfrage enthalten sind.
     </p>
-    <h5 class="js-toc-ignore">Format</h5>
-      <p>
-      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
-    </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
@@ -626,19 +640,27 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
       </tr>
     </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Der Zugriffsschlüssel muss im JSON-Format gesendet werden.
+    </p>
     </div>
 
     <div>
     <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
-    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}</h4>
+    <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Derivats.
     </p>
     <table class="table table-bordered">
-      <col width="150px" />
+      <col width="180px" />
       <tr>
         <td><code>{$id}</code></td>
         <td>analog zu <a href="#get-objectsid">/objects/{$id}</a></td>
@@ -649,7 +671,11 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       </tr>
       <tr>
         <td><code>{$secret}</code></td>
-        <td>Secret des Zugriffsschlüssels</a></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
+      </tr>
+      <tr>
+        <td><code>{$secret_encoding}</code></td>
+        <td>analog zu <a href="#get-accesskey">/objects/{$id}/accesskeys/{$secret}</a></td>
       </tr>
     </table>
     </div>
