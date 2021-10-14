@@ -17,5 +17,50 @@ date: "2020-09-23"
         Hier sind die Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2020_06 >}}">Migrationsanleitung für MyCoRe</a>
         noch relevant sind.
       </p>
+
+      <div>
+        <h3>Display-Attribut</h3>
+        <p>
+          Mit 2020.06 entfällt in MyCore das <code>display</code>-Attribut im Datenmodell für Derivate. Werden bestehende Derivate nach der Migration
+          bearbeitet, wird das <code>display</code>-Attribut und dessen Wert ersatzlog entfernt. Um die erfasste Information zu sichern, steht in den
+          das Kommando <code>migrate derivate display to category {0}</code> bereit. MIt diesem Kommando werden allen Derivaten mit <code>@display=fasle</code>
+          ein beliebig wählbarer Klassifikationswert, z.B. <code>mir_access:intern</code> hinzugefügt.
+        </p>
+      </div>
+
+      <div>
+        <h3>HTML-Abstracts und Titel</h3>
+        <p>
+          Mit 2020.06 gitb es einen grafischen Editor zum Bearbeiten von Abstracts mit HTML-Inhalt. Für eine korrekte Funktion müssen einzelne Sonderfälle
+          bei bestehenden HTML-Abstracts und Titeln korrigiert werden. Mit dem Kommando <code>select objects which need titleInfo or abstract migration</code>
+          können die betroffenen Objekte selektiert werden. Anschließend können diese mit dem Kommando <code>execute for selected migrate titleInfo or abstract {x}</code>
+          korrigiert werden.
+        </p>
+      </div>
+
+      <div>
+        <h3>Statische Inhalte</h3>
+        <p>
+          Mit 2020.06 gitb es die Möglichkeit Teilbereiche von Ausgabenseiten für Objekte mit einem <code>MCRStaticContentEventHandler</code> beim Speichern von
+          Objekten vorzuberechnen und anschließend nur noch statisch einzubinden. MIR nutzt diese Möglicheit für den Inhalt der Systeminformation-Box und den Inhalt
+          des modalen Versionsgeschichte-Dialogs. Um die statischen Inhalte für bestehende Objekte zu generieren kann das Kommando
+          <code>generate static content for all objects</code> genutzt werden.
+        </p>
+      </div>
+
+      <div>
+        <h3>Derivat-Struktur</h3>
+        <p>
+          Mit 2020.06 gibt es einige Unterschiede in der Handhabung von Derivaten in MIR. Wie oben erwähnt entfällt das <code>display-Attribut</code> bei Derivaten
+          ersatzlos. Darüber hinaus wird das <code>label</code>-Attribut bei Derivaten in MIR nicht mehr verwendet. Zudem hat nun jedes Derivat einen Wert der
+          <code>derivate_types</code>-Klassifikation und einen <code>state</code>-Wert der dem des besitztenden Objekts entspricht. Diese Neuerungen betreffen aber
+          nur neu angelegte Derivate. Um bestehende Derivate auf den gleichen Stand zu bringen, kann, wenn gewünscht, das Kommando
+          <code>harmonize derivates for all objects</code> genutzt werden. Die betroffenen Derivate werden dadurch ermittelt, dass ein 
+          <code>label</code>-Attribut vorhanden ist. Es wird der <code>derivate_types</code>-Wert <code>content</code> gesetzt, sofern kein anderer Wert dieser
+          Klassifikation vorhanden ist.
+        </p>
+      </div>
+
+
     </div>
 
