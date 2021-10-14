@@ -1,15 +1,19 @@
 ---
 
-title: "Developer-Modus"
+title: "Developer-Tools"
 mcr_version: ['2019.06','2020.06']
 author: ['Sebastian Hofmann']
-description: "Dieser Abschnitt beschreibt die Möglichkeit verschiedene Ressourcen zur Laufzeit zu überschreiben, ohne MyCoRe oder die Anwendung neu zu bauen."
+description: "Dieser Abschnitt beschreibt von MyCoRe bereitgestellte Komponenten und Werkzeuge die die Entwicklung vereinfachen sollen."
 date: "2021-06-18"
 
 ---
 
 <div>
-    <h2>Konfiguration</h2>
+    <h2>Developer-Modus</h2>
+    <p>
+        Der Developer-Modus bietet die Möglichkeit verschiedene Ressourcen zur Laufzeit zu überschreiben, ohne MyCoRe oder die Anwendung neu zu bauen.
+    </p>
+    <h3>Konfiguration</h3>
     <p>
         Zusammengefasst sieht eine mögliche Konfiguration z.B. für die Viewer- und MIR-Entwicklung wie folgt aus:
     {{< highlight shell "linenos=table">}}
@@ -54,5 +58,62 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
     <a href="{{< ref "documentation/getting_started/gs_properties#konfigurationsverzeichnis" >}}">
     Benutzerverzeichnis</a> des Entwicklungssystems.
   </p>
+
+    <h2>Developer-Kommandos</h2>
+    <p>
+        
+    </p>
+    <h3>Konfiguration</h3>
+    <p>
+        Um die Developer-Kommandos nutzen zu können, müssen diese in der Konfiguration eingebunden werden:
+        {{< highlight shell "linenos=table">}} MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.frontend.cli.MCRDeveloperCommands {{< /highlight >}}
+    </p>
+    <h3>Kommandos</h3>
+    <dl>
+        <dt>
+            <code>show all messages for {0}</code>
+        </dt>
+        <dd>
+            Das Kommando zeigt alle in den Übersetzungsdateien konfigurierten Schlüssel und die für die als <code>{0}</code> gegebene Sprache verwendeten Werte.  Dies erspart einen Blick in die Datei <code>messages_XX.resolved.properties</code>.
+        </dd>
+        <dt>
+            <code>show message {0} for {1}</code>
+        </dt>
+        <dd>
+            Das Kommando hat die selbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur die Schlüssel und Werte deren Schlüssel mit dem als <code>{1}</code> gegebenem Wert beginnen.
+        </dd>
+        <dt>
+            <code>show messages {0} for {1}</code>
+        </dt>
+        <dd>
+            Das Kommando hat die selbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur den Schlüssel und Wert dessen Schlüssel mit dem als <code>{1}</code> gegebenem Wert übereinstimmt.
+        </dd>
+        <dt>
+            <code>show all properties</code>
+        </dt>
+        <dd>
+            Das Kommando zeigt alle aktuellen Schlüssel-Werte-Paare der Konfiguration. Dies erspart einen Blick in die Datei <code>mycore.resolved.properties</code> und berücksichtigt auch zur Laufzeit getätigte Änderungen der Konfiguration.
+        </dd>
+        <dt>
+            <code>show properties {0}</code>
+        </dt>
+        <dd>
+            Das Kommando hat die selbe Funktion wie <code>show all properties</code>, zeigt aber nur die Schlüssel-Werte-Paare deren Schlüssel mit dem als <code>{0}</code> gegebenem Wert beginnen.
+        </dd>
+        <dt>
+            <code>show properties {0}</code>
+        </dt>
+        <dd>
+            Das Kommando hat die selbe Funktion wie <code>show all properties</code>, zeigt aber nur das Schlüssel-Werte-Paar dessen Schlüssel mit dem als <code>{0}</code> gegebenem Wert übereinstimmt.     
+        </dd>
+        <dt>
+            <code>show resource {0}</code>
+        </dt>
+        <dd>
+            Das Kommando zeigt das Ergebnis des URI-Resolvers für die als <code>{0}</code> angegeben URI. Dies kann isnbesondere bei komplexen URIs hilfreich sein, z.B. <code>show resource xslStyle:items2options?allSelectable=true:classification:editor[TextCounter]:-1:children:mir_licenses</code>
+        </dd>
+
+    </dl>
+
 
 </div>
