@@ -9,24 +9,6 @@ Für das zeitbasierte Ausführen von bestimmten Aufgaben gibt es das Cronjob-Mod
 date: '2021-09-13'
 
 ---
-<!--
-  ~ This file is part of ***  M y C o R e  ***
-  ~ See http://www.mycore.de/ for details.
-  ~
-  ~ MyCoRe is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ MyCoRe is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with MyCoRe.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <div>
 
     <h2>Ein Kommando zu einem bestimmten Zeitpunkt ausführen</h2>
@@ -41,19 +23,19 @@ MCR.Cronjob.Jobs.SitemapBuild.Command=build google sitemap
 MCR.Cronjob.Jobs.SitemapBuild.Cron=0 2 * * *
 #MCR.Cronjob.Jobs.SitemapBuild.CronType={{< /highlight >}}{{< /mcr-figure >}}
     <p>
-        Mögliche Werte für das Property CronType sind die enum Konstanten in <a
+        Mögliche Werte für das Property <code>CronType</code> sind die enum Konstanten in <a
             href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>
         und der Standardwert ist UNIX.
-        In dem Property Cron muss der Zeitpunkt definiert werden. Eine gute Hilfe für Unix ist die Seite <a
+        In dem Property <code>Cron</code> muss der Zeitpunkt definiert werden. Eine gute Hilfe für Unix ist die Seite <a
             href="https://crontab.guru/">crontab.guru</a>.
         Die beiden Properties sind für alle Cronjobs allgemein gültig.
-        Das Property Command ist spezifisch für den MCRCommandCronJob und legt das Kommando fest, welches ausgeführt
+        Das Property <code>Command</code> ist spezifisch für den MCRCommandCronJob und legt das Kommando fest, welches ausgeführt
         werden soll.
     </p>
 
     <h2>Einen eigenen Cronjob implementieren</h2>
     <p>Wenn sich ein Cronjob nicht auf ein einfaches Kommando abbilden lässt, oder es nicht gewünscht ist ein Kommando
-        zu haben, dann gibt es die Möglichkeit die Klasse <code>MCRCronjob</code> zu Erweitern.</p>
+        zu haben, dann gibt es die Möglichkeit, die Klasse <code>MCRCronjob</code> zu erweitern.</p>
 {{< highlight java "linenos=table">}}
 public class MyCronJob extends MCRCronjob {
 
@@ -82,7 +64,7 @@ public class MyCronJob extends MCRCronjob {
 
     @Override
     public String getDescription() {
-        return "Does sth with " + getFoo();
+        return "Does something with " + getFoo();
     }
 }
 {{< /highlight >}}

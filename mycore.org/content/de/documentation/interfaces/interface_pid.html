@@ -42,7 +42,7 @@ date: "2020-06-04"
   MCR.PI.MetadataService.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierMetadataManager {{< /highlight >}}
     </p>
     <p>
-      Nachdem die Anwendung entsprechend konfiguriert wurde, kann über /receive mittels des URL-Parameters
+      Nachdem die Anwendung entsprechend konfiguriert wurde, kann über <code>/receive</code> mittels des URL-Parameters
       <code>XSL.Transformer=datacite</code> das datacite-XML angezeigt werden. Sollte im MODS
       bereits eine DOI angegeben sein, wird diese angezeigt.
     </p>
@@ -57,7 +57,7 @@ date: "2020-06-04"
 <p>
     Über das Property <code>.CreationPredicate</code> kann eine Bedingung festgelegt werden. Wenn diese Bedingung
     erfüllt ist, wird ein Persistent Identifier erstellt und registriert.
-    Falls es nötig ist, zunöchst ein PI zu reservieren, aber noch nicht zu registrieren kann man das Property
+    Falls es nötig ist, zunächst ein PI zu reservieren, aber noch nicht zu registrieren kann man das Property
     <code>.RegistrationPredicate</code> setzen, welches eine Bedingung definiert, die für die Registrierung erfüllt sein
     muss. Die Bedingung muss auch erfüllt sein, wenn die der PI nicht automatisch erstellt wurde!
     Beispiel:
