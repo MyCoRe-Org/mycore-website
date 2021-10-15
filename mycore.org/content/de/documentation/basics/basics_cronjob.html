@@ -1,0 +1,100 @@
+---
+
+title: "Cronjob"
+mcr_version: ['2021.06']
+author: ['Sebastian Hofmann']
+description: "
+Für das zeitbasierte Ausführen von bestimmten Aufgaben gibt es das Cronjob-Modul.
+"
+date: '2021-09-13'
+
+---
+<!--
+  ~ This file is part of ***  M y C o R e  ***
+  ~ See http://www.mycore.de/ for details.
+  ~
+  ~ MyCoRe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MyCoRe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with MyCoRe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<div>
+
+    <h2>Ein Kommando zu einem bestimmten Zeitpunkt ausführen</h2>
+
+    <p>
+        Mit dem <code>MCRCommandCronJob</code> lassen sich beliebige MyCoRe-Kommandos ausführen.
+    </p>
+{{< mcr-figure label="Beispiel-Konfiguration für SitemapBuild" >}}
+{{< highlight bash "linenos=table">}}
+MCR.Cronjob.Jobs.SitemapBuild=org.mycore.mcr.cronjob.MCRCommandCronJob
+MCR.Cronjob.Jobs.SitemapBuild.Command=build google sitemap
+MCR.Cronjob.Jobs.SitemapBuild.Cron=0 2 * * *
+#MCR.Cronjob.Jobs.SitemapBuild.CronType={{< /highlight >}}{{< /mcr-figure >}}
+    <p>
+        Mögliche Werte für das Property CronType sind die enum Konstanten in <a
+            href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>
+        und der Standardwert ist UNIX.
+        In dem Property Cron muss der Zeitpunkt definiert werden. Eine gute Hilfe für Unix ist die Seite <a
+            href="https://crontab.guru/">crontab.guru</a>.
+        Die beiden Properties sind für alle Cronjobs allgemein gültig.
+        Das Property Command ist spezifisch für den MCRCommandCronJob und legt das Kommando fest, welches ausgeführt
+        werden soll.
+    </p>
+
+    <h2>Einen eigenen Cronjob implementieren</h2>
+    <p>Wenn sich ein Cronjob nicht auf ein einfaches Kommando abbilden lässt, oder es nicht gewünscht ist ein Kommando
+        zu haben, dann gibt es die Möglichkeit die Klasse <code>MCRCronjob</code> zu Erweitern.</p>
+{{< highlight java "linenos=table">}}
+public class MyCronJob extends MCRCronjob {
+
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    private String foo;
+
+    @Override
+    public void runJob() {
+        getProcessable().setStatus(MCRProcessableStatus.processing);
+        getProcessable().setProgress(0);
+
+        // do stuff
+
+        getProcessable().setProgress(100);
+    }
+
+    public String getFoo() {
+        return this.foo;
+    }
+
+    @MCRProperty(name = "Foo")
+    public void setFoo(String foo) {
+        this.foo = foo;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Does sth with " + getFoo();
+    }
+}
+{{< /highlight >}}
+
+{{< highlight bash "linenos=table">}}
+MCR.Cronjob.Jobs.MyOwnJob=de.my.cronjob.MyCronJob
+MCR.Cronjob.Jobs.MyOwnJob.Foo=bar
+MCR.Cronjob.Jobs.MyOwnJob.Cron=0 2 * * * {{< /highlight >}}
+
+    <p>
+        Die Methode <code>#runJob()</code> muss implementiert werden und wird ausgeführt, wenn der im Cron Property definierte
+        Zeitpunkt erreicht ist. Die Methode <code>#getDescription()</code> wird ausgelesen, um in der Webtools-Processable-Ansicht
+        eine Beschreibung auszugeben.
+    </p>
+</div>
