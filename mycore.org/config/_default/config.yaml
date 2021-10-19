@@ -48,11 +48,6 @@ preserveTaxonomyNames: true
 
 #enable JSON output for search
 outputs:
-  home:
-  - HTML
-  - RSS
-  - JSON
-  section:
   - HTML
   - RSS
   - JSON
