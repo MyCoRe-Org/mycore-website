@@ -10,7 +10,7 @@
  - clone repository
  - mvn clean compile
  - cd mycore.org
- - hugo server --disableFastRender
+ - hugo server
  
  http://localhost:1313/
  
