@@ -7,6 +7,7 @@
       <groupId>org.mycore.skeleton</groupId>
       <artifactId>mycore-skeleton-archetype</artifactId>
       <version>2021.06.1-SNAPSHOT</version>
+      <repository>https://oss.sonatype.org/content/repositories/snapshots</repository>
       <description>A skeleton to start with new mycore application development</description>
     </archetype>
   </archetypes>
