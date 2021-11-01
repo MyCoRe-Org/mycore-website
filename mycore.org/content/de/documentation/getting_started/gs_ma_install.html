@@ -1,23 +1,21 @@
 
 ---
 
-title: "Maven Archetype als Basis für neue MyCoRe Anwendungen"
-mcr_version: ['2019.06', '2020.06']
-author: ['Robert Stephan', 'Kathleen Neumann']
+title: "Maven-Archetype als Basis für neue MyCoRe Anwendungen"
+mcr_version: ['2021.06']
+author: ['Robert Stephan']
 description: "
       Zur Entwicklung einer eigenen MyCoRe-Anwendung stellen wir ein Anwendungsgerüst
-      (Maven-Archetype) zur Verfügung, das als Grundlage für eigene Anwendung dienen kann.
+      <nobr>(Maven-Archetype)</nobr> zur Verfügung.
     "
-date: "2020-07-27"
+date: "2021-11-01"
 
 ---
 <p>
-  Bis zur Version 2017.06 diente die MyCoRe-Anwendung „Skeleton“ als
-  Template für neue Anwendungen. Mit dem Maven-Archetype bieten wir nun eine fortgeschrittenere Lösung an.<br /> 
   Nach Abfrage von verschiedenen Parametern generiert es eine neue MyCoRe-Anwendung, 
   in der bereits die typische Ordnerstruktur erzeugt und eine Reihe von Voreinstellungen gesetzt sind.
-  Dadurch entfällt das bisher notwendige Umbenennen von Dateien und Ordner sowie das Suchen und Ersetzen 
-  von Properties und Textbausteinenen nach dem Kopieren der Skeleton-Anwendung.
+  Dadurch entfällt das Umbenennen von Dateien und Ordner sowie das Suchen und Ersetzen 
+  von Properties und Textbausteinenen, wie es früher nach dem Kopieren der Skeleton-Anwendung notwendig war.
 </p>
 
 <h2>Maven-Archetype installieren</h2>
@@ -28,33 +26,36 @@ date: "2020-07-27"
   beschriebene Software benötigt.
 </p>
 
-<h3>Maven Archetype herunterladen </h3>
-<p>Damit der Archetype verwendet werden kann, muss er zuerst aus unserem Git-Repository heruntergeladen und
-   in das lokalen Maven-Repository installiert werden:</p>
-           
-{{< highlight shell "linenos=table">}}
-git clone https://github.com/MyCoRe-Org/mycore-skeleton-archetype mycore-skeleton-archetype
-cd mycore-skeleton-archetype
-mvn clean install
-{{< /highlight >}}
-      
 <h2>Mit einer neuen Anwendung starten</h2>
 <p>Im Folgenden beschreiben wir, wie man an der Kommandozeile oder mit Eclipse unter Verwendung des Maven-Archetypes
-   eine neue Anwendung erstellt. Beispielhaft verwenden wir den Namen <em>„Skeleton“</em>. 
+   eine neue Anwendung erstellt. Beispielhaft verwenden wir den Namen <em>„Skeleton“</em>.
+</p>
+<p> 
    Es sollte jedoch gleich der <em>echte</em> Name der neu zu erstellenden Anwendung gewählt werden.</p>
+</p>
         
 <h3>a) über die Kommandozeile</h3>
-<p>Wir empfehlen, zuerst ein Arbeitsverzeichnis anzulegen.<br />
+<p>
+Um den Maven-Archetype nutzen zu können, muss er vorher in das lokale Maven-Repository kopiert und mittels <tt>crawl</tt> im
+lokalen Maven-Archetype-Katalog registriert werden.
+</p>
+{{< highlight shell "linenos=table">}}
+ mvn dependency:get -Dartifact="org.mycore.skeleton:mycore-skeleton-archetype:2021.06.1-SNAPSHOT" -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots
+ mvn archetype:crawl     
+{{< /highlight >}}
+
+<p>Wir empfehlen für jede Anwendung ein eigenes Arbeitsverzeichnis anzulegen.<br />
   (z.B. <code>C:\skeleton\workspace</code> oder <code>~/skeleton/workspace</code>).
-</p>  
+</p>
 
 <p>
-   Danach wechselt man in dieses Verzeichnis und ruft das Maven-Kommando zum Erstellen der Anwendung auf:
+   Das folgende Maven-Kommando startet das Erstellen der eigenen Anwendung:
 </p>
-   {{< highlight shell "linenos=table">}}
-mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifactId=mycore-skeleton-archetype -DarchetypeVersionId=2020.06.0-SNAPSHOT{{< /highlight >}}    
+{{< highlight shell "linenos=table">}}
+ mvn archetype:generate -Dfilter=mycore-skeleton-archetype
+{{< /highlight >}}    
 
-<p>Das Kommando fragt dann die folgenden Parameter ab:</p>
+<p>Man wählt den mycore-skeleton-archetype aus und gibt anschließend folgende Parameter an:</p>
 <table class="table w-75 mx-auto">
   <tr>
       <td><code>groupId:</code></td>
@@ -81,6 +82,10 @@ mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifac
     <td><tt>skeleton_main</tt></td>
   </tr>
   <tr>
+     <td><code>organizationName:</code></td>
+     <td><tt>My Institution</tt></td>
+  </tr>
+  <tr>
      <td><code>projectName:</code></td>
      <td><tt>My new Skeleton App</tt></td>
   </tr>  
@@ -91,18 +96,34 @@ mvn archetype:generate -DarchetypeGroupId=org.mycore.skeleton -DarchetypeArtifac
   <li><code>package</code> ist das Root-Package für die zu erstellenden Java-Klassen.</li>
   <li><code>mcrSolrMainCoreName</code> bezeichnet den Namen (URL-Pfad auf dem SOLR-Server) des Haupt-Solr-Kerns der Anwendung.</li>
   <li><code>mcrSolrClassCoreName</code> bezeichnet den Namen (URL-Pfad auf dem SOLR-Server) des Solr-Kerns für Klassifikationen der Anwendung.</li>
+  <li><code>organizationName</code> ist der Name der Einrichtung, die in die Lizenzdatei eingetragen wird.</li>
   <li>Aus <code>projectName</code> wird der Titel der Webanwendung abgeleitet.</li>
 </ul>
   
 <h3>b) als neues Eclipse-Projekt</h3>
-<p>In der Entwicklungsumgebung Eclipse kann eine neue Anwendung als Eclipse-Projekt über einen Wizzard erstellt werden.</p>
-<p>Der Wizzard wird über <code>File &gt; New &gt; Maven Project</code> gestartet.</p>
+<p>In der Entwicklungsumgebung <a href="http://www.eclipse.org">Eclipse</a> kann eine neue Anwendung (Eclipse-Projekt) über einen Wizzard erstellt werden.</p>
+<p>Der Wizzard wird über <tt>File &gt; New &gt; Maven Project</tt> gestartet.</p>
 
-{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard01.png" class="text-center" label="Abbildung" caption="Eclipse - New Maven project starten" alt="Maven Archetype auswählen" width="550px" height="" />}}
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard01.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Wizzard 'New Maven project' starten" alt="Maven-Archetype auswählen" width="425px" height="" />}}
 
-{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard02.png" class="text-center" label="Abbildung" caption="Eclipse - Maven Archetype auswählen" alt="Formular erstellen" width="550px" height="" />}}
+Dann muss ein externer Katalog hinzugefügt, werden, der unsere Archetype-Konfiguration enthält. 
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard02.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Maven-Archetype Catalog konfigurieren" alt="Formular erstellen" width="606px" height="" />}}
 
-{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard03.png" class="text-center" label="Abbildung" caption="Eclipse - Parameter setzen" alt="Formular erstellen" width="550px" height="" />}}
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard03.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Remote Catalog hinzufügen" alt="Remote Catalog" width="333px" height="" />}}
 
+Hier unter Catalog File die folgende URL eintragen:<br />
+<tt>https://raw.githubusercontent.com/MyCoRe-Org/mycore-skeleton-archetype/main/archetype-catalog.xml</tt>
 
-<p>Damit ist die neue Anwendung erstellt. Im Abschnitt <a href="{{<ref gs_ma_customize >}}">Initialisierung der eigenen Anwendung</a> werden die nächsten Schritte zur Anpassung und weiteren Konfiguration beschrieben.</p>
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard04.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Catalog File eintragen" width="440px" height="" />}}
+Dann kann unser MyCoRe Skeleton Archetype ausgewählt werden:               
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard05.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Archetype auswählen" alt="Formular erstellen" width="606px" height="" />}}
+Abschließend werden die initialen Parameter erfasst:
+{{< mcr-figure src="/images/documentation/getting_started/eclipse_mvn_archetype_wizzard06.png" class="text-center" label="Abbildung" 
+               caption="Eclipse - Archetype-Parameter setzen" alt="Formular erstellen" width="606px" height="" />}}
+
+<p>Mit klick auf <tt>Finish</tt> wird die neue Anwendung erstellt. Im Abschnitt <a href="{{<ref gs_ma_customize >}}">Initialisierung der eigenen Anwendung</a> werden die nächsten Schritte zur Anpassung und weiteren Konfiguration beschrieben.</p>
