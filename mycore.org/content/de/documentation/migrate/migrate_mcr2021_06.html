@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2021.06 und die Migration von Version
       2020.06 zu 2021.06 zusammen.
     "
-date: "2021-09-01"
+date: "2021-11-02"
 
 ---
 
@@ -47,10 +47,13 @@ date: "2021-09-01"
         <li>Git 2.26 oder höher</li>
         <li>Apache Maven 3.6.0 oder höher</li>
       </ul>
+      <p>
+        Das LTS2021.06 ist auch Java 17 kompatibel, läuft jedoch nicht mit Tomcat 10 / Jetty 11.x (noch keine Umstellung auf JakartaEE Namespace).
+      </p>
       
       <h3>Aktuelle Versionsnummer</h3>
       <p>Viel Anwender nutzen nicht die über Maven Central bereitgestellten Releases sondern möchten von den eingearbeiteten Bugfixes
-        der Entwickler profitieren. Hierfür muss das Nexus Repository mit den Bereitgestellten SNAPSHOTS eingebunden werden. Für Release 
+        der Entwickler profitieren. Hierfür muss das Nexus Repository mit den bereitgestellten SNAPSHOTS eingebunden werden. Für Release 
         2021 kann folgende Version genutzt werden:
       </p>
       <p>
@@ -58,22 +61,23 @@ date: "2021-09-01"
  <dependency>
    <groupId>org.mycore</groupId>
    <artifactId>...</artifactId>
-   <version>2021.06.0-SNAPSHOT</version>
+   <version>2021.06.1-SNAPSHOT</version>
  </dependency>{{< /highlight >}}
       </p>
       
       <h2>Migrationsschritte</h2>
       <p>
-        [ToDo]
+       Bis auf die Anpassungen der Versionsnummern sind keine weiteren Migrationsschritte nötig. Details zur Migration von MIR-Anwendungen
+       und entsprechende Anpassungsschritte sind in der <a href="{{< ref migrate_mir2021_06 >}}">Migrationsanleitung für MIR</a> zu finden.
       </p>
 
-      <h3>Java 16</h3>
+      <h3>Java 17</h3>
       <p>
-        Die CLI und ältere Tomcat-Versionen funktionieren nicht mit Java 16
-        Damit das wieder funktioniert muss ein aktueller Tomcat genutzt werden und zusätzliche Parameter in der CLI ergänzt werden.
-        Siehe dazu z.B. https://mycore.atlassian.net/browse/MIR-1031 bzw. https://github.com/MyCoRe-Org/mir/commit/13e014cb0359d5f618924b5823c7ce6087c918ab
+        Die CLI und ältere Tomcat-Versionen funktionieren nicht mit Java 17.
+        Damit das wieder funktioniert muss ein aktueller Tomcat (aber kein Tomcat 10!) genutzt werden und zusätzliche Parameter in der CLI ergänzt werden.
+        Siehe dazu z.B. <a href="https://mycore.atlassian.net/browse/MIR-1031">MIR-1031</a> bzw.
+        <a href="https://github.com/MyCoRe-Org/mir/commit/13e014cb0359d5f618924b5823c7ce6087c918ab">Commit 13e014c</a>.
       </p>
 
-      
     </div>
 

@@ -107,10 +107,28 @@ location /mir {
       als EventHandler aktiv sein.</p>
       
       <h2>rfc5646</h2>
-      <p>Die Sprachklassifikation rfc4646 wurde durch eine neuere und vollständige Version rfc5646 abgelöst. Details dazu folgen,
-        erste Informationen können dem <a href="https://github.com/MyCoRe-Org/mycore/pull/570/files">Github-Commit</a> entnommen
-        werden.</p>
+      <p>Die Sprachklassifikation rfc4646 wurde durch eine neuere und vollständige Version rfc5646 abgelöst. Details können dem
+       <a href="https://github.com/MyCoRe-Org/mycore/pull/570/files">Github-Commit</a> entnommen werden. Für die Migration sind in der
+       CLI folgende Schritte nötig:</p>
+       
+       <ol>
+         <li>
+           Laden der neuen Klassifikation:
+         </li>
+         <li>
+           Selektieren aller zu migrierenden Objekte mit Hilfe einer Solr-Query:
+           select objects with solr query +objectType:mods +category.top:rfc4646\:* in core main
 
+           In der Konsole sollte diese Nachricht erscheinen: INFO: 264 objects selected
+         </li>
+         <li>
+           Migration der Objekte mit dem folgenden CLI-Befehl:
+           execute for selected xslt {x} with file resource:xsl/mycoreobject-migrate-language.xsl
+         </li>
+         <li>
+           Löschen der alten Klassifikation:
+         </li>
+       </ol>
     </div>
 
   
