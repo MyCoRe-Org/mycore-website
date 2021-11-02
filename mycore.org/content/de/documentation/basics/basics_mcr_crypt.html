@@ -1,0 +1,122 @@
+
+---
+
+title: "Verschlüsselung mit MyCoRe"
+mcr_version: ['2021.06']
+author: ['Paul Borchert']
+date: "2021-11-01"
+
+---
+     <h2>Allgemeines</h2>
+      
+     <p>Das mycore-base Modul bietet mit dem Package <em> org.mycore.crypt </em> Funktionalitäten
+        zum Verschlüsseln von Werten. Ein sinnvolles Einsatzgebiet ist das Verschlüsseln von
+        urheberechtlich geschützten Abstracts oder dem Impactfactor. Diese bleiben für Dritte 
+        nicht lesbar, wenn sie per Zufall öffentlich zugreifbar sind. Wenn z.B. ein 
+        Entwickler eine Transformation für ein neues Format für OAI entwickelt und dabei 
+        nicht beachtet, dass die geschützten Abstracts nicht übertragen werden dürfen,
+        so erhält der OAI Harvester nur die verschlüsselten Werte.
+     </p>
+     <p>  
+        Das zentrale Werkzeug ist abstrakte Klasse MCRCipher. Ein Cipher
+        bietet Methoden zum Strings und Byteblöcke zu ver- und entschlüsseln. Die konkrete
+        Implementierung des Verschlüsselungalgorithmus erfolgt in einer von MCRCipher abgeleiteten
+        Klasse. Initial steht AES durch die Klasse <em>org.mycore.crypt.MCRAESCipher</em>
+        zu Verfügung.
+      </p>
+      <p>
+        Um einen Cipher nutzen zu können muss dieser 
+        <ul>
+          <li>in den Properties <strong> konfiguriert, </strong> </li>
+          <li>die Rechte <strong>ACLs</strong> hintergelegt, </li> 
+          <li>mit der WebCli <strong> initialisiert </strong> werden.</li>
+        </ul> 
+      </p>
+      <h2>Konfiguration</h2>
+      <p>
+        In den Properties muss für ein Cipher folgendes definiert werden: 
+        <ul>
+          <li> Die ID des Ciphers (z.B. keyabstract).</li>
+          <li> Eine von MCRCipher abgeleitete Klasse, in der der verwendete Allgorithmus implementiert wurde </li>
+          <li> Der Pfad zum KeyFile, in der der Schlüssel gespeichert wird.</li>
+        </ul>  
+      </p>
+      {{< highlight  "linenos=table">}}
+  MCR.Crypt.Cipher.keyabstract.class=org.mycore.crypt.MCRAESCipher
+  MCR.Crypt.Cipher.keyabstract.KeyFile=%Path_of_KeyFile% {{< /highlight >}}
+       <p>
+         Der Prozess des Java Webcontainers muss auf das KeyFile schreibend zugreifen dürfen
+         und das Verzeichnis muss bereits exsistieren. 
+      </p>
+      <h2>ACL</h2>
+      <p>
+        In den ACLs kann man für einen Cipher die Rechte <em>crypt</em> und <em>decypt</em>
+        vergeben. Mit dem Recht crypt kann man den Cipher nutzen um Werte zu verschlüsseln
+        mit decrypt um sie zu entschlüsseln.
+      </p>
+      <table class="table">
+        <tr>
+          <td> keyabstract </td>
+          <td> crypt </td> 
+          <td> editors </td>
+        </tr>
+        <tr>
+          <td> keyabstract </td> 
+          <td> decrypt </td>
+          <td> editors </td>
+        </tr>
+      </table>
+      <h2>Initialisierung</h2>
+      <p>
+        Bevor man den Cipher nutzen kann, muss erst der geheime Schlüssel erzeugt und 
+        in dem KeyFile gespeichert werden. Die geschieht mir dem Cli-Befehl
+      </p>
+      {{< highlight  "linenos=table">}}
+  generate keyfile for cipher {0}{{< /highlight >}}
+      <p>
+        Dieser Schritt kann entfallen, wenn schon einen KeyFile von einer anderen
+        MyCoRe Anwendung genutzt wird. Durch das Teilen von Schlüsseln in den KeyFiles
+        ist es möglich verschlüsselte Daten eines anderen Repository zu verwenden.
+      </p>
+      <h2>Verschlüsseln mit Java</h2>
+      <p>
+        Um in Java Werte zu verschlüsseln, muss man sich mit Hilfe MCRCipherManagers und 
+        der ID eine Instanz des Cipher holen. Anschließend kann man mir den 
+        Methoden 
+      </p>
+      {{< highlight  "linenos=table">}}
+  MCRCipher cipher = MCRCipherManager.getCipher("abstactkey");
+  String encyrptedValue = cipher.encrypt(value);
+  String decryptedValue = cipher.decrypt(encyrptedValue);{{< /highlight >}}
+        
+      
+      <h2>Verschlüsseln mit XSLT</h2>
+      <p>
+        Um mit XSLT Werte zu verschlüsseln kann man den  
+        <a href="{{< ref "frontend_mcruriresolver#crypt" >}}">URI Resolver crypt</a> verwenden.
+      </p>
+      <h2>CLI Komandos</h2>
+      <p>
+        <dl>
+          <dt>
+            <code>show cipher configuration</code>
+          </dt>
+          <dd>Das Kommando listet alle Cipher Properties auf.</dd>
+          <dt>
+            <code>generate keyfile for cipher {0}</code>
+          </dt>
+          <dd>Erstellt einen Schlüssel und speichert ihn im Keyfile. Bricht ab, wenn schon ein Keyfile exsistiert.</dd>
+          <dt>
+            <code>overwrite keyfile for cipher {0}</code>
+          </dt>
+          <dd>Erstellt einen Schlüssel und überschreibt den Schlüssel im Keyfile.</dd>
+          <dt>
+            <code>encrypt {0} with cipher {1}</code>
+          </dt>
+          <dd>Verschlüsselt den Wert {0} mit dem Cipher {1} und gibt den Wert in der CLI aus.</dd>
+          <dt>
+            <code>encrypt {0} with cipher {1}</code>
+          </dt>
+          <dd>Entschlüsselt den Wert {0} mit dem Cipher {1} und gibt den Wert in der CLI aus.</dd>
+        </dl>
+      </p>

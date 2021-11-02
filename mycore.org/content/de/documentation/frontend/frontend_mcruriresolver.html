@@ -604,7 +604,6 @@ JK: hier ein Link zur Doku, falls vorhanden
 <p>
   lädt eine physische Datei vom Server.
 </p>
-<p>
 {{< highlight txt "linenos=table">}}
   file:/home/mcradmin/data.xml
 {{< /highlight >}}
@@ -614,7 +613,6 @@ JK: hier ein Link zur Doku, falls vorhanden
 <p>
   lädt eine Ressource aus dem Internet. Sie wird serverseitig gecached.
 </p>
-<p>
 {{< highlight txt "linenos=table">}}
   https://www.mycore.de/classifications/state.xml
 {{< /highlight >}}
@@ -624,7 +622,16 @@ JK: hier ein Link zur Doku, falls vorhanden
 <p>
   Gibt alle Zugriffsschlüssel für ein Objekt im JSON-Format zurück, zusätzlich mit <code>count</code> Attribute für die Anzahl der Zugriffsschlüssel.
 </p>
+
+<span id="crypt" class="badge badge-secondary float-right">mycore-base</span>
+<h3>crypt:{encrypt/decrypt}:{cipherid}:{value}</h3>
 <p>
+  Verschlüsselt oder entschlüsselt einen String und gibt das Ergebniss in einem xml Dokument zurück. Dieses
+  xml Dokument enthält einen einzigen Knoten, den Wurzelkoten <em>value</em>. 
+</p>
+{{< highlight txt "linenos=table">}}
+  <xsl:value-of select="document('crypt:decrypt:keyabstract:LDIIKk4wTJP32R8QRrwXHw==')/value" />
+{{< /highlight >}}
 
       <h2>MCRURIResolverFilter</h2>
       <p>
