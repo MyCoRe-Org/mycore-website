@@ -44,3 +44,18 @@ date: "2021-10-15"
 {{< highlight  "linenos=table">}}
  MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
  MCR.Metadata.Manager.Repository=Main{{< /highlight >}}
+
+    <h2>Migration</h2>
+    <b class="text-warning">Achtung: Die Migration befindet sich aktuell noch im Beta-Entwicklungsstadium und ist nicht für den produktiven Einsatz
+        vorgesehen</b>
+    <p>Für die Prozedur sollte sichergestellt werden, dass die Daten nicht von Nutzern bearbeitet werden.
+        Zunächst sollte ein Repository konfiguriert werden. Der Metadaten-Manager darf aber noch nicht auf OCFL umgestellt
+        werden. Mit dem Kommando <code>migrate metadata to repository Main</code> können die Daten in das Repository
+        <code>Main</code> überspielt werden.
+        Das Kommando gibt eine Statistik aus, ob alle Metadaten migriert werden konnten.
+    </p>
+    <p>
+        Wenn alles geklappt hat, dann kann man den MetadatenManager umstellen.
+    </p>
+
+
