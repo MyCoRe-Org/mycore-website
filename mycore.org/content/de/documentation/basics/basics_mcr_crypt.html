@@ -19,7 +19,7 @@ date: "2021-11-01"
      </p>
      <p>  
         Das zentrale Werkzeug ist abstrakte Klasse MCRCipher. Ein Cipher
-        bietet Methoden zum Strings und Byteblöcke zu ver- und entschlüsseln. Die konkrete
+        bietet Methoden um Strings und Byteblöcke zu ver- und entschlüsseln. Die konkrete
         Implementierung des Verschlüsselungalgorithmus erfolgt in einer von MCRCipher abgeleiteten
         Klasse. Initial steht AES durch die Klasse <em>org.mycore.crypt.MCRAESCipher</em>
         zu Verfügung.
@@ -30,14 +30,14 @@ date: "2021-11-01"
           <li>in den Properties <strong> konfiguriert, </strong> </li>
           <li>die Rechte <strong>ACLs</strong> hintergelegt, </li> 
           <li>mit der WebCli <strong> initialisiert </strong> werden.</li>
-        </ul> 
+        </ul>
       </p>
       <h2>Konfiguration</h2>
       <p>
         In den Properties muss für ein Cipher folgendes definiert werden: 
         <ul>
           <li> Die ID des Ciphers (z.B. keyabstract).</li>
-          <li> Eine von MCRCipher abgeleitete Klasse, in der der verwendete Allgorithmus implementiert wurde </li>
+          <li> Eine von MCRCipher abgeleitete Klasse, in der der verwendete Algorithmus implementiert wurde </li>
           <li> Der Pfad zum KeyFile, in der der Schlüssel gespeichert wird.</li>
         </ul>  
       </p>
