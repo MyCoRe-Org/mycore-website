@@ -4,21 +4,21 @@
 title: "Changes in MIR"
 author: ['Kathleen Neumann']
 description: "Changelog for MIR - the MyCoRe / MODS institutional repository."
-date: "2020-04-02"
+date: "2021-10-01"
 
 ---
   <div>
   <h2>MIR Changelog</h2>
 
   <div>
-    <h3>Version 2020.05 - Current Head</h3>
+    <h3>Version 2021.11 - Current Head</h3>
 
     <p>For details see <a href="http://www.mycore.de/generated/mir/project-reports.html">maven site</a></p>
 
   </div>
   <!-- div>
-      <h3>Version 2019.05 - Release based on MyCoRe release 2019.05</h3>
-      <p>For details see <a href="http://www.mycore.de/generated/mir-2019.05/project-reports.html">maven site</a></p>
+      <h3>Version 20xx.xx - Release based on MyCoRe release 20xx.xx</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-20xx.xx/project-reports.html">maven site</a></p>
       <ul>
           <li>Bug
 
@@ -37,6 +37,408 @@ date: "2020-04-02"
           </li>
       </ul>
   </div -->
+  
+  <div>
+      <h3>Version 2021.06.0 - Release based on MyCoRe release 2021.06.0</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2021.06.0/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1064">MIR-1064</a>] - Leave related items with other type unmodified</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1062">MIR-1062</a>] - Duplicate inclusion af abstract as meta tag</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1055">MIR-1055</a>] - read short title from csl if available</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1054">MIR-1054</a>] - bootstrap grid is not completly migrated to version 4</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1053">MIR-1053</a>] - OAI Datacite is not XSLT3 conform and generated datacite XML ist not valid</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1048">MIR-1048</a>] - MIRStateServlet shows wrong error code</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1043">MIR-1043</a>] - missing gnd subjects in editor mask</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1042">MIR-1042</a>] - from Scopus imported data is not license compliant</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1041">MIR-1041</a>] - mir-rights.xsl slows down metadata page</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1040">MIR-1040</a>] - solrMirrorURL in Solr Runner plugin no longer works for older Solr versions</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1038">MIR-1038</a>] - fix entity-mappings</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1031">MIR-1031</a>] - MIR does not run with java 16</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1003">MIR-1003</a>] - required validation in reletedItem search fails in any case</li>
+          </li>
+          <li>New Feature
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1047">MIR-1047</a>] - Panels rendered by the new Metadata Layout should have an option to include icon</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1059">MIR-1059</a>] - make MIR compatible to Java 17</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1024">MIR-1024</a>] - Add link to Sherpa/Romeo page if information is available</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1063">MIR-1063</a>] - Refrain from adding history modal for non-privileged users</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1052">MIR-1052</a>] - Several small issues regarding the TOC</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1035">MIR-1035</a>] - New Property for exclude genre type from validation</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1034">MIR-1034</a>] - switch access keys to mycore-acl</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1025">MIR-1025</a>] - Option to enable mir_licences explicitly for mir_genres</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1001">MIR-1001</a>] - Improve styling of cartographics/related items</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2021.08 - Release based on MyCoRe release 2021.08</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2021.08/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1048">MIR-1048</a>] - MIRStateServlet shows wrong error code</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1043">MIR-1043</a>] - missing gnd subjects in editor mask</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1042">MIR-1042</a>] - from Scopus imported data is not license compliant</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1041">MIR-1041</a>] - mir-rights.xsl slows down metadata page</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1040">MIR-1040</a>] - solrMirrorURL in Solr Runner plugin no longer works for older Solr versions</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1038">MIR-1038</a>] - fix entity-mappings</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1031">MIR-1031</a>] - MIR does not run with java 16</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1030">MIR-1030</a>] - Open Data Commons Licenses are not displayed in the info box</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1003">MIR-1003</a>] - required validation in reletedItem search fails in any case</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1024">MIR-1024</a>] - Add link to Sherpa/Romeo page if information is available</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1035">MIR-1035</a>] - New Property for exclude genre type from validation</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1025">MIR-1025</a>] - Option to enable mir_licences explicitly for mir_genres</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1001">MIR-1001</a>] - Improve styling of cartographics/related items</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2021.05 - Release based on MyCoRe release 2021.05</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2021.05/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1026">MIR-1026</a>] - Spelling and translation errors in data forms</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1023">MIR-1023</a>] - do not pass Content-Security-Policy-Header from solr</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1022">MIR-1022</a>] - MIRStrategy does not work right and is not testet</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1021">MIR-1021</a>] - after registering PID can`t edit third party PIDs of that type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1008">MIR-1008</a>] - NPE in MirSelfRegistrationServlet</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1006">MIR-1006</a>] - publications with date issued range generate invalid datacite</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-999">MIR-999</a>] - some important (sub)fields are missing in MARC XML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-998">MIR-998</a>] - problems with search-entity</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-991">MIR-991</a>] - geocoords javascript doesn't work with more than on coordinates entry</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-990">MIR-990</a>] - mir does not build on apple m1 chip</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-989">MIR-989</a>] - identifier maybe empty in some cases</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-987">MIR-987</a>] - Imported metadata with isbn can`t be saved</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-986">MIR-986</a>] - Can not import DeepGreen</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-985">MIR-985</a>] - AccessKey ACL will not fallback to base rule</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-984">MIR-984</a>] - Podcast does not contain mods:nonSort in generated title</li>
+          </li>
+          <li>New Feature
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-994">MIR-994</a>] - allow export of publication list with a csl style</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1013">MIR-1013</a>] - use pica2mods library</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1011">MIR-1011</a>] - Include option to set keywords field as required</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1010">MIR-1010</a>] - Add Blog as document type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1009">MIR-1009</a>] - add rights_reserved text to schema.org license element</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1007">MIR-1007</a>] - Extension of the pmd ClassNamingConventions</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1004">MIR-1004</a>] - Add article number to metadata view and editor</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-997">MIR-997</a>] - solr indexing with xsl3</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-992">MIR-992</a>] - Improve Access Key DB Schema to allow not only key pairs</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-988">MIR-988</a>] - Podcast: Retrieve [itunes:owner](itunes:owner) information from MODS</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-976">MIR-976</a>] - Allowing hyphens in names has ghastly consequences</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-969">MIR-969</a>] - Complete output of all file areas</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-958">MIR-958</a>] - use license romeo id and dissemin id from deposit</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.06.2 - Release based on MyCoRe release 2020.06.2</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.06.2/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1026">MIR-1026</a>] - Spelling and translation errors in data forms</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1023">MIR-1023</a>] - do not pass Content-Security-Policy-Header from solr</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1022">MIR-1022</a>] - MIRStrategy does not work right and is not testet</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1021">MIR-1021</a>] - after registering PID can`t edit third party PIDs of that type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1008">MIR-1008</a>] - NPE in MirSelfRegistrationServlet</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1006">MIR-1006</a>] - publications with date issued range generate invalid datacite</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-999">MIR-999</a>] - some important (sub)fields are missing in MARC XML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-998">MIR-998</a>] - problems with search-entity</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-991">MIR-991</a>] - geocoords javascript doesn't work with more than on coordinates entry</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-990">MIR-990</a>] - mir does not build on apple m1 chip</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-989">MIR-989</a>] - identifier maybe empty in some cases</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-987">MIR-987</a>] - Imported metadata with isbn can`t be saved</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-986">MIR-986</a>] - Can not import DeepGreen</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-985">MIR-985</a>] - AccessKey ACL will not fallback to base rule</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-984">MIR-984</a>] - Podcast does not contain mods:nonSort in generated title</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-950">MIR-950</a>] - PlumX Icon is missing</li>
+          </li>
+          <li>New Feature
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-994">MIR-994</a>] - allow export of publication list with a csl style</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-962">MIR-962</a>] - Display login link in noaccess message for derivate</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1013">MIR-1013</a>] - use pica2mods library</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1011">MIR-1011</a>] - Include option to set keywords field as required</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1010">MIR-1010</a>] - Add Blog as document type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1009">MIR-1009</a>] - add rights_reserved text to schema.org license element</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-1004">MIR-1004</a>] - Add article number to metadata view and editor</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-997">MIR-997</a>] - solr indexing with xsl3</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-988">MIR-988</a>] - Podcast: Retrieve [itunes:owner](itunes:owner) information from MODS</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-976">MIR-976</a>] - Allowing hyphens in names has ghastly consequences</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-958">MIR-958</a>] - use license romeo id and dissemin id from deposit</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2021.02 - Release based on MyCoRe release 2021.02</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2021.02/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-982">MIR-982</a>] - Enrichment doesn't work using ISBN</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-980">MIR-980</a>] - Query jwt token with user attributes</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-979">MIR-979</a>] - Wrong resourceTypeGeneral for research_data in DataCite-XML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-978">MIR-978</a>] - missing sass !default property prevents overwriting variables</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-975">MIR-975</a>] - Faulty display of form when linking with internal host</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-974">MIR-974</a>] - fix selenium tests using old xeditor xpath</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-973">MIR-973</a>] - validation for some required fields is missing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-966">MIR-966</a>] - Error when adding 0 search hits to the basket list</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-965">MIR-965</a>] - mycoreobject-datacite-mir.xsl - Excetion for multiple hosting institutions as publishers</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-964">MIR-964</a>] - sherpa romeo api does not work anymore</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-961">MIR-961</a>] - search entity does not associate identifier in some editors</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-959">MIR-959</a>] - derivate classification should have higher acl priority</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-946">MIR-946</a>] - Metadata page can not be rendered if CSL throws an error</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-847">MIR-847</a>] - classifications are not indexed after installation</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-968">MIR-968</a>] - add information box for mods:person</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.06.1 - Release based on MyCoRe release 2020.06.1</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.06.1/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-982">MIR-982</a>] - Enrichment doesn't work using ISBN</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-980">MIR-980</a>] - Query jwt token with user attributes</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-979">MIR-979</a>] - Wrong resourceTypeGeneral for research_data in DataCite-XML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-978">MIR-978</a>] - missing sass !default property prevents overwriting variables</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-975">MIR-975</a>] - Faulty display of form when linking with internal host</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-974">MIR-974</a>] - fix selenium tests using old xeditor xpath</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-973">MIR-973</a>] - validation for some required fields is missing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-966">MIR-966</a>] - Error when adding 0 search hits to the basket list</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-965">MIR-965</a>] - mycoreobject-datacite-mir.xsl - Excetion for multiple hosting institutions as publishers</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-964">MIR-964</a>] - sherpa romeo api does not work anymore</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-959">MIR-959</a>] - derivate classification should have higher acl priority</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-957">MIR-957</a>] - Resource type is not repeatable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-956">MIR-956</a>] - xMetaDissPluss should use dcterms:isPartOf</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-948">MIR-948</a>] - Podcast feed does not contain any mods:subTitle</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-947">MIR-947</a>] - fix xeditor validation checks in templates</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-946">MIR-946</a>] - Metadata page can not be rendered if CSL throws an error</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-945">MIR-945</a>] - fixed validation of input-group</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-847">MIR-847</a>] - classifications are not indexed after installation</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-954">MIR-954</a>] - update dependencies</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-968">MIR-968</a>] - add information box for mods:person</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-955">MIR-955</a>] - make csl dropdown labels in citation box configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-952">MIR-952</a>] - Create DataCite v4.3 metadata for DOI registration</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-857">MIR-857</a>] - Show further information for author search while autocomplete</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.11 - Release based on MyCoRe release 2020.11</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.11/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-957">MIR-957</a>] - Resource type is not repeatable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-956">MIR-956</a>] - xMetaDissPluss should use dcterms:isPartOf</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-948">MIR-948</a>] - Podcast feed does not contain any mods:subTitle</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-947">MIR-947</a>] - fix xeditor validation checks in templates</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-945">MIR-945</a>] - fixed validation of input-group</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-941">MIR-941</a>] - modsdetails-external.xsl is included twice</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-954">MIR-954</a>] - update dependencies</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-943">MIR-943</a>] - Migrate derivate @display=false to classification mir_access</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-939">MIR-939</a>] - do not activate optional CLI command groups by default</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-955">MIR-955</a>] - make csl dropdown labels in citation box configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-952">MIR-952</a>] - Create DataCite v4.3 metadata for DOI registration</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-942">MIR-942</a>] - possibility to allow attributes in abstract</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-869">MIR-869</a>] - Use include canonical link tag to summarize different URLs for one object</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-857">MIR-857</a>] - Show further information for author search while autocomplete</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-805">MIR-805</a>] - Datacite information does not include RelatedItentifier</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.06.0 - Release based on MyCoRe release 2020.06.0</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.06.0/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-961">MIR-961</a>] - search entity does not associate identifier in some editors</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-941">MIR-941</a>] - modsdetails-external.xsl is included twice</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-936">MIR-936</a>] - german quotes in title leads to broken bibtex and citation output</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-935">MIR-935</a>] - fix several issues with MARCXML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-933">MIR-933</a>] - related item badge missing after reloading editor</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-932">MIR-932</a>] - fix URL encoding of SOLR query parameters</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-931">MIR-931</a>] - uncollapsing related items may trigger other HTML elements</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-930">MIR-930</a>] - subselect for relatedItem does not resolve mods.type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-927">MIR-927</a>] - TOC limits need to be configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-926">MIR-926</a>] - PID search in admin editor is a little bit buggy</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-925">MIR-925</a>] - flatmir.css is included twice</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-924">MIR-924</a>] - abstract html handling is wrong</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-923">MIR-923</a>] - citation select box value is not restored on page load</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-922">MIR-922</a>] - volume information in toc legacy is missing and layout is broken</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-921">MIR-921</a>] - message property in ePusta modal and logo in ePusta card is missing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-920">MIR-920</a>] - Intermediate TOC levels (volume, issue) are not linked to object</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-916">MIR-916</a>] - cosmol doesn't work with bootstrap 4 and sass</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-914">MIR-914</a>] - Minor fixes for JATS2MODS mapping</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-913">MIR-913</a>] - Fix layout of Blog TOCs</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-910">MIR-910</a>] - Layout finetuning for workflow component</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-909">MIR-909</a>] - toggle logic for toc doesn't work</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-899">MIR-899</a>] - Fix AccessKey deletion</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-876">MIR-876</a>] - data import from GVK / K10+ does not work properly</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-867">MIR-867</a>] - Fix bugs in JATS2MODS mapping</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-854">MIR-854</a>] - Layout bugs caused by bootstrap 4 migration</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-818">MIR-818</a>] - Exception caused by removed derobjects when saving metadata after editing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-795">MIR-795</a>] - Upload section in drag&drop file upload always puts files in root directory</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-638">MIR-638</a>] - Citations in citationbox are incomplete</li>
+          </li>
+          <li>New Feature
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-918">MIR-918</a>] - Add support for podcast RSS feeds</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-943">MIR-943</a>] - Migrate derivate @display=false to classification mir_access</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-939">MIR-939</a>] - do not activate optional CLI command groups by default</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-919">MIR-919</a>] - Apply PMD and Checkstyle rules</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-942">MIR-942</a>] - possibility to allow attributes in abstract</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-938">MIR-938</a>] - improve workflow edit link</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-934">MIR-934</a>] - make allowed roles for search in non published documents configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-929">MIR-929</a>] - Refactor toc layout templates</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-917">MIR-917</a>] - add information in full screen view</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-912">MIR-912</a>] - Add debug mode for table of contents</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-911">MIR-911</a>] - metadata page refactoring</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-869">MIR-869</a>] - Use include canonical link tag to summarize different URLs for one object</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.08 - Release based on MyCoRe release 2020.08</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.08/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-936">MIR-936</a>] - german quotes in title leads to broken bibtex and citation output</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-935">MIR-935</a>] - fix several issues with MARCXML</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-933">MIR-933</a>] - related item badge missing after reloading editor</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-932">MIR-932</a>] - fix URL encoding of SOLR query parameters</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-931">MIR-931</a>] - uncollapsing related items may trigger other HTML elements</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-930">MIR-930</a>] - subselect for relatedItem does not resolve mods.type</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-927">MIR-927</a>] - TOC limits need to be configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-926">MIR-926</a>] - PID search in admin editor is a little bit buggy</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-925">MIR-925</a>] - flatmir.css is included twice</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-924">MIR-924</a>] - abstract html handling is wrong</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-923">MIR-923</a>] - citation select box value is not restored on page load</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-922">MIR-922</a>] - volume information in toc legacy is missing and layout is broken</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-921">MIR-921</a>] - message property in ePusta modal and logo in ePusta card is missing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-920">MIR-920</a>] - Intermediate TOC levels (volume, issue) are not linked to object</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-916">MIR-916</a>] - cosmol doesn't work with bootstrap 4 and sass</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-914">MIR-914</a>] - Minor fixes for JATS2MODS mapping</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-913">MIR-913</a>] - Fix layout of Blog TOCs</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-910">MIR-910</a>] - Layout finetuning for workflow component</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-909">MIR-909</a>] - toggle logic for toc doesn't work</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-899">MIR-899</a>] - Fix AccessKey deletion</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-876">MIR-876</a>] - data import from GVK / K10+ does not work properly</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-854">MIR-854</a>] - Layout bugs caused by bootstrap 4 migration</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-818">MIR-818</a>] - Exception caused by removed derobjects when saving metadata after editing</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-795">MIR-795</a>] - Upload section in drag&drop file upload always puts files in root directory</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-638">MIR-638</a>] - Citations in citationbox are incomplete</li>
+          </li>
+          <li>New Feature
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-918">MIR-918</a>] - Add support for podcast RSS feeds</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-919">MIR-919</a>] - Apply PMD and Checkstyle rules</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-938">MIR-938</a>] - improve workflow edit link</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-934">MIR-934</a>] - make allowed roles for search in non published documents configurable</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-929">MIR-929</a>] - Refactor toc layout templates</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-917">MIR-917</a>] - add information in full screen view</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-912">MIR-912</a>] - Add debug mode for table of contents</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-911">MIR-911</a>] - metadata page refactoring</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2019.06.4 - Release based on MyCoRe release 2019.06.4</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2019.06.4/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-926">MIR-926</a>] - PID search in admin editor is a little bit buggy</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-902">MIR-902</a>] - use message properties in orcid javascript</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-901">MIR-901</a>] - bad hover effect for add to basket option in public result list</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-900">MIR-900</a>] - solr-fields4toc.xsl still produces multivalued fields in some cases</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-896">MIR-896</a>] - Self-Registration throws ClassCastException</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-895">MIR-895</a>] - Test do not wait for SOLR index changes</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-894">MIR-894</a>] - Make MIR HTML valid</li>
+          </li>
+          <li>Task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-907">MIR-907</a>] - Switch from OAS to ePusta</li>
+          </li>
+          <li>Sub-task
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-893">MIR-893</a>] - Optimize the responsive behaviour of the main menu</li>
+          </li>
+          <li>Improvement
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-905">MIR-905</a>] - ORCID finetuning</li>
+          </li>
+      </ul>
+  </div>
+  <div>
+      <h3>Version 2020.05 - Release based on MyCoRe release 2020.05</h3>
+      <p>For details see <a href="http://www.mycore.de/generated/mir-2020.05/project-reports.html">maven site</a></p>
+      <ul>
+          <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-902">MIR-902</a>] - use message properties in orcid javascript</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-901">MIR-901</a>] - bad hover effect for add to basket option in public result list</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-900">MIR-900</a>] - solr-fields4toc.xsl still produces multivalued fields in some cases</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-896">MIR-896</a>] - Self-Registration throws ClassCastException</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-895">MIR-895</a>] - Test do not wait for SOLR index changes</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-894">MIR-894</a>] - Make MIR HTML valid</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-892">MIR-892</a>] - only convert date to w3cdtf if it doesn't exist</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-891">MIR-891</a>] - metadatabox - no display title of relatedItem type=host without href</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-890">MIR-890</a>] - footer menu entries behave as buttons instead of links</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-889">MIR-889</a>] - login menu - missing or wrong classes for current user entry</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-888">MIR-888</a>] - mir property nav - active entries lose basic classes</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-887">MIR-887</a>] - add function to prevent duplicated journals in JATS2MODS</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-884">MIR-884</a>] - solr-fields4toc.xsl may generate more than one value for nonmultivalue fields</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-883">MIR-883</a>] - MIR git properties contain dirty flag</li>
+            </ul>
+          </li>
+          <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-904">MIR-904</a>] - some workflow for mir</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-886">MIR-886</a>] - [dissem.in](http://dissem.in) sword implementation</li>
+            </ul>
+          </li>
+          <li>Sub-Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-893">MIR-893</a>] - Optimize the responsive behaviour of the main menu</li>
+            </ul>
+          </li>
+          <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-907">MIR-907</a>] - Switch from OAS to ePusta</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-906">MIR-906</a>] - update dependencies in yarn.lock</li>
+            </ul>
+          </li>
+          <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-905">MIR-905</a>] - ORCID finetuning</li>
+              <li>[<a href="https://mycore.atlassian.net/browse/MIR-903">MIR-903</a>] - Refactor table of contents feature</li>
+            </ul>
+          </li>
+      </ul>
+  </div>
+  
+  
   <div>
       <h3>Version 2019.06.3 - LTS Release based on MyCoRe release 2019.06.3</h3>
       <p>For details see <a href="http://www.mycore.de/generated/mir-2019.06.3/project-reports.html">maven site</a></p>
