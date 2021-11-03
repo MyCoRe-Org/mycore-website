@@ -38,7 +38,8 @@ date: "2021-10-15"
  MCR.OCFL.Repository.Main.RepositoryRoot=%MCR.datadir%/ocfl-root
  MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp{{< /highlight >}}
 <p>
-     Diese Properties sind benötigt um den Metadatenmanager für XML zu ersetzen durch den für OCFL:
+     Diese Properties sind benötigt um den Metadatenmanager für XML zu ersetzen durch den für OCFL!
+     <em>Main</em> ist dabei ein Bezeichner, welcher die Gruppe der notwendigen Properties zusammenfasst.
 </p>
 
 {{< highlight  "linenos=table">}}
@@ -58,4 +59,18 @@ date: "2021-10-15"
         Wenn alles geklappt hat, dann kann man den MetadatenManager umstellen.
     </p>
 
+    <h2>Offene Probleme</h2>
+    <ul>
+      <li>Ein Objekt muss hart löschbar sein - bisher ist nur 'soft'-löschen möglich.</li>
+      <li>Die Directory-Struktur muss 'sprechend' sein - wie bisher.</li>
+      <li>Die Version muss bei /receive/{ID} als Attribut mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.</li>
+      <li>Tests sind noch nicht alle komplett durch, weitere folgen.</li>
+    </ul>
+    
+    <h2>Fazit</h2>
+    <ul>
+      <li>OCFL ist nicht für Produktivanwendungen komplett genug.</li>
+      <li>Fixes und Konkretisierungen sind noch erforderlich.</li>
+      <li>Mit Release 2022 sollte OCFL produktiv einsetzbar sein.</li> 
+    </ul>
 
