@@ -2,102 +2,200 @@
 ---
 
 title: "Anbindung von Shibboleth"
-mcr_version: ['2019.06','2020.06']
-author: ['Kathleen Neumann', 'Jens Kupferschmidt']
+mcr_version: ['2020.06','2021.06']
+author: ['Sebastian Hofmann']
 description: "Beschreibung der Anbindung an externe Authentifizierungs- und Authorisierungssysteme."
-date: "2020-06-02"
+date: "2021-11-05"
 
 ---
 
-      <h2>Shibboleth</h2>
+<h2>Shibboleth</h2>
 
-      <p>
-        Im ersten Schritt muss Shibboleth installiert und konfiguriert werden. Dazu steht
-        eine <a href="/downloads/Install_Konf_SP.pdf">Anleitung aus Jena</a> zur Verfügung,
-        die einen möglichen Weg beschreibt.
-      </p>
-      <p>
-        Nachdem die Konfiguration abgeschlossen ist, muss die <code>realms.xml</code> angepasst
-        werden. Nachfolgend ebenfalls ein Beispiel der Konfiguration in Jena.
-      </p>
-      <p>
-      {{< highlight xml "linenos=table">}}
-<?xml version="1.0" encoding="UTF-8"?>
+<p>
+  <a href="https://de.wikipedia.org/wiki/Shibboleth_(Internet)">Wikipedia</a>
+  <blockquote>
+    Shibboleth ist ein vom Internet2/MACE entwickeltes Verfahren zur verteilten Authentifizierung und Autorisierung für
+    Webanwendungen und Webservices. Das Konzept von Shibboleth sieht vor, dass der Benutzer sich nur einmal bei seiner
+    Heimateinrichtung authentifizieren muss, um ortsunabhängig auf Dienste oder lizenzierte Inhalte verschiedener
+    Anbieter zugreifen zu können (engl. Single Sign-on). Shibboleth basiert auf einer Erweiterung des Standards SAML.
+  </blockquote>
+</p>
 
-<realms local="local">
-  <realm id="local">
-    [...]
-  </realm>
-  <realm id="shibboleth" setable="false">
-    <label xml:lang="de">Shibboleth</label>
-    <label xml:lang="en">Shibboleth</label>
-    <login url="MCRShibbolethLoginServlet" redirectParameter="url">
-      <label xml:lang="de">Anmelden mit dem Login Ihrer Heimateinrichtung</label>
-      <label xml:lang="en">Login with your user credentials of your home institution</label>
-      <info>
-        <label xml:lang="de">
-          Falls unterstützt, müssen Sie sich ggf. nur einmalig anmelden.
-        </label>
-        <label xml:lang="en">
-          This login uses single-sign-on facilities provided by your home institution.
-        </label>
-      </info>
-    </login>
-  </realm>
-  <realm id="tu-ilmenau.de">
-    <label xml:lang="de">TU Ilmenau</label>
-    <label xml:lang="en">TU Ilmenau</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="affiliation" separator=";">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://www.tu-ilmenau.de/unirz/it-service-desk/password/</passwordChangeURL>
-  </realm>
-  <realm id="uni-jena.de">
-    <label xml:lang="de">FSU Jena</label>
-    <label xml:lang="en">FSU Jena</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="eduPersonAffiliation">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://portal.uni-jena.de/</passwordChangeURL>
-  </realm>
-  <realm id="uni-erfurt.de">
-    <label xml:lang="de">Universität Erfurt</label>
-    <label xml:lang="en">University Erfurt</label>
-    <attributeMapping>
-      <attribute name="userName" mapping="eppn" />
-      <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter" />
-      <attribute name="eMail" mapping="mail" />
-      <attribute name="roles" mapping="eduPersonAffiliation">
-        <valueMapping name="employee">submitter</valueMapping>
-        <valueMapping name="member">reader</valueMapping>
-      </attribute>
-    </attributeMapping>
-    <passwordChangeURL>https://idmweb.uni-erfurt.de/OAS</passwordChangeURL>
-  </realm>
-</realms>{{< /highlight >}}
-      </p>
-      <p>
-        Um zu bewirken, dass der Benutzer beim Anlegen eines Dokument auch gespeichert wird
-        muss in den <code>mycore.properties</code> noch folgendes Property gesetzt werden:
-      </p>
-      <p>
-      {{< highlight bash "linenos=table">}}
-# can be used to persist transient user (shibboleth or ...)
-MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler{{< /highlight >}}
-      </p>
-      <p>
-        Anhand der Attribute die gemappt werden sieht man, was der IDP liefern muss.
-      </p>
-  
+<dl>
+    <dt>Discovery-Service</dt>
+    <dd>Hier wählt der Benutzer zu welcher Einrichtung er gehört und wird an dessen Identity-Provider weitergeleitet.
+        Der Discovery-Service ist optional.
+    </dd>
+    <dt>Identity-Provider:</dt>
+    <dd>Hält die Namen, Passworter und Rollen der Benutzer. Idr. hat jede Universität einen eigenen Identity-Provider.
+        Benutzer melden sich hier an und bestimmen welche Informationen an den Service-Provider weitergeleitet werden
+        sollen.
+    </dd>
+    <dt>Service-Provider</dt>
+    <dd>Stellt geschützte Resourcen zu verfügung. Leitet die Benutzer an den Discovery-Service oder an den
+        Identity-Provider weiter. Nimmt nach der Anmeldung die Benutzerinformationen entgegen.
+    </dd>
+</dl>
+
+<p>Die MyCoRe-Anwendung ist ein Teil des Serviceproviders und nimmt die Benutzerinformationen entgegen. Der andere Teil
+    ist ein Apache-Plugin, welches die Shibboleth relevanten Requests verarbeitet und an den Tomcat weiterleitet.</p>
+
+<h3>Installieren des Serviceproviders</h3>
+<p>
+    Als erstes muss man ein Apache-Plugin installieren, welches den Serivceprovider enthält: <code>sudo apt-get install libapache2-mod-shib2</code>
+</p>
+<dl>
+  <dt>/etc/shibboleth/</dt>
+  <dd>Konfigurationsverzeichniss des Shibboleth Daemon</dd>
+  <dt>/usr/sbin/shibd</dt>
+  <dd>Shibboleth Daemon</dd>
+  <dt>/var/log/shibboleth</dt>
+  <dd>Logverzeichniss</dd>
+  <dt>/etc/httpd/conf.d/shib.conf</dt>
+  <dd>Apache spezifische Konfiguration für den Serviceprovider</dd>
+</dl>
+
+<h3>Konfiguration des Service providers</h3>
+<p>Die wichtigste Konfigurationsdatei ist die
+  <b>/etc/shibboleth/shibboleth2.xml</b>
+  Diese Datei bestimmt welche Discovery-Services/Identity-Provider angesprochen werden und ist in mehrere Sektionen
+  aufgeteilt. Für die Konfiguration wird das <a href="https://wiki.shibboleth.net/confluence/display/SP3/GettingStarted">Shibboleth-Wiki</a> empfohlen.
+</p>
+<p>Wir empfehlen folgende Konfiguration:</p>
+<dl>
+    <dt>ApplicationDefaults@attributePrefix</dt>
+    <dd>"AJP_" - Die attribute werden nur per ajp weitergeleitet wenn das Prefix AJP_ gesetzt ist</dd>
+    <dt>Sessions@handlerSSL</dt>
+    <dd>true - Es werden nur Anfragen per SSL auf den Handler zugelassen</dd>
+    <dt>Sessions@cookieProps</dt>
+    <dd>https - Cookies werden nur für SSL Anfragen gesetzt</dd>
+</dl>
+<p>
+  Die Sektion <code>&lt;ApplicationDefaults .../&gt;</code> bestimmt die Grundkonfiguration des Demons.
+  Es ist in der nachfolgenden Sektion <code>&lt;ApplicationOverride .../&gt;</code> möglich diese Konfiguration zu
+  erweitern, oder Teile davon zu Überschreiben.
+  Das Erweitern der Konfiguration bietet die Möglichkeit auf einem Server mehrere Anwendungen mit unterschiedlichen
+  Identity-Providern oder Discovery-Services zu betreiben.
+</p>
+
+<h3>Konfiguration von Apache</h3>
+<p>
+  Nachdem für jede Anwendung ein ApplicationOverride konfiguriert ist, muss Apache konfiguriert werden.
+  {{< highlight xml "linenos=table">}}
+  <Location /hagen/>
+  ProxyPass  ajp://localhost:8038/hagen/
+  ProxyPassReverse  ajp://localhost:8038/hagen/
+  Require all granted
+  </Location>
+  <Location /hagen/Shibboleth.sso>
+  SetHandler shib
+  ProxyPass !
+  ProxyPassReverse !
+  ShibRequestSetting applicationId hagen
+  </Location>
+  <Location /hagen/servlets/MCRShibbolethLoginServlet>
+  AuthType shibboleth
+  ShibRequestSetting requireSession 1
+  ShibRequestSetting applicationId hagen
+  Require  valid-user
+  </Location>
+  {{< /highlight >}}
+  <p>Die erste Location ist die eigentliche MyCoRe-Anwendung welche per ProxyAJP an den Tomcat mit MyCoRe weitergeleitet
+    wird.</p>
+
+  <p>Die zweite Location ist der Service Provider und wird über das Apache-Plugin angesprochen. Das **ProxyPass !** und
+    **ProxyPassReverse !** verhindern das dieser Pfad an den Tomcat weitergereicht werden. Das **SetHandler** sagt dem
+    Apache das dass Apache-Plugin für diese Location benutzt werden soll. Die **applicationId** verweist auf dass
+    **ApplicationOverride/@id** welches in der shibboleth2.xml festgelegt wurde.</p>
+
+  <p>Die dritte Location schaltet die Authentifizierung mit Shibboleth ein. Wenn die URL `
+    /hagen/servlets/MCRShibbolethLoginServlet` aufgerufen wird, dann schaltet sich erst Apache ein, weil das `AuthType`
+    auf `shibboleth` gesetzt wurde, dann wird die Kontrolle an den Shibboleth-Daemon abgegeben. Dieser führt die
+    Authentifizierung aus und leitet anschließend an das `MCRShibbolethLoginServlet ` weiter und übergibt die
+    Informationen die beim Login vom Identity-Provider übermittelt wurden.</p>
+</p>
+
+<h3>Anpassen der Realms.xml</h3>
+<p>
+  Nachdem Apache Konfiguriert ist, muss die <code>realms.xml</code> im Datenverzeichnis von MyCoRe angepasst
+  werden.
+  {{< highlight xml "linenos=table">}}
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <realms local="local">
+        <realm id="local">
+            [...]
+        </realm>
+        <realm id="shibboleth" setable="false">
+            <label xml:lang="de">Shibboleth</label>
+            <label xml:lang="en">Shibboleth</label>
+            <login url="MCRShibbolethLoginServlet" redirectParameter="url">
+                <label xml:lang="de">Anmelden mit dem Login Ihrer Heimateinrichtung</label>
+                <label xml:lang="en">Login with your user credentials of your home institution</label>
+                <info>
+                    <label xml:lang="de">
+                        Falls unterstützt, müssen Sie sich ggf. nur einmalig anmelden.
+                    </label>
+                    <label xml:lang="en">
+                        This login uses single-sign-on facilities provided by your home institution.
+                    </label>
+                </info>
+            </login>
+        </realm>
+        <realm id="tu-ilmenau.de">
+            <label xml:lang="de">TU Ilmenau</label>
+            <label xml:lang="en">TU Ilmenau</label>
+            <attributeMapping>
+                <attribute name="userName" mapping="eppn"/>
+                <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter"/>
+                <attribute name="eMail" mapping="mail"/>
+                <attribute name="roles" mapping="affiliation" separator=";">
+                    <valueMapping name="employee">submitter</valueMapping>
+                    <valueMapping name="member">reader</valueMapping>
+                </attribute>
+            </attributeMapping>
+            <passwordChangeURL>https://www.tu-ilmenau.de/unirz/it-service-desk/password/</passwordChangeURL>
+        </realm>
+        <realm id="uni-jena.de">
+            <label xml:lang="de">FSU Jena</label>
+            <label xml:lang="en">FSU Jena</label>
+            <attributeMapping>
+                <attribute name="userName" mapping="eppn"/>
+                <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter"/>
+                <attribute name="eMail" mapping="mail"/>
+                <attribute name="roles" mapping="eduPersonAffiliation">
+                    <valueMapping name="employee">submitter</valueMapping>
+                    <valueMapping name="member">reader</valueMapping>
+                </attribute>
+            </attributeMapping>
+            <passwordChangeURL>https://portal.uni-jena.de/</passwordChangeURL>
+        </realm>
+        <realm id="uni-erfurt.de">
+            <label xml:lang="de">Universität Erfurt</label>
+            <label xml:lang="en">University Erfurt</label>
+            <attributeMapping>
+                <attribute name="userName" mapping="eppn"/>
+                <attribute name="realName" mapping="displayName" converter="org.urmel.dbt.utils.DisplayNameConverter"/>
+                <attribute name="eMail" mapping="mail"/>
+                <attribute name="roles" mapping="eduPersonAffiliation">
+                    <valueMapping name="employee">submitter</valueMapping>
+                    <valueMapping name="member">reader</valueMapping>
+                </attribute>
+            </attributeMapping>
+            <passwordChangeURL>https://idmweb.uni-erfurt.de/OAS</passwordChangeURL>
+        </realm>
+    </realms>
+    {{< /highlight >}}
+</p>
+<p>
+  Um zu bewirken, dass der Benutzer beim Anlegen eines Dokument auch gespeichert wird
+  muss in den <code>mycore.properties</code> noch folgendes Property gesetzt werden:
+</p>
+<p>
+  {{< highlight bash "linenos=table">}}
+  # can be used to persist transient user (shibboleth or ...)
+  MCR.EventHandler.MCRObject.110.Class=org.mycore.user2.events.MCRPersistTransientUserEventHandler{{< /highlight >}}
+</p>
+<p>
+  Anhand der Attribute die gemappt werden sieht man, was der IDP liefern muss.
+</p>
