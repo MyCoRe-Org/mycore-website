@@ -14,8 +14,10 @@ main:
   -   {identifier: mir,						parent: getting_started,	name: Mir,							weight: -489,	url: /documentation/getting_started/mir				}
   -   {identifier: skeleton,				parent: getting_started,	name: Skeleton,						weight: -488,	url: /documentation/getting_started/skeleton		}
   -   {identifier: solr_7,					parent: getting_started,	name: Solr-Integration,				weight: -487,	url: /documentation/getting_started/solr_7			}
-  -   {identifier: mcr_properties,			parent: getting_started,	name: Konfiguration & Properties,	weight: -486,	url: /documentation/getting_started/mcr_properties  } 
-  -   {identifier: requirements,			parent: getting_started,	name: Systemanforderungen,			weight: -485,	url: /documentation/getting_started/requirements    } 
+  -   {identifier: mcr_properties,			parent: getting_started,	name: Konfiguration & Properties,			weight: -486,	url: /documentation/getting_started/mcr_properties  } 
+  -   {identifier: requirements,			parent: getting_started,	name: Systemanforderungen,					weight: -485,	url: /documentation/getting_started/requirements    } 
+  -   {identifier: basics,					parent: documentation,		name: Basiskonzepte,						weight: -484,	url: /documentation/basics    } 
+  -     {identifier: basics_mcr_ocfl,			parent: basics,				name: Versionierung mit OCFL (Markdown),	weight: -483,	url: /documentation/basics/basics_mcr_ocfl    } 
 
   - {identifier: doc_transform,											name: Webseiten-Migration,			weight: -400,	url: /doc_transform						}
   -   {identifier: doc_transform_next,			parent: doc_transform,		name: Nächste Schritte,				weight: -380,	url: /doc_transform/next_steps			}
