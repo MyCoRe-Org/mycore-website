@@ -36,7 +36,7 @@
                           {{$count := len .Pages}}
                           {{ range first 1 .Pages  }}
                             <a
-                              class='{{ if in $currentPage.URL (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
+                              class='{{ if in $currentPage.RelPermalink (print "/" (.Date.Format "2006-01") "/")}}active{{ end }} no-children'
                               href='{{relLangURL "blog/periods/"}}{{.Date.Format "2006-01"}}'>
                               <span class="badge badge-blog">{{$count}}</span>
                               {{- partial "german_date" (dict "date2convert" (.Date.Format "January")) }}
@@ -81,7 +81,7 @@
         {{ range $taxonomy_term, $taxonomy := index .Site.Taxonomies "blog/categories"}}
           <li>
             <a
-              class='{{ if in $currentPage.URL (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
+              class='{{ if in $currentPage.RelPermalink (print "/blog/categories/" (urlize $taxonomy_term) "/")}}active{{ end }} no-children'
               href='{{relLangURL "blog/categories/"}}{{ urlize $taxonomy_term }}'>
               <span class="badge badge-blog">
                 {{ $taxonomy.Count }}

@@ -29,8 +29,8 @@
             {{ $currentPage := . }}
             {{ range .Site.Menus.main }}
               {{/* Todo: move to function */}}
-              {{ $aktivePage := (eq $currentPage.URL (print (relLangURL .URL)))}}
-              {{ $hasPrefix := (hasPrefix $currentPage.URL (print (relLangURL .URL) "/") ) }}
+              {{ $aktivePage := (eq $currentPage.RelPermalink (print (relLangURL .URL)))}}
+              {{ $hasPrefix := (hasPrefix $currentPage.RelPermalink (print (relLangURL .URL) "/") ) }}
               {{ $activeEntryClass := "not-active" }}
               {{ if (or $aktivePage $hasPrefix) }}
                 {{ $activeEntryClass = "active" }}
