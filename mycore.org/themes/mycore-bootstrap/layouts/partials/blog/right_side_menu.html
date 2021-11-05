@@ -19,7 +19,7 @@
               </small>
               <br />
               <a
-                class='{{ if eq $currentPage.URL .URL }}active{{ end }}'
+                class='{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}'
                 href='{{ .Permalink }}'>
                   {{ .Title }}
               </a>
