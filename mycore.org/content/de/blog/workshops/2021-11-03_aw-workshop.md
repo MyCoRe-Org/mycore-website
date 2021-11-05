@@ -2,7 +2,7 @@
 title:  "16. Anwenderworkshop 2021 online"
 slug: 	aw-workshop
 date:   2021-11-05
-publishDate: 2021-10-28
+publishDate: 2021-11-05
 
 draft: 	false
 
@@ -13,10 +13,10 @@ blog/categories:
 
 
 news/frontpage: 	true
-news/title_de: 		"MyCoRe-Workshop fand statt"
-news/teaser_de: 	"Alle MyCoRe-User sind herzlich zum MyCoRe-Workshop 2021 eingeladen. Er findet am 3. und 4. November 2021 online statt."
+news/title_de: 		"MyCoRe-Workshop 2021"
+news/teaser_de: 	"MyCoRe-User und Entwickler trafen sich online zum MyCoRe-Workshop 2021. Er fand am 3. und 4. November 2021 statt."
 news/title_en: 		"Workshop Invitation"
-news/teaser_en:	 	"All Mycore user are invited: The MyCoRe Workshop 2021 will be online at 3th and 4th of November."
+news/teaser_en:	 	"MyCoRe user amd developers met online at 3th and 4th of November for the MyCoRe Workshop 2021."
 
 
 ---
