@@ -531,6 +531,27 @@
     </Placemark>
 
 <!-- ***************************************************************************************************************** -->
+<!-- Halle (Saale)                                                                                                  -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>deposit_halle</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://levana.leopoldina.org/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_halle-saale_leopoldina.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://levana.leopoldina.org/content/index.xml">deposit_halle</a>
+            		<span class="mcrmap_item_owner">Publikationsserver der Leopoldina</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.9705841,51.48883,0 </coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
 <!-- Göttingen                                                                                                    -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
