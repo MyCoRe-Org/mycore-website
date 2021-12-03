@@ -436,6 +436,23 @@
         <coordinates>9.986604,53.569587,0</coordinates>
       </Point>
     </Placemark>
+    <Placemark>
+      <name>MUGI</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://mugi.hfmt-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mugi.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://mugi.hfmt-hamburg.de/">MUGI: Musik und Gender im Internet</a>
+            		<span class="mcrmap_item_owner">Hochschule für Musik und Theater</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.998989,53.570600,0</coordinates>
+      </Point>
+    </Placemark>
     
 <!-- ***************************************************************************************************************** -->
 <!-- Hannover                                                                                                    -->
