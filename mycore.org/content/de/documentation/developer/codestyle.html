@@ -228,7 +228,8 @@ date: "2022-09-23"
     <p>So können Fehler in der Abhängigkeit schneller gefunden werden. Dabei steht -o für Offline. Dies
       kann genutzt werden, wenn man gerade im Zug oder an ähnlichen Orten entwickelt, wo man offline ist.</p>
 
-  <h3>Test mit JUnit</h3>
+
+    <h3>Test mit JUnit</h3>
     <p>
       Eclipse integriert bereits ein Produkt namens JUnit (<a href="http://www.junit.org/index.htm">http://www.junit.org/index.htm</a>).
       Mit ihm erhalten Sie ein Werkzeug, welches das Testen der von Ihnen erzeugten Java-Klassen ermöglicht. Alle Test
@@ -253,7 +254,42 @@ date: "2022-09-23"
       <code>org.mycore.common.MCRTestCase</code>
       .
     </p>
-  <p>&nbsp;</p>
+
+    <h3>Nutzung der Entwicklungsumgebung Eclipse</h3>
+    <p>Die Datei .project sollte entsprechend der unten angegebenen Darstellung angepasst werden. Anschließend sind
+      sowohl für den MyCoRe-Kern wie auch für die Anwendung noch die Java-Ressourcen zu definieren.</p>
+    <ul>
+      <li>project -&gt; Properties -&gt; Java Build Path</li>
+      <li>Tragen Sie alle Sources ein.</li>
+      <li>Tragen Sie alle Libraries ein. Bitte beachten Sie, dass für den Kern alle <code>*.jar</code> bzw. <code>*.zip</code>
+        Dateien aus <code>mycore/lib</code> bzw. <code>mycore/components/*/sources</code> zu verwenden sind. Hinzu
+        kommen noch ggf Systemweite Pakete (z. B. aus /usr/share/java). Für die Anwendung sollten nur Pakete aus
+        application/build/lib, nicht aus dem MyCoRe-Baum, integriert werden.
+      </li>
+    </ul>
+
+{{< mcr-figure label="Code-Beispiel" caption=".project Datei" >}}
+{{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription> 
+  <name>mycore</name> 
+  <comment>...</comment> 
+  <projects>...</projects> 
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments />
+    </buildCommand> 
+  </buildSpec> 
+  <natures> 
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures> 
+</projectDescription>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
+
+
   <h2>Kommentare im Code</h2>
   
     <h3>Allgemeines</h3>
