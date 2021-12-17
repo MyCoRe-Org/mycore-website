@@ -251,7 +251,7 @@ XML-Dokumente und HTML-Formular ergibt.</p>
       <input id="title" type="text" />
     </div>
   </xed:bind>
-  <xed:bind xpath="mods:subtitle">
+  <xed:bind xpath="mods:subTitle">
     <div>
       <label for="subtitle">Untertitel:</label>
       <input id="subtitle" type="text" />
@@ -260,7 +260,7 @@ XML-Dokumente und HTML-Formular ergibt.</p>
 </xed:bind>{{< /highlight >}}
 
 <p>In diesem Beispiel bezieht sich das Eingabefeld mit der ID "title" auf das XML-Element <code>mods:titleInfo/mods:title</code>,
-das Eingabefeld mit der ID "subtitle" auf das XML-Element <code>mods:titleInfo/mods:subtitle</code>. Der XEditor setzt dabei für HTML input-Elemente vom Typ
+das Eingabefeld mit der ID "subtitle" auf das XML-Element <code>mods:titleInfo/mods:subTitle</code>. Der XEditor setzt dabei für HTML input-Elemente vom Typ
 <code>text</code>, <code>password</code>, <code>hidden</code>, <code>file</code>, <code>color</code>, <code>date</code>, <code>datetime</code>, <code>datetime-local</code>, <code>email</code>, <code>month</code>, <code>number</code>, <code>range</code>, <code>search</code>, <code>tel</code>, <code>time</code>, <code>url</code>, <code>week</code> automatisch die
 <code>@name</code> und <code>@value</code> Attribute, für HTML checkbox- und radio-Elemente die <code>@name</code> und <code>@checked</code> Attribute, sowie für HTML select/option Elemente die <code>@name</code> bzw. <code>@selected</code>
 Attribute. Das Attribut @name der Eingabekomponente wird dabei auf den absoluten XPath des XML-Knotens gesetzt, der durch das aktuelle Bindung durch die verschachtelten
@@ -878,6 +878,32 @@ Beispiele:
 {{< highlight xml "linenos=table">}} <xed:validate xpath="//mods:*[@encoding='w3cdtf']" matches="\d{4}(\-d{2}(\-d{2})?)?" type="datetime" format="yyyy;yyyy-MM;yyyy-MM-dd" />{{< /highlight >}}
 
 <p>validiert alle Datumsangaben, so dass sie entweder nur das Jahr, Jahr plus Monat oder Jahr, Monat und Tag in MODS W3CDTF Syntax enthalten.</p>
+</div>
+
+
+<div>
+    <h5>Kontextabhängige Validierung</h5>
+<p>In bestimmten Situationen kann es vorkommen, dass eine Validierungsregel ausgelassen werden soll.</p> 
+
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}} <xed:validate relevant-if="..." />{{< /highlight >}}
+
+<p>Das Attribut @relevant-if gibt in Form eines XPath-Tests an, unter welchen Bedingungen diese Validierungsregel geprüft werden soll. Hat das Attribut keinen Wert, wird
+die Validierungsregel immer geprüft.</p>
+
+<p>Beispiel: Die Validierungsregel, die prüft, dass ein übersetzter Titel einen Untertitel haben muss, soll nur dann überprüft werden, wenn der übersetzte Titel vorhanden ist und
+der Originaltitel einen Untertitel hat. Andernfalls soll die Validierung ausgelassen und das zugehörige Feld weder als gültig noch als ungültig markiert werden.</p>
+
+{{< highlight xml "linenos=table">}}<xed:bind xpath="mods:titleInfo[@type='translated']">
+  <xed:bind xpath="mods:title">
+    <input type="text" ... />
+  </xed:bind>
+  <xed:bind xpath="mods:subTitle">
+    <input type="text" ... />
+    <xed:validate required="true" relevant-if="../mods:title!='' and ../../mods:titleInfo[not(@type)]/mods:subTitle!=''" />
+  </xed:bind>
+</xed:bind> {{< /highlight >}}
+
 </div>
 
 <div>
