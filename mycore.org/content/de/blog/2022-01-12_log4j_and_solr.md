@@ -30,7 +30,7 @@ als auch die MyCoRe-Community keine Updates zur Verfügung.
 
 Solr
 
-'register solr core with name repper_main on server http://esx-91.gbv.de:8985 as core mainv8'
+'register solr core with name repper_main on server http://meine-Solr8.11-URL.de:8985 as core mainv8'
 
 'show solr configuration'
 MCR.Solr.ServerURL=http://meine-Solr-URL:8983
@@ -43,3 +43,4 @@ MCR.Solr.Core.classification.ServerURL=http://meine-Solr-URL:8983/
 
 'reload solr configuration main in core mainv8'
 
+'rebuild solr metadata and content index in core mainv8'
