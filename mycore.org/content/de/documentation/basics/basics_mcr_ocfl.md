@@ -5,7 +5,7 @@ title: "Die Speicherung der MyCoRe-Objekte mit OCFL"
 description: ""
 mcr_version: ['2021.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
-date: "2022-01-24"
+date: "2022-01-28"
 
 ---
 
@@ -63,28 +63,11 @@ MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
 Diese können, sofern erwünscht, überschrieben werden. Es ist darauf zu achten,
 dass der Repository Provider eine Unterklasse von dem `MCROCFLRepositoryProvider` ist.
 
-{{<mcr-comment>}}
-<!-- {{< highlight xml "linenos=false">}}
- MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLCommands
-
- MCR.Metadata.Manager.Repository=Main
-
- MCR.OCFL.Repository.Main=org.mycore.ocfl.MCROCFLHashRepositoryProvider
- MCR.OCFL.Repository.Main.RepositoryRoot=%MCR.datadir%/ocfl-root
- MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp{{< /highlight >}} -->
-{{</mcr-comment>}}
-
 Mit dem folgendem Property kann der Metadaten Manager von XML zu OCFL umgestellt werden:
 
 ```shell {linenos=table}
  MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
 ```
-
-{{<mcr-comment>}}
-<!-- {{< highlight  "linenos=table">}}
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
-{{< /highlight >}} -->
-{{</mcr-comment>}}
 
 Will man seine eigene Repository anlegen, geht das wie folgt:
 
@@ -102,11 +85,11 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
    | Repository Provider | Layout |
    | :------------------ | :----- |
-   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](https://ocfl.github.io/extensions/0004-hashed-n-tuple-storage-layout.html) |
+   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](https://ocfl.github.io/extensions/0003-hash-and-id-n-tuple-storage-layout.html) |
    | MCROCFLMCRRepositoryProvider | [MyCoRe Storage Layout](#mycore-storage-layout) |
 {{</mcr-table>}}
 
-Mehr Erklärung zu den Repository Providern kann im Abschnitt [Provider Liste](#repository-provider-liste-) gefunden werden.
+Mehr Erklärung zu den Repository Providern kann im Abschnitt [Provider Liste](#verfügbare-repository-provider) gefunden werden.
 
 
 ## Migration zu OCFL
@@ -139,7 +122,7 @@ Hierbei kann es manchmal vorkommen, dass die OCFL Library eine `ObjectNotFound` 
 wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
 <b class="text-danger">Überprüfen warum das so ist, ist es möglich erst ein "exist" check zu machen vor dem abfragen?</b>
 
-## Repository Provider Liste ?
+## Verfügbare Repository Provider
 
 ### (Hash N Turple ID Encapsulation)
 
@@ -171,8 +154,6 @@ Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnl
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
   - Die Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
   - Tests sind noch nicht alle komplett durch, weitere folgen.
-
-<p style="font-size:5%; background-color:#000000FF; color:#FFFF">Lorem Ipsum</p>
 
 ## Fazit
 
