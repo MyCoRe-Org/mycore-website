@@ -146,6 +146,16 @@ date: "2021-09-02"
             </td>
            </tr>
            <tr>
+            <td title="Nr. in Pipeline">012</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRAccessCacheEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Beim Update oder Löschen eines MyCoRe Objekts löscht der Eventhandler alle Einträge
+            für das Objekt, seine Derivate und seine Kinder im AccessCache aller aktiven MCRUserSessions.
+            </td>
+           </tr>
+           <tr>
             <td title="Nr. in Pipeline">optional<br />013</td>
             <td title="Klasse">Enthalten in mycore-mods<br />org.mycore.mods.MCRExtractRelatedItemsEventHandler</td>
            </tr>
@@ -297,6 +307,16 @@ date: "2021-09-02"
             Der MCRAccessKeyEventHandler importiert Zugriffsschlüssel beim Import/Erstellung eines MyCoRe Derivats aus dem accesskey Servflag und löscht das Servflag anschließend.
             Beim Löschen eines Derivats werden alle Zugriffsschlüssel gelöscht.
             Beim Updaten eines Derivats wird der Servflag gelöscht und somit nicht verarbeitet bzw. ignoriert.
+            </td>
+           </tr>
+           <tr>
+            <td title="Nr. in Pipeline">012</td>
+            <td title="Klasse">Enthalten in mycore-base<br />org.mycore.access.MCRAccessCacheEventHandler</td>
+           </tr>
+           <tr>
+            <td title="Beschreibung" colspan="2">
+            Beim Update oder Löschen eines Derivates löscht der Eventhandler alle Einträge
+            für das Derivate im AccessCache aller aktiven MCRUserSessions.
             </td>
            </tr>
            <tr>
