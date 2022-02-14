@@ -18,7 +18,7 @@ an der Integration dieser Form der Datenablage in MyCoRe. Mit Version 2021 ist n
 Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release \<2021|2022> soll OCFL nun auch produktiv verwendbar sein.
 
 
-Hier die Referenz zum [OCFL-Java Github](https://github.com/UW-Madison-Library/ocfl-java)</p>
+Hier die Referenz zum [OCFL-Java Github.](https://github.com/UW-Madison-Library/ocfl-java)
 
 ## Konfiguration
 
@@ -107,10 +107,21 @@ Auch wenn keine Fehler zu sehen sind, sollte man trotzdem die Anzahl überprüfe
 
 Wenn alles geklappt hat, dann kann man den MetadatenManager umstellen.
 
+## Was tun wenn die Migration nicht erfolgreich war? !!!
+
+Ist die Migration von XML zu OCFL nicht erfolgreich, kann dies verschiedene Folgen haben.
+
+Bevor man erneut versucht, die Migration zu starten, muss das alte/beschädigte `repository-root` gelöscht werden.\
+<b class="text-danger">Löschen sie nicht den OCFL Root, wenn sie von OCFL Migrieren!</b>
+
+Überprüfen Sie, dass keine Fremddaten in dem Metadaten Speicher vorhanden sind, es sollten nur die Objekte selber existieren.
+
+Wenn dies nicht der Fehler war, bitte überprüfen Sie die Einstellungen der Repository.
+
 ## Migration zwischen Layouts
 
 Die Migration zwischen den OCFL Layouts funktioniert genauso wie zu OCFL,
-der einzige unterschied ist das hierbei der Metadaten-Manager des OCFL zu nutzen ist.
+der einzige Unterschied ist das hierbei der Metadaten-Manager des OCFL zu nutzen ist.
 
 Um eine Repository zu Migrieren, ist die Quell-Repository mit
 `MCR.Metadata.Manager.Repository={Quell-Repository}`
@@ -125,7 +136,7 @@ wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
 
-Das *0003-hash-and-id-n-tuple-storage-layout* ist das standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich das *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
+Das *0003-hash-and-id-n-tuple-storage-layout* ist das standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich ein Repository mit dem *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
 
 Der Vorteil ist wie erwähnt das es kompatibel ist mit externen Tools für OCFL Repositories. Mit diesen kann man auch ohne MyCoRe Änderungen vornehmen, Dateien suchen oder ersetzen. Jedoch sollte man es vermeiden Dateien zu löschen, da dies zu Problemen mit MyCoRe kommen kann.
 
@@ -139,7 +150,7 @@ Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://git
 
 #### Ordnerstruktur (aus der Spezifikation)
 
-```text {linenos=table}
+```shell {linenos=table}
 [storage_root]/
 ├── 0=ocfl_1.0
 ├── ocfl_layout.json
@@ -166,9 +177,9 @@ Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://git
 
 Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch ihre ID und dem konfigurierten SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})), wobei bei den restlichen Objekten durch Typ und Name der Pfad erstellt wird.
 
-<b class="text-warning">Es ist zu beachten, das das MyCoRe Storage Layout keinem Standard entspricht und daher womöglich von keinen externen tools nativ unterstützt wird.</b>
+<b class="text-warning">Es ist zu beachten, dass das MyCoRe Storage Layout keinem Standard entspricht und daher womöglich von keinen externen Tools nativ unterstützt wird.</b>
 
-Im Vergleich zu dem *0003-hash-and-id-n-tuple-storage-layout* ist das *mycore-storage-layout* besser ohne externe Tools zu navigieren. Es ist zu beachten, dass trotzdem keine Daten direkt verändert werden dürfen innerhalb des OCFL Repositories, da es sonst zu Fehlern bei der Validierung kommen kann.
+Im Vergleich zu dem *0003-hash-and-id-n-tuple-storage-layout* ist das *mycore-storage-layout* besser ohne externe Tools zu navigieren. Es ist zu beachten, dass trotzdem keine Daten direkt verändert werden dürfen, da es sonst zu Fehlern bei der Validierung kommen kann.
 
 In der Performance in MyCoRe ist das *mycore-storage-layout* schneller als das *0003-hash-and-id-n-tuple-storage-layout*, da nicht erst bei jedem Dateizugriff die Hashwerte des Dateinamens generiert werden müssen.
 
@@ -180,7 +191,7 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
 
 #### Ordnerstruktur
 
-```text {linenos=table}
+```shell {linenos=table}
 [storage root]
 ├── 0=ocfl_1.0
 ├── extensions
@@ -236,13 +247,12 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
 
 ## Offene Probleme
 
-  - <b class="text-warning">Derzeit kommt noch eine Warnung, dass die `ocfl-specs` nicht gefunden werden können für das MCR Storage Layout, dies wird demnächst behoben.</b>
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
   - Die Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
-  - Tests sind noch nicht alle komplett durch, weitere folgen.
+  - <b class="text-info">Tests sind noch nicht alle komplett durch, weitere folgen.</b>
 
 ## Fazit
 
-  - OCFL ist nicht für Produktivanwendungen komplett genug?
-  - Fixes und Konkretisierungen sind noch erforderlich.
+  - ~~OCFL ist nicht für Produktivanwendungen komplett genug?~~
+  - Fixes und Konkretisierungen sind noch erforderlich?
   - Mit Release 2022 sollte OCFL produktiv einsetzbar sein.
