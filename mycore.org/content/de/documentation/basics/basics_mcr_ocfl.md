@@ -85,11 +85,11 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
    | Repository Provider | Layout |
    | :------------------ | :----- |
-   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](https://ocfl.github.io/extensions/0003-hash-and-id-n-tuple-storage-layout.html) |
+   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](#ocfl-community-extension-0003-hashed-truncated-n-tuple-trees-with-object-id-encapsulating-directory-for-ocfl-storage-hierarchies) |
    | MCROCFLMCRRepositoryProvider | [MyCoRe Storage Layout](#mycore-storage-layout) |
 {{</mcr-table>}}
 
-Mehr Erklärung zu den Repository Providern kann im Abschnitt [Provider Liste](#verfügbare-repository-provider) gefunden werden.
+Mehr Erklärung zu den Repository Providern kann im Abschnitt [Layout Liste](#verfügbare-repository-layouts) gefunden werden.
 
 
 ## Migration zu OCFL
@@ -122,10 +122,14 @@ Hierbei kann es manchmal vorkommen, dass die OCFL Library eine `ObjectNotFound` 
 wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
 <b class="text-danger">Überprüfen warum das so ist, ist es möglich erst ein "exist" check zu machen vor dem abfragen?</b>
 
-## Verfügbare Repository Provider
+## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Das *0003-hash-and-id-n-tuple-storage-layout* ist das standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich das *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
+
+Der Vorteil ist wie erwähnt das es kompatibel ist mit externen Tools für OCFL Repositories. Mit diesen kann man auch ohne MyCoRe Änderungen vornehmen, Dateien suchen oder ersetzen. Jedoch sollte man es vermeiden Dateien zu löschen, da dies zu Problemen mit MyCoRe kommen kann.
+
+Der Nachteil ist, dass durch die Bildung des Hashwertes ein Dateizugriff länger dauert. Durch die Nutzung des Hashwertes ist es ohne externe Tools nicht möglich, herauszufinden, in welchem Ordner sich welches Objekt befindet, sondern nur durch den root Ordner des Objektes und der `inventory.json` .
 
 `Notiz:` *Hash hat den Vorteil das es externe tools gibt, welche es erlauben, Veränderungen an der Repository schnell selber tätigen zu können. Sein größter Nachteil ist, das es ohne externe Tools unmöglich ist, zu wissen, in welchem Ordner was steckt, außerdem ist die Performance (um rund 40%\*) schlechter, da erst pro Datei die Hashwerte generiert werden müssen.*
 
@@ -133,7 +137,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://github.com/OCFL/extensions/blob/main/docs/0003-hash-and-id-n-tuple-storage-layout.md)
 
-#### (Ordnerstruktur)
+#### Ordnerstruktur (aus der Spezifikation)
 
 ```text {linenos=table}
 [storage_root]/
@@ -164,9 +168,17 @@ Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnl
 
 <b class="text-warning">Es ist zu beachten, das das MyCoRe Storage Layout keinem Standard entspricht und daher womöglich von keinen externen tools nativ unterstützt wird.</b>
 
+Im Vergleich zu dem *0003-hash-and-id-n-tuple-storage-layout* ist das *mycore-storage-layout* besser ohne externe Tools zu navigieren. Es ist zu beachten, dass trotzdem keine Daten direkt verändert werden dürfen innerhalb des OCFL Repositories, da es sonst zu Fehlern bei der Validierung kommen kann.
+
+In der Performance in MyCoRe ist das *mycore-storage-layout* schneller als das *0003-hash-and-id-n-tuple-storage-layout*, da nicht erst bei jedem Dateizugriff die Hashwerte des Dateinamens generiert werden müssen.
+
+Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org/mycore/blob/issues/MCR-2580-add-ocfl-specs/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
+
+<b class="text-danger">Muss nach push überarbeitet werden, verweist auf Ticket Branch</b>
+
 `Notiz:` *Wie sich in tests herausgestellt hat, läuft das \<mycore-storage-layout> schneller als das \<hash-n-turple-id-encapsulation> layout mit mycore, es ist außerdem besser zu navigieren ohne externe programme. Dennoch sollte an den Daten nichts direkt verändert werden.*
 
-#### (Ordnerstruktur)
+#### Ordnerstruktur
 
 ```text {linenos=table}
 [storage root]
