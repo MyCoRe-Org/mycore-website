@@ -5,21 +5,21 @@ title: "Die Speicherung der MyCoRe-Objekte mit OCFL"
 description: ""
 mcr_version: ['2021.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
-date: "2022-01-28"
+date: "2022-02-14"
 
 ---
 
-## Allgemeines (benötigt Update?)
+## Allgemeines
  
 [OCFL](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von
 Daten in einer versionierten Form mit Ablage der Daten auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
 Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Die MyCoRe-Entwickler arbeiten seit 2020
 an der Integration dieser Form der Datenablage in MyCoRe. Mit Version 2021 ist nun eine prototypische Implementierung unter
-Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar.
+Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release \<2021|2022> soll OCFL nun auch produktiv verwendbar sein.
 
 
 Hier die Referenz zum [OCFL-Java Github](https://github.com/UW-Madison-Library/ocfl-java)</p>
- 
+
 ## Konfiguration
 
 Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* integriert werden.
@@ -61,7 +61,7 @@ MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
 ```
 
 Diese können, sofern erwünscht, überschrieben werden. Es ist darauf zu achten,
-dass der Repository Provider eine Unterklasse von dem `MCROCFLRepositoryProvider` ist.
+dass der Repository Provider von dem `MCROCFLRepositoryProvider` vererbt ist.
 
 Mit dem folgendem Property kann der Metadaten Manager von XML zu OCFL umgestellt werden:
 
@@ -123,8 +123,7 @@ wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
 <b class="text-danger">Überprüfen warum das so ist, ist es möglich erst ein "exist" check zu machen vor dem abfragen?</b>
 
 ## Verfügbare Repository Provider
-
-### (Hash N Turple ID Encapsulation)
+### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
@@ -132,9 +131,32 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 *\*bei einem Test mit 100k Objekten dauerte die Migration 5 bis 6 Minuten mit dem MCRLayout, 8 bis 10 Minuten mit dem Hash Layout*
 
+Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://github.com/OCFL/extensions/blob/main/docs/0003-hash-and-id-n-tuple-storage-layout.md)
+
 #### (Ordnerstruktur)
 
-\<aus spec sheet einfügen>
+```text {linenos=table}
+[storage_root]/
+├── 0=ocfl_1.0
+├── ocfl_layout.json
+├── extensions/0003-hash-and-id-n-tuple-storage-layout/config.json
+├── 3c0/
+│   └── ff4/
+│       └── 240/
+│           └── object-01/
+│               ├── 0=ocfl_object_1.0
+│               ├── inventory.json
+│               ├── inventory.json.sha512
+│               └── v1 [...]
+└── 487/
+    └── 326/
+        └── d8c/
+            └── %2e%2ehor%2frib%3ale-%24id/
+                ├── 0=ocfl_object_1.0
+                ├── inventory.json
+                ├── inventory.json.sha512
+                └── v1 [...]
+```
 
 ### MyCoRe Storage Layout
 
@@ -146,7 +168,59 @@ Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnl
 
 #### (Ordnerstruktur)
 
-\<aus spec sheet einfügen>
+```text {linenos=table}
+[storage root]
+├── 0=ocfl_1.0
+├── extensions
+│   └── mycore-storage-layout
+│       └── config.json
+├── mycore-storage-layout.md
+├── ocfl_1.0.txt
+├── ocfl_extensions_1.0.md
+├── ocfl_layout.json
+├── mcrderivate
+│   └── Project
+│       └── derivate
+│           ├── 0000
+│           │   └── 01
+│           │       ├── Project_derivate_00000101
+│           │       │   └── ... [object root]
+│           │       ├── Project_derivate_00000109
+│           │       │   └── ... [object root]
+│           │       └── Project_derivate_00000110
+│           │           └── ... [object root]
+│           └── 1234
+│               └── 56
+│                   └── Project_derivate_12345678
+│                       └── ... [object root]
+├── mcrobject
+│   └── Project
+│       └── doctype
+│           ├── 0000
+│           │   └── 01
+│           │       ├── Project_doctype_00000101
+│           │       │   └── ... [object root]
+│           │       ├── Project_doctype_00000109
+│           │       │   └── ... [object root]
+│           │       └── Project_doctype_00000110
+│           │           └── ... [object root]
+│           └── 1234
+│               └── 56
+│                   └── Project_doctype_12345678
+│                       └── ... [object root]
+├── mcrclass
+│   └── rfc5646
+│       └── ... [object root]
+├── mcruser
+│   └── editor1A@local
+│       └── ... [object root]
+├── mcracl
+│   └── rules
+│       └── ... [object root]
+└── mcrweb
+    └── pages
+        └── ... [object root]
+```
 
 ## Offene Probleme
 
