@@ -3,7 +3,7 @@ title: "Google Fonts lokal einbinden"
 slug: google-fonts
 date: 2022-02-11
 
-draft: false
+draft: true
 
 blog/authors: ["Wiebke Oeltjen"]
 blog/periods: 2022-02
