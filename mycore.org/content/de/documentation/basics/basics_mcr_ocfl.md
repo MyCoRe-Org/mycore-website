@@ -233,4 +233,4 @@ Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnl
 
   - OCFL ist nicht für Produktivanwendungen komplett genug?
   - Fixes und Konkretisierungen sind noch erforderlich.
-  - Mit Release <b class="text-danger">~~2022~~ der Sternzeit 2253</b> sollte OCFL produktiv einsetzbar sein.
+  - Mit Release 2022 sollte OCFL produktiv einsetzbar sein.
