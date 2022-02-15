@@ -107,17 +107,6 @@ Auch wenn keine Fehler zu sehen sind, sollte man trotzdem die Anzahl überprüfe
 
 Wenn alles geklappt hat, dann kann man den MetadatenManager umstellen.
 
-## Was tun wenn die Migration nicht erfolgreich war? !!!
-
-Ist die Migration von XML zu OCFL nicht erfolgreich, kann dies verschiedene Folgen haben.
-
-Bevor man erneut versucht, die Migration zu starten, muss das alte/beschädigte `repository-root` gelöscht werden.\
-<b class="text-danger">Löschen sie nicht den OCFL Root, wenn sie von OCFL Migrieren!</b>
-
-Überprüfen Sie, dass keine Fremddaten in dem Metadaten Speicher vorhanden sind, es sollten nur die Objekte selber existieren.
-
-Wenn dies nicht der Fehler war, bitte überprüfen Sie die Einstellungen der Repository.
-
 ## Migration zwischen Layouts
 
 Die Migration zwischen den OCFL Layouts funktioniert genauso wie zu OCFL,
