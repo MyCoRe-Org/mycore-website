@@ -5,7 +5,7 @@ title: "Die Speicherung der MyCoRe-Objekte mit OCFL"
 description: ""
 mcr_version: ['2021.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
-date: "2022-02-14"
+date: "2022-02-15"
 
 ---
 
