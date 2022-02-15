@@ -73,7 +73,7 @@ Will man seine eigene Repository anlegen, geht das wie folgt:
 
 ```shell {linenos=table}
 #Repository Provider für verschiedene Layouts
-MCR.OCFL.Repository.{Repository_Name}={Repository_Provider}
+MCR.OCFL.Repository.{Repository_Name}=org.mycore.ocfl.{Repository_Provider}
 #Pfad zum Unterverzeichnis für Dateispeicherung
 MCR.OCFL.Repository.{Repository_Name}.RepositoryRoot=%MCR.datadir%/foo
 #Pfad zum Unterverzeichnis für Zwischenspeicher
@@ -129,22 +129,20 @@ zu setzen.
 
 Die Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), diese Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Wird dies trotzdem benötigt, ist es abzuwägen, ob es nicht besser ist, die Repository einfach zu kopieren.
 
+_____
 Hierbei kann es manchmal vorkommen, dass die OCFL Library eine `ObjectNotFound` Exception wirft, dies tritt dann auf,
 wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
 <b class="text-danger">Überprüfen warum das so ist, ist es möglich erst ein "exist" check zu machen vor dem abfragen?</b>
+_____
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
 
-Das *0003-hash-and-id-n-tuple-storage-layout* ist das standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich ein Repository mit dem *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
+Das *0003-hash-and-id-n-tuple-storage-layout* ist das Standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich ein Repository mit dem *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
 
-Der Vorteil ist wie erwähnt das es kompatibel ist mit externen Tools für OCFL Repositories. Mit diesen kann man auch ohne MyCoRe Änderungen vornehmen, Dateien suchen oder ersetzen. Jedoch sollte man es vermeiden Dateien zu löschen, da dies zu Problemen mit MyCoRe kommen kann.
+Der Vorteil ist wie erwähnt, das es kompatibel ist mit externen Tools für OCFL Repositories. Mit diesen kann man auch ohne MyCoRe Änderungen vornehmen, Dateien suchen oder ersetzen. Jedoch sollte man es vermeiden, Dateien zu löschen, da dies zu Problemen mit MyCoRe führen kann.
 
 Der Nachteil ist, dass durch die Bildung des Hashwertes ein Dateizugriff länger dauert. Durch die Nutzung des Hashwertes ist es ohne externe Tools nicht möglich, herauszufinden, in welchem Ordner sich welches Objekt befindet, sondern nur durch den root Ordner des Objektes und der `inventory.json` .
-
-`Notiz:` *Hash hat den Vorteil das es externe tools gibt, welche es erlauben, Veränderungen an der Repository schnell selber tätigen zu können. Sein größter Nachteil ist, das es ohne externe Tools unmöglich ist, zu wissen, in welchem Ordner was steckt, außerdem ist die Performance (um rund 40%\*) schlechter, da erst pro Datei die Hashwerte generiert werden müssen.*
-
-*\*bei einem Test mit 100k Objekten dauerte die Migration 5 bis 6 Minuten mit dem MCRLayout, 8 bis 10 Minuten mit dem Hash Layout*
 
 Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://github.com/OCFL/extensions/blob/main/docs/0003-hash-and-id-n-tuple-storage-layout.md)
 
@@ -186,8 +184,6 @@ In der Performance in MyCoRe ist das *mycore-storage-layout* schneller als das *
 Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org/mycore/blob/issues/MCR-2580-add-ocfl-specs/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
 
 <b class="text-danger">Muss nach push überarbeitet werden, verweist auf Ticket Branch</b>
-
-`Notiz:` *Wie sich in tests herausgestellt hat, läuft das \<mycore-storage-layout> schneller als das \<hash-n-turple-id-encapsulation> layout mit mycore, es ist außerdem besser zu navigieren ohne externe programme. Dennoch sollte an den Daten nichts direkt verändert werden.*
 
 #### Ordnerstruktur
 
@@ -248,6 +244,7 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
 ## Offene Probleme
 
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
+  - Nach löschen können alte Versionen immer noch aufgerufen werden
   - Die Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
   - <b class="text-info">Tests sind noch nicht alle komplett durch, weitere folgen.</b>
 
