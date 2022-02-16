@@ -5,7 +5,7 @@ title: "Die Speicherung der MyCoRe-Objekte mit OCFL"
 description: ""
 mcr_version: ['2021.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
-date: "2022-02-15"
+date: "2022-02-16"
 
 ---
 
@@ -15,7 +15,7 @@ date: "2022-02-15"
 Daten in einer versionierten Form mit Ablage der Daten auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
 Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Die MyCoRe-Entwickler arbeiten seit 2020
 an der Integration dieser Form der Datenablage in MyCoRe. Mit Version 2021 ist nun eine prototypische Implementierung unter
-Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release \<2021|2022> soll OCFL nun auch produktiv verwendbar sein.
+Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release <mark>\<2021|2022></mark> soll OCFL nun auch produktiv verwendbar sein.
 
 
 Hier die Referenz zum [OCFL-Java Github.](https://github.com/UW-Madison-Library/ocfl-java)
@@ -118,11 +118,9 @@ zu setzen.
 
 Die Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), diese Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Wird dies trotzdem benötigt, ist es abzuwägen, ob es nicht besser ist, die Repository einfach zu kopieren.
 
-_____
-Hierbei kann es manchmal vorkommen, dass die OCFL Library eine `ObjectNotFound` Exception wirft, dies tritt dann auf,
-wenn Objekte gelöscht wurden und es versucht wird, ein Property zu lesen.\
-<b class="text-danger">Überprüfen warum das so ist, ist es möglich erst ein "exist" check zu machen vor dem abfragen?</b>
-_____
+Hierbei kann es manchmal vorkommen, dass ein `MCRUsageException` ausgelöst wird. Dies tritt dann auf,
+wenn Objekte vor der Migration zu OCFL gelöscht wurden und es versucht wird, ein Property zu lesen, da MyCoRe diese ID noch immer bekannt ist. Die Datei existiert aber nicht mehr.\
+Dies wird in zukünftigen Versionen behoben werden, und <u>hat keinen Impakt in die Funktionsweise von OCFL</u>.
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
