@@ -1,24 +1,37 @@
 
 ---
 
-title: "Die Speicherung der MyCoRe-Objekte mit OCFL"
-description: ""
-mcr_version: ['2021.06']
+title: "Versionierung mit OCFL in MyCoRe"
+description: "<u>Notiz:</u> Zukünftige Pläne, bessere Beschreibung OCFL, So Besser?"
+mcr_version: ['2021.11']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
-date: "2022-02-16"
+date: "2022-02-21"
 
 ---
 
-## Allgemeines
+## Allgemeines (Neu)
+
+[OCFL <sup><i class="fas fa-external-link-alt"></i></sup>](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von Daten in einer versionierten Form auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
+Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Dieses wurde mithilfe der [Java OCFL Libary der UW-Madison <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/UW-Madison-Library/ocfl-java) Realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und in dem Snapshot der 2021.06 Version wurde es prototypisch Implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist dies nun auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte in OCFL zu speichern. Geplant ist, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
+
+Die "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu schwerwiegenden Änderungen kommen wird. Die zukünftigen Änderungen bauen auf diese Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
+
+## Allgemeines (Alt)
  
-[OCFL](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von
+[OCFL <sup><i class="fas fa-external-link-alt"></i></sup>](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von
 Daten in einer versionierten Form mit Ablage der Daten auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
 Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Die MyCoRe-Entwickler arbeiten seit 2020
-an der Integration dieser Form der Datenablage in MyCoRe. Mit Version 2021 ist nun eine prototypische Implementierung unter
-Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release <mark>\<2021|2022></mark> soll OCFL nun auch produktiv verwendbar sein.
+an der Integration dieser Form der Datenablage in MyCoRe. Mit Version {{<mcr-version "2021.06-SNAPSHOT">}} wurde eine prototypische Implementierung unter
+Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release {{<mcr-version "2021.11">}} ist die OCFL Implementierung nun in dem Beta Status und ist somit Produktiv verwendbar. Bis zum Release 2022 soll die OCFL Implementierung dann fertig gestellt werden.
 
 
-Hier die Referenz zum [OCFL-Java Github.](https://github.com/UW-Madison-Library/ocfl-java)
+Hier die Referenz zum [OCFL-Java Github. <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/UW-Madison-Library/ocfl-java)
+
+## Zukünftige Pläne
+
+Derzeit ist es nur möglich, Objekte und Derivate zu speichern. Es ist geplant, dass man viele weiteren Dateitypen von MyCoRe mit im OCFL speichern kann. Beispielsweise soll man Zukünftig Benutzer, Klassifikationen und mehr mit im OCFL speichern können.
+
+# Die Speicherung der MyCoRe-Objekte mit OCFL
 
 ## Konfiguration
 
@@ -91,9 +104,13 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 
 Mehr Erklärung zu den Repository Providern kann im Abschnitt [Layout Liste](#verfügbare-repository-layouts) gefunden werden.
 
+{{<mcr-comment>}}
+<!-- ## Infos zu der Migration zu OCFL
+
+*<u>Notiz:</u> Migration von XML sowie SVN möglich, zwischen OCFL, also nicht final und auch zurück zu nativ XML via export, falls SVN benutzt wird, sollte man bis man sich sicher ist das einem das neue System besser gefällt, keine wichtigen Änderungen vornehmen, da eine Migration zurück zu SVN <u>NICHT</u> möglich ist.* -->
+{{</mcr-comment>}}
 
 ## Migration zu OCFL
-<!-- <b class="text-warning">Achtung: Die Migration befindet sich aktuell noch im Experimentellen Beta-Entwicklungsstadium und ist nicht für den produktiven Einsatz vorgesehen</b> -->
 
 Für die Prozedur sollte sichergestellt werden, dass die Daten nicht von Nutzern bearbeitet werden.
 
@@ -131,31 +148,99 @@ Der Vorteil ist wie erwähnt, das es kompatibel ist mit externen Tools für OCFL
 
 Der Nachteil ist, dass durch die Bildung des Hashwertes ein Dateizugriff länger dauert. Durch die Nutzung des Hashwertes ist es ohne externe Tools nicht möglich, herauszufinden, in welchem Ordner sich welches Objekt befindet, sondern nur durch den root Ordner des Objektes und der `inventory.json` .
 
-Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md](https://github.com/OCFL/extensions/blob/main/docs/0003-hash-and-id-n-tuple-storage-layout.md)
+Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/OCFL/extensions/blob/main/docs/0003-hash-and-id-n-tuple-storage-layout.md)
 
-#### Ordnerstruktur (aus der Spezifikation)
+#### Hash Generation
 
-```shell {linenos=table}
-[storage_root]/
+Die Hashes im Implementierten *0003-hash-and-id-n-tuple-storage-layout* werden mit Sha-256 Generiert, 3 "Turple" aus jeweils 3 Stellen generieren dann den Pfad zum Objekt.\
+Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, vor dem speichern wird er dann Escaped
+
+{{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
+| Dateiname                          | Turple 1 | Turple 2 | Turple 3 | Rest des Hashes                                         |
+| :--------------------------------- | :------: | :------: | :------: | :------------------------------------------------------ |
+| derivate:Project_derivate_00000101 | a32      | 302      | e6c      | f89914a40e3656dac10c66586f0a8db3da22220030b7ba73da47350 | 
+| derivate:Project_derivate_00000109 | 484      | 67d      | d9f      | e493cdd42659c08844a487f1b9b21d8a229404b247e1cabba4f51c2 | 
+| derivate:Project_derivate_00000110 | f10      | 8d6      | 503      | 58f00e0affef633b0f618328a214b96fbf29f87f29ff7387e23a247 | 
+| derivate:Project_derivate_12345678 | 71d      | 94b      | ed9      | 219276d96aa6f0a6af1c31dfc203b3a8100f57b6a677feb222edc4b | 
+| doctype:Project_doctype_00000101   | 700      | 702      | 393      | 015ec5378a4008acbfa4239b89d3279f75cd7bf0d65227cedf4fdaa | 
+| doctype:Project_doctype_00000109   | 281      | dfd      | ee7      | 83f19825711d3a2f1544023f445539b6d666eccc1ac4271e657de73 | 
+| doctype:Project_doctype_00000110   | cf3      | 8d8      | 0a3      | c278bc2a78d094dc592052af2333d97f949872f3ff21ad51de7761a | 
+| doctype:Project_doctype_12345678   | 9d4      | 759      | 752      | 65d474fe6bcd7cfa9756cd06c690ae102f1ba5bfaf51294d96f418c | 
+| mcrclass:rfc5646                   | d32      | 4be      | d1c      | a6a89d0ed26bddcaaca66e50f57dd77b908c90ada7c21ba4489a26d | 
+| mcruser:editor1A@local             | 1a5      | ec9      | a72      | 9b5220c75033f21e46b594e22ec52d1f89b238072bf7488b6f32a07 | 
+| mcracl:rules                       | e64      | 6f0      | 669      | a8ae91be6c36beb30ba8d596f52682ecc2bc5a124b3d21d54967077 | 
+| mcrweb:pages                       | 5cd      | 8a6      | 495      | 343a81793d771c3e083674872d2763d7a3a112c251781e1052d5bba | 
+{{</mcr-table>}}
+
+#### Ordnerstruktur
+
+```text {linenos=table}
+[storage_root]
 ├── 0=ocfl_1.0
 ├── ocfl_layout.json
-├── extensions/0003-hash-and-id-n-tuple-storage-layout/config.json
-├── 3c0/
-│   └── ff4/
-│       └── 240/
-│           └── object-01/
-│               ├── 0=ocfl_object_1.0
-│               ├── inventory.json
-│               ├── inventory.json.sha512
-│               └── v1 [...]
-└── 487/
-    └── 326/
-        └── d8c/
-            └── %2e%2ehor%2frib%3ale-%24id/
-                ├── 0=ocfl_object_1.0
-                ├── inventory.json
-                ├── inventory.json.sha512
-                └── v1 [...]
+├── extensions
+│   └── 0003-hash-and-id-n-tuple-storage-layout
+│       └── config.json
+├── a32
+│   └── 302
+│       └── e6c
+│           └── derivate%3aProject_derivate_00000101
+│               └── ... [object root]
+├── 484
+│   └── 67d
+│       └── d9f
+│           └── derivate%3aProject_derivate_00000109
+│               └── ... [object root]
+├── f10
+│   └── 8d6
+│       └── 503
+│           └── derivate%3aProject_derivate_00000110
+│               └── ... [object root]
+├── 71d
+│   └── 94b
+│       └── ed9
+│           └── derivate%3aProject_derivate_12345678
+│               └── ... [object root]
+├── 700
+│   └── 702
+│       └── 393
+│           └── doctype%3aProject_doctype_00000101
+│               └── ... [object root]
+├── 281
+│   └── dfd
+│       └── ee7
+│           └── doctype%3aProject_doctype_00000109
+│               └── ... [object root]
+├── cf3
+│   └── 8d8
+│       └── 0a3
+│           └── doctype%3aProject_doctype_00000110
+│               └── ... [object root]
+├── 9d4
+│   └── 759
+│       └── 752
+│           └── doctype%3aProject_doctype_12345678
+│               └── ... [object root]
+├── d32
+│   └── 4be
+│       └── d1c
+│           └── mcrclass%3arfc5646
+│               └── ... [object root]
+├── 1a5
+│   └── ec9
+│       └── a72
+│           └── mcruser%3aeditor1A@local
+│               └── ... [object root]
+├── e64
+│   └── 6f0
+│       └── 669
+│           └── mcracl%3arules
+│               └── ... [object root]
+└── 5cd
+    └── 8a6
+        └── 495
+            └── mcrweb%3apages
+                └── ... [object root]
 ```
 
 ### MyCoRe Storage Layout
@@ -168,9 +253,7 @@ Im Vergleich zu dem *0003-hash-and-id-n-tuple-storage-layout* ist das *mycore-st
 
 In der Performance in MyCoRe ist das *mycore-storage-layout* schneller als das *0003-hash-and-id-n-tuple-storage-layout*, da nicht erst bei jedem Dateizugriff die Hashwerte des Dateinamens generiert werden müssen.
 
-Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org/mycore/blob/issues/MCR-2580-add-ocfl-specs/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
-
-<b class="text-danger">Muss nach push überarbeitet werden, verweist auf Ticket Branch</b>
+Link zur Spezifikation: [mycore-storage-layout.md <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/MyCoRe-Org/mycore/blob/2021.06.x/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
 
 #### Ordnerstruktur
 
@@ -233,10 +316,8 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
   - Nach löschen können alte Versionen immer noch aufgerufen werden
   - Die Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
-  - <b class="text-info">Tests sind noch nicht alle komplett durch, weitere folgen.</b>
 
 ## Fazit
 
-  - ~~OCFL ist nicht für Produktivanwendungen komplett genug?~~
   - Fixes und Konkretisierungen sind noch erforderlich?
   - Mit Release 2022 sollte OCFL produktiv einsetzbar sein.
