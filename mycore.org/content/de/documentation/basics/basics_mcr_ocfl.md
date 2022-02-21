@@ -308,5 +308,5 @@ Link zur Spezifikation: [mycore-storage-layout.md <sup><i class="fas fa-external
 
 ## Fazit
 
-  - Fixes und Konkretisierungen sind noch erforderlich?
+  - Fixes und Erweiterungen sind noch erforderlich
   - Mit Release 2022 sollte OCFL produktiv einsetzbar sein.
