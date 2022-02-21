@@ -2,30 +2,19 @@
 ---
 
 title: "Versionierung mit OCFL in MyCoRe"
-description: "<u>Notiz:</u> Zukünftige Pläne, bessere Beschreibung OCFL, So Besser?"
+description: ""
 mcr_version: ['2021.11']
-author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan','Tobias Lenhardt']
+author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
 date: "2022-02-21"
 
 ---
 
-## Allgemeines (Neu)
+## Allgemeines
 
 [OCFL <sup><i class="fas fa-external-link-alt"></i></sup>](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von Daten in einer versionierten Form auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
-Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Dieses wurde mithilfe der [Java OCFL Libary der UW-Madison <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/UW-Madison-Library/ocfl-java) Realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und in dem Snapshot der 2021.06 Version wurde es prototypisch Implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist dies nun auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte in OCFL zu speichern. Geplant ist, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
+Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Dies wurde mithilfe der [Java OCFL Libary der UW-Madison <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/UW-Madison-Library/ocfl-java) realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und in dem Snapshot der 2021.06 Version wurde es prototypisch Implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist dies nun auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte in OCFL zu speichern. Geplant ist, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
 
 Die "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu schwerwiegenden Änderungen kommen wird. Die zukünftigen Änderungen bauen auf diese Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
-
-## Allgemeines (Alt)
- 
-[OCFL <sup><i class="fas fa-external-link-alt"></i></sup>](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von
-Daten in einer versionierten Form mit Ablage der Daten auf einem nativen Plattenbereich. Somit kann der Vorteil einer einfachen
-Speicherung im Dateisystem mit dem einer Dateiversionierung optimal verbunden werden. Die MyCoRe-Entwickler arbeiten seit 2020
-an der Integration dieser Form der Datenablage in MyCoRe. Mit Version {{<mcr-version "2021.06-SNAPSHOT">}} wurde eine prototypische Implementierung unter
-Zuhilfenahme der OCFL-Library im MyCoRe-Kern verfügbar. Mit dem Release {{<mcr-version "2021.11">}} ist die OCFL Implementierung nun in dem Beta Status und ist somit Produktiv verwendbar. Bis zum Release 2022 soll die OCFL Implementierung dann fertig gestellt werden.
-
-
-Hier die Referenz zum [OCFL-Java Github. <sup><i class="fas fa-external-link-alt"></i></sup>](https://github.com/UW-Madison-Library/ocfl-java)
 
 ## Zukünftige Pläne
 
@@ -137,7 +126,7 @@ Die Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfigur
 
 Hierbei kann es manchmal vorkommen, dass ein `MCRUsageException` ausgelöst wird. Dies tritt dann auf,
 wenn Objekte vor der Migration zu OCFL gelöscht wurden und es versucht wird, ein Property zu lesen, da MyCoRe diese ID noch immer bekannt ist. Die Datei existiert aber nicht mehr.\
-Dies wird in zukünftigen Versionen behoben werden, und <u>hat keinen Impakt in die Funktionsweise von OCFL</u>.
+Dies wird in zukünftigen Versionen behoben werden, <u>hat aber keinen Impakt in die Funktionsweise von OCFL</u>.
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
@@ -152,24 +141,24 @@ Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md <sup><i clas
 
 #### Hash Generation
 
-Die Hashes im Implementierten *0003-hash-and-id-n-tuple-storage-layout* werden mit Sha-256 Generiert, 3 "Turple" aus jeweils 3 Stellen generieren dann den Pfad zum Objekt.\
-Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, vor dem speichern wird er dann Escaped
+Die Hashes im Implementierten *0003-hash-and-id-n-tuple-storage-layout* werden mit Sha-256 Generiert, 3 Tuple aus jeweils 3 Stellen generieren dann den Pfad zum Objekt.\
+Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, welcher dann vor dem Speichern sicher für die Ordnerstruktur dank Escape-Sequenzen gemacht wird.
 
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
-| Dateiname                          | Turple 1 | Turple 2 | Turple 3 | Rest des Hashes                                         |
-| :--------------------------------- | :------: | :------: | :------: | :------------------------------------------------------ |
-| derivate:Project_derivate_00000101 | a32      | 302      | e6c      | f89914a40e3656dac10c66586f0a8db3da22220030b7ba73da47350 | 
-| derivate:Project_derivate_00000109 | 484      | 67d      | d9f      | e493cdd42659c08844a487f1b9b21d8a229404b247e1cabba4f51c2 | 
-| derivate:Project_derivate_00000110 | f10      | 8d6      | 503      | 58f00e0affef633b0f618328a214b96fbf29f87f29ff7387e23a247 | 
-| derivate:Project_derivate_12345678 | 71d      | 94b      | ed9      | 219276d96aa6f0a6af1c31dfc203b3a8100f57b6a677feb222edc4b | 
-| doctype:Project_doctype_00000101   | 700      | 702      | 393      | 015ec5378a4008acbfa4239b89d3279f75cd7bf0d65227cedf4fdaa | 
-| doctype:Project_doctype_00000109   | 281      | dfd      | ee7      | 83f19825711d3a2f1544023f445539b6d666eccc1ac4271e657de73 | 
-| doctype:Project_doctype_00000110   | cf3      | 8d8      | 0a3      | c278bc2a78d094dc592052af2333d97f949872f3ff21ad51de7761a | 
-| doctype:Project_doctype_12345678   | 9d4      | 759      | 752      | 65d474fe6bcd7cfa9756cd06c690ae102f1ba5bfaf51294d96f418c | 
-| mcrclass:rfc5646                   | d32      | 4be      | d1c      | a6a89d0ed26bddcaaca66e50f57dd77b908c90ada7c21ba4489a26d | 
-| mcruser:editor1A@local             | 1a5      | ec9      | a72      | 9b5220c75033f21e46b594e22ec52d1f89b238072bf7488b6f32a07 | 
-| mcracl:rules                       | e64      | 6f0      | 669      | a8ae91be6c36beb30ba8d596f52682ecc2bc5a124b3d21d54967077 | 
-| mcrweb:pages                       | 5cd      | 8a6      | 495      | 343a81793d771c3e083674872d2763d7a3a112c251781e1052d5bba | 
+| Dateiname                          | Tuple 1 | Tuple 2 | Tuple 3 | Rest des Hashes                                         |
+| :--------------------------------- | :-----: | :-----: | :-----: | :------------------------------------------------------ |
+| derivate:Project_derivate_00000101 | a32     | 302     | e6c     | f89914a40e3656dac10c66586f0a8db3da22220030b7ba73da47350 | 
+| derivate:Project_derivate_00000109 | 484     | 67d     | d9f     | e493cdd42659c08844a487f1b9b21d8a229404b247e1cabba4f51c2 | 
+| derivate:Project_derivate_00000110 | f10     | 8d6     | 503     | 58f00e0affef633b0f618328a214b96fbf29f87f29ff7387e23a247 | 
+| derivate:Project_derivate_12345678 | 71d     | 94b     | ed9     | 219276d96aa6f0a6af1c31dfc203b3a8100f57b6a677feb222edc4b | 
+| doctype:Project_doctype_00000101   | 700     | 702     | 393     | 015ec5378a4008acbfa4239b89d3279f75cd7bf0d65227cedf4fdaa | 
+| doctype:Project_doctype_00000109   | 281     | dfd     | ee7     | 83f19825711d3a2f1544023f445539b6d666eccc1ac4271e657de73 | 
+| doctype:Project_doctype_00000110   | cf3     | 8d8     | 0a3     | c278bc2a78d094dc592052af2333d97f949872f3ff21ad51de7761a | 
+| doctype:Project_doctype_12345678   | 9d4     | 759     | 752     | 65d474fe6bcd7cfa9756cd06c690ae102f1ba5bfaf51294d96f418c | 
+| mcrclass:rfc5646                   | d32     | 4be     | d1c     | a6a89d0ed26bddcaaca66e50f57dd77b908c90ada7c21ba4489a26d | 
+| mcruser:editor1A@local             | 1a5     | ec9     | a72     | 9b5220c75033f21e46b594e22ec52d1f89b238072bf7488b6f32a07 | 
+| mcracl:rules                       | e64     | 6f0     | 669     | a8ae91be6c36beb30ba8d596f52682ecc2bc5a124b3d21d54967077 | 
+| mcrweb:pages                       | 5cd     | 8a6     | 495     | 343a81793d771c3e083674872d2763d7a3a112c251781e1052d5bba | 
 {{</mcr-table>}}
 
 #### Ordnerstruktur
