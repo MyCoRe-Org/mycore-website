@@ -14,22 +14,22 @@ date: "2021-09-02"
       <h2>Das Metadatenmodell</h2>
       <p>
         In der Definition des eigenen Datenmodells müssen nur noch Teile definiert werden, welche sich im Tag
-        <em>metadata</em>
+        <code>metadata</code>
         befinden. Alle anderen Teile werden automatisch gebaut. Die Definition geht weiterhin davon aus, dass die
         äußeren Tag-Namen entsprechend mit
-        <em>def.</em>
+        <code>def.</code>
         erweiterbar sind.
       </p>
       
       <p>
         Um auch alte Datenmodelle über die neue Datenmodelldefinition beschreiben zu können, wurde im Element
-        <em>element</em>
+        <code>element</code>
         das Attribut
-        <em>wrapper</em>
+        <code>wrapper</code>
         eingeführt. Für ältere Definitionen des Datenmodell, welche nicht das Attribut
-        <em>required</em>
-        nutzen
-        , ist weiterhin folgende implizite Annahme gültig und wird umgesetzt:
+        <code>required</code>
+        nutzen,
+        ist weiterhin folgende implizite Annahme gültig und wird umgesetzt:
       </p>
       
       <ul>
@@ -46,29 +46,29 @@ date: "2021-09-02"
       
       <ul>
         <li>
-          <em>maxOccurs</em>
+          <code>maxOccurs</code>
           wird immer im äußeren Tag nicht angegeben und steht per default auf 1.
         </li>
         <li>
           Ist
-          <em>minOccurs</em>
+          <code>minOccurs</code>
           nicht angegeben, wird es im inneren Tag auf 1 per default gesetzt.
         </li>
         <li>
           Ist
-          <em>required="false"</em>
+          <code>required="false"</code>
           angegeben, wird
-          <em>minOccurs</em>
+          <code>minOccurs</code>
           im äußeren Tag auf 0 gesetzt.
         </li>
         <li>
           Ist
-          <em>maxOccurs</em>
+          <code>maxOccurs</code>
           nicht angegeben wird für das innere Tag implizit per default 1 angenommen.
         </li>
         <li>
           Das
-          <em>required</em>
+          <code>required</code>
           -Attribut sollte zur besseren Lesbarkeit der Konfiguration mit angegben werden.
         </li>
       </ul>
@@ -105,87 +105,86 @@ date: "2021-09-02"
       <p>
       <ul>
         <li>
-          <em>name</em>
+          <code>name</code>
           in der Objekt beschreibenden Zeile ist der gewünschte MyCoRe-ObjectID-Typ.
         </li>
         <li>
-          <em>isChild</em>
+          <code>isChild</code>
           spezifiziert, ob das Objekt ein Kind-Objekt ist.
         </li>
         <li>
-          <em>isParent</em>
+          <code>isParent</code>
           spezifiziert, ob das Objekt ein Eltern-Objekt ist.
         </li>
         <li>
-          <em>hasDerivates</em>
+          <code>hasDerivates</code>
           spezifiziert, ob das Objekt Derivate-Objekte haben darf.
         </li>
         <li>
-          <em>name</em>
+          <code>name</code>
           im Element beschreibt den Tagnamen des inneren Elementes. Der Äußere wird daraufhin gebildet als
-          <em>def.{name}</em>
-          .
+          <code>def.{name}</code>.
         </li>
         <li>
-          <em>required</em>
-          legt fest, ob das Element ein Pflichtfeld ist. Mögliche Werte sind 'true' und 'false'. Ist nichts angegeben,
-          wird 'true' angenommen' bzw. es wird
-          <em>minOcurrs</em>
+          <code>required</code>
+          legt fest, ob das Element ein Pflichtfeld ist. Mögliche Werte sind <code>true</code> und <code>false</code>. Ist nichts angegeben,
+          wird <code>true</code> angenommen bzw. es wird
+          <code>minOcurrs</code>
           ausgewertet.
         </li>
         <li>
-          <em>minOccurs</em>
+          <code>minOccurs</code>
           beschreibt die minimale Anzahl der Wiederholungen des inneren Tags. Ist nichts angegeben, wird 1 angenommen.
         </li>
         <li>
-          <em>maxOccurs</em>
+          <code>maxOccurs</code>
           beschreibt die maximale Anzahl der Wiederholungen des inneren Tags. Ist nichts angegeben, wird 1 angenommen.
         </li>
         <li>
           Das
-          <em>element</em>
+          <code>element</code>
           kann um das Attribut
-          <em>wrapper</em>
+          <code>wrapper</code>
           erweitert werden, wenn das äußere Tag nicht den Namen
-          <em>def.{name}</em>
+          <code>def.{name}</code>
           haben soll.
         </li>
         <li>
           Das
-          <em>element</em>
+          <code>element</code>
           kann um das Attribut
-          <em>heritable</em>
-          (true|false)
+          <code>heritable</code>
+          (<code>true</code>|<code>false</code>)
           erweitert werden, wenn alle inneren Tags vererbbar sein sollen und in den Daten das
-          <em>heritable</em>
+          <code>heritable</code>
           Attribut auf
-          <em>true</em>
-          stehen soll. Ist nichts angegeben, wird false angenommen.
+          <code>true</code>
+          stehen soll. Ist nichts angegeben, wird <code>false</code> angenommen.
         </li>
         <li>
           Das
-          <em>element</em>
+          <code>element</code>
           kann um das Attribut
-          <em>notinherited</em>
-          (true|false)
+          <code>notinherited</code>
+          (<code>true</code>|<code>false</code>)
           erweitert werden, wenn die inneren Tags eines übergeordneten Objekts nicht geerbt werden dürfen und in den Daten das
-          <em>notinherited</em>
+          <code>notinherited</code>
           Attribut auf
-          <em>true</em>
-          stehen soll. Ist nichts angegeben, wird false angenommen.
+          <code>true</code>
+          stehen soll. Ist nichts angegeben, wird <code>false</code> angenommen.
         </li>
         <li>
           Das Subtag
-          <em>classification</em>
+          <code>classification</code>
           bescheibt über das Attribut
-          <em>id</em>
+          <code>id</code>
           den Klassifikationsnamen.
         </li>
         <li>
           Das Subtag
-          <em>target</em>
+          <code>target</code>
           gibt über das Attribut
-          <em>type</em>
+          <code>type</code>
           den MCRObjectType des Link-Ziels an.
         </li>
       </ul>
@@ -203,77 +202,77 @@ date: "2021-09-02"
           <td>text
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Freier+Text+(MCRMetaLangText)">MCRMetaLangText</a>
+            <a href="{{< ref "mcrobj_datatypes/#freier-text-mcrmetalangtext" >}}">MCRMetaLangText</a>
           </td>
         </tr>
         <tr>
           <td>boolean
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Boolesche+Werte+%28MCRMetaBoolean%29">MCRMetaBoolean</a>
+            <a href="{{< ref "mcrobj_datatypes/#boolesche-werte-mcrmetaboolean" >}}">MCRMetaBoolean</a>
           </td>
         </tr>
         <tr>
           <td>classification
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Klassifikationen+(MCRMetaClassification)">MCRMetaClassification</a>
+            <a href="{{< ref "mcrobj_datatypes/#klassifikationen-mcrmetaclassification" >}}">MCRMetaClassification</a>
           </td>
         </tr>
         <tr>
           <td>link
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Externe+Links+und+interne+Verknüpfungen+(MCRMetaLink+und+MCRMetaLinkID)">MCRMetaLinkID</a>
+            <a href="{{< ref "mcrobj_datatypes/#externe-links-und-interne-verknpfungen-mcrmetalink-und-mcrmetalinkid" >}}">MCRMetaLinkID</a>
           </td>
         </tr>
         <tr>
           <td>href
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Externe+Links+und+interne+Verknüpfungen+(MCRMetaLink+und+MCRMetaLinkID)">MCRMetaLink</a>
+            <a href="{{< ref "mcrobj_datatypes/#externe-links-und-interne-verknpfungen-mcrmetalink-und-mcrmetalinkid" >}}">MCRMetaLink</a>
           </td>
         </tr>
         <tr>
           <td>derlink
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Verknüpfung+zu+Dateien+(MCRMetaDerivateLink)">MCRMetaDerivateLink</a>
+            <a href="{{< ref "mcrobj_datatypes/#verknpfung-zu-dateien-mcrmetaderivatelink" >}}">MCRMetaDerivateLink</a>
           </td>
         </tr>
         <tr>
           <td>date
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Datumsangaben+(MCRMetaISO8601Date)">MCRMetaISO8601Date</a>
+            <a href="{{< ref "mcrobj_datatypes/#datumsangaben-mcrmetaiso8601date" >}}">MCRMetaISO8601Date</a>
           </td>
         </tr>
         <tr>
           <td>number
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Zahlenwerte+(MCRMetaNumber)">MCRMetaNumber</a>
+            <a href="{{< ref "mcrobj_datatypes/#zahlenwerte-mcrmetanumber" >}}">MCRMetaNumber</a>
           </td>
         </tr>
         <tr>
           <td>xml
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Beliebiges+XML+(MCRMetaXML)">MCRMetaXML</a>
+            <a href="{{< ref "mcrobj_datatypes/#beliebiges-xml-mcrmetaxml" >}}">MCRMetaXML</a>
           </td>
         </tr>
         <tr>
           <td>historydate
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Historische+Datumsangaben+(MCRMetaHistoryDate)">MCRMetaHistoryDate</a>
+            <a href="{{< ref "mcrobj_datatypes/#historische-datumsangaben-mcrmetahistorydate" >}}">MCRMetaHistoryDate</a>
           </td>
         </tr>
         <tr>
           <td>personname
           </td>
           <td>
-            <a href="mcrobject_datatypes.html#Namen+natürlicher+Personen+(MCRMetaPersonName)">MCRMetaPersonName</a>
+            <a href="{{< ref "mcrobj_datatypes/#namen-natrlicher-personen-mcrmetapersonname" >}}">MCRMetaPersonName</a>
           </td>
         </tr>
       </table>

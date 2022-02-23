@@ -39,7 +39,7 @@ date: "2021-09-02"
 			<td>MCRMetaHistoryDate</td>
 		</tr>
 		<tr>
-			<td>MCRMetsLangText</td>
+			<td>MCRMetaLangText</td>
 			<td>MCRMetaPersonName</td>
 		</tr>
 		<tr>
@@ -64,8 +64,8 @@ date: "2021-09-02"
       <p>
         Der Basistyp MCRMetaAddress beinhaltet eine Liste von postalischen Anschriften in der Ausprägung eines
         XML-Abschnittes. Dabei wird berücksichtigt, dass die Anschrift in verschiedenen Sprachen und in international
-        gängigen Formen gespeichert werden soll. Die einzelnen Subtags sind dabei selbsterklärend. Die Angaben zu type und
-        xml:lang sind optional, ebenso die unter subtag liegenden Tags, jedoch muss mindestens eines ausgefüllt sein. Alle
+        gängigen Formen gespeichert werden soll. Die einzelnen Subtags sind dabei selbsterklärend. Die Angaben zu <code>type</code> und
+        <code>xml:lang</code> sind optional, ebenso die unter subtag liegenden Tags, jedoch muss mindestens eines ausgefüllt sein. Alle
         Werte werden als Text betrachtet.
       </p>
       <p>Syntax des Metadatentyps MCRMetaAddress:</p>
@@ -105,8 +105,8 @@ date: "2021-09-02"
         sind zulässig:
       </p>
       <ul>
-        <li>für true - ’true’, ’yes’, ’wahr’ und ’ja’</li>
-        <li>für false - ’false’, ’no’, ’falsch’ und ’nein’</li>
+        <li>für true - <code>true</code>, <code>yes</code>, <code>wahr</code> und <code>ja</code></li>
+        <li>für false - <code>false</code>, <code>no</code>, <code>falsch</code> und <code>nein</code></li>
       </ul>
       <p>Syntax des Metadatentyps MCRMetaBoolean:</p>
       {{< highlight xml "linenos=table">}}
@@ -131,9 +131,9 @@ date: "2021-09-02"
       <h2>Klassifikationen (MCRMetaClassification)</h2>
       <p>
         Der Basistyp MCRMetaClassification dient der Einbindung von Klassifikationen und deren Kategorien in die Metadaten.
-        Beide Identifizierer zusammen beschreiben einen Kategorieeintrag vollständig. Dabei ist für die categid eine,
+        Beide Identifizierer zusammen beschreiben einen Kategorieeintrag vollständig. Dabei ist für die <code>categid</code> eine,
         ggf.
-        mehrstufige, Kategorie-ID einzutragen. Die classid muss vom Typ MCRObjectID sein. Bitte beachten Sie die Hinweise
+        mehrstufige, Kategorie-ID einzutragen. Die <code>classid</code> muss vom Typ MCRObjectID sein. Bitte beachten Sie die Hinweise
         zur Gestaltung der Kategorie-IDs im vorigen Kapitel!
       </p>
       <p>Syntax des Metadaten-Basistyps MCRMetaClassification:</p>
@@ -171,35 +171,35 @@ date: "2021-09-02"
       <ul>
         <li>
           Im
-          <em>text</em>
+          <code>text</code>
           -Feld steht ein beliebiger String gemäß den Projektvorgaben. Dieses Feld ist für verschiedene Sprachen
           wiederholbar.
         </li>
         <li>
           Die Felder
-          <em>von</em>
+          <code>von</code>
           und
-          <em>bis</em>
+          <code>bis</code>
           enthalten gregorianische Datumsangaben.
         </li>
-        <li>Ist für von und/oder bis nichts angegeben, werden Standardwerte genommen. Das sind 1.1.4713 BC und
+        <li>Ist für <code>von</code> und/oder <code>bis</code> nichts angegeben, werden Standardwerte genommen. Das sind 1.1.4713 BC und
           31.12.3999
           AD.
         </li>
         <li>
           Die Felder
-          <em>ivon</em>
+          <code>ivon</code>
           bzw.
-          <em>ibis</em>
-          enthalten die korrespondierenden Werte zu von bzw. bis.
+          <code>ibis</code>
+          enthalten die korrespondierenden Werte zu <code>von</code> bzw. <code>bis</code>.
         </li>
         <li>
           Das
-          <em>calendar</em>
+          <code>calendar</code>
           -Feld kann die Werte
-          <strong>gregorian</strong>
+          <code>gregorian</code>
           oder
-          <strong>islamic</strong>
+          <code>islamic</code>
           enthalten.
         </li>
         <li>Mögliche Notationen für die Datumsangaben sind 01.01.1999 / -01.12.200 / 1035 / 133 BC.</li>
@@ -237,21 +237,22 @@ date: "2021-09-02"
       <h2>Datumsangaben (MCRMetaISO8601Date)</h2>
       <p>
         Dieser Metadatentyp ist wie MCRMetaDate für das Speichern von Zeitangaben gedacht. Er bietet jedoch eine höhere
-        zeitliche Auflösung, bis in den Millisekundenbereich. Unterstützt werden alle Formate der Informationsseite des W3C
-        (http://www.w3.org/TR/NOTE-datetime). Sie enthält nähere Informationen zu den Formaten und zur ISO-Norm: ISO 8601
+        zeitliche Auflösung, bis in den Millisekundenbereich. Unterstützt werden alle Formate der
+        <a href="http://www.w3.org/TR/NOTE-datetime">Informationsseite des W3C</a>.
+        Sie enthält nähere Informationen zu den Formaten und zur ISO-Norm: ISO 8601
         :
         1998 (E).
       </p>
       <p>
-        Wie MCRMetaDate unterstützt MCRMetaISO8601Date die Verwendung des type-Attributs. Auf Grund seiner
-        Sprachunabhängigkeit in der Formatierung der Datumsangabe fehlt die Unterstützung für das lang-Attribut. Das
-        Verwenden von MCRMetaISO8601Date ermöglicht eine Syntaxprüfung der Datumsangabe bereits auf XMLSchema-Ebene, durch
-        den dort definierten Datentyp xsd:duration, auf dem der MyCoRe-Datentyp abgebildet wird.
+        Wie MCRMetaDate unterstützt MCRMetaISO8601Date die Verwendung des <code>type</code>-Attributs. Auf Grund seiner
+        Sprachunabhängigkeit in der Formatierung der Datumsangabe fehlt die Unterstützung für das <code>lang</code>-Attribut. Das
+        Verwenden von MCRMetaISO8601Date ermöglicht eine Syntaxprüfung der Datumsangabe bereits auf XML Schema-Ebene, durch
+        den dort definierten Datentyp <code>xsd:duration</code>, auf dem der MyCoRe-Datentyp abgebildet wird.
       </p>
       <p>
-        Optional kann ein format-Attribut verwendet werden. Dies erzwingt für das Datum das angegebene Format. So ist bei
-        der Formatangabe „YYYY“ das Datum „2006-01“ ungültig. Ohne die Formatangabe hingegen ist das gleiche Datum gültig,
-        weil es dem unterstützen Format „YYYY-MM“ entspricht.
+        Optional kann ein <code>format</code>-Attribut verwendet werden. Dies erzwingt für das Datum das angegebene Format. So ist bei
+        der Formatangabe <code>YYYY</code> das Datum 2006-01 ungültig. Ohne die Formatangabe hingegen ist das gleiche Datum gültig,
+        weil es dem unterstützen Format <code>YYYY-MM</code> entspricht.
       </p>
       <p>Syntax des Metadaten-Basistyps MCRMetaISO8601Date:</p>
       {{< highlight xml "linenos=table">}}
@@ -271,7 +272,7 @@ date: "2021-09-02"
       <h2>Freier Text (MCRMetaLangText)</h2>
       <p>
         Der Basistyp MCRMetaLangText dient der Speicherung einer Liste von Textabschnitten mit zugehöriger Sprachangabe. Über
-        das form Attribut kann noch spezifiziert werden, in welcher Form der Text geschrieben ist.
+        das <code>form</code> Attribut kann noch spezifiziert werden, in welcher Form der Text geschrieben ist.
       </p>
       <p>XML-Syntax des Metadaten-Basistyps MCRMetaLangText:</p>
       {{< highlight xml "linenos=table">}}
@@ -303,21 +304,21 @@ date: "2021-09-02"
         die in MyCoRe benötigten Funktionalitäten nicht erforderlich ist.
       </p>
       <p>
-        Im Referenztyp ist das Attribut <em>xlink:type=’locator’</em> immer anzugeben. 
-        Die eigentliche Referenz wird im <em>xlink:href</em>
+        Im Referenztyp ist das Attribut <code>xlink:type='locator'</code> immer anzugeben. 
+        Die eigentliche Referenz wird im <code>xlink:href</code>
         Attribut notiert. Dabei ist die Referenz eine URL. Daneben können noch weitere
-        Informationen im <em>xlink:label</em> angegeben werden, hier ist aber auf die in der Spezifikation von XLink definierte
-        Zeichenmenge zu achten! Weierhin kann ein <em>xlink:title</em> angegeben werden.
+        Informationen im <code>xlink:label</code> angegeben werden, hier ist aber auf die in der Spezifikation von XLink definierte
+        Zeichenmenge zu achten! Weierhin kann ein <code>xlink:title</code> angegeben werden.
       </p>
       <p>
         Alternativ dazu besteht die Möglichkeit eines bidirektionalen Links. Dieser wird sowohl in der Link-Quelle wie auch
-        im Link-Ziel eingetragen. Der Typ ist in diesem Fall <em>xlink:type=’arc’</em>. Weiterhin sind die Attribute <em>xlink:from</em> und
-        <em>xlink:to</em> erforderlich. Optional kann noch ein Titel in <em>xlink:title</em> mitgegeben werden.
+        im Link-Ziel eingetragen. Der Typ ist in diesem Fall <code>xlink:type='arc'</code>. Weiterhin sind die Attribute <code>xlink:from</code> und
+        <code>xlink:to</code> erforderlich. Optional kann noch ein Titel in <code>xlink:title</code> mitgegeben werden.
       </p>
       <p>
         Der Basistyp MCRMetaLinkID entspricht im Aufbau dem MCRMetaLink. Der einzige Unterschied ist, dass die Attribute
-        xlink:href, xlink:from und xlink:to nur mit MCRObjectIDs belegt werden dürfen. Dieser spezielle Datentyp wird zur Verknüpfung von
-        MyCoRe-Objekten untereinander verwendet. Dabei kommt in der Regel die Referenz-Variante, also <em>xlink:href</em>, zum Einsatz.
+        <code>xlink:href</code>, <code>xlink:from</code> und <code>xlink:to</code> nur mit MCRObjectIDs belegt werden dürfen. Dieser spezielle Datentyp wird zur Verknüpfung von
+        MyCoRe-Objekten untereinander verwendet. Dabei kommt in der Regel die Referenz-Variante, also <code>xlink:href</code>, zum Einsatz.
       </p>
       
       <p>XML-Syntax des Metadaten-Basistyps MCRMetaLink:</p>
@@ -357,7 +358,7 @@ date: "2021-09-02"
         Der Basistyp MCRMetaNumber ermöglicht das Speichern und Suchen von Zahlenwerten. Die Zahlendarstellung kann je nach
         Sprache, d. h. im Deutschen mit Komma und im Englischen mit Punkt, angegeben werden. Weiterhin sind die
         zusätzlichen
-        Attribute dimension und measurement möglich. Beide Attribute sind optional, ebenso wie das Default-Attribut type.
+        Attribute <code>dimension</code> und <code>measurement</code> möglich. Beide Attribute sind optional, ebenso wie das Default-Attribut <code>type</code>.
       </p>
       <p>XML-Syntax des Metadaten-Basistyps MCRMetaNumber:</p>
       {{< highlight xml "linenos=table">}}
@@ -417,27 +418,27 @@ date: "2021-09-02"
         Der Basistyp MCRMetaPerson beinhaltet eine Liste von Namen für natürliche oder juristische Personen. Dabei wird
         berücksichtigt, dass die Namen in verschiedenen Sprachen und international gängigen Formen auftreten können. Das
         Attribut
-        <em>type</em>
+        <code>type</code>
         dient der Differenzierung der verschiedenen Namen einer Person, Geburtsname, Synonym, Kosename usw.
-        <em>firstname</em>
+        <code>firstname</code>
         repräsentiert den/die Vornamen,
-        <em>callname</em>
+        <code>callname</code>
         den Rufnamen,
-        <em>surname</em>
+        <code>surname</code>
         den Familiennamen,
-        <em>academic</em>
+        <code>academic</code>
         den akademischen
         Titel,
-        <em>peerage</em>
+        <code>peerage</code>
         den Adelstitel,
-        <em>numeration</em>
+        <code>numeration</code>
         die Zählnummer (der IIV.),
-        <em>titel</em>
+        <code>titel</code>
         zusätzliche Titel (Bischof von),
-        <em>affix</em>
+        <code>affix</code>
         und
-        <em>prefix</em>
-        Namenszusätze wie 'von', 'de' usw. <em>fullname</em> enthält nochmal den
+        <code>prefix</code>
+        Namenszusätze wie 'von', 'de' usw. <code>fullname</code> enthält nochmal den
         automatisch zusammengesetzten Namen.
       </p>
       <p>XML-Syntax des Metadaten-Basistyps MCRMetaPersonName:</p>
@@ -487,8 +488,7 @@ date: "2021-09-02"
       <h2>Beliebiges XML (MCRMetaXML)</h2>
       <p>
         Der Basistyp MCRMetaXML wurde zusätzlich als Container für einen beliebigen XML-Baum in das Projekt integriert.
-        Dieser wird in den Textknoten des Subtags gestellt und kann dort theoretisch beliebig groß sein. Achten Sie aber
-        darauf, dass entsprechend viel Speicherplatz in dem XML-SQL-Store vorgesehen wird.
+        Dieser wird in den Textknoten des Subtags gestellt und kann dort theoretisch beliebig groß sein.
       </p>
       <p>XML-Syntax des Metadaten-Basistyps MCRMetaXML:</p>
 
