@@ -294,7 +294,19 @@ date: "2021-09-02"
       </p>
       <p>
         Im <code>servflags</code> Teil können kurze Texte untergebracht werden.
+        Hiermit können von der Anwendung Sachverhalte in textueller Form erfasst werden.
         Die Anzahl der <code>servflag</code> Elemente ist theoretisch unbegrenzt.
+      </p>
+      <p>
+        Im <code>servmessages</code> Teil können ebenfalls kurze Texte untergebracht werden.
+        Im Gegensatz zu den <code>servflags</code> kann bei <code>servmessages</code> zusätzlich eine Datumsangabe erfasst werden.
+        Hiermit können von der Anwendung Ereignisse in textueller Form protokolliert werden.
+        Die Anzahl der <code>servmessage</code> Elemente ist theoretisch unbegrenzt.
+      </p>
+      <p>
+        Im <code>servclasses</code> Teil können beliebige Klassifikationswerte untergebracht werden.
+        Hiermit können von der Anwendung Sachverhalte mit einem kontrolliertem Vokabular erfasst werden.
+        Die Anzahl der <code>servclass</code> Elemente ist theoretisch unbegrenzt.
       </p>
       <p>
         Der Abschnitt <code>servstates</code> kann dazu genutzt werden, den Status des MyCoRe-Objektes festzuhalten.
@@ -326,6 +338,14 @@ date: "2021-09-02"
     <servflag>...</servflag>
     ...
   </servflags>
+  <servmessages class="MCRMetaDateLangText">
+    <servmessag>...</servmessag>
+    ...
+  </servmessages>
+  <servclasses class="MCRMetaClassification">
+    <servclass>...</servclass>
+    ...
+  </servclasses>
   <servstates class="MCRMetaClassification">
     <servstate classid="..." categid="..." />
   </servstates>
