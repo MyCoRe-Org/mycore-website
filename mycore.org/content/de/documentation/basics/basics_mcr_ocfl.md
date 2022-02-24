@@ -18,7 +18,7 @@ Die "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden
 
 ## Zukünftige Pläne
 
-Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte, wie etwas Klassifikationen, Benutzer, ACLs, etc. im OCFL-Repository speichern kann.
+Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte, wie etwa Klassifikationen, Benutzer, ACLs, etc. im OCFL-Repository speichern kann.
 
 # Die Speicherung der MyCoRe-Objekte mit OCFL
 
@@ -146,24 +146,25 @@ Link zur Spezifikation: [0003-hash-and-id-n-tuple-storage-layout.md <sup><i clas
 
 #### Hash Generation
 
-Die Hashes im Implementierten *0003-hash-and-id-n-tuple-storage-layout* werden mit Sha-256 Generiert, 3 Tuple aus jeweils 3 Stellen generieren dann den Pfad zum Objekt.\
-Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, welcher dann vor dem Speichern sicher für die Ordnerstruktur dank Escape-Sequenzen gemacht wird.
+Der Hashwert im *0003-hash-and-id-n-tuple-storage-layout* wird mit mit dem Algorithmus SHA-256 generiert. 3 Tupel mit jeweils 3 Stellen vom Beginn des Hashwertes bilden dann den Pfad zum Objekt.
+
+Der Hashwert wird aus dem ursprünglichen Dateinamen gebildet. Anschließend wird ein sicherer Dateiname erzeugt, indem Sonderzeichen durch ihre Escape-Sequenzen codiert werden. Dadurch wird eine problemlose Speicherung gewährleistet.
 
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
-| Dateiname                          | Tuple 1 | Tuple 2 | Tuple 3 | Rest des Hashes                                         |
-| :--------------------------------- | :-----: | :-----: | :-----: | :------------------------------------------------------ |
-| derivate:Project_derivate_00000101 | a32     | 302     | e6c     | f89914a40e3656dac10c66586f0a8db3da22220030b7ba73da47350 | 
-| derivate:Project_derivate_00000109 | 484     | 67d     | d9f     | e493cdd42659c08844a487f1b9b21d8a229404b247e1cabba4f51c2 | 
-| derivate:Project_derivate_00000110 | f10     | 8d6     | 503     | 58f00e0affef633b0f618328a214b96fbf29f87f29ff7387e23a247 | 
-| derivate:Project_derivate_12345678 | 71d     | 94b     | ed9     | 219276d96aa6f0a6af1c31dfc203b3a8100f57b6a677feb222edc4b | 
-| doctype:Project_doctype_00000101   | 700     | 702     | 393     | 015ec5378a4008acbfa4239b89d3279f75cd7bf0d65227cedf4fdaa | 
-| doctype:Project_doctype_00000109   | 281     | dfd     | ee7     | 83f19825711d3a2f1544023f445539b6d666eccc1ac4271e657de73 | 
-| doctype:Project_doctype_00000110   | cf3     | 8d8     | 0a3     | c278bc2a78d094dc592052af2333d97f949872f3ff21ad51de7761a | 
-| doctype:Project_doctype_12345678   | 9d4     | 759     | 752     | 65d474fe6bcd7cfa9756cd06c690ae102f1ba5bfaf51294d96f418c | 
-| mcrclass:rfc5646                   | d32     | 4be     | d1c     | a6a89d0ed26bddcaaca66e50f57dd77b908c90ada7c21ba4489a26d | 
-| mcruser:editor1A@local             | 1a5     | ec9     | a72     | 9b5220c75033f21e46b594e22ec52d1f89b238072bf7488b6f32a07 | 
-| mcracl:rules                       | e64     | 6f0     | 669     | a8ae91be6c36beb30ba8d596f52682ecc2bc5a124b3d21d54967077 | 
-| mcrweb:pages                       | 5cd     | 8a6     | 495     | 343a81793d771c3e083674872d2763d7a3a112c251781e1052d5bba | 
+| Dateiname                             | Tuple 1 | Tuple 2 | Tuple 3 | Rest des Hashes                                         |
+| :------------------------------------ | :-----: | :-----: | :-----: | :------------------------------------------------------ |
+| mcrderivate:Project_derivate_00000101 | 37c     | 205     | dbd     | dbbe09979e5972de14595cab5a972a9826b93301effeab5f24ae884 | 
+| mcrderivate:Project_derivate_00000109 | d36     | 065     | d61     | 20804aada912de4c0659dec694eb672ce53646a64b67373906de919 | 
+| mcrderivate:Project_derivate_00000110 | 8a4     | 31f     | f27     | 2ae4106294efe2725676d0b60392b149f5e446b4f511e915262909a | 
+| mcrderivate:Project_derivate_12345678 | 475     | 5ce     | 80d     | 9f6f3785d1f5febe66bd70f3bdbcae252347ceaeea704bcf113c7f6 | 
+| mcrobject:Project_doctype_00000101    | cb8     | 8d8     | 068     | 8005b1c1407f0569b7c5bf1eeeb94fabb2ef6325c278d04a5b6483d | 
+| mcrobject:Project_doctype_00000109    | 17b     | e8c     | 3a5     | a22984ed75fa484ad5d44c04a6ea364d5d62ff26c8d339206d3f63e | 
+| mcrobject:Project_doctype_00000110    | d5f     | aa4     | 90d     | e8754eb1c3172398274d7e0ea540e6c785304952956dfe93c535ab8 | 
+| mcrobject:Project_doctype_12345678    | 482     | f56     | 5db     | 9f0a7740d6eab30627f2e74473d206e35fccac0d0850c188dcf7db1 | 
+| mcrclass:rfc5646                      | d32     | 4be     | d1c     | a6a89d0ed26bddcaaca66e50f57dd77b908c90ada7c21ba4489a26d | 
+| mcruser:editor1A@local                | 1a5     | ec9     | a72     | 9b5220c75033f21e46b594e22ec52d1f89b238072bf7488b6f32a07 | 
+| mcracl:rules                          | e64     | 6f0     | 669     | a8ae91be6c36beb30ba8d596f52682ecc2bc5a124b3d21d54967077 | 
+| mcrweb:pages                          | 5cd     | 8a6     | 495     | 343a81793d771c3e083674872d2763d7a3a112c251781e1052d5bba | 
 {{</mcr-table>}}
 
 #### Ordnerstruktur
