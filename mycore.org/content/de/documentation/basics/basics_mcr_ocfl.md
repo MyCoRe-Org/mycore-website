@@ -18,7 +18,7 @@ Die "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden
 
 ## Zukünftige Pläne
 
-Derzeit ist es nur möglich, Objekte und Derivate zu speichern. Es ist geplant, dass man viele weiteren Dateitypen von MyCoRe mit im OCFL speichern kann. Beispielsweise soll man Zukünftig Benutzer, Klassifikationen und mehr mit im OCFL speichern können.
+Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte, wie etwas Klassifikationen, Benutzer, ACLs, etc. im OCFL-Repository speichern kann.
 
 # Die Speicherung der MyCoRe-Objekte mit OCFL
 
@@ -56,7 +56,7 @@ MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCR
 # Setzt die Standard Repository auf "Main"
 MCR.Metadata.Manager.Repository=Main
 
-# Definitionen für die Repository "Main"
+# Definitionen für das Repository "Main"
 MCR.OCFL.Repository.Main=org.mycore.ocfl.MCROCFLHashRepositoryProvider
 MCR.OCFL.Repository.Main.RepositoryRoot=%MCR.datadir%/ocfl-root
 MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
@@ -101,17 +101,20 @@ Mehr Erklärung zu den Repository Providern kann im Abschnitt [Layout Liste](#ve
 
 ## Migration zu OCFL
 
-Für die Prozedur sollte sichergestellt werden, dass die Daten nicht von Nutzern bearbeitet werden.
+Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
 
 Zunächst wird der Metadaten-Manager bei dem Nativen belassen und es soll sichergestellt werden,
-dass die Repository `Main` oder die eigene Repository korrekt eingerichtet sind.
+dass das Repository `Main` oder das eigene Repository korrekt eingerichtet sind.
 
 Mit dem Kommando `migrate metadata to repository {Repository}` können die Daten in die angegebene Repository überspielt werden.
 Das Kommando gibt eine Statistik aus, ob alle Metadaten migriert werden konnten.
 
-Auch wenn keine Fehler zu sehen sind, sollte man trotzdem die Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
+Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
 
-Wenn alles geklappt hat, dann kann man den MetadatenManager umstellen.
+Wenn alles geklappt hat, dann kann man den MetadatenManager wie folgt umstellen.
+```shell {linenos=table}
+ MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
+```
 
 ## Migration zwischen Layouts
 
@@ -122,18 +125,20 @@ Um eine Repository zu Migrieren, ist die Quell-Repository mit
 `MCR.Metadata.Manager.Repository={Quell-Repository}`
 zu setzen.
 
-Die Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), diese Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Wird dies trotzdem benötigt, ist es abzuwägen, ob es nicht besser ist, die Repository einfach zu kopieren.
+Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), diese Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Wird dies trotzdem benötigt, ist es abzuwägen, ob es nicht besser ist, das Repository einfach zu kopieren.
 
-Hierbei kann es manchmal vorkommen, dass ein `MCRUsageException` ausgelöst wird. Dies tritt dann auf,
-wenn Objekte vor der Migration zu OCFL gelöscht wurden und es versucht wird, ein Property zu lesen, da MyCoRe diese ID noch immer bekannt ist. Die Datei existiert aber nicht mehr.\
-Dies wird in zukünftigen Versionen behoben werden, <u>hat aber keinen Impakt in die Funktionsweise von OCFL</u>.
+Hierbei kann es manchmal vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit Migriert wurden. Folgend wird versucht, deren Versionsverlauf zu lesen, da MyCoRe diese ID noch immer bekannt ist. Dies tritt nicht auf wenn Objekte und Derivate nach der Migration gelöscht werden, da der Versionsverlauf nicht mit gelöscht wird.\
+Dies wird in zukünftigen Versionen behoben werden und hat <u>keinen Impakt in der Funktionsweise von OCFL</u>, und kann daher ohne Bedenken ignoriert werden.
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
 
-Das *0003-hash-and-id-n-tuple-storage-layout* ist das Standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. Dadurch lässt sich ein Repository mit dem *0003-hash-and-id-n-tuple-storage-layout* durch externe Programme einfach einsehen und verändern. Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
+Das *0003-hash-and-id-n-tuple-storage-layout* ist das Standard Layout in MyCoRe. Es ist ein Layout aus den offiziellen Community Extensions für OCFL. 
+Ein Repository mit dem *0003-hash-and-id-n-tuple-storage-layout* lässt sich auch durch externe Programme einfach einsehen und verändern.\
+Aus den Dateinamen wird ein Hashwert gebildet, mit dem danach die Ordnerstruktur gebildet wird.
 
-Der Vorteil ist wie erwähnt, das es kompatibel ist mit externen Tools für OCFL Repositories. Mit diesen kann man auch ohne MyCoRe Änderungen vornehmen, Dateien suchen oder ersetzen. Jedoch sollte man es vermeiden, Dateien zu löschen, da dies zu Problemen mit MyCoRe führen kann.
+
+Es ist zu beachten, das es vermieden werden soll, Dateien zu löschen oder neu anzulegen, da MyCoRe seine eigene Liste für die IDs führt und es daher zu Fehlern oder Datenverlust kommen kann.
 
 Der Nachteil ist, dass durch die Bildung des Hashwertes ein Dateizugriff länger dauert. Durch die Nutzung des Hashwertes ist es ohne externe Tools nicht möglich, herauszufinden, in welchem Ordner sich welches Objekt befindet, sondern nur durch den root Ordner des Objektes und der `inventory.json` .
 
@@ -170,45 +175,45 @@ Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, welcher 
 ├── extensions
 │   └── 0003-hash-and-id-n-tuple-storage-layout
 │       └── config.json
-├── a32
-│   └── 302
-│       └── e6c
-│           └── derivate%3aProject_derivate_00000101
+├── 37c
+│   └── 205
+│       └── dbd
+│           └── mcrderivate%3aProject_derivate_00000101
 │               └── ... [object root]
-├── 484
-│   └── 67d
-│       └── d9f
-│           └── derivate%3aProject_derivate_00000109
+├── d36
+│   └── 065
+│       └── d61
+│           └── mcrderivate%3aProject_derivate_00000109
 │               └── ... [object root]
-├── f10
-│   └── 8d6
-│       └── 503
-│           └── derivate%3aProject_derivate_00000110
+├── 8a4
+│   └── 31f
+│       └── f27
+│           └── mcrderivate%3aProject_derivate_00000110
 │               └── ... [object root]
-├── 71d
-│   └── 94b
-│       └── ed9
-│           └── derivate%3aProject_derivate_12345678
+├── 475
+│   └── 5ce
+│       └── 80d
+│           └── mcrderivate%3aProject_derivate_12345678
 │               └── ... [object root]
-├── 700
-│   └── 702
-│       └── 393
-│           └── doctype%3aProject_doctype_00000101
-│               └── ... [object root]
-├── 281
-│   └── dfd
-│       └── ee7
-│           └── doctype%3aProject_doctype_00000109
-│               └── ... [object root]
-├── cf3
+├── cb8
 │   └── 8d8
-│       └── 0a3
-│           └── doctype%3aProject_doctype_00000110
+│       └── 068
+│           └── mcrobject%3aProject_doctype_00000101
 │               └── ... [object root]
-├── 9d4
-│   └── 759
-│       └── 752
-│           └── doctype%3aProject_doctype_12345678
+├── 17b
+│   └── e8c
+│       └── 3a5
+│           └── mcrobject%3aProject_doctype_00000109
+│               └── ... [object root]
+├── d5f
+│   └── aa4
+│       └── 90d
+│           └── mcrobject%3aProject_doctype_00000110
+│               └── ... [object root]
+├── 482
+│   └── f56
+│       └── 5db
+│           └── mcrobject%3aProject_doctype_12345678
 │               └── ... [object root]
 ├── d32
 │   └── 4be
@@ -234,7 +239,7 @@ Die Bildung des Hashes wird mit dem Ursprünglichen Dateinamen gemacht, welcher 
 
 ### MyCoRe Storage Layout
 
-Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch ihre ID und dem konfigurierten SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})), wobei bei den restlichen Objekten durch Typ und Name der Pfad erstellt wird.
+Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch ihre ID und dem konfigurierten SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})), wobei bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
 
 <b class="text-warning">Es ist zu beachten, dass das MyCoRe Storage Layout keinem Standard entspricht und daher womöglich von keinen externen Tools nativ unterstützt wird.</b>
 
@@ -303,10 +308,5 @@ Link zur Spezifikation: [mycore-storage-layout.md <sup><i class="fas fa-external
 ## Offene Probleme
 
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
-  - Nach löschen können alte Versionen immer noch aufgerufen werden
-  - Die Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
-
-## Fazit
-
-  - Fixes und Erweiterungen sind noch erforderlich
-  - Mit Release 2022 sollte OCFL produktiv einsetzbar sein.
+  - Nach löschen können alte Versionen immer noch aufgerufen werden.
+  - bei einer alten Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
