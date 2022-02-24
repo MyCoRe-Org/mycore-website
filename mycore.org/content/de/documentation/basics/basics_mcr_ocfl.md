@@ -309,4 +309,4 @@ Link zur Spezifikation: [mycore-storage-layout.md <sup><i class="fas fa-external
 
   - Ein Objekt muss hart löschbar sein bisher ist nur 'soft'-löschen möglich.
   - Nach löschen können alte Versionen immer noch aufgerufen werden.
-  - bei einer alten Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
+  - Bei einer alten Version muss bei `/receive/{ID}` als Attribut `?r=v{n}` mitgegeben werden, da sonst XSLT nichts von den Versionen weiß.
