@@ -91,7 +91,7 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
    | MCROCFLMCRRepositoryProvider | [MyCoRe Storage Layout](#mycore-storage-layout) |
 {{</mcr-table>}}
 
-Mehr Erklärung zu den Repository Providern kann im Abschnitt [Layout Liste](#verfügbare-repository-layouts) gefunden werden.
+Mehr Erklärung zu den Repository Providern kann im Abschnitt [Verfügbare Repository Layouts](#verfügbare-repository-layouts) gefunden werden.
 
 {{<mcr-comment>}}
 <!-- ## Infos zu der Migration zu OCFL
@@ -127,8 +127,15 @@ zu setzen.
 
 Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), diese Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Wird dies trotzdem benötigt, ist es abzuwägen, ob es nicht besser ist, das Repository einfach zu kopieren.
 
-Hierbei kann es manchmal vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit Migriert wurden. Folgend wird versucht, deren Versionsverlauf zu lesen, da MyCoRe diese ID noch immer bekannt ist. Dies tritt nicht auf wenn Objekte und Derivate nach der Migration gelöscht werden, da der Versionsverlauf nicht mit gelöscht wird.\
-Dies wird in zukünftigen Versionen behoben werden und hat <u>keinen Impakt in der Funktionsweise von OCFL</u>, und kann daher ohne Bedenken ignoriert werden.
+{{<mcr-comment>}}
+<!--
+Der Nutzer ruft ja nicht wissentlich den Versionsverlauf auf, sondern das Migrationsscript, daher denke ich das es generell gehalten werden soll, da sich der Nutzer sonst fragt:
+"Naja, ich rufe den nicht selber auf, aber bekomme das Exception, was soll ich tun?"
+Um das zu vermeiden, wird nur darauf eingegangen, dass er kommt und danach warum der kommt.
+ -->
+{{</mcr-comment>}}
+Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Folgend wird versucht, deren Versionsverlauf zu lesen, da MyCoRe diese ID noch immer bekannt ist. Dies tritt nicht auf wenn Objekte und Derivate nach der Migration gelöscht werden, da der Versionsverlauf nicht mit gelöscht wird.\
+Dies wird in zukünftigen Versionen behoben werden und hat <u>keinen Einfluss auf die Funktionsweise von OCFL</u>, und kann daher ohne Bedenken ignoriert werden.
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory for OCFL Storage Hierarchies
