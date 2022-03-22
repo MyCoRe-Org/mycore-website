@@ -747,7 +747,7 @@
         </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>13.3669673,52.506525,0</coordinates>
+        <coordinates>13.370841,52.50737,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -766,7 +766,7 @@
         </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>13.3669673,52.506525,0</coordinates>
+        <coordinates>13.3708411,52.5073702,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -785,7 +785,45 @@
         </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>13.3669673,52.506525,0</coordinates>
+        <coordinates>13.3708411,52.5073702,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KartDok</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://kartdok.staatsbibliothek-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://kartdok.staatsbibliothek-berlin.de/">KartDok</a>
+					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SlavDok</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://slavdok.slavistik-portal.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://slavdok.slavistik-portal.de/">SlavDok</a>
+					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+          	</div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -804,7 +842,7 @@
         </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>13.3669673,52.506525,0</coordinates>
+        <coordinates>13.369701,52.506809,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
