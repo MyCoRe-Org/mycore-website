@@ -104,23 +104,23 @@ Für die Person, die das Objekt erstellt hat, können individuelle Regeln defini
 <p>
 Es wird geprüft, ob das Objekt der angegebenen Klassifikation zugeordnet wurde.
 </p>
-<p>Mit dem Attribute <code>basefact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
-für das Derivate und nicht für das Objekt erfolgen soll.
+<p>Mit dem Attribute <code>idfact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+für das Derivate (<code>derid</code>) und nicht für das Objekt (<code>objid</code>) erfolgen soll.
 
 {{< highlight xml "linenos=table">}}
   <category>genre:dissertation</category>  
-  <category basefact="derid">derivate_type:fulltext</category>  <!-- Klassifikation im Derivate -->
+  <category idfact="derid">derivate_type:fulltext</category>  <!-- Klassifikation im Derivate -->
 {{< /highlight >}}
 
 <h4>Status (<code>&lt;status&gt;</code>)</h4>
 <p>
 Es wird geprüft, ob im <code>&lt;service&gt;</code>-Bereich des MyCoRe-Objektes der angegebenen Status gesetzt wurde.
 </p>
-<p>Mit dem Attribute <code>basefact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
-für das Derivate und nicht für das Objekt erfolgen soll.
+<p>Mit dem Attribute <code>idfact</code> kann angegeben werden, dass die Prüfung der Klassifikation 
+für das Derivate (<code>derid</code>) und nicht für das Objekt (<code>objid</code>) erfolgen soll.
 {{< highlight xml "linenos=table">}}
   <status>review</status>  
-  <status basefact="derid">published</status>  
+  <status idfact="derid">published</status>  
 {{< /highlight >}}
 
 
