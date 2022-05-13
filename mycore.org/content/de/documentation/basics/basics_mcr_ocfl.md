@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2021.11']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-02-21"
+date: "2022-05-13"
 
 ---
 
@@ -25,6 +25,8 @@ Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel i
 # Die Speicherung der MyCoRe-Objekte mit OCFL
 
 ## Konfiguration
+
+#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
 
 Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* integriert werden.
 
@@ -315,8 +317,78 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
          └── ... [object root]
 ```
 
+## Versionierung von Klassifikationen
+
+Es ist nun auch möglich, Klassifikationen neben der Datenbank im OCFL Store zu speichern, aber primär wird dann weiterhin die Datenbank genutzt.
+
+### Konfiguration
+
+#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
+
+Hierbei zusätzlich mitgeliefert sind die folgenden Properties:
+
+```shell {linenos=table}
+# Setzt die Standard Repository auf "Main"
+MCR.Classification.Manager.Repository=Main
+```
+
+Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu setzen:
+
+```shell {linenos=table}
+# Dies ersetzt die DAO Implementation mit einer die Events sendet
+MCR.Category.DAO=org.mycore.datamodel.classifications2.impl.MCREventedCategoryDAOImpl
+
+MCR.Classification.Manager=org.mycore.ocfl.MCROCFLXMLClassificationManager
+# Hiermit wird dann die Repository "Main" auf Mutable gesetzt, dies ist für die Verwendung vom Klassifikations Store benötigt!
+MCR.OCFL.Repository.Main.Mutable=true
+# Und hier wird der EventHandler eingebunden
+MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLEventHandler
+```
+
+Wenn man eine andere Repository anstatt "Main" nutzen will, kann man dies einfach ersetzen, wichtig hierbei ist das die Repository auch auf Mutable gesetzt ist.
+
+### Benutzung
+
+Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt,\
+auch wenn dieser noch leer ist.
+
+Falls es dennoch erwünscht ist, das die Repository und die Datenbank auf gleichem Stand sind, kann auch den OCFL Store neu bauen lassen.\
+Hierzu müssen als erstes die OCFL Entwicklerbefehle mit eingebunden werden:
+
+```shell {linenos=table}
+ MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLDevCommands
+```
+<b class="text-danger">Es ist zu beachten, das dies alle Klassifikationsdaten die bisher im OCFL Store sind ohne Sicherung löschen wird!</b>
+
+Folgend kann dann das Kommando `rebuild ocfl class store` genutzt werden um den den OCFL Store zu dem gleichen Stand wie die Datenbank zu bringen.
+
+Ist dies ohne Fehler erfolgt, kann man die Entwicklerbefehle auch wieder entfernen.
+
+### Zusätzliche Konfiguration
+
+Wenn Klassifikationen gespeichert werden, kann man auch optional das `counter` Property mit aktivieren.\
+Dieses speichert, wie viele Objekte zu einer jeweiligen Kategorie verlinkt sind, kann aber auch etwas länger dauern, und diese müssen beim Importieren entfernt werden.
+
+Diese können hiermit aktiviert werden:
+```shell {linenos=table}
+ MCR.OCFL.Classification.Counter=true
+```
+
+{{<mcr-comment>}}<!-- Ist hier ein Entwickler:Innen benötigt? -->{{</mcr-comment>}}
+Für Entwickler kann es auch nützlich sein, zu sehen welche Transaktionen getätigt werden.\
+Dafür kann man diese ins Log auf Debug Level schreiben lassen mit folgender Konfiguration:
+
+```shell {linenos=table}
+# PT steht hier für "PersistenceManager"
+MCR.OCFL.PT.Verbose=true
+```
+
 ## Offene Probleme
 #### Hartes Löschen
 Unter bestimmten Umständen muss ein Objekt auch hart löschbar sein - bisher ist nur 'soft'-löschen möglich.
 Das bedeutet, nach dem Löschen können alte Versionen immer noch angezeigt werden.
 Dazu kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` mitgegeben werden, um die entsprechende Version anzuzeigen.
+
+{{<mcr-comment>}}<!-- Markdown Links: -->{{</mcr-comment>}}
+
+[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/issues/MCR-2604-ocfl-classification-storage/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
