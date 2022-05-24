@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2021.11']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-05-13"
+date: "2022-05-24"
 
 ---
 
@@ -372,15 +372,6 @@ Dieses speichert, wie viele Objekte zu einer jeweiligen Kategorie verlinkt sind,
 Diese können hiermit aktiviert werden:
 ```shell {linenos=table}
  MCR.OCFL.Classification.Counter=true
-```
-
-{{<mcr-comment>}}<!-- Ist hier ein Entwickler:Innen benötigt? -->{{</mcr-comment>}}
-Für Entwickler kann es auch nützlich sein, zu sehen welche Transaktionen getätigt werden.\
-Dafür kann man diese ins Log auf Debug Level schreiben lassen mit folgender Konfiguration:
-
-```shell {linenos=table}
-# PT steht hier für "PersistenceManager"
-MCR.OCFL.PT.Verbose=true
 ```
 
 ## Offene Probleme
