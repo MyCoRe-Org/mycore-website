@@ -508,13 +508,10 @@ curl -H "Accept: application/json"
         </table>
      <h5 class="js-toc-ignore">Beispiel-Aufruf</h5>
      {{< highlight shell>}}
-curl -D -X POST -u administrator:*PASSWORD*  
+curl -D - -X POST -u administrator:*PASSWORD*
      -H "Content-Type: application/x-www-form-urlencoded" 
-     -F "order=1"
-     -F "title=(de)Volltextdokument" 
-     -F "title=(en)fulltext document"
-     -F "classification=derivate_types:content"
-     - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates
+     -d "order=1&title=%28de%29Volltextdokument&title=%28en%29fulltext%20document&classification=derivate_types%3Acontent"
+     http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates
 {{< /highlight >}}    
      
        <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/contents/{$path}</h4>
