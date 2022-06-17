@@ -535,6 +535,47 @@
     </Placemark>
 
 <!-- ***************************************************************************************************************** -->
+<!-- Hildesheim                                                                                                 -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>HAWK.eDOC</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://publikationsserver.hawk.de/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_hildesheim_hawk.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://publikationsserver.hawk.de">HAWK.eDOC</a>
+            		<span class="mcrmap_item_owner">Publikationsserver HAWK.eDOC</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.9529063,52.144596,0 </coordinates>
+      </Point>
+    </Placemark>
+    
+  <!-- ***************************************************************************************************************** -->
+<!-- Iserlohn                                                                                                 -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>PIA</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://publikationen.fhb.fh-swf.de/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_iserlohn_pia.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://publikationen.fhb.fh-swf.de/content/index.xml">PIA</a>
+            		<span class="mcrmap_item_owner">Publikationsserver der FH Südwestfalen</span>
+                </p>
+            </div>
+         ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.6940124,51.3774968,0 </coordinates>
+      </Point>
+    </Placemark>
+<!-- ***************************************************************************************************************** -->
 <!-- Göttingen                                                                                                    -->
 <!-- ***************************************************************************************************************** -->
     <Placemark>
