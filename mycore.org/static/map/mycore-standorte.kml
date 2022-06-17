@@ -1670,6 +1670,27 @@
     </Placemark>
 
 <!-- ***************************************************************************************************************** -->
+<!-- Thurgau                                                                                                         -->
+<!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>PHTG</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://publikationsserver.phtg.ch/" title="Link zum Publikationsserver der PHTG "><img class="icon" alt="icon" src="/map/icons/icon_thurgau_phtg.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://publikationsserver.phtg.ch/" title="Link zum Publikationsserver der PHTG ">PHTG</a>
+					<span class="mcrmap_item_owner">Publikationsserver der PHTG</span>
+                </p>
+            </div>
+          ]]>
+        </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.1780993,47.6474426</coordinates>
+      </Point>
+    </Placemark>
+
+<!-- ***************************************************************************************************************** -->
 
     
   </Document>
