@@ -28,7 +28,7 @@ Wer MIR verwendet, sollte beachten, dass Flatly bzw. Bootstrap Google-Fonts einb
 ## Lösung
 Um das Problem zu vermeiden, bietet sich das *Self-Hosting* der Fonts an. Die Fonts können heruntergeladen und lokal eingebunden werden (siehe dazu [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/fonts)). Dort können die Google-Fonts in verschiedenen Versionen (und Dateiformaten) zusammengestellt und im ZIP-Verzeichnis heruntergeladen werdem. Auch werden Hinweise gegeben, wie sie in die eigene Webseite (CSS-Dateien) integriert werden können.
 
-Für MIR-Templates, die auf Bootswatch basieren, kann das Laden der von Google gehosteten Version durch das Setzen der Sass-Variable <code>$web-font-path</code> auf <code>false</code> unterbunden werden. Alternativ kann eine URL eingetragen werden:  
+Für MIR-Templates, die auf Bootswatch basieren, kann das Laden der von Google gehosteten Version durch das Setzen der Sass-Variable <code>$web-font-path</code> auf <code>''</code> unterbunden werden. Alternativ kann eine URL eingetragen werden:  
 <code> $web-font-path: \"https://webfonts.mydomain.de/css?family=Lato:400,700,400italic";</code>
 
 Die Variable muss in einer Sass-Datei ergänzt werden. In MIR gibt es 16 Templates und 2 Layouts. Beides wird in einer Sass-Datei zusammengeführt und je nachdem welches Template und Layout verwendet wird, ergibt sich ein anderer Name, z.B. <code>Layout flatmir + Template flatly = flatmir-flatly.scss</code>.
