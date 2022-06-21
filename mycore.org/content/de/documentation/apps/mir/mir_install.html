@@ -130,6 +130,54 @@ date: "2019-04-24"
         ... wobei <code>mir</code> beispielhaft für den Context-Namen der Webanwendung steht. Diese Anleitung bezieht sich auf Tomcat als ServletContainer mit <code>mir</code>
         und <code>solr</code> als Anwendungen direkt unter localhost:8080. Sollte die eigene Umgebung davon abweichen, muss die Konfiguration entsprechend angepasst werden.
       </p>
+
+     <h3>MIR-Wizard Automatisierung</h3>
+      <p>
+        Alternativ zu der oben beschriebenen Vorgehensweise, bei der MIR intaraktiv über die Weboberfläche konfiguriert wird,
+        kann der MIR-Wizard auch automatisiert ausgeführt werden.
+        Dies ermöglicht eine per Script gesteuerte Inbetriebnahme von MIR.
+        Hierzu muss eine XML-Datei mit dem Namen <code>wizard.xml</code> im eben genannten Konfigurationsverzeichnis angelegt werden.
+        Diese Datei ersetzt die ansonsten manuell eingetragenen Formularangeben.
+        Ihr Inhalt muss folgendermaßen aufgebaut sein:
+      </p>
+      {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<wizard>
+   <mcr-properties>
+      <property name="MCR.Solr.ServerURL">http://localhost:8983</property>
+      <property name="MCR.Solr.Core.main.Name">repo-main</property>
+      <property name="MCR.Solr.Core.classification.Name">repo-classification</property>
+      <property name="MCR.Mail.Server">smtp.mySmtpServer.de</property>
+      <property name="MCR.Mail.NumTries">1</property>
+      <property name="MCR.Mail.User">username</property>
+      <property name="MCR.Mail.Password">password</property>
+   </mcr-properties>
+   <database>
+      <driver>org.postgresql.Driver</driver>
+      <url>jdbc:postgresql://postgres:5432/mir</url>
+      <username>username</username>
+      <password>password</password>
+      <library>
+        <url>https://jdbc.postgresql.org/download/postgresql-42.2.9.jar</url>
+        <url>https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.2.9/postgresql-42.2.9.jar</url>
+      </library>
+      <extra_properties>
+        <property name="schema">schema</property>
+        <property name="catalog">catalog</property>
+      </extra_properties>
+   </database>
+</wizard>{{< /highlight >}}
+      <p>
+       Im Bereich <code>mcr-properties</code> können dabei beliebig viele Konfigurationswerte angegeben werden.
+       Das Beispiel zeigt Einträge für alle vom normalen MIR-Wizard angebotenen Eingaben. Von dieser Auswahl kann je nach Bedarf abgewichen werden.
+      </p>
+      <p>
+       Im Bereich <code>database</code> wird der Zugriff auf eine Datenbank konfiguriert.
+       Im Bereich <code>library</code> muss hierzu mindestens eine URL konfiguriert werden, von der der zugehörige JDBC-Datenbanktreiber bezogen werden kann.
+       Dies kann auch eine lokale Datei sein, z.B. <code>&lt;url&gt;file:///home/user/.mycore/postgresql-42.2.9.jar&lt;/url&gt;</code> unter Unix.
+       Die vom normalen MIR-Wizard verwendete <a href="https://github.com/MyCoRe-Org/mir/blob/2021.06.x/mir-wizard/src/main/resources/setup/dbtypes.xml">Liste von angebotenen Datenbanken</a>
+       kann beim Erstellen der <code>wizard.xml</code>-Datei hifreich sein.
+      </p>
+
       <!-- h2>Tipps zur Installation</h2>
       <h4>Nutzung des URIEncoding UTF-8</h4>
       <p>
