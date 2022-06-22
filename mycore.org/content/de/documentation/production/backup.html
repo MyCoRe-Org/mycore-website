@@ -26,77 +26,83 @@ date: "2020-06-04"
         zyklisch gestartet werden. Neben den eigentlichen Daten können auch Benutzerinformationen und Klassifikationen
         gesichert werden.
       </p>
-      <p>Export für MyCoRe-Objekte</p>
+      <h4>Export für MyCoRe-Objekte</h4>
       <dl>
         <dt>
-          <code>export object {0} to directory {1} with {2}</code>
+          <code>export object {0} to directory {1} with stylesheet {2}</code>
         </dt>
-        <dd>Stores the MCRObject with the MCRObjectID {0} to the directory {1} with the stylesheet {2}-object.xsl. For
-          {2} save is the default.
+        <dd>Stores the MCRObject with the MCRObjectID {0} to the directory {1} with the stylesheet {2}-object.xsl. For {2}, the default is xsl/save.
+        <dt>
+          <code>export object {0} to directory {1} with transformer {2}</code>
+        </dt>
+        <dd>Stores the MCRObject with the MCRObjectID {0} to the directory {1} with the transformer {2}.
         </dd>
         <dt>
-          <code>export all objects of type {0} to directory {1} with {2}</code>
+          <code>export all objects of type {0} to directory {1} with stylesheet {2}</code>
         </dt>
-        <dd>Stores all MCRObjects of type {0} to directory {1} with the stylesheet mcr_{2}-object.xsl. For {2} save is
-          the default.
+        <dd>Stores all MCRObjects with MCRObjectID's between {0} and {1} to the directory {2} with the stylesheet {3}-object.xsl. For {3}, the default is xsl/save.
         </dd>
         <dt>
-          <code>export all objects of base {0} to directory {1} with {2}</code>
+          <code>export objects from {0} to {1} to directory {2} with stylesheet {3}</code>
         </dt>
-        <dd>Stores all MCRObjects of base {0} to directory {1} with the stylesheet mcr_{2}-object.xsl. For {2} save is
-          the default.
+        <dd>Stores all MCRObjects with MCRObjectID's between {0} and {1} to the directory {2} with the stylesheet {3}-object.xsl. For {3}, the default is xsl/save.
         </dd>
         <dt>
-          <code>export object from {0} to {1} to directory {2} with {3}</code>
+          <code>export objects from {0} to {1} to directory {2} with transformer {3}</code>
         </dt>
-        <dd>Stores all MCRObjects with MCRObjectID's between {0} and {1} to the directory {2} with the stylesheet
-          {3}-object.xsl. For {3} save is the default.
+        <dd>Stores all MCRObjects with MCRObjectID's between {0} and {1} to the directory {2} with the transformer {3}.
+        </dd>
+        <dt>
+          <code>export all objects of base {0} to directory {1} with stylesheet {2}</code>
+        </dt>
+        <dd>Stores all MCRObjects of base {0} to directory {1} with the stylesheet {2}-object.xsl. For {2}, the default is xsl/save.
+        </dd>
+        <dt>
+          <code>export all objects of type {0} to directory {1} with stylesheet {2}</code>
+        </dt>
+        <dd>Stores all MCRObjects of type {0} to directory {1} with the stylesheet {2}-object.xsl. For {2}, the default is xsl/save.
         </dd>
       </dl>
-      <p>Export für MyCoRe-Derivate</p>
+      <h4>Export für MyCoRe-Derivate</h4>
       <dl>
         <dt>
-          <code>export derivate {0} to directory {1} with {2}</code>
+          <code>export derivate {0} to directory {1} with stylesheet {2}</code>
         </dt>
-        <dd>The command store the derivate with the MCRObjectID {0} to the directory {1} with the stylesheet
-          {2}-object.xsl. For {2} save is the default.
+        <dd>Stores the derivate with the MCRObjectID {0} to the directory {1} with the stylesheet {2}-derivate.xsl. For {2}, the default is xsl/save.
         </dd>
         <dt>
-          <code>export derivate from {0} to {1} to directory {2} with {3}</code>
+          <code>export derivates from {0} to {1} to directory {2} with stylesheet {3}</code>
         </dt>
-        <dd>The command store all derivates with MCRObjectID's between {0} and {1} to the directory {2} with the
-          stylesheet {3}-object.xsl. For {3} save is the default.
+        <dd>Stores all derivates with MCRObjectID's between {0} and {1} to the directory {2} with the stylesheet {3}-derivate.xsl. For {3}, the default is xsl/save.
         </dd>
         <dt>
-          <code>export all derivates of project {0} to directory {1} with {2}</code>
+          <code>export all derivates of project {0} to directory {1} with stylesheet {2}</code>
         </dt>
-        <dd>Stores all derivates of project {0} to the directory {1} with the stylesheet mcr_{2}-derivate.xsl. For {2}
-          save is the default.
+        <dd>Stores all derivates to the directory {0} with the stylesheet {1}-derivate.xsl. For {1}, the default is xsl/save.
         </dd>
         <dt>
-          <code>export all derivates to directory {0} with {1}</code>
+          <code>export all derivates to directory {0} with stylesheet {1}</code>
         </dt>
-        <dd>Stores all derivates to the directory {0} with the stylesheet mcr_{1}-derivate.xsl. For {1} save is the
-          default.
+        <dd>Stores all derivates of project {0} to the directory {1} with the stylesheet {2}-derivate.xsl. For {2}, the default is xsl/save.
         </dd>
       </dl>
-      <p>Export für MyCoRe-Klassifikationen</p>
+      <h4>Export für MyCoRe-Klassifikationen</h4>
       <dl>
         <dt>
-          <code>export classification {0} to directory {1} with {2}</code>
+          <code>export classification {0} to directory {1} with stylesheet {2}</code>
         </dt>
         <dd>The command exports the classification with MCRObjectID {0} as xml file to directory named {1} using the
           stylesheet {2}-object.xsl. For {2} save is the default.
         </dd>
         <dt>
-          <code>export all classifications to directory {0} with {1}</code>
+          <code>export all classifications to directory {0} with stylesheet {1}</code>
         </dt>
         <dd>The command store all classifications to the directory with name {0} with the stylesheet {1}-object.xsl.
           For
           {1} save is the default.
         </dd>
       </dl>
-      <p>Export für MyCoRe-Benutzer und Zugriffsrechte</p>
+      <h4>Export für MyCoRe-Benutzer und Zugriffsrechte</h4>
       <dl>
         <dt>
           <code>export user {0} to file {1}</code>
@@ -126,7 +132,7 @@ date: "2020-06-04"
         <li>Laden der MyCoRe-Objekte (vorzugsweise unter Berücksichtigung der Eltern-Kind-Bezieheung)</li>
         <li>Laden der MyCoRe-Derivate</li>
       </ol>
-      <p>Import für MyCoRe-Objekte</p>
+      <h4>Import für MyCoRe-Objekte</h4>
       <dl>
         <dt>
           <code>load object from file {0}</code>
@@ -154,7 +160,7 @@ date: "2020-06-04"
         <dd>Updates all MCRObjects from the directory {0} in the system respecting the order of parents and children.
         </dd>
       </dl>
-      <p>Import für MyCoRe-Derivate</p>
+      <h4>Import für MyCoRe-Derivate</h4>
       <dl>
         <dt>
           <code>load derivate from file {0}</code>
@@ -165,7 +171,7 @@ date: "2020-06-04"
         </dt>
         <dd>The command load all derivates form the directory {0} to the system.</dd>
       </dl>
-      <p>Import für MyCoRe-Klassifikationen</p>
+      <h4>Import für MyCoRe-Klassifikationen</h4>
       <dl>
         <dt>
           <code>load classification from file {0}</code>
@@ -184,7 +190,7 @@ date: "2020-06-04"
         </dt>
         <dd>The command update all classifications in the directory {0} to the system.</dd>
       </dl>
-      <p>Import für MyCoRe-Benutzer und Zugriffsrechte</p>
+      <h4>Import für MyCoRe-Benutzer und Zugriffsrechte</h4>
       <dl>
         <dt>
           <code>import user from file {0}</code>
