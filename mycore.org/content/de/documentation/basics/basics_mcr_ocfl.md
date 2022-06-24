@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2021.11']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-05-24"
+date: "2022-06-24"
 
 ---
 
@@ -339,40 +339,22 @@ Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu set
 MCR.Category.DAO=org.mycore.datamodel.classifications2.impl.MCREventedCategoryDAOImpl
 
 MCR.Classification.Manager=org.mycore.ocfl.MCROCFLXMLClassificationManager
-# Hiermit wird dann die Repository "Main" auf Mutable gesetzt, dies ist für die Verwendung vom Klassifikations Store benötigt!
-MCR.OCFL.Repository.Main.Mutable=true
+
 # Und hier wird der EventHandler eingebunden
-MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLEventHandler
+MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLClassificationEventHandler
 ```
 
-Wenn man eine andere Repository anstatt "Main" nutzen will, kann man dies einfach ersetzen, wichtig hierbei ist das die Repository auch auf Mutable gesetzt ist.
+Wenn man eine andere Repository anstatt "Main" nutzen will, funktioniert dies exakt so wie oben für die Objekte beschrieben ist.
 
 ### Benutzung
 
-Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt,\
-auch wenn dieser noch leer ist.
+Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt, auch wenn dieser noch leer ist.
 
-Falls es dennoch erwünscht ist, das die Repository und die Datenbank auf gleichem Stand sind, kann auch den OCFL Store neu bauen lassen.\
-Hierzu müssen als erstes die OCFL Entwicklerbefehle mit eingebunden werden:
+Sollen erstmalig alle Klassifikationen auf dem OCFL Store gespeichert werden, kann man mit dem Befehl `update ocfl classifications` alle Klassifikationen von der Datenbank in den OCFL Store schreiben lassen.
 
-```shell {linenos=table}
- MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLDevCommands
-```
-<b class="text-danger">Es ist zu beachten, das dies alle Klassifikationsdaten die bisher im OCFL Store sind ohne Sicherung löschen wird!</b>
+Soll nur eine einzige Aktualisiert werden, kann dies mit `update ocfl classification {ClassID}` getan werden.
 
-Folgend kann dann das Kommando `rebuild ocfl class store` genutzt werden um den den OCFL Store zu dem gleichen Stand wie die Datenbank zu bringen.
-
-Ist dies ohne Fehler erfolgt, kann man die Entwicklerbefehle auch wieder entfernen.
-
-### Zusätzliche Konfiguration
-
-Wenn Klassifikationen gespeichert werden, kann man auch optional das `counter` Property mit aktivieren.\
-Dieses speichert, wie viele Objekte zu einer jeweiligen Kategorie verlinkt sind, kann aber auch etwas länger dauern, und diese müssen beim Importieren entfernt werden.
-
-Diese können hiermit aktiviert werden:
-```shell {linenos=table}
- MCR.OCFL.Classification.Counter=true
-```
+Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit `sync ocfl classifications` alle Klassifikationen auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen.
 
 ## Offene Probleme
 #### Hartes Löschen
@@ -382,4 +364,4 @@ Dazu kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` da
 
 {{<mcr-comment>}}<!-- Markdown Links: -->{{</mcr-comment>}}
 
-[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/issues/MCR-2604-ocfl-classification-storage/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
+[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/2021.06.x/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
