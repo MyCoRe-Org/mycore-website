@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd">
+     xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd">
   <!-- Koordinaten: Google Maps -> rechte Maustaste -> "Was ist hier" -> Koordinaten im Suchschlitz -> hier verdreht eintragen -->
   <Document>
     <name>MyCoRe-Standorte</name>
@@ -16,9 +16,9 @@
       </LabelStyle>
     </Style>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Bremen                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Bremen                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Günter Grass Medienarchiv</name>
       <description><![CDATA[
@@ -30,16 +30,16 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>8.6520714,53.1677201,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Kiel                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Kiel                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>KiBiDaNo</name>
       <description><![CDATA[
@@ -51,7 +51,7 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.122435,54.33762,0</coordinates>
@@ -68,7 +68,7 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.122435,54.33762,0</coordinates>
@@ -85,16 +85,16 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.122435,54.33762,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Hamburg                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Hamburg                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>MyCoRe Geschäftsstelle</name>
       <description><![CDATA[
@@ -106,7 +106,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -123,7 +123,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -140,7 +140,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -157,7 +157,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -174,7 +174,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -191,7 +191,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -208,7 +208,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -226,7 +226,7 @@
             </div>
             
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -243,7 +243,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -260,7 +260,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -277,7 +277,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -294,7 +294,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -311,7 +311,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -328,7 +328,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -345,7 +345,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -362,7 +362,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -379,14 +379,14 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>ProEMA </name>
+      <name>ProEMA</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.proema.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_proema.png" /></a>
@@ -396,7 +396,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -413,7 +413,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.986604,53.569587,0</coordinates>
@@ -430,16 +430,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.998989,53.570600,0</coordinates>
       </Point>
     </Placemark>
-    
-<!-- ***************************************************************************************************************** -->
-<!-- Hannover                                                                                                    -->
-<!-- ***************************************************************************************************************** -->
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Hannover                                                                                                    -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>NOA</name>
       <description><![CDATA[
@@ -451,7 +451,7 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.7308807,52.3652968,0</coordinates>
@@ -468,7 +468,7 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.8027622,52.3835204,0</coordinates>
@@ -485,16 +485,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.7984921,52.354869,0</coordinates>
       </Point>
     </Placemark>
-    
-<!-- ***************************************************************************************************************** -->
-<!-- Hagen                                                                                                    -->
-<!-- ***************************************************************************************************************** -->
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Hagen                                                                                                    -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>deposit_hagen</name>
       <description><![CDATA[
@@ -506,16 +506,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.4924313,51.37759,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Halle (Saale)                                                                                                  -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Halle (Saale)                                                                                                  -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>deposit_halle</name>
       <description><![CDATA[
@@ -527,16 +527,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>11.9705841,51.48883,0 </coordinates>
+        <coordinates>11.9705841,51.48883,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Hildesheim                                                                                                 -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Hildesheim                                                                                                 -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>HAWK.eDOC</name>
       <description><![CDATA[
@@ -548,16 +548,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>9.9529063,52.144596,0 </coordinates>
+        <coordinates>9.9529063,52.144596,0</coordinates>
       </Point>
     </Placemark>
-    
-<!-- ***************************************************************************************************************** -->
-<!-- Iserlohn                                                                                                 -->
-<!-- ***************************************************************************************************************** -->
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Iserlohn                                                                                                 -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>PIA</name>
       <description><![CDATA[
@@ -569,16 +569,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>7.6940124,51.3774968,0 </coordinates>
+        <coordinates>7.6940124,51.3774968,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Köln                                                                                                 -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Köln                                                                                                 -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>DHSB</name>
       <description><![CDATA[
@@ -590,16 +590,16 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>6.9665662,50.9195354,0 </coordinates>
+        <coordinates>6.9665662,50.9195354,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Göttingen                                                                                                    -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Göttingen                                                                                                    -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>VZG-Reposis</name>
       <description><![CDATA[
@@ -611,7 +611,7 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.9352354,51.5391773,0</coordinates>
@@ -628,7 +628,7 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.9352354,51.5391773,0</coordinates>
@@ -645,7 +645,7 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.9328626,51.5346499,0</coordinates>
@@ -662,17 +662,17 @@
                 </p>
             </div>
          ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.9328626,51.5346499,0</coordinates>
       </Point>
     </Placemark>
 
-    
-<!-- ***************************************************************************************************************** -->
-<!-- Rostock                                                                                                           -->
-<!-- ***************************************************************************************************************** -->
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Rostock                                                                                                           -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>RosDok</name>
       <description><![CDATA[
@@ -684,7 +684,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.103427,54.075436,0</coordinates>
@@ -702,16 +702,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.133271,54.088238,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Neubrandenburg                                                                                                    -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Neubrandenburg                                                                                                    -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Digitale Bibliothek</name>
       <description><![CDATA[
@@ -723,16 +723,16 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.2470742,53.555906,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Schwerin                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Schwerin                                                                                                          -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>MVDok</name>
       <description><![CDATA[
@@ -744,16 +744,16 @@
                 </p>
             </div>
         ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.414419,53.615911,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Braunschweig                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Braunschweig                                                                                                          -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Digitale Bibliothek Braunschweig</name>
       <description><![CDATA[
@@ -765,16 +765,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.529053,52.273817,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Berlin                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Berlin                                                                                                          -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>CrossAsia</name>
       <description><![CDATA[
@@ -788,7 +788,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.3705875,52.5077263,0</coordinates>
@@ -807,7 +807,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.3802361,52.5138359,0</coordinates>
@@ -826,7 +826,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.370841,52.50737,0</coordinates>
@@ -845,7 +845,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.3708411,52.5073702,0</coordinates>
@@ -864,7 +864,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.3708411,52.5073702,0</coordinates>
@@ -883,7 +883,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
@@ -902,7 +902,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
@@ -921,7 +921,7 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.369701,52.506809,0</coordinates>
@@ -940,18 +940,17 @@
                 </p>
           	</div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.395940,52.512680,0</coordinates>
       </Point>
     </Placemark>
-    
-    
-    
-<!-- ***************************************************************************************************************** -->
-<!-- Duisburg-Essen                                                                                                          -->
-<!-- ***************************************************************************************************************** -->
+
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Duisburg-Essen                                                                                                          -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>DuEPublico</name>
       <description><![CDATA[
@@ -964,7 +963,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.007442,51.464385,0</coordinates>
@@ -982,7 +981,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.007442,51.464385,0</coordinates>
@@ -1000,7 +999,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.007442,51.464385,0</coordinates>
@@ -1018,7 +1017,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.007442,51.464385,0</coordinates>
@@ -1035,16 +1034,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.007442,51.464385,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Clausthal-Zellerfeld                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Clausthal-Zellerfeld                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Dokumentenserver der TU-Clausthal</name>
       <description><![CDATA[
@@ -1056,16 +1055,16 @@
                 </p>
              </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.341881,51.806207,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Leipzig                                                                                                           -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Leipzig                                                                                                           -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Papyrus- und Ostraka- Sammlungen</name>
       <description><![CDATA[
@@ -1077,7 +1076,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1094,7 +1093,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1111,7 +1110,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1128,7 +1127,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1145,7 +1144,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1162,7 +1161,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1179,7 +1178,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1196,7 +1195,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1213,7 +1212,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
@@ -1230,16 +1229,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.379101,51.338608,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Jena                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Jena                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Digitale Bibliothek Thüringen</name>
       <description><![CDATA[
@@ -1251,7 +1250,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
@@ -1268,24 +1267,41 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>HisBest</name>
+      <name>Collections</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/hisbest/"><img class="icon" alt="icon" src="/map/icons/icon_jena_hisbest.png" /></a>
+                <a class="mcrmap_item_icon" href="https://collections.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_hisbest.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/hisbest/">Historische Bestände</a>
-					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                	<a class="mcrmap_item_name" href="https://collections.thulb.uni-jena.de/">Historische Bestände</a>
+					          <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.587523,50.930322,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Jena Collection of X-Ray Movies</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.x-ray-movies-jena.de"><img class="icon" alt="icon" src="/map/icons/icon_jena_szeb.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.x-ray-movies-jena.de">Datenbank für Röntgenfilme</a>
+					          <span class="mcrmap_item_owner">Institut für Spezielle Zoologie und Evolutionsbiologie, Friedrich-Schiller-Universität Jena</span>
+                </p>
+            </div>
+          ]]>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
@@ -1302,31 +1318,31 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>UAJ</name>
+      <name>Universitätsarchiv Jena</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/uaj"><img class="icon" alt="icon" src="/map/icons/icon_jena_uniarchiv.png" /></a>
+                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/uaj/"><img class="icon" alt="icon" src="/map/icons/icon_jena_uniarchiv.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/uaj">Archivportal</a>
+                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/uaj/">Digitales Archiv</a>
 					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (Universitätsarchiv)</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Korax</name>
+      <name>KoRAX</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/korax/"><img class="icon" alt="icon" src="/map/icons/icon_jena_domstifter.png" /></a>
@@ -1336,24 +1352,24 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>KAJ</name>
+      <name>Jenaer Kirchgemeindearchiv</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/kaj"><img class="icon" alt="icon" src="/map/icons/icon_jena_kirchen.png" /></a>
+                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/kaj/"><img class="icon" alt="icon" src="/map/icons/icon_jena_kirchen.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/kaj">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Kirchenarchive Jena</span>
+                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/kaj/">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Landeskirchenarchiv Eisenach</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.587523,50.930322,0</coordinates>
@@ -1361,136 +1377,155 @@
     </Placemark>
 
 
-
-<!-- ***************************************************************************************************************** -->
-<!-- Weimar                                                                                                            -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Weimar                                                                                                            -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Digitales Archiv</name>
+      <name>Digitales Archiv, Landesarchiv Thüringen</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/ThHStAW/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <a class="mcrmap_item_icon" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.weimar&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.weimar"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/ThHStAW/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Thüringisches Hauptstaatsarchiv Weimar</span>
+                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.weimar&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.weimar">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Hauptstaatsarchiv Weimar</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.3304,50.975994,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Rudolstadt                                                                                                        -->
-<!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Digitales Archiv</name>
+      <name>Bestand Goethe-Werke</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/saru/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/gsa/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_weimar_gsa.png" />
+                </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/saru/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Staatsarchiv Weimar</span>
+                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/gsa/">Digitales Archiv"</a>
+					        <span class="mcrmap_item_owner">Goethe- und Schillerarchiv, Klassik Stiftung Weimar</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.3304,50.975994</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- ***************************************************************************************************************** -->
+    <!-- Rudolstadt                                                                                                        -->
+    <!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>Digitales Archiv, Landesarchiv Thüringen</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/saru/"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.rudolstadt&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.rudolstadt">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Rudolstadt</span>
+                </p>
+            </div>
+          ]]>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.337257,50.7236,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Meiningen                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Meiningen                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Digitales Archiv</name>
+      <name>Digitales Archiv, Landesarchiv Thüringen</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/ThStAM/"><img class="icon" alt="icon" src="/map/icons/icon_thueringen_staatsarchive.png" /></a>
+                <a class="mcrmap_item_icon" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.meiningen&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.meiningen"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/ThStAM/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Staatsarchiv Meiningen</span>
+                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.meiningen&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.meiningen">Digitales Archiv</a>
+					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Meiningen</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.419039,50.574107,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Erfurt                                                                                                            -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Erfurt                                                                                                            -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Digitale Historische Bibliothek</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/ufb/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt_histbib.png" /></a>
+                <a class="mcrmap_item_icon" href="https://dhb.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt-dhb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/ufb/">Digitale Historische Bibliothek Erfurt/Gotha</a>
+                	<a class="mcrmap_item_name" href="https://dhb.thulb.uni-jena.de/">Digitale Historische Bibliothek Erfurt/Gotha</a>
 					<span class="mcrmap_item_owner">Universitäts- und Forschungsbibliothek Erfurt/Gotha</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>11.011258,50.991407,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Eisenberg                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Dana                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Digitales Archiv</name>
+      <name>Digitales Archiv nichtstaatlicher Archive</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/StdAEbg/"><img class="icon" alt="icon" src="/map/icons/icon_eisenberg_stadtarchiv.png" /></a>
+                <a class="mcrmap_item_icon" href="https://dana.thulb.uni-jena.de"><img class="icon" alt="icon" src="/map/icons/icon_jena_dana.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/StdAEbg/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Stadtarchiv Eisenberg</span>
+                	<a class="mcrmap_item_name" href="https://dana.thulb.uni-jena.de">Digitales Archiv</a>
+					          <span class="mcrmap_item_owner">dana Thüringen, Thüringer Universitäts- und Landesbibliothek</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>11.905476,50.968211,0</coordinates>
+        <coordinates>11.587523,50.930322,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Gotha                                                                                                            -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Gotha                                                                                                            -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>MyMss-Teilprojekt</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.manuscripts-gotha.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_gotha_uni_erfurt.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.manuscripts-gotha.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt-dhb.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="https://www.manuscripts-gotha.uni-jena.de/">MyMss-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
 					<span class="mcrmap_item_owner">Forschungsbibliothekbibliothek Gotha der Universität Erfurt</span>
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.718333,50.948889,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Wuppertal                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Wuppertal                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Elektronische Publikationen</name>
       <description><![CDATA[
@@ -1502,16 +1537,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.148255,51.245248,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Gießen                                                                                                            -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Gießen                                                                                                            -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Giessener Elektronische Bibliothek (Lehrmaterialien)</name>
       <description><![CDATA[
@@ -1523,16 +1558,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>8.695258,50.576192,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Düsseldorf                                                                                                        -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Düsseldorf                                                                                                        -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Publikationsservice</name>
       <description><![CDATA[
@@ -1544,16 +1579,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>6.793143,51.192429,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Münster                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Münster                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Corpus Musicae Ottomanicae</name>
       <description><![CDATA[
@@ -1565,16 +1600,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.5994589,51.9711865,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Bonn                                                                                                              -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Bonn                                                                                                              -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>Archiv für Sozialgeschichte</name>
       <description><![CDATA[
@@ -1586,7 +1621,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.135606,50.703199,0</coordinates>
@@ -1603,7 +1638,7 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.135606,50.703199,0</coordinates>
@@ -1620,16 +1655,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.160333,50.686196,0</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Wiesbaden                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Wiesbaden                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>GPStatistik</name>
       <description><![CDATA[
@@ -1641,16 +1676,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>8.252253,50.071001</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Venedig                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Venedig                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>DSZV-Dokumentenserver</name>
       <description><![CDATA[
@@ -1662,16 +1697,16 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>12.329348,45.436260</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
-<!-- Thurgau                                                                                                         -->
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
+    <!-- Thurgau                                                                                                         -->
+    <!-- ***************************************************************************************************************** -->
     <Placemark>
       <name>PHTG</name>
       <description><![CDATA[
@@ -1683,15 +1718,15 @@
                 </p>
             </div>
           ]]>
-        </description>
+      </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>9.1780993,47.6474426</coordinates>
       </Point>
     </Placemark>
 
-<!-- ***************************************************************************************************************** -->
+    <!-- ***************************************************************************************************************** -->
 
-    
+
   </Document>
 </kml>
