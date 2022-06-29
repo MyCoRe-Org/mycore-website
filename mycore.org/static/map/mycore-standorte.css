@@ -3,7 +3,7 @@
  ******************************************************/
 .map {
 	height: 750px;
-	width: 500px;
+	width: 100%;
 }
 
 .ol-popup {
@@ -63,7 +63,6 @@ a.ol-popup-closer:HOVER{
 
 
 #popup-content {
-	margin-top;
 	overflow-y: scroll;
 	max-height: 450px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
