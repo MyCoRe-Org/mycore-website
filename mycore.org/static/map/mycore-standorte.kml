@@ -776,6 +776,25 @@
     <!-- Berlin                                                                                                          -->
     <!-- ***************************************************************************************************************** -->
     <Placemark>
+      <name>Qalamos</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://www.qalamos.net/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_qalamos.png" />
+                </a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://www.qalamos.net/">Qalamos</a>
+					<span class="mcrmap_item_owner">Orientabteilung der Staatsbibliothek zu Berlin</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3705981,52.5076457,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
       <name>CrossAsia</name>
       <description><![CDATA[
             <div class="mcrmap_item">
