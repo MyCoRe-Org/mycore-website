@@ -267,7 +267,7 @@
       <label xml:lang="en" text="newspaper" />
       <label xml:lang="de" text="Zeitung" />
     </category>
-    <category ID="nonmusical sound">
+    <category ID="nonmusical_sound">
       <label xml:lang="en" text="nonmusical sound" />
       <label xml:lang="de" text="außermusikalischer Klang" />
     </category>
