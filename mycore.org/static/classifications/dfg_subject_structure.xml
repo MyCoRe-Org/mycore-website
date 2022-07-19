@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="dfg_subject_structure">
+  <label xml:lang="en" text="DFG subject structure" description="A list of DFG subject structure" />
+  <label xml:lang="de" text="DFG Sachgruppen " description="Liste der DFG Sachgruppen" />
+  <label xml:lang="x-uri" text="http://www.mycore.org/classifications/dfg_subject_structure" />
+  <label xml:lang="x-auth" text="dfg_subject_structure" />
+  <categories>
+    <category ID="100">
+      <label xml:lang="de" text="Geistes- und Sozialwissenschaften" />
+      <category ID="101">
+        <label xml:lang="de" text="Alte Kulturen" />
+        <category ID="101-01">
+          <label xml:lang="de" text="Ur- und Frühgeschichte (weltweit)" />
+        </category>
+        <category ID="101-02">
+          <label xml:lang="de" text="Klassische Philologie" />
+        </category>
+        <category ID="101-03">
+          <label xml:lang="de" text="Alte Geschichte" />
+        </category>
+        <category ID="101-04">
+          <label xml:lang="de" text="Klassische Archäologie" />
+        </category>
+        <category ID="101-05">
+          <label xml:lang="de" text="Ägyptische und Vorderasiatische Altertumswissenschaften" />
+        </category>
+      </category>
+      <category ID="102">
+        <label xml:lang="de" text="Geschichtswissenschaften" />
+        <category ID="102-01">
+          <label xml:lang="de" text="Mittelalterliche Geschichte" />
+        </category>
+        <category ID="102-02">
+          <label xml:lang="de" text="Frühneuzeitliche Geschichte" />
+        </category>
+        <category ID="102-03">
+          <label xml:lang="de" text="Neuere und Neueste Geschichte (einschl. Europäische Geschichte der Neuzeit und Außereuropäische Geschichte)" />
+        </category>
+        <category ID="102-04">
+          <label xml:lang="de" text="Wissenschaftsgeschichte" />
+        </category>
+      </category>
+      <category ID="103">
+        <label xml:lang="de" text="Kunst-, Musik-, Theater- und Medienwissenschaften" />
+        <category ID="103-01">
+          <label xml:lang="de" text="Kunstgeschichte" />
+        </category>
+        <category ID="103-02">
+          <label xml:lang="de" text="Musikwissenschaften" />
+        </category>
+        <category ID="103-03">
+          <label xml:lang="de" text="Theater- und Medienwissenschaften" />
+        </category>
+      </category>
+      <category ID="104">
+        <label xml:lang="de" text="Sprachwissenschaften" />
+        <category ID="104-01">
+          <label xml:lang="de" text="Allgemeine und Vergleichende Sprachwissenschaft, Typologie, Außereuropäische Sprachen" />
+        </category>
+        <category ID="104-02">
+          <label xml:lang="de" text="Einzelsprachwissenschaften" />
+        </category>
+        <category ID="104-03">
+          <label xml:lang="de" text="Historische Linguistik" />
+        </category>
+        <category ID="104-04">
+          <label xml:lang="de" text="Angewandte Sprachwissenschaften, Experimentelle Linguistik, Computerlinguistik" />
+        </category>
+      </category>
+      <category ID="105">
+        <label xml:lang="de" text="Literaturwissenschaft" />
+        <category ID="105-01">
+          <label xml:lang="de" text="Ältere deutsche Literatur" />
+        </category>
+        <category ID="105-02">
+          <label xml:lang="de" text="Neuere deutsche Literatur" />
+        </category>
+        <category ID="105-03">
+          <label xml:lang="de" text="Europäische und Amerikanische Literaturen" />
+        </category>
+        <category ID="105-04">
+          <label xml:lang="de" text="Allgemeine und vergleichende Literaturwissenschaft; Kulturwissenschaft" />
+        </category>
+      </category>
+      <category ID="106">
+        <label xml:lang="de" text="Sozial- und Kulturanthropologie, Außereuropäische Kulturen, Judaistik und Religionswissenschaft" />
+        <category ID="106-01">
+          <label xml:lang="de" text="Ethnologie und Europäische Ethnologie" />
+        </category>
+        <category ID="106-02">
+          <label xml:lang="de" text="Asienbezogene Wissenschaften" />
+        </category>
+        <category ID="106-03">
+          <label xml:lang="de" text="Afrika-, Amerika- und Ozeanienbezogene Wissenschaften" />
+        </category>
+        <category ID="106-04">
+          <label xml:lang="de" text="Islamwissenschaften, Arabistik, Semitistik" />
+        </category>
+        <category ID="106-05">
+          <label xml:lang="de" text="Religionswissenschaft und Judaistik" />
+        </category>
+      </category>
+      <category ID="107">
+        <label xml:lang="de" text="Theologie" />
+        <category ID="107-01">
+          <label xml:lang="de" text="Evangelische Theologie" />
+        </category>
+        <category ID="107-02">
+          <label xml:lang="de" text="Katholische Theologie" />
+        </category>
+      </category>
+      <category ID="108">
+        <label xml:lang="de" text="Philosophie" />
+        <category ID="108-01">
+          <label xml:lang="de" text="Geschichte der Philosophie" />
+        </category>
+        <category ID="108-02">
+          <label xml:lang="de" text="Theoretische Philosophie" />
+        </category>
+        <category ID="108-03">
+          <label xml:lang="de" text="Praktische Philosophie" />
+        </category>
+      </category>
+      <category ID="109">
+        <label xml:lang="de" text="Erziehungswissenschaft und Bildungsforschung" />
+        <category ID="109-01">
+          <label xml:lang="de" text="Allgemeine und Historische Erziehungswissenschaft" />
+        </category>
+        <category ID="109-02">
+          <label xml:lang="de" text="Allgemeines und fachbezogenes Lehren und Lernen" />
+        </category>
+        <category ID="109-03">
+          <label xml:lang="de" text="Bildungssysteme und Bildungsinstitutionen" />
+        </category>
+        <category ID="109-04">
+          <label xml:lang="de" text="Erziehungswissenschaftliche Sozialisations- und Professionalitätsforschung" />
+        </category>
+      </category>
+      <category ID="110">
+        <label xml:lang="de" text="Psychologie" />
+        <category ID="110-01">
+          <label xml:lang="de" text="Allgemeine, Kognitive und Mathematische Psychologie" />
+        </category>
+        <category ID="110-02">
+          <label xml:lang="de" text="Biologische Psychologie und Kognitive Neurowissenschaften" />
+        </category>
+        <category ID="110-03">
+          <label xml:lang="de" text="Entwicklungspsychologie und Pädagogische Psychologie" />
+        </category>
+        <category ID="110-04">
+          <label xml:lang="de" text="Sozialpsychologie und Arbeits- und Organisationspsychologie" />
+        </category>
+        <category ID="110-05">
+          <label xml:lang="de" text="Differentielle, Klinische und Medizinische Psychologie, Methoden" />
+        </category>
+      </category>
+      <category ID="111">
+        <label xml:lang="de" text="Sozialwissenschaften" />
+        <category ID="111-01">
+          <label xml:lang="de" text="Soziologische Theorie" />
+        </category>
+        <category ID="111-02">
+          <label xml:lang="de" text="Empirische Sozialforschung" />
+        </category>
+        <category ID="111-03">
+          <label xml:lang="de" text="Publizistik und Kommunikationswissenschaft" />
+        </category>
+        <category ID="111-04">
+          <label xml:lang="de" text="Politikwissenschaft" />
+        </category>
+      </category>
+      <category ID="112">
+        <label xml:lang="de" text="Wirtschaftswissenschaften" />
+        <category ID="112-01">
+          <label xml:lang="de" text="Wirtschaftstheorie" />
+        </category>
+        <category ID="112-02">
+          <label xml:lang="de" text="Wirtschaftspolitik, Angewandte Volkswirtschaftlehre" />
+        </category>
+        <category ID="112-03">
+          <label xml:lang="de" text="Betriebswirtschaftslehre" />
+        </category>
+        <category ID="112-04">
+          <label xml:lang="de" text="Statistik und Ökonometrie" />
+        </category>
+        <category ID="112-05">
+          <label xml:lang="de" text="Wirtschafts- und Sozialgeschichte" />
+        </category>
+      </category>
+      <category ID="113">
+        <label xml:lang="de" text="Rechtswissenschaften" />
+        <category ID="113-01">
+          <label xml:lang="de" text="Grundlagen des Rechts und der Rechtswissenschaft" />
+        </category>
+        <category ID="113-02">
+          <label xml:lang="de" text="Privatrecht" />
+        </category>
+        <category ID="113-03">
+          <label xml:lang="de" text="Öffentliches Recht" />
+        </category>
+        <category ID="113-04">
+          <label xml:lang="de" text="Strafrecht" />
+        </category>
+        <category ID="113-05">
+          <label xml:lang="de" text="Kriminologie" />
+        </category>
+      </category>
+    </category>
+    <category ID="200">
+      <label xml:lang="de" text="Lebenswissenschaften" />
+      <category ID="201">
+        <label xml:lang="de" text="Grundlagen der Biologie und Medizin" />
+        <category ID="201-01">
+          <label xml:lang="de" text="Biochemie" />
+        </category>
+        <category ID="201-02">
+          <label xml:lang="de" text="Biophysik" />
+        </category>
+        <category ID="201-03">
+          <label xml:lang="de" text="Zellbiologie" />
+        </category>
+        <category ID="201-04">
+          <label xml:lang="de" text="Strukturbiologie" />
+        </category>
+        <category ID="201-05">
+          <label xml:lang="de" text="Allgemeine Genetik und funktionelle Genomforschung" />
+        </category>
+        <category ID="201-06">
+          <label xml:lang="de" text="Entwicklungsbiologie" />
+        </category>
+        <category ID="201-07">
+          <label xml:lang="de" text="Bioinformatik und Theoretische Biologie" />
+        </category>
+      </category>
+      <category ID="202">
+        <label xml:lang="de" text="Pflanzenwissenschaften" />
+        <category ID="202-01">
+          <label xml:lang="de" text="Evolution und Systematik der Pflanzen und Pilze" />
+        </category>
+        <category ID="202-02">
+          <label xml:lang="de" text="Ökologie und Biodiversität der Pflanzen und Ökosysteme" />
+        </category>
+        <category ID="202-03">
+          <label xml:lang="de" text="Organismische Interaktionen, chemische Ökologie und Mikrobiome pflanzlicher Systeme" />
+        </category>
+        <category ID="202-04">
+          <label xml:lang="de" text="Pflanzenphysiologie" />
+        </category>
+        <category ID="202-05">
+          <label xml:lang="de" text="Biochemie und Biophysik der Pflanzen" />
+        </category>
+        <category ID="202-06">
+          <label xml:lang="de" text="Zell- und Entwicklungsbiologie der Pflanzen" />
+        </category>
+        <category ID="202-07">
+          <label xml:lang="de" text="Genetik der Pflanzen" />
+        </category>
+      </category>
+      <category ID="203">
+        <label xml:lang="de" text="Zoologie" />
+        <category ID="203-01">
+          <label xml:lang="de" text="Systematik und Morphologie der Tiere" />
+        </category>
+        <category ID="203-02">
+          <label xml:lang="de" text="Evolution, Anthropologie" />
+        </category>
+        <category ID="203-03">
+          <label xml:lang="de" text="Ökologie und Biodiversität der Tiere und Ökosysteme, Organismische Interaktionen" />
+        </category>
+        <category ID="203-04">
+          <label xml:lang="de" text="Biologie des Verhaltens und der Sinne" />
+        </category>
+        <category ID="203-05">
+          <label xml:lang="de" text="Biochemie und Physiologie der Tiere" />
+        </category>
+        <category ID="203-06">
+          <label xml:lang="de" text="Evolutionäre Zell- und Entwicklungsbiologie der Tiere" />
+        </category>
+      </category>
+      <category ID="204">
+        <label xml:lang="de" text="Mikrobiologie, Virologie und Immunologie" />
+        <category ID="204-01">
+          <label xml:lang="de" text="Stoffwechselphysiologie, Biochemie und Genetik der Mikroorganismen" />
+        </category>
+        <category ID="204-02">
+          <label xml:lang="de" text="Mikrobielle Ökologie und Angewandte Mikrobiologie" />
+        </category>
+        <category ID="204-03">
+          <label xml:lang="de" text="Medizinische Mikrobiologie und Mykologie, Hygiene, Molekulare Infektionsbiologie" />
+        </category>
+        <category ID="204-04">
+          <label xml:lang="de" text="Virologie" />
+        </category>
+        <category ID="204-05">
+          <label xml:lang="de" text="Immunologie" />
+        </category>
+        <category ID="204-06">
+          <label xml:lang="de" text="Parasitologie und Biologie der Erreger tropischer Infektionskrankheiten" />
+        </category>
+      </category>
+      <category ID="205">
+        <label xml:lang="de" text="Medizin" />
+        <category ID="205-01">
+          <label xml:lang="de" text="Epidemiologie und Medizinische Biometrie/Statistik" />
+        </category>
+        <category ID="205-02">
+          <label xml:lang="de" text="Public Health, medizinische Versorgungsforschung, Sozialmedizin" />
+        </category>
+        <category ID="205-03">
+          <label xml:lang="de" text="Humangenetik" />
+        </category>
+        <category ID="205-04">
+          <label xml:lang="de" text="Physiologie" />
+        </category>
+        <category ID="205-05">
+          <label xml:lang="de" text="Ernährungswissenschaften" />
+        </category>
+        <category ID="205-06">
+          <label xml:lang="de" text="Pathologie" />
+        </category>
+        <category ID="205-07">
+          <label xml:lang="de" text="Medizininformatik und medizinische Bioinformatik" />
+        </category>
+        <category ID="205-08">
+          <label xml:lang="de" text="Pharmazie" />
+        </category>
+        <category ID="205-09">
+          <label xml:lang="de" text="Pharmakologie" />
+        </category>
+        <category ID="205-10">
+          <label xml:lang="de" text="Toxikologie, Arbeitsmedizin, Klinische Chemie" />
+        </category>
+        <category ID="205-11">
+          <label xml:lang="de" text="Anästhesiologie" />
+        </category>
+        <category ID="205-12">
+          <label xml:lang="de" text="Kardiologie, Angiologie" />
+        </category>
+        <category ID="205-13">
+          <label xml:lang="de" text="Pneumologie, Thoraxchirurgie" />
+        </category>
+        <category ID="205-14">
+          <label xml:lang="de" text="Hämatologie, Onkologie" />
+        </category>
+        <category ID="205-15">
+          <label xml:lang="de" text="Gastroenterologie" />
+        </category>
+        <category ID="205-16">
+          <label xml:lang="de" text="Nephrologie" />
+        </category>
+        <category ID="205-17">
+          <label xml:lang="de" text="Endokrinologie, Diabetologie, Metabolismus" />
+        </category>
+        <category ID="205-18">
+          <label xml:lang="de" text="Rheumatologie" />
+        </category>
+        <category ID="205-19">
+          <label xml:lang="de" text="Dermatologie" />
+        </category>
+        <category ID="205-20">
+          <label xml:lang="de" text="Kinder- und Jugendmedizin" />
+        </category>
+        <category ID="205-21">
+          <label xml:lang="de" text="Gynäkologie und Geburtshilfe" />
+        </category>
+        <category ID="205-22">
+          <label xml:lang="de" text="Klinische Immunologie und Allergologie" />
+        </category>
+        <category ID="205-23">
+          <label xml:lang="de" text="Reproduktionsmedizin, Urologie" />
+        </category>
+        <category ID="205-24">
+          <label xml:lang="de" text="Gerontobiologie und Geriatrie" />
+        </category>
+        <category ID="205-25">
+          <label xml:lang="de" text="Allgemein- und Viszeralchirurgie" />
+        </category>
+        <category ID="205-26">
+          <label xml:lang="de" text="Herz- und Gefäßchirurgie" />
+        </category>
+        <category ID="205-27">
+          <label xml:lang="de" text="Orthopädie, Unfallchirurgie, rekonstruktive Chirurgie" />
+        </category>
+        <category ID="205-28">
+          <label xml:lang="de" text="Zahnheilkunde; Mund-, Kiefer- und Gesichtschirurgie" />
+        </category>
+        <category ID="205-29">
+          <label xml:lang="de" text="Hals-Nasen-Ohrenheilkunde" />
+        </category>
+        <category ID="205-30">
+          <label xml:lang="de" text="Radiologie, Nuklearmedizin, Strahlentherapie, Strahlenbiologie" />
+        </category>
+        <category ID="205-31">
+          <label xml:lang="de" text="Klinische Infektiologie und Tropenmedizin" />
+        </category>
+        <category ID="205-32">
+          <label xml:lang="de" text="Medizinische Physik, Biomedizinische Technik" />
+        </category>
+        <category ID="205-33">
+          <label xml:lang="de" text="Anatomie" />
+        </category>
+      </category>
+      <category ID="206">
+        <label xml:lang="de" text="Neurowissenschaften" />
+        <category ID="206-01">
+          <label xml:lang="de" text="Entwicklungsneurobiologie" />
+        </category>
+        <category ID="206-02">
+          <label xml:lang="de" text="Molekulare Biologie und Physiologie von Nerven- und Gliazellen" />
+        </category>
+        <category ID="206-03">
+          <label xml:lang="de" text="Experimentelle und theoretische Netzwerk-Neurowissenschaften" />
+        </category>
+        <category ID="206-04">
+          <label xml:lang="de" text="Kognitive, systemische und Verhaltensneurobiologie" />
+        </category>
+        <category ID="206-05">
+          <label xml:lang="de" text="Experimentelle Modelle zum Verständnis von Erkrankungen des Nervensystems" />
+        </category>
+        <category ID="206-06">
+          <label xml:lang="de" text="Molekulare und zelluläre Neurologie und Neuropathologie" />
+        </category>
+        <category ID="206-07">
+          <label xml:lang="de" text="Klinische Neurologie; Neurochirurgie und Neuroradiologie" />
+        </category>
+        <category ID="206-08">
+          <label xml:lang="de" text="Kognitive und systemische Humanneurowissenschaften" />
+        </category>
+        <category ID="206-09">
+          <label xml:lang="de" text="Biologische Psychiatrie" />
+        </category>
+        <category ID="206-10">
+          <label xml:lang="de" text="Klinische Psychiatrie, Psychotherapie und Kinder- und Jugendpsychiatrie" />
+        </category>
+        <category ID="206-11">
+          <label xml:lang="de" text="Augenheilkunde" />
+        </category>
+      </category>
+      <category ID="207">
+        <label xml:lang="de" text="Agrar-, Forstwissenschaften und Tiermedizin" />
+        <category ID="207-01">
+          <label xml:lang="de" text="Bodenwissenschaften" />
+        </category>
+        <category ID="207-02">
+          <label xml:lang="de" text="Pflanzenzüchtung, Pflanzenpathologie" />
+        </category>
+        <category ID="207-03">
+          <label xml:lang="de" text="Pflanzenbau, Pflanzenernährung, Agrartechnik" />
+        </category>
+        <category ID="207-04">
+          <label xml:lang="de" text="Ökologie der Landnutzung" />
+        </category>
+        <category ID="207-05">
+          <label xml:lang="de" text="Agrarökonomie, Agrarpolitik, Agrarsoziologie" />
+        </category>
+        <category ID="207-06">
+          <label xml:lang="de" text="Forstwissenschaften" />
+        </category>
+        <category ID="207-07">
+          <label xml:lang="de" text="Tierzucht, Tierernährung, Tierhaltung" />
+        </category>
+        <category ID="207-08">
+          <label xml:lang="de" text="Tiermedizin" />
+        </category>
+      </category>
+    </category>
+    <category ID="300">
+      <label xml:lang="de" text="Naturwissenschaften" />
+      <category ID="307">
+        <label xml:lang="de" text="Physik der kondensierten Materie" />
+        <category ID="307-01">
+          <label xml:lang="de" text="Experimentelle Physik der kondensierten Materie" />
+        </category>
+        <category ID="307-02">
+          <label xml:lang="de" text="Theoretische Physik der kondensierten Materie" />
+        </category>
+      </category>
+      <category ID="308">
+        <label xml:lang="de" text="Optik, Quantenoptik und Physik der Atome, Moleküle und Plasmen" />
+        <category ID="308-01">
+          <label xml:lang="de" text="Optik, Quantenoptik, Physik der Atome, Moleküle und Plasmen" />
+        </category>
+      </category>
+      <category ID="309">
+        <label xml:lang="de" text="Teilchen, Kerne und Felder" />
+        <category ID="309-01">
+          <label xml:lang="de" text="Kern- und Elementarteilchenphysik, Quantenmechanik, Relativitätstheorie, Felder" />
+        </category>
+      </category>
+      <category ID="310">
+        <label xml:lang="de" text="Statistische Physik, Weiche Materie, Biologische Physik, Nichtlineare Dynamik" />
+        <category ID="310-01">
+          <label xml:lang="de" text="Statistische Physik, Weiche Materie, Biologische Physik, Nichtlineare Dynamik" />
+        </category>
+      </category>
+      <category ID="311">
+        <label xml:lang="de" text="Astrophysik und Astronomie" />
+        <category ID="311-01">
+          <label xml:lang="de" text="Astrophysik und Astronomie" />
+        </category>
+      </category>
+      <category ID="312">
+        <label xml:lang="de" text="Mathematik" />
+        <category ID="312-01">
+          <label xml:lang="de" text="Mathematik" />
+        </category>
+      </category>
+      <category ID="313">
+        <label xml:lang="de" text="Atmosphären-, Meeres- und Klimaforschung" />
+        <category ID="313-01">
+          <label xml:lang="de" text="Physik und Chemie der Atmosphäre" />
+        </category>
+        <category ID="313-02">
+          <label xml:lang="de" text="Physik, Chemie und Biologie des Meeres" />
+        </category>
+      </category>
+      <category ID="314">
+        <label xml:lang="de" text="Geologie und Paläontologie" />
+        <category ID="314-01">
+          <label xml:lang="de" text="Geologie, Ingenieurgeologie, Paläontologie" />
+        </category>
+      </category>
+      <category ID="315">
+        <label xml:lang="de" text="Geophysik und Geodäsie" />
+        <category ID="315-01">
+          <label xml:lang="de" text="Physik des Erdkörpers" />
+        </category>
+        <category ID="315-02">
+          <label xml:lang="de" text="Geodäsie, Photogrammetrie, Fernerkundung, Geoinformatik, Kartographie" />
+        </category>
+      </category>
+      <category ID="316">
+        <label xml:lang="de" text="Mineralogie, Petrologie und Geochemie" />
+        <category ID="316-01">
+          <label xml:lang="de" text="Mineralogie, Petrologie und Geochemie" />
+        </category>
+      </category>
+      <category ID="317">
+        <label xml:lang="de" text="Geographie" />
+        <category ID="317-01">
+          <label xml:lang="de" text="Physische Geographie" />
+        </category>
+        <category ID="317-02">
+          <label xml:lang="de" text="Humangeographie" />
+        </category>
+      </category>
+      <category ID="318">
+        <label xml:lang="de" text="Wasserforschung" />
+        <category ID="318-01">
+          <label xml:lang="de" text="Hydrogeologie, Hydrologie, Limnologie, Siedlungswasserwirtschaft, Wasserchemie, Integrierte Wasser-Ressourcen Bewirtschaftung" />
+        </category>
+      </category>
+      <category ID="321">
+        <label xml:lang="de" text="Molekülchemie" />
+        <category ID="321-01">
+          <label xml:lang="de" text="Anorganische Molekülchemie - Synthese, Charakterisierung" />
+        </category>
+        <category ID="321-02">
+          <label xml:lang="de" text="Organische Molekülchemie- Synthese, Charakterisierung" />
+        </category>
+      </category>
+      <category ID="322">
+        <label xml:lang="de" text="Chemische Festkörper- und Oberflächenforschung" />
+        <category ID="322-01">
+          <label xml:lang="de" text="Festkörper- und Oberflächenchemie, Materialsynthese" />
+        </category>
+        <category ID="322-02">
+          <label xml:lang="de" text="Physikalische Chemie von Festkörpern und Oberflächen, Materialcharakterisierung" />
+        </category>
+      </category>
+      <category ID="323">
+        <label xml:lang="de" text="Physikalische Chemie" />
+        <category ID="323-01">
+          <label xml:lang="de" text="Physikalische Chemie von Molekülen, Flüssigkeiten und Grenzflächen, Biophysikalische Chemie" />
+        </category>
+      </category>
+      <category ID="324">
+        <label xml:lang="de" text="Analytische Chemie" />
+        <category ID="324-01">
+          <label xml:lang="de" text="Analytische Chemie" />
+        </category>
+      </category>
+      <category ID="325">
+        <label xml:lang="de" text="Biologische Chemie und Lebensmittelchemie" />
+        <category ID="325-01">
+          <label xml:lang="de" text="Biologische und Biomimetische Chemie" />
+        </category>
+        <category ID="325-02">
+          <label xml:lang="de" text="Lebensmittelchemie" />
+        </category>
+      </category>
+      <category ID="326">
+        <label xml:lang="de" text="Polymerforschung" />
+        <category ID="326-01">
+          <label xml:lang="de" text="Präparative und Physikalische Chemie von Polymeren" />
+        </category>
+        <category ID="326-02">
+          <label xml:lang="de" text="Experimentelle und Theoretische Polymerphysik" />
+        </category>
+        <category ID="326-03">
+          <label xml:lang="de" text="Polymermaterialien" />
+        </category>
+      </category>
+      <category ID="327">
+        <label xml:lang="de" text="Theoretische Chemie" />
+        <category ID="327-01">
+          <label xml:lang="de" text="Theoretische Chemie: Elektronenstruktur, Dynamik, Simulation" />
+        </category>
+        <category ID="327-02">
+          <label xml:lang="de" text="Theoretische Chemie: Moleküle, Materialien, Oberflächen" />
+        </category>
+      </category>
+    </category>
+    <category ID="400">
+      <label xml:lang="de" text="Ingenieurwissenschaften" />
+      <category ID="401">
+        <label xml:lang="de" text="Produktionstechnik" />
+        <category ID="401-01">
+          <label xml:lang="de" text="Spanende und abtragende Fertigungstechnik" />
+        </category>
+        <category ID="401-02">
+          <label xml:lang="de" text="Ur- und Umformtechnik, Additive Fertigungsverfahren" />
+        </category>
+        <category ID="401-03">
+          <label xml:lang="de" text="Fügetechnik und Trenntechnik" />
+        </category>
+        <category ID="401-04">
+          <label xml:lang="de" text="Kunststofftechnik" />
+        </category>
+        <category ID="401-05">
+          <label xml:lang="de" text="Produktionssystematik, Betriebswissenschaften, Qualitätsmanagement und Fabrikplanung" />
+        </category>
+        <category ID="401-06">
+          <label xml:lang="de" text="Produktionsautomatisierung" />
+        </category>
+      </category>
+      <category ID="402">
+        <label xml:lang="de" text="Mechanik und Konstruktiver Maschinenbau" />
+        <category ID="402-01">
+          <label xml:lang="de" text="Konstruktion, Maschinenelemente, Produktentwicklung" />
+        </category>
+        <category ID="402-02">
+          <label xml:lang="de" text="Mechanik" />
+        </category>
+        <category ID="402-03">
+          <label xml:lang="de" text="Leichtbau, Textiltechnik" />
+        </category>
+        <category ID="402-04">
+          <label xml:lang="de" text="Akustik" />
+        </category>
+      </category>
+      <category ID="403">
+        <label xml:lang="de" text="Verfahrenstechnik, Technische Chemie" />
+        <category ID="403-01">
+          <label xml:lang="de" text="Chemische und Thermische Verfahrenstechnik" />
+        </category>
+        <category ID="403-02">
+          <label xml:lang="de" text="Technische Chemie" />
+        </category>
+        <category ID="403-03">
+          <label xml:lang="de" text="Mechanische Verfahrenstechnik" />
+        </category>
+        <category ID="403-04">
+          <label xml:lang="de" text="Bioverfahrenstechnik" />
+        </category>
+      </category>
+      <category ID="404">
+        <label xml:lang="de" text="Strömungsmechanik, Technische Thermodynamik und Thermische Energietechnik" />
+        <category ID="404-01">
+          <label xml:lang="de" text="Energieverfahrenstechnik" />
+        </category>
+        <category ID="404-02">
+          <label xml:lang="de" text="Technische Thermodynamik" />
+        </category>
+        <category ID="404-03">
+          <label xml:lang="de" text="Strömungsmechanik" />
+        </category>
+        <category ID="404-04">
+          <label xml:lang="de" text="Strömungs- und Kolbenmaschinen" />
+        </category>
+      </category>
+      <category ID="405">
+        <label xml:lang="de" text="Werkstofftechnik" />
+        <category ID="405-01">
+          <label xml:lang="de" text="Metallurgische, thermische und thermomechanische Behandlung von Werkstoffen" />
+        </category>
+        <category ID="405-02">
+          <label xml:lang="de" text="Materialien und Werkstoffe der Sinterprozesse und der generativen Fertigungsverfahren" />
+        </category>
+        <category ID="405-03">
+          <label xml:lang="de" text="Beschichtungs- und Oberflächentechnik" />
+        </category>
+        <category ID="405-04">
+          <label xml:lang="de" text="Mechanische Eigenschaften von metallischen Werkstoffen und ihre mikrostrukturellen Ursachen" />
+        </category>
+        <category ID="405-05">
+          <label xml:lang="de" text="Glas und Keramik und darauf basierende Verbundwerkstoffe" />
+        </category>
+        <category ID="405-06">
+          <label xml:lang="de" text="Polymere und biogene Werkstoffe und darauf basierende Verbundstoffe" />
+        </category>
+      </category>
+      <category ID="406">
+        <label xml:lang="de" text="Materialwissenschaft" />
+        <category ID="406-01">
+          <label xml:lang="de" text="Herstellung und Eigenschaften von Funktionsmaterialien" />
+        </category>
+        <category ID="406-02">
+          <label xml:lang="de" text="Biomaterialien" />
+        </category>
+        <category ID="406-03">
+          <label xml:lang="de" text="Thermodynamik und Kinetik sowie Eigenschaften der Phasen und Gefüge von Werkstoffen" />
+        </category>
+        <category ID="406-04">
+          <label xml:lang="de" text="Computergestütztes Werkstoffdesign und Simulation von Werkstoffverhalten von atomistischer bis mikroskopischer Skala" />
+        </category>
+      </category>
+      <category ID="407">
+        <label xml:lang="de" text="Systemtechnik" />
+        <category ID="407-01">
+          <label xml:lang="de" text="Automatisierungstechnik, Regelungssysteme, Robotik, Mechatronik, Cyber Physical Systems" />
+        </category>
+        <category ID="407-02">
+          <label xml:lang="de" text="Messsysteme" />
+        </category>
+        <category ID="407-03">
+          <label xml:lang="de" text="Mikrosysteme" />
+        </category>
+        <category ID="407-04">
+          <label xml:lang="de" text="Verkehrs- und Transportsysteme, Intelligenter und automatisierter Verkehr" />
+        </category>
+        <category ID="407-05">
+          <label xml:lang="de" text="Arbeitswissenschaft, Ergonomie, Mensch-Maschine-Systeme" />
+        </category>
+        <category ID="407-06">
+          <label xml:lang="de" text="Biomedizinische Systemtechnik" />
+        </category>
+      </category>
+      <category ID="408">
+        <label xml:lang="de" text="Elektrotechnik und Informationstechnik" />
+        <category ID="408-01">
+          <label xml:lang="de" text="Elektronische Halbleiter, Bauelemente und Schaltungen, Integrierte Systeme" />
+        </category>
+        <category ID="408-02">
+          <label xml:lang="de" text="Nachrichten- und Hochfrequenztechnik, Kommunikationstechnik und -netze, Theoretische Elektrotechnik" />
+        </category>
+        <category ID="408-03">
+          <label xml:lang="de" text="Elektrische Energieerzeugung, -übertragung, -verteilung und -anwendung" />
+        </category>
+      </category>
+      <category ID="409">
+        <label xml:lang="de" text="Informatik" />
+        <category ID="409-01">
+          <label xml:lang="de" text="Theoretische Informatik" />
+        </category>
+        <category ID="409-02">
+          <label xml:lang="de" text="Softwaretechnik und Programmiersprachen" />
+        </category>
+        <category ID="409-03">
+          <label xml:lang="de" text="Sicherheit und Verlässlichkeit" />
+        </category>
+        <category ID="409-04">
+          <label xml:lang="de" text="Betriebs-, Kommunikations-, Datenbank- und verteilte Systeme" />
+        </category>
+        <category ID="409-05">
+          <label xml:lang="de" text="Interaktive und intelligente Systeme, Bild- und Sprachverarbeitung, Computergraphik und Visualisierung" />
+        </category>
+        <category ID="409-06">
+          <label xml:lang="de" text="Informationssysteme, Prozess- und Wissensmanagement" />
+        </category>
+        <category ID="409-07">
+          <label xml:lang="de" text="Rechnerarchitekturen und eingebettete Systeme" />
+        </category>
+        <category ID="409-08">
+          <label xml:lang="de" text="Massiv parallele und datenintensive Systeme" />
+        </category>
+      </category>
+      <category ID="410">
+        <label xml:lang="de" text="Bauwesen und Architektur" />
+        <category ID="410-01">
+          <label xml:lang="de" text="Architektur, Bau- und Konstruktionsgeschichte, Bauforschung, Ressourcenökonomie im Bauwesen" />
+        </category>
+        <category ID="410-02">
+          <label xml:lang="de" text="Städtebau/Stadtentwicklung, Raumplanung, Verkehrs- und Infrastrukturplanung, Landschaftsplanung" />
+        </category>
+        <category ID="410-03">
+          <label xml:lang="de" text="Baustoffwissenschaften, Bauchemie, Bauphysik" />
+        </category>
+        <category ID="410-04">
+          <label xml:lang="de" text="Konstruktiver Ingenieurbau, Bauinformatik und Baubetrieb" />
+        </category>
+        <category ID="410-05">
+          <label xml:lang="de" text="Angewandte Mechanik, Statik und Dynamik" />
+        </category>
+        <category ID="410-06">
+          <label xml:lang="de" text="Geotechnik, Wasserbau" />
+        </category>
+      </category>
+    </category>
+  </categories>
+</mycoreclass>
