@@ -171,7 +171,7 @@
       <label xml:lang="en" text="history" />
       <label xml:lang="de" text="Geschichte" />
     </category>
-    <category ID="hymnal"> <!-- TODO remove -->
+    <category ID="hymnal"> <!-- TODO may deprecated -->
       <label xml:lang="en" text="hymnal" />
       <label xml:lang="de" text="Gesangbuch" />
     </category>
@@ -259,7 +259,7 @@
       <label xml:lang="en" text="motion picture" />
       <label xml:lang="de" text="Film" />
     </category>
-    <category ID="multivolume_monograph"> <!-- TODO delete -->
+    <category ID="multivolume_monograph"> <!-- TODO may deprecated -->
       <label xml:lang="en" text="multivolume monograph" />
       <label xml:lang="de" text="Mehrbändiges Werk" />
     </category>
