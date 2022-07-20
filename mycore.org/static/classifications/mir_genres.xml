@@ -249,6 +249,12 @@
       <label xml:lang="en" text="Research Data" />
       <label xml:lang="x-mapping" text="marcgt:database diniPublType:ResearchData" />
       <label xml:lang="it" text="Dati di ricerca" />
+      <category ID="software">
+        <label xml:lang="en" text="Software" />
+        <label xml:lang="x-mapping" text="marcgt:computer_program diniPublType:Software" />
+        <label xml:lang="x-hosts" text="standalone" />
+        <label xml:lang="de" text="Software" />
+      </category>
     </category>
     <category ID="patent">
       <label xml:lang="x-hosts" text="standalone" />
