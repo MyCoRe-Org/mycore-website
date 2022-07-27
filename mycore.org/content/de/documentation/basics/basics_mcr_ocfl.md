@@ -3,9 +3,9 @@
 
 title: "Versionierung mit OCFL in MyCoRe"
 description: ""
-mcr_version: ['2021.11']
+mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-06-24"
+date: "2022-07-27"
 
 ---
 
@@ -14,13 +14,13 @@ date: "2022-06-24"
 [OCFL](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von Daten in einer versionierten Form auf einem nativen Plattenbereich. Damit können die Vorteile einer einfachen
 Speicherung im Dateisystem und einer Dateiversionierung optimal verbunden werden. 
 
-Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte im OCFL-Storage-Layout zu speichern. Es ist geplant, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
+Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte und Klassifikationen im OCFL-Storage-Layout zu speichern. Es ist geplant, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
 
 "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu grundlegenden Änderungen kommen wird. Zukünftige Änderungen bauen auf dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
 
 ## Zukünftige Pläne
 
-Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa Klassifikationen, Benutzer, ACLs, etc.) im OCFL-Repository speichern kann.
+Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa Benutzer, ACLs, etc.) im OCFL-Repository speichern kann.
 
 # Die Speicherung der MyCoRe-Objekte mit OCFL
 
@@ -251,7 +251,7 @@ Der Hashwert wird aus dem ursprünglichen Dateinamen gebildet. Anschließend wir
 
 ### MyCoRe Storage Layout
 
-Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch aus ihrer ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
+Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch aus ihrer ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
 
 <b class="text-warning">Es ist zu beachten, dass das MyCoRe Storage Layout keinem OCFL-Standard-Layout entspricht und daher nicht von externen Tools nativ unterstützt wird.</b>
 
