@@ -91,7 +91,7 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
    | Repository Provider | Layout |
    | :------------------ | :----- |
-   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](#ocfl-community-extension-0003-hashed-truncated-n-tuple-trees-with-object-id-encapsulating-directory-for-ocfl-storage-hierarchies) |
+   | MCROCFLHashRepositoryProvider | [0003 Hashed Truncated N-tuple Trees with Object ID Encapsulating Directory](#ocfl-community-extension-0003-hashed-truncated-n-tuple-trees-br-with-object-id-encapsulating-directory-for-ocfl-storage-hierarchies) |
    | MCROCFLMCRRepositoryProvider | [MyCoRe Storage Layout](#mycore-storage-layout) |
 {{</mcr-table>}}
 
