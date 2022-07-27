@@ -3,9 +3,9 @@
 
 title: "Versionierung mit OCFL in MyCoRe"
 description: ""
-mcr_version: ['2021.11']
+mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-02-21"
+date: "2022-07-27"
 
 ---
 
@@ -14,17 +14,19 @@ date: "2022-02-21"
 [OCFL](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von Daten in einer versionierten Form auf einem nativen Plattenbereich. Damit können die Vorteile einer einfachen
 Speicherung im Dateisystem und einer Dateiversionierung optimal verbunden werden. 
 
-Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte im OCFL-Storage-Layout zu speichern. Es ist geplant, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
+Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte und Klassifikationen im OCFL-Storage-Layout zu speichern. Es ist geplant, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
 
 "OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu grundlegenden Änderungen kommen wird. Zukünftige Änderungen bauen auf dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
 
 ## Zukünftige Pläne
 
-Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa Klassifikationen, Benutzer, ACLs, etc.) im OCFL-Repository speichern kann.
+Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa Benutzer, ACLs, etc.) im OCFL-Repository speichern kann.
 
 # Die Speicherung der MyCoRe-Objekte mit OCFL
 
 ## Konfiguration
+
+#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
 
 Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* integriert werden.
 
@@ -249,7 +251,7 @@ Der Hashwert wird aus dem ursprünglichen Dateinamen gebildet. Anschließend wir
 
 ### MyCoRe Storage Layout
 
-Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch aus ihrer ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
+Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch aus ihrer ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
 
 <b class="text-warning">Es ist zu beachten, dass das MyCoRe Storage Layout keinem OCFL-Standard-Layout entspricht und daher nicht von externen Tools nativ unterstützt wird.</b>
 
@@ -315,8 +317,51 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
          └── ... [object root]
 ```
 
+## Versionierung von Klassifikationen
+
+Es ist nun auch möglich, Klassifikationen neben der Datenbank im OCFL Store zu speichern, aber primär wird dann weiterhin die Datenbank genutzt.
+
+### Konfiguration
+
+#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
+
+Hierbei zusätzlich mitgeliefert sind die folgenden Properties:
+
+```shell {linenos=table}
+# Setzt die Standard Repository auf "Main"
+MCR.Classification.Manager.Repository=Main
+```
+
+Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu setzen:
+
+```shell {linenos=table}
+# Dies ersetzt die DAO Implementation mit einer die Events sendet
+MCR.Category.DAO=org.mycore.datamodel.classifications2.impl.MCREventedCategoryDAOImpl
+
+MCR.Classification.Manager=org.mycore.ocfl.MCROCFLXMLClassificationManager
+
+# Und hier wird der EventHandler eingebunden
+MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLClassificationEventHandler
+```
+
+Wenn man eine andere Repository anstatt "Main" nutzen will, funktioniert dies exakt so wie oben für die Objekte beschrieben ist.
+
+### Benutzung
+
+Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt, auch wenn dieser noch leer ist.
+
+Sollen erstmalig alle Klassifikationen auf dem OCFL Store gespeichert werden, kann man mit dem Befehl `update ocfl classifications` alle Klassifikationen von der Datenbank in den OCFL Store schreiben lassen.
+
+Soll nur eine einzige Aktualisiert werden, kann dies mit `update ocfl classification {ClassID}` getan werden.
+
+Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit `sync ocfl classifications` alle Klassifikationen auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen.
+
 ## Offene Probleme
 #### Hartes Löschen
 Unter bestimmten Umständen muss ein Objekt auch hart löschbar sein - bisher ist nur 'soft'-löschen möglich.
 Das bedeutet, nach dem Löschen können alte Versionen immer noch angezeigt werden.
 Dazu kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` mitgegeben werden, um die entsprechende Version anzuzeigen.
+
+{{<mcr-comment>}}<!-- Markdown Links: -->{{</mcr-comment>}}
+
+[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/2021.06.x/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
