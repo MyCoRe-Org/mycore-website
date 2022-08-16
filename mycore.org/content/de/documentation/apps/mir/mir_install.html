@@ -133,11 +133,11 @@ date: "2019-04-24"
 
      <h3>MIR-Wizard Automatisierung</h3>
       <p>
-        Alternativ zu der oben beschriebenen Vorgehensweise, bei der MIR intaraktiv über die Weboberfläche konfiguriert wird,
+        Alternativ zu der oben beschriebenen Vorgehensweise, bei der MIR interaktiv über die Weboberfläche konfiguriert wird,
         kann der MIR-Wizard auch automatisiert ausgeführt werden.
-        Dies ermöglicht eine per Script gesteuerte Inbetriebnahme von MIR.
+        Dies ermöglicht eine script-gesteuerte Inbetriebnahme von MIR.
         Hierzu muss eine XML-Datei mit dem Namen <code>wizard.xml</code> im eben genannten Konfigurationsverzeichnis angelegt werden.
-        Diese Datei ersetzt die ansonsten manuell eingetragenen Formularangeben.
+        Diese Datei stellt Werte für die ansonsten manuell ausgefüllten Formularfelder bereit.
         Ihr Inhalt muss folgendermaßen aufgebaut sein:
       </p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
@@ -168,14 +168,17 @@ date: "2019-04-24"
 </wizard>{{< /highlight >}}
       <p>
        Im Bereich <code>mcr-properties</code> können dabei beliebig viele Konfigurationswerte angegeben werden.
-       Das Beispiel zeigt Einträge für alle vom normalen MIR-Wizard angebotenen Eingaben. Von dieser Auswahl kann je nach Bedarf abgewichen werden.
+       Das Beispiel zeigt Einträge für alle vom normalen MIR-Wizard verwendeten Eingaben. 
+       Von dieser Auswahl kann je nach Bedarf abgewichen werden.
       </p>
       <p>
        Im Bereich <code>database</code> wird der Zugriff auf eine Datenbank konfiguriert.
-       Im Bereich <code>library</code> muss hierzu mindestens eine URL konfiguriert werden, von der der zugehörige JDBC-Datenbanktreiber bezogen werden kann.
-       Dies kann auch eine lokale Datei sein, z.B. <code>&lt;url&gt;file:///home/user/.mycore/postgresql-42.2.9.jar&lt;/url&gt;</code> unter Unix.
-       Die vom normalen MIR-Wizard verwendete <a href="https://github.com/MyCoRe-Org/mir/blob/2021.06.x/mir-wizard/src/main/resources/setup/dbtypes.xml">Liste von angebotenen Datenbanken</a>
-       kann beim Erstellen der <code>wizard.xml</code>-Datei hifreich sein.
+       Im Bereich <code>library</code> muss hierzu mindestens eine URL konfiguriert werden, 
+       von der der zugehörige JDBC-Datenbanktreiber bezogen werden kann.
+       Dies kann auch eine lokale Datei sein, z.B.
+       <code>&lt;url&gt;file:///home/user/.mycore/postgresql-42.2.9.jar&lt;/url&gt;</code> unter Unix.
+       Die vom MIR-Wizard verwendete <a href="https://github.com/MyCoRe-Org/mir/blob/2021.06.x/mir-wizard/src/main/resources/setup/dbtypes.xml">Liste von angebotenen Datenbanken</a>
+       kann beim Erstellen der <code>wizard.xml</code>-Datei hilfreich sein.
       </p>
 
       <!-- h2>Tipps zur Installation</h2>
