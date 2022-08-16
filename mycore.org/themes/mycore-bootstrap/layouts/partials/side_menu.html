@@ -11,43 +11,55 @@
 					{{ if .HasChildren }}
 					<ul>
 						{{ range .Children }}
+                        {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
 							<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{end}}'>
-								{{ .Name }}</a></li>
+								{{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+                                {{ .Name }}</a></li>
 							{{ if .HasChildren }}
 							<ul id='{{ .Identifier }}'
 							     class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 								{{ range .Children }}
+                                {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
 								<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       {{ .Name }}</a></li>
+								       {{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+                                       {{ .Name }}</a></li>
 							      {{ if .HasChildren }}
 							        <ul id='{{ .Identifier }}'
 							            class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 										{{ range .Children }}
+                                        {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
 											<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       			   data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       			   href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       			   {{ .Name }}</a></li>
+								       			   {{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+                                                   {{ .Name }}</a></li>
 								            {{ if .HasChildren }}
 							        			<ul id='{{ .Identifier }}'
 							            			class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 													{{ range .Children }}
+                                                    {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
 														<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       			   			data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       			   			href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       			   			{{ .Name }}</a></li>
+								       			   			{{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+                                                            {{ .Name }}</a></li>
 								         			{{ end }}
+                                                    {{ end }}
 								     			</ul>
-								  			{{ end }}
+								  		{{ end }}
+                                        {{ end }}
 								        {{ end }}
 								     </ul>
-								  {{ end }}
-							   {{ end }}
+								{{ end }}
+                                {{ end }}
+							    {{ end }}
 						   </ul>
 						{{ end }}
+                        {{ end }}
 						{{ end }}
 
 					</ul>

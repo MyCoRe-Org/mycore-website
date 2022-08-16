@@ -11,7 +11,7 @@
 	     		<span class="badge mcr-version">{{.}}</span>
 	    	{{ end }}
 	    </div>
-	     <h1>{{ .Title | markdownify }}</h1>
+	     <h1>{{if .Draft}}👷{{ end }} {{ .Title | markdownify }}</h1>
 	     <p class="mcr-description">
 	    	{{ .Description | markdownify }}
 	    </p>
