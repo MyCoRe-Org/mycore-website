@@ -11,41 +11,41 @@
 					{{ if .HasChildren }}
 					<ul>
 						{{ range .Children }}
-                        {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
+                        {{if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) }}
 							<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{end}}'>
-								{{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+								{{if eq (upper .Pre) "DRAFT" }}👷{{ end }}
                                 {{ .Name }}</a></li>
 							{{ if .HasChildren }}
 							<ul id='{{ .Identifier }}'
 							     class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 								{{ range .Children }}
-                                {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
+                                {{if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) }}
 								<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       {{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+								       {{if eq (upper .Pre) "DRAFT" }}👷{{ end }}
                                        {{ .Name }}</a></li>
 							      {{ if .HasChildren }}
 							        <ul id='{{ .Identifier }}'
 							            class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 										{{ range .Children }}
-                                        {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
+                                        {{if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) }}
 											<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       			   data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       			   href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       			   {{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+								       			   {{if eq (upper .Pre) "DRAFT" }}👷{{ end }}
                                                    {{ .Name }}</a></li>
 								            {{ if .HasChildren }}
 							        			<ul id='{{ .Identifier }}'
 							            			class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
 													{{ range .Children }}
-                                                    {{if or site.BuildDrafts (not (strings.HasPrefix (upper .Identifier) "DRAFT_")) }}
+                                                    {{if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) }}
 														<li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
 								       			   			data-toggle='{{ if .HasChildren}}collapse{{ end }}'
 								       			   			href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
-								       			   			{{if strings.HasPrefix (upper .Identifier) "DRAFT_" }}👷{{ end }}
+								       			   			{{if eq (upper .Pre) "DRAFT" }}👷{{ end }}
                                                             {{ .Name }}</a></li>
 								         			{{ end }}
                                                     {{ end }}
