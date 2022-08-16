@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2022.06 und die Migration von Version
       2021.06 zu 2022.06 zusammen.
     "
-date: "2021-11-02"
+date: "2022-11-02"
 
 ---
 
@@ -37,7 +37,7 @@ date: "2021-11-02"
       </p>
       <ul>
         <li>Java ... (OpenJDK) (muss in CentOS/RedHat extern nachinstalliert werden)</li>
-        <li>Tomcat ... bzw. Jetty ... (alternativ ein System mit Unterstützung von Servlet-3.1)</li>
+        <li>Tomcat ... bzw. Jetty ... (alternativ ein System mit Unterstützung von Servlet-5.0)</li>
         <li>SOLR ... oder höher</li>
         <li>
           eine
@@ -48,7 +48,7 @@ date: "2021-11-02"
         <li>Apache Maven ... oder höher</li>
       </ul>
       <p>
-        Das LTS2022.06 ist auch Java 17 kompatibel, läuft jedoch nicht mit Tomcat 10 / Jetty 11.x (noch keine Umstellung auf JakartaEE Namespace).
+        Das LTS2022.06 ist auch Java 17 kompatibel, und benötigt zwingend Tomcat 10 / Jetty 11.x (Umstellung der Java-Packages auf JakartaEE Namespace).
       </p>
       
       <h3>Aktuelle Versionsnummer</h3>
@@ -68,12 +68,12 @@ date: "2021-11-02"
       <h2>Migrationsschritte</h2>
       <p>
        Bis auf die Anpassungen der Versionsnummern sind keine weiteren Migrationsschritte nötig. Details zur Migration von MIR-Anwendungen
-       und entsprechende Anpassungsschritte sind in der <a href="{{< ref migrate_mir2021_06 >}}">Migrationsanleitung für MIR</a> zu finden.
+       und entsprechende Anpassungsschritte sind in der <a href="{{< ref migrate_mir2022_06 >}}">Migrationsanleitung für MIR</a> zu finden.
       </p>
 
       <h3>Export-Kommandos</h3>
       <p>
-        Es wurden Export-Kommandos für Objekte mir Content-Transformern hinzugefüht. In diesem Zusammenhang wurden die bestehenden Kommandos angepasst.
+        Es wurden Export-Kommandos für Objekte mit Content-Transformern hinzugefügt. In diesem Zusammenhang wurden die bestehenden Kommandos angepasst.
       </p>
       <p>
         Bisher gab es die folgenden Export-Komandos:
@@ -104,17 +104,19 @@ export all derivates to directory {0} with stylesheet {1}
 export all derivates of project {0} to directory {1} with stylesheet {2}{{< /highlight >}}
       </p>
       <p>
-        Dei der Auswahl eines Stylesheets wurde die folgenden Angleichung vorgenommen:
+        Für die Auswahl eines Stylesheets wurde die folgenden Angleichungen vorgenommen:
       </p>
       <p>
         Bisher:
       </p>
       <ul>
         <li>
-Bei Objekt-Kommandos wurde die Angabe in der Klausel <code>with {x}</code> zu <code>{x}-object.xml</code> erweitert. Der Standardwert war <code>xsl/save</code>.
+          Bei Objekt-Kommandos wurde die Angabe in der Klausel <code>with {x}</code> zu <code>{x}-object.xsl</code> erweitert.
+          Der Standardwert war <code>xsl/save</code>.
         </li>
         <li>
-Bei Derivat-Kommandos wurde die Angabe in der Klausel <code>with {x}</code> zu <code>{x}.xml</code> erweitert. Der Standardwert war <code>xsl/save-derivate</code>.
+          Bei Derivat-Kommandos wurde die Angabe in der Klausel <code>with {x}</code> zu <code>{x}-derivate.xsl</code> erweitert.
+          Der Standardwert war <code>xsl/save</code>.
         </li>
       </ul>
       <p>
@@ -122,10 +124,12 @@ Bei Derivat-Kommandos wurde die Angabe in der Klausel <code>with {x}</code> zu <
       </p>
       <ul>
         <li>
-Bei Objekt-Kommandos wird die Angabe in der Klausel <code>with stylesheet {x}</code> zu <code>{x}-object.xml</code> erweitert. Der Standardwert ist <code>xsl/save</code>.
+           Bei Objekt-Kommandos wird die Angabe in der Klausel <code>with stylesheet {x}</code> der Pfad zum Stylesheet angegeben.
+           Der Standardwert ist <code>xsl/save-object.xsl</code>.
         </li>
         <li>
-Bei Derivat-Kommandos wird die Angabe in der Klausel <code>with stylesheet {x}</code> zu <code>{x}-derivate.xml</code> erweitert. Der Standardwert ist <code>xsl/save</code>.
+           Bei Derivat-Kommandos wird die Angabe in der Klausel <code>with stylesheet {x}</code> der Pfad zum Stylesheet angegeben.
+           Der Standardwert ist <code>xsl/save-derivate.xsl</code>.
         </li>
       </ul>
 
