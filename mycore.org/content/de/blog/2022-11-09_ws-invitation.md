@@ -36,8 +36,8 @@ news/teaser_en:	 	"MyCoRe user and developer workshop is scheduled to take place
   Wir wollen uns Zeit nehmen für Berichte über das neue Release, Vorträge und Austausch rund um MyCoRe. Der 8. November 2022 ist als Anreisetag geplant, wenn die pandemische Entwicklung ein Treffen erlaubt. Wir treffen uns am Abend zu einem ersten Austausch. Der Workshop findet am 9. November ganztägig und am 10. November 2022 bis mittags statt. 
   </p>
   <h3>Themenvorschläge</h3>
-  Präsentationen neuer MyCoRe-Anwendungen sind sind willkommen. Wir freuen uns über Vorstellung eurer Entwicklungen.   
-  Wer ein Workshop-Thema oder eine neue Applikation vorschlagen möchten, kann das entweder auf der [Themenvorschlagsseite] (https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/ThemenVorschlag) eintragen oder eine Nachricht an die MyCoRe Geschäftsstelle (<a href="mailto:info@mycore.de?subject=Mein%20Beitrag%20zum%20MyCoRe-Workshop%202022">info@mycore.de</a>) schicken. 
+  Präsentationen neuer MyCoRe-Anwendungen sind willkommen. Wir freuen uns über Vorstellung eurer Entwicklungen.   
+  Wer ein Workshop-Thema vorschlagen oder eine neue Applikation zeigen möchten, kann das entweder auf der  <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/ThemenVorschlag" alt="Link zur Wiki-Seite">Themenvorschlagsseite</a> eintragen oder eine Nachricht an die MyCoRe Geschäftsstelle (<a href="mailto:info@mycore.de?subject=Mein%20Beitrag%20zum%20MyCoRe-Workshop%202022">info@mycore.de</a>) schicken. 
   <h3>Organisatorisches</h3>
   <p>
   <ul>
