@@ -43,7 +43,7 @@ news/teaser_en:	 	"MyCoRe user and developer workshop is scheduled to take place
   <ul>
     <li>Wer sich zu dem „MyCoRe-Workshop 2022“ anmelden möchte, schickt bitte eine E-Mail an <a href="mailto:info@mycore.de?subject=Anmeldung%20zum%20MyCoRe-Workshop%202022">info@mycore.de</a><br /></li>
     <li>An der CAU steht WLAN über EDUROAM zur Verfügung. Wer einen WLAN-Gast-Zugang benötigt, gibt dies bitte bei der Anmeldung an. </li>
-    <li>  Es gibt ein Kontingent an Hotelzimmern im <a href="https://all.accor.com/hotel/A744/index.de.shtml" alt="Hotel ibis Styles Kiel">„ibis Style Kiel“</a>, das bis zum 27. September 2022 abgerufen werden kann. </li>
+    <li>  Es gibt ein Kontingent an Hotelzimmern im <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2022/OrgaKiel#Hotelempfehlung" alt="Link zur Hotelempfehlung im MyCoRe-Wiki">„ibis Style Kiel“</a>, das bis zum 27. September 2022 abgerufen werden kann. </li>
   </ul>
   Weitere Informationen werden im <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2022/OrgaKiel">MyCoRe-Wiki</a> bekannt gegeben.
 <br />
