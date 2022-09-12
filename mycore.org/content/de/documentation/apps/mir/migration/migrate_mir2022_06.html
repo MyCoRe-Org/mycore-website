@@ -18,13 +18,38 @@ draft: true
         Hier sind die Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2022_06 >}}">Migrationsanleitung für MyCoRe</a>
         noch relevant sind.
       </p>
-
-      <div>
-        <h3>...</h3>
-        <p>
-          ...
-        </p>
-      </div>
+        <div>
+          <h3>Neues DINI-Vokabular</h3>
+          <p>
+              Anfang des Jahres wurde eine neue Version des "Gemeinsames Vokabular für Publikations- und Dokumenttypen" der DINI
+              <a href="https://blogs.tib.eu/wp/dini-ag-blog/2022/03/21/gemeinsamen-vokabular/">vorgestellt</a>.
+              Dieses wird für das kommende DINI-Zertifikat 2022 eine Grundvoraussetzung.
+              Das neue Vokabular kann in MIR parallel zu dem alten Vokabular verwendet werden.
+              Dies ermöglicht den Umstieg auf die Anforderungen des neuen Zertifikats (z.B. OAI-Sets basierend auf dem neuen Vokabular) zu einem beliebigen Zeitpunkt.
+          </p>
+          <h4>Neues Vokabular anlegen</h4>
+          <p>
+            Zunächst muss das neue Vokabular angelegt werden. Hierzu kann das folgenden CLI-Kommando genutzt werden:
+            {{< highlight plain>}}load classification from url http://mycore.de/classifications/diniPublType2022.xml{{< /highlight >}}
+          </p>
+          <p>
+            Zudem muss die Klassifikation der Publikationsarten neu geladen werden:
+            {{< highlight plain>}}update classification from url http://mycore.de/classifications/mir_genres.xml{{< /highlight >}}
+            Die aktuelle Klassifikation der Publikationsarten beinhaltet Mappings für die alte und die neue Version des DINI-Vokabulars.
+          </p>
+          <p>
+            <em>Hinweis: Wer eine eigene Version der Klassifikation der Publikationsarten verwendet, muss die Mappings für die neue Version des DINI-Vokabulars auf geeignete Weise selbst hinzufügen.</em>
+          </p>
+          <h4>Neues Vokabular verwenden</h4>
+          <p>
+            Anschließend müssen die Event-Handler für alle Objekte erneut durchlaufen. Hierzu kann das folgenden CLI-Kommando genutzt werden:
+            {{< highlight plain>}}repair metadata search of type mods{{< /highlight >}}
+            Hierdurch werden in allen Objekten Einträge der Form
+            <code>&lt;mods:classification generator="mir_genres2diniPublType2022-mycore" ... /&gt;</code>
+            ergänzt und die Index Index-Felder <code>category</code> und <code>category.top</code>
+            um die passenden Werte der Form <code>diniPublType2022:...</code> erweitert.
+          </p>
+       </div>
     </div>
 
 
