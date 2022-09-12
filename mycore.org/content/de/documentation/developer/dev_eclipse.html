@@ -1,4 +1,3 @@
-
 ---
 
 title: "Gemeinsame Entwicklungsplattformen"
@@ -30,7 +29,8 @@ date: "2020-06-04"
   zu finden.
 </p>
 
-<h3>Integration von MyCoRe-Git in Eclipse</h3>
+
+<h3>Integration des MyCoRe-Git-Repositories in Eclipse</h3>
 <p>
   Um das MyCoRe-Git-Repository auszuchecken und in Eclipse zu integrieren sollte zuerst
   <em>Git</em>
@@ -95,7 +95,7 @@ date: "2020-06-04"
     auswählen
   </li>
 </ul>
-<p label="Anschalten der Warnung für die pom.xml">
+<p><em>Anschalten der Warnung für die pom.xml:</em>
   Hierfür ist die jeweilige
   <code>pom.xml</code>
   zu öffnen. Ober erscheint eine Warnung. Auf der Warnung rechte
@@ -114,44 +114,46 @@ date: "2020-06-04"
   </li>
 </ul>
 
-<h2>Nutzung von Eclipse</h2>
+<h2>Nutzung der Entwicklungsumgebung Eclipse</h2>
 <p>
   Die Entwicklungsumgebung Eclipse leistet nicht nur hilfreiche Dienste bei der Formatierung des Java-Codes.
-  Mit ihr
-  kann auch die Syntaxprüfung der Java-Klasse wie auch ihre Einbettung in das Gesamtprojekt leicht
-  überwacht werden. Dazu
-  sind einige Installationen und Einstellungen erforderlich. Diese werden dann sowohl für
-  die Kernanwendung wie auch für
-  die Applikationen genutzt.
+  Mit ihr kann auch die Syntaxprüfung der Java-Klasse wie auch ihre Einbettung in das Gesamtprojekt leicht
+  überwacht werden. Dazu sind einige Installationen und Einstellungen erforderlich. Diese werden dann sowohl für
+  die Kernanwendung wie auch für die Applikationen genutzt.
 </p>
 <p>
-  Zuerst ist die
-  <a href="http://www.eclipse.org/downloads/">Eclipse-Entwicklungsumgebung</a>
-  zu installieren. Von den Entwicklern wird als Basis die
-  <strong>Eclipse IDE for Java EE Developers</strong>
-  genutzt und auch empfohlen.
+  Zuerst ist die <a href="http://www.eclipse.org/downloads/">Eclipse-Entwicklungsumgebung</a> zu installieren. <br />
+  Von den Entwicklern wird als Basis die <em>Eclipse IDE for Java EE Developers</em>
+  genutzt und empfohlen.
 </p>
+<p>
+  Weiterhin sollte nach der Installation die Code-Style-Definition von MyCoRe importiert werden
+  (siehe Abschnitt <a href="{{< ref codestyle >}}">Java-Code Formatierung</a>).
+</p>
+<h3>Installations-Skript</h3>
+<p>
+  Um die Installation und Erst-Konfiguration unter Windows zu erleichtern, stellt die MyCoRe-Community
+  ein Script zur Verfügung. Es nutzt die Skriptsprache <a href="https://www.autohotkey.com/">AutoHotKey</a>,
+  um die Eclipse-Anwendung herunterzuladen, zu entpacken und erste Einstellungen vorzunehmen.<br />
+  Weitere Informationen zum Skript findet man in unserem Github-Repository unter
+  <a href="https://github.com/MyCoRe-Org/mycore-website/tree/main/mycore.org/static/mycore_eclipse_config_script">MyCoRe: Eclipse Download und Konfigurations-Tool</a>.
+</p>
+
+<h3>Weitere Tools</h3>
 <p>
   Zur Bearbeitung von I18N-Sprachdateien hat sich der
-  <a href="http://essiembre.github.io/eclipse-rbe/">ResourceBundle-Editor</a>
-  (besonders für Sprachen außerhalb des Lateinischen Alphabetes) bewährt. Weiterhin
-  sollte nach der Installation die
-  Code-Style-Definition von MyCoRe importiert werden,
-  mehr dazu im Abschnitt
-  <a href="{{< ref codestyle >}}">Java-Code Formatierung</a>
-  .
+  <a href="https://marketplace.eclipse.org/content/resourcebundle-editor">ResourceBundle-Editor</a>
+  (besonders für Sprachen außerhalb des Lateinischen Alphabetes) bewährt.
 </p>
 <p>
-  Um eine direkte Jira-Anbindung im Eclipse zu realisieren, muss der Jira-Connector über den Eclipse-Marketplace
+  Um eine direkte Jira-Anbindung im Eclipse zu realisieren, muss der <a href="https://marketplace.eclipse.org/content/jiraconnector">Jira-Connector</a> über den Eclipse-Marketplace
   installiert werden. Danach muss das Jira über MyLyn eingebunden werden.
 </p>
 <p>
   Für weitere Einstellungen im Editor kann
-  <a href="http://andrei.gmxhome.de/anyedit/">AnyEdit</a>
+  <a href="https://marketplace.eclipse.org/content/anyedit-tools">AnyEdit</a>
   empfohlen werden. Damit kann beispielsweise konfiguriert werden, dass überzählige Leerzeichen
-  z.B. am Zeilenende aus
-  dem Code entfernt werden.
+  z.B. am Zeilenende aus dem Code entfernt werden.
 </p>
-</div>
 
   
