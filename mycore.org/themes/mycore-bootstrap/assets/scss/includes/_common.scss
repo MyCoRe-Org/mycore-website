@@ -32,6 +32,10 @@ figure h4{
   padding-top:15px;
 }
 
+div.content strong{
+	font-weight: $font-weight-bold;
+}
+
 /* start page */
 #mcr-home a {
   color: $dark;
