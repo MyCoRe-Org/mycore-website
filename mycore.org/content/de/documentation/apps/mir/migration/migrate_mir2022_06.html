@@ -15,7 +15,7 @@ draft: true
     <div>
       <h2>Migrationsanleitung MIR</h2>
       <p>
-        Hier sind die Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2022_06 >}}">Migrationsanleitung für MyCoRe</a>
+        Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2022_06 >}}">Migrationsanleitung für MyCoRe</a>
         noch relevant sind.
       </p>
         <div>
@@ -38,16 +38,18 @@ draft: true
             Die aktuelle Klassifikation der Publikationsarten beinhaltet Mappings für die alte und die neue Version des DINI-Vokabulars.
           </p>
           <p>
-            <em>Hinweis: Wer eine eigene Version der Klassifikation der Publikationsarten verwendet, muss die Mappings für die neue Version des DINI-Vokabulars auf geeignete Weise selbst hinzufügen.</em>
+            <em>Hinweis: Wer eine eigene Version der Klassifikation der Publikationsarten verwendet, 
+            muss die Mappings für die neue Version des DINI-Vokabulars auf geeignete Weise selbst hinzufügen.</em>
           </p>
           <h4>Neues Vokabular verwenden</h4>
           <p>
-            Anschließend müssen die Event-Handler für alle Objekte erneut durchlaufen. Hierzu kann das folgenden CLI-Kommando genutzt werden:
+            Anschließend müssen die Event-Handler für alle Objekte erneut durchlaufen. 
+            Dazu kann das folgende CLI-Kommando genutzt werden:
             {{< highlight plain>}}repair metadata search of type mods{{< /highlight >}}
             Hierdurch werden in allen Objekten Einträge der Form
             <code>&lt;mods:classification generator="mir_genres2diniPublType2022-mycore" ... /&gt;</code>
             ergänzt und die Index Index-Felder <code>category</code> und <code>category.top</code>
-            um die passenden Werte der Form <code>diniPublType2022:...</code> erweitert.
+            um die neuen Werte für die Klassifikation <code>diniPublType2022</code> erweitert.
           </p>
        </div>
     </div>
