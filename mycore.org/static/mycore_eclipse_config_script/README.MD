@@ -1,7 +1,7 @@
 MyCoRe: Eclipse Download und Konfigurations-Tool
 ================================================
 
-Tool zum automatischen download, entpacken und konfigurieren der Entwicklungsumgebung Eclipse.
+Tool zum automatischen Download, Entpacken und Konfigurieren der Entwicklungsumgebung Eclipse.
 
 ## Allgemeine Hinweise
 Das Eclipse Download und Konfigurations-Tool wurde als AutoHotKey-Script (Version 1.1.33.02) erstellt.
