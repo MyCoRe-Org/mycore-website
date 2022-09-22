@@ -23,42 +23,76 @@ date: "2020-06-04"
 
     <h3>Konfiguration unter Eclipse</h3>
     <p>Die Einstellung erfolgt in Eclipse unter:</p>
-    <ol>
+    <ul>
       <li>Properties -&gt; Resource -&gt; Text file encoding -&gt; UTF-8</li>
-    </ol>
+    </ul>
 
 
   <h2>Java-Code Formatierung</h2>
   
-    <h3>Allgemeines</h3>
-    <p>Um bei der Arbeit mit dem Subversion-System nur inhaltliche Änderungen zu erfassen und diese nicht mit
-      Umformatierungen zu verwechseln, wird der gesamte Code einheitlich nach folgenden Regeln erstellt:</p>
-    <ul>
-      <li>Formatierung gemäß den Java-Konventionen</li>
-      <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
-      <li>Einrückung mit vier Zeichen</li>
-      <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
-      <li>Kommenare nicht umfomatieren</li>
-    </ul>
-  
-    <h3>Konfiguration unter Eclipse</h3>
-    <p>Die Einstellung erfolgt in Eclipse unter:</p>
-    <ul>
-      <li>Window -&gt; Preference -&gt; Java -&gt; Code Style -&gt; Formatter</li>
-      <li>dort Java Conventions als Vorlage wählen
-      <ul>
-      <li>Indentation -&gt; Tab Policy -&gt; Spaces only</li>
-      <li>Indentation -&gt; Indentation size -&gt; 4</li>
-      <li>Indentation -&gt; Tab size -&gt; 4</li>
-      <li>Line wrapping -&gt; Maximum line width -&gt; 120</li>
-      <li>Comments -&gt; alle Markierungen entfernen</li>
-      </ul></li>
-      <li>Die Vorlage wird dann als mycore gespeichert.</li>
-    </ul>
-  <p>Eclipse-Nutzer können sich einfach die <a
-      href="/downloads/mycore-javastyle.xml">Code-Style-Definition</a> herunterladen und importieren<br /> 
-      (unter: Window -&gt; Preference -&gt; Java -&gt; Code Style -&gt; Formatter). </note>
+  <h3>Allgemeines</h3>
+  <p>Um bei der Arbeit mit Git nur inhaltliche Änderungen zu commiten und diese nicht mit
+     Änderungen an der Formatierung zu verwechseln, 
+     wird der gesamte Code einheitlich nach folgenden Regeln erstellt:</p>
+  <ul>
+    <li>Formatierung gemäß den Java-Konventionen</li>
+    <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
+    <li>Einrückung mit vier Zeichen</li>
+    <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+    <li>Kommenare nicht umformatieren</li>
+  </ul>
+      
+  <h3>Konfiguration unter Eclipse</h3>
+  <p>Die Einstellung erfolgt unter:</p>
+  <ul>
+    <li> Window -&gt; Preference -&gt; Java -&gt; Code Style -&gt; Formatter</li>
+  </ul>
+  <p>
+    Dort wählt man das Profile <strong>Java Conventions [built-in]</strong> als Vorlage und nimmt folgende Anpassungen vor:
   </p>
+  <ul>
+    <li>Indentation:
+        <ul>
+          <li>Tab Policy: Spaces only</li>
+          <li>Indentation size: 4 (default)</li>
+          <li>Tab size: 4</li>
+        </ul>
+    </li>
+    <li>New Lines:
+      <ul>
+        <li> At end of file: [on]</li>
+      </ul>
+    </li>
+    <li>Line wrapping:
+      <ul>
+        <li>Maximum line width: 120 (default)</li>
+        <li>Never join already wrapped lines: [on]</li>
+      </ul>
+    </li>
+    <li>Line wrapping / Wrapping settings:<br />
+      <em>(Diese werden global für alle folgenden Einträge gesetzt.
+       Durch Anklicken des Checkbox-Symbols am Zeilenende öffnen sich mehrere Auswahlboxen)</em>
+      <ul>
+        <li>Auswahl 1: "Wrap before operators"</li>
+        <li>Auswahl 2: "Wrap where necessary"</li>
+      </ul>
+    </li>
+    <li>Comments:<br />
+      <ul>
+        <li>Maxium width: 120</li>
+        <li>Count width from comments' starting position: [off]</li>
+        <li>Enable Javadoc comment formatting: [off]</li>
+        <li>Enable block comment formatting: [off]</li>
+        <li>Enable line comment formatting: [off]</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Die Vorlage wird dann unter dem Namen <strong>MyCoRe</strong> gespeichert.</p>
+  <p>Eclipse-Nutzer können sich einfach die 
+      <a href="/downloads/mycore-javastyle.xml">Code-Style-Definition</a> herunterladen und importieren<br /> 
+      (unter: Window -&gt; Preference -&gt; Java -&gt; Code Style -&gt; Formatter). 
+  </p>
+  
   <h2>XML-Code Formatierung</h2>
     <h3>Allgemeines</h3>
     <p>Auch für die Gestaltung von XML-Dateien wurde eine einheitliche Formatierung festgelegt:</p>
