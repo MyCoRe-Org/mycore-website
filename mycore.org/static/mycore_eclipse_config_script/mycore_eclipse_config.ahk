@@ -127,7 +127,8 @@ Encoding() {
 	; Standardeinstellungen setzen
 	Send, !d
 	; Text File encoding -> Other -> UTF-8
-	Send, !o
+	Send, !u
+	Send, {down}
 	Send, {TAB down}
 	Send, UTF-8
 	; Apply Button klicken
