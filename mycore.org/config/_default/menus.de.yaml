@@ -142,7 +142,7 @@ main:
 -     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -89,      url: /documentation/migrate}
--     {pre: DRAFT, identifier: migrate_mcr2022_06,      parent: migrate,            name: MCR 2021.06 ⇒ 2022.06,       weight: -99,      url: /documentation/migrate/migrate_mcr2022_06}
+-     {identifier: migrate_mcr2022_06,      parent: migrate,            name: MCR 2021.06 ⇒ 2022.06,       weight: -99,      url: /documentation/migrate/migrate_mcr2022_06}
 -     {identifier: migrate_mcr2021_06,      parent: migrate,            name: MCR 2020.06 ⇒ 2021.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2021_06}
 -     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2020_06}
 -     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -96,      url: /documentation/migrate/migrate_mcr2019_06}
@@ -166,7 +166,8 @@ main:
 -     {identifier: apidocs,                 parent: developer,          name: Javadocs,                    weight: -90,      url: 'http://www.mycore.de/generated/mycore/apidocs'}
 -     {identifier: app_structure,           parent: developer,          name: Anwendungsstruktur,          weight: -88,      url: /documentation/developer/app_structure}
 -     {identifier: dev_migrate_java11,      parent: developer,          name: Code-Migration nach Java 11, weight: -87,      url: /documentation/developer/dev_migrate_to_java11}
--     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -86,      url: /documentation/developer/dev_plugin}
+-     {identifier: dev_migrate_java17,      parent: developer,          name: Code-Migration nach Java 17, weight: -86,      url: /documentation/developer/dev_migrate_to_java17}
+-     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -85,      url: /documentation/developer/dev_plugin}
 -     {identifier: dev_devmode,             parent: developer,          name: Developer-Tools,              weight: -84,      url: /documentation/developer/dev_devmode}
 - {identifier: blog,                                               name: Blog,                         weight: -94,      url: /blog}
 
