@@ -1,10 +1,10 @@
 
 ---
 
-title: "Release 2021.06 (LTS)"
-mcr_version: ['2021.06']
+title: "Release 2022.06 (LTS)"
+mcr_version: ['2022.06']
 author: ['Kathleen Neumann']
-date: "2021-09-29"
+date: "2022-09-28"
 
 ---
     <div>
@@ -12,22 +12,30 @@ date: "2021-09-29"
       <p>
         MyCoRe ist ein Framework und stellt eine Menge zum Teil voneinander abhängiger Java-Bibliotheken zur Verfügung. Diese können je nach
         Bedarf in die eigene Anwendung über <a href="{{< ref "release#einbindung-der-komponenten" >}}">Maven-Dependencies eingebunden</a> werden. Neben
-        den auch bei <a href="https://search.maven.org/artifact/org.mycore/mycore-base/2021.06.0/jar">Maven Central</a> bereitgestellten
-        Release-Versionen, ist es möglich direkt die <a href="https://oss.sonatype.org/content/repositories/snapshots/org/mycore/mycore-base/2021.06.1-SNAPSHOT/"
+        den auch bei <a href="https://search.maven.org/artifact/org.mycore/mycore-base/2022.06.0/jar">Maven Central</a> bereitgestellten
+        Release-Versionen, ist es möglich direkt die <a href="https://oss.sonatype.org/content/repositories/snapshots/org/mycore/mycore-base/2022.06.1-SNAPSHOT/"
         >SNAPSHOT-Version</a> mit den aktuellsten Bugfixes bei Sonatype herunterzuladen. Der Quellcode steht bei
-        <a href="https://github.com/MyCoRe-Org/mycore/tree/2021.06.x">GitHub</a> zum Download bereit.
+        <a href="https://github.com/MyCoRe-Org/mycore/tree/2022.06.x">GitHub</a> zum Download bereit.
       </p>
     </div>
     <div>
       <h2>Migration</h2>
       <p>
-        Informationen zur Migration vom LTS 2020.06 finden Sie im <a href="{{< ref migrate_mcr2021_06 >}}">Abschnitt zur Migration</a>.
+        Informationen zur Migration vom LTS 2021.06 finden Sie im <a href="{{< ref migrate_mcr2022_06 >}}">Abschnitt zur Migration</a>.
       </p>
     </div>
     <div>
       <h2>Was ist neu?</h2>
       <ul>
-        <li>CSL-Integration für MODS als vuejs GUI</li>
+        <li>Update der Jarkarta Bibliotheken auf <a href="https://heise.de/-4642391">Version 9</a> mit Anpassung der Paketnamen</li>
+        <li>Umstellung auf Java 17</li>
+        <li>Xalan ist nun nicht mehr Standard-XSLT-Prozessor, dieser muss konfiguriert werden</li>
+        <li>MCRMetaDateLangText als neuer Datentyp</li>
+        <li>überflüssiger Code z.B. vom IFS1 wurde entfernt</li>
+        <li>Klassifikationshandling und Objekt-Listing in REST-API v2 wurde verbessert</li>
+        <li>Factbased-Access-System wurde abgerundet</li>
+        
+        <!--  li>CSL-Integration für MODS als vuejs GUI</li>
         <li>development CLI Kommandos</li>
         <li>Zugriffsschlüssel inkl. CLI-Kommandos, REST-API und vuejs GUI</li>
         <li>Faktenbasiertes Rechtesystem</li>
@@ -37,7 +45,7 @@ date: "2021-09-29"
         <li>MCRConfiguration gelöscht und final auf Version 2 umgestellt</li>
         <li>MCRCronjob</li>
         <li>Umstellung auf XSLT3 Stylesheets bei Solr und OAI</li>
-        <li>Kommentare (beginnend mit '#') in CLI process Dateien sind nun erlaubt</li>
+        <li>Kommentare (beginnend mit '#') in CLI process Dateien sind nun erlaubt</li -->
       </ul>
     </div>
 
@@ -45,7 +53,7 @@ date: "2021-09-29"
       <h2>Einbindung der Komponenten</h2>
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über <strong>Maven</strong> und die entsprechenden, für die
-        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS 2021.06 in der eigenen Anwendung zu verwenden, müssen in der
+        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS 2022.06 in der eigenen Anwendung zu verwenden, müssen in der
         pom.xml die MyCoRe-Version und mycore-parent angepasst werden:
       </p>
 
@@ -55,11 +63,11 @@ date: "2021-09-29"
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-parent</artifactId>
-    <version>47</version>
+    <version>51</version>
   </parent>
   ...
   <properties>
-    <mycore.version>2021.06.1-SNAPSHOT</mycore.version>
+    <mycore.version>2022.06.1-SNAPSHOT</mycore.version>
   </properties>
   ...
   <dependencies>
