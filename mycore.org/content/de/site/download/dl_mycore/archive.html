@@ -10,6 +10,53 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
  finden. Mit dem Prerelease 2013.05 ist die Benennung nun auf <code>Jahr.Monat</code> geändert worden.
  Seit diesem Zeiptunkt gibt es LTS-Releases und 'normale' Releases.
 ---
+<h2>Release 2021.06 (LTS)</h2> 
+      <h3>Was ist neu?</h3>
+      <ul>
+        <li>CSL-Integration für MODS als vuejs GUI</li>
+        <li>development CLI Kommandos</li>
+        <li>Zugriffsschlüssel inkl. CLI-Kommandos, REST-API und vuejs GUI</li>
+        <li>Faktenbasiertes Rechtesystem</li>
+        <li>OCFL für Metadaten (Beta)</li>
+        <li>Crypt-Resolver</li>
+        <li>Java17 kompatibel</li>
+        <li>MCRConfiguration gelöscht und final auf Version 2 umgestellt</li>
+        <li>MCRCronjob</li>
+        <li>Umstellung auf XSLT3 Stylesheets bei Solr und OAI</li>
+        <li>Kommentare (beginnend mit '#') in CLI process Dateien sind nun erlaubt</li>
+      </ul>
+      <h3>Einbindung der Komponenten</h3>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2021.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <parent>
+    <groupId>org.mycore</groupId>
+    <artifactId>mycore-parent</artifactId>
+    <version>47</version>
+  </parent>
+  ...
+  <properties>
+    <mycore.version>2022.01.2-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-meta</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
+
 
 <h2>Release 2020.06 (LTS)</h2> 
       <h3>Was ist neu?</h3>
@@ -30,7 +77,7 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
         <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
-        LTS 2021.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        LTS 2020.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
         angepasst werden:
       </p>
 

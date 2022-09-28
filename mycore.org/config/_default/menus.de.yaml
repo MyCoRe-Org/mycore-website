@@ -16,11 +16,11 @@ main:
 
 - {identifier: download,                                        name: Download,             weight: -96,      url: /site/download}
 -   {identifier: dl_mycore,               parent: download,       name: MyCoRe,               weight: -98,      url: /site/download/dl_mycore}
--     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2021.06,  weight: -98,      url: /site/download/dl_mycore/release}
+-     {identifier: release,                 parent: dl_mycore,      name: LTS-Release 2022.06,  weight: -98,      url: /site/download/dl_mycore/release}
 -     {identifier: changelog,               parent: dl_mycore,      name: Changelog,            weight: -97,      url: /site/download/dl_mycore/changelog}
 -     {identifier: archive,                 parent: dl_mycore,      name: Archiv,               weight: -96,      url: /site/download/dl_mycore/archive}
 -   {identifier: dl_mir,                  parent: download,       name: MIR,                  weight: -97,      url: /site/download/dl_mir}
--     {identifier: mir_release,        parent: dl_mir,         name: LTS-Release 2021.06,      weight: -99,      url: /site/download/dl_mir/mir_release}
+-     {identifier: mir_release,        parent: dl_mir,         name: LTS-Release 2022.06,      weight: -99,      url: /site/download/dl_mir/mir_release}
 -     {identifier: mir_changelog,           parent: dl_mir,         name: Changelog,            weight: -97,      url: /site/download/dl_mir/mir_changelog}
 -   {identifier: license,                 parent: download,       name: Lizenzbedingungen,    weight: -95,      url: /site/download/license}
 -   {identifier: logos,                   parent: download,       name: Material,             weight: -94,      url: /site/download/logos}

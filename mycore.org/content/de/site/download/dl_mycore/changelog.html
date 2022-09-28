@@ -8,7 +8,7 @@ title: "Changes"
   <h2>Changes in MyCoRe</h2>
 
   <div>
-    <h3>Version 2021.11 - Current Head</h3>
+    <h3>Version 2022.08 - Current Head</h3>
 
     {{< highlight xml "linenos=table">}}
       <dependency>
@@ -18,6 +18,545 @@ title: "Changes"
       </dependency>
     {{< /highlight >}}
     <p>more details see <a href="http://www.mycore.de/generated/mycore/project-reports.html">maven site</a></p>
+  </div>
+
+  <!-- div>
+      <h3>Version 2022.06.0 - LTS 2022.06</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2022.06.0</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2022.06.0/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>xxx</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>xxx</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>xxx</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>xxx</li>
+            </ul>
+        </li>
+      </ul>
+  </div -->
+
+  <div>
+      <h3>Version 2022.06.0 - LTS 2022.06</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2022.06.0</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2022.06.0/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2739">MCR-2739</a>] -  parallel usage of not thread safe SchemaFactory</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2738">MCR-2738</a>] - MCRObjectStaticContentGenerator needs to allow filtering</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2736">MCR-2736</a>] - MCRStaticContentEventHandler should not cause rollback in case of error</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2726">MCR-2726</a>] - Webupload is not working in FF and Safari but in Chrome</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2725">MCR-2725</a>] - Due to a runtime exception oai is not working after moving to jakarta</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2720">MCR-2720</a>] - Division by zero in org.mycore.mods.merger.MCRAbstractMerger</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2719">MCR-2719</a>] - MCRPICreationEventHandler already exist check doesnt work</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2682">MCR-2682</a>] - clear maindoc attribute in derivateXML when the corresponding file got deleted</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2681">MCR-2681</a>] - improve FileHandling in RestAPIv2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2680">MCR-2680</a>] - MCRException when checking RestAPI access</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2678">MCR-2678</a>] - Webpage ACLs with query parameters aren't checked properly</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2677">MCR-2677</a>] - Permissions remain cached after updating or deleting of access definition</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2676">MCR-2676</a>] - Mismatching and outdated bootstrap classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2669">MCR-2669</a>] - Parent date is ignored when indexing multiple documents</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2664">MCR-2664</a>] - Ensure id is URLdecoded during comparison</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2652">MCR-2652</a>] - Setting property MCR.URIResolver.Classification.Sort.{ClassID} does not cause ordering of classification items</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2637">MCR-2637</a>] - IFS2: Nullpointer-Exception for md5sum</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2305">MCR-2305</a>] - Enrichment Resolver does not query newly found identifiers</li>
+            </ul>
+        </li>
+        <li>Epic
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-1208">MCR-1208</a>] - Migrate from Xalan to Saxon and from XSLT 1.0 to XSLT 3.0</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2737">MCR-2737</a>] - add MCRVueRootServlet for easy vue app support</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2728">MCR-2728</a>] - Remove IFS1 classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2701">MCR-2701</a>] - Use Saxon as default TransformerFactory</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2698">MCR-2698</a>] - add mods 3.8 support and fix issues with XLink schema</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2735">MCR-2735</a>] - OCFL slot layout configuration should not depend on IFS properties</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2733">MCR-2733</a>] - Normalization for IIIF identifier</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2731">MCR-2731</a>] - Add configurable list of x-languages that may be edited using the classification editor</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2730">MCR-2730</a>] - Check name of newly created files and directory</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2727">MCR-2727</a>] - IIIF: Backwards compatiblity für v1.0 links needed</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2723">MCR-2723</a>] - Improve Reusability of mycore-pi-component</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2721">MCR-2721</a>] - Support listeners in MCRJobThread</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2717">MCR-2717</a>] - replace @WebServlet annotation with web-fragment.xml</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2716">MCR-2716</a>] - update version / namespaces in web.xml / webfragment.xml</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2712">MCR-2712</a>] - Disable password change for non-local users</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2710">MCR-2710</a>] - Use static URL for password self-change to allow creating specific webpage ACL</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2709">MCR-2709</a>] - Allow email address of the initial user to be configured</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2708">MCR-2708</a>] - Restrict login based on role</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2707">MCR-2707</a>] - REST-APIv2 - Improve ObjectIDListing</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2693">MCR-2693</a>] - Add edition information to SOLR index</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2692">MCR-2692</a>] - Explicit app name for configuration directory from servlet context</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2689">MCR-2689</a>] -  STARTTLS configuration for SMTP sessions</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2679">MCR-2679</a>] - Webpage ACLs should fall back to version without query string</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2675">MCR-2675</a>] - Subtitle separator should be independently styleable</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2674">MCR-2674</a>] - Allow for diffeering creator permissions in two-staged publication processes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2673">MCR-2673</a>] - Add command to export object using a content transformer</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2672">MCR-2672</a>] - Clean up export commands for objects and derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2671">MCR-2671</a>] - Add classification format that displays the description</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2670">MCR-2670</a>] - Allow multiple managed PI prefixes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2665">MCR-2665</a>] - Consider permutations of names as identical</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2663">MCR-2663</a>] - Repeatedly query all known sources for metadata during enrichment</li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2022.05 - Kermit’s Revenge</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2022.05</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2022.05/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2715">MCR-2715</a>] - fix warning in MCRPath.toPhysicalPath</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2704">MCR-2704</a>] - MCRPDFThumbnailJobAction does not stop when derivate is already deleted</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2702">MCR-2702</a>] - Start of webapp hangs if there are request while starting</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2690">MCR-2690</a>] - Solr URI resolver throws StringIndexOutOfBoundsException if solr query is too short</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2684">MCR-2684</a>] - RestAPIv2 return JSON for /objects and /derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2683">MCR-2683</a>] - Fix implementation of MCRPath.startsWith()</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2662">MCR-2662</a>] - fix typo in Javadoc</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2659">MCR-2659</a>] - RestAPIv1-Search: support for multiple fq parameter</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2654">MCR-2654</a>] - Detach MODS from former parent</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2650">MCR-2650</a>] - Bug in XSL-function mcrstring:shorten</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2649">MCR-2649</a>] - fix response (Log-Info), for command "check for circles in topological order"</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2646">MCR-2646</a>] - add c3p0 and hikkari connection pooling to dependency management</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2645">MCR-2645</a>] - set internal sourcepath of derivate to NULL after file upload</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2638">MCR-2638</a>] - remove usage of jackson-module-jaxb-annotations for JAXB</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2635">MCR-2635</a>] - MCRJanitorEventHandlerBase should always switch back user information</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2631">MCR-2631</a>] - DataCite client ignores proxy setting</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2630">MCR-2630</a>] - MCRExtractRelatedItemsEventHandler adds parents inconsistent</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2628">MCR-2628</a>] - can not update objects with restapi v2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2627">MCR-2627</a>] - use "use-xeditor-debug" permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2626">MCR-2626</a>] - IIIF manifest missing required label if mets label is null</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2625">MCR-2625</a>] - fix path resolving</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2624">MCR-2624</a>] - MCRBasketServlet fix</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2620">MCR-2620</a>] - StringIndexOutOfBoundsException in MCRNameMerger</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2619">MCR-2619</a>] - Editor session language stays the same when user session language is updated</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2618">MCR-2618</a>] - Rest API v2 can not produce XML for contents and classifications</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2608">MCR-2608</a>] - Update address of dnb urn service api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2603">MCR-2603</a>] - concurrent editing overwrites previous saved object content</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2597">MCR-2597</a>] - Double DOI due to enrichment</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2590">MCR-2590</a>] - Merging classification categories does not work</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2589">MCR-2589</a>] - Keep all identifiers when merging</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2583">MCR-2583</a>] - Export has wrong file extension</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2272">MCR-2272</a>] - javascript error on load of acl editor</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2699">MCR-2699</a>] - add command to detect jpa mapping files</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2691">MCR-2691</a>] - allow file renaming</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2685">MCR-2685</a>] - upload file name check with regexp</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2658">MCR-2658</a>] - add transformer to support CSL-JSON</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2656">MCR-2656</a>] - Allow to overwrite publishToORCID in derived classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2655">MCR-2655</a>] - Make BibTeX2MODS transformer configurable</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2651">MCR-2651</a>] - new utility method MCRPath.getRootPath(String owner)</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2641">MCR-2641</a>] - add order attribute to all MyCoRe datamodel types</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2639">MCR-2639</a>] - Enable indexing of element attributes of mets.xml files</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2629">MCR-2629</a>] - allow web resources to access certain properties</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2604">MCR-2604</a>] - OCFL Classification Storage</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2703">MCR-2703</a>] - Update citeproc-java to 3.0.0-alpha.6</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2700">MCR-2700</a>] - remove hibernate @Cache annotation from MCRUser</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2657">MCR-2657</a>] - Remove unused variables/parameters</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2640">MCR-2640</a>] - remove jmockit dependency</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2621">MCR-2621</a>] - make MyCoRe compile with Java 17</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2598">MCR-2598</a>] - pom.xml for mycore-ocfl</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-604">MCR-604</a>] - MCRCalendar contains lots of redundant code</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2695">MCR-2695</a>] - REST-APIv2 - ObjectIDListing (Pagination + based on mcrmetahistory-table)</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2660">MCR-2660</a>] - MCRXMLHelper#validate does not use the catalog.xml for initial request</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2653">MCR-2653</a>] - Prefer personal access token for requests if possible</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2644">MCR-2644</a>] - some improvements for fact based acl</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2643">MCR-2643</a>] - add abbrevated git version id to MCRCoreVersion</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2642">MCR-2642</a>] - List of export transformers should be configurable</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2634">MCR-2634</a>] - Add missing information to csl like article number</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2633">MCR-2633</a>] - there should be an extra row limit for not csl exports</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2632">MCR-2632</a>] - Update git-commit-id-maven-plugin</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2606">MCR-2606</a>] - Problems with file:// URL for SVN-Metadatastore (Windows)</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2602">MCR-2602</a>] - exportCollection-mods should be usable for list elements to</li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2022.02 - Jakarta Daiquiri</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2022.02</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2022.02/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2615">MCR-2615</a>] - fix CVE-2020-36518 in jackson dependency</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2610">MCR-2610</a>] - IIIF Presentation API does not respect cache-control header no-cache</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2609">MCR-2609</a>] - remove double slashes from IIIF Manifest, if Impl not set</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2607">MCR-2607</a>] - MetsMods2IIIFConverter has issues with filenames and empty mets:divs</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2600">MCR-2600</a>] - Permission check is done against updated status</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2599">MCR-2599</a>] - fix permission cache issues for descendants when setting an access key</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2594">MCR-2594</a>] - add Command to select descendants of an object</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2592">MCR-2592</a>] - Version numbers in the dependencies are incorrect</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2588">MCR-2588</a>] - MCRCheckPermissionChainResolver passes parameters in wrong order</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2585">MCR-2585</a>] - bibutils cant handle mixed namespace declarations</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2394">MCR-2394</a>] - One cannot delete derivate when MCR.NIO.DefaultScheme=ifs2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2309">MCR-2309</a>] - minor presentation bugs in csl styles</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2601">MCR-2601</a>] - Add getFileCount(derivateId) to get the number of files of any given derivate</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2595">MCR-2595</a>] - add command to check for circles in topological order</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2613">MCR-2613</a>] - update dependencies</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2584">MCR-2584</a>] - deprecate IFS1 classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2550">MCR-2550</a>] - replace deprecated javax.* APIs by jakarta.*</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2616">MCR-2616</a>] - add CORS Header to IIIF Images</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2614">MCR-2614</a>] - Use horizontal ellipse instead of three dots for ellipsing</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2577">MCR-2577</a>] - Port recent datamodel changes to 2nd version of datamodel</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-1619">MCR-1619</a>] - Remove MCRTraceListener</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-1207">MCR-1207</a>] - implement cache for URI resolver</li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2021.06.1 - LTS 2021 (Update 2)</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2021.06.1</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2021.06.1/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2662">MCR-2662</a>] - fix typo in Javadoc</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2659">MCR-2659</a>] - RestAPIv1-Search: support for multiple fq parameter</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2654">MCR-2654</a>] - Detach MODS from former parent</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2650">MCR-2650</a>] - Bug in XSL-function mcrstring:shorten</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2649">MCR-2649</a>] - fix response (Log-Info), for command "check for circles in topological order"</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2646">MCR-2646</a>] - add c3p0 and hikkari connection pooling to dependency management</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2645">MCR-2645</a>] - set internal sourcepath of derivate to NULL after file upload</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2635">MCR-2635</a>] - MCRJanitorEventHandlerBase should always switch back user information</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2631">MCR-2631</a>] - DataCite client ignores proxy setting</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2630">MCR-2630</a>] - MCRExtractRelatedItemsEventHandler adds parents inconsistent</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2628">MCR-2628</a>] - can not update objects with restapi v2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2627">MCR-2627</a>] - use "use-xeditor-debug" permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2626">MCR-2626</a>] - IIIF manifest missing required label if mets label is null</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2625">MCR-2625</a>] - fix path resolving</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2624">MCR-2624</a>] - MCRBasketServlet fix</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2620">MCR-2620</a>] - StringIndexOutOfBoundsException in MCRNameMerger</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2619">MCR-2619</a>] - Editor session language stays the same when user session language is updated</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2618">MCR-2618</a>] - Rest API v2 can not produce XML for contents and classifications</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2615">MCR-2615</a>] - fix CVE-2020-36518 in jackson dependency</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2610">MCR-2610</a>] - IIIF Presentation API does not respect cache-control header no-cache</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2609">MCR-2609</a>] - remove double slashes from IIIF Manifest, if Impl not set</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2608">MCR-2608</a>] - Update address of dnb urn service api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2607">MCR-2607</a>] - MetsMods2IIIFConverter has issues with filenames and empty mets:divs</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2603">MCR-2603</a>] - concurrent editing overwrites previous saved object content</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2600">MCR-2600</a>] - Permission check is done against updated status</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2599">MCR-2599</a>] - fix permission cache issues for descendants when setting an access key</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2597">MCR-2597</a>] - Double DOI due to enrichment</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2594">MCR-2594</a>] - add Command to select descendants of an object</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2592">MCR-2592</a>] - Version numbers in the dependencies are incorrect</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2590">MCR-2590</a>] - Merging classification categories does not work</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2589">MCR-2589</a>] - Keep all identifiers when merging</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2588">MCR-2588</a>] - MCRCheckPermissionChainResolver passes parameters in wrong order</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2585">MCR-2585</a>] - bibutils cant handle mixed namespace declarations</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2583">MCR-2583</a>] - Export has wrong file extension</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2578">MCR-2578</a>] - MCRMODSEmbargoCronJob should not run in CLI Session</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2575">MCR-2575</a>] - MCRCronjobManager blocks application shutdown</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2573">MCR-2573</a>] - fix permission cache issues in access key methods</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2567">MCR-2567</a>] - Person seach not working if name parts that aren't part of the actual name are present</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2566">MCR-2566</a>] - invalid encoded key should not produce exception when decrypting with uri resolver</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2564">MCR-2564</a>] - unnecessary initializations of MCROCFLRepositoryProvider</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2561">MCR-2561</a>] - Ensure stable ordering of derivates and therefore predictable selection of thumbnail</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2559">MCR-2559</a>] - fields queried by response-addDerivate are deprecated</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2558">MCR-2558</a>] - IndexOutOfBoundException in XEditor-Servlet</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2557">MCR-2557</a>] - Output of MCRFopper has no MIME type</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2556">MCR-2556</a>] - Namespaces must be declarable via xed:bind</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2555">MCR-2555</a>] - MCRRoleServlet should check user permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2553">MCR-2553</a>] - Viewer can't display files with single quotes in file path</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2552">MCR-2552</a>] - mycore-cronjob should be part of mycore-meta</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2549">MCR-2549</a>] - SOLR 8.11 support</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2548">MCR-2548</a>] - Solr indexing stylesheets depend on mycore-mods component</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2541">MCR-2541</a>] - moving around namespaces should be done by mycore</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2535">MCR-2535</a>] - Mitigate CVE-2021-44228</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2520">MCR-2520</a>] - Prevent double URL encoding of spaces for multiple scopes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2514">MCR-2514</a>] - Unexpected exceptions cause unneccessary null-Document results</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2511">MCR-2511</a>] - Some stylesheets still use Bootstrap 3 classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2510">MCR-2510</a>] - Received metadata has no revision attribute when using OCFL</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2501">MCR-2501</a>] - MODS CSL should handle nameParts without type and also fallback to displayForm</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2500">MCR-2500</a>] - Wrong xml2bib parameter usage leads into encoding errors</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2492">MCR-2492</a>] - Derivate orphan leads to NPE in access key strategy</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2490">MCR-2490</a>] - sorting get Destroyed with MCRListModsItemDataProvider</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2477">MCR-2477</a>] - MCRNotNullResolver doesn't catch all errors</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2394">MCR-2394</a>] - One cannot delete derivate when MCR.NIO.DefaultScheme=ifs2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2309">MCR-2309</a>] - minor presentation bugs in csl styles</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2658">MCR-2658</a>] - add transformer to support CSL-JSON</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2656">MCR-2656</a>] - Allow to overwrite publishToORCID in derived classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2655">MCR-2655</a>] - Make BibTeX2MODS transformer configurable</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2639">MCR-2639</a>] - Enable indexing of element attributes of mets.xml files</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2601">MCR-2601</a>] - Add getFileCount(derivateId) to get the number of files of any given derivate</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2595">MCR-2595</a>] - add command to check for circles in topological order</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2580">MCR-2580</a>] - Add OCFL Specs for mycore-storage-layout</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2530">MCR-2530</a>] - register handle with ePIC api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2519">MCR-2519</a>] - Introduce property for UserServlet</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2657">MCR-2657</a>] - Remove unused variables/parameters</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2598">MCR-2598</a>] - pom.xml for mycore-ocfl</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2584">MCR-2584</a>] - deprecate IFS1 classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2537">MCR-2537</a>] - Update JDOM to 2.0.6.1</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2660">MCR-2660</a>] - MCRXMLHelper#validate does not use the catalog.xml for initial request</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2653">MCR-2653</a>] - Prefer personal access token for requests if possible</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2644">MCR-2644</a>] - some improvements for fact based acl</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2643">MCR-2643</a>] - add abbrevated git version id to MCRCoreVersion</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2642">MCR-2642</a>] - List of export transformers should be configurable</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2634">MCR-2634</a>] - Add missing information to csl like article number</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2633">MCR-2633</a>] - there should be an extra row limit for not csl exports</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2632">MCR-2632</a>] - Update git-commit-id-maven-plugin</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2616">MCR-2616</a>] - add CORS Header to IIIF Images</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2614">MCR-2614</a>] - Use horizontal ellipse instead of three dots for ellipsing</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2606">MCR-2606</a>] - Problems with file:// URL for SVN-Metadatastore (Windows)</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2602">MCR-2602</a>] - exportCollection-mods should be usable for list elements to</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2581">MCR-2581</a>] - make mods csl pdf export more robust</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2577">MCR-2577</a>] - Port recent datamodel changes to 2nd version of datamodel</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2576">MCR-2576</a>] - Reuse existing types for attribute definitions of MCRMetaDateLangText</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2574">MCR-2574</a>] - outsource access cache event handler methods to helper class</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2572">MCR-2572</a>] - Unnecessary restrictive form attribute</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2571">MCR-2571</a>] - Deviating parameter name</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2570">MCR-2570</a>] - export not only current page as csv</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2569">MCR-2569</a>] - Include terms of address in public display of name</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2568">MCR-2568</a>] - Exclude certain name identifiers from public display</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2563">MCR-2563</a>] - OCFL Migration Improvement</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2562">MCR-2562</a>] - MyCoRe Storage Layout Derivate Implementation in the OCFLXMLMetadataManager</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2560">MCR-2560</a>] - Remove unnecessary Solr field for nonexisting display attribute</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2542">MCR-2542</a>] - Add filter for rest api to use access keys</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2540">MCR-2540</a>] - disable access key filter for object servlet</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2539">MCR-2539</a>] - add encryption storage mode for access key secrets</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2538">MCR-2538</a>] - add option to disable acl checks in MCRCipher</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2534">MCR-2534</a>] - add basic xsl sheet to provide accesskey configuration</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2531">MCR-2531</a>] -  Add uri resolver to check access for restapi</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2528">MCR-2528</a>] - MyCoRe Storage Layout</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2527">MCR-2527</a>] - Do not rely on object ID being stored in work</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2526">MCR-2526</a>] - Do not rely on object ID in matching</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2525">MCR-2525</a>] - Add ability to revoke token</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2524">MCR-2524</a>] - Allow to retrieve unmerged works from ORCID</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2523">MCR-2523</a>] - Allow to filter for works created by this application</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2522">MCR-2522</a>] - Allow to limit user selection to particular nameIdentifier type</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2521">MCR-2521</a>] - Force login prompt during ORCID authorization</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2517">MCR-2517</a>] - Expand the service section of objects to store classifications and messages</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2516">MCR-2516</a>] - Make enrichment resolver useable via API</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2513">MCR-2513</a>] - Include child derivatives when activating access keys for objects</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2512">MCR-2512</a>] - Conditional validation rules</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2509">MCR-2509</a>] - Some minor improvements of the OAI module</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2508">MCR-2508</a>] - Allow loading of unknown objects and derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2507">MCR-2507</a>] - Developer commands that load and save objects/derivates without modification</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2506">MCR-2506</a>] - Select objects with XPath</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2505">MCR-2505</a>] - Annotation for REST methods to explicitly specify required access permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2503">MCR-2503</a>] - improve MCRAccessCacheManager to invalidate all caches for an object ID</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2499">MCR-2499</a>] - map http delete to writedb permission for access key rest api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2487">MCR-2487</a>] - Accesskey Vue Application should load messages from Jersey-Resource</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2486">MCR-2486</a>] - option to disable the hashing of access key secret</li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+
+  <div>
+      <h3>Version 2021.11 - Ylenia</h3>
+      {{< highlight xml "linenos=table">}}
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore-{component}</artifactId>
+        <version>2021.11</version>
+      </dependency>
+      {{< /highlight >}}
+      <p>more details see <a href="http://www.mycore.de/generated/mycore-2021.11/project-reports.html">maven site</a></p>
+      <ul>
+        <li>Bug
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2578">MCR-2578</a>] - MCRMODSEmbargoCronJob should not run in CLI Session</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2575">MCR-2575</a>] - MCRCronjobManager blocks application shutdown</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2573">MCR-2573</a>] - fix permission cache issues in access key methods</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2567">MCR-2567</a>] - Person seach not working if name parts that aren't part of the actual name are present</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2566">MCR-2566</a>] - invalid encoded key should not produce exception when decrypting with uri resolver</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2564">MCR-2564</a>] - unnecessary initializations of MCROCFLRepositoryProvider</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2561">MCR-2561</a>] - Ensure stable ordering of derivates and therefore predictable selection of thumbnail</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2559">MCR-2559</a>] - fields queried by response-addDerivate are deprecated</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2558">MCR-2558</a>] - IndexOutOfBoundException in XEditor-Servlet</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2557">MCR-2557</a>] - Output of MCRFopper has no MIME type</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2556">MCR-2556</a>] - Namespaces must be declarable via xed:bind</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2555">MCR-2555</a>] - MCRRoleServlet should check user permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2553">MCR-2553</a>] - Viewer can't display files with single quotes in file path</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2552">MCR-2552</a>] - mycore-cronjob should be part of mycore-meta</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2549">MCR-2549</a>] - SOLR 8.11 support</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2548">MCR-2548</a>] - Solr indexing stylesheets depend on mycore-mods component</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2541">MCR-2541</a>] - moving around namespaces should be done by mycore</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2535">MCR-2535</a>] - Mitigate CVE-2021-44228</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2520">MCR-2520</a>] - Prevent double URL encoding of spaces for multiple scopes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2514">MCR-2514</a>] - Unexpected exceptions cause unneccessary null-Document results</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2511">MCR-2511</a>] - Some stylesheets still use Bootstrap 3 classes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2510">MCR-2510</a>] - Received metadata has no revision attribute when using OCFL</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2501">MCR-2501</a>] - MODS CSL should handle nameParts without type and also fallback to displayForm</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2500">MCR-2500</a>] - Wrong xml2bib parameter usage leads into encoding errors</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2492">MCR-2492</a>] - Derivate orphan leads to NPE in access key strategy</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2490">MCR-2490</a>] - sorting get Destroyed with MCRListModsItemDataProvider</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2478">MCR-2478</a>] - viewer fix cut off pages in some cases</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2477">MCR-2477</a>] - MCRNotNullResolver doesn't catch all errors</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2476">MCR-2476</a>] - lint line break issue with access key manager</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2474">MCR-2474</a>] - MCRAltoHighlightResource returns differentpage.ids for IFS and IFS2</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2473">MCR-2473</a>] - current language should only allow actual language codes</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2472">MCR-2472</a>] - ArrayIndexOutOfBoundsException in MCRAltoHighlightResource</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2471">MCR-2471</a>] - MCRSolrAltoExtractor should support multiple alto version</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2467">MCR-2467</a>] - click buttons in classification browser causes navigation to the top of the page</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2466">MCR-2466</a>] - latest jamine version hangs and therefore the test hangs</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2459">MCR-2459</a>] - Inconsistent formatting</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2458">MCR-2458</a>] - Exported derivates are missing some attributes and elements</li>
+            </ul>
+        </li>
+        <li>New Feature
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2580">MCR-2580</a>] - Add OCFL Specs for mycore-storage-layout</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2530">MCR-2530</a>] - register handle with ePIC api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2519">MCR-2519</a>] - Introduce property for UserServlet</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2468">MCR-2468</a>] - Add expiration date and status to access keys</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2464">MCR-2464</a>] - Add URI resolver and XSLT functions that allow dynamic lookup of properties</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2463">MCR-2463</a>] - Add CLI commands that show messages, properties and resources</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2460">MCR-2460</a>] - create access key manager gui</li>
+            </ul>
+        </li>
+        <li>Task
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2537">MCR-2537</a>] - Update JDOM to 2.0.6.1</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2479">MCR-2479</a>] - make mycore compatible to Java 17</li>
+            </ul>
+        </li>
+        <li>Improvement
+            <ul>
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2581">MCR-2581</a>] - make mods csl pdf export more robust</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2576">MCR-2576</a>] - Reuse existing types for attribute definitions of MCRMetaDateLangText</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2574">MCR-2574</a>] - outsource access cache event handler methods to helper class</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2572">MCR-2572</a>] - Unnecessary restrictive form attribute</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2571">MCR-2571</a>] - Deviating parameter name</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2570">MCR-2570</a>] - export not only current page as csv</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2569">MCR-2569</a>] - Include terms of address in public display of name</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2568">MCR-2568</a>] - Exclude certain name identifiers from public display</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2563">MCR-2563</a>] - OCFL Migration Improvement</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2562">MCR-2562</a>] - MyCoRe Storage Layout Derivate Implementation in the OCFLXMLMetadataManager</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2560">MCR-2560</a>] - Remove unnecessary Solr field for nonexisting display attribute</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2542">MCR-2542</a>] - Add filter for rest api to use access keys</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2540">MCR-2540</a>] - disable access key filter for object servlet</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2539">MCR-2539</a>] - add encryption storage mode for access key secrets</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2538">MCR-2538</a>] - add option to disable acl checks in MCRCipher</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2534">MCR-2534</a>] - add basic xsl sheet to provide accesskey configuration</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2531">MCR-2531</a>] -  Add uri resolver to check access for restapi</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2528">MCR-2528</a>] - MyCoRe Storage Layout</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2527">MCR-2527</a>] - Do not rely on object ID being stored in work</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2526">MCR-2526</a>] - Do not rely on object ID in matching</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2525">MCR-2525</a>] - Add ability to revoke token</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2524">MCR-2524</a>] - Allow to retrieve unmerged works from ORCID</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2523">MCR-2523</a>] - Allow to filter for works created by this application</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2522">MCR-2522</a>] - Allow to limit user selection to particular nameIdentifier type</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2521">MCR-2521</a>] - Force login prompt during ORCID authorization</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2517">MCR-2517</a>] - Expand the service section of objects to store classifications and messages</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2516">MCR-2516</a>] - Make enrichment resolver useable via API</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2513">MCR-2513</a>] - Include child derivatives when activating access keys for objects</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2512">MCR-2512</a>] - Conditional validation rules</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2509">MCR-2509</a>] - Some minor improvements of the OAI module</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2508">MCR-2508</a>] - Allow loading of unknown objects and derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2507">MCR-2507</a>] - Developer commands that load and save objects/derivates without modification</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2506">MCR-2506</a>] - Select objects with XPath</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2505">MCR-2505</a>] - Annotation for REST methods to explicitly specify required access permission</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2503">MCR-2503</a>] - improve MCRAccessCacheManager to invalidate all caches for an object ID</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2499">MCR-2499</a>] - map http delete to writedb permission for access key rest api</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2487">MCR-2487</a>] - Accesskey Vue Application should load messages from Jersey-Resource</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2486">MCR-2486</a>] - option to disable the hashing of access key secret</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2483">MCR-2483</a>] - Option to list users with UserAttribute name search pattern and limit/offset</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2482">MCR-2482</a>] - option to enable access key strategy explicit for objects or derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2481">MCR-2481</a>] - split access key rest methods for objects and derivates</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2469">MCR-2469</a>] - Cryptpackage and cryptresolver</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2465">MCR-2465</a>] - access objects with access keys via url</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2461">MCR-2461</a>] - Read CSL style identifiers from labels</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2444">MCR-2444</a>] - Add more CLI options to manage access keys</li>              
+              <li>[<a href="https://mycore.atlassian.net/browse/MCR-2433">MCR-2433</a>] - Add support for access keys</li>
+            </ul>
+        </li>
+      </ul>
   </div>
 
   <div>
