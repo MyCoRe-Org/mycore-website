@@ -2,9 +2,9 @@
 ---
 
 title: "Konfiguration und Properties"
-mcr_version: ['2020.06','2021.06']
+mcr_version: ['2021.06','2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt']
-date: "2021-09-01"
+date: "2022-09-30"
 
 ---
       <h2>Konfigurationsverzeichnis</h2>
@@ -39,6 +39,9 @@ date: "2021-09-01"
       {{< highlight shell "linenos=table">}}
     openssl rand 4096 > ~/.mycore/{app-name}/jwt.secret{{< /highlight >}}
       
+      <h2>XSLT-3 ist Default</h2>
+      <p>Mit MyCoRe 2022.06 ist die Nutzung des XSLT-3 Transformers Standard. Wenn noch auf XSLT 1 (Xalan) gearbeitet werden soll, ist folgendes Property zu setzten.</p>
+      
       <h2>MyCoRe-Properties</h2>
 {{< mcr-figure label="Tabelle" caption="Übersicht der wichtigsten Properties">}}
 <table class="table table-striped">
@@ -50,6 +53,11 @@ date: "2021-09-01"
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>MCR.LayoutService.TransformerFactoryClass</td>
+      <td>Verwendung von XSLT 1</td>
+      <td>org.apache.xalan.processor.TransformerFactoryImpl</td>
+    </tr>
     <tr>
       <td>MCR.NameOfProject</td>
       <td>Name des Projektes</td>
