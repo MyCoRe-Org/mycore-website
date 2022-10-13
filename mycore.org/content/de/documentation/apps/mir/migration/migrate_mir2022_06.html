@@ -20,15 +20,16 @@ date: "2022-09-28"
         <div>
           <h3>Neues DINI-Vokabular</h3>
           <p>
-              Anfang des Jahres wurde eine neue Version des "Gemeinsames Vokabular für Publikations- und Dokumenttypen" der DINI
-              <a href="https://blogs.tib.eu/wp/dini-ag-blog/2022/03/21/gemeinsamen-vokabular/">vorgestellt</a>.
-              Dieses wird für das kommende DINI-Zertifikat 2022 eine Grundvoraussetzung.
-              Das neue Vokabular kann in MIR parallel zu dem alten Vokabular verwendet werden.
-              Dies ermöglicht den Umstieg auf die Anforderungen des neuen Zertifikats (z.B. OAI-Sets basierend auf dem neuen Vokabular) zu einem beliebigen Zeitpunkt.
+            Anfang des Jahres wurde eine neue Version des "Gemeinsames Vokabular für Publikations- und Dokumenttypen" der DINI
+            <a href="https://blogs.tib.eu/wp/dini-ag-blog/2022/03/21/gemeinsamen-vokabular/">vorgestellt</a>.
+            Dieses wird für das kommende DINI-Zertifikat 2022 eine Grundvoraussetzung.
+            Das neue DINI-Vokabular kann in MIR parallel zur alten Version verwendet werden.
+            Dies ermöglicht den Umstieg auf die Anforderungen des neuen Zertifikats (siehe unten) zu einem beliebigen Zeitpunkt.
           </p>
-          <h4>Neues Vokabular anlegen</h4>
+          <h4>Neue MyCoRe-Klassifikation anlegen</h4>
           <p>
-            Zunächst muss das neue Vokabular angelegt werden. Hierzu kann das folgenden CLI-Kommando genutzt werden:
+            Zunächst muss das neue DINI-Vokabular als MyCoRe-Klassifikation angelegt werden.
+            Hierzu kann das folgenden CLI-Kommando genutzt werden:
             {{< highlight plain>}}load classification from url http://mycore.de/classifications/diniPublType2022.xml{{< /highlight >}}
           </p>
           <p>
@@ -40,15 +41,30 @@ date: "2022-09-28"
             <em>Hinweis: Wer eine eigene Version der Klassifikation der Publikationsarten verwendet, 
             muss die Mappings für die neue Version des DINI-Vokabulars auf geeignete Weise selbst hinzufügen.</em>
           </p>
-          <h4>Neues Vokabular verwenden</h4>
+          <h4>Neue MyCoRe-Klassifikation verwenden</h4>
           <p>
-            Anschließend müssen die Event-Handler für alle Objekte erneut durchlaufen. 
+            Anschließend müssen die Event-Handler für alle Objekte erneut durchlaufen.
             Dazu kann das folgende CLI-Kommando genutzt werden:
             {{< highlight plain>}}repair metadata search of type mods{{< /highlight >}}
             Hierdurch werden in allen Objekten Einträge der Form
             <code>&lt;mods:classification generator="mir_genres2diniPublType2022-mycore" ... /&gt;</code>
             ergänzt und die Index Index-Felder <code>category</code> und <code>category.top</code>
             um die neuen Werte für die Klassifikation <code>diniPublType2022</code> erweitert.
+          </p>
+          <h4>OAI-Schnittstelle konfigurieren</h4>
+          <p>
+            Um die OAI-Schnittstelle an die Anforderungen des neuen DINI-Zertifikats anzupassen, muss das neue DINI-Vokabular
+            in den Metadatenformaten XMetaDissPlus (für die DNB) und Dublin Core (für Base) verwendet werden.
+            Dazu müssen die folgenden Konfigurationswert gesetzt werden:
+            {{< highlight plain>}}MIR.xMetaDissPlus.diniPublType.classificationId=diniPublType2022
+MIR.dc.diniPublType.classificationId=diniPublType2022
+MIR.dc.ignoredClassificationIds=diniPublType{{< /highlight >}}
+          </p>
+          <p>
+            Zudem müssen OAI-Sets auf Basis des neuen DINI-Vokabulars bereitgestellt werden. Hierzu müssen die folgenden
+            Konfigurationswerte angepasst werden:
+            {{< highlight plain>}}MCR.OAIDataProvider.OAI2.Sets.doc-type.URI=xslStyle:classification2sets:classification:metadata:2:children:diniPublType2022
+MCR.OAIDataProvider.OAI2.Sets.doc-type.Classification=diniPublType2022{{< /highlight >}}
           </p>
        </div>
     </div>
