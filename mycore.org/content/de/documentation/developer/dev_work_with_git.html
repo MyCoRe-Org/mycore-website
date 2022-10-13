@@ -36,8 +36,8 @@ date: "2020-06-04"
       </p>
       <p>
         Zuerst ist ist je nach dem, wo der Fehler aufgetreten ist, der
-        <code>master</code>
-        und die entsprechenden LTS-Branches auszuchecken. Bei Fehlern im LTS erfolgt am Ende ein merge in den Master. Dies und alle weiteren Schritte in
+        <code>main</code>
+        und die entsprechenden LTS-Branches auszuchecken. Bei Fehlern im LTS erfolgt am Ende ein merge in den Main. Dies und alle weiteren Schritte in
         <strong>Git</strong>
         sollten wegen der sichereren Verarbeitung auf der Kommandozeile ausgeführt werden.
       </p>
@@ -55,9 +55,9 @@ date: "2020-06-04"
       </p>
       <p>
         Je nach dem, ob der Bug im
-        <em>master</em>
+        <em>main</em>
         (unter SVN trunk) oder in einem Branch ist, muss in selbigen gewechselt werden.
-        <code>git checkout [master | LTS-Branch]</code>
+        <code>git checkout [main | LTS-Branch]</code>
       </p>
       <p>
         Es ist sinnvoll nun noch einmal den eigenen Codestand mit
@@ -112,7 +112,7 @@ date: "2020-06-04"
         <ul>
           <li>
             Dort steht unter dem Button
-            <strong>Branch: Master</strong>
+            <strong>Branch: main</strong>
             der eigene Bugfix.
           </li>
           <li>
@@ -123,7 +123,7 @@ date: "2020-06-04"
           <li>
             Hier nun unter
             <strong>base</strong>
-            das Release bzw. den Master auswählen, für den der Fix ist
+            das Release bzw. den Main auswählen, für den der Fix ist
           </li>
           <li>Weiterhin ist die Commit-Nachricht auf Logik und Aussagekräftigkeit zu prüfen. Es gelten die Regeln wie
             beim Commit!</li>
@@ -136,7 +136,7 @@ date: "2020-06-04"
       </p>
       <p>
         Ist mit dem Pull request alles klar gegangen, kann der Branch für den Fix mit
-        <code>git checkout [master | release]</code>
+        <code>git checkout [main | release]</code>
         und
         <code>git branch -d issues/{JIRA-Ticket}-{Ticket Summary}</code>
         vom lokalen System gelöscht werden.
