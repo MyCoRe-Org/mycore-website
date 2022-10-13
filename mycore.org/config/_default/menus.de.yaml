@@ -46,8 +46,9 @@ main:
 -       {identifier: ubo_about,               parent: apps_ubo,           name: Einleitung,                    weight: -98,      url: /documentation/apps/ubo/ubo_about}
 -       {identifier: ubo_install,             parent: apps_ubo,           name: Installieren,                  weight: -97,      url: /documentation/apps/ubo/ubo_install}
 -   {identifier: basics,                  parent: documentation,      name: Basiskonzepte,                 weight: -97,      url: /documentation/basics}
--     {identifier: basics_mcr_components,   parent: basics,             name: Komponenten,                   weight: -99,      url: /documentation/basics/basics_mcr_components}
--     {identifier: mcrobject,               parent: basics,             name: MyCoRe-Objekte,                weight: -98,      url: /documentation/basics/mcrobject}
+-     {identifier: basics_app_structure,   parent: basics,             name: Anwendungsstruktur,             weight: -99,      url: /documentation/basics/basics_app_structure}
+-     {identifier: basics_mcr_components,   parent: basics,             name: Komponenten,                   weight: -98,      url: /documentation/basics/basics_mcr_components}
+-     {identifier: mcrobject,               parent: basics,             name: MyCoRe-Objekte,                weight: -97,      url: /documentation/basics/mcrobject}
 -       {identifier: mcrobj_xml,              parent: mcrobject,          name: XML-Format,                    weight: -99,      url: /documentation/basics/mcrobject/mcrobj_xml}
 -       {identifier: mcrobj_id,               parent: mcrobject,          name: MCRObject-ID,                  weight: -98,      url: /documentation/basics/mcrobject/mcrobj_id}
 -       {identifier: mcrobj_datadef,          parent: mcrobject,          name: Datenmodell,                   weight: -97,      url: /documentation/basics/mcrobject/mcrobj_datadef}
@@ -164,7 +165,6 @@ main:
 -       {identifier: dev_docs_guidelines,     parent: dev_docs,           name: Richtlinien,                 weight: -96,      url: /documentation/developer/dev_docs/dev_docs_guidelines}
 -       {identifier: dev_docs_howto,          parent: dev_docs,           name: Tipps und Tricks,            weight: -95,      url: /documentation/developer/dev_docs/dev_docs_howtos}
 -     {identifier: apidocs,                 parent: developer,          name: Javadocs,                    weight: -90,      url: 'http://www.mycore.de/generated/mycore/apidocs'}
--     {identifier: app_structure,           parent: developer,          name: Anwendungsstruktur,          weight: -88,      url: /documentation/developer/app_structure}
 -     {identifier: dev_migrate_java11,      parent: developer,          name: Code-Migration nach Java 11, weight: -87,      url: /documentation/developer/dev_migrate_to_java11}
 -     {identifier: dev_migrate_java17,      parent: developer,          name: Code-Migration nach Java 17, weight: -86,      url: /documentation/developer/dev_migrate_to_java17}
 -     {identifier: dev_plugin,              parent: developer,          name: Eigene Plugins einbinden,    weight: -85,      url: /documentation/developer/dev_plugin}

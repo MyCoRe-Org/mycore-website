@@ -1,0 +1,114 @@
+---
+title: "Struktur einer MyCoRe-Anwendung"
+mcr_version: ['2022.06']
+author: ['Robert Stephan']
+description: "
+      Eine MyCoRe-Anwendung besteht aus Kernkomponenten und Anwendungskomponenten, welche
+      in der Regel in Maven-Modulen definiert sind.
+    "
+date: '2022-10-13'
+---
+      
+<h2>Definitionen</h2>
+<ul>
+  <li>
+    <p>
+      <strong>MyCoRe-Kernkomponenten</strong>
+      stellen die Grundfunktionalitäten einer MyCoRe-Anwendung bereit.
+      Das sind unter anderem APIs zur Speicherung der Daten, Klassifikationen, der ACLs und Nutzer. 
+      Außerdem gibt es verschiedene Module, die allgemeine Funktionen bereitstellen (z.B. IIIF, OAI, ...).
+      Abhängig vom Einsatzweck und benötigter Funktionalität der jeweiligen Anwendung werden nur bestimmte Komponenten benötigt.
+      Nur wenige Komponenten (wie z.B. <code>mycore-base</code>) sind in jeder MyCoRe-Anwendung zu finden.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Anwendungskomponenten</strong>
+      enthalten Funktionalität und Konfigurationsdateien für eine spezifische MyCoRe-Anwendung 
+      (z.B. Datenmodelle, statische Seiten, Layouts, ...). Sie bauen auf den MyCoRe-Kern-Komponenten auf..
+      Anwendungskomponenten können Teile von Kern-Komponenten (einzelne Dateien, Properties, ...) 
+      überschreiben bzw. ergänzen. 
+    </p>
+  </li>
+</ul>
+        
+        
+<h2>Technische Grundlagen</h2>
+<h3>Struktur der Maven-Modul-Verzeichnisse</h3>
+<p> Die Verzeichnisstruktur orientiert sich am <a href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">
+    Maven Standard Directory Layout</a>.
+</p>
+
+<h4>Spezielle Unterverzeichnisse</h4>
+<p>
+<strong><code>/src/main/java/</code></strong><br />
+enthält die Java-Klassen, die die Funktionalität der Komponente implementieren.
+</p>
+<p>
+<strong><code>/src/main/resources/config/${component-name}/</code></strong><br />
+enhält die Konfigurationsdateien der Komponente<br />
+ (z.B. <code>mycore.properties, message_en.property, messages_de.properties</code>)
+</p>
+<p>
+  Die Properties des Moduls beginnen mit dem Prefix <code>MCR.MODULNAME.</code><br />
+  I18N-Properties beginnen immer mit dem Prefix <code>MODULNAME.</code>
+</p>
+<p>
+<strong><code>/src/main/resources/xsl/</code></strong><br />
+enthält XSLT-Stylesheets für die Generierung der Ausgabe oder Transformation der Daten.
+</p>
+<p>
+<strong><code>/src/main/resources/META-INF/resources/</code></strong>          
+enthält Dateien, die später in der Web-Anwendung per URL im Browser aufgerufen werden können.
+</p>
+
+
+<h3>MyCoRe BOM</h3>
+<p>
+Mit Version {{<mcr-version "2022.06">}} wurde eine MyCoRe BOM (&quot;Bill of Materials&quot;) eingeführt.
+Das ist eine spezielle <code>pom.xml</code>-Datei, die nur die Versionen abhängiger Bibliotheken (Dependency-Management)
+enthält und explizit von anderen Maven-Modulen / Anwendungen nachgenutzt werden soll.<br />
+
+Der Artikel <a href="https://reflectoring.io/maven-bom/">&quot;Using Maven's Bill of Materials (BOM)&quot;</a>
+bietet eine gute Zusammenfassung zum Thema &quot;BOM&quot;.
+</p>
+
+Die MyCoRe BOM wird innerhalb der <code>pom.xml</code> des eigenen Moduls / Anwendung 
+in die <code>&lt;dependencyManagement&gt;</code>-Sektion eingebunden:
+
+ {{< highlight xml "linenos=table">}}
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-bom</artifactId>
+      <version>${mycore.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyMangement>
+{{< /highlight >}}
+
+Dadurch werden die in der angegebenen MyCoRe-Version zentral definierten Versionnummern 
+von abhängigen Java-Bibliotheken übernommen und die Integration verschiedener Versionen 
+derselben Bibliothek vermieden. <br />
+Wird nun eine bereits von MyCoRe verwendetete Java-Bibliothek im <code>&lt;dependencies&gt;</code>-Abschnitt 
+angegeben, kann auf die Angabe einer Versionsnummer verzichtet werden:
+
+ {{< highlight xml "linenos=table">}}
+<dependencies>
+   <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-base</artifactId>
+    </dependency> 
+</dependencies>
+{{< /highlight >}}
+ 
+ 
+
+   
