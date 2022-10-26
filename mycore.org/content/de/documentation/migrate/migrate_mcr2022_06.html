@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2022.06 und die Migration von Version
       2021.06 zu 2022.06 zusammen.
     "
-date: "2022-10-06"
+date: "2022-10-26"
 
 ---
 
@@ -70,7 +70,13 @@ date: "2022-10-06"
            <li>Entfernen der Zeile '&lt;mapping-file&gt;META-INF/mycore-ifs-mappings.xml&lt;/mapping-file&gt;' aus der persitence.xml</li>
            <li>Soll mit dem Umstieg <a href="{{< ref basics_mcr_ocfl >}}">OCFL</a> genutz werden, so ist die Anleitung für den Umstieg zu beachten.</li>
            <li>Mit Java 17 funktioniert die Ant XMLTask nicht mehr. Ggf. könnten die Teile im Ant-build.xml durch die Funktion <em>replace</em> ersetzt werden. 
-         </ul> 
+           <li>Mit LTS 2022 ist XSLT3 jetzt die Standardeinstellung für die Transformer. Soll komplett auf XSLT1 zurück geschaltet werden,
+           so geht dies über das folgende Property.</li>
+         </ul>
+        {{< highlight xml "linenos=table">}}
+  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+      </p>
+         
       </p> 
       <p>Details zur Migration von MIR-Anwendungen
        und entsprechende Anpassungsschritte sind in der <a href="{{< ref migrate_mir2022_06 >}}">Migrationsanleitung für MIR</a> zu finden.

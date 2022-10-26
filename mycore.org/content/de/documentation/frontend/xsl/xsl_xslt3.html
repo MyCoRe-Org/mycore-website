@@ -1,11 +1,20 @@
 ---
 title: "Die Nutzung von XSLT3"
-mcr_version: ['2020.06']
+mcr_version: ['2022.06']
 author: ['Jens Kupferschmidt','Thomas Scheffler', 'Robert Stephan']
 description: "Der Abschnitt beschreibt die Nutzung von XSLT3 zur Transformation von Layouts und Daten sowie die zusätzlichen MyCoRe-XSLT3-Funktionen."
-date: "2021-02-20"
+date: "2022-10-26"
 ---
 
+<h2>Standardverhalten</h2>
+<p>
+  Mit LTS 2022.06 ist Saxon und damit XSLT3 der Standardtransormer Prozess für alle Transformationen. Die Rückkehr zu XSLT1 ist über das 
+  folgende Property möglich.
+</p>
+<p>
+  {{< highlight xml "linenos=table">}}
+  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+</p>
 <h2>Einbindung von Saxon in die MyCoRe-Transformation</h2>
 <p>
   In MyCoRe ist es möglich, einzelne gekapselte Transformationsprozesse, z. B. für Datenexporte, generieren von PDF-Dateien
