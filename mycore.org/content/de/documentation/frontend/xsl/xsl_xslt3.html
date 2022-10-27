@@ -33,7 +33,7 @@ date: "2022-10-26"
 <p>Unabhängig davon kann durch Konfiguration auch die gesamte Anwendung auf XSLT3 (Saxon) umgestellt werden, wenn dies 
    alle verwendeten Transformations-Stylesheets unterstützen:
 {{< highlight text "linenos=table">}}
-  MCR.LayoutService.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl
+   MCR.LayoutService.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl
 {{< /highlight >}}
 </p>
 
@@ -53,7 +53,33 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 
 <h3>Ersetzung i18n:translate</h3>
 <p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:value-of xmlns:i18n="xalan://org.mycore.services.i18n.MCRTranslation" select="i18n:translate({i18n_property_string})" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:value-of xmlns:mcri18n="http://www.mycore.de/xslt/i18n" select="mcri18n:translate({i18n_property_string})" />
+  oder
+  <xsl:value-of select="document(concat('i18n:',{i18n_property_string}))/i18n/text()" />
+{{< /highlight >}}
+</p>
 
+<h3>Ersetzung encoder:encode</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:variable name="url" xmlns:encoder="xalan://java.net.URLEncoder" select="encoder:encode(string($RequestURL)))" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:vaiable name="url" xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:encode-for-uri(string($RequestURL))" />
+{{< /highlight >}}
+</p>
 
 <h2>MyCoRe XSLT3 Funktionen</h2>
 <p>
