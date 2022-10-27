@@ -46,7 +46,15 @@ So können Stylesheets zur Laufzeit überschrieben werden, ohne die Anwendung ne
 Die Details sind auf der Seite <a href="{{< ref dev_devmode >}}">Developer-Tools</a> beschrieben.
 </p>
 
-<p>&nbsp;</p>
+<h2>Migrationshinweise XSLT1 nach XSLT3</h2>
+<p>Grundsätzlich stehen bei XSLT3 keine XALAN-Extensions mehr zur Verfügung. Diese müssen bei der Migration ersetzt werden. Weiterhin
+sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise zur Umstellung geben.
+</p>
+
+<h3>Ersetzung i18n:translate</h3>
+<p>XSLT1-Code</p>
+
+
 <h2>MyCoRe XSLT3 Funktionen</h2>
 <p>
   MyCoRe stellt für bestimmte Aufgaben (Mehrsprachigkeit, Verarbeitung von Klassifikationen, ...) 
