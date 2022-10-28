@@ -81,20 +81,6 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 {{< /highlight >}}
 </p>
 
-<h3>Ersetzung encoder:encode</h3>
-<p>XSLT1-Code</p>
-<p>
-{{< highlight text "linenos=table">}}
-  <xsl:variable name="url" xmlns:encoder="xalan://java.net.URLEncoder" select="encoder:encode(string($RequestURL)))" />
-{{< /highlight >}}
-</p>
-<p>XSLT3-Code</p>
-<p>
-{{< highlight text "linenos=table">}}
-  <xsl:vaiable name="url" xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:encode-for-uri(string($RequestURL))" />
-{{< /highlight >}}
-</p>
-
 <h3>Ersetzung xalan:nodeset</h3>
 <p>XSLT1-Code</p>
 <p>
@@ -108,6 +94,52 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 <p>
 {{< highlight text "linenos=table">}}
   <xsl:for-each select="$result/content">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung encoder:encode</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:variable name="url" xmlns:encoder="xalan://java.net.URLEncoder" select="encoder:encode(string($RequestURL))" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:vaiable name="url" xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:encode-for-uri($RequestURL)" />
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung decoder:decode</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:variable name="url" xmlns:decoder="xalan://java.net.URLDecoder" select="decoder:decode(string($paramValue),'UTF-8')" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:vaiable name="url" select="$paramValue" disable-output-escaping="yes" />
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung str:tokenizer</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each xmlns:str="http://exslt.org/strings" select="str:tokenize($MCR.Mail.Recipients,',')">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:tokenize($MCR.Mail.Recipients,',')">
   ...
   </xsl:for-each>
 {{< /highlight >}}
