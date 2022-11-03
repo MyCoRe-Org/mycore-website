@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-07-27"
+date: "2022-11_04"
 
 ---
 
@@ -14,19 +14,25 @@ date: "2022-07-27"
 [OCFL](https://ocfl.io/), das Oxford Common File Layout, ist ein Konzept zur Speicherung von Daten in einer versionierten Form auf einem nativen Plattenbereich. Damit können die Vorteile einer einfachen
 Speicherung im Dateisystem und einer Dateiversionierung optimal verbunden werden. 
 
-Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden um Objekte und Klassifikationen im OCFL-Storage-Layout zu speichern. Es ist geplant, dass mit dem Release in 2022 die OCFL Implementierung fertiggestellt wird und somit die Beta-Phase verlässt.
-
-"OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu grundlegenden Änderungen kommen wird. Zukünftige Änderungen bauen auf dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
+Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison
+realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch 
+implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden 
+um Objekte und Klassifikationen im OCFL-Storage-Layout zu speichern. Mit dem Release {{<mcr-version "2022.06">}} wird die OCFL Implementierung
+ausgebaut. Da hierfür auch 'unter der Haube' für den Endanwender funktionsneutrale Umbauten erforderlich sind, wird sich der OCFL-Teil auch
+im aktuellen LTS kontinuierlich weiterentwickeln. Dies soll aber keine Auswirkungen auf die Benutzerebene haben. Somit ist dieser Teil immer 
+noch eine Art Beta-Phase.
+ 
+"OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu grundlegenden Änderungen kommen wird. 
+Zukünftige Änderungen bauen auf dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
 
 ## Zukünftige Pläne
 
-Derzeit ist es nur möglich, Objekte und Derivate-Metadaten zu speichern. Ziel ist es, das man zukünftig auch Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa Benutzer, ACLs, etc.) im OCFL-Repository speichern kann.
+Derzeit ist es nur möglich, Objekte und Derivate-Metadaten sowie Klassifikationen und Nutzer zu speichern. Ziel ist es, das man zukünftig auch 
+Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa ACLs, etc.) im OCFL-Repository speichern kann. Für einzelne Datenbereiche wie XML
+soll OCFL eine Form des Primärspeichers darstellen. Bie daten wie Klassifikationen und Nutzer wird es als sekundärer Sicherheitsspeicher genutzt.
+Weitere Konzepte werden dies für ACLs und digitale Objekte schrittweise ergänzen.
 
-# Die Speicherung der MyCoRe-Objekte mit OCFL
-
-## Konfiguration
-
-#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
+# Integration von OCFL
 
 Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* integriert werden.
 
@@ -42,23 +48,15 @@ Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* i
  </dependency>
 ```
 
-{{<mcr-comment>}}
-<!-- {{< highlight xml "linenos=false">}}
- <dependency>
-    <groupId>org.mycore</groupId>
-    <artifactId>mycore-ocfl</artifactId>
-    <version>${mycore.version}</version>
- </dependency>
-{{< /highlight >}} -->
-{{</mcr-comment>}}
+# Konfiguration
 
-Die folgenden Properties werden im Code als Standardwerte mitgeliefert.
+## Allgemeine Konfiguration
+
+Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
 
 ```shell {linenos=table}
+# Integration der CLI-Kommandos
 MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLCommands
-
-# Setzt die Standard Repository auf "Main"
-MCR.Metadata.Manager.Repository=Main
 
 # Definitionen für das Repository "Main"
 MCR.OCFL.Repository.Main=org.mycore.ocfl.MCROCFLHashRepositoryProvider
@@ -69,13 +67,7 @@ MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
 Diese können, sofern erwünscht, überschrieben werden. Es ist darauf zu achten,
 dass die Implementation des Repository Providers von der Klassse `MCROCFLRepositoryProvider` vererbt ist.
 
-Mit dem folgenden Property kann der Metadaten Manager von XML (bisherige Implementierung) auf OCFL umgestellt werden:
-
-```shell {linenos=table}
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
-```
-
-Will man sein eigenes Repository anlegen, geht das wie folgt:
+Will man sein eigenes Repository anlegen bzw. ein eigenes Layout verwenden, geht das wie folgt über die jeweiligen Properties:
 
 ```shell {linenos=table}
 #Repository Provider für verschiedene Layouts
@@ -86,7 +78,7 @@ MCR.OCFL.Repository.{Repository_Name}.RepositoryRoot=%MCR.datadir%/foo
 MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 ```
 
-### Liste der Repository Provider in MyCoRe
+#### Liste der Repository Provider in MyCoRe
 
 {{<mcr-table id="repository-provider-list" class="table" style="" col-styles="">}}
    | Repository Provider | Layout |
@@ -96,50 +88,6 @@ MCR.OCFL.Repository.{Repository_Name}.WorkDir=%MCR.datadir%/bar
 {{</mcr-table>}}
 
 Weitere Erläuterungen zu den Repository Providern können im Abschnitt [Verfügbare Repository Layouts](#verfügbare-repository-layouts) gefunden werden.
-
-{{<mcr-comment>}}
-<!-- ## Infos zu der Migration zu OCFL
-
-*<u>Notiz:</u> Migration von XML sowie SVN möglich, zwischen OCFL, also nicht final und auch zurück zu nativ XML via export, falls SVN benutzt wird, sollte man bis man sich sicher ist das einem das neue System besser gefällt, keine wichtigen Änderungen vornehmen, da eine Migration zurück zu SVN <u>NICHT</u> möglich ist.* -->
-{{</mcr-comment>}}
-
-## Migration zu OCFL
-
-Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
-
-Zunächst wird der Metadaten-Manager bei dem Nativen belassen und es soll sichergestellt werden,
-dass das Repository `Main` oder das eigene Repository korrekt eingerichtet sind.
-
-Mit dem Kommando `migrate metadata to repository {Repository}` können die Daten in die angegebene Repository überspielt werden.
-Das Kommando gibt in einer Statistik aus, ob alle Metadaten migriert werden konnten.
-
-Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
-
-Wenn alles geklappt hat, kann man den MetadatenManager wie folgt umstellen:
-```shell {linenos=table}
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
-```
-
-## Migration zwischen Layouts
-
-Die Migration zwischen den OCFL Layouts funktioniert genauso wie zu OCFL,
-der einzige Unterschied ist das hierbei der Metadaten-Manager für OCFL zu nutzen ist.
-
-Um ein Repository zu migrieren, ist das Quell-Repository mit
-`MCR.Metadata.Manager.Repository={Quell-Repository}`
-zu setzen.
-
-Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), dieses Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Haben Quell- und Zielrepository denselben Typ, ist es abzuwägen, ob es einfacher, das Repository zu kopieren.
-
-{{<mcr-comment>}}
-<!--
-Der Nutzer ruft ja nicht wissentlich den Versionsverlauf auf, sondern das Migrationsscript, daher denke ich das es generell gehalten werden soll, da sich der Nutzer sonst fragt:
-"Naja, ich rufe den nicht selber auf, aber bekomme das Exception, was soll ich tun?"
-Um das zu vermeiden, wird nur darauf eingegangen, dass er kommt und danach warum der kommt.
- -->
-{{</mcr-comment>}}
-Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Das Problem entsteht, wenn versucht wird, deren Versionsverlauf zu lesen, da MyCoRe diese IDs noch immer bekannt sind. Es tritt nicht auf wenn Objekte und Derivate NACH der Migration gelöscht werden, da nun der Versionsverlauf nicht mit gelöscht wird.\
-Das Problem wird in einer zukünftigen Version behoben werden und hat <u>keinen Einfluss auf die Funktionsweise von OCFL</u>. Es kann daher ohne Bedenken ignoriert werden.
 
 ## Verfügbare Repository Layouts
 ### OCFL Community Extension 0003: Hashed Truncated N-tuple Trees <br />with Object ID Encapsulating Directory for OCFL Storage Hierarchies
@@ -317,15 +265,31 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
          └── ... [object root]
 ```
 
+
+## Versionierung von XML-Metadaten
+
+Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
+
+```shell {linenos=table}
+# Setzt die Standard Repository auf "Main"
+MCR.Metadata.Manager.Repository=Main
+```
+
+Mit dem folgenden Property kann der Metadaten Manager von XML (bisherige Implementierung) auf OCFL umgestellt werden. Dies darf erst 
+NACH der Migartion erfolgen!
+
+```shell {linenos=table}
+ MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
+```
+
+
 ## Versionierung von Klassifikationen
 
-Es ist nun auch möglich, Klassifikationen neben der Datenbank im OCFL Store zu speichern, aber primär wird dann weiterhin die Datenbank genutzt.
+Es ist auch möglich, Klassifikationen neben der Datenbank im OCFL Store zu speichern, aber primär wird dann weiterhin die Datenbank genutzt.
 
-### Konfiguration
+<b class="text-warning">Achtung, aktuell ist die gleichzeitige Nutzung von OCFL und SOLR für Klassifikationen noch nicht möglich! Wir arbeiten daran.</b>
 
-#### Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
-
-Hierbei zusätzlich mitgeliefert sind die folgenden Properties:
+Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
 
 ```shell {linenos=table}
 # Setzt die Standard Repository auf "Main"
@@ -346,9 +310,80 @@ MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLClassificati
 
 Wenn man eine andere Repository anstatt "Main" nutzen will, funktioniert dies exakt so wie oben für die Objekte beschrieben ist.
 
-### Benutzung
+
+## Versionierung von Nutzerdaten
+
+Es ist auch möglich, Nutzerdaten neben der Datenbank im OCFL Store zu speichern, primär wird jedoch weiterhin die Datenbank genutzt.
+Die Daten werden dabei in der vergleichbaren Form wie bei einem SAVE-Kommando abgelegt.
+
+Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu setzen:
+
+```shell {linenos=table}
+MCR.EventHandler.MCRUser.020.Class=org.mycore.ocfl.user.MCROCFLUserEventHandler
+```
+
+# Migartion
+
+## Migration zu OCFL
+
+Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
+
+Zunächst wird der Metadaten-Manager bei dem Nativen belassen und es soll sichergestellt werden,
+dass das Repository `Main` oder das eigene Repository korrekt eingerichtet sind. Der MCR.Metadata.Manager muss noch auf XML stehen!
+
+Mit dem Kommando `migrate metadata to repository {Repository}` können die Daten in die angegebene Repository überspielt werden.
+Das Kommando gibt in einer Statistik aus, ob alle Metadaten migriert werden konnten.
+
+Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
+
+Wenn alles geklappt hat, kann man den MetadatenManager wie folgt umstellen:
+```shell {linenos=table}
+ MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
+```
+
+## Migration zwischen Layouts
+
+Die Migration zwischen den OCFL Layouts funktioniert genauso wie zu OCFL,
+der einzige Unterschied ist das hierbei der Metadaten-Manager für OCFL zu nutzen ist.
+
+Um ein Repository zu migrieren, ist das Quell-Repository mit
+`MCR.Metadata.Manager.Repository={Quell-Repository}`
+zu setzen.
+
+Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), dieses Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Haben Quell- und Zielrepository denselben Typ, ist es abzuwägen, ob es einfacher, das Repository zu kopieren.
+
+{{<mcr-comment>}}
+<!--
+Der Nutzer ruft ja nicht wissentlich den Versionsverlauf auf, sondern das Migrationsscript, daher denke ich das es generell gehalten werden soll, da sich der Nutzer sonst fragt:
+"Naja, ich rufe den nicht selber auf, aber bekomme das Exception, was soll ich tun?"
+Um das zu vermeiden, wird nur darauf eingegangen, dass er kommt und danach warum der kommt.
+ -->
+{{</mcr-comment>}}
+Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Das Problem entsteht, wenn versucht wird, deren Versionsverlauf zu lesen, da MyCoRe diese IDs noch immer bekannt sind. Es tritt nicht auf wenn Objekte und Derivate NACH der Migration gelöscht werden, da nun der Versionsverlauf nicht mit gelöscht wird.\
+
+Das Problem wird in einer zukünftigen Version behoben werden und hat <u>keinen Einfluss auf die Funktionsweise von OCFL</u>. Es kann daher ohne Bedenken ignoriert werden.
+
+
+## Rücksetzen auf den XML-Manager ohne OCFL
+
+### XML-Metadaten
+
+[To Do] - Die muss noch endgültig getestet werden.
+
+### Klassifikationen
+
+Da die Klassifikationen primär in der Datenbank gespeichert sind, ist nur der Manager umzukonfigurieren, die Properties zu entfernen und der OCFL-Teilbaum zu löschen.
+
+### Nutzerdaten
+
+Da die Nutzer primär in der Datenbank gespeichert sind, ist nur der Manager umzukonfigurieren, die Properties zu entfernen und der OCFL-Teilbaum zu löschen.
+
+
+# Benutzung
 
 Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt, auch wenn dieser noch leer ist.
+
+## Klassifikationen
 
 Sollen erstmalig alle Klassifikationen auf dem OCFL Store gespeichert werden, kann man mit dem Befehl `update ocfl classifications` alle Klassifikationen von der Datenbank in den OCFL Store schreiben lassen.
 
@@ -356,12 +391,22 @@ Soll nur eine einzige Aktualisiert werden, kann dies mit `update ocfl classifica
 
 Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit `sync ocfl classifications` alle Klassifikationen auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen.
 
-## Offene Probleme
-#### Hartes Löschen
+# Offene Probleme
+
+## Hartes Löschen
+
 Unter bestimmten Umständen muss ein Objekt auch hart löschbar sein - bisher ist nur 'soft'-löschen möglich.
 Das bedeutet, nach dem Löschen können alte Versionen immer noch angezeigt werden.
 Dazu kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` mitgegeben werden, um die entsprechende Version anzuzeigen.
 
+## Struktur der Manager
+
+Die Konzeption der manager, der Zugriff darauf und die Konfiguration über properties muss überarbeitet werden.
+
+## SOLR für Klassifikationen
+
+Der monolitische Manager für die Speicherung von Klassifikationen in der Datenbank und in SOLR muss in einen EventHandler überführt werden.
+
 {{<mcr-comment>}}<!-- Markdown Links: -->{{</mcr-comment>}}
 
-[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/2021.06.x/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
+[ocfl-properties]: https://raw.githubusercontent.com/MyCoRe-Org/mycore/2022.06.x/mycore-ocfl/src/main/resources/components/ocfl/config/mycore.properties "MyCoRe OCFL-Module Properties"
