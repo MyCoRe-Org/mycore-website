@@ -319,6 +319,13 @@ Die Daten werden dabei in der vergleichbaren Form wie bei einem SAVE-Kommando ab
 Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu setzen:
 
 ```shell {linenos=table}
+# Setzt die Standard Repository auf "Main"
+MCR.Users.Manager.Repository=Main
+
+# Setzt den Manager auf die Implementierung für OCFL
+MCR.Users.Manager=org.mycore.ocfl.user.MCROCFLXMLUserManager;
+
+# Und hier wird der EventHandler eingebunden
 MCR.EventHandler.MCRUser.020.Class=org.mycore.ocfl.user.MCROCFLUserEventHandler
 ```
 
