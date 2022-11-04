@@ -379,17 +379,37 @@ Da die Klassifikationen primär in der Datenbank gespeichert sind, ist nur der M
 Da die Nutzer primär in der Datenbank gespeichert sind, ist nur der Manager umzukonfigurieren, die Properties zu entfernen und der OCFL-Teilbaum zu löschen.
 
 
-# Benutzung
+# Benutzung und Kommandos
 
 Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt, auch wenn dieser noch leer ist.
 
+## Metadaten
+
+`migrate metadata to repository {ReopsitoryID}` - Migriert alle Metadaten in das OCFL Repository mit der ReopsitoryID (z. B. Main).
+
 ## Klassifikationen
 
-Sollen erstmalig alle Klassifikationen auf dem OCFL Store gespeichert werden, kann man mit dem Befehl `update ocfl classifications` alle Klassifikationen von der Datenbank in den OCFL Store schreiben lassen.
+`update ocfl classifications` - Sollen erstmalig alle Klassifikationen auf dem OCFL Store gespeichert werden, kann man mit diesem Befehl alle Klassifikationen von der Datenbank in den OCFL Store schreiben lassen.
 
-Soll nur eine einzige Aktualisiert werden, kann dies mit `update ocfl classification {ClassID}` getan werden.
+`update ocfl classification {ClassID}` - Soll nur eine einzige Klassifikation aktualisiert werden, kann dies mit diesem Befehl getan werden.
 
-Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit `sync ocfl classifications` alle Klassifikationen auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen.
+`delete ocfl classification {ClassID}` - Löscht eine Klassifikation aus dem OCFL-System. Hierbei ist zu beachten, wie die Poroperties zum Löschen in OCFL gesetzt sind. Ggf. sind ältere Versionen weiterhin vorhanden.
+
+`sync ocfl classifications` - Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit dem Befehl alle Klassifikationen im OCFL auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen. Je nach Property werden diese auch im OCFL direkt gelöscht.
+
+## Nutzerdaten
+
+`update ocfl users` - Aktualisiert alle Nutzerdaten im OCFL-Speicher.
+
+`update ocfl user {UserID}` - Aktualisiert den Nutzer mit der UserID im OCFL-Speicher.
+
+`delete ocfl user {UserID}` - Löscht den Nutzer mit der UserID aus dem OCFL-Speicher. Hierbei ist die Property-Konfiguration für das Löschen im OCFL zu beachten.
+
+`sync ocfl users` - Syncronisiert die Nutzerdaten im OCFL mit denen der Datenbank.
+
+`restore user {UserID} from ocfl with version {version}` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten in der entsprechenden Version.
+
+`restore user {UserID} from ocfl` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten.
 
 # Offene Probleme
 
