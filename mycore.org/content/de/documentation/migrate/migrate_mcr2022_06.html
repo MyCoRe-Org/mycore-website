@@ -3,12 +3,12 @@
 
 title: "Migration MyCoRe LTS 2021.06 nach 2022.06"
 mcr_version: ['2022.06']
-author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan']
 description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2022.06 und die Migration von Version
       2021.06 zu 2022.06 zusammen.
     "
-date: "2022-10-26"
+date: "2022-11-09"
 
 ---
 
@@ -37,7 +37,7 @@ date: "2022-10-26"
       </p>
       <ul>
         <li>Java 17 (OpenJDK) (muss ggf. extern nachinstalliert werden)</li>
-        <li>Tomcat 10 bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-5.0 und JakartaEE)</li>
+        <li>Tomcat 10.0.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-5.0 und JakartaEE)</li>
         <li>SOLR 8.11.2 oder höher</li>
         <li>
           eine
@@ -47,6 +47,37 @@ date: "2022-10-26"
         <li>Git 2.26 oder höher</li>
         <li>Apache Maven 3.6.3 oder höher</li>
       </ul>
+      
+      <h3>Neuerungen</h3>
+      <ul>
+        <li>Java17-Kompatibilität / JakartaEE – Umstellung</li>
+        <li>MyCoRe BOM</li>
+        <li>RESTAPIv2: ObjectListing</li>
+        <li>Update-Kommando für Datenbank-Konfiguration</li>
+        <li>Stabile Sortierung von Klassifikationslabeln</li>
+        <li>Erweiterung der Service-Metadaten</li>
+        <li>Standard XSLT-Prozessor ist konfigurierbar / XSLT3 ist Standard</li>
+        <li>Neue MODS Version 3.8</li>
+        <li>Erweiterung des Factbased Access Systems</li>
+        <li>CSL Verbesserungen (Citation Style Language) </li>
+        <li>Datenimport via pica2MODS</li>
+        <li>Integration von OCFL</li>
+        <li>Support für einen S3-Store als Backend</li>
+        <li>RestAPI v2: Bearbeiten von Derivaten</li>
+        <li>SKOS (Linked Data) für Klassifikationen</li>
+        <li>Für Alto-Dateien sind nun auch Attribute im Volltextindex enthalten.</li>
+        <li>MyCoRe-PI unterstützt die ePIC-API</li>
+        <li>Kommando um Zyklen zu finden und zu beheben</li>
+      </ul>
+      
+      <h3>aus dem Code entfernt</h3>
+      <ul>
+        <li>IFS1</li>
+        <li>MCRTraceListener</li>
+      </ul>
+      
+      <h2>Migrationsschritte</h2>
+      <p></p>
       
       <h3>Aktuelle Versionsnummer</h3>
       <p>Viel Anwender nutzen nicht die über Maven Central bereitgestellten Releases sondern möchten von den eingearbeiteten Bugfixes
@@ -62,24 +93,60 @@ date: "2022-10-26"
  </dependency>{{< /highlight >}}
       </p>
       
-      <h2>Migrationsschritte</h2>
-      <p>
-       Folgende Migrationsschritte sind ggf. notwendig:
+      <h3>Umbenenung J2EE -> Jakarta EE</h3>
+      <p>In den eigenen Java-Klassen muss die Import-Definition von javax.** zu jakarta.* wegen der Nutzung von Java 17 LTS /Jakarta EE 
+      umgestellt werden.</p>
+      <p>Jakarta EE 9 implementiert den Servlet 5.0 Standard. Somit ist Tomcat 10.0.x bzw. Jetty 11.x einzusetzen. Achtung Tomcat 10.1.x 
+      nutzt Servlet 6.0 und ist für MyCoRe 2022.06 nicht getestet!</p>
+      <p>Ggf. muss die Dependency in den pom.xml-Dateien aktualisiert werden.</p>
+      {{< highlight xml "linenos=table">}}
+ <dependency>
+  <groupId>jakarta.servlet</groupId>
+  <artifactId>jakarta.servlet-api</artifactId>
+  <version>5.0.0</version>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.xml.bind</groupId>
+  <artifactId>jakarta.xml.bind-api</artifactId>
+  <version>3.0.1</version>
+</dependency>{{< /highlight >}}
+      <p>In den Files <code>web.xml</code> bzw. <code>web-fragment.xml</code> muss ggf. auf <code>jakarta</code> umgestellt werden.
+      {{< highlight xml "linenos=table">}}
+<web-fragment version="5.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-fragment_5_0.xsd"
+    metadata-complete="true" >{{< /highlight >}}
+    
+      <h3>MyCoRe BOM</h3>     
+      <p>MyCoRe liefert jetzt auch ein BOM <strong>Bill of Material</strong> aus, die in MyCoRe-Anwendungen /-Bibliotheken für das 
+      Dependency-Management nachgenutzt werden kann. Damit wird die Parent-pom.xml auf gesplittet in einen Teil, welcher nur noch die 
+      Versionsnummern enthält. Die folgende Dependeny kann in den eigenen Anwendungen nachgenutzt werden.</p>
+      {{< highlight xml "linenos=table">}}
+<dependency>
+  <groupId>org.mycore</groupId>
+  <artifactId>mycore-bom</artifactId>
+  <version>2022.06.1-SNAPSHOT</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>{{< /highlight >}}
+      
+      <h3><code>persitence.xml</code> Konfiguration anpassen</h3>
+      <p>Werden MyCoRe-Module nicht genutzt (z. B. mycore-pi), so müssen die entsprechenden Konfigurationen <code>mapping-file</code> 
+      aus der persitence.xml entfernt werden, da es sonst zu einer Ausnahme kommt. Gleiches gilt für das Paket mycore-ifs.
+      Mit dem CLI-Kommando <code>reload mappings in jpa configuration file</code> kann ein Update der Konfiguration online erfolgen.</p>
+      
+      <h3>XSLT3</h3>
+      <p>Mit LTS 2022 ist XSLT3 jetzt die Standardeinstellung für die Transformer. Soll komplett auf XSLT1 zurück geschaltet werden,
+      so geht dies über das folgende Property. Details zur Migration von XSLT1 zu XSLT3
+       und entsprechende Anpassungsschritte sind in der <a href="{{< ref xsl_xslt3 >}}">Migrationsanleitung für XSLT3</a> zu finden.
+       {{< highlight xml "linenos=table">}}
+  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+  
+      <h3>Weitere Anpassungen</h3>
          <ul>
-           <li>Anpassung der Versionsnummern in der eigenen Anwendung.</li>
-           <li>Entfernen der Zeile '&lt;mapping-file&gt;META-INF/mycore-ifs-mappings.xml&lt;/mapping-file&gt;' aus der persitence.xml</li>
            <li>Soll mit dem Umstieg <a href="{{< ref basics_mcr_ocfl >}}">OCFL</a> genutz werden, so ist die Anleitung für den Umstieg zu beachten.</li>
            <li>Mit Java 17 funktioniert die Ant XMLTask nicht mehr. Ggf. könnten die Teile im Ant-build.xml durch die Funktion <em>replace</em> ersetzt werden. 
-           <li>Mit LTS 2022 ist XSLT3 jetzt die Standardeinstellung für die Transformer. Soll komplett auf XSLT1 zurück geschaltet werden,
-           so geht dies über das folgende Property.</li>
          </ul>
-        {{< highlight xml "linenos=table">}}
-  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
-      </p>
-         
-      <p>Details zur Migration von XSLT1 zu XSLT3
-       und entsprechende Anpassungsschritte sind in der <a href="{{< ref xsl_xslt3 >}}">Migrationsanleitung für XSLT3</a> zu finden.
-      </p>
 
       <p>Details zur Migration von MIR-Anwendungen
        und entsprechende Anpassungsschritte sind in der <a href="{{< ref migrate_mir2022_06 >}}">Migrationsanleitung für MIR</a> zu finden.
