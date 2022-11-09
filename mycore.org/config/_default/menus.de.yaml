@@ -131,25 +131,27 @@ main:
 -     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -94,      url: /documentation/interfaces/interface_dfgviewer}
 -     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF API,                    weight: -93,      url: /documentation/interfaces/interface_iiif_support}
 -     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -92,      url: /documentation/interfaces/interface_sword}
--   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -91,      url: /documentation/datamodel}
+-   {identifier: plugins,                 parent: documentation,      name: externe Plugins,             weight: -91,      url: /documentation/plugins}
+-     {identifier: plugin_s3,               parent: plugins,           name: S3 Plugin,                    weight: -99,      url: /documentation/plugins/plugin_s3}
+-   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -90,      url: /documentation/datamodel}
 -     {identifier: datamodel_common,        parent: datamodel,          name: Allgemeines,                 weight: -99,      url: /documentation/datamodel/datamodel_common}
 -     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -98,      url: /documentation/datamodel/datamodel_mods}
 -     {identifier: datamodel_lido,          parent: datamodel,          name: LIDO,                        weight: -97,      url: /documentation/datamodel/datamodel_lido}
--   {identifier: production,              parent: documentation,      name: Laufender Betrieb,           weight: -90,      url: /documentation/production}
+-   {identifier: production,              parent: documentation,      name: Laufender Betrieb,           weight: -89,      url: /documentation/production}
 -     {identifier: production_security,     parent: production,         name: Datensicherheit,             weight: -99,      url: /documentation/production/production_security}
 -     {identifier: backup,                  parent: production,         name: Backup & Recovery,           weight: -98,      url: /documentation/production/backup}
 -     {identifier: consistency,             parent: production,         name: Konsistenzprüfung,           weight: -97,      url: /documentation/production/consistency}
 -     {identifier: batch,                   parent: production,         name: Batch-Betrieb,               weight: -96,      url: /documentation/production/batch}
 -     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
--   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -89,      url: /documentation/migrate}
+-   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -88,      url: /documentation/migrate}
 -     {identifier: migrate_mcr2022_06,      parent: migrate,            name: MCR 2021.06 ⇒ 2022.06,       weight: -99,      url: /documentation/migrate/migrate_mcr2022_06}
 -     {identifier: migrate_mcr2021_06,      parent: migrate,            name: MCR 2020.06 ⇒ 2021.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2021_06}
 -     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2020_06}
 -     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -96,      url: /documentation/migrate/migrate_mcr2019_06}
 -     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -95,      url: /documentation/migrate/migrate_mcr2018_06}
 -     {identifier: migrate_solr7,           parent: migrate,            name: Solr7-Integration,           weight: -94,      url: /documentation/migrate/migrate_solr7}
--   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -88,      url: /documentation/developer}
+-   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -87,      url: /documentation/developer}
 -     {identifier: dev_eclipse,             parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/dev_eclipse}
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
 -     {identifier: conventions,             parent: developer,          name: Namenskonventionen,          weight: -97,      url: /documentation/developer/conventions}
