@@ -16,7 +16,7 @@ news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2021"
 news/teaser_de: 	"MyCoRe-User und Entwickler trafen sich online zum MyCoRe-Workshop 2021. Er fand am 3. und 4. November 2021 statt."
 news/title_en: 		"Workshop Invitation"
-news/teaser_en:	 	"MyCoRe user amd developers met online at 3th and 4th of November for the MyCoRe Workshop 2021."
+news/teaser_en:	 	"MyCoRe user and developer met online at 3th and 4th of November for the MyCoRe Workshop 2021."
 
 
 ---
