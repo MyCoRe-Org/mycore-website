@@ -13,7 +13,7 @@ blog/categories:
  - News
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"Einladung zum MyCoRe-Workshop 2022"
 news/teaser_de: 	"Ankündigung und Einladung zum MyCoRe-Workshop 2022. Wir treffen uns im November voraussichtlich in Kiel."
 news/title_en: 		"Workshop Invitation"
