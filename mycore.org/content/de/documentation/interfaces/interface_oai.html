@@ -197,7 +197,12 @@ MCR.OAIDataProvider.OAI2.EarliestDatestamp.SortBy=modified asc
       </p>
       {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.Sets.doc-type.URI=xslStyle:classification2sets:classification:metadata:10:children:diniPublType{{< /highlight >}}
       <p>
+        Mit Property FilterDisabledCategories kann hierbei pro Klassifikation bestimmt werden, ob Sets für
+        Klassifikationswerte ausgelassen werden sollen, die mit
+        <code>&lt;label xml:lang="x-disable" text="true"/&gt;</code>
+        markiert sind.
       </p>
+      {{< highlight xml "linenos=table">}}MCR.OAIDataProvider.OAI2.FilterDisabledCategories.diniPublType=true=true{{< /highlight >}}
       <p>
         Für die Suche nach Dokumenten, die als Inhalt eines Sets zurückgegeben
         werden sollen, kann einem Set-Namen ein Klassifikationsname zugeordnet
