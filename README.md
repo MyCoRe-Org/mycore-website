@@ -21,4 +21,8 @@
 ```
 > hugo server --disableFastRender
 ```
+ - To include drafts and planned content, use the corresponding build instructions, i.e.:
+```
+> hugo server --buildDrafts --buildFuture
+```
  
