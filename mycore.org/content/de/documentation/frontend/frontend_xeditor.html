@@ -843,32 +843,38 @@ erneut angezeigt. Es besteht die Möglichkeit, an beliebiger Stelle Meldungen au
   <input type="text" ... />
 </xed:bind> {{< /highlight >}}
 
-<p>Globale Validierungsregeln stehen an beliebiger Stelle im Formular und beziehen sich auf die durch das Attribut @xpath ausgewählten XML-Knoten. Beispiel:</p>
+<p>Globale Validierungsregeln stehen an beliebiger Stelle im Formular und beziehen sich auf die durch das Attribut <code>@xpath</code> ausgewählten XML-Knoten. Beispiel:</p>
 
 {{< highlight xml "linenos=table">}} <xed:validate xpath="//mods:identifier[@type='issn']" matches="[\dX]{4}\-[\dX]{4}" />{{< /highlight >}}
 
-<p>validiert die Syntax aller auftretenden mods:identifier[@type='issn'] Elemente. Globale Validierungsregeln erleichtern die Wiederverwendung und können bevorzugt für
+<p>validiert die Syntax aller auftretenden <code>mods:identifier[@type='issn']</code> Elemente. Globale Validierungsregeln erleichtern die Wiederverwendung und können bevorzugt für
 Syntaxprüfungen verwendet werden. </p>
 
-<p>Ist das Attribut @required="true" gesetzt, ist das gewählte Element ein Pflichfeld, d.h. es muss mindestens ein nicht leerer Wert (bei wiederholten Elementen) auftreten.</p>
+<p>Ist das Attribut <code>@required="true"</code> gesetzt, ist das gewählte Element ein Pflichfeld, d.h. es muss mindestens ein nicht leerer Wert (bei wiederholten Elementen) auftreten.</p>
 
-<p>Das Attribut @matches gibt einen regulären Ausdruck in der Syntax von java.util.regex.Pattern an, gegen den der Text des XML-Elementes oder Attributes validiert wird.</p>
+<p>Das Attribut <code>@matches</code> gibt einen regulären Ausdruck in der Syntax von <code>java.util.regex.Pattern</code> an. Der Text des XML-Elementes oder Attributes muss dem Muster entsprechen.</p>
 
 <p>Beispiel: </p>
 
 {{< highlight xml "linenos=table">}} <xed:validate xpath="//mods:identifier[@type='issn']" matches="[\dX]{4}\-[\dX]{4}" />{{< /highlight >}}
 
-<p>Das Attribut @test gibt einen XPath Test an, gegen den ein XML-Knoten validiert wird. Beispiel:</p>
+<p>Das Attribut <code>@matches-not</code> gibt einen regulären Ausdruck in der Syntax von <code>java.util.regex.Pattern</code> an. Der Text des XML-Elementes oder Attributes darf dem Muster nicht entsprechen.</p>
+
+<p>Beispiel: </p>
+
+{{< highlight xml "linenos=table">}} <xed:validate xpath="/user/@name" matches-not="stu[0-9]+" />{{< /highlight >}}
+
+<p>Das Attribut <code>@test</code> gibt einen XPath Test an, gegen den ein XML-Knoten validiert wird. Beispiel:</p>
 
 {{< highlight xml "linenos=table">}} <xed:validate xpath="/document/validTo" test="(string-length(.) = 0) or (number(.) >= number(../validFrom))" />{{< /highlight >}}
 
-<p>prüft, ob /document/validTo &gt;= /document/validFrom ist.</p>
+<p>prüft, ob <code>/document/validTo</code> &gt;= <code>/document/validFrom</code> ist.</p>
 
 {{< highlight xml "linenos=table">}} <xed:validate xpath="/user" test="password = passwordRepeated" />{{< /highlight >}}
 
 <p>prüft, ob das eingegebene Passwort mit dessen Wiederholung identisch ist.</p>
 
-<p>Die Attribute @maxLength, @minLenght, @min, @max @type, @class, @method und @format validieren auf die gleiche Weise wie im alten Editor Framework (siehe dort).</p>
+<p>Die Attribute <code>@maxLength</code>, <code>@minLenght</code>, <code>@min</code>, <code>@max</code>, <code>@type</code>, <code>@class</code>, <code>@method</code> und <code>@format</code> validieren auf die gleiche Weise wie im alten Editor Framework (siehe dort).</p>
 Beispiele:
 
 {{< highlight xml "linenos=table">}} <xed:validate xpath="document/yearIssued" min="2000" type="integer" />{{< /highlight >}}
@@ -888,7 +894,7 @@ Beispiele:
 <p>Syntax:</p>
 {{< highlight xml "linenos=table">}} <xed:validate relevant-if="..." />{{< /highlight >}}
 
-<p>Das Attribut @relevant-if gibt in Form eines XPath-Tests an, unter welchen Bedingungen diese Validierungsregel geprüft werden soll. Hat das Attribut keinen Wert, wird
+<p>Das Attribut <code>@relevant-if</code> gibt in Form eines XPath-Tests an, unter welchen Bedingungen diese Validierungsregel geprüft werden soll. Hat das Attribut keinen Wert, wird
 die Validierungsregel immer geprüft.</p>
 
 <p>Beispiel: Die Validierungsregel, die prüft, dass ein übersetzter Titel einen Untertitel haben muss, soll nur dann überprüft werden, wenn der übersetzte Titel vorhanden ist und
@@ -902,19 +908,34 @@ der Originaltitel einen Untertitel hat. Andernfalls soll die Validierung ausgela
     <input type="text" ... />
     <xed:validate required="true" relevant-if="../mods:title!='' and ../../mods:titleInfo[not(@type)]/mods:subTitle!=''" />
   </xed:bind>
-</xed:bind> {{< /highlight >}}
+</xed:bind>{{< /highlight >}}
+
+</div>
+
+<div>
+    <h5>Parameter aus MyCoRe-Konfiguration</h5>
+<p>In bestimmten Situationen kann es vorkommen, dass einzelne der genannten Parameter von <code>&lt;xed:validate/&gt;</code> veränderbar sein sollen, ohne dass jedes Mal die <code>xed</code>-Datei verändert werden muss.</p>
+
+<p>Syntax:</p>
+{{< highlight xml "linenos=table">}} <xed:validate enable-replacements="true" xxx="{$MCR.Parameter.XXX}" />{{< /highlight >}}
+
+<p>Das Attribut <code>enable-replacements</code> muss auf <code>true</code> gesetzt werden. Anschließend kann in allen Attributen mit der Syntax <code>{$MCR.Parameter.XXX}</code> auf Werte aus der MyCoRe-Konfiguration zugegriffen werden.</p>
+
+<p>Beispiel: Es wird sichergestellt, dass es sich beim Erscheinungsjahr um eine ganze handelt, die mindestens den in <code>MCR.Validation.YearIssued.Min</code> konfigurierten Wert hat.</p>
+
+{{< highlight xml "linenos=table">}} <xed:validate xpath="document/yearIssued" enable-replacements="true" min="{$MCR.Validation.YearIssued.Min}" type="integer" />{{< /highlight >}}
 
 </div>
 
 <div>
     <h5>Validierungsmeldungen ausgeben</h5>
-<p>Wenn die Eingabevalidierung fehlschlägt, wird die Variable $xed-validation-failed='true' gesetzt. Beispiel:</p>
+<p>Wenn die Eingabevalidierung fehlschlägt, wird die Variable <code>$xed-validation-failed='true'</code> gesetzt. Beispiel:</p>
 
 {{< highlight xml "linenos=table">}}<xed:if test="$xed-validation-failed">
  Bitte korrigieren Sie die fehlerhaften Eingaben!
 </xed:if>{{< /highlight >}}
 
-<p>Das Attribut xed:validate/@display definiert, an welcher Stelle die Validierungsnachricht ausgegeben werden soll, falls die Validierungsregel nicht erfüllt ist. </p>
+<p>Das Attribut <code>xed:validate/@display</code> definiert, an welcher Stelle die Validierungsnachricht ausgegeben werden soll, falls die Validierungsregel nicht erfüllt ist. </p>
 
 <p><code>@display="here"</code>
 Ausgabe der Meldung an genau dieser Stelle, d.h. dort, wo die Validierungsregel im Formular definiert ist.</p>
