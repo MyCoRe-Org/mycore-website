@@ -52,6 +52,11 @@
       <artifactId>fuse.js</artifactId>
       <version>3.4.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-classifications</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -76,6 +81,8 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <!-- default version was 2.8 which does not have the file mappers element -->
+        <version>3.4.0</version>
         <executions>
           <execution>
             <id>resource-dependencies</id>
@@ -86,6 +93,26 @@
               <type>jar</type>
               <includeArtifactIds>jquery,bootstrap,font-awesome,mark.js,fuse.js</includeArtifactIds>
               <outputDirectory>${project.build.directory}/_webjars</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>classification-sources</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.mycore</groupId>
+                  <artifactId>mycore-classifications</artifactId>
+                  <includes>mycore-classifications/*.xml</includes>
+                  <outputDirectory>${project.basedir}/mycore.org/static/classifications</outputDirectory>
+                  <fileMappers>
+                    <org.codehaus.plexus.components.io.filemappers.FlattenFileMapper/>
+                  </fileMappers>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
         </executions>
