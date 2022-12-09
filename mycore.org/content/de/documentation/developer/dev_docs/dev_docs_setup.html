@@ -84,27 +84,26 @@ Danach reicht es, das Autodeploy-Skript aufzurufen.
 </ul>
 
 {{<highlight system>}}
-$ sudo mkdir -p /opt/mycore-hugo/bin
-$ cd /opt/mycore-hugo/bin
+$ sudo adduser mycore
+$ sudo mkdir -p /mcr/mycore.de/hugo/bin
+$ cd /mcr/mycore.de/hugo/bin
 
 $ sudo  wget https://github.com/gohugoio/hugo/releases/download/v0.89.0/hugo_0.89.0_Linux-64bit.tar.gz
-$ sudo tar -xzf hugo_extended_0.89.0_Linux-64bit.tar.gz
+$ sudo tar -xzf hugo_0.89.0_Linux-64bit.tar.gz
 
-$ sudo mkdir -p /opt/mycore-hugo/git
-$ sudo chown www-data /opt/mycore-hugo/git
-$ cd /opt/mycore-hugo/git
-$ sudo -u www-data git clone https://github.com/MyCoRe-Org/mycore-website
+$ sudo mkdir -p /mcr/mycore.de/hugo/mycore-website
+$ sudo chown mycore /mcr/mycore.de/hugo/mycore-website
+$ cd /mcr/mycore.de/hugo
+$ sudo -u mycore git clone https://github.com/MyCoRe-Org/mycore-website
 
-$ cd /opt/mycore-hugo/git/mycore-website
-$ sudo -u www-data mvn clean compile
+$ cd /mcr/mycore.de/hugo/mycore-website
+$ sudo -u mycore mvn clean compile
 
 $ cd mycore.org
-$ sudo -u www-data /opt/mycore-hugo/bin/hugo -b /mycore-hugo
+$ sudo ../../bin/hugo -b https://www.mycore.de/ --cleanDestinationDir
 
-$ sudo mkdir -p /opt/mycore-hugo/www
-$ sudo chown www-data:www-data /opt/mycore-hugo/www
-$ sudo rm -Rf /opt/mycore-hugo/www/mycore.org
-$ sudo mv /opt/digibib_docs/working/checkout/digibib_docs/public/ /opt/digibib_docs/www/digibib_docs
+$ sudo mv /mcr/mycore.de/hugo/mycore-website/mycore.org/public/* /var/www/mycore-website
+
 {{</highlight>}}
 
 <h3>Apache Konfiguration</h3>
@@ -128,7 +127,7 @@ Ist die Wartezeit abgelaufen, wird die Webseite mit Maven und Hugo gebaut und da
 <p>Das Script kann direkt auf dem Server mit dem Parameter <code>force</code> aufgerufen werden,
 dann wird die Webseite sofort ohne Update-Check und Wartezeit neu gebaut und deployed.
 </p> 
- {{< mcr-figure label="Bash" caption="```/mcr/mycore.de/hugo/update-website.sh```" width="100%">}}
+ {{< mcr-figure label="Bash" caption="```/mcr/mycore.de/hugo/bin/update-mycore-website.sh```" width="100%">}}
 {{<highlight bash>}}
 #!/bin/bash
 # This script will download the MyCoRe website from Git, 
@@ -189,7 +188,7 @@ exit $STATUS
 
 Das Skript muss ausführbar sein:
 {{<highlight system>}}
-$ sudo chmod +x update-website.sh
+$ sudo chmod +x /mcr/mycore.de/hugo/bin/update-mycore-website.sh
 {{</highlight>}}
 
 <h4>Crontab</h4>
@@ -201,5 +200,5 @@ $ sudo crontab -e
 {{</highlight>}}
 {{<highlight text>}}
 # m h  dom mon dow   command
-01,06,11,16,21,26,31,36,41,46,51,56 * * * * sudo -u mycore /mcr/mycore.de/hugo/update-mycore-hugo.sh
+01,06,11,16,21,26,31,36,41,46,51,56 * * * * sudo -u mycore /mcr/mycore.de/hugo/bin/update-mycore-website.sh
 {{</highlight>}}
