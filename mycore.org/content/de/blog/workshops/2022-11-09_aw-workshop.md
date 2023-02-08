@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2022"
 news/teaser_de: 	"MyCoRe-User und Entwickler trafen sich zum 17. MyCoRe-Workshop 2022 an der CAU in Kiel und online."
 news/title_en: 		"MyCoRe-Workshop 2022"
