@@ -4,6 +4,7 @@ title: "News- und Blogbeiträge"
 description: "Nachrichten und Informationen von den Entwicklern und Anwendern können im MyCoRe-Blog bereitgestellt werden."
 author: 		['Robert Stephan']
 date: 			"2019-04-08"
+lastMod: 		"2023-03-09"
 ---
 
 
@@ -24,12 +25,12 @@ Für Blog-Dateien wird der folgende Header verwendet:
 ---
 title: "datamodel-plugin erweitern"  
 slug: datamodel-plugin-erweitern
-date: 2018-03-15
+date: 2023-03-15
 
 draft: false
 
 blog/authors: ["Thomas Scheffler"]
-blog/periods: 2018-03
+blog/periods: 2023-03
 blog/categories:
 - HowTo
 blog/tags:
@@ -46,13 +47,13 @@ blog/tags:
 	<dt>slug</dt> 
 	<dd>identifizierender Bestandteil der URL der Blogseite (sollte nur aus Zeichen bestehen, die in URLs geläufig sind!)
 	<dt>date</dt>
-	<dd>das Datum des Beitrags
+	<dd>das Datum des Beitrags, muss im <code>blog/periods</code>-Zeitraum liegen
 	<dt>draft</dt>
 	<dd><code>true|false</code>: Nachrichten mit <code>draft=true</code> werden im System nicht angezeigt.
 	<dt>blog/authors</dt> 
 	<dd>der/die Autoren des Beitrages
 	<dt>blog/periods</dt>
-	<dd>Zeit-Kategorie des Blogeintrages in der Form <code>YYYY-MM</code></dd>
+	<dd>Zeit-Kategorie des Blogeintrages in der Form <code>YYYY-MM</code>, muss mit dem Monat in <code>date</code> übereinstimmen (Beispiel siehe oben). </dd>
 	<dt>blog/categories</dt> 
 	<dd>Liste von Kategorien für den Blogeintrag
 	<dt>blog/tags</dt> 
