@@ -16,21 +16,32 @@ date: '2021-09-13'
     <p>
         Mit dem <code>MCRCommandCronJob</code> lassen sich beliebige MyCoRe-Kommandos ausführen.
     </p>
-{{< mcr-figure label="Beispiel-Konfiguration für SitemapBuild" >}}
 {{< highlight bash "linenos=table">}}
 MCR.Cronjob.Jobs.SitemapBuild=org.mycore.mcr.cronjob.MCRCommandCronJob
-MCR.Cronjob.Jobs.SitemapBuild.Command=build google sitemap
+# MCR.Cronjob.Jobs.SitemapBuild.Enabled=true
+# MCR.Cronjob.Jobs.SitemapBuild.Contexts=WEBAPP
+# MCR.Cronjob.Jobs.SitemapBuild.CronType=UNIX
 MCR.Cronjob.Jobs.SitemapBuild.Cron=0 2 * * *
-#MCR.Cronjob.Jobs.SitemapBuild.CronType={{< /highlight >}}{{< /mcr-figure >}}
+MCR.Cronjob.Jobs.SitemapBuild.Command=build google sitemap
+{{< /highlight >}}
     <p>
-        Mögliche Werte für das Property <code>CronType</code> sind die enum Konstanten in <a
-            href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>
-        und der Standardwert ist UNIX.
-        In dem Property <code>Cron</code> muss der Zeitpunkt definiert werden. Eine gute Hilfe für Unix ist die Seite <a
-            href="https://crontab.guru/">crontab.guru</a>.
-        Die beiden Properties sind für alle Cronjobs allgemein gültig.
-        Das Property <code>Command</code> ist spezifisch für den MCRCommandCronJob und legt das Kommando fest, welches ausgeführt
-        werden soll.
+        Alle Cronjobs haben die folgenden Konfiigurationsmöglichkeiten:
+        <ul>
+            <li>Das notwendige Property <code>Cron</code> definiert wann der Cronjob ausgeführt wird.
+                Eine gute Hilfe für Unix ist die Seite <a href="https://crontab.guru/">crontab.guru</a>.
+                Der Standardwert (<code>UNIX</code>) ist in <code>MCR.Cronjob.Default.CronType</code> definiert.</li>
+            <li>Das Property <code>CronType</code> definiert wie der Wert des Properties <code>Cron</code> von der zugrundeliegenden Programmbibliothek interpretiert wird.
+                Mögliche Werte sind die Konstanten aus <a href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>.
+                Der Standardwert (<code>UNIX</code>) ist in <code>MCR.Cronjob.Default.CronType</code> definiert.</li>
+            <li>Das Property <code>Contexts</code> definiert in welchen Umgebungen der Cronjob aktiviert ist.
+                Mögliche Werte sind die Konstanten <code>WEBAPP</code> und <code>CLI</code>. Es kann ein kommaseparierte Liste angegeben werden.
+                Der Standardwert (<code>WEBAPP</code>) ist in <code>MCR.Cronjob.Default.Contexts</code> definiert.</li>
+            <li>Das Property <code>Enabled</code> bestimmt ob der Cronjob grundsätzlich aktiviert ist.
+                Mögliche Werte sind <code>true</code> und <code>false</code>.
+                Der Standardwert (<code>true</code>) ist in <code>MCR.Cronjob.Default.Enabled</code> definiert.</li>
+        </ul>
+        Die Implementierung <code>MCRCommandCronJob</code> zur Ausführung eines Kommandos hat zusätzlich das Property <code>Command</code>.
+        Dieses legt das auszuführende Kommando fest.
     </p>
 
     <h2>Einen eigenen Cronjob implementieren</h2>
@@ -71,12 +82,12 @@ public class MyCronJob extends MCRCronjob {
 
 {{< highlight bash "linenos=table">}}
 MCR.Cronjob.Jobs.MyOwnJob=de.my.cronjob.MyCronJob
-MCR.Cronjob.Jobs.MyOwnJob.Foo=bar
-MCR.Cronjob.Jobs.MyOwnJob.Cron=0 2 * * * {{< /highlight >}}
+MCR.Cronjob.Jobs.MyOwnJob.Cron=0 2 * * *
+MCR.Cronjob.Jobs.MyOwnJob.Foo=bar{{< /highlight >}}
 
     <p>
-        Die Methode <code>#runJob()</code> muss implementiert werden und wird ausgeführt, wenn der im Cron Property definierte
-        Zeitpunkt erreicht ist. Die Methode <code>#getDescription()</code> wird ausgelesen, um in der Webtools-Processable-Ansicht
+        Die Methode <code>runJob</code> muss implementiert werden und wird ausgeführt, wenn der im Cron Property definierte
+        Zeitpunkt erreicht ist. Die Methode <code>getDescription</code> wird ausgelesen, um in der Webtools-Processable-Ansicht
         eine Beschreibung auszugeben.
     </p>
 </div>
