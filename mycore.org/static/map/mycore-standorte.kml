@@ -58,6 +58,23 @@
       </Point>
     </Placemark>
     <Placemark>
+      <name>opendata@uni-kiel</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://opendata.uni-kiel.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_opendata.png" /></a>
+                <p>
+			<a class="mcrmap_item_name" href="https://opendata.uni-kiel.de/">opendata@uni-kiel: Forschungsdatenrepositorium der Christian-Albrechts-Universität zu Kiel</a>
+			<span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Rechenzentrum)</span>
+                </p>
+            </div>
+        ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
       <name>MACAU</name>
       <description><![CDATA[
             <div class="mcrmap_item">
