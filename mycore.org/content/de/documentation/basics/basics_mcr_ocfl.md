@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2022-11_04"
+date: "2023-04-11"
 
 ---
 
@@ -15,22 +15,19 @@ date: "2022-11_04"
 Speicherung im Dateisystem und einer Dateiversionierung optimal verbunden werden. 
 
 Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/UW-Madison-Library/ocfl-java) der University of Wisconsin-Madison
-realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun prototypisch 
-implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden 
+realisiert. Die MyCoRe-Entwickler arbeiten seit 2020 an der Integration dieser Form der Datenablage in MyCoRe und haben sie nun in Teilen 
+implementiert. Mit dem Release {{<mcr-version "2021.11">}} ist sie auch für Produktivanwendungen als Beta verfügbar und kann genutzt werden, 
 um Objekte und Klassifikationen im OCFL-Storage-Layout zu speichern. Mit dem Release {{<mcr-version "2022.06">}} wird die OCFL Implementierung
-ausgebaut. Da hierfür auch 'unter der Haube' für den Endanwender funktionsneutrale Umbauten erforderlich sind, wird sich der OCFL-Teil auch
-im aktuellen LTS kontinuierlich weiterentwickeln. Dies soll aber keine Auswirkungen auf die Benutzerebene haben. Somit ist dieser Teil immer 
-noch eine Art Beta-Phase.
- 
-"OCFL-Beta" bedeutet, das bisher noch nicht alles im OCFL gespeichert werden kann, aber es nicht mehr zu grundlegenden Änderungen kommen wird. 
-Zukünftige Änderungen bauen auf dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen.
+um das User-System erweitert. Da hierfür auch 'unter der Haube' für den Endanwender funktionsneutrale Umbauten erforderlich sind, wird sich der OCFL-Teil auch
+im aktuellen LTS kontinuierlich weiterentwickeln. Dies soll aber keine Auswirkungen auf die Benutzerebene haben. Zukünftige Änderungen bauen auf 
+dieser Implementierung auf, ohne das Konflikte für den Nutzer entstehen. ACLs, Web-Seiten und die digitalen Objekte der Derivate können aktuell noch nicht versioniert werden.
 
 ## Zukünftige Pläne
 
 Derzeit ist es nur möglich, Objekte und Derivate-Metadaten sowie Klassifikationen und Nutzer zu speichern. Ziel ist es, das man zukünftig auch 
 Derivate-Inhalte (Dateien) und alle Utility-Objekte (wie etwa ACLs, etc.) im OCFL-Repository speichern kann. Für einzelne Datenbereiche wie XML
-soll OCFL eine Form des Primärspeichers darstellen. Bie daten wie Klassifikationen und Nutzer wird es als sekundärer Sicherheitsspeicher genutzt.
-Weitere Konzepte werden dies für ACLs und digitale Objekte schrittweise ergänzen.
+soll OCFL eine Form des Primärspeichers darstellen. Bei Daten wie Klassifikationen und Nutzer wird die OCFL-Ablage nur als sekundärer Sicherheitsspeicher genutzt.
+Weitere Ergänzungen werden dies für ACLs und digitale Objekte schrittweise ergänzen.
 
 # Integration von OCFL
 
@@ -199,7 +196,7 @@ Der Hashwert wird aus dem ursprünglichen Dateinamen gebildet. Anschließend wir
 
 ### MyCoRe Storage Layout
 
-Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt durch aus ihrer ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
+Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout, welches ähnlich des Nativen XML Store arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt aus der ID und einem konfigurierbaren SlotLayout bzw. des eingestellten NumberPatterns (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei den Utility-Objekten (Klassifikationen, Nutzer, ...) wird der Pfad aus deren Typ und dem Namen erstellt.
 
 <b class="text-warning">Es ist zu beachten, dass das MyCoRe Storage Layout keinem OCFL-Standard-Layout entspricht und daher nicht von externen Tools nativ unterstützt wird.</b>
 
@@ -275,8 +272,8 @@ Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Kon
 MCR.Metadata.Manager.Repository=Main
 ```
 
-Mit dem folgenden Property kann der Metadaten Manager von XML (bisherige Implementierung) auf OCFL umgestellt werden. Dies darf erst 
-NACH der Migartion erfolgen!
+Mit dem folgenden Property kann der Metadaten Manager von XML (bisherige Implementierung) auf OCFL umgestellt werden. **Dies darf erst 
+NACH der Migartion erfolgen!**
 
 ```shell {linenos=table}
  MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
@@ -329,24 +326,39 @@ MCR.Users.Manager=org.mycore.ocfl.user.MCROCFLXMLUserManager;
 MCR.EventHandler.MCRUser.020.Class=org.mycore.ocfl.user.MCROCFLUserEventHandler
 ```
 
+
+## Optionen für das Löschen
+
+Werden Daten im OCFL gelöscht, so werden Sie per default nur als gelöscht markiert. Ältere Versionen können erstmal per default noch eingesehen werden.
+
+Zum endgültigen Löschen von Daten kann dies über das folgende Property festgelegt werden. Bei Metadaten ist dabei auch eine Gruppierung nach MCRBaseID oder MCRProjectID möglich.
+```MCR.OCFL.dropHistory.mcrclass=true
+MCR.OCFL.dropHistory.mcruser=true
+MCR.OCFL.dropHistory.mcrobject=true
+MCR.OCFL.dropHistory.mcrobject.ULBeeHealth=true
+MCR.OCFL.dropHistory.mcrobject.ULBeeHealth_anihealth=true
+```
+
 # Migartion
 
 ## Migration zu OCFL
 
 Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
 
-Zunächst wird der Metadaten-Manager bei dem Nativen belassen und es soll sichergestellt werden,
-dass das Repository `Main` oder das eigene Repository korrekt eingerichtet sind. Der MCR.Metadata.Manager muss noch auf XML stehen!
+Zunächst wird der Metadaten-Manager bei dem nativen XML-Plattenspeicher belassen und es soll sichergestellt werden,
+dass das Repository `Main` oder das eigene Repository (z. B. MCR) korrekt eingerichtet sind. **Der MCR.Metadata.Manager muss noch auf XML stehen!**
 
 Mit dem Kommando `migrate metadata to repository {Repository}` können die Daten in die angegebene Repository überspielt werden.
 Das Kommando gibt in einer Statistik aus, ob alle Metadaten migriert werden konnten.
 
 Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
 
-Wenn alles geklappt hat, kann man den MetadatenManager wie folgt umstellen:
+Wenn alles erfolgreich umgestellt ist, kann man den MetadatenManager wie folgt umstellen:
 ```shell {linenos=table}
  MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
 ```
+
+Die Daten für User und Klassifikationen können mit `update ocfl classifications` und `update ocfl users` nach OCFL migriert werden. Primärdaten bleiben hier aber die Datenbanktabellen!
 
 ## Migration zwischen Layouts
 
@@ -359,13 +371,6 @@ zu setzen.
 
 Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), dieses Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Haben Quell- und Zielrepository denselben Typ, ist es abzuwägen, ob es einfacher, das Repository zu kopieren.
 
-{{<mcr-comment>}}
-<!--
-Der Nutzer ruft ja nicht wissentlich den Versionsverlauf auf, sondern das Migrationsscript, daher denke ich das es generell gehalten werden soll, da sich der Nutzer sonst fragt:
-"Naja, ich rufe den nicht selber auf, aber bekomme das Exception, was soll ich tun?"
-Um das zu vermeiden, wird nur darauf eingegangen, dass er kommt und danach warum der kommt.
- -->
-{{</mcr-comment>}}
 Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Das Problem entsteht, wenn versucht wird, deren Versionsverlauf zu lesen, da MyCoRe diese IDs noch immer bekannt sind. Es tritt nicht auf wenn Objekte und Derivate NACH der Migration gelöscht werden, da nun der Versionsverlauf nicht mit gelöscht wird.\
 
 Das Problem wird in einer zukünftigen Version behoben werden und hat <u>keinen Einfluss auf die Funktionsweise von OCFL</u>. Es kann daher ohne Bedenken ignoriert werden.
@@ -390,9 +395,23 @@ Da die Nutzer primär in der Datenbank gespeichert sind, ist nur der Manager umz
 
 Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer Änderung wird die neue Version im OCFL Store abgelegt, auch wenn dieser noch leer ist.
 
+## Globale Kommandos
+
+`purge all marked from ocfl` - Löscht alle markierten OCFL-Einträge.
+
+`restore all ocfl entries matching {RegEx}` - Stelle alle Objekte für den gegebenen regularen Ausdruck wieder her.
+
 ## Metadaten
 
-`migrate metadata to repository {ReopsitoryID}` - Migriert alle Metadaten in das OCFL Repository mit der ReopsitoryID (z. B. Main).
+`migrate metadata to repository {ReopsitoryID}` - Migriert alle Metadaten in das OCFL Repository mit der ReopsitoryID (z. B. Main oder MCR).
+
+`purge marked metadata from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, alle markierten Objekt aus dem System.
+
+`purge object {MCRID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, das angegebene Objekt aus dem System.
+
+`restore ocfs object {MCRID} rev {revision_before_delete}` - Stellt das Objekt mit der angegebenen Revision im OCFL wieder her.
+
+`restore ocfl object matching {RegEx}` - Stellt die Objekte im OCFL her, welche dem regulären Ausdruck entsprechen.
 
 ## Klassifikationen
 
@@ -400,9 +419,17 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `update ocfl classification {ClassID}` - Soll nur eine einzige Klassifikation aktualisiert werden, kann dies mit diesem Befehl getan werden.
 
-`delete ocfl classification {ClassID}` - Löscht eine Klassifikation aus dem OCFL-System. Hierbei ist zu beachten, wie die Poroperties zum Löschen in OCFL gesetzt sind. Ggf. sind ältere Versionen weiterhin vorhanden.
+`sync ocfl classifications` - Sollte der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit dem Befehl alle Klassifikationen im OCFL auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen. Je nach Property werden diese auch im OCFL direkt gelöscht.
 
-`sync ocfl classifications` - Sollte jemals der Fall auftreten, das der Stand des OCFL Stores und die der Datenbank nicht mehr gleich sind, kann man mit dem Befehl alle Klassifikationen im OCFL auf den aktuellen Stand bringen und in der Datenbank gelöschte Klassifikationen in OCFL als gelöscht markieren lassen. Je nach Property werden diese auch im OCFL direkt gelöscht.
+`delete ocfl classification {ClassID}` - Löscht eine Klassifikation aus dem OCFL-System. Hierbei ist zu beachten, wie die Porperties zum Löschen in OCFL gesetzt sind. Ggf. sind ältere Versionen weiterhin vorhanden.
+
+`purge marked classes from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, alle so markierten Klassifikationen entgültig aus dem System.
+
+`purge class {ClassID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, die angegebene Klassifikation aus dem System.
+
+`restore ocfs class {ClassID} rev {revision_before_delete}` - Stellt die Klassifikation mit der angegebenen Revision im OCFL wieder her.
+
+`restore ocfl classification matching {RegEx}` - Stellt die Klassifikationen im OCFL her, welche dem regulären Ausdruck entsprechen.
 
 ## Nutzerdaten
 
@@ -410,21 +437,27 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `update ocfl user {UserID}` - Aktualisiert den Nutzer mit der UserID im OCFL-Speicher.
 
-`delete ocfl user {UserID}` - Löscht den Nutzer mit der UserID aus dem OCFL-Speicher. Hierbei ist die Property-Konfiguration für das Löschen im OCFL zu beachten.
-
 `sync ocfl users` - Syncronisiert die Nutzerdaten im OCFL mit denen der Datenbank.
 
-`restore user {UserID} from ocfl with version {version}` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten in der entsprechenden Version.
+`delete ocfl user {UserID}` - Löscht den Nutzer mit der UserID aus dem OCFL-Speicher. Hierbei ist die Property-Konfiguration für das Löschen im OCFL zu beachten.
 
-`restore user {UserID} from ocfl` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten.
+`purge marked user from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, alle so markierten User entgültig aus dem System.
+
+`purge user {UserID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, den angegebenen User aus dem System.
+
+`repair user {UserID} from ocfl with version {version}` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten in der entsprechenden Version.
+
+`repair user {UserID} from ocfl` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten.
+
+`restore ocfs user {UserID} rev {revision_before_delete}` - Stellt den Nutzer mit der angegebenen Revision im OCFL wieder her.
+
+`restore ocfl user matching {RegEx}` - Stellt die Nutzer im OCFL her, welche dem regulären Ausdruck entsprechen.
 
 # Offene Probleme
 
-## Hartes Löschen
+## Zugriff auf Soft-gelöschte Daten regeln
 
-Unter bestimmten Umständen muss ein Objekt auch hart löschbar sein - bisher ist nur 'soft'-löschen möglich.
-Das bedeutet, nach dem Löschen können alte Versionen immer noch angezeigt werden.
-Dazu kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` mitgegeben werden, um die entsprechende Version anzuzeigen.
+Es kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` zugegriffen werden. Die smuss über ACLs geregelt werden.
 
 ## Struktur der Manager
 
