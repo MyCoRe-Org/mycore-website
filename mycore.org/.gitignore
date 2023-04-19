@@ -1,0 +1,4 @@
+.hugo/*
+!.hugo/version
+.hugo_build.lock
+
