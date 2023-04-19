@@ -24,29 +24,27 @@ MCR.Cronjob.Jobs.SitemapBuild=org.mycore.mcr.cronjob.MCRCommandCronJob
 MCR.Cronjob.Jobs.SitemapBuild.Cron=0 2 * * *
 MCR.Cronjob.Jobs.SitemapBuild.Command=build google sitemap
 {{< /highlight >}}
+    Alle Cronjobs haben die folgenden Konfigurationsmöglichkeiten:
+    <ul>
+        <li>Das notwendige Property <code>Cron</code> definiert, wann der Cronjob ausgeführt wird.<br />
+            Eine gute Hilfe für Zeitangaben im Unix-Format bietet <a href="https://crontab.guru/">crontab.guru</a>.</li>
+        <li>Das Property <code>CronType</code> definiert wie der Wert des Properties <code>Cron</code> von der zugrundeliegenden Programmbibliothek interpretiert wird.<br />
+            Mögliche Werte sind die Konstanten aus <a href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>.<br />
+            Der Standardwert (<code>UNIX</code>) ist in <code>MCR.Cronjob.Default.CronType</code> definiert.</li>
+        <li>Das Property <code>Contexts</code> definiert in welchen Umgebungen der Cronjob aktiviert ist.<br />
+            Mögliche Werte sind die Konstanten <code>WEBAPP</code> und <code>CLI</code>. Es kann ein kommaseparierte Liste angegeben werden.<br />
+            Der Standardwert (<code>WEBAPP</code>) ist in <code>MCR.Cronjob.Default.Contexts</code> definiert.</li>
+        <li>Das Property <code>Enabled</code> bestimmt, ob der Cronjob grundsätzlich aktiviert ist.<br />
+            Mögliche Werte sind <code>true</code> und <code>false</code>.<br />
+            Der Standardwert (<code>true</code>) ist in <code>MCR.Cronjob.Default.Enabled</code> definiert.</li>
+    </ul>
     <p>
-        Alle Cronjobs haben die folgenden Konfiigurationsmöglichkeiten:
-        <ul>
-            <li>Das notwendige Property <code>Cron</code> definiert wann der Cronjob ausgeführt wird.
-                Eine gute Hilfe für Unix ist die Seite <a href="https://crontab.guru/">crontab.guru</a>.
-                Der Standardwert (<code>UNIX</code>) ist in <code>MCR.Cronjob.Default.CronType</code> definiert.</li>
-            <li>Das Property <code>CronType</code> definiert wie der Wert des Properties <code>Cron</code> von der zugrundeliegenden Programmbibliothek interpretiert wird.
-                Mögliche Werte sind die Konstanten aus <a href="https://javadoc.io/static/com.cronutils/cron-utils/3.1.2/com/cronutils/model/CronType.html">CronType</a>.
-                Der Standardwert (<code>UNIX</code>) ist in <code>MCR.Cronjob.Default.CronType</code> definiert.</li>
-            <li>Das Property <code>Contexts</code> definiert in welchen Umgebungen der Cronjob aktiviert ist.
-                Mögliche Werte sind die Konstanten <code>WEBAPP</code> und <code>CLI</code>. Es kann ein kommaseparierte Liste angegeben werden.
-                Der Standardwert (<code>WEBAPP</code>) ist in <code>MCR.Cronjob.Default.Contexts</code> definiert.</li>
-            <li>Das Property <code>Enabled</code> bestimmt ob der Cronjob grundsätzlich aktiviert ist.
-                Mögliche Werte sind <code>true</code> und <code>false</code>.
-                Der Standardwert (<code>true</code>) ist in <code>MCR.Cronjob.Default.Enabled</code> definiert.</li>
-        </ul>
-        Die Implementierung <code>MCRCommandCronJob</code> zur Ausführung eines Kommandos hat zusätzlich das Property <code>Command</code>.
-        Dieses legt das auszuführende Kommando fest.
+        Die Klasse <code>MCRCommandCronJob</code> zur Ausführung eines Kommandos implementiert zusätzlich das Property <code>Command</code>.<br />
+        Dieses legt das auszuführende MyCoRe-Kommando fest.
     </p>
 
     <h2>Einen eigenen Cronjob implementieren</h2>
-    <p>Wenn sich ein Cronjob nicht auf ein einfaches Kommando abbilden lässt, oder es nicht gewünscht ist ein Kommando
-        zu haben, dann gibt es die Möglichkeit, die Klasse <code>MCRCronjob</code> zu erweitern.</p>
+    <p>Wenn für einen Cronjob kein geeignetes MyCoRe-Kommando zur Verfügung steht, gibt es die Möglichkeit, die Klasse <code>MCRCronjob</code> zu erweitern.</p>
 {{< highlight java "linenos=table">}}
 public class MyCronJob extends MCRCronjob {
 
@@ -86,8 +84,8 @@ MCR.Cronjob.Jobs.MyOwnJob.Cron=0 2 * * *
 MCR.Cronjob.Jobs.MyOwnJob.Foo=bar{{< /highlight >}}
 
     <p>
-        Die Methode <code>runJob</code> muss implementiert werden und wird ausgeführt, wenn der im Cron Property definierte
-        Zeitpunkt erreicht ist. Die Methode <code>getDescription</code> wird ausgelesen, um in der Webtools-Processable-Ansicht
-        eine Beschreibung auszugeben.
+        Die Methode <code>runJob</code> muss implementiert werden. Sie wird ausgeführt, wenn der im Cron Property definierte
+        Zeitpunkt erreicht ist. <br />
+        Die Methode <code>getDescription</code> generiert eine Beschreibung, die in der Webtools-Processable-Ansicht angezeigt wird.
     </p>
 </div>

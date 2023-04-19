@@ -78,7 +78,8 @@ main:
 -     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,       weight: -86,      url: /documentation/basics/basics_lifecycle}
 -     {identifier: basics_configurable_instance, parent: basics,        name: Konfigurierbare Klasseninstanzen, weight: -85,   url: /documentation/basics/basics_configurable_instance}
 -     {identifier: basics_job_api,          parent: basics,             name: Job-API,                       weight: -84,      url: /documentation/basics/basics_job_api}
--     {identifier: basics_mcr_crypt,        parent: basics,             name: Verschlüsselung,              weight: -83,      url: /documentation/basics/basics_mcr_crypt}
+-     {identifier: basics_cronjob,          parent: basics,             name: Cronjob,                       weight: -83,      url: /documentation/basics/basics_cronjob}
+-     {identifier: basics_mcr_crypt,        parent: basics,             name: Verschlüsselung,               weight: -82,      url: /documentation/basics/basics_mcr_crypt}
 -   {identifier: cli,                     parent: documentation,      name: Die Kommandozeile,             weight: -97,      url: /documentation/cli}
 -     {identifier: cli_overview,            parent: cli,                name: Übersicht,                     weight: -99,      url: /documentation/cli/cli_overview}
 -     {identifier: cli_web,                 parent: cli,                name: WebCLI,                        weight: -98,      url: /documentation/cli/cli_web}
