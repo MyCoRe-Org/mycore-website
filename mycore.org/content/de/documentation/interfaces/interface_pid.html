@@ -53,15 +53,26 @@ date: "2020-06-04"
       einzelnen Objektes ein weiterer Menüpunkt "DOI Registrieren".
     </p>
 
-<h3>Automatisches Erstellen und Reservieren von PI</h3>
+<h2>URN-Registrierung</h2>
+<p>
+    Die Konfiguration für URN erfolgt analog zu DOI. Eine Beispiel für eine Konfiguration kann in
+    den <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/config/mir/mycore.properties#L99"
+    >MIR-Properties</a> gefunden werden.
+</p>
+
+<h2>Automatisches Erstellen und Reservieren von PI</h2>
 <p>
     Über das Property <code>.CreationPredicate</code> kann eine Bedingung festgelegt werden. Wenn diese Bedingung
     erfüllt ist, wird ein Persistent Identifier erstellt und registriert.
-    Falls es nötig ist, zunächst ein PI zu reservieren, aber noch nicht zu registrieren kann man das Property
-    <code>.RegistrationPredicate</code> setzen, welches eine Bedingung definiert, die für die Registrierung erfüllt sein
-    muss. Die Bedingung muss auch erfüllt sein, wenn die der PI nicht automatisch erstellt wurde!
-    Beispiel:
+    Falls es nötig ist, zunächst nur ein PI zu reservieren, aber noch nicht zu registrieren kann man das Property
+    <code>.RegistrationPredicate</code> setzen, welches eine Bedingung definiert, die für die Registrierung erfüllt sein muss.
+    Die Bedingung muss auch erfüllt sein, wenn der PI nicht automatisch erstellt wurde!
 </p>
+<h3>MCRPIStatePredicate</h3>
+<p>
+    Das <code>MCRPIStatePredicate</code> prüft, ob sich das MyCoRe-Objekt in einem gegebenen Zustand befindet. 
+</p>    
+Beispiel:
 {{< highlight bash "linenos=table">}}
 MCR.PI.Service.Datacite.CreationPredicate=org.mycore.pi.condition.MCRPIStatePredicate
 MCR.PI.Service.Datacite.CreationPredicate.State=new
@@ -70,24 +81,31 @@ MCR.PI.Service.Datacite.RegistrationPredicate.State=published
 {{< /highlight >}}
 <p>
     Wenn ein Objekt erzeugt wird und im Zustand <code>new</code> ist, dann wird ein PI angelegt (<code>MCRPIStatePredicate</code> mit Konfiguration <code>State=new</code>).
-    Anschließend wird die PI nicht registriert, da die Bedingung für das Registrieren nicht erfüllt ist (<code>MCRPIStatePredicate</code> mit Konfiguration <code>State=published</code>).
+    Anschließend wird der PI nicht registriert, da die Bedingung für das Registrieren nicht erfüllt ist (<code>MCRPIStatePredicate</code> mit Konfiguration <code>State=published</code>).
     Stellt ein Nutzer das Objekt auf den Status <code>published</code>, dann wird der PI automatisch registriert.
     Bei jeder Änderung am Objekt wird die Bedingung durch einen EventHandler geprüft.
 </p>
+
+<h3>MCRPIXPathPredicate</h3>
 <p>
-    Neben dem <code>MCRPIStatePredicate</code>, dass prüft, ob ein Objekt in einem gegebenem Zustand ist, gibt es zur Modellierung beliebiger Bedingungen das <code></code>MCRPIXPathPredicate</code>.
-    Hierzu muss ein XPath-Ausdruck konfiguriert werden. Dieser wird den XPath-Regeln entsprechend zu einem Wahrheitswert ausgewertet, z.B. um eine DOI nur dann anzulegen, wenn nicht bereits eine DOI in den Metadaten angegeben wurde:
+    Weiterhin gibt es zur Modellierung beliebiger Bedingungen das <code>MCRPIXPathPredicate</code>.
+    Damit kann ein XPath-Ausdruck angegeben werden, der einen Wahrheitswert zurückliefert, 
+    z.B. um eine neue DOI nur dann anzulegen, wenn nicht bereits eine DOI in den Metadaten existiert.
 </p>
+Beispiel:
 {{< highlight bash "linenos=table">}}
 MCR.PI.Service.Datacite.CreationPredicate=org.mycore.pi.condition.MCRPIXPathPredicate
 MCR.PI.Service.Datacite.CreationPredicate.XPath=not(//modsContainer//mods:mods/mods:identifier[@type='doi'])
 {{< /highlight >}}
+
+<h3>MCRPIClassificationXPathPredicate</h3>
 <p>
     Soll die Entscheidung in Abhängigkeit der Eigenschaften eines vergebenen Klassifikationswertes getroffen werden, kann ein <code>MCRPIClassificationXPathPredicate</code> verwendet werden.
     Hierzu müssen eine Reihe von XPath-Ausdrücken konfiguriert werden. Einen, um ein Basis-Element im Objekt auszuwählen und zwei weitere um ausgehend von diesem Basis-Element die ID der Klassifikation und des vergebenen Klassifikationswertes zu ermitteln.
     Anhand dieser beiden Werte wird die entsprechende Kategorie geladen. Der vierte XPath-Ausdruck beschreibt die geforderte Eigenschaft des Klassifikationswertes.
     Dieser wird den XPath-Regeln entsprechend zu einem Wahrheitswert ausgewertet, z.B. um eine DOI nur dann anzulegen, wenn das Genre entsprechend gekennzeichnet ist (<code>&lt;label xml:lang="x-doi-service" text="datacite"/&gt;</code>):
 </p>
+Beispiel:
 {{< highlight bash "linenos=table">}}
 MCR.PI.Service.Datacite.CreationPredicate=org.mycore.pi.condition.MCRPIClassificationXPathPredicate
 MCR.PI.Service.Datacite.CreationPredicate.BaseXPath=//modsContainer/mods:mods/mods:genre[@type='intern']
@@ -95,9 +113,12 @@ MCR.PI.Service.Datacite.CreationPredicate.ClassIdXPath='mir_genres'
 MCR.PI.Service.Datacite.CreationPredicate.CategIdXPath=substring-after(@valueURI,'#')
 MCR.PI.Service.Datacite.CreationPredicate.XPath=//category/label[lang('x-doi-service') and @text='datacite']
 {{< /highlight >}}
+
+<h3>MCRPIAndPredicate / MCRPIOrPredicate</h3>
 <p>
     Es ist auch möglich komplexere Bedingungen mittels <code>MCRPIAndPredicate</code> oder <code>MCRPIOrPredicate</code> zu definieren:
 </p>
+Beispiel:
 {{< highlight bash "linenos=table">}}
 MCR.PI.Service.Datacite.CreationPredicate=org.mycore.pi.condition.MCRPIAndPredicate
 MCR.PI.Service.Datacite.CreationPredicate.1=org.mycore.pi.condition.MCRPIStatePredicate
@@ -106,12 +127,6 @@ MCR.PI.Service.Datacite.CreationPredicate.2=org.mycore.pi.condition.MCRPIXPathPr
 MCR.PI.Service.Datacite.CreationPredicate.2.XPath=//modsContainer/mods:mods[count(mods:name[@type='corporate' and contains(@authorityURI, 'mir_institutes')])>0]
 {{< /highlight >}}
 <p>
-    In dem Beispiel wird ein PI nur im Zustand <code>new</code> erzeugt und wenn eine Institution angegeben ist. Mehr erfährt man im <a href="https://github.com/MyCoRe-Org/mycore/tree/2021.06.x/mycore-pi/src/main/java/org/mycore/pi/condition">Quellcode</a>.
+    In dem Beispiel wird ein PI nur im Zustand <code>new</code> erzeugt <strong>und</strong> wenn eine Institution angegeben ist. Mehr erfährt man im <a href="https://github.com/MyCoRe-Org/mycore/tree/2021.06.x/mycore-pi/src/main/java/org/mycore/pi/condition">Quellcode</a>.
 </p>
 
-    <h2>URN-Registrierung</h2>
-    <p>
-      Die Konfiguration für URN erfolgt analog zu DOI. Eine Beispiel für eine Konfiguration kann in
-      den <a href="https://github.com/MyCoRe-Org/mir/blob/master/mir-module/src/main/resources/config/mir/mycore.properties#L99"
-      >MIR-Properties</a> gefunden werden.
-    </p>
