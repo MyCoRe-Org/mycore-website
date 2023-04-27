@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
  
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"Online-Workshop über das DINI-Zertifikat 2022"
 news/teaser_de: 	"Online-Session am 09.02.2023 „In wenigen Schritten zum DINI-Zertifikat 2022 für MyCoRe/MIR“"
 news/title_en: 		"Online-Workshop DINI-Zertifikat for MyCoRe/MIR"
