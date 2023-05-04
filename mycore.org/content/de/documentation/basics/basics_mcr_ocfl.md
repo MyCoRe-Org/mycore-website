@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2023-04-11"
+date: "2023-05-04"
 
 ---
 
@@ -399,7 +399,9 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `purge all marked from ocfl` - Löscht alle markierten OCFL-Einträge.
 
-`restore all ocfl entries matching {RegEx}` - Stelle alle Objekte für den gegebenen regularen Ausdruck wieder her.
+`purge all ocfl entries matching {RegEx}` - Löscht alle OCFL-Einträge, bei welchen die MCRIDs dem regulären Ausdruck entsprechen.
+
+`purge all marked ocfl entries matching {RegEx}` - Löscht alle markierten OCFL-Einträge, bei welchen die MCRIDs dem regulären Ausdruck entsprechen.
 
 ## Metadaten
 
@@ -409,9 +411,13 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `purge object {MCRID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, das angegebene Objekt aus dem System.
 
-`restore ocfs object {MCRID} rev {revision_before_delete}` - Stellt das Objekt mit der angegebenen Revision im OCFL wieder her.
+`purge marked ocfl objects matching {RegEx}` - Entfernt die Objekte vom OCFL, bei welchen die MCRIDs dem regulären Ausdruck entsprechen.
 
-`restore ocfl object matching {RegEx}` - Stellt die Objekte im OCFL her, welche dem regulären Ausdruck entsprechen.
+`restore ocfl object {MCRID}` - Stellt das Objekt mit der letzten Revision im OCFL wieder her.
+
+`restore object {MCRID} from ocfl with version {version_before_delete}` - Stellt das Objekt mit der angegebenen Version im OCFL wieder her.
+
+`restore ocfl object matching {RegEx}` - Stellt die Objekte im OCFL her, bei welchen die MCRIDs dem regulären Ausdruck entsprechen.
 
 ## Klassifikationen
 
@@ -423,13 +429,19 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `delete ocfl classification {ClassID}` - Löscht eine Klassifikation aus dem OCFL-System. Hierbei ist zu beachten, wie die Porperties zum Löschen in OCFL gesetzt sind. Ggf. sind ältere Versionen weiterhin vorhanden.
 
-`purge marked classes from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, alle so markierten Klassifikationen entgültig aus dem System.
+`purge marked classification from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, alle so markierten Klassifikationen entgültig aus dem System.
 
-`purge class {ClassID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, die angegebene Klassifikation aus dem System.
+`purge classification {ClassID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, die angegebene Klassifikation aus dem System.
 
-`restore ocfs class {ClassID} rev {revision_before_delete}` - Stellt die Klassifikation mit der angegebenen Revision im OCFL wieder her.
+`purge classifications matching {RegEx}` - Entfernt die Klassifikationen aus dem OCFL, welche dem regulären Ausdruck entsprechen.
 
-`restore ocfl classification matching {RegEx}` - Stellt die Klassifikationen im OCFL her, welche dem regulären Ausdruck entsprechen.
+`purge marked classifications matching {RegEx}` - Entfernt die markierten Klassifikationen aus dem OCFL, welche dem regulären Ausdruck entsprechen.
+
+`restore classification {ClassID} from ocfl` - Stellt die Klassifikation mit der letzten Version im OCFL wieder her.
+
+`restore classification {ClassID} from ocfl with version {version_before_delete}` - Stellt die Klassifikation mit der angegebenen Version im OCFL wieder her.
+
+`restore ocfl classifications matching {RegEx}` - Stellt die Klassifikationen im OCFL her, welche dem regulären Ausdruck entsprechen.
 
 ## Nutzerdaten
 
@@ -445,11 +457,13 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 `purge user {UserID} from ocfl` - Entfernt im Falle, dass bisher nur ein logisches Löschen im OCFL erfolgte, den angegebenen User aus dem System.
 
-`repair user {UserID} from ocfl with version {version}` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten in der entsprechenden Version.
+`purge ocfl user matching {RegEx}` - Entfernt die Nutzer aus dem OCFL, welche dem regulären Ausdruck entsprechen.
 
-`repair user {UserID} from ocfl` - Repariert den Nutzer mit der UserID in der Datennbank aus den in OCFL gespeicheten Daten.
+`purge marked user matching {RegEx}` - Entfernt die markierten Nutzer aus dem OCFL, welche dem regulären Ausdruck entsprechen.
 
-`restore ocfs user {UserID} rev {revision_before_delete}` - Stellt den Nutzer mit der angegebenen Revision im OCFL wieder her.
+`restore user {UserID} from ocfl` - Stellt den Nutzer mit der letzten Version im OCFL wieder her.
+
+`restore user {UserID} from ocfl with version {version_before_delete}` - Stellt den Nutzer mit der angegebenen Version im OCFL wieder her.
 
 `restore ocfl user matching {RegEx}` - Stellt die Nutzer im OCFL her, welche dem regulären Ausdruck entsprechen.
 
@@ -461,7 +475,7 @@ Es kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das 
 
 ## Struktur der Manager
 
-Die Konzeption der manager, der Zugriff darauf und die Konfiguration über properties muss überarbeitet werden.
+Die Konzeption der Manager, der Zugriff darauf und die Konfiguration über properties muss überarbeitet werden.
 
 ## SOLR für Klassifikationen
 
