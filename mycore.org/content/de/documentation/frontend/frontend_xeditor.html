@@ -1232,10 +1232,10 @@ sollte @static nicht gesetzt sein.</p>
   <xed:when test="@status='new'">
         <label>Veröffentlichen am:</label>
         <xed:bind xpath="dateToPublish">
-          <input type="text />
+          <input type="text" />
         </xed:bind>
   </xed:when>
-  <xed::otherwise> <!- status='published' ->
+  <xed:otherwise> <!- status='published' ->
         <label>Veröffentlichungsdatum: </label>
         <xed:output value="dateToPublished" />
   </xed:otherwise>
