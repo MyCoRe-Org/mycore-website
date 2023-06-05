@@ -68,9 +68,9 @@ Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y315 w260 r1 vOptXMLCode Checked, XML File Formatting
 Gui, Add, CheckBox, x350 y335 w260 r1 vOptHTMLCode Checked, HTML File Formatting
 Gui, Add, CheckBox, x350 y355 w260 r1 vOptGitCode Checked, Git Repository Configuration
-Gui, Add, CheckBox, x350 y355 w260 r1 vOptGitCode Checked, Git Configuration
+Gui, Add, CheckBox, x350 y375 w260 r1 vOptJavascriptCode Checked, Javascript Configuration
 Gui, Font, S10 bold, Verdana
-Gui, Add, Button, x410 y375 w120 r1 gConfigure, Konfigurieren
+Gui, Add, Button, x410 y395 w120 r1 gConfigure, Konfigurieren
 
 if(!A_isAdmin) {
 	GuiControl, Disable, TextEclipseVersion
@@ -108,6 +108,9 @@ Configure:
 	}
 	if(OptGitCode = 1) {
 		GitCode()
+	}
+	if(OptJavascriptCode = 1) {
+		JavascriptCode()
 	}
 	MsgBox, 0, Eclipse Konfiguration abgeschlossen ..., Die Eclipse Konfiguration ist abgeschlossen!
 	WinActivate, ahk_class AutoHotkeyGUI
@@ -245,6 +248,34 @@ GitCode() {
 	Loop, 14 {
 		Send, {Tab}
 	}
+	Send, !a
+	Send, {Space}
+	; Fenster schlie�en
+	Send, {Esc}
+}
+
+; Javascript Style-Regeln von der MyCoRe Homepage runterladen und installieren
+JavascriptCode() {
+	URLDownloadToFile, https://www.mycore.de/downloads/mycore-javascriptstyle.xml, %A_Desktop%\..\Downloads\mycore-javascriptstyle.xml
+	Sleep 500
+	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
+	WinActivate, ahk_class SWT_Window0
+	; Window -> Preferences -> Web -> Client-side JavaScript -> Formatter
+	Send, ^3
+	Send, Web Client-side JavaScript Formatter
+	Send, {Enter}
+	; Import
+	Send, !m
+	Send, {Space}
+	Send, %A_Desktop%\..\Downloads\mycore-javascriptstyle.xml
+	Send, {Enter}
+	; Check if Window is open
+	if WinActive("Load Profile")
+	{
+		Send, !o
+		Send, {Enter}
+	}
+	; Apply Button klicken
 	Send, !a
 	Send, {Space}
 	; Fenster schlie�en
