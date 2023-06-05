@@ -224,7 +224,7 @@ DownloadEclipseAndUnzip() {
 	global EclipseDownloadServerURL
 	global EclipseInstallationDir
 	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-	if(vEclipseVersion == "") 
+	if(vEclipseVersion == "")
 	{
 		URLDownloadToFile, %EclipseDownloadServerURL%/release/release.xml, %A_Desktop%\..\Downloads\eclipse-release.xml
 		FileRead, xmldata, %A_Desktop%\..\Downloads\eclipse-release.xml
@@ -235,8 +235,8 @@ DownloadEclipseAndUnzip() {
 	}
 	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%vEclipseVersion%-R-win32-x86_64
 	; Ist der Eclipse Ordner nicht vorhanden, dann erfolgt die Installation
-	if !FileExist(EclipseDir) 
-	{	
+	if !FileExist(EclipseDir)
+	{
 		EclipseDownloadURL = %EclipseDownloadServerURL%/release/%vEclipseVersion%/R/eclipse-jee-%vEclipseVersion%-R-win32-x86_64.zip
 		EclipseDownloadFile = %A_Desktop%\..\Downloads\eclipse-jee-%vEclipseVersion%-R-win32-x86_64.zip
 		SplashImage , ,M W980 H140, Bitte warten..., `nEclipse wird gerade heruntergeladen. `n`n URL: %EclipseDownloadURL% `n Datei: %EclipseDownloadFile%
@@ -244,14 +244,14 @@ DownloadEclipseAndUnzip() {
 		SplashImage, Off
 		; Bei einer Falschen URL wird die Fehlerseite runtergeladen und ist ca 1Kb groß, dass wird hier abgefangen und die Datei gelöscht
 		FileGetSize, FileSize, %EclipseDownloadFile%, K
-		if(FileSize < 5) 
+		if(FileSize < 5)
 		{
 			MsgBox, ,Eclipse Installation abgebrochen, Fehler beim Download der URL:`n%EclipseDownloadURL%
 			FileDelete, %EclipseDownloadFile%
 			return
 		}
 		; Gibt es einen Ordner Eclipse schon? Wenn ja löschen
-		if FileExist(A_Desktop "\..\Downloads\eclipse") 
+		if FileExist(A_Desktop "\..\Downloads\eclipse")
 		{
 			FileRemoveDir, %A_Desktop%\..\Downloads\eclipse, true
 		}
@@ -260,15 +260,15 @@ DownloadEclipseAndUnzip() {
 		; Zip löschen
 		FileDelete, %EclipseDownloadFile%
 		MsgBox, 4, Eclipse Installation beendet., Sie finden ihr neues Eclipse unter`n%EclipseDir%.`n`nOrdner öffnen?
-		IfMsgBox Yes 
+		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
 			return
 		}
-	} else 
+	} else
 	{
 		MsgBox, 4, Eclipse Installation abgebrochen., Der Ordner `n%EclipseDir%`nexistiert bereits.`n`nOrdner öffnen?
-		IfMsgBox Yes 
+		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
 			return
