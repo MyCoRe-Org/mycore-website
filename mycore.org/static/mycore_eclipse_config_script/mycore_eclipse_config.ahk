@@ -67,6 +67,8 @@ Gui, Add, Text, x365 y285 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Ho
 Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y315 w260 r1 vOptXMLCode Checked, XML File Formatting
 Gui, Add, CheckBox, x350 y335 w260 r1 vOptHTMLCode Checked, HTML File Formatting
+Gui, Add, CheckBox, x350 y355 w260 r1 vOptGitCode Checked, Git Repository Configuration
+Gui, Add, CheckBox, x350 y355 w260 r1 vOptGitCode Checked, Git Configuration
 Gui, Font, S10 bold, Verdana
 Gui, Add, Button, x410 y375 w120 r1 gConfigure, Konfigurieren
 
@@ -103,6 +105,9 @@ Configure:
 	}
 	if(OptHTMLCode = 1) {
 		HTMLCode()
+	}
+	if(OptGitCode = 1) {
+		GitCode()
 	}
 	MsgBox, 0, Eclipse Konfiguration abgeschlossen ..., Die Eclipse Konfiguration ist abgeschlossen!
 	WinActivate, ahk_class AutoHotkeyGUI
@@ -224,6 +229,26 @@ HTMLCode() {
 		; Fenster schließen
 		Send, {Esc}
 	}
+}
+
+; Git
+GitCode() {
+	; Window -> Preferences -> Version Control (Team) -> Git
+    Send, ^3
+	Send, Git Version Control
+	Send, {Enter}
+	; Set Default repository folder
+	Send, !f
+	Send, ^a
+	SendRaw, ${workspace_loc}\git
+	; Apply Button klicken
+	Loop, 14 {
+		Send, {Tab}
+	}
+	Send, !a
+	Send, {Space}
+	; Fenster schlie�en
+	Send, {Esc}
 }
 
 ; Eclipse runterladen und entpacken
