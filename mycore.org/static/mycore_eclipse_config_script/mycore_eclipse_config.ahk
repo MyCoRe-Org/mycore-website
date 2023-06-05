@@ -67,10 +67,11 @@ Gui, Add, CheckBox, x350 y260 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code
 Gui, Font, S7 norm, Verdana
 Gui, Add, Text, x365 y285 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Homepage)
 Gui, Font, S8 norm, Verdana
-Gui, Add, CheckBox, x350 y315 w260 r1 vOptXMLCode Checked, XML File Formatting
-Gui, Add, CheckBox, x350 y335 w260 r1 vOptHTMLCode Checked, HTML File Formatting
-Gui, Add, CheckBox, x350 y355 w260 r1 vOptGitCode Checked, Git Repository Configuration
-Gui, Add, CheckBox, x350 y375 w260 r1 vOptJavascriptCode Checked, Javascript Configuration
+Gui, Add, CheckBox, x350 y305 w260 r1 vOptJavascriptCodeStyle Checked, Javascript Code Style Formatter
+Gui, Add, CheckBox, x350 y330 w260 r1 vOptXMLCode Checked, XML File Formatting
+Gui, Add, CheckBox, x350 y350 w260 r1 vOptHTMLCode Checked, HTML File Formatting
+Gui, Add, CheckBox, x350 y375 w260 r1 vOptGitCode Checked, Git Repository Configuration
+
 Gui, Font, S10 bold, Verdana
 Gui, Add, Button, x410 y395 w120 r1 gConfigure, Konfigurieren
 
@@ -80,8 +81,10 @@ if(!A_isAdmin) {
 	GuiControl, Disable, InfoEclipseVersion
 	GuiControl, Disable, DownloadEclipse
 	GuiControl, Disable, OptMyCoReJavaCodeStyle
+	GuiControl, Disable, OptJavascriptCodeStyle
 	;Uncheck MyCoReJavaCodeStyle Checkbox
 	GuiControl, , OptMyCoReJavaCodeStyle,0
+	GuiControl, , OptJavascriptCodeStyle,0
 	GuiControl, Disable, TextMyCoReJavaCodeStyle
 }
 
@@ -111,7 +114,7 @@ Configure:
 	if(OptGitCode = 1) {
 		GitCode()
 	}
-	if(OptJavascriptCode = 1) {
+	if(OptJavascriptCodeStyle = 1) {
 		JavascriptCode()
 	}
 	MsgBox, 0, Eclipse Konfiguration abgeschlossen ..., Die Eclipse Konfiguration ist abgeschlossen!
