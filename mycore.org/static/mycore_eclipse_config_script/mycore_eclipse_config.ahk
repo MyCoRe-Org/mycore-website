@@ -154,8 +154,12 @@ MyCoReJavaCodeStyle() {
 	Send, !m
 	Send, %A_Desktop%\..\Downloads\mycore-javastyle.xml
 	Send, {Enter}
+	; Check
+	if WinActive("Importing Profile") {
+		Send, {Enter}
+	}
 	; Load Profil Check
-	IfWinActive, Load Profile 
+	If WinActive("Load Profile")
 	{
 			Send, !o
 			Send, {Enter}
