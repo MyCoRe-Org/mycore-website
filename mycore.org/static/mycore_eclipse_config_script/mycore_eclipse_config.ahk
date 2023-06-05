@@ -179,7 +179,7 @@ XMLCode() {
 	Send, {Enter}
 	; Standardeinstellungen setzen
 	Send, !a
-	Send, ^{Tab}
+	Send, {Tab}
 	; Line width 120
 	Send, !w
 	Send, ^a
