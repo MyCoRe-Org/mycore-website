@@ -1,5 +1,5 @@
-﻿; MyCoRe: Eclipse Download und Konfiguration
-; 
+; MyCoRe: Eclipse Download und Konfiguration
+;
 ; Tool zum automatischen download/entpacken und konfigurieren von Eclipse.
 ;
 ; AutoHotKey Version 1.1.33.02
@@ -9,12 +9,14 @@
 ; Script-Editor für AutoHotKey
 ; https://www.autohotkey.com/scite4ahk/
 ;
-; MyCoRe-Code-Style 
+; MyCoRe-Code-Style
 ; https://www.mycore.de/documentation/developer/codestyle/
 ;
-; Getestet für die Eclipse Version 2022-06
+; Getestet für die Eclipse Versionen 2022-06 bis 2023-03
 ;
 ; Change History:
+;   v.0.91:  - Git Basis-Verzeichnis aktualisieren
+;            - Javascript Formatter Konfiguration herunterladen und installieren
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
