@@ -197,26 +197,29 @@ XMLCode() {
 
 ; HTML-Code Formatierung
 HTMLCode() {
-	; Window -> Preferences -> Web -> HTML Files -> Editor
-	Send, ^3
-	Send, Editor Web HTML Files
-	Send, {Enter}
-	; Standardeinstellungen setzen
-	Send, !d
-	; Line width 120
-	Send, !w
-	Send, ^a
-	Send, 120
-	; Indent using spaces
-	Send, !n
-	; Indentation size 2
-	Send, !t
-	Send, 2
-	; Apply Button klicken
-	Send, !a
-	Send, {Space}
-	; Fenster schließen
-	Send, {Esc}
+	global ConfigEclipseVersion
+	if (ConfigEclipseVersion != "2022-12") {
+		; Window -> Preferences -> Web -> HTML Files -> Editor
+		Send, ^3
+		Send, Editor Web HTML Files
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !d
+		; Line width 120
+		Send, !w
+		Send, ^a
+		Send, 120
+		; Indent using spaces
+		Send, !n
+		; Indentation size 2
+		Send, !t
+		Send, 2
+		; Apply Button klicken
+		Send, !a
+		Send, {Space}
+		; Fenster schließen
+		Send, {Esc}
+	}
 }
 
 ; Eclipse runterladen und entpacken
