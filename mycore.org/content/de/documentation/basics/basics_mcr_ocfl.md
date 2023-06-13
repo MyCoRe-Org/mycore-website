@@ -204,7 +204,7 @@ Allerdings ist im Vergleich zu dem *0003-hash-and-id-n-tuple-storage-layout* die
 
 In der Performance in MyCoRe ist das *mycore-storage-layout* schneller als das *0003-hash-and-id-n-tuple-storage-layout*, da nicht erst bei jedem Dateizugriff die Hashwerte des Dateinamens generiert werden müssen.
 
-Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org/mycore/blob/2021.06.x/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
+Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org/mycore/blob/main/mycore-ocfl/src/main/resources/ocfl-specs/mycore-storage-layout.md)
 
 #### Ordnerstruktur
 
