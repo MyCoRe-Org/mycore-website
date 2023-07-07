@@ -132,6 +132,7 @@ main:
 -     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -94,      url: /documentation/interfaces/interface_dfgviewer}
 -     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF API,                    weight: -93,      url: /documentation/interfaces/interface_iiif_support}
 -     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -92,      url: /documentation/interfaces/interface_sword}
+-     {identifier: interface_orcid,         parent: interfaces,         name: ORCID,                       weight: -91,      url: /documentation/interfaces/interface_orcid}
 -   {identifier: plugins,                 parent: documentation,      name: externe Plugins,             weight: -91,      url: /documentation/plugins}
 -     {identifier: plugin_s3,               parent: plugins,           name: S3 Plugin,                    weight: -99,      url: /documentation/plugins/plugin_s3}
 -   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -90,      url: /documentation/datamodel}
