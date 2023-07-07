@@ -1,0 +1,319 @@
+---
+
+title: "MyCoRe-ORCID2"
+mcr_version: ['2022.06']
+author: ['Lennard Golsch']
+description: "MyCoRe-ORCID2 verbindet MyCoRe und ORCID."
+date: "2023-06-30"
+
+---
+    <div>
+      <h2>Allgemeines</h2>
+      <p>
+        Mit dem <span class="badge badge-info">LTS 2022.06</span> stellt MyCoRe mit <i>mycore-orcid2</i> den Nachfolger für <i>mycore-orcid</i> bereit.
+        Das Modul bietet neben der Bereitstellung eines grundlegenden Autorisierung-Prozesses auch einen generischen Client sowie Work-spezifische Funktionalitäten.
+        Konzeptionell basiert das Modul auf dem offiziellen <a href="https://github.com/ORCID/orcid-model">orcid-model</a> von ORCID.
+        Die aktuelle Implementierung bezieht sich auf auf <i>v3</i>.
+      </p>
+    </div>
+    <div>
+    	<h2>Autorisierung</h2>
+      <p>
+        ORCID kann zur Autorisierung genutzt werden und bietet dafür OAuth-Flows an.
+        Für die Autorisierung steht eine Resource bereit, die eine <i>3-legged OAuth</i> initiiert, siehe Abschnitt Prozess.
+        Dafür muss die Anwendung zunächst bei ORCID <a href="https://info.orcid.org/documentation/api-tutorials/api-tutorial-get-and-authenticated-orcid-id/">registriert</a> werden.
+        Letztendlich müssen die <i>Client ID</i> und das <i>Client Secret</i> konfiguriert werden.
+        Jene sind über <code>MCR.ORCID2.OAuth.ClientID</code> und <code>MCR.ORCID2.OAuth.ClientSecret</code> zu konfigurieren.
+        ORCID bietet zusätzlich einen Sandbox-Endpunkt für die Autorisierung.
+        Der jeweilige Endpunkt muss über <code>MCR.ORCID2.BaseURL</code> konfiguriert werden.
+      </p>
+      <p>
+        Bei der Autorisierung ist der sogeannte <i>Scope</i> entscheidend.
+        Der <a href="https://info.orcid.org/ufaqs/what-is-an-oauth-scope-and-which-scopes-does-orcid-support/">Scope</a> beschreibt den Grad der Autorisierung.
+        Scopes können kombiniert werden, beispielsweise würde die Kombination aus <code>read-limited</code>, <code>/activities/update</code> und <code>/person/update</code> vollständigen Lese- und Schreibzugriff für ein ORCID-Profil bedeuten.
+        Manche Scopes/Operationen sind nur in der Member API verfügbar.
+      </p>
+      <p>
+        Das Resultat einer erfolgreichen Autorisierung eines Nutzenden ist letztendlich ein Token, das 30 Jahre gültig ist.
+        Jenes wird als Nutzerattribut gespeichert.
+        Nutzende können sich theoretisch mehrmals gleichzeichtig über verschiedene ORCID iDs autorisieren.
+      </p>
+      <p>
+        Letztendlich kann die Konfiguration wie folgt aussehen:
+      </p>
+      {{< highlight text "linenos=table">}}
+MCR.ORCID2.BaseURL=https://orcid.org # Produktiv
+# MCR.ORCID2.BaseURL=https://sandbox.orcid.org/ # Sandbox
+MCR.ORCID2.OAuth.ClientID=bla
+MCR.ORCID2.OAuth.ClientSecret=foo
+MCR.ORCID2.OAuth.Scope=/read-limited /activities/update /person/update
+{{< /highlight >}}
+      </p>
+      <h3>Prozess</h3>
+      <p>
+        Die Autorisierung kann über <code>/rsc/orcid/init?scope=&lsaquo;scope&rsaquo;</code> gestartet werden.
+        Wichtig ist hier die Nennung des Scopes, der autorisiert werden soll.
+        Über <code>MCR.ORCID2.OAuth.Scope</code> kann ein genereller Scope definiert werden.
+        Sofern kein Scope als Parameter über bei der Anfrage übergeben wird, wird das Property als Fallback genommen.
+        Wenn <code>MCR.ORCID2.PreFillRegistrationForm=true</code>, werden <a href="https://info.orcid.org/ufaqs/what-information-can-i-pre-fill-on-the-authentication-screen/">Nutzerinformation</a> für die Autorisierung übergeben.
+      </p>
+      <p>
+        Generell wird seitens ORCID empfohlen, den Prozess in einem separaten Fenster laufen zu lassen.
+        Für den Prozess der Autorisierung steht eine JavaScript-Bibliothek zur Verfügung.
+      </p>
+    </div>
+    <div>
+      <h2>Client</h2>
+      <p>
+        ORCID stellt zwei bzw. vier REST-Schnittstellen bereit.
+        Unterschieden wird zwischen der <i>Public API</i> und der <i>Member API</i>.
+        Zum Entwickeln stellt ORCID für bei APIs jeweils eine Sandbox-Version bereit.
+        Fundamental ermöglicht die Member API das Schreiben von Informationen in ein ORCID-Profil sowie das Lesen von vetrauenswürdigen Information, sofern Nutzende dies für die Anwendung freigeben haben.
+        Die Member API setzt für die Nutzung einen Autorisierungsprozess bzw. ein Token voraus, siehe Abschnitt <i>Autorisierung</i>.
+        Die Nutzung der Member API setzt eine ORCID-Mitgliedschaft voraus, die mit Kosten verbunden ist.
+        Die Public API kann frei genutzt werden, ermöglich aber hingegen höchstens das Lesen von öffentlichen Informationen.
+        Hierfür sind speziell keine Credentials erforderlich.
+      </p>
+      <p>
+        Letztendlich sollte vor der ersten Nutzung geklärt werden, welche der API der Client nutzen soll, weil die Funktionalitäten ggf. darauf abgestimmt sind.
+        Dafür existiert eine Factory, Clients können über <code>MCR.ORCID2.Client.&lsaquo;Version&rsaquo;.</code> konfiguriert werden.
+        Über <code>APIMode=public|member</code> wird der <i>mode</i> der API festgelegt.
+        Mit <code>public</code> wird die Public API aktiviert, anlog mit <code>member</code> die Member API.
+        Dazu muss der jeweilige Pfad für die API (in Sandbox oder produktiv) über <code>PublicAPI</code> bzw. <code>MemberAPI</code> festgelegt werden.
+        Über <code>ErrorHandler.Class</code> lässt sich ein Error-Handler konfigurieren, um beispielweise Fehler des Clients zu behandeln oder zu loggen.
+        ORCID empfiehlt für die Nutzung der Public API ein <i>Read Public Token</i>, um die Requests ggf. zuzuordnen zu können.
+        Das Token bei ORCID generiert werden und über <code>MCR.ORCID2.Client.ReadPublicToken</code> konfiguriert werden.
+      </p>
+      <p>
+        Für die Nutzung der produktiven v3 APIs könnte die Konfiguration wie folgt aussehen:
+      </p>
+      {{< highlight text "linenos=table">}}
+MCR.ORCID2.Client.V3.PublicAPI=https://pub.orcid.org/v3.0 # Produktiv
+MCR.ORCID2.Client.V3.MemberAPI=https://api.orcid.org/v3.0 # Produktiv
+# MCR.ORCID2.Client.V3.PublicAPI=https://pub.sandbox.orcid.org/v3.0 # Sandbox
+# MCR.ORCID2.Client.V3.MemberAPI=https://api.sandbox.orcid.org/v3.0 # Sandbox
+MCR.ORCID2.Client.V3.APIMode=member
+MCR.ORCID2.Client.V3.ErrorHandler.Class=org.mycore.orcid2.v3.client.MCRORCIDClientErrorHandlerImpl
+{{< /highlight >}}
+      <p>
+      </p>
+   </div>
+   <div>
+    	<h2>ORCID-Servflag</h2>
+      <p>
+        Das Servflag dient zur Beschreibung der ORCID-Informationen für das Objekt.
+        Unter <i>userInfos</i> werden ORCID-Profile beschrieben, die zum einen die Autoren betreffen und ggf. auch das Work auf ORCID-Seite.
+        <i>orcid</i> beschreibt dabei die zugehörige ORCID iD.
+        Unter <i>works</i> sind Informationen zum Objekt/Work auf ORCID-Seite des Profils angegeben:
+      </p>
+      <ul>
+        <li>
+          <i>own</i> beschreibt hierbei den PutCode des Work in dem ORCID-Profil, das von der Anwendung erstellt wurde.
+          Der PutCode ist eindeutig.
+          <br>
+          Der Wert <i>-1</i> bedeutet, dass eine Work gelöscht wurde.
+          Dies kann entweder durch die Anwendung selbst passieren oder wenn ein ORCID-Nutzer das Work aus dem Profil löscht.
+        </li>
+        <li>
+          <i>other</i> beschreibt die PutCodes der Works in dem ORCID-Profil, die ggf. von anderen Anwendungen erstellt wurden.
+          other wird nur gespeichert, sofern <code>MCR.ORCID2.Metadata.WorkInfo.SaveOtherPutCodes=true</code>.
+        </li>
+      </ul>
+      <p>
+        Sobald eine Operation durchgeführt wurde, wird das Servflag von der Anwendung aktualisiert.
+      </p>
+      <h5 class="js-toc-ignore">Beispiel</h5>
+      {{< highlight xml "linenos=table">}}
+<servflag type="MyCoRe-ORCID" inherited="0" form="plain">
+{
+   "userInfos":[
+      {
+         "orcid":"0000-0003-4862-0666",
+         "works":{
+            "own":1736580,
+            "other":[
+              212123
+            ]
+         }
+      }
+   ]
+}
+</servflag>
+{{< /highlight >}}
+    </div>
+    <div>
+      <h2>WorkEventHandler</h2>
+      <p>
+        Für das automatische Schreiben/Aktualisieren von Publikationen in ORCID-Profile der Autoren kann der <i>ORCIDWorkEventHandler</i> genutzt werden.
+        Der Handler kann für v3 mit <code>MCR.EventHandler.MCRObject.019.Class=org.mycore.orcid2.v3.work.MCRORCIDWorkEventHandlerImpl</code> aktiviert werden.
+        Wenn keine Änderung in den Metadaten festgestellt wird, terminiert der Handler vorzeitig.
+        Anderenfalls werden alle Autoren einer Publikation anhand von den Identifiers auf zugehörige ORICD-Credentials geprüft.
+        Über <code>MCR.ORCID2.User.TrustedNameIdentifierTypes</code> kann die Bestimmung auf vertrauenswürdige Identifier eingeschränkt werden.
+        Beispielsweise würde <i>orcid</i> bedeuten, dass nur die ORCID iDs der Autoren als Referenz zur Bestimmung genutzt werden.
+        Letztendlich werden jene Token anschließend genutzt, um die Publikation in die jeweiligen ORCID-Profile zu schreiben/aktualisieren.
+        Die Nutzer selbst haben die Möglichkeit, über <i>ORCID-User-Properies</i> bestimmte Verhalten zu beeinflussen.
+        Standardmäßig werden die Verhalten der Anwendung als Fallback genutzt, siehe Verhalten.
+      </p>
+      <p>
+        Über <code>MCR.ORCID2.Work.PublishStates</code> ist es möglich, <i>States</i> für Publikationen zu definieren, die behandelt werden sollen.
+        So kann etwa verhindert werden, dass beispielsweise frische Einreichungen eventuell direkt in die jeweiligen Profile geschrieben werden.
+        Zudem gibt es mit <code>MCR.ContentTransformer.ORCIDMODSFilter</code> die Möglichkeit, Metadaten einer Publikationen vor einer Operation zu filtern.
+        So kann ggf. verhindert werden, dass ungewünschte Metadaten zu ORCID gelangen.
+        Der Filter bietet so zusätzlich auch die Möglichkeit, Metadaten zu ergänzen.
+        Beispielsweise fordert ORCID, dass jedes Work mindestens einen Identifier besitzen muss.
+        Dafür kann mit <code>MCR.ORCID2.Work.SourceURL</code> eine möglichst eindeutige ID für die Anwendung definiert werden.
+      </p>
+      <p>
+        Sofern <code>MCR.ORCID2.WorkEventHandler.CollectExternalPutCodes=true</code> werden zusätzlich auch PutCodes anderer Personen über die ORCID-Suche hinzugefügt.
+        Voraussetzung dafür ist <code>MCR.ORCID2.Metadata.WorkInfo.SaveOtherPutCodes=true</code>, da es dabei um other handelt.
+      </p>
+      <h3>Verhalten</h3>
+      <p>
+        Folgende Verhalten können konfiguriert/beeinflusst werden:
+      </p>
+      <ul>
+        <li>
+          Mit <code>MCR.ORCID2.WorkEventHandler.AlwaysUpdateWork=true</code> werden Publikationen kontinuierlich aktualisiert, nachdem sie im ORCID-Profil erstellt wurden und Änderungen in der Anwendung vorgenommen wurden.
+        </li>
+        <li>
+          Mit <code>MCR.ORCID2.WorkEventHandler.CreateDuplicateWork=true</code> werden Publikationen jedenfalls im ORCID-Profil erstellt, auch wenn bereits eine identische Publikation aus beispielsweise einer anderen Anwendung im Profil vorhanden ist (Duplikat).
+        </li>
+        <li>
+          Mit <code>MCR.ORCID2.WorkEventHandler.CreateFirstWork=true</code> werden Publikationen initial im ORCID-Profil erstellt.
+        </li>
+        <li>
+          Mit <code>MCR.ORCID2.WorkEventHandler.RecreateDeletedWork=true</code> werden Publikationen, die bereits aus dem ORCID-Profil gelöscht wurden, bei einer Aktualisierung erneut in das Profil geschrieben.
+        </li>
+      </ul>
+      <h3>ORCID-User-Properties</h3>
+      <p>
+        Mit den ORCID-User-Properties können Nutzer das Verhalten der WorkEventHandlers für sich beeinflussen.
+        Die Properties sind mächtiger als die Properties der Anwendung.
+        Grundsätzlich beziehen sich die Properties auf eine ORCID iD und nicht allgemein auf den Nutzer und werden pro ORCID iD als Nutzerattribut gespeichert.
+        Für die Verwaltung steht beispielsweise ein REST-Endpunkt zur Verfügung.
+      </p>
+      <h5 class="js-toc-ignore">Beispiel</h5>
+      {{< highlight json "linenos=table">}}
+{
+   "alwaysUpdateWork":false,
+   "createDuplicateWork":false,
+   "createFirstWork":false,
+   "recreateDeletedWork":true
+}
+{{< /highlight >}}
+    </div>
+    <div>
+      <h2>Weiteres</h2>
+      <p>
+        Konzeptionell werden die Identifier einer Publikation genutzt, um jene Publikation auf ORCID-Seite wiederzufinden.
+        Die Identifier können über <code>MCR.ORCID2.Object.TrustedIdentifierTypes</code> eingeschränkt werden.
+      </p>
+    </div>
+    <div>
+      <h2>REST</h2>
+      <p>
+        Das Modul besitzt einen REST-Endpunkt, der hauptsächlich Nutzer-Methoden zur Verfügung stellt.
+        Optional kann der Endpunkt um Work-Funktionalität erweitert werden.
+      </p>
+      <h3>Nutzer</h3>
+      <p>
+        Folgende nutzerspezifische Methoden stehen bereit:
+      </p>
+      <div>
+        <h4><span class="badge badge-secondary">GET</span> /api/orcid/v1/user-status</h4>
+        <p>
+          Dieser Request liefert den ORCID-User-Status für den Nutzer zurück. Dieser beinhaltet alle ORCID iDs sowie autorisierte ORCID iDs.
+        </p>
+        <h5 class="js-toc-ignore">Format</h5>
+        <p>
+          Der User-Status wird im JSON-Format zurückgeliefert.
+        </p>
+      </div>
+      <div>
+        <h4><span class="badge badge-secondary">POST</span> /api/orcid/v1/revoke/{$orcid}</h4>
+        <p>
+          Dieser Request revoket die ORCID iD für den Nutzer bei ORCID. Die ORCID iD als Identifier (Nutzerattribut) wird nicht entfernt.
+        </p>
+        <table class="table table-bordered">
+          <col width="180px" />
+          <tr>
+            <td><code>{$orcid}</code></td>
+            <td>ORCID iD, die revoket werden soll</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h4><span class="badge badge-secondary">GET</span> /api/orcid/v1/{$orcid}/user-status</h4>
+        <p>
+          Dieser Request liefert die ORCID-User-Properties für den Nutzer zurück.
+        </p>
+        <table class="table table-bordered">
+          <col width="180px" />
+          <tr>
+            <td><code>{$orcid}</code></td>
+            <td>ORCID iD für die Properties</td>
+          </tr>
+        </table>
+        <h5 class="js-toc-ignore">Format</h5>
+        <p>
+          Der User-Status wird im JSON-Format zurückgeliefert.
+        </p>
+      </div>
+      <div>
+        <h4><span class="badge badge-secondary">POST</span> /api/orcid/v1/{$orcid}/user-status</h4>
+        <p>
+          Dieser Request aktualisiert die ORCID-User-Properties für den Nutzer.
+        </p>
+        <table class="table table-bordered">
+          <col width="180px" />
+          <tr>
+            <td><code>{$orcid}</code></td>
+            <td>ORCID iD für die Properties</td>
+          </tr>
+        </table>
+        <h5 class="js-toc-ignore">Format</h5>
+        <p>
+          Der User-Status muss im JSON-Format gesendet werden.
+        </p>
+      </div>
+      <h3>Work</h3>
+      <p>
+        Die folgenden Endpunkte sind optional und liegen im package <code>org.mycore.orcid2.v3.rest.resources</code>.
+        <br>
+        Um sie zu aktivieren, muss das package zu <code>MCR.ORCID2.API.Resource.Packages</code> hinzugefügt werden.
+        <br>
+        Folgende Methoden stehen bereit:
+      </p>
+      <div>
+        <h4><span class="badge badge-secondary">GET</span> /api/orcid/v1/object-status/v3/{$objectID}</h4>
+        <p>
+          Dieser Request liefert den Objekt-Status eines Objekts für den Nutzer zurück.
+          Der Objekt-Status gibt anhand von Identifiern zurück, ob der Nutzer Autor ist bzw. ob es in dem ORCID-Profil ist.
+        </p>
+        <table class="table table-bordered">
+          <col width="180px" />
+          <tr>
+            <td><code>{$objectID}</code></td>
+            <td>Die ID des Objekts</td>
+          </tr>
+        </table>
+        <h5 class="js-toc-ignore">Format</h5>
+        <p>
+          Der Objekt-Status wird im JSON-Format zurückgeliefert.
+        </p>
+      </div>
+      <div>
+        <h4><span class="badge badge-secondary">GET</span> /api/orcid/v1/create-work/v3/{$objectID}</h4>
+        <p>
+          Dieser Request schreibt das Objekt in das ORCID-Profil des Nutzers.
+        </p>
+        <h5 class="js-toc-ignore">Format</h5>
+        <table class="table table-bordered">
+          <col width="180px" />
+          <tr>
+            <td><code>{$objectID}</code></td>
+            <td>Die ID des Objekts</td>
+          </tr>
+        </table>
+      </div>
+    </div>
