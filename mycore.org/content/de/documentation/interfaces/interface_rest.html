@@ -17,23 +17,23 @@ date: "2016-06-04"
         ermöglicht. Sämtliche Aufrufe erfolgen per <code>GET</code>-Request.<br />
         Die Basis-URL der REST-API lautet: <code>{$WebApplicationBaseURL}api/v1</code>.
       </p>
-      <p><span style="background-color:red;">Mit Release 2020.06 gibt es eine Version 2 der MyCoRe-Rest-Schnittstelle.
-      Die Dokumentation dazu ist noch in Arbeit.</span></p>
+      <div class="badge badge-warning mb-3">Seit Release 2020.06 gibt es eine Version 2 der MyCoRe-Rest-Schnittstelle.
+      Die Dokumentation dazu ist unter <a href="{{< ref interface_rest_v2 >}}">REST v2</a> zu finden.</div>
     </div>
     <div>
-    	<h2>Zugriffsschutz</h2>
-		<p>Seit <span class="badge badge-info">2017.06</span> wird die Nutzung der REST-API durch 
-		   	<a href="{{< ref acl_permissions >}}">ACLs</a> geschützt.
-			Für den lesenden Zugriff muss immer eine ACL auf <code>restapi:/</code>
-			mit dem Recht <code>read</code> gesetzt sein.
-			Der Zugriff auf einzelne Pfade wie <code>/objects</code>, <code>/search</code> oder
-			<code>/classifications</code> kann durch entsprechende ACLs (z.B. <code>restapi:/v1/objects</code>) 
-			zusätzlich beschränkt werden.
-		</p>
-		<p>Durch Setzen entsprechender ACL-Regeln kann der Zugriff komplett freigeschaltet (<code>TRUE</code>), 
-		   auf einzelne Nutzer oder Rollen beschränkt oder auf bestimmte IP-Adressen / IP-Bereiche begrenzt werden.</p>
+      <h2>Zugriffsschutz</h2>
+    <p>Seit <span class="badge badge-info">2017.06</span> wird die Nutzung der REST-API durch 
+         <a href="{{< ref acl_permissions >}}">ACLs</a> geschützt.
+      Für den lesenden Zugriff muss immer eine ACL auf <code>restapi:/</code>
+      mit dem Recht <code>read</code> gesetzt sein.
+      Der Zugriff auf einzelne Pfade wie <code>/objects</code>, <code>/search</code> oder
+      <code>/classifications</code> kann durch entsprechende ACLs (z.B. <code>restapi:/v1/objects</code>) 
+      zusätzlich beschränkt werden.
+    </p>
+    <p>Durch Setzen entsprechender ACL-Regeln kann der Zugriff komplett freigeschaltet (<code>TRUE</code>), 
+       auf einzelne Nutzer oder Rollen beschränkt oder auf bestimmte IP-Adressen / IP-Bereiche begrenzt werden.</p>
 
-	</div>
+  </div>
     <div>
       <h2>Metadatenobjekte und Derivate anzeigen</h2>
       <div>
