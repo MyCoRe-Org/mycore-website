@@ -54,7 +54,8 @@ date: "2023-07-012"
           Neuen Main-Kern mit neuem Namen registrieren, hier z.B. <code>mainv8</code><br />
           <code>register solr core with name repper_main on server http://meine-Solr8.11-URL.de:8985 as core mainv8</code><br /><br />
         </li>
-        <li>Zur Verifizierung und um das später ggf. in die mycore.properties zu übertragen kann man sich die aktuelle Konfiguration nochmal
+        <li>
+          Zur Verifizierung und um das später ggf. in die mycore.properties zu übertragen kann man sich die aktuelle Konfiguration nochmal
           auflisten lassen mit dem CLI-Befehl <code>show solr configuration</code>. Die Ausgabe sieht dann ähnlich dieser aus:
 <pre>
 MCR.Solr.ServerURL=http://meine-Solr-URL:8983
@@ -63,12 +64,50 @@ MCR.Solr.Core.mainv8.ServerURL=http://meine-Solr8.11-URL.de:8985/
 MCR.Solr.Core.main.Name=repper_main
 MCR.Solr.Core.main.ServerURL=http://meine-Solr-URL:8983/
 MCR.Solr.Core.classification.Name=repper_class
-MCR.Solr.Core.classification.ServerURL=http://meine-Solr-URL:8983/</pre></li>
+MCR.Solr.Core.classification.ServerURL=http://meine-Solr-URL:8983/</pre>
+        </li>
 
-        <li>Im nächsten Schritt wird die aktuelle Konfiguration für den Main-Kern in den vorher angelegten Kern geladen:<br />
-        <code>reload solr configuration main in core mainv8</code><br /><br /></li>
+        <li>
+          Im nächsten Schritt wird die aktuelle Konfiguration für den Main-Kern in den vorher angelegten Kern geladen:<br />
+          <code>reload solr configuration main in core mainv8</code><br /><br />
+        </li>
 
-        <li>Und abschließend Metadaten und Volltext zur Indizierung an den neuen Kern geschickt:<br />
-        <code>rebuild solr metadata and content index in core mainv8</code></li>
+        <li>
+          Und abschließend Metadaten und Volltext zur Indizierung an den neuen Kern geschickt:<br />
+          <code>rebuild solr metadata and content index in core mainv8</code><br /><br />
+        </li>
+
+        <li>
+          Ist die Indexierung erfolgreich durchgelaufen, kann die Anwendung mit der neuen Solr-Konfiguration
+          gestartet werden
+        </li>
+      </ol>
+
+      <p>
+      <span class="badge badge-info">Noch ein Hinweis:</span> Während die Indexierung läuft, werden Änderungen durch
+      Neuaufnahme der Daten oder Bearbeitung weiterhin in den main-Kern Indexiert. Diese fehlen daher im neuen Kern
+      <code>mainv8</code>. Um das zu verhindern, kann man die Anwendung entweder in den read-only-Modus versetzen oder
+      nach Umstellung den altern Kern nochmal einbinden und durch eine Suche und Auswahl dagegen die geänderten
+      MyCoRe-Objekte auswählen und nachindexieren. Dazu sind dann folgende Befehle in der CLI nötig: 
+      </p>
+      <ol>
+        <li>
+          Alten Main-Kern mit neuem Namen z.B. <code>mainold</code> registrieren:<br />
+          <code>register solr core with name repper_main on server http://meine-alteSolr-URL.de:8985 as core mainold</code><br /><br />
+        </li>
+        <li>
+          Auswahl aller MyCoRe-Objekte vom Typ <code>mods</code> die zwischen dem 26.06.2023 und dem 29.06.2023 geändert worden, mittels
+          einer Suche auf dem Index des nun alten Kernes:<br />
+          <code>select objects with solr query objectType:mods AND created:[2023-06-26T00:00:00.000Z TO 2023-06-29T23:23:59.999Z]
+          OR modified:[2022-12-26T00:00:00.000Z TO 2022-12-29T23:23:59.999Z] in core mainold</code><br /><br />
+        </li>
+        <li>
+          Reindexierung dieser Datensätze in den nun aktuell konfigurierten Main-Kern:<br />
+          <code>rebuild solr metadata index for selected in core main</code><br /><br />
+        </li>
+        <li>
+          Das ganze dann für alle MyCoRe-Objekttypen wiederholen und bei den Derivaten <strong>zusätzlich</strong> auch den Content indexieren mit:<br />
+          <code>rebuild solr content index for selected in core main</code>
+        </li>
       </ol>
     </div>
