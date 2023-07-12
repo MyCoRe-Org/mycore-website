@@ -139,7 +139,7 @@ dann wird die Webseite sofort ohne Update-Check und Wartezeit neu gebaut und dep
 cd /mcr/mycore.de/hugo/mycore-website
 
 LOCAL_HASH=$(git rev-parse HEAD)
-REMOTE_HASH=$(git ls-remote)
+REMOTE_HASH=$(git ls-remote | grep -C0 'HEAD' ) # filter lines containing 'HEAD'
 echo "Local: $LOCAL_HASH"
 echo "Remote: $REMOTE_HASH"
 
