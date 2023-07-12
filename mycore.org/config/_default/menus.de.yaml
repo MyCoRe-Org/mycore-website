@@ -136,7 +136,7 @@ main:
 -     {identifier: extension_pid,           parent: extensions,         name: Persistent Identifier,       weight: -99,      url: /documentation/extensions/extension_pid}
 -     {identifier: extension_orcid,         parent: extensions,         name: ORCID,                       weight: -98,      url: /documentation/extensions/extension_orcid}
 -     {identifier: extension_s3plugin,      parent: extensions,         name: S3 Plugin,                   weight: -97,      url: /documentation/extensions/extension_s3plugin}
--   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -90,      url: /documentation/datamodel}
+-   {identifier: datamodel,               parent: documentation,      name: Datenmodelle,               weight: -90,      url: /documentation/datamodel}
 -     {identifier: datamodel_common,        parent: datamodel,          name: Allgemeines,                 weight: -99,      url: /documentation/datamodel/datamodel_common}
 -     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -98,      url: /documentation/datamodel/datamodel_mods}
 -     {identifier: datamodel_lido,          parent: datamodel,          name: LIDO,                        weight: -97,      url: /documentation/datamodel/datamodel_lido}
