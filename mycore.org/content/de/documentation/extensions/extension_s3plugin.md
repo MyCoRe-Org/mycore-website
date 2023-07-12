@@ -11,9 +11,9 @@ date: "2022-11-09"
 
 ---
 
-# Erstellen eines S3 Test-Storage Minio-Testserver
+## Erstellen eines S3 Test-Storage Minio-Testserver
 
-## Allgemeines
+### Allgemeines
 
 Als Testbeispiel soll die Integration eines Minio-S3-Servers an dieser Stelle dokumentiert werden. Für Produktivsysteme kann
 dieser dann durch einen im RZ verfügbaren S3 Storage erstetzt werden.
@@ -35,29 +35,29 @@ Für das MyCoRe-Repository muss noch der Port 9000 frei geschaltet werden.
 
 Nun müssen noch über die Web-Schnittstelle der Nutzer und Service Account angelegt, entsprechende Buckets angelegt und Daten hochgeladen werden.
 
-# Das Plugin
+## Das Plugin
 
-## Features
+### Features
  * S3-Viewer: Front-end für einen “externen” S3-Speicher
  * Browsing durch Dateien / Ordner / Archive (ZIP, TAR)
  * GUI (Erfassungsmaske) für die S3-Konfiguration
 
 Das Ganze ist entwickelt als selbständiges MyCoRe-Plugin: https://github.com/MyCoRe-Org/s3-mcr-plugin
 
-## Funktionsweise / Features:
+### Funktionsweise / Features:
  * Speicherung einer symetrisch verschlüssselten XML-basierten Konfigurationsdatei in einem MyCoRe-Derivate
  * Javascript-basierter Datei-Viewer
  * Erweiterung der REST-API für die Datei-Viewer-Komponente
  * Monitoring von Veränderungen an den S3-Dateien nach Einbindung in das Repository (Checksummen)
 
-# Integration in MyCoRe
+## Integration in MyCoRe
 
  * Auschecken: git checkout https://github.com/MyCoRe-Org/s3-mcr-plugin
  * Compilieren: mvn clean install
  * Installieren: Kopieren der JAR-Datei in das Lib-Verzeichnis im MyCoRe-Home
  * Ergänzung:  Ergänzen ‘extension’ als Eintrag in der Derivate-Types-Klassifikation
  
-## Ergänzung der MyCoRe-Properties
+### Ergänzung der MyCoRe-Properties
 
 MCR.FS.Impl.S3=org.mycore.filesystem.s3.XMLS3BucketProvider
 MCR.FS.Impl.S3.Key=bucket-crypt 
@@ -65,13 +65,13 @@ MCR.Crypt.Cipher.bucket-crypt.class=org.mycore.crypt.MCRAESCipher
 MCR.Crypt.Cipher.bucket-crypt.KeyFile=%MCR.datadir%/bucket.key 
 MCR.Crypt.Cipher.bucket-crypt.EnableACL=false
 
-## Verschlüsselung erstellen
+### Verschlüsselung erstellen
 
 Symetrische Verschlüsselung von Metadaten wird bereits an anderen Stellen verwendet (Verschlüsselung von Bearbeiterkennungen, Impact Factor, …).
 
 Mittels der MyCoRe-CLI kann ein schlüssel generiert werden: `generate keyfile for cipher bucket-crypt`.
 
-# Einbindung der Daten
+## Einbindung der Daten
 
 Die Daten im S3 können nun über ein MyCore-Derivate refernziert werden. Hierfür eis ein Derivate mit einer XML-Datei der folgenden Form erstellt und
 hochgeladen werden.

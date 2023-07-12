@@ -128,14 +128,14 @@ main:
 -     {identifier: interface_rest,          parent: interfaces,         name: REST,                        weight: -99,      url: /documentation/interfaces/interface_rest}
 -     {identifier: interface_rest_v2,       parent: interfaces,         name: REST v2,                     weight: -98,      url: /documentation/interfaces/interface_rest_v2}
 -     {identifier: interface_oai,           parent: interfaces,         name: OAI,                         weight: -97,      url: /documentation/interfaces/interface_oai}
--     {identifier: interface_pid,           parent: interfaces,         name: Persistent Identifier,       weight: -96,      url: /documentation/interfaces/interface_pid}
 -     {identifier: interface_google,        parent: interfaces,         name: Google-Sitemap,              weight: -95,      url: /documentation/interfaces/interface_google}
 -     {identifier: interface_dfgviewer,     parent: interfaces,         name: DFG-Viewer,                  weight: -94,      url: /documentation/interfaces/interface_dfgviewer}
 -     {identifier: interface_iiif_support,  parent: interfaces,         name: IIIF API,                    weight: -93,      url: /documentation/interfaces/interface_iiif_support}
 -     {identifier: interface_sword,         parent: interfaces,         name: SWORD,                       weight: -92,      url: /documentation/interfaces/interface_sword}
--     {identifier: interface_orcid,         parent: interfaces,         name: ORCID,                       weight: -91,      url: /documentation/interfaces/interface_orcid}
--   {identifier: plugins,                 parent: documentation,      name: externe Plugins,             weight: -91,      url: /documentation/plugins}
--     {identifier: plugin_s3,               parent: plugins,           name: S3 Plugin,                    weight: -99,      url: /documentation/plugins/plugin_s3}
+-   {identifier: extensions,              parent: documentation,      name: Erweiterung,                 weight: -91,      url: /documentation/extensions}
+-     {identifier: extension_pid,           parent: extensions,         name: Persistent Identifier,       weight: -99,      url: /documentation/extensions/extension_pid}
+-     {identifier: extension_orcid,         parent: extensions,         name: ORCID,                       weight: -98,      url: /documentation/extensions/extension_orcid}
+-     {identifier: extension_s3plugin,      parent: extensions,         name: S3 Plugin,                   weight: -97,      url: /documentation/extensions/extension_s3plugin}
 -   {identifier: datamodel,               parent: documentation,      name: Datenmodelle-Support,        weight: -90,      url: /documentation/datamodel}
 -     {identifier: datamodel_common,        parent: datamodel,          name: Allgemeines,                 weight: -99,      url: /documentation/datamodel/datamodel_common}
 -     {identifier: datamodel_mods,          parent: datamodel,          name: MODS,                        weight: -98,      url: /documentation/datamodel/datamodel_mods}
