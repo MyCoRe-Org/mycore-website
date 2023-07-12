@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2023.06 und die Migration von Version
       2022.06 zu 2023.06 zusammen.
     "
-date: "2022-07-11"
+date: "2023-07-12"
 
 ---
 
@@ -75,9 +75,10 @@ date: "2022-07-11"
  </dependency>{{< /highlight >}}
       </p>
       
-      <h3>Überarbeitung des Job-Konzeptes</h3>
-      <p>ToDo: ergänzen</p>
-
+      <h3>Job-Konzeptes</h3>
+      <p>Das Job-Konzept wurde komplett überarbeitet. Mit dem aktuellen LTS ist die folgende Ergänzung in der <em>persitence.xml</em> erforderlich.</p>
+        {{< highlight xml "linenos=table">}}
+ <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>{{< /highlight >}}
 
     </div>
 
