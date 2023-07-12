@@ -42,9 +42,11 @@ date: "2023-07-012"
     <div>
       <h2>Solr-Umstellung im laufenden Betrieb</h2>
       <p>
-        Möchte man im laufenden Betrieb von einer Solr-Instanz auf eine andere wechseln und den bestehenden Content
-        in die neue Instanz indizieren bevor man dann auch die Suche komplett umstellt, kann folgende Schritt für Schritt-Anleitung
-        genutzt werden. Voraussetzung ist, dass der Solr-Server bereits eingerichtet und der Solr-Kern (hier <code>repper_main</code>)
+        Möchte man im laufenden Betrieb von einer Solr-Instanz auf eine andere wechseln, kann folgende Schritt für Schritt-Anleitung
+        genutzt werden. Damit lässt sich im Hintergrund der bestehende Content in den neuen Solr Kern indizieren.
+        Nach Abschluss der Indizierung kann die Suche dann komplett umgestellt werden. 
+      </p>
+      <p>Voraussetzung ist, dass der Solr-Server bereits eingerichtet und der Solr-Kern (hier <code>repper_main</code>)
         angelegt ist (vgl. <a href="{{< ref search_solr_use >}}">Dokumentation zur Solr-Nutzung</a>).
       </p>
       <ol>
