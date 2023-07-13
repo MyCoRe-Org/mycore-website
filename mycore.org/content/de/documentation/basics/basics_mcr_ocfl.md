@@ -5,7 +5,7 @@ title: "Versionierung mit OCFL in MyCoRe"
 description: ""
 mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt']
-date: "2023-05-04"
+date: "2023-07-13"
 
 ---
 
@@ -56,7 +56,7 @@ Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Kon
 MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLCommands
 
 # Definitionen für das Repository "Main"
-MCR.OCFL.Repository.Main=org.mycore.ocfl.MCROCFLHashRepositoryProvider
+MCR.OCFL.Repository.Main=org.mycore.ocfl.repository.MCROCFLHashRepositoryProvider
 MCR.OCFL.Repository.Main.RepositoryRoot=%MCR.datadir%/ocfl-root
 MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
 ```
@@ -68,7 +68,7 @@ Will man sein eigenes Repository anlegen bzw. ein eigenes Layout verwenden, geht
 
 ```shell {linenos=table}
 #Repository Provider für verschiedene Layouts
-MCR.OCFL.Repository.{Repository_Name}=org.mycore.ocfl.{Repository_Provider}
+MCR.OCFL.Repository.{Repository_Name}=org.mycore.ocfl.repository.{Repository_Provider}
 #Pfad zum Unterverzeichnis für Dateispeicherung
 MCR.OCFL.Repository.{Repository_Name}.RepositoryRoot=%MCR.datadir%/foo
 #Pfad zum Unterverzeichnis für Zwischenspeicher
@@ -276,7 +276,7 @@ Mit dem folgenden Property kann der Metadaten Manager von XML (bisherige Impleme
 NACH der Migartion erfolgen!**
 
 ```shell {linenos=table}
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
+ MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 ```
 
 
@@ -299,10 +299,10 @@ Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu set
 # Dies ersetzt die DAO Implementation mit einer die Events sendet
 MCR.Category.DAO=org.mycore.datamodel.classifications2.impl.MCREventedCategoryDAOImpl
 
-MCR.Classification.Manager=org.mycore.ocfl.MCROCFLXMLClassificationManager
+MCR.Classification.Manager=org.mycore.ocfl.classification.MCROCFLXMLClassificationManager
 
 # Und hier wird der EventHandler eingebunden
-MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.MCROCFLClassificationEventHandler
+MCR.EventHandler.MCRClassification.020.Class=org.mycore.ocfl.classification.MCROCFLClassificationEventHandler
 ```
 
 Wenn man eine andere Repository anstatt "Main" nutzen will, funktioniert dies exakt so wie oben für die Objekte beschrieben ist.
@@ -320,7 +320,7 @@ Um die OCFL Speicherung zu aktivieren, sind die folgenden Konfigurationen zu set
 MCR.Users.Manager.Repository=Main
 
 # Setzt den Manager auf die Implementierung für OCFL
-MCR.Users.Manager=org.mycore.ocfl.user.MCROCFLXMLUserManager;
+MCR.Users.Manager=org.mycore.ocfl.user.MCROCFLXMLUserManager
 
 # Und hier wird der EventHandler eingebunden
 MCR.EventHandler.MCRUser.020.Class=org.mycore.ocfl.user.MCROCFLUserEventHandler
@@ -346,7 +346,7 @@ MCR.OCFL.dropHistory.mcrobject.ULBeeHealth_anihealth=true
 Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
 
 Zunächst wird der Metadaten-Manager bei dem nativen XML-Plattenspeicher belassen und es soll sichergestellt werden,
-dass das Repository `Main` oder das eigene Repository (z. B. MCR) korrekt eingerichtet sind. **Der MCR.Metadata.Manager muss noch auf XML stehen!**
+dass das Repository `Main` oder das eigene Repository (z. B. `MCR`) korrekt eingerichtet sind. **Der MCR.Metadata.Manager muss noch auf XML stehen!**
 
 Mit dem Kommando `migrate metadata to repository {Repository}` können die Daten in die angegebene Repository überspielt werden.
 Das Kommando gibt in einer Statistik aus, ob alle Metadaten migriert werden konnten.
@@ -355,7 +355,7 @@ Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl übe
 
 Wenn alles erfolgreich umgestellt ist, kann man den MetadatenManager wie folgt umstellen:
 ```shell {linenos=table}
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
+ MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 ```
 
 Die Daten für User und Klassifikationen können mit `update ocfl classifications` und `update ocfl users` nach OCFL migriert werden. Primärdaten bleiben hier aber die Datenbanktabellen!
@@ -371,7 +371,7 @@ zu setzen.
 
 Das Ziel Repository muss manuell gesetzt werden (siehe [Konfiguration](#konfiguration)), dieses Repository darf nicht den gleichen Typ (Repository Provider) haben wie die Quelle. Haben Quell- und Zielrepository denselben Typ, ist es abzuwägen, ob es einfacher, das Repository zu kopieren.
 
-Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Das Problem entsteht, wenn versucht wird, deren Versionsverlauf zu lesen, da MyCoRe diese IDs noch immer bekannt sind. Es tritt nicht auf wenn Objekte und Derivate NACH der Migration gelöscht werden, da nun der Versionsverlauf nicht mit gelöscht wird.\
+Hierbei kann es vorkommen, dass ein `MCRUsageException` ausgegeben wird. Dies tritt dann auf, wenn Objekte oder Derivate vor der Migration zu OCFL gelöscht wurden und daher nicht mit migriert wurden. Das Problem entsteht, wenn versucht wird, deren Versionsverlauf zu lesen, da MyCoRe diese IDs noch immer bekannt sind. Es tritt nicht auf wenn Objekte und Derivate NACH der Migration gelöscht werden, da nun der Versionsverlauf nicht mit gelöscht wird.
 
 Das Problem wird in einer zukünftigen Version behoben werden und hat <u>keinen Einfluss auf die Funktionsweise von OCFL</u>. Es kann daher ohne Bedenken ignoriert werden.
 
@@ -471,7 +471,9 @@ Für die Benutzung ist es nicht wichtig, eine "Migration" zu machen, bei einer �
 
 ## Zugriff auf Soft-gelöschte Daten regeln
 
-Es kann beispielsweise für eine ältere Version in der URL `/receive/{ID}` das Attribut `?r=v{n}` zugegriffen werden. Die smuss über ACLs geregelt werden.
+Es kann beispielsweise für Zugriff auf ältere Versionen in der URL `/receive/{ID}` das Attribut `?r=v{n}` angegeben werden. Dies muss über ACLs geregelt werden.\
+Seit Release {{<mcr-version "2023.05">}} ist der Zugriff ohne diese Rechte nicht mehr möglich!\
+Benötigt sind die Rechte `view-history` für die Versionsliste und `read-history` um alte Versionen aufrufen zu können. Diese werden seit Release {{<mcr-version "2022.06">}} mitgeliefert.
 
 ## Struktur der Manager
 
