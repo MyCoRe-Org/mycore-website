@@ -8,7 +8,7 @@ description: "
       Zur Entwicklung einer eigenen MyCoRe-Anwendung stellen wir ein Anwendungsgerüst
       <nobr>(Maven-Archetype)</nobr> zur Verfügung.
     "
-date: "2021-11-01"
+date: "2023-07-17"
 
 ---
 <p>
@@ -40,7 +40,7 @@ Um den Maven-Archetype nutzen zu können, muss er vorher in das lokale Maven-Rep
 lokalen Maven-Archetype-Katalog registriert werden.
 </p>
 {{< highlight shell "linenos=table">}}
- mvn dependency:get -Dartifact="org.mycore.skeleton:mycore-skeleton-archetype:2021.06.1-SNAPSHOT" -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots
+ mvn dependency:get -Dartifact="org.mycore.skeleton:mycore-skeleton-archetype:2022.06-SNAPSHOT" -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots
  mvn archetype:crawl     
 {{< /highlight >}}
 
