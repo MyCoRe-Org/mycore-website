@@ -2,8 +2,9 @@
 ---
 
 title: "Initialisierung der eigenen Anwendung"
-mcr_version: ['2018.06']
+mcr_version: ['2022.06']
 author: ['Kathleen Neumann', 'Robert Stephan']
+date: "2023-07-18"
 
 ---
 <p>Die folgende Anleitung geht davon aus, dass eine neue Anwendung mit dem Namen <code>skeleton</code> eingerichtet werden soll.
@@ -12,27 +13,32 @@ author: ['Kathleen Neumann', 'Robert Stephan']
 <h3>1. CLI erstellen</h3>
 <p>
     Im Arbeitsverzeichnis wird mit dem Kommando <code>mvn clean install</code> die Skeleton Anwendung erstmals gebaut.
-    Danach steht im Verzeichnis <code>skeleton-cli/target</code> ein <code>zip</code> bzw. <code>tar.gz</code> für die MyCoRe-Kommandozeile zur Verfügung.
-    Das <code>zip</code> bzw. <code>tar.gz</code>kann nun in einem beliebigen Projektverzeichnis auf dem Anwendungs-Server entpackt werden.
 </p>
+<p>    
+    Danach steht im Verzeichnis <code>skeleton-cli/target</code> ein <code>zip</code> bzw. <code>tar.gz</code> für die MyCoRe-Kommandozeile zur Verfügung.
+    Das <code>zip</code> bzw. <code>tar.gz</code> kann nun in einem beliebigen Projektverzeichnis auf dem Anwendungsserver entpackt werden.
+</p>
+<p>    
+    Befindet man sich bereits auf dem Server kann man die CLI auch aus dem Verzeichnis <code>skeleton-cli/target/appassembler</code> heraus starten.
+</p>
+
 
 <h3>2. Konfigurieren</h3>
 <h4>Konfigurationsverzeichnis generieren</h4>
         <p>
-          Zuerst wechselt man das CLI-Verzeichnis der gerade entpackten Anwendung, z.B.:
+          Zuerst wechselt man in das CLI-Verzeichnis der gerade entpackten Anwendung, z.B.:
         </p>
-{{< highlight txt>}}cd c:\skeleton\skeleton-cli{{< /highlight >}}
+{{< highlight txt>}}cd c:\...\skeleton\skeleton-cli{{< /highlight >}}
 
-<p>
-           Anschließend wird das Konfigurationsverzeichnis generiert, indem je nach Betriebssystem
-           das folgende Kommando aufgerufen wird:
-</p>
+        <p>
+           und ruft das folgende Kommando auf:
+        </p>
 
            <dl>
             <dt>Linux:</dt><dd> {{< highlight txt>}}bin/skeleton.sh create configuration directory{{< /highlight >}}</dd>
             <dt>Windows:</dt><dd> {{< highlight txt>}}bin\skeleton.bat create configuration directory{{< /highlight >}}</dd>
           </dl>
-          Im Home-Verzeichnis des angemeldeten Nutzers wird dadurch das <strong>MyCoRe-Konfigurationsverzeichnis</strong>
+          Im Home-Verzeichnis des aktuellen Nutzers wird dadurch das <strong>MyCoRe-Konfigurationsverzeichnis</strong>
           fürd die Anwendung generiert.
           <dl>
             <dt>Linux:</dt><dd> <code>~/.mycore/skeleton</code></dd>
@@ -41,8 +47,42 @@ author: ['Kathleen Neumann', 'Robert Stephan']
          
         <p>
           Es ist darauf zu achten, dass der Name des Konfigurationsverzeichnisses dem Namen der
-          Webanwendung entspricht, in diesem Beispiel also <code>skeleton</code>.
+          MyCoRe-Anwendung entspricht, in diesem Beispiel also <code>skeleton</code>.
         </p>
+
+<h4>Solr konfigurieren</h4>
+<p>
+    Für die Suche und Recherche in der Anwendung wird ein Solr-Srver benötigt.<br />
+    Dessen Konfigutation wird im Abschnitt <a href="{{< ref search_solr_use >}}">Solr Nutzung</a> ausführlicher beschrieben.
+</p>
+<p>Die beiden benötigten Solr-Cores sollten (wie die Anwendung) <code>skeleton_main</code> und <code>skeleton_classs</code> benannt 
+   und mit folgenden Kommandos angelegt werden:</p>
+ {{< highlight txt>}}
+ .../solr/bin/solr create -c skeleton_main -d mycore_main
+ .../solr/bin/solr create -c skeleton_class -d mycore_classification{{< /highlight>}}
+ 
+        <p>Abschließend wird in der Datei <code>mycore.properties</code> im MyCoRe-Konfigurationsverzeichnis
+        der Core definiert:</p>
+ {{< highlight txt>}}
+  MCR.Solr.ServerURL=http://localhost:8983/
+  MCR.Solr.Core.main.Name=skeleton_main
+  MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
+  MCR.Solr.Core.classification.Name=skeleton_class
+  MCR.Solr.Core.classification.ServerURL=%MCR.Solr.ServerURL%{{< /highlight>}}
+<h5>Solr im Entwicklermodus (Alternative)</h5>
+<p>
+  Wer einen Solr-Server nur zur Entwicklungs- oder Demonstrationszwecken nutzen möchte, kann ihn
+  über das <a href="https://github.com/MyCoRe-Org/solr-runner-maven-plugin">MyCoRe Solr-Runner-Maven-Plugin</a> konfigurieren und starten.
+<p>
+  Dazu können im <code>skeleton-webpp</code>-Verzeichnis die folgenden Maven Kommandos ausgeführt werden:</p> 
+ {{< highlight txt>}}
+  mvn solr-runner:copyHome
+  mvn solr-runner:installConfigSet@cs_main
+  mvn solr-runner:installConfigSet@cs_classification
+{{< /highlight>}}
+<p> Der Solr-Server wird mit <code> mvn solr-runner:start</code> gestartet,
+    später mit <code>mvn solr-runner:stop</code> angehalten und ist über die URL
+    <a href="http://localhost:8983/solr/">http://localhost:8983/solr/</a> erreichbar. 
 
 <h4>Datenbank konfigurieren</h4>
 <p>
@@ -50,40 +90,35 @@ author: ['Kathleen Neumann', 'Robert Stephan']
     <a href="{{< ref gs_properties >}}">MyCoRe-Konfigurationsverzeichnis</a> angepasst werden.
     Weitere Hinweise dazu befinden sich im Abschnitt <a href="{{<ref gs_jpa>}}">Datenbank-JPA</a>.
 </p>
-
-<h4>Solr konfigurieren</h4>
 <p>
-    Um in der Anwendung suchen und recherchieren wird ein Solr-Suchserver benötigt.<br />
-    Die Konfigutation wird wim Abschnitt <a href="{{< ref migrate_solr7 >}}">Solr-Integration</a>
-    beschrieben.
+    Soll zu Entwicklungs- und Demonstrationszwecken mit der Datenbank H2 gearbeitet werden,
+    muss die Konfigurationsdatei nicht geändert werden. Dann wird während der folgenden JPA-Konfiguration 
+    der Pfad zur H2-Datei im Data-Verzeichnis automatisch gesetzt.
 </p>
-<p>Der Solr-Core sollte wie die Anwendung (<code>skeleton</code>) benannt werden und kann mit folgendem
-   Kommando angelegt werden:
- {{< highlight txt>}}
- .../solr/bin/solr create -c skeleton -d mycore_main{{< /highlight>}}
- 
-        <p>Abschließend wird in der Datei <code>mycore.properties</code> im MyCoRe-Konfigurationsverzeichnis
-        der Core definiert:</p>
- {{< highlight txt>}}
-  MCR.Solr.ServerURL=http://localhost:8983/
-  MCR.Solr.Core.main.Name=skeleton{{< /highlight>}}
- 
+<p>
+    Mit dem folgenden Kommando, das im CLI-Verzeichnis der MyCoRe-Anwendung ausgeführt wird, wird die Datenbank konfiguriert. <br />
+    Abhängig von den verwendeten MyCoRe-Modulen werden Mappings zu Datenbanktabellen in die Datei <code>persistence.xml</code> eingetragen:</p>
+    <dl>
+    <dt>Linux:</dt><dd>{{< highlight txt>}}bin/skeleton.sh reload mappings in jpa configuration file{{< /highlight>}}</dd>
+    <dt>Windows:</dt><dd>{{< highlight txt>}}bin\skeleton.bat reload mappings in jpa configuration file{{< /highlight>}}</dd>
+    </dl>
+
  
 <h3>3. Anwendung initialisieren</h3>
 <p>
-   Nun können die Klassifikationen, Nutzer der MyCoRe-Anwendung und und die SOLR-Core-Konfiguration in die DB geladen werden.
+   Nun können die Klassifikationen, Nutzer und Rechte in die MyCoRe-Anwendung geladen werden.
    Dazu wird folgendes Kommando verwendet:
 </p>
 <dl>
     <dt>Linux:</dt><dd>{{< highlight txt>}}bin/skeleton.sh process config/setup-commands.txt{{< /highlight>}}</dd>
     <dt>Windows:</dt><dd>{{< highlight txt>}}bin\skeleton.bat process config\setup-commands.txt{{< /highlight>}}</dd>
 </dl>
-<p>Später kann die Datei setup-commands.txt
+<p>Später kann die Datei <code>setup-commands.txt</code>
    um anwendungsspezifische Nutzer, Rechte und Klassifikationen ergänzt werden.</p>
 
  <h3>4. Anwendung deployen</h3>
  <p>
-    Abschließend wird jetzt die Webanwendung online gestellt.
+    Abschließend wird die Webanwendung online gestellt.
 </p>
 <p>
    Wenn Änderungen am Source-Code oder Konfiguration vorgenommen worden sind,
@@ -96,7 +131,16 @@ author: ['Kathleen Neumann', 'Robert Stephan']
     dann in das <code>\webapps</code>-Verzeichnis des Servlet-Containers (Tomcat) kopiert.
     Der Servlet-Container entpackt und startet die Anwendung.
 </p>
-<p class="text-success">Herzlichen Glückwunsch! Ihre MyCoRe-Anwendung ist jetzt online:<br />
+
+<h5>Jetty-Webserver im Entwicklermodus (Alternative)</h5>
+<p>
+  Zu Entwicklungs- und Demonstrationszwecken kann auch ein vorkonfigurierter Jetty-Webserver verwendet werden.
+  Dieser wird im <code>skeleton-webpp</code>-Verzeichnis mit den  Maven Kommandos <code> mvn jetty:run</code> 
+  gestartet und mit <code>&lt;Strg&gt; + &lt;C&gt;</code> gestoppt.</p> 
+    
+
+
+<p class="text-success"><strong>Herzlichen Glückwunsch!</strong> <br />Ihre MyCoRe-Anwendung ist jetzt online:
     <strong><a href="http://localhost:8080/skeleton">http://localhost:8080/skeleton</a></strong>
 </p>
 
