@@ -33,56 +33,77 @@ date: '2021-09-08'
     <h2>Erzeugen einer Instanz</h2>
     <p>
         Für das Erzeugen einer Instanz kann die statische Methode <code>getInstanceOf</code> in der Klasse
-        <code>MCRConfiguration2</code> mit einem frei wählbaren Konfigurationsnamen aufgerufen werden.
+        <code>MCRConfiguration2</code> mit einem frei wählbaren Konfigurationsnamen aufgerufen werden. Wenn das Vorhandensein einer
+        Instanz unabdingbar ist, bietet sich die Nutzung der Methode <code>createConfigurationException</code> an.
     </p>
 {{< highlight java "linenos=table">}}
-Optional<MyConfigurableClass> configuredClass = MCRConfiguration2.getInstanceOf("MCR.Configurable.Class");
+MyConfigurableClass mandatoryInstance = MCRConfiguration2.getInstanceOf("MCR.Configurable.Class")
+    .orElseThrow(() -> MCRConfiguration2.createConfigurationException("MCR.Configurable.Class"));
 {{< /highlight >}}
     <p>
-        Damit eine entsprechende Instanz erzeugt werden kann, muss ein entsprechendes Property die zu instanziierende Klasse als mit einem vollqualifizierten Klassennamen benennen.
-        Optional kann der Zusatz <code>.class</code> angegeben werden.
-        Die entsprechende Klasse darf nicht abstrakt sein und muss einen parameterlosen Konstruktor anbieten. Diese muss <code>public</code> sein.
+        Damit eine entsprechende Instanz erzeugt werden kann, muss ein entsprechendes Property die zu instanziierende Klasse
+        mit ihrem vollqualifizierten Klassennamen benennen.
     </p>
 {{< highlight bash "linenos=table">}}
-# MCR.Configurable.Class=de.my.configurable.MyConfigurableClass.class
-MCR.Configurable.Class=de.my.configurable.MyConfigurableClass
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
 {{< /highlight >}}
+    <p>
+        Diese Klasse darf nicht abstrakt sein und muss
+    </p>
+    <ul>
+        <li>
+            einen öffentlichen, parameterlosen Konstruktor oder
+        </li>
+        <li>
+            eine öffentliche, statische, parameterlose Methode mit passendem Rückgabetyp und dem Wort
+            <code>instance</code> im Namen als Factory-Methode
+        </li>
+    </ul>
+    <p>
+        anbieten. Falls beides vorhanden ist, wird der Konstruktor bevorzugt.
+    </p>
+    <p>
+        Endet der gewählte Konfigurationsname (wie in diesem Beispiel) auf <code>.Class</code> oder <code>.class</code>,
+        so werden für die im Folgenden beschriebenen Funktionen alle weitere Properties relativ zu dem davorstehenden
+        Namensanteil (im Beispiel <code>My.Configurable</code>) gesucht, andernfalls relativ zum vollen Namen.
+    </p>
 
     <h2>Zuweisen von Properties mit @MCRProperty</h2>
     <p>
-        Falls die Klasse <code>MyConfigurableClass</code> zusätzliche Properties benötigt, so können Felder oder Methoden mit der Annotation <code>@MCRProperty</code> versehen werden.
-        Annotierte Felder muss <code>public</code> und vom Typ <code>String</code> oder <code>Map&lt;String, String&gt;</code> sein.
-        Annotierte Methoden muss <code>public</code> sein und einen einzigen Parameter vom Typ <code>String</code> oder <code>Map&lt;String, String&gt;</code> nehmen.
-    </p>
-    <p>
-        Die Annotation hat folgende Konfigurationsmöglichkeiten:
-        <ul>
-            <li>
-                Das notwendige Attribut <code>mame</code> gibt den Namen des zugehörigen Properties an, sofern das annotierte Feld bzw. die annotierte Methode den Typ <code>String</code> nutzt.
-                Genau dann, wenn das annotierte Feld bzw. die annotierte Methode den Typ <code>Map&lt;String, String&gt;</code> nutzt, muss hier der besondere Wert <code>*</code> angegeben werden.
-                In diesem Fall wird statt einem einzelnen Property eine <code>Map</code> mit allen unterhalb des gewählten Konfigurationsnamens vorhandenen Properties bereitgestellt.
-            </li>
-            <li>
-                Das optional Attribut <code>required</code> gibt an, ob ein entsprechendes Property vorhanden sein muss.
-                Der Standardwert ist <code>true</code>.
-                Wenn <code>false</code> gewählt wird und kein entsprechendes Property vorhanden ist, wird der (z.B. im Konstruktor gesetzte) vorhandene Wert des annotierten Feldes nicht auf <code>null</code> gesetzt.
-                Eine annotierte Methode wird in diesem Fall nicht aufgerufen. Wird eine annotierte Methode aufgerufen, so ist der übergebene Wert niemals <code>null</code>.
-            </li>
-            <li>
-                Das optionale Attribut <code>absolute</code> gibt an, ob der unter <code>name</code> angegeben Wert absolute (und nicht relativ zum Konfigurationsnamen) aufgefasst werden soll.
-            </li>
-            <li>
-                Das optionale Attribut <code>defaultName</code> gibt den absolut aufgefassten Namen eines Standardproperties an, dass verwendet werden soll, wenn das eigentliche Property nicht vorhanden ist.
-                Dieses Standardproperty muss auf jeden Fall konfiguriert sein.
-                Dieses Vorgehen ist hart kodierten Standardwerten vorzuziehen.
-            </li>
-            <li>
-                Das optionale Attribut <code>order</code> gibt die Reihenfolge an, in der die annotierten Felder gesetzt bzw. die annotierten Methoden aufgerufen werden, wobei niedrigere bevorzugt werden.
-                Der Standardwert ist <code>0</code>. Haben z.B. mehrere annotierte Methoden denselben Wert, so wird keine Reihenfolge garantiert.
-            </li>
-        </ul>
+        Falls die Klasse <code>MyConfigurableClass</code> zusätzliche Konfigurationswerte benötigt, so können
+        Felder oder Methoden mit der Annotation <code>@MCRProperty</code> versehen werden.
+        Annotierte Felder muss öffentlich und vom Typ <code>String</code> oder <code>Map&lt;String, String&gt;</code> sein.
+        Annotierte Methoden muss öffentlich sein und einen einzigen Parameter vom Typ <code>String</code>
+        oder <code>Map&lt;String, String&gt;</code> nehmen.
     </p>
 
+    <p>
+        Die Annotation hat folgende Konfigurationsmöglichkeiten:
+    </p>
+    <ul>
+        <li>
+            Das notwendige Attribut <code>mame</code> gibt den Namen des zugehörigen Properties an, sofern das annotierte Feld bzw. die annotierte Methode den Typ <code>String</code> nutzt.
+            Genau dann, wenn das annotierte Feld bzw. die annotierte Methode den Typ <code>Map&lt;String, String&gt;</code> nutzt, muss hier der besondere Wert <code>*</code> angegeben werden.
+            In diesem Fall wird statt einem einzelnen Property eine <code>Map</code> mit allen unterhalb des gewählten Konfigurationsnamens vorhandenen Properties bereitgestellt.
+        </li>
+        <li>
+            Das optionale Attribut <code>required</code> gibt an, ob ein entsprechendes Property vorhanden sein muss. Der Standardwert ist <code>true</code>.
+            Wenn <code>false</code> gewählt wird und kein entsprechendes Property vorhanden ist, wird der (z.B. im Konstruktor gesetzte) vorhandene Wert des annotierten Feldes nicht auf <code>null</code> gesetzt.
+            Eine annotierte Methode wird in diesem Fall nicht aufgerufen. Wird eine annotierte Methode aufgerufen, so ist der übergebene Wert niemals <code>null</code>.
+        </li>
+        <li>
+            Das optionale Attribut <code>absolute</code> gibt an, ob der unter <code>name</code> angegeben Wert absolute (und nicht relativ zum Konfigurationsnamen) aufgefasst werden soll.
+        </li>
+        <li>
+            Das optionale Attribut <code>defaultName</code> gibt den absolut aufgefassten Namen eines Standardproperties an, dass verwendet werden soll, wenn das eigentliche Property nicht vorhanden ist.
+            Dieses Standardproperty muss auf jeden Fall konfiguriert sein.
+            Dieses Vorgehen ist hart kodierten Standardwerten vorzuziehen.
+        </li>
+        <li>
+            Das optionale Attribut <code>order</code> gibt die Reihenfolge an, in der die annotierten Felder gesetzt bzw. die annotierten Methoden aufgerufen werden, wobei niedrigere bevorzugt werden.
+            Der Standardwert ist <code>0</code>. Haben z.B. mehrere annotierte Methoden denselben Wert, so wird keine Reihenfolge garantiert.
+        </li>
+    </ul>
     <p>
         Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
     </p>
@@ -99,22 +120,167 @@ private Integer number;
 public void setNumber(String number){
     this.foo = Integer.parseInt(number);
 }{{< /highlight >}}
-
     <p>
         Eine passende Konfiguration könnte beispielsweise so aussehen:
     </p>
 {{< highlight bash "linenos=table">}}
-MCR.Configurable.Class=de.my.configurable.MyConfigurableClass
-MCR.Configurable.Class.Foo=custom
-MCR.Configurable.Class.Bar=baz
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Foo=custom
+MCR.Configurable.Bar=baz
 # MCR.InterestingNumber.Local=23
 MCR.InterestingNumber.Global=42{{< /highlight >}}
     <p>
-        In diesem Beispiel bekommt das Feld <code>foo</code> den Wert <code>custom</code> aus dem Property <code>MCR.Configurable.Class.Foo</code>.
+        In diesem Beispiel bekommt das Feld <code>foo</code> den Wert <code>custom</code> aus dem Property <code>MCR.Configurable.Foo</code>.
         Der vordefiniert Wert <code>default</code> wird überschrieben.
         Das Feld <code>map</code> bekommt eine <code>Map</code> mit den Einträgen <code>Foo=custom</code> und <code>Bar=baz</code>.
         Die Methode <code>setNumber</code> wird mit dem Wert <code>42</code> aus dem Standardproperty <code>MCR.InterestingNumber.Global</code> aufgerufen.
         Wäre das Property <code>MCR.InterestingNumber.Local</code> nicht auskommentiert, so würde die Methode mit dessen Wert <code>23</code> aufgerufen werden.
+    </p>
+
+    <h2>Geschachtelte Instanzen mit @MCRInstance</h2>
+    <p>
+        Falls die Klasse <code>MyConfigurableClass</code> statt einfachen Konfigurationswerten komplexere Objekte benötigt, so können
+        Felder oder Methoden mit der Annotation <code>@MCRInstance</code> versehen werden. Annotierte Felder müssen öffentlich und von
+        einem Typ sein, der zuweisungskompatibel zu dem im Attribut <code>valueClass</code> der Annotation angegebenen Klasse sein muss.
+        Annotierte Methoden müssen öffentlich sein und einen einzigen Parameter von einem solchen Typ nehmen.
+
+    </p>
+    <p>
+        Die Annotation hat folgende Konfigurationsmöglichkeiten:
+    </p>
+    <ul>
+        <li>
+            Das notwendige Attribut <code>mame</code> gibt den Namen des zugehörigen Properties an.
+            In diesem muss die zu instanziierende Klasse mit ihrem vollqualifizierten Klassennamen benennen.
+            Endet der gewählte ursprünglich Konfigurationsname (wie in diesem Beispiel) auf <code>.Class</code> oder
+            <code>.class</code>, so wird diese Endung übernommen.
+        </li>
+        <li>
+            Das notwendige Attribut <code>valueClass</code> benennt die Klasse, zu der die in <code>name</code> benannte Klasse
+            zuweisungskompatibel sein muss. Dass annotierte Feld bzw. der Parameter der annotierten Methode muss ebenfalls diesen Typ haben.
+        </li>
+        <li>
+            Das optionale Attribut <code>required</code> gibt an, ob ein entsprechendes Property vorhanden sein muss. Der Standardwert ist <code>true</code>.
+            Wenn <code>false</code> gewählt wird und kein entsprechendes Property vorhanden ist, wird der (z.B. im Konstruktor gesetzte) vorhandene Wert des annotierten Feldes nicht auf <code>null</code> gesetzt.
+            Eine annotierte Methode wird in diesem Fall nicht aufgerufen. Wird eine annotierte Methode aufgerufen, so ist der übergebene Wert niemals <code>null</code>.
+        </li>
+        <li>
+            Das optionale Attribut <code>order</code> gibt die Reihenfolge an, in der die annotierten Felder gesetzt bzw. die annotierten Methoden aufgerufen werden, wobei niedrigere bevorzugt werden.
+            Der Standardwert ist <code>0</code>. Haben z.B. mehrere annotierte Methoden denselben Wert, so wird keine Reihenfolge garantiert.
+        </li>
+    </ul>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
+    </p>
+{{< highlight java "linenos=table">}}
+@MCRProperty(name = "Foo")
+public String foo;
+
+@MCRInstance(name = "Nested1", valueClass=MyConfigurableClass.class, required=false)
+public MyConfigurableClass nested1;
+
+@MCRInstance(name = "Nested2", valueClass=MyConfigurableClass.class, required=false)
+public MyConfigurableClass nested2;
+{{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Foo=foo
+MCR.Configurable.Nested1.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Nested1.Foo=bar
+MCR.Configurable.Nested2.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Nested2.Foo=baz{{< /highlight >}}
+    <p>
+        In diesem Beispiel bekommt das Feld <code>foo</code> den Wert <code>foo</code> aus dem Property <code>MCR.Configurable.Foo</code>.
+        Zudem werden zwei weitere Instanzen der Klasse <code>MyConfigurableClass</code> erzeugt und den Feldern <code>nested1</code> und
+        <code>nested2</code> zugewiesen. Dem Feld <code>foo</code> dieser geschachtelten Instanzen wird der Wert <code>bar</code>
+        bzw. der Wert <code>baz</code> zugewiesen.
+    </p>
+
+    <h2>Mehrere geschachtelte Instanzen mit @MCRInstanceMap oder @MCRInstanceList</h2>
+    <p>
+        Falls die Klasse <code>MyConfigurableClass</code> statt mehrere statt einzelnen komplexere Objekte benötigt, so können
+        Felder oder Methoden mit der Annotation <code>@MCRInstanceMap</code> oder <code>@MCRInstanceList</code> versehen werden. Annotierte Felder müssen öffentlich und vom
+        Typ <code>Map&lt;String, X&gt;</code> bzw. <code>List&lt;X&gt;</code> sein, wobei <code>X</code> zuweisungskompatibel zu dem im Attribut <code>valueClass</code>
+        der Annotation angegebenen Klasse sein muss. Annotierte Methoden müssen öffentlich sein und einen einzigen Parameter von einem solchen Typ nehmen.
+    </p>
+    <p>
+        Die Annotationen haben dieselben Konfigurationsmöglichkeiten wie <code>@MCRInstance</code>. Das Attribute <code>name</code>
+        ist jedoch optional und gibt nur einen Prefix für die zu beachtenden Properties an. Wird kein Wert angegeben, so werden
+        alle Properties behandelt.
+    </p>
+    <p>
+        Alle behandelten Properties werden ausgewertet und zur Erzeugung geschachtelter Instanzen herangezogen.
+        Der führende Namensanteil (abzüglich dem ggf. im Attribut <code>name</code> angegebenen Prefix) wird im Falle von <code>@MCRInstanceMap</code>
+        als Schlüssel für die gebildete <code>Map</code> und im Falle von <code>@MCRInstanceList</code> (als Zahlenwert interpretiert) für die
+        Reihenfolge der gebildeten <code>List</code> verwendet. Endet der gewählte ursprünglich Konfigurationsname (wie in diesem Beispiel) auf
+        <code>.Class</code> oder <code>.class</code>, so wird diese Endung übernommen.
+    </p>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
+    </p>
+{{< highlight java "linenos=table">}}
+@MCRInstanceMap(name = "NestedMap", valueClass=Nested.class)
+public Nested nestedMap;
+
+@MCRInstanceList(name = "NestedList", valueClass=Nested.class)
+public Nested nestedList;
+{{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.NestedMap.foo.Class=my.configurable.MyNestedClassA
+MCR.Configurable.NestedMap.foo.ConfigValue1=...
+MCR.Configurable.NestedMap.foo.ConfigValue2=...
+MCR.Configurable.NestedMap.bar.Class=my.configurable.MyNestedClassB
+MCR.Configurable.NestedMap.bar.ConfigValue1=...
+MCR.Configurable.NestedMap.bar.ConfigValue2=...
+MCR.Configurable.NestedList.100.Class=my.configurable.MyNestedClassC
+MCR.Configurable.NestedList.100.ConfigValue1=...
+MCR.Configurable.NestedList.100.ConfigValue2=...
+MCR.Configurable.NestedList.200.Class=my.configurable.MyNestedClassD
+MCR.Configurable.NestedList.200.ConfigValue1=...
+MCR.Configurable.NestedList.200.ConfigValue2=...{{< /highlight >}}
+    <p>
+        In diesem Beispiel ist <code>Nested</code> ein Interface oder eine (ggf. abstrakte) Basisklasse.
+        Das Feld <code>nestedMap</code> bekommt als Wert eine <code>Map</code> mit zwei Einträge mit Schlüsseln
+        <code>foo</code> und <code>bar</code>. Die Werte dieser Einträge sind Instanzen der Klassen
+        <code>MyNestedClassA</code> bzw. <code>MyNestedClassB</code>. Das Feld <code>nestedList</code> bekommt als
+        Wert eine <code>List</code> mit ebenfalls zwei Einträge. Die Werte dieser Einträge sind Instanzen der
+        Klassen <code>MyNestedClassC</code> bzw. <code>MyNestedClassD</code>. Alle vier erzeugte Instanzen wurden
+        mit weiteren Konfigurationswerten konfiguriert.
+    </p>
+    <p>
+        Auf das Attribut <code>name</code> der Annotation verzichtet werden. In diesem Fall entfällt der entsprechende
+        Namensbestandteil in den Properties. Allerdings kann die Klasse keine weiteren Konfigurationswerte bekommen,
+        da alle vorhandenen Properties für die Einträge der <code>Map</code> bzw. <code>List</code> verwendet werden.
+    </p>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
+    </p>
+{{< highlight java "linenos=table">}}
+@MCRInstanceMap(valueClass=Nested.class)
+public Nested nestedMap;
+{{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.foo.Class=my.configurable.MyNestedClassA
+MCR.Configurable.foo.ConfigValue1=...
+MCR.Configurable.foo.ConfigValue2=...
+MCR.Configurable.bar.Class=my.configurable.MyNestedClassB
+MCR.Configurable.bar.ConfigValue1=...
+MCR.Configurable.bar.ConfigValue2=...{{< /highlight >}}
+    <p>
+        Das Feld <code>nestedMap</code> bekommt als Wert eine <code>Map</code> mit zwei Einträge mit Schlüsseln
+        <code>foo</code> und <code>bar</code>. Die Werte dieser Einträge sind Instanzen der Klassen
+        <code>MyNestedClassA</code> bzw. <code>MyNestedClassB</code>.
     </p>
 
     <h2>Abschließende Initialisierung mit @MCRPostConstruction</h2>
@@ -145,9 +311,51 @@ public void init(String property) {
     </p>
     <ol>
         <li>Aufrufen des Konstruktors</li>
-        <li>Zuweisung der mit <code>@MCRProperty</code> annotierten Felder (in aufsteigenden <code>order</code>-Reihenfolge)</li>
-        <li>Aufrufen der mit <code>@MCRProperty</code> annotierten Methoden (in aufsteigenden <code>order</code>-Reihenfolge)</li>
+        <li>Zuweisung der mit <code>@MCRProperty</code>, <code>@MCRInstance</code>, etc. annotierten Felder (in aufsteigenden <code>order</code>-Reihenfolge)</li>
+        <li>Aufrufen der mit <code>@MCRProperty</code>, <code>@MCRInstance</code>, etc. annotierten Methoden (in aufsteigenden <code>order</code>-Reihenfolge)</li>
         <li>Aufrufen der mit <code>@MCRPostConstruction</code> annotierten Methode (in aufsteigenden <code>order</code>-Reihenfolge)</li>
     </ol>
+
+    <h2>Stellvertretende Initialisierung mit @MCRConfigurationProxy</h2>
+    <p>
+        In Situationen in denen die oben beschriebene Anforderung (dass eine zu konfigurierende Klasse einen
+        öffentlichen, parameterlosen Konstruktor oder eine qualifizierte Factory-Methode haben muss) nicht umsetzbar ist
+        oder eine derartige Umsetzung anderen Design-Entscheidungen (z.B. Kapselung, Immutability) entgegen spricht, oder die Klasse allgemein vom Konfigurationsmechanismus
+        entkoppelt werden soll, so kann die zu instanziierende Klasse mit <code>MCRConfigurationProxy</code>
+        annotiert werden. Diese Annotation hat ein Attribut <code>proxyClass</code> das eine Klasse benennt, die stattdessen
+        mit dem hier beschriebenen Mechanismus konfiguriert und anschließend verwendet wird, um eine Instanz der
+        eigentlich zu instanziierende Klasse zu erlangen. Hierzu muss diese Klasse das Interface
+        <code>Supplier&lt;X&gt;</code> implementieren, wobei <code>X</code> die eigentlich zu instanziierende
+        Klasse ist.
+    </p>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code>:
+    </p>
+    {{< highlight java "linenos=table">}}
+@MCRConfigurationProxy(proxyClass = MyConfigurableClass.Factory.class)
+public final class MyConfigurableClass {
+
+    private final int value;
+
+    public MyConfigurableClass(int value) {
+        this.value = value;
+    }
+
+    public int value() {
+        return value;
+    }
+
+    public static class Factory implements Supplier<MyConfigurableClass> {
+
+        @MCRProperty(name = "Value")
+        public String value;
+
+        public MyConfigurableClass get() {
+            return new MyConfigurableClass(Integer.parseInt(this.value));
+        }
+
+    }
+
+} {{< /highlight >}}
 
 </div>
