@@ -99,11 +99,15 @@ Configure:
 	SetKeyDelay, %KeyDelay%
 	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
 	WinActivate, ahk_class SWT_Window0
+	
 	if(OptEncoding = 1) {
 		Encoding()
 	}
 	if(OptMyCoReJavaCodeStyle = 1) {
 		MyCoReJavaCodeStyle()
+	}
+	if(OptJavascriptCodeStyle = 1) {
+		JavascriptCode()
 	}
 	if(OptXMLCode = 1) {
 		XMLCode()
@@ -114,9 +118,7 @@ Configure:
 	if(OptGitCode = 1) {
 		GitCode()
 	}
-	if(OptJavascriptCodeStyle = 1) {
-		JavascriptCode()
-	}
+
 	MsgBox, 0, Eclipse Konfiguration abgeschlossen ..., Die Eclipse Konfiguration ist abgeschlossen!
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
