@@ -79,6 +79,12 @@ date: "2023-07-12"
       <p>Das Job-Konzept wurde komplett überarbeitet. Mit dem aktuellen LTS ist die folgende Ergänzung in der <em>persitence.xml</em> erforderlich.</p>
         {{< highlight xml "linenos=table">}}
  <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>{{< /highlight >}}
+ 
+      <h3>XSLT-3</h3>
+      <p>Mit Release 2023.06 ist XSLT-3 der Standard-Transformer. Somit wird auch für die SOLR-Datentransformation XSLT-3 benutzt. Hierfür ist für alle
+      Selektionen von SOLR-Feldern für die eigenen Datenmodelle das property <em>MCR.URIResolver.xslImports.solr-document-3</em> zu nutzen.
+      {{< highlight xml "linenos=table">}}
+ MCR.URIResolver.xslImports.solr-document-3=%MCR.URIResolver.xslImports.solr-document-3%,mymodel2solr.xsl{{< /highlight >}}
 
     </div>
 
