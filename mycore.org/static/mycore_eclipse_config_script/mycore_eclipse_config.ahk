@@ -250,7 +250,7 @@ GitCode() {
 	; Set Default repository folder
 	Send, !f
 	Send, ^a
-	SendRaw, ${workspace_loc}\git
+	SendRaw, ${workspace_loc}\..\git
 	; Apply Button klicken
 	Loop, 14 {
 		Send, {Tab}
