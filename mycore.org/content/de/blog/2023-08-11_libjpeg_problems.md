@@ -9,7 +9,8 @@ draft: 	false
 blog/authors: 	["Robert Stephan"]
 blog/periods: 	2023-08
 blog/categories:
- - Störung
+ - Störungen
+blog/tags:
  - libjpeg
  - Java17
 
