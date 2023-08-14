@@ -14,6 +14,12 @@ blog/tags:
  - libjpeg
  - Java17
 
+news/frontpage: true
+news/title_de: "Problem bei der JPEG-Verarbeitung in Java17"
+news/teaser_de: "Anleitung zur Behebung des Problems bei der JPEG-Verarbeitung in Java17"
+news/title_en: "Solution for problems processing JPEG in Java17"
+news/teaser_en: "A guide to deal with the JPEG processing problem in Java17"
+
 ---
 Bei der Verwendung von **Java17** kommt es auf verschiedenen aktuellen Linux-Systemen zu Problemem mit der Anzeige und Verarbeitung von JPEG-Dateien. Der Fehler liegt in der Systembibliothek **libjpeg-turbo** und kann mit einer Aktualisierung derselben behoben werden.
 

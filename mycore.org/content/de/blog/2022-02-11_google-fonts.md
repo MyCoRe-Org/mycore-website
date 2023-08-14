@@ -12,7 +12,7 @@ blog/categories:
 blog/tags:
  - "google fonts"
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Umgang mit Google-Fonts"
 news/teaser_de: "Eine Anleitung um Google-Fonts datenschutzkonform einzubinden"
 news/title_en: "Using Google Fonts"
