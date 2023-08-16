@@ -1006,24 +1006,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>OER</name>
-      <description><![CDATA[
-            <p>Universität Duisburg-Essen (Open Educational Resources)</p>
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://oer.uni-duisburg-essen.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_oer.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://oer.uni-duisburg-essen.de/">Open Educational Resources</a>
-					<span class="mcrmap_item_owner">Universität Duisburg-Essen</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>7.007442,51.464385,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>Universitätsbibliograhie</name>
       <description><![CDATA[
             <p>Universität Duisburg-Essen (Universitätsbibliothek)</p>
@@ -1050,23 +1032,6 @@
                 <p>
                 	<span class="mcrmap_item_name">Bilddatenbank "Metropolenzeichen - Visuelle Mehrsprachigkeit in der Metropole Ruhr"</span>
                 	<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>7.007442,51.464385,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>MUVIN</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://muvin.uamr.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_muvin.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://muvin.uamr.de/">MUVIN Video Server</a>
-					<span class="mcrmap_item_owner">Universitätsallianz Metropole Ruhr (AG der Medienzentren an Hochschulen e.V.)</span>
                 </p>
             </div>
           ]]>
