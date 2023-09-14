@@ -550,6 +550,23 @@
         <coordinates>11.9705841,51.48883,0</coordinates>
       </Point>
     </Placemark>
+    <Placemark>
+      <name>samaritana_halle</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://samaritana.theologie.uni-halle.de/"><img class="icon" alt="icon" src="/map/icons/icon_halle-saale_samaritana.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://samaritana.theologie.uni-halle.de/">deposit_halle</a>
+            		<span class="mcrmap_item_owner">Katalog samaritanischer Pentateuchhandschriften</span>
+                </p>
+            </div>
+         ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>11.9705841,51.48883,0</coordinates>
+      </Point>
+    </Placemark>
 
     <!-- ***************************************************************************************************************** -->
     <!-- Hildesheim                                                                                                 -->
@@ -793,25 +810,6 @@
     <!-- Berlin                                                                                                          -->
     <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Qalamos</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.qalamos.net/">
-                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_qalamos.png" />
-                </a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://www.qalamos.net/">Qalamos</a>
-					<span class="mcrmap_item_owner">Orientabteilung der Staatsbibliothek zu Berlin</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>13.3705981,52.5076457,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>CrossAsia</name>
       <description><![CDATA[
             <div class="mcrmap_item">
@@ -866,44 +864,6 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.370841,52.50737,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Orient Digital</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://orient-digital.staatsbibliothek-berlin.de/">
-                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" title="Orientalische Handschriften der SBB" />
-                </a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://orient-digital.staatsbibliothek-berlin.de/">Orientalische Handschriften der SBB</a>
-					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
-                </p>
-          	</div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>13.3708411,52.5073702,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>KOHD Turfansammlung</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://turfan-digital.staatsbibliothek-berlin.de/">
-                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
-                </a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://turfan-digital.staatsbibliothek-berlin.de/">Die Berliner Turfansammlung</a>
-					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
-                </p>
-          	</div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>13.3708411,52.5073702,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -1073,7 +1033,7 @@
                 <a class="mcrmap_item_icon" href="https://papyri.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
                 <p>
                 	<a class="mcrmap_item_name" href="https://papyri.uni-leipzig.de/">Papyrus- und Ostraka-Sammlungen</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a.</span>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a. / Portal</span>
                 </p>
             </div>
           ]]>
@@ -1101,115 +1061,13 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Islamische Handschriften der UBL</name>
+      <name>Qalamos - Portal nichteuropäischer Handschriften</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.islamic-manuscripts.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_islamhandubl.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.qalamos.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_qalamos.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.islamic-manuscripts.net/">Islamische Handschriften der UB Leipzig</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Damaszener Familienbibliothek Refaiya</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.islamic-manuscripts.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_refaiya.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://www.islamic-manuscripts.net/">Damaszener Familienbibliothek Refaiya</a>
-            		<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Indonesische Handschriften</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://nusantara.dl.uni-leipzig.de"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_aceh.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://nusantara.dl.uni-leipzig.de">Indonesische Handschriften</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>NS-Raubgut</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://nsraubgut.ub.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_nsraub.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://nsraubgut.ub.uni-leipzig.de/">NS-Raubgut</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>DOL</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://dol.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_dol.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://dol.dl.uni-leipzig.de/">Digital Objects Leipzig</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>HistBest</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://histbest.ub.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_ubl.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://histbest.ub.uni-leipzig.de/">Historische Bestände und Nachlässe der UBL</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Jahresbibliographie Massenkommunikation</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://jbmk.dl.uni-leipzig.de"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_massen.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://jbmk.dl.uni-leipzig.de">Jahresbibliographie Massenkommunikation</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek)</span>
+                	<a class="mcrmap_item_name" href="https://www.qalamos.net/">Qalamos</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ) / Staatsbibliothek zu Berlin</span>
                 </p>
             </div>
           ]]>
@@ -1227,6 +1085,40 @@
                 <p>
                 	<a class="mcrmap_item_name" href="https://www.bach-digital.de/">Bach digital</a>
 					<span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bach digital smart</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://smart.bach-digital.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_bachsmart.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://smart.bach-digital.de/">Bach digital smart</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv Leipzig</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Sammlungsportal der Universität Leipzig</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://sammlungen.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_collection.png" /></a>
+                <p>
+                	<a class="mcrmap_item_name" href="https://sammlungen.uni-leipzig.de/">Sammlungsportal der Universität Leipzig</a>
+					<span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
                 </p>
             </div>
           ]]>
