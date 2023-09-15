@@ -216,7 +216,6 @@ date: "2022-09-23"
       <li>Indentation size:2</li>
     </ul>
 
-  <p>&nbsp;</p>
   <h2>Compilieren und Code-Test</h2>
     <p>
       Bevor ein Codeteil (Javaklasse, Stylesheet oder Konfigurationsdatei) committed wird, sollte diese <strong>gründlich</strong>
@@ -228,32 +227,6 @@ date: "2022-09-23"
     <p>So können Fehler in der Abhängigkeit schneller gefunden werden. Dabei steht -o für Offline. Dies
       kann genutzt werden, wenn man gerade im Zug oder an ähnlichen Orten entwickelt, wo man offline ist.</p>
 
-  <h3>Test mit JUnit</h3>
-    <p>
-      Eclipse integriert bereits ein Produkt namens JUnit (<a href="http://www.junit.org/index.htm">http://www.junit.org/index.htm</a>).
-      Mit ihm erhalten Sie ein Werkzeug, welches das Testen der von Ihnen erzeugten Java-Klassen ermöglicht. Alle Test
-      sind im Verzeichnis
-      <code>mycore/test</code>
-      abzulegen. Um einen neuen Test zu generieren, gehen Sie wie folgt vor:
-    </p>
-    <ul>
-      <li>Navigieren Sie zu der Klasse, für die der Test erzeugt werden soll</li>
-      <li>rechte Maustaste &rarr; New &rarr; Junit Test Case</li>
-      <li>Setzen Sie den Source Folder auf <code>mycore/test</code></li>
-      <li>Sinnvoll ist das automatische anlegen der Methoden <code>setUp()</code> und <code>tearDown()</code></li>
-      <li>Next</li>
-      <li>Markieren Sie die Methoden, für die ein Test erfolgen soll.</li>
-    </ul>
-    <p>Den Test selbst starten Sie, indem Sie in der Testklasse über die rechte Maustaste 'Run As' -&rarr; 'JUnit
-      Test' aufrufen.</p>
-    <p>
-      Testklassen, die auf Datenbankanfragen angewiesen sind, sollten die Klasse
-      <code>org.mycore.common.MCRHibTestCase</code>
-      erweitern.<br /> Alle anderen erweitern
-      <code>org.mycore.common.MCRTestCase</code>
-      .
-    </p>
-  <p>&nbsp;</p>
   <h2>Kommentare im Code</h2>
   
     <h3>Allgemeines</h3>

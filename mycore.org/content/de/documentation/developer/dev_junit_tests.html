@@ -1,0 +1,39 @@
+---
+
+title: "Modultests mit JUnit"
+mcr_version: ['2021.06']
+author: ['Sebastian Hofmann']
+description: "
+MyCoRe bietet Hilfsklassen die das Erstellen von Tests mit dem Framework JUnit vereinfachen.
+"
+date: '2021-12-07'
+
+---
+
+<h2>MCRTestCase</h2>
+
+<p>Für die Modultests wird in MyCoRe das <a href="https://junit.org/junit4/">JUnit-Framework</a> eingesetzt. Tests in MyCoRe sollten von der Klasse MCRTestCase
+    abgeleitet werden. Die Klasse initialisiert das System und ermöglicht es über die Methode getTestProperties()</p>
+
+{{< highlight java "linenos=table">}}
+public class MCRMyUnitTest extends MCRTestCase {
+
+    @Test
+    public void myTestMethod(){
+        MCRConfiguration2.getStringOrThrow("meinProperty");
+    }
+
+    @Override
+    protected Map<String, String> getTestProperties() {
+        Map<String, String> properties = super.getTestProperties();
+        properties.put("meinProperty", "wert");
+
+        return properties;
+    }
+
+}
+{{< /highlight >}}
+
+<p>Mit MCRTestCase wird die Datenbank nicht initialisiert, wird diese jedoch benötig, dann sollte die Test-Klasse von
+    MCRJPATestCase abgeleitet werden. Wird beabsichtigt Objekte mit dem MetadataManager zu Speichern oder Auszulesen, dann sollte von MCRStoreTestCase abgeleitet werden.</p>
+
