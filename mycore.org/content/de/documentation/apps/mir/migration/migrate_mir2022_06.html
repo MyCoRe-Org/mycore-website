@@ -30,11 +30,11 @@ date: "2022-09-28"
           <p>
             Zunächst muss das neue DINI-Vokabular als MyCoRe-Klassifikation angelegt werden.
             Hierzu kann das folgenden CLI-Kommando genutzt werden:
-            {{< highlight plain>}}load classification from url http://mycore.de/classifications/diniPublType2022.xml{{< /highlight >}}
+            {{< highlight plain>}}load classification from url https://mycore.de/classifications/diniPublType2022.xml{{< /highlight >}}
           </p>
           <p>
             Zudem muss die Klassifikation der Publikationsarten neu geladen werden:
-            {{< highlight plain>}}update classification from url http://mycore.de/classifications/mir_genres.xml{{< /highlight >}}
+            {{< highlight plain>}}update classification from url https://mycore.de/classifications/mir_genres.xml{{< /highlight >}}
             Die aktuelle Klassifikation der Publikationsarten beinhaltet Mappings für die alte und die neue Version des DINI-Vokabulars.
           </p>
           <p>
@@ -65,6 +65,20 @@ MIR.dc.ignoredClassificationIds=diniPublType{{< /highlight >}}
             Konfigurationswerte angepasst werden:
             {{< highlight plain>}}MCR.OAIDataProvider.OAI2.Sets.doc-type.URI=xslStyle:classification2sets:classification:metadata:2:children:diniPublType2022
 MCR.OAIDataProvider.OAI2.Sets.doc-type.Classification=diniPublType2022{{< /highlight >}}
+          </p>
+          
+          <h3>Neue Personensuche in Erfassungsmasken</h3>
+          <p>
+            Damit die Suche in den vielen verschiedenen Quellen für den Endanwender transparenter wird, wurde die Personensuche in den
+            Erfassungsmasken komplett überarbeitet und zeigt nun Treffer je Quelle (Lobid, ORCID, ROR, etc.) an. Es kann dann der gesamte
+            Treffer oder aber einzelne IDs in den Personendatensatz der Publikation übernommen werden.
+          </p>
+          <div>{{< mcr-figure src="/images/documentation/frontend/personsearch_mir.png" class="border border-secondary text-center" label="Abbildung 1" caption="Neue Personensuche in den MIR-Erfassungsmasken" alt="Personensuche nach Goethe in MIR" />}}</div>
+          <p>
+            Damit alle nun so verfügbaren Personen-IDs auch angezeigt und unterstützt werden, muss die aktuelle Version
+            der entsprechenden Klassifikation name_identifier eingespielt werden. Das kann entweder über den Klassifikations-
+            editor oder mit dem folgenden (Web-)CLI-Befehl erfolgen:
+            {{< highlight plain>}}load classification from url https://www.mycore.de/classifications/nameIdentifier.xml{{< /highlight >}}
           </p>
        </div>
     </div>

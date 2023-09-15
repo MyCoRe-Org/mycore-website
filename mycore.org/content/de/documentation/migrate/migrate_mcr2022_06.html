@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2022.06 und die Migration von Version
       2021.06 zu 2022.06 zusammen.
     "
-date: "2022-11-09"
+date: "2023-09-15"
 
 ---
 
@@ -78,7 +78,7 @@ date: "2022-11-09"
       
       <h2>Migrationsschritte</h2>
       <p></p>
-      
+
       <h3>Aktuelle Versionsnummer</h3>
       <p>Viel Anwender nutzen nicht die über Maven Central bereitgestellten Releases sondern möchten von den eingearbeiteten Bugfixes
         der Entwickler profitieren. Hierfür muss das Nexus Repository mit den bereitgestellten SNAPSHOTS eingebunden werden. Für Release 
@@ -92,7 +92,7 @@ date: "2022-11-09"
    <version>2022.06.1-SNAPSHOT</version>
  </dependency>{{< /highlight >}}
       </p>
-      
+
       <h3>Umbenenung J2EE -> Jakarta EE</h3>
       <p>In den eigenen Java-Klassen muss die Import-Definition von javax.** zu jakarta.* wegen der Nutzung von Java 17 LTS /Jakarta EE 
       umgestellt werden.</p>
@@ -117,7 +117,7 @@ date: "2022-11-09"
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-fragment_5_0.xsd"
     metadata-complete="true" >{{< /highlight >}}
     
-      <h3>MyCoRe BOM</h3>     
+      <h3>MyCoRe BOM</h3>
       <p>MyCoRe liefert jetzt auch ein BOM <strong>Bill of Material</strong> aus, die in MyCoRe-Anwendungen /-Bibliotheken für das 
       Dependency-Management nachgenutzt werden kann. Damit wird die Parent-pom.xml auf gesplittet in einen Teil, welcher nur noch die 
       Versionsnummern enthält. Die folgende Dependeny kann in den eigenen Anwendungen nachgenutzt werden.</p>
@@ -129,7 +129,7 @@ date: "2022-11-09"
   <type>pom</type>
   <scope>import</scope>
 </dependency>{{< /highlight >}}
-      
+
       <h3><code>persistence.xml</code> Konfiguration anpassen</h3>
       <p>Werden MyCoRe-Module nicht genutzt (z. B. mycore-pi), so müssen die entsprechenden Konfigurationen <code>mapping-file</code> 
       aus der persistence.xml entfernt werden, da es sonst zu einer Ausnahme kommt. Gleiches gilt für das Paket mycore-ifs.
@@ -139,9 +139,20 @@ date: "2022-11-09"
       <p>Mit LTS 2022 ist XSLT3 jetzt die Standardeinstellung für die Transformer. Soll komplett auf XSLT1 zurück geschaltet werden,
       so geht dies über das folgende Property. Details zur Migration von XSLT1 zu XSLT3
        und entsprechende Anpassungsschritte sind in der <a href="{{< ref xsl_xslt3 >}}">Migrationsanleitung für XSLT3</a> zu finden.
-       {{< highlight xml "linenos=table">}}
-  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
-  
+       {{< highlight xml>}}  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+
+      <h3>Neue Tabelle für Objekt-Historie (REST-API v2)</h3>
+      <p>
+        Damit ein performantes Objekt-Listing via REST-API v2 umgesetzt werden kann, wurde eine neue Tabelle eingeführt. Diese wird
+        automatisch beim Start von MyCoRe mit der neuen Version angelegt, wenn in der persistence.xml ein Update der Datenbank erlaubt ist
+        {{< highlight xml>}}  <property name="hibernate.hbm2ddl.auto" value="update" />{{< /highlight >}}
+      </p>
+      <p>
+         Damit die Datenbank nun auch befüllt wird, muss das folgende (Web-)CLI-Kommando aus der neuen CLI-Kommandogruppe "Object Info Commands"
+         einmalig aufgerufen werden:
+         {{< highlight plain>}}  create all objectinfo{{< /highlight >}} 
+      </p>
+
       <h3>Weitere Anpassungen</h3>
          <ul>
            <li>Soll mit dem Umstieg <a href="{{< ref basics_mcr_ocfl >}}">OCFL</a> genutz werden, so ist die Anleitung für den Umstieg zu beachten.</li>
