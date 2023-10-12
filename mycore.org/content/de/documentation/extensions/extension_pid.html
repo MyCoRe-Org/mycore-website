@@ -24,23 +24,40 @@ date: "2020-06-04"
     </p>
     <p>
     {{< highlight bash "linenos=table">}}
-  MCR.DOI.Prefix=10.5072
-  MCR.DOI.HostingInstitution=MyCoRe Community
-  MCR.DOI.NISSPattern=yyyyMMdd-HHmmss
-  MCR.PI.Registration.Datacite=org.mycore.pi.doi.MCRDOIRegistrationService
-  MCR.PI.Registration.Datacite.MetadataService=MODSDOI
-  MCR.PI.Registration.Datacite.Generator=DateDOI
-  MCR.PI.Registration.Datacite.RegisterBaseURL=https://intr2dok.vifa-recht.de
-  MCR.PI.Registration.Datacite.Username=
-  MCR.PI.Registration.Datacite.Password=
-  #  MCR.PI.Registration.Datacite.UseTestServer=true
-  MCR.PI.Registration.Datacite.Transformer=datacite
+      MCR.DOI.Prefix=10.5072
+      MCR.DOI.HostingInstitution=MyCoRe Community
+      MCR.DOI.NISSPattern=yyyyMMdd-HHmmss
+      MCR.PI.Service.Datacite.MetadataService=MODSDOI
+      MCR.PI.Service.Datacite.Generator=DateDOI
+      MCR.PI.Service.Datacite.RegisterBaseURL=https://intr2dok.vifa-recht.de
+      MCR.PI.Service.Datacite.Username=
+      MCR.PI.Service.Datacite.Password=
+      #  MCR.PI.Service.Datacite.UseTestServer=true
+      MCR.PI.Service.Registration.Datacite.Transformer=datacite
 
-  # Vordefiniert in MyCoRe
-  MCR.PI.Generator.UUIDDOI=org.mycore.pi.doi.MCRUUIDDOIGenerator
-  MCR.PI.Generator.DateDOI=org.mycore.pi.doi.MCRCreateDateDOIGenerator
-  MCR.PI.MetadataService.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierMetadataManager {{< /highlight >}}
+      # Vordefiniert in MyCoRe
+      MCR.PI.Generator.UUIDDOI=org.mycore.pi.doi.MCRUUIDDOIGenerator
+      MCR.PI.Generator.DateDOI=org.mycore.pi.doi.MCRCreateDateDOIGenerator
+      MCR.PI.Generator.MapObjectIDDOI=org.mycore.pi.doi.MCRMapObjectIDDOIGenerator
+      MCR.PI.MetadataService.MODSDOI=org.mycore.mods.identifier.MCRMODSDOIPersistentIdentifierMetadataManager{{< /highlight >}}
     </p>
+
+    <p>
+        Will man DOI in Abhängigkeit vom Objektidentifikator generieren lassen, bietet sich die folgende Konfiguration an.
+
+        {{< highlight bash "linenos=table">}}
+        MCR.PI.Service.Datacite.Generator=MapObjectIDDOI
+        MCR.PI.Generator.MapObjectIDDOI.Prefix.mir_mods=%MCR.DOI.Prefix%/{$Wunschtext}{{< /highlight >}}
+    </p>
+
+    <p>
+        Verwendet man zunächst die Testumgebung von DataCite und möchte dennoch eine korrekte Verlinkung erzielen, so muss
+        noch das folgende Property hinzugefügt werden.
+
+        {{< highlight bash "linenos=table">}}
+        MCR.DOI.Resolver.MasterURL=https://handle.stage.datacite.org/{{< /highlight >}}
+    </p>
+
     <p>
       Nachdem die Anwendung entsprechend konfiguriert wurde, kann über <code>/receive</code> mittels des URL-Parameters
       <code>XSL.Transformer=datacite</code> das datacite-XML angezeigt werden. Sollte im MODS
@@ -70,8 +87,8 @@ date: "2020-06-04"
 </p>
 <h3>MCRPIStatePredicate</h3>
 <p>
-    Das <code>MCRPIStatePredicate</code> prüft, ob sich das MyCoRe-Objekt in einem gegebenen Zustand befindet. 
-</p>    
+    Das <code>MCRPIStatePredicate</code> prüft, ob sich das MyCoRe-Objekt in einem gegebenen Zustand befindet.
+</p>
 Beispiel:
 {{< highlight bash "linenos=table">}}
 MCR.PI.Service.Datacite.CreationPredicate=org.mycore.pi.condition.MCRPIStatePredicate
@@ -89,7 +106,7 @@ MCR.PI.Service.Datacite.RegistrationPredicate.State=published
 <h3>MCRPIXPathPredicate</h3>
 <p>
     Weiterhin gibt es zur Modellierung beliebiger Bedingungen das <code>MCRPIXPathPredicate</code>.
-    Damit kann ein XPath-Ausdruck angegeben werden, der einen Wahrheitswert zurückliefert, 
+    Damit kann ein XPath-Ausdruck angegeben werden, der einen Wahrheitswert zurückliefert,
     z.B. um eine neue DOI nur dann anzulegen, wenn nicht bereits eine DOI in den Metadaten existiert.
 </p>
 Beispiel:
