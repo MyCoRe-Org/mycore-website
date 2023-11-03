@@ -13,10 +13,10 @@ blog/categories:
 
 
 news/frontpage: 	true
-news/title_de: 		"Einladung zum MyCoRe-User-Workshop 2023"
-news/teaser_de: 	"Save the date: 7. – 9. November, MyCoRe-User-Workshop 2023 in Bonn/Bad Godesberg."
-news/title_en: 		"Announcement: MyCoRe-User-Workshop 2023"
-news/teaser_en:	 	"Save the date: 7. – 9. November, MyCoRe User Workshop 2023 in Bonn/Bad Godesberg."
+news/title_de: 		"MyCoRe-Workshop 2023 in Bonn/Bad Godesberg"
+news/teaser_de: 	"Die MyCoRe-Community trifft sich  vom 7. bis 9.11.2023 in Bonn/Bad Godesberg."
+news/title_en: 		"MyCoRe-User-Workshop 2023 in Bad Godesberg"
+news/teaser_en:	 	"From 7. to 9. November the MyCoRe User Workshop will take place in Bonn/Bad Godesberg."
 
 
 ---
@@ -27,10 +27,10 @@ news/teaser_en:	 	"Save the date: 7. – 9. November, MyCoRe User Workshop 2023 
 
 <!--more--> 
 <div>
-  <h2>Ankündigung und Einladung</h2>
+  <h2>Einladung</h2>
   <p>
    Auch dieses Jahr trifft sich die MyCoRe-Community zum Austausch mit den MyCoRe-Kernentwicklern um sich über neuste Entwicklungen auszutauschen.
-Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>8. November</strong> und am Donnerstag Vormittag, dem <strong>9. November 2023</strong> in Bad Godesberg bei Bonn statt. Die <strong>Anreise</strong> ist für den <strong>7.11.</strong> geplant. Am Abend des 7.11. treffen wir uns zu einem ersten Austausch, am Mittwoch, dem 8.11. gibt es dann ein volles Programm mit Beiträgen über aktuelle Entwicklungen und Vorstellung neuer Anwendungen. Und am Donnerstag, dem 9.11. finden am Vormittag weitere Präsentationen und Diskussionen statt. 
+Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>8. November</strong> von 9 bis 17:30 Uhr und am Donnerstag, dem <strong>9. November 2023</strong> von 9 bis 12 Uhr statt. Die <strong>Anreise</strong> ist für den <strong>7.11.</strong> geplant. Am Abend des 7.11. treffen wir uns um 19 Uhr zu einem ersten Austausch, am Mittwoch, dem 8.11. gibt es dann ein <a href="https://mycore.atlassian.net/wiki/external/NTdkMGNiNmUwNGYxNGVhZDk1OTU0NGMxZmI2YTc5Nzc" title="Agenda zum MyCoRe-Workshop 2023">volles Programm</a> mit Beiträgen über aktuelle Entwicklungen und Vorstellung neuer Anwendungen. Und am Donnerstag, dem 9.11. finden am Vormittag weitere Präsentationen und Diskussionen statt. 
 
   <h2>Adresse</h2>
   Max-Weber-Stiftung</br>
@@ -38,33 +38,13 @@ Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>8. November</stron
   Rheinallee 6</br>
   53173 Bonn – Bad Godesberg
   
-  <h2>Themenvorschläge</h2>
-Wer einen Themavorschlag hat oder eine Anwendung vorstellen möchte, kann das Thema auf der <a href="https://pad.gwdg.de/CcS5ahgoSt2nGqlJqhJnfQ#">Seite</a> eintragen oder eine Mitteilung per Mail an <a href="mailto:info@mycore.de">info [at] mycore de</a> schicken.
+  <h2>Agenda</h2>
+  Die <a href="https://mycore.atlassian.net/wiki/external/NTdkMGNiNmUwNGYxNGVhZDk1OTU0NGMxZmI2YTc5Nzc" title="Agenda zum MyCoRe-Workshop 2023">Agenda</a> steht fest, kann sich aber in einzelnen Punkten noch ändern.  
+  
+  Explizit hinweisen möchten wir auf die <strong>„Lightning-Talks“</strong>: Dazu bitten wir euch um kurze Berichte über eure Erfahrungen mit MyCoRe unter dem Motto „Neulich mit MyCoRe …“. Möglichst viele Entwickler:innen und Anwender:innen können hier jeweils kurz (2-5 min) über ein Aha-Erlebnis, eine Problemlösung, einen Featurewunsch, … aus der Arbeit mit MyCoRe in den letzten Wochen berichten. 
 
-  <h2>Anmeldung</h2>
-  <strong>Achtung: Die Anzahl an Plätzen ist begrenzt. Bitte rechtzeitg anmelden.</strong> 
-  Zur Anmeldung bitte eine formlose <a href="mailto:info@mycore.de">E-Mail</a> an die <a title="Geschäftsstelle" href="https://www.mycore.de/site/community/contact/">MyCoRe Geschäftsstelle</a> senden und im Nachrichtentext angeben, an welchen Tagen bzw. Abendveranstaltungen Sie teilnehmen möchten.
-  
-  <h2>Hotel-Informationen</h2>
-  
-  Es steht ein begrenztes Kontingent an Zimmern in folgenden Hotels zum Abruf bereit:
-  <ul>
-      <li>
-        <strong>Hotel zum Löwen</strong>,</br><a href="https://www.openstreetmap.org/node/7022427981" target="_blank">von Groote Platz 1</a>, 53173 Bonn – Bad Godesberg, </br>Tel. 0228 52 88 90 </br>(zum Sonderpreis 89,00 € pro Zimmer und Nacht mit Frühstück, buchbar bis <strong>01.10.2023</strong>, Buchung über empfang@hotel-zum-loewen-bonn.de, Stichwort „MyCoRe“ nennen).<br />
-      </li>
-      <li>
-        Tiny Twice Hotel Bonn,</br>
-        <a href="https://www.openstreetmap.org/node/1741146043" target="_blank">Am Kurpark 1</a>, 53177 Bonn – Bad Godesberg, </br>Tel: 0228 534094-0, </br>E-Mail: bonn@twicehotels.de (EUR 88,00 pro Zimmer / Nacht, inklusive Frühstück. Bei Zimmerbuchung aus dem Abrufkontingent das Stichwort „MyCoRe“ nennen. Das Kontingent ist bis <strong>15.10.2023</strong> abrufbar)
-      </li>
-      <li>
-        INSEL HOTEL Bonn – Bad Godesberg, </br> <a href="https://www.openstreetmap.org/node/564553280">Theaterplatz 5</a>, 53177 Bonn – Bad Godesberg, </br>
-        Tel: 0228 35 00-0,</br> E-Mail: info@inselhotel.com (Stichwort „MyCoRe“ nennen, Zimmerpreise zur BUND-Rate: 1 Einzelzimmer Komfort 94,00€, Einzelzimmer Business 105,00€, Doppelzimmer zur Einzelnutzung zu 135,00€. Das Kontingent ist bis <strong>18.10.2023</strong> abrufbar)
-      </li>
-  </ul>
-    
+
   Für weitere Informationen wenden Sie sich gerne an unsere <a href="{{< ref contact >}}">MyCoRe Geschäftsstelle</a>.
-
-Alle weiteren Informationen folgen rechtzeitig vorher. 
 
 Wir freuen uns auf einen intensiven Austausch und eine spannende Veranstaltung.   
   </p>
