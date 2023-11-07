@@ -223,10 +223,10 @@ MCR.Configurable.Nested2.Foo=baz{{< /highlight >}}
     </p>
 {{< highlight java "linenos=table">}}
 @MCRInstanceMap(name = "NestedMap", valueClass=Nested.class)
-public Nested nestedMap;
+public Map<String, Nested> nestedMap;
 
 @MCRInstanceList(name = "NestedList", valueClass=Nested.class)
-public Nested nestedList;
+public List<Nested> nestedList;
 {{< /highlight >}}
     <p>
         Eine passende Konfiguration könnte beispielsweise so aussehen:
@@ -264,7 +264,7 @@ MCR.Configurable.NestedList.200.ConfigValue2=...{{< /highlight >}}
     </p>
 {{< highlight java "linenos=table">}}
 @MCRInstanceMap(valueClass=Nested.class)
-public Nested nestedMap;
+public Map<String, Nested> nestedMap;
 {{< /highlight >}}
     <p>
         Eine passende Konfiguration könnte beispielsweise so aussehen:
