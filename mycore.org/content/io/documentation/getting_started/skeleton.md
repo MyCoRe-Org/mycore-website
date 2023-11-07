@@ -17,7 +17,7 @@ Das „Skeleton“ ist quasi ein Gerüst zum Erstellen einer eigenen MyCoRe-Anwe
 ### Embedded Shortcode figure/highlight
 Es folgt ein Versuch, den <code>{{</* highlight */>}}</code> shortcode in <code>{{</* mcr-figure */>}}</code>  zu kapseln
 
-{{< mcr-figure label="Code 1" caption="{{<mcr-figure />}} shortcode with embedded {{<highlight />}} shortcode" width="75%" >}}
+{{< mcr-figure label="Code 1" caption="{{&lt;mcr-figure /&gt;}} shortcode with embedded {{&lt;highlight /&gt;}} shortcode" width="75%" >}}
 {{< highlight xml "linenos=table" >}}
 <realm id="registerUser" setable="false">
   <label xml:lang="de">Registrierung</label>
