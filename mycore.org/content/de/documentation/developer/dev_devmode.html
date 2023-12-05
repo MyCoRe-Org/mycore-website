@@ -73,17 +73,17 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             Dies erspart einen Blick in die Datei <code>messages_XX.resolved.properties</code>.
         </dd>
         <dt>
-            <code>show message {0} for {1}</code>
-        </dt>
-        <dd>
-            Das Kommando hat die selbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur die Schlüssel und Werte deren Schlüssel 
-            mit dem als <code>{1}</code> gegebenem Wert beginnen.
-        </dd>
-        <dt>
             <code>show messages {0} for {1}</code>
         </dt>
         <dd>
-            Das Kommando hat die selbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur den Schlüssel und Wert dessen Schlüssel mit dem als
+            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur die Schlüssel und Werte deren Schlüssel 
+            mit dem als <code>{1}</code> gegebenem Wert beginnen.
+        </dd>
+        <dt>
+            <code>show message {0} for {1}</code>
+        </dt>
+        <dd>
+            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur den Schlüssel und Wert dessen Schlüssel mit dem als
             <code>{1}</code> gegebenem Wert übereinstimmt.
         </dd>
         <dt>
@@ -97,14 +97,14 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             <code>show properties {0}</code>
         </dt>
         <dd>
-            Das Kommando hat die selbe Funktion wie <code>show all properties</code>, zeigt aber nur die Schlüssel-Werte-Paare, deren Schlüssel mit dem als 
+            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur die Schlüssel-Werte-Paare, deren Schlüssel mit dem als 
             <code>{0}</code> gegebenen Wert beginnen.
         </dd>
         <dt>
             <code>show property {0}</code>
         </dt>
         <dd>
-            Das Kommando hat die selbe Funktion wie <code>show all properties</code>, zeigt aber nur das Schlüssel-Werte-Paar, dessen Schlüssel mit dem als 
+            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur das Schlüssel-Werte-Paar, dessen Schlüssel mit dem als 
             <code>{0}</code> gegebenem Wert übereinstimmt.     
         </dd>
         <dt>
@@ -112,7 +112,21 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
         </dt>
         <dd>
             Das Kommando zeigt das Ergebnis des URI-Resolvers für die als <code>{0}</code> angegebene URI. Dies kann insbesondere bei komplexen URIs hilfreich sein,
-             z.B. <code>show resource xslStyle:items2options?allSelectable=true:classification:editor[TextCounter]:-1:children:mir_licenses</code>
+            z.B. <code>show resource xslStyle:items2options?allSelectable=true:classification:editor[TextCounter]:-1:children:mir_licenses</code>
+        </dd>
+        <dt>
+            <code>touch object {0}</code>
+        </dt>
+        <dd>
+            Das Kommando speichert das Objekt mit der angegebenen ID erneut ab, ohne inhaltliche Veränderungen an diesem vorzunehmen.
+            Hierdurch werden alle beim Speichen von Objekten auszuführenden Aktionen (z.B.: EventHandler, Aktualisierung des <code>modifydate</code>) ausgeführt. 
+        </dd>
+        <dt>
+            <code>touch derivate {0}</code>
+        </dt>
+        <dd>
+            Das Kommando speichert das Derivat mit der angegebenen ID erneut ab, ohne inhaltliche Veränderungen an diesem vorzunehmen.
+            Hierdurch werden alle beim Speichen von Derivaten auszuführenden Aktionen (z.B.: EventHandler, Aktualisierung des <code>modifydate</code>) ausgeführt.
         </dd>
     </dl>
 </div>
