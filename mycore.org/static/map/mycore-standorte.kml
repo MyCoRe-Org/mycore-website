@@ -91,23 +91,6 @@
         <coordinates>10.122435,54.33762,0</coordinates>
       </Point>
     </Placemark>
-    <Placemark>
-      <name>Wandmalerei Lübeck</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.wandmalerei-luebeck.uni-kiel.de/testwebdb/content/below/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_kiel_wand.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://www.wandmalerei-luebeck.uni-kiel.de/testwebdb/content/below/index.xml">Wand- und Deckenmalerei in L&uuml;becker H&auml;usern 1300 bis 1800</a>
-                	<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
-                </p>
-            </div>
-        ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>10.122435,54.33762,0</coordinates>
-      </Point>
-    </Placemark>
 
     <!-- ***************************************************************************************************************** -->
     <!-- Hamburg                                                                                                              -->
