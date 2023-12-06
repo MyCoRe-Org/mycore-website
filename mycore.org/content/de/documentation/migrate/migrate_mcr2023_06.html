@@ -8,7 +8,7 @@ description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2023.06 und die Migration von Version
       2022.06 zu 2023.06 zusammen.
     "
-date: "2023-07-12"
+date: "2023-12-05"
 
 ---
 
@@ -36,8 +36,8 @@ date: "2023-07-12"
         von Drittanbietern und im Normalfall in den Distributionen enthalten.
       </p>
       <ul>
-        <li>Java 17 (OpenJDK) (muss ggf. extern nachinstalliert werden)</li>
-        <li>Tomcat 10.0.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-5.0 und JakartaEE)</li>
+        <li>Java 17 (OpenJDK) (muss ggf. extern nachinstalliert werden, Java 21 als Laufzeitumgebung funktioniert ebenfalls)</li>
+        <li>Tomcat 10.1.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-6.0 und JakartaEE)</li>
         <li>SOLR 8.11.2 oder höher</li>
         <li>
           eine
@@ -81,10 +81,34 @@ date: "2023-07-12"
  <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>{{< /highlight >}}
  
       <h3>XSLT-3</h3>
-      <p>Mit Release 2023.06 ist XSLT-3 der Standard-Transformer. Somit wird auch für die SOLR-Datentransformation XSLT-3 benutzt. Hierfür ist für alle
-      Selektionen von SOLR-Feldern für die eigenen Datenmodelle das property <em>MCR.URIResolver.xslImports.solr-document-3</em> zu nutzen.</p>
-      {{< highlight xml "linenos=table">}}
- MCR.URIResolver.xslImports.solr-document-3=%MCR.URIResolver.xslImports.solr-document-3%,mymodel2solr.xsl{{< /highlight >}}
+      <p>Mit Release 2023.06 ist Saxon der Standard-Transformer. Somit werden für Solr-, OAI- und Layout-Transformationen der Saxon-Parser benutzt. Alle Saxon-
+      kompatiblen Stylesheets (egal ob XSLT Version 1, 2 oder 3) stehen im MyCoRe-Kern im Verzeichnis <code>xslt</code> zur Verfügung. Für alle MyCoRe-Komponenten
+      bis auf mycore-mods wurden entsprechende Stylesheets bereitgestellt. Damit diese in den Anwendungen eingebunden werden, musste die Konfiguration entsprechend
+      angepasst werden. Beispielsweise ist in MyCoRe nun das folgende Property gesetzt:
+      <code>MCR.Layout.Transformer.Factory.XSLFolder=xslt</code>. Wenn man in der eigenen Anwendung noch Xalan für das Layout und die entsprechenden Stylesheets aus
+      dem xsl-Verzeichnis nutzen möchte, muss dieses Property angepasst und auf <code>MCR.Layout.Transformer.Factory.XSLFolder=xsl</code> gesetzt werden.</p>
+      <p>So ist es möglich in der eigenen Anwendung Schritt für Schritt die Stylesheets umzustellen. Als Vorlage kann der entsprechende <a
+      href="https://github.com/MyCoRe-Org/mir/pull/913/files">Commit in MIR helfen</a>. Als Hilfestellung bei der Migration eigener Stylesheets kann die Dokumentation
+      genutzt werden [ToDo: Verlinkung der Dokumentation und Vorträge von Micha und Sebastian].
+      </p>
 
+      <h3>Erweiterung von MCRTranslate.translate() um die Möglichkeit einer Lokalisationsangabe</h3>
+      <p>Damit eine "Locale" angegeben werden kann, mussten die Methoden translate(String, Locale) und translate (String, Objects ....) umgestellt werden.
+      Dies erfordert ggf. eine Migration lokaler Javaklassen, die diese Methoden nutzen. Alle MCRTranslation.translate() mit locale Parameter müssen nach
+      MCRTranslation.translateToLocale() umbenannt werden. [<a href="https://mycore.atlassian.net/browse/MCR-2978">MCR-2978</a>]</p>
+      
+      <h3>Unterstützung für HSQLDB und c3p0 entfällt, H2 muss migriert werden</h3>
+      <p>Migrationsanleitung zur H2 befindet sich im <a href="https://mycore.atlassian.net/browse/MCR-2647">Ticket MCR-2647</a>.</p>
+      
+      <h3>JPA-Update auf 3.1</h3>
+      <p>Das JPA-Update auf 3.1 bringt eine Datenbankänderung mit sich (vgl. <a href="https://github.com/MyCoRe-Org/mycore/commit/423c8a8158e3abce9227d7726e2ca3732bdaefda#diff-67f9b13fa92a6776f68021ce96331824669fb5829c3c8a0574f228a3c04e81cc">Commit</a>)
+        Dies erfordert eine Anpassung des Datentyps in der Spalte eventtype der Tabelle mcrmetahistory. Dies kann mit folgendem Kommando erfolgen:
+        <code>alter table mcrmetahistory alter COLUMN eventtype type char(1);</code>
+      </p>
+      
+      <h3>Upload überarbeitet</h3>
+      <p>Nah Überarbeitung des Uploads wird nun konsequenter Weise auch das Privileg create_derivate geprüft geprüft. In den meisten
+        Altanwendungen wurde dies nicht angelegt, sondern von den Objekttyp-Create-Privilegien abgeleitet. Jetzt muss das Privileg
+        explizit gesetzt werden um auch weiterhin einen Upload von Derivaten zu erlauben.</p>
     </div>
 
