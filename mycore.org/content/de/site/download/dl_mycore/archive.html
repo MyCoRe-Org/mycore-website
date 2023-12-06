@@ -2,7 +2,7 @@
 
 title: "Archiv"
 author: ['Kathleen Neumann']
-date: "2021-09-29"
+date: "2023-12-05"
 
 description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert ist das
  Release 2.0. Danach wurde die Benennung geändert, so gibt es jetzt statt eines
@@ -10,6 +10,48 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
  finden. Mit dem Prerelease 2013.05 ist die Benennung nun auf <code>Jahr.Monat</code> geändert worden.
  Seit diesem Zeiptunkt gibt es LTS-Releases und 'normale' Releases.
 ---
+<h2>Release 2022.06 (LTS)</h2>
+    <h3>Was ist neu?</h3>
+      <ul>
+        <li>Update der Jakarta Bibliotheken auf <a href="https://heise.de/-4642391">Version 9</a> mit Anpassung der Paketnamen</li>
+        <li>Umstellung auf Java 17</li>
+        <li>Xalan ist nun nicht mehr Standard-XSLT-Prozessor, dieser muss konfiguriert werden</li>
+        <li>MCRMetaDateLangText als neuer Datentyp</li>
+        <li>überflüssiger Code z.B. vom IFS1 wurde entfernt</li>
+        <li>Klassifikationshandling und Objekt-Listing in REST-API v2 wurde verbessert</li>
+        <li>Factbased-Access-System wurde abgerundet</li>
+      </ul>
+      <h3>Einbindung der Komponenten</h3>
+      <p>
+        Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über
+        <strong>Maven</strong> und die entsprechenden, für die eigene Anwendung erforderlichen Abhängigkeiten. Um das
+        LTS 2022.06 in der eigenen Anwendung zu verwenden, müssen in der pom.xml die MyCoRe-Version und mycore-parent
+        angepasst werden:
+      </p>
+
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <parent>
+    <groupId>org.mycore</groupId>
+    <artifactId>mycore-parent</artifactId>
+    <version>51</version>
+  </parent>
+  ...
+  <properties>
+    <mycore.version>2022.06.3-SNAPSHOT</mycore.version>
+  </properties>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-meta</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
 <h2>Release 2021.06 (LTS)</h2> 
       <h3>Was ist neu?</h3>
       <ul>
@@ -43,7 +85,7 @@ description: Hier sind seit 2006 alle Snapshots gelistet. Ebenfalls archiviert i
   </parent>
   ...
   <properties>
-    <mycore.version>2022.01.2-SNAPSHOT</mycore.version>
+    <mycore.version>2021.06.3-SNAPSHOT</mycore.version>
   </properties>
   ...
   <dependencies>
