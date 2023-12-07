@@ -101,14 +101,17 @@ date: "2023-12-05"
       <p>Migrationsanleitung zur H2 befindet sich im <a href="https://mycore.atlassian.net/browse/MCR-2647">Ticket MCR-2647</a>.</p>
       
       <h3>JPA-Update auf 3.1</h3>
-      <p>Das JPA-Update auf 3.1 bringt eine Datenbankänderung mit sich (vgl. <a href="https://github.com/MyCoRe-Org/mycore/commit/423c8a8158e3abce9227d7726e2ca3732bdaefda#diff-67f9b13fa92a6776f68021ce96331824669fb5829c3c8a0574f228a3c04e81cc">Commit</a>)
-        Dies erfordert eine Anpassung des Datentyps in der Spalte eventtype der Tabelle mcrmetahistory. Dies kann mit folgendem Kommando erfolgen:
+      <p>Das JPA-Update auf 3.1 bringt eine Anpassung der Datenbank mit sich (vgl. <a href="https://github.com/MyCoRe-Org/mycore/commit/423c8a8158e3abce9227d7726e2ca3732bdaefda#diff-67f9b13fa92a6776f68021ce96331824669fb5829c3c8a0574f228a3c04e81cc">Commit</a>).
+        <br />
+        Diese erfordert eine Änderung des Datentyps der Spalte <code>eventtype</code> der Tabelle <code>mcrmetahistory</code> von <code>varchar(1)</code> auf <code>char(1)</code>.<br />
+        Es sollte geprüft werden, ob die Aktualisierung durch JPA automatisch vorgenommen wurde. Falls in der JPA-Konfiguration automatische Schema-Updates abgeschaltet sind,
+        kann das Update mit folgendem Kommando durchgeführt werden:<br />
         <code>alter table mcrmetahistory alter COLUMN eventtype type char(1);</code>
       </p>
       
-      <h3>Upload überarbeitet</h3>
-      <p>Nah Überarbeitung des Uploads wird nun konsequenter Weise auch das Privileg create_derivate geprüft geprüft. In den meisten
-        Altanwendungen wurde dies nicht angelegt, sondern von den Objekttyp-Create-Privilegien abgeleitet. Jetzt muss das Privileg
-        explizit gesetzt werden um auch weiterhin einen Upload von Derivaten zu erlauben.</p>
+      <h3>Privileg <code>create-derivate</code> prüfen und ggf. ergänzen</h3>
+      <p>Nach Überarbeitung des Uploads wird nun konsequenter Weise auch das Privileg <code>create_derivate</code> gecheckt. In den meisten
+        Altanwendungen wurde dieses nicht angelegt, sondern die Rechte zum Erstellen von Derivaten nur von den Objekttyp-Create-Privilegien abgeleitet.<br />
+        Jetzt muss das Privileg <code>create_derivate</code> explizit gesetzt werden, um weiterhin das Anlegen von Derivaten zu erlauben.</p>
     </div>
 
