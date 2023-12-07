@@ -1,4 +1,5 @@
 # MyCoRe Website with Hugo
+(online at: https://www.mycore.de)
 
 ## Requirements:
  - Maven 3.5 or higher (https://maven.apache.org/download.cgi)
