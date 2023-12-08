@@ -79,7 +79,9 @@ date: "2023-12-05"
       <p>Das Job-Konzept wurde komplett überarbeitet. Mit dem aktuellen LTS ist die folgende Ergänzung in der <em>persistence.xml</em> erforderlich.</p>
         {{< highlight xml "linenos=table">}}
  <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>{{< /highlight >}}
- 
+      Mit dem CLI-Kommando <code>reload mappings in jpa configuration file</code> werden die Mapping-Einträge aktualisiert und dieses und ggf. weitere Mappings 
+      automatisch der Datei <em>persistence.xml</em> hinzugefügt. Nicht mehr benötigte Mappings werden mit dem Kommando automatisch entfernt.
+      
       <h3>XSLT-3</h3>
       <p>Mit Release 2023.06 ist Saxon der Standard-Transformer. Somit werden für Solr-, OAI- und Layout-Transformationen der Saxon-Parser benutzt. Alle Saxon-
       kompatiblen Stylesheets (egal ob XSLT Version 1, 2 oder 3) stehen im MyCoRe-Kern im Verzeichnis <code>xslt</code> zur Verfügung. Für alle MyCoRe-Komponenten
