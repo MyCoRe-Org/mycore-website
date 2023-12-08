@@ -161,7 +161,7 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
   </tr>
   <tr>
     <th>Stylesheet:</th>
-    <td style="padding-left:10px;">xsl/functions/i18n.xsl</td>
+    <td style="padding-left:10px;">xslt/functions/i18n.xsl</td>
   </tr>
   <tr>
     <th>Namespace:</th>
@@ -198,7 +198,7 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
   </tr>
   <tr>
     <th>Stylesheet:</th>
-    <td style="padding-left:10px;">xsl/functions/acl.xsl</td>
+    <td style="padding-left:10px;">xslt/functions/acl.xsl</td>
   </tr>
   <tr>
     <th>Namespace:</th>
@@ -229,6 +229,98 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 </p>
 
 <p>&nbsp;</p>
+<h3>XSLT3-Funktionen für MyCoRe-Properties</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/property.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcrproperty="http://www.mycore.de/xslt/property"</td>
+  </tr>
+</table>
+<p></p>
+<h4>mcrproperty:one()</h4>
+<p>
+  Diese Funktion gibt den Wert eines einzelnen Properties als String zurück.<br />
+  Im Parameter <tt>key</tt> wird der Schlüssel des Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:one({key})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <h3><xsl:value-of select="mcrproperty:one('MCR.NameOfProject')" /></h3>
+  
+  <!-- Ausgabe: -->
+  <h3>MIR</h3>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:all()</h4>
+<p>
+  Diese Funktion gibt eine Liste von Properties zurück.<br />
+  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:all({keyPrefix})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="props" select="mcrproperty:all('MCR.Solr.Core.')" />
+  <xsl:copy-of select="$props" />
+  
+  <!-- Ausgabe: -->
+  <properties>
+    <entry key="MCR.Solr.Core.main.Name">mir_main</entry>
+    <entry key="MCR.Solr.Core.classification.Name">mir_class</entry>
+    <entry key="MCR.Solr.Core.main.ServerURL">http://localhost:8983/</entry>
+    <entry key="MCR.Solr.Core.classification.ServerURL">http://localhost:8983/</entry>
+  </properties>{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}
+  <xsl:for-each select="mcrproperty:all('MCR.Solr.Core.')/entry">
+    <span><xsl:value-of select="@key" /> = <xsl:value-of select="." /></span>
+  </xsl:for-each>
+  
+  <!-- Ausgabe: -->
+  <span>MCR.Solr.Core.main.Name = mir_main</span>
+  <span>MCR.Solr.Core.classification.Name = mir_class</span>
+  <span>MCR.Solr.Core.main.ServerURL = http://localhost:8983/</span>
+  <span>MCR.Solr.Core.classification.ServerURL = http://localhost:8983/</span>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:map()</h4>
+<p>
+  Diese Funktion gibt eine <a href="https://www.saxonica.com/html/documentation12/xsl-elements/map.html">XSL-Map</a> von Properties zurück.<br />
+  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:map({keyPrefix})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="propMap" select="mcrproperty:map('MCR.Solr.Core.')" />
+  <span><xsl:value-of select="map:get($propMap, 'MCR.Solr.Core.main.Name')" /></span>
+  
+  <!-- Ausgabe: -->
+  <span>mir_main</span>{{< /highlight >}}
+</p>
+
+<p>&nbsp;</p>
 
 <h3>XSLT3-Funktionen für MODS</h3>
 <table>
@@ -238,7 +330,7 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
   </tr>
   <tr>
     <th>Stylesheet:</th>
-    <td style="padding-left:10px;">xsl/functions/mods.xsl</td>
+    <td style="padding-left:10px;">xslt/functions/mods.xsl</td>
   </tr>
   <tr>
     <th>Namespace:</th>
@@ -349,7 +441,7 @@ zu enthalten. Das ist eine hauptsächlich intern benutzte Hilfsfunktion.
   </tr>
   <tr>
     <th>Stylesheet:</th>
-    <td style="padding-left:10px;">xsl/functions/classification.xsl</td>
+    <td style="padding-left:10px;">xslt/functions/classification.xsl</td>
   </tr>
   <tr>
     <th>Namespace:</th>
