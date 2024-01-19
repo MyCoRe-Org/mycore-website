@@ -17,54 +17,16 @@
     </Style>
 
     <!-- ***************************************************************************************************************** -->
-    <!-- Bremen                                                                                                              -->
-    <!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Günter Grass Medienarchiv</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://grass-medienarchiv.gbv.de"><img class="icon" alt="icon" src="/map/icons/icon_bremen_ggrass.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://grass-medienarchiv.gbv.de">Webdatenbank des Medienarchivs</a>
-                	<span class="mcrmap_item_owner">Bremen: Günter Grass Stiftung (Medienarchiv)</span>
-                </p>
-            </div>
-        ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>8.6520714,53.1677201,0</coordinates>
-      </Point>
-    </Placemark>
-
-    <!-- ***************************************************************************************************************** -->
     <!-- Kiel                                                                                                              -->
     <!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>KiBiDaNo</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.uni-kiel.de/kibidano/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_kibidano.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://www.uni-kiel.de/kibidano/">Kieler Bilddatenbank Naher Osten</a>
-                	<span class="mcrmap_item_owner">Kiel: Christian-Albrechts-Universität (Rechenzentrum, Bibliothek)</span>
-                </p>
-            </div>
-        ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>10.122435,54.33762,0</coordinates>
-      </Point>
-    </Placemark>
     <Placemark>
       <name>opendata@uni-kiel</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://opendata.uni-kiel.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_opendata.png" /></a>
                 <p>
-			<a class="mcrmap_item_name" href="https://opendata.uni-kiel.de/">opendata@uni-kiel: Forschungsdatenrepositorium der Christian-Albrechts-Universität zu Kiel</a>
-			<span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Rechenzentrum)</span>
+      <a class="mcrmap_item_name" href="https://opendata.uni-kiel.de/">opendata@uni-kiel: Forschungsdatenrepositorium der Christian-Albrechts-Universität zu Kiel</a>
+      <span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Rechenzentrum)</span>
                 </p>
             </div>
         ]]>
@@ -80,8 +42,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://macau.uni-kiel.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_macau.png" /></a>
                 <p>
-			<a class="mcrmap_item_name" href="https://macau.uni-kiel.de/">MACAU: Open-Access-Publikationsserver der Christian-Albrechts-Universität zu Kiel</a>
-			<span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Universitätsbibliothek)</span>
+      <a class="mcrmap_item_name" href="https://macau.uni-kiel.de/">MACAU: Open-Access-Publikationsserver der Christian-Albrechts-Universität zu Kiel</a>
+      <span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Universitätsbibliothek)</span>
                 </p>
             </div>
         ]]>
@@ -89,6 +51,23 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.122435,54.33762,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SHBib</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://bibliographie.schleswig-holstein.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_shlb.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://bibliographie.schleswig-holstein.de/">Schleswig-Holsteinische Bibliographie online</a>
+                  <span class="mcrmap_item_owner">Schleswig-Holsteinische Landesbibliothek</span>
+                </p>
+            </div>
+        ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.14270131209587,54.32191432233373,0</coordinates>
       </Point>
     </Placemark>
 
@@ -101,8 +80,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.mycore.de/site/community/contact/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mycore.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.mycore.de/site/community/contact/">MyCoRe Geschäftsstelle</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg (Regionales Rechenzentrum)</span>
+                  <a class="mcrmap_item_name" href="https://www.mycore.de/site/community/contact/">MyCoRe Geschäftsstelle</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg (Regionales Rechenzentrum)</span>
                 </p>
             </div>
           ]]>
@@ -118,8 +97,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.hpk.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_hpk.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.hpk.uni-hamburg.de/">Hamburger Professorinnen- und Professorenkatalog</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.hpk.uni-hamburg.de/">Hamburger Professorinnen- und Professorenkatalog</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -135,8 +114,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.matrikelportal.uni-hamburg.de/"><img class="icon" alt="icon"  src="/map/icons/icon_hamburg_matrikel.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.matrikelportal.uni-hamburg.de/">Hamburger Matrikelportal</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.matrikelportal.uni-hamburg.de/">Hamburger Matrikelportal</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -152,8 +131,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.lexm.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_lexm.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.lexm.uni-hamburg.de/">Online-Lexikon exilierter Musiker und Musikerinnen der NS-Zeit</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.lexm.uni-hamburg.de/">Online-Lexikon exilierter Musiker und Musikerinnen der NS-Zeit</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -169,8 +148,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.morphilo.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_morphilo.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.morphilo.uni-hamburg.de">Morphilo - Historische Derivationsmorphologie</a>
-					<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.morphilo.uni-hamburg.de">Morphilo - Historische Derivationsmorphologie</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -186,8 +165,8 @@
             <div class="mcrmap_item">
                <a class="mcrmap_item_icon" href="https://www.konversionen.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_deko.png" /></a>
                <p>
-                	<a class="mcrmap_item_name" href="https://www.konversionen.uni-hamburg.de/">Digitale Edition Konversionserzählungen</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.konversionen.uni-hamburg.de/">Digitale Edition Konversionserzählungen</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -203,8 +182,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.epigraphik.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_epidb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.epigraphik.uni-hamburg.de">Epigraphische Datenbank zum antiken Kleinasien</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.epigraphik.uni-hamburg.de">Epigraphische Datenbank zum antiken Kleinasien</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -220,8 +199,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.dokserv.gwiss.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_gwn.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.dokserv.gwiss.uni-hamburg.de/">gwin Dokumentenserver</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.dokserv.gwiss.uni-hamburg.de/">gwin Dokumentenserver</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
             
@@ -238,8 +217,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mycms3.rrz.uni-hamburg.de/sfb950/content/NGMCP/ngmcp.xml"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_ngmcp.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mycms3.rrz.uni-hamburg.de/sfb950/content/NGMCP/ngmcp.xml">Nepalese-German Manuscript Cataloguing Project</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://mycms3.rrz.uni-hamburg.de/sfb950/content/NGMCP/ngmcp.xml">Nepalese-German Manuscript Cataloguing Project</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -255,8 +234,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mycms.rrz.uni-hamburg.de/mcaa"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/mcaa">Manuscript Cultures in Asia and Africa</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/mcaa">Manuscript Cultures in Asia and Africa</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -272,8 +251,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mycms.rrz.uni-hamburg.de/eae"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/eae">Encyclopaedia Aethiopica</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/eae">Encyclopaedia Aethiopica</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -289,8 +268,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mycms.rrz.uni-hamburg.de/domlib"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/domlib">Digital Oriental Manuscript Library</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/domlib">Digital Oriental Manuscript Library</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -306,8 +285,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mycms3.rrz.uni-hamburg.de/sfb950"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_sfb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mycms3.rrz.uni-hamburg.de/sfb950">Manuskriptkulturen in Asien, Afrika und Europa</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://mycms3.rrz.uni-hamburg.de/sfb950">Manuskriptkulturen in Asien, Afrika und Europa</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -323,8 +302,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.josta.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_josta.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.josta.uni-hamburg.de/">Die mittelalterlichen Statuten des Johanniterordens</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.josta.uni-hamburg.de/">Die mittelalterlichen Statuten des Johanniterordens</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -340,8 +319,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.schuredo.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_schuredo.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.schuredo.uni-hamburg.de/">Die mittelalterlichen Schuld- und Rechnungsbücher des Deutschen Ordens um 1400</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.schuredo.uni-hamburg.de/">Die mittelalterlichen Schuld- und Rechnungsbücher des Deutschen Ordens um 1400</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -357,8 +336,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://peshat.gwiss.uni-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_peshat.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://peshat.gwiss.uni-hamburg.de/">Peshat</a>
-                	<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://peshat.gwiss.uni-hamburg.de/">Peshat</a>
+                  <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -374,8 +353,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.glogemis.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_glogemis.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.glogemis.uni-hamburg.de">Glossar zur Geschichte der Mittelalterlichen Stadt</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.glogemis.uni-hamburg.de">Glossar zur Geschichte der Mittelalterlichen Stadt</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -391,8 +370,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.proema.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_proema.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.proema.uni-hamburg.de">Promptuarium Ecclesiasticum Medii Aevi</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.proema.uni-hamburg.de">Promptuarium Ecclesiasticum Medii Aevi</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -408,8 +387,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.exil-archiv.uni-hamburg.de"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_exillit.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.exil-archiv.uni-hamburg.de">Exilliteratur: P. Walter Jacob Archiv</a>
-            		<span class="mcrmap_item_owner">Universität Hamburg</span>
+                  <a class="mcrmap_item_name" href="https://www.exil-archiv.uni-hamburg.de">Exilliteratur: P. Walter Jacob Archiv</a>
+                        <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
           ]]>
@@ -425,8 +404,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mugi.hfmt-hamburg.de/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_mugi.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mugi.hfmt-hamburg.de/">MUGI: Musik und Gender im Internet</a>
-            		<span class="mcrmap_item_owner">Hochschule für Musik und Theater</span>
+                  <a class="mcrmap_item_name" href="https://mugi.hfmt-hamburg.de/">MUGI: Musik und Gender im Internet</a>
+                        <span class="mcrmap_item_owner">Hochschule für Musik und Theater</span>
                 </p>
             </div>
           ]]>
@@ -446,8 +425,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://noa.gwlb.de/"><img class="icon" alt="icon" src="/map/icons/icon_hannover_noa.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://noa.gwlb.de/">Niedersächsisches Online Archiv</a>
-            		<span class="mcrmap_item_owner">Gottfried Wilhelm Leibniz Bibliothek (GWLB)</span>
+                  <a class="mcrmap_item_name" href="https://noa.gwlb.de/">Niedersächsisches Online Archiv</a>
+                        <span class="mcrmap_item_owner">Gottfried Wilhelm Leibniz Bibliothek (GWLB)</span>
                 </p>
             </div>
          ]]>
@@ -463,8 +442,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mhh-publikationsserver.gbv.de/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_hannover_mhh.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mhh-publikationsserver.gbv.de">RepoMed</a>
-            		<span class="mcrmap_item_owner">Medizinische Hochschule Hannover (MHH)</span>
+                  <a class="mcrmap_item_name" href="https://mhh-publikationsserver.gbv.de">RepoMed</a>
+                        <span class="mcrmap_item_owner">Medizinische Hochschule Hannover (MHH)</span>
                 </p>
             </div>
          ]]>
@@ -480,8 +459,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://elib.tiho-hannover.de/"><img class="icon" alt="icon" src="/map/icons/icon_hannover_tiho.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://elib.tiho-hannover.de/">TiHo eLib - Repositorium</a>
-            		<span class="mcrmap_item_owner">Stiftung Tierärztliche Hochschule Hannover (TiHo)</span>
+                  <a class="mcrmap_item_name" href="https://elib.tiho-hannover.de/">TiHo eLib - Repositorium</a>
+                        <span class="mcrmap_item_owner">Stiftung Tierärztliche Hochschule Hannover (TiHo)</span>
                 </p>
             </div>
          ]]>
@@ -501,8 +480,25 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://ub-deposit.fernuni-hagen.de/"><img class="icon" alt="icon" src="/map/icons/icon_hagen_deposit.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://ub-deposit.fernuni-hagen.de/">deposit_hagen</a>
-            		<span class="mcrmap_item_owner">FernUniversität in Hagen (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://ub-deposit.fernuni-hagen.de/">deposit_hagen</a>
+                        <span class="mcrmap_item_owner">FernUniversität in Hagen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+         ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.4924313,51.37759,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Hochschulbibliographie</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://bibliographie.fernuni-hagen.de/"><img class="icon" alt="icon" src="/map/icons/icon_hagen_bibliographie.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://bibliographie.fernuni-hagen.de/">Hochschulbibliographie der FernUniversität in Hagen</a>
+                        <span class="mcrmap_item_owner">FernUniversität in Hagen (Universitätsbibliothek)</span>
                 </p>
             </div>
          ]]>
@@ -522,8 +518,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://levana.leopoldina.org/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_halle-saale_leopoldina.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://levana.leopoldina.org/content/index.xml">deposit_halle</a>
-            		<span class="mcrmap_item_owner">Publikationsserver der Leopoldina</span>
+                  <a class="mcrmap_item_name" href="https://levana.leopoldina.org/content/index.xml">deposit_halle</a>
+                        <span class="mcrmap_item_owner">Publikationsserver der Leopoldina</span>
                 </p>
             </div>
          ]]>
@@ -539,8 +535,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://samaritana.theologie.uni-halle.de/"><img class="icon" alt="icon" src="/map/icons/icon_halle-saale_samaritana.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://samaritana.theologie.uni-halle.de/">deposit_halle</a>
-            		<span class="mcrmap_item_owner">Katalog samaritanischer Pentateuchhandschriften</span>
+                  <a class="mcrmap_item_name" href="https://samaritana.theologie.uni-halle.de/">deposit_halle</a>
+                        <span class="mcrmap_item_owner">Katalog samaritanischer Pentateuchhandschriften</span>
                 </p>
             </div>
          ]]>
@@ -555,13 +551,30 @@
     <!-- Hildesheim                                                                                                 -->
     <!-- ***************************************************************************************************************** -->
     <Placemark>
+      <name>Laade Archive</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://cwm-archiv.gbv.de/"><img class="icon" alt="icon" src="/map/icons/icon_hildesheim_cwm.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://cwm-archiv.gbv.de/">Wolfgang Laade Music of Man Archive</a>
+                  <span class="mcrmap_item_owner">Center for World Music der Stiftung Universität Hildesheim</span>
+                </p>
+            </div>
+         ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.96809362302912,52.13490695113531,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
       <name>HAWK.eDOC</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://publikationsserver.hawk.de/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_hildesheim_hawk.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://publikationsserver.hawk.de">HAWK.eDOC</a>
-            		<span class="mcrmap_item_owner">Publikationsserver HAWK.eDOC</span>
+                  <a class="mcrmap_item_name" href="https://publikationsserver.hawk.de">HAWK.eDOC</a>
+                        <span class="mcrmap_item_owner">Publikationsserver HAWK.eDOC</span>
                 </p>
             </div>
          ]]>
@@ -581,8 +594,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://publikationen.fhb.fh-swf.de/content/index.xml"><img class="icon" alt="icon" src="/map/icons/icon_iserlohn_pia.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://publikationen.fhb.fh-swf.de/content/index.xml">PIA</a>
-            		<span class="mcrmap_item_owner">Publikationsserver der FH Südwestfalen</span>
+                  <a class="mcrmap_item_name" href="https://publikationen.fhb.fh-swf.de/content/index.xml">PIA</a>
+                        <span class="mcrmap_item_owner">Publikationsserver der FH Südwestfalen</span>
                 </p>
             </div>
          ]]>
@@ -602,8 +615,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://bibliografie.th-koeln.de/"><img class="icon" alt="icon" src="/map/icons/icon_koeln_dhsb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://bibliografie.th-koeln.de/">DHSB</a>
-            		<span class="mcrmap_item_owner">Digitale Hochschulbibliografie der TH Köln</span>
+                  <a class="mcrmap_item_name" href="https://bibliografie.th-koeln.de/">DHSB</a>
+                        <span class="mcrmap_item_owner">Digitale Hochschulbibliografie der TH Köln</span>
                 </p>
             </div>
          ]]>
@@ -623,25 +636,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.gbv.de/Verbundzentrale/serviceangebote/reposis-repository-service"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.gbv.de/Verbundzentrale/serviceangebote/reposis-repository-service">VZG-Reposis</a>
-            		<span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
-                </p>
-            </div>
-         ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>9.9352354,51.5391773,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>VZG-Journals</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href=""><img class="icon" alt="icon" src="/map/icons/icon_goettingen_vzg.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="">VZG-Journals</a>
-            		<span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
+                  <a class="mcrmap_item_name" href="https://www.gbv.de/Verbundzentrale/serviceangebote/reposis-repository-service">VZG-Reposis</a>
+                        <span class="mcrmap_item_owner">Verbundzentrale des GBV (VZG)</span>
                 </p>
             </div>
          ]]>
@@ -655,10 +651,10 @@
       <name>KOHD-Orientalia</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://orient-mss.kohd.adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <a class="mcrmap_item_icon" href="https://orient-kohd.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
                 <p>
-                	<span class="mcrmap_item_name" >MyMss-Teilprojekt „Katalogisierung der Orientalischen Handschriften in Deutschland“</span>
-            		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
+                  <span class="mcrmap_item_name" >MyMss-Teilprojekt „Katalogisierung der Orientalischen Handschriften in Deutschland“</span>
+                  <span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
                 </p>
             </div>
          ]]>
@@ -672,10 +668,10 @@
       <name>KOHD-Coptica</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://coptica.kohd.adw-goe.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
+                <a class="mcrmap_item_icon" href="https://coptica-kohd.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_goettingen_KOHD.png" /></a>
                 <p>
-                	<span class="mcrmap_item_name" >Papyri-Teilprojekt Katalogisierung der koptischen Papyri</span>
-            		<span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
+                  <span class="mcrmap_item_name" >Papyri-Teilprojekt Katalogisierung der koptischen Papyri</span>
+                  <span class="mcrmap_item_owner">Akademie der Wissenschaften zu Göttingen - KOHD</span>
                 </p>
             </div>
          ]]>
@@ -696,8 +692,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://rosdok.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_rosdok.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://rosdok.uni-rostock.de">Rostocker Dokumentenserver</a>
-            		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://rosdok.uni-rostock.de">Rostocker Dokumentenserver</a>
+                        <span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek)</span>
                 </p>
             </div>
           ]]>
@@ -713,9 +709,9 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://cpr.uni-rostock.de"><img class="icon" alt="icon" src="/map/icons/icon_rostock_cpr.png" /></a>
                 <p>
-                	<a class="mcrmap_item_info" href="/blog/2014/07/anwendung-cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung im MyCoRe Blog"/></a>
-                	<a class="mcrmap_item_name" href="https://cpr.uni-rostock.de">Catalogus Professorum Rostochiensium</a>
-            		<span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek und Forschungsstelle Universitätsgeschichte)</span>
+                  <a class="mcrmap_item_info" href="/blog/2014/07/anwendung-cpr"><img class="info" src="/map/icons/info.png" title="Beschreibung im MyCoRe Blog"/></a>
+                  <a class="mcrmap_item_name" href="https://cpr.uni-rostock.de">Catalogus Professorum Rostochiensium</a>
+                        <span class="mcrmap_item_owner">Universität Rostock (Universitätsbibliothek und Forschungsstelle Universitätsgeschichte)</span>
                 </p>
             </div>
           ]]>
@@ -735,8 +731,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://digibib.hs-nb.de"><img class="icon" alt="icon" src="/map/icons/icon_neubrandenburg_dbhsnb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://digibib.hs-nb.de">Digitale Bibliothek</a>
-            		<span class="mcrmap_item_owner">Hochschule Neubrandenburg</span>
+                  <a class="mcrmap_item_name" href="https://digibib.hs-nb.de">Digitale Bibliothek</a>
+                        <span class="mcrmap_item_owner">Hochschule Neubrandenburg</span>
                 </p>
             </div>
         ]]>
@@ -756,8 +752,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://mvdok.lbmv.de"><img class="icon" alt="icon" src="/map/icons/icon_schwerin_mvdok.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://mvdok.lbmv.de">Dokumentenserver der Landesbibliothek MV (MVDok)</a>
-                	<span class="mcrmap_item_owner">Landesbibliothek Schwerin</span>
+                  <a class="mcrmap_item_name" href="https://mvdok.lbmv.de">Dokumentenserver der Landesbibliothek MV (MVDok)</a>
+                  <span class="mcrmap_item_owner">Landesbibliothek Schwerin</span>
                 </p>
             </div>
         ]]>
@@ -772,13 +768,30 @@
     <!-- Braunschweig                                                                                                          -->
     <!-- ***************************************************************************************************************** -->
     <Placemark>
-      <name>Digitale Bibliothek Braunschweig</name>
+      <name>LeoPARD</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://publikationsserver.tu-braunschweig.de"><img class="icon" alt="icon" src="/map/icons/icon_braunschweig_digibib.png" /></a>
+                <a class="mcrmap_item_icon" href="https://leopard.tu-braunschweig.de/"><img class="icon" alt="icon" src="/map/icons/icon_braunschweig_digibib.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://publikationsserver.tu-braunschweig.de">Digitale Bibliothek Braunschweig</a>
-               		<span class="mcrmap_item_owner">Universitätsbibliothek der TU Braunschweig, VZG</span>
+                  <a class="mcrmap_item_name" href="https://leopard.tu-braunschweig.de/">TU Braunschweig Publications And Research Data</a>
+                   <span class="mcrmap_item_owner">Universitätsbibliothek der TU Braunschweig, VZG</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>10.529053,52.273817,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>pharmRxiv</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://pharmrxiv.de/"><img class="icon" alt="icon" src="/map/icons/icon_braunschweig_pharmRxiv.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://pharmrxiv.de/">Fachinformationsdienstes Pharmazie der TU Braunschweig</a>
+                   <span class="mcrmap_item_owner">Universitätsbibliothek der TU Braunschweig, VZG</span>
                 </p>
             </div>
           ]]>
@@ -800,8 +813,27 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_xasia.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://crossasia.org/">CrossAsia</a>
-					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                  <a class="mcrmap_item_name" href="https://crossasia.org/">CrossAsia</a>
+                  <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.3705875,52.5077263,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Emporion</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://emporion.gswg.info/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_emporion.png" />
+                </a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://emporion.gswg.info/">Forschungsdaten-Hub für Sozial- und Wirtschaftsgeschichte</a>
+                  <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
                 </p>
             </div>
           ]]>
@@ -819,8 +851,8 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_openagrar.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://openagrar.bmel-forschung.de">Publikationsserver OpenAgrar</a>
-					<span class="mcrmap_item_owner">Bundesministerium für Ernährung und Landwirtschaft (BMEL)</span>
+                  <a class="mcrmap_item_name" href="https://openagrar.bmel-forschung.de">Publikationsserver OpenAgrar</a>
+                  <span class="mcrmap_item_owner">Bundesministerium für Ernährung und Landwirtschaft (BMEL)</span>
                 </p>
             </div>
           ]]>
@@ -838,10 +870,10 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_intR2Dok.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://intr2dok.vifa-recht.de/content/index.xml">Der Fachinformationsdienst &#60;intR&#62;&#178;Dok</a>
-            		<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                  <a class="mcrmap_item_name" href="https://intr2dok.vifa-recht.de/content/index.xml">Der Fachinformationsdienst &#60;intR&#62;&#178;Dok</a>
+                        <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
                 </p>
-          	</div>
+            </div>
           ]]>
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
@@ -857,15 +889,34 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://kartdok.staatsbibliothek-berlin.de/">KartDok</a>
-					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                  <a class="mcrmap_item_name" href="https://kartdok.staatsbibliothek-berlin.de/">KartDok</a>
+                  <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
                 </p>
-          	</div>
+            </div>
           ]]>
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>OEDIPUB</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://oedipub.ipu-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_oedipub.png" />
+                </a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://oedipub.ipu-berlin.de/">Offene elektronische Dokumente der IPU Bibliothek</a>
+                  <span class="mcrmap_item_owner">International Psychoanalytic University Berlin gGmbH</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.384506923626564,52.52307581339718,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -876,10 +927,29 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_sbb.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://slavdok.slavistik-portal.de/">SlavDok</a>
-					<span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
+                 <a class="mcrmap_item_name" href="https://slavdok.slavistik-portal.de/">SlavDok</a>
+                  <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
                 </p>
-          	</div>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.370402198732272,52.507371644586506,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SPKtrum [ˈʃpɛktʁʊm ]</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://spktrum.spk-berlin.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_spk.png" />
+                </a>
+                <p>
+                 <a class="mcrmap_item_name" href="https://spktrum.spk-berlin.de/">Open-Science-Repositorium der Stiftung Preußischer Kulturbesitz</a>
+                  <span class="mcrmap_item_owner">Stiftung Preußischer Kulturbesitz (SPK)</span>
+                </p>
+            </div>
           ]]>
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
@@ -895,10 +965,10 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_iai.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://publications.iai.spk-berlin.de/">Der Publikationsserver des IAI</a>
-					<span class="mcrmap_item_owner">Ibero Amerikanisches Institut Preußischer Kulturbesitz</span>
+                  <a class="mcrmap_item_name" href="https://publications.iai.spk-berlin.de/">Der Publikationsserver des IAI</a>
+                  <span class="mcrmap_item_owner">Ibero Amerikanisches Institut Preußischer Kulturbesitz</span>
                 </p>
-          	</div>
+            </div>
           ]]>
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
@@ -914,15 +984,34 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_wias.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.wias-berlin.de/">Publikationsserver des WIAS</a>
-					<span class="mcrmap_item_owner">Weierstraß-Institut</span>
+                  <a class="mcrmap_item_name" href="https://archive.wias-berlin.de/">Publikationsserver des WIAS</a>
+                  <span class="mcrmap_item_owner">Weierstraß-Institut</span>
                 </p>
-          	</div>
+            </div>
           ]]>
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>13.395940,52.512680,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Institutionelles Repositorium ZMO</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://repositorium.zmo.de/">
+                  <img class="icon" alt="icon" src="/map/icons/icon_berlin_zmo.png" />
+                </a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://repositorium.zmo.de/">Institutionelles Repositorium ZMO</a>
+                  <span class="mcrmap_item_owner">Leibniz-Zentrum Moderner Orient</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>13.202649075180224,52.42827551126706,0</coordinates>
       </Point>
     </Placemark>
 
@@ -937,8 +1026,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://duepublico.uni-duisburg-essen.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_duepublico.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://duepublico.uni-duisburg-essen.de/">DuEPublico</a>
-					<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://duepublico.uni-duisburg-essen.de/">DuEPublico</a>
+                  <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
                 </p>
             </div>
           ]]>
@@ -955,8 +1044,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://bibliographie.ub.uni-due.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_unibibliograhie.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://bibliographie.ub.uni-due.de/">Universitätsbibliograhie</a>
-					<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://bibliographie.ub.uni-due.de/">Universitätsbibliograhie</a>
+                  <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
                 </p>
             </div>
           ]]>
@@ -970,11 +1059,11 @@
       <name>Metropolenzeichen</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-            	<span class="mcrmap_item_icon>
+                      <span class="mcrmap_item_icon>
                 <img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_metropolenzeichen.png" /></span>
                 <p>
-                	<span class="mcrmap_item_name">Bilddatenbank "Metropolenzeichen - Visuelle Mehrsprachigkeit in der Metropole Ruhr"</span>
-                	<span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                  <span class="mcrmap_item_name">Bilddatenbank "Metropolenzeichen - Visuelle Mehrsprachigkeit in der Metropole Ruhr"</span>
+                  <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
                 </p>
             </div>
           ]]>
@@ -994,8 +1083,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://dokumente.ub.tu-clausthal.de/"><img class="icon" alt="icon" src="/map/icons/icon_clausthal_tu.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://dokumente.ub.tu-clausthal.de/">Dokumentenserver</a>
-					<span class="mcrmap_item_owner">Technische Universität Clausthal (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://dokumente.ub.tu-clausthal.de/">Dokumentenserver</a>
+                  <span class="mcrmap_item_owner">Technische Universität Clausthal (Universitätsbibliothek)</span>
                 </p>
              </div>
           ]]>
@@ -1015,8 +1104,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://papyri.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://papyri.uni-leipzig.de/">Papyrus- und Ostraka-Sammlungen</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a. / Portal</span>
+                  <a class="mcrmap_item_name" href="https://papyri.uni-leipzig.de/">Papyrus- und Ostraka-Sammlungen</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a. / Portal</span>
                 </p>
             </div>
           ]]>
@@ -1032,8 +1121,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.organapapyrologica.net/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.organapapyrologica.net/">Organa Papyrologica</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ/Alte Geschichte)</span>
+                  <a class="mcrmap_item_name" href="https://www.organapapyrologica.net/">Organa Papyrologica</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Alte Geschichte)</span>
                 </p>
             </div>
           ]]>
@@ -1049,8 +1138,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.qalamos.net/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_qalamos.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.qalamos.net/">Qalamos</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ) / Staatsbibliothek zu Berlin</span>
+                  <a class="mcrmap_item_name" href="https://www.qalamos.net/">Qalamos</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ) / Staatsbibliothek zu Berlin</span>
                 </p>
             </div>
           ]]>
@@ -1066,8 +1155,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.bach-digital.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_bach.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.bach-digital.de/">Bach digital</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv</span>
+                  <a class="mcrmap_item_name" href="https://www.bach-digital.de/">Bach digital</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv</span>
                 </p>
             </div>
           ]]>
@@ -1083,8 +1172,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://smart.bach-digital.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_bachsmart.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://smart.bach-digital.de/">Bach digital smart</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv Leipzig</span>
+                  <a class="mcrmap_item_name" href="https://smart.bach-digital.de/">Bach digital smart</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ) und Bach Archiv Leipzig</span>
                 </p>
             </div>
           ]]>
@@ -1100,8 +1189,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://sammlungen.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_collection.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://sammlungen.uni-leipzig.de/">Sammlungsportal der Universität Leipzig</a>
-					<span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
+                  <a class="mcrmap_item_name" href="https://sammlungen.uni-leipzig.de/">Sammlungsportal der Universität Leipzig</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
                 </p>
             </div>
           ]]>
@@ -1121,8 +1210,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.db-thueringen.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_dbt.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.db-thueringen.de/">DBT (Halle-Jena-Leipzig)</a>
-					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                  <a class="mcrmap_item_name" href="https://www.db-thueringen.de/">DBT (Halle-Jena-Leipzig)</a>
+                  <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
                 </p>
             </div>
           ]]>
@@ -1138,8 +1227,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://zs.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_journals.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://zs.thulb.uni-jena.de/">Zeitschriftenportal</a>
-					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                  <a class="mcrmap_item_name" href="https://zs.thulb.uni-jena.de/">Zeitschriftenportal</a>
+                  <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
                 </p>
             </div>
           ]]>
@@ -1155,8 +1244,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://collections.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_jena_hisbest.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://collections.thulb.uni-jena.de/">Historische Bestände</a>
-					          <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                  <a class="mcrmap_item_name" href="https://collections.thulb.uni-jena.de/">Historische Bestände</a>
+                    <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
                 </p>
             </div>
           ]]>
@@ -1172,8 +1261,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.x-ray-movies-jena.de"><img class="icon" alt="icon" src="/map/icons/icon_jena_szeb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.x-ray-movies-jena.de">Datenbank für Röntgenfilme</a>
-					          <span class="mcrmap_item_owner">Institut für Spezielle Zoologie und Evolutionsbiologie, Friedrich-Schiller-Universität Jena</span>
+                  <a class="mcrmap_item_name" href="https://www.x-ray-movies-jena.de">Datenbank für Röntgenfilme</a>
+                    <span class="mcrmap_item_owner">Institut für Spezielle Zoologie und Evolutionsbiologie, Friedrich-Schiller-Universität Jena</span>
                 </p>
             </div>
           ]]>
@@ -1189,8 +1278,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://papyri-leipzig.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://https://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt</a>
-					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
+                  <a class="mcrmap_item_name" href="https://https://papyri-leipzig.dl.uni-leipzig.de/">Papyrus und Ostraka Projekt</a>
+                  <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (RZ, ThULB)</span>
                 </p>
             </div>
           ]]>
@@ -1206,8 +1295,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/uaj/"><img class="icon" alt="icon" src="/map/icons/icon_jena_uniarchiv.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/uaj/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (Universitätsarchiv)</span>
+                  <a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/uaj/">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Friedrich-Schiller-Universität Jena (Universitätsarchiv)</span>
                 </p>
             </div>
           ]]>
@@ -1223,8 +1312,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/korax/"><img class="icon" alt="icon" src="/map/icons/icon_jena_domstifter.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/korax/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Vereinigte Domstifter zu Merseburg und Naumburg und Kollegiatsstift Zeitz</span>
+                  <a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/korax/">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Vereinigte Domstifter zu Merseburg und Naumburg und Kollegiatsstift Zeitz</span>
                 </p>
             </div>
           ]]>
@@ -1240,8 +1329,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/kaj/"><img class="icon" alt="icon" src="/map/icons/icon_jena_kirchen.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/kaj/">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Landeskirchenarchiv Eisenach</span>
+                  <a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/kaj/">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Landeskirchenarchiv Eisenach</span>
                 </p>
             </div>
           ]]>
@@ -1262,8 +1351,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.weimar&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.weimar"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.weimar&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.weimar">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Hauptstaatsarchiv Weimar</span>
+                  <a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.weimar&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.weimar">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Landesarchiv Thüringen - Hauptstaatsarchiv Weimar</span>
                 </p>
             </div>
           ]]>
@@ -1282,8 +1371,8 @@
                   <img class="icon" alt="icon" src="/map/icons/icon_weimar_gsa.png" />
                 </a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/gsa/">Digitales Archiv"</a>
-					        <span class="mcrmap_item_owner">Goethe- und Schillerarchiv, Klassik Stiftung Weimar</span>
+                  <a class="mcrmap_item_name" href="https://archive.thulb.uni-jena.de/gsa/">Digitales Archiv"</a>
+                  <span class="mcrmap_item_owner">Goethe- und Schillerarchiv, Klassik Stiftung Weimar</span>
                 </p>
             </div>
           ]]>
@@ -1303,8 +1392,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://archive.thulb.uni-jena.de/saru/"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.rudolstadt&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.rudolstadt">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Rudolstadt</span>
+                  <a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.rudolstadt&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.rudolstadt">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Rudolstadt</span>
                 </p>
             </div>
           ]]>
@@ -1324,8 +1413,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.meiningen&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.meiningen"><img class="icon" alt="icon" src="/map/icons/icon_th_archives.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.meiningen&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.meiningen">Digitales Archiv</a>
-					<span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Meiningen</span>
+                  <a class="mcrmap_item_name" href="https://staatsarchive.thulb.uni-jena.de/servlets/solr/stat2_restricted?qry=ArchFile_class_001:archiv.meiningen&XSL.ForgetSearchTerms=true&XSL.expandTectonicsTo=archiv.meiningen">Digitales Archiv</a>
+                  <span class="mcrmap_item_owner">Landesarchiv Thüringen - Staatsarchiv Meiningen</span>
                 </p>
             </div>
           ]]>
@@ -1345,8 +1434,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://dhb.thulb.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt-dhb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://dhb.thulb.uni-jena.de/">Digitale Historische Bibliothek Erfurt/Gotha</a>
-					<span class="mcrmap_item_owner">Universitäts- und Forschungsbibliothek Erfurt/Gotha</span>
+                  <a class="mcrmap_item_name" href="https://dhb.thulb.uni-jena.de/">Digitale Historische Bibliothek Erfurt/Gotha</a>
+                  <span class="mcrmap_item_owner">Universitäts- und Forschungsbibliothek Erfurt/Gotha</span>
                 </p>
             </div>
           ]]>
@@ -1366,8 +1455,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://dana.thulb.uni-jena.de"><img class="icon" alt="icon" src="/map/icons/icon_jena_dana.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://dana.thulb.uni-jena.de">Digitales Archiv</a>
-					          <span class="mcrmap_item_owner">dana Thüringen, Thüringer Universitäts- und Landesbibliothek</span>
+                  <a class="mcrmap_item_name" href="https://dana.thulb.uni-jena.de">Digitales Archiv</a>
+                    <span class="mcrmap_item_owner">dana Thüringen, Thüringer Universitäts- und Landesbibliothek</span>
                 </p>
             </div>
           ]]>
@@ -1387,8 +1476,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.manuscripts-gotha.uni-jena.de/"><img class="icon" alt="icon" src="/map/icons/icon_erfurt-dhb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.manuscripts-gotha.uni-jena.de/">MyMss-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
-					<span class="mcrmap_item_owner">Forschungsbibliothekbibliothek Gotha der Universität Erfurt</span>
+                  <a class="mcrmap_item_name" href="https://www.manuscripts-gotha.uni-jena.de/">MyMss-Teilprojekt Orientalischen Handschriften der Forschungsbibliothek Gotha</a>
+                  <span class="mcrmap_item_owner">Forschungsbibliothekbibliothek Gotha der Universität Erfurt</span>
                 </p>
             </div>
           ]]>
@@ -1408,8 +1497,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://elpub.bib.uni-wuppertal.de/"><img class="icon" alt="icon" src="/map/icons/icon_wuppertal_elpub.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://elpub.bib.uni-wuppertal.de/">Elektronische Publikationen</a>
-					<span class="mcrmap_item_owner">Bergische Universität Wuppertal (Universitätsbibliothek)</span>
+                  <a class="mcrmap_item_name" href="https://elpub.bib.uni-wuppertal.de/">Elektronische Publikationen</a>
+                  <span class="mcrmap_item_owner">Bergische Universität Wuppertal (Universitätsbibliothek)</span>
                 </p>
             </div>
           ]]>
@@ -1417,27 +1506,6 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>7.148255,51.245248,0</coordinates>
-      </Point>
-    </Placemark>
-
-    <!-- ***************************************************************************************************************** -->
-    <!-- Gießen                                                                                                            -->
-    <!-- ***************************************************************************************************************** -->
-    <Placemark>
-      <name>Giessener Elektronische Bibliothek (Lehrmaterialien)</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://semapp.ub.uni-giessen.de/semapp/"><img class="icon" alt="icon" src="/map/icons/icon_giessen_elbib.png" /></a>
-                <p>
-                	<a class="mcrmap_item_name" href="https://semapp.ub.uni-giessen.de/semapp/">Giessener Elektronische Bibliothek (Lehrmaterialien)</a>
-					<span class="mcrmap_item_owner">Justus-Liebig-Universität Giessen (Universitätsbibliothek)</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>8.695258,50.576192,0</coordinates>
       </Point>
     </Placemark>
 
@@ -1450,8 +1518,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://docserv.uni-duesseldorf.de/"><img class="icon" alt="icon" src="/map/icons/icon_duesseldorf_ulb.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://docserv.uni-duesseldorf.de/">Publikationsservice</a>
-					<span class="mcrmap_item_owner">Universitäts- und Landesbibliothek Düsseldorf</span>
+                  <a class="mcrmap_item_name" href="https://docserv.uni-duesseldorf.de/">Publikationsservice</a>
+                  <span class="mcrmap_item_owner">Universitäts- und Landesbibliothek Düsseldorf</span>
                 </p>
             </div>
           ]]>
@@ -1471,8 +1539,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://corpus-musicae-ottomanicae.de/"><img class="icon" alt="icon" src="/map/icons/icon_muenster_cmo.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://corpus-musicae-ottomanicae.de/">Corpus Musicae Ottomanicae (CMO)</a>
-					<span class="mcrmap_item_owner">Westfälische Wilhelms-Universität Münster</span>
+                  <a class="mcrmap_item_name" href="https://corpus-musicae-ottomanicae.de/">Corpus Musicae Ottomanicae (CMO)</a>
+                  <span class="mcrmap_item_owner">Westfälische Wilhelms-Universität Münster</span>
                 </p>
             </div>
           ]]>
@@ -1492,8 +1560,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://library.fes.de/afs-online/inhalt/online.htm"><img class="icon" alt="icon" src="/map/icons/icon_bonn_fes.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://library.fes.de/afs-online/inhalt/online.htm">Archiv für Sozialgeschichte</a>
-					<span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
+                  <a class="mcrmap_item_name" href="https://library.fes.de/afs-online/inhalt/online.htm">Archiv für Sozialgeschichte</a>
+                  <span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
                 </p>
             </div>
           ]]>
@@ -1509,8 +1577,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://library.fes.de/angestelltenpresse"><img class="icon" alt="icon" src="/map/icons/icon_bonn_fes.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://library.fes.de/angestelltenpresse">Das gedruckte Gedächtnis der Tertiarisierung</a>
-					<span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
+                  <a class="mcrmap_item_name" href="https://library.fes.de/angestelltenpresse">Das gedruckte Gedächtnis der Tertiarisierung</a>
+                  <span class="mcrmap_item_owner">Friedrich-Ebert-Stiftung</span>
                 </p>
             </div>
           ]]>
@@ -1526,8 +1594,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://perspectivia.net/"><img class="icon" alt="icon" src="/map/icons/icon_bonn_perspectivia.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://perspectivia.net/">Die Publikationsplattform perspectivia.net</a>
-					<span class="mcrmap_item_owner">Max Weber Stiftung</span>
+                  <a class="mcrmap_item_name" href="https://perspectivia.net/">Die Publikationsplattform perspectivia.net</a>
+                  <span class="mcrmap_item_owner">Max Weber Stiftung</span>
                 </p>
             </div>
           ]]>
@@ -1547,8 +1615,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://www.destatis.de/GPStatistik/" title="Link zur Statistischen Bibliothek"><img class="icon" alt="icon" src="/map/icons/icon_wiesbaden_destatis.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://www.destatis.de/GPStatistik/" title="Link zur Statistischen Bibliothek">Die "Statistische Bibliothek" der Statistischen Ämter des Bundes und der Länder</a>
-					<span class="mcrmap_item_owner">Statistisches Bundesamt (DESTATIS)</span>
+                  <a class="mcrmap_item_name" href="https://www.destatis.de/GPStatistik/" title="Link zur Statistischen Bibliothek">Die "Statistische Bibliothek" der Statistischen Ämter des Bundes und der Länder</a>
+                  <span class="mcrmap_item_owner">Statistisches Bundesamt (DESTATIS)</span>
                 </p>
             </div>
           ]]>
@@ -1568,8 +1636,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://repository.dszv.it/" title="Link zum Dokumentenserver des DSZV"><img class="icon" alt="icon" src="/map/icons/icon_venedig_dszv.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://repository.dszv.it/" title="Link zum Dokumentenserver des DSZV">Der Dokumentenserver des Deutschen Studienzentrums in Venedig</a>
-					<span class="mcrmap_item_owner">Deutsches Studienzentrum in Venedig (DSZV)</span>
+                  <a class="mcrmap_item_name" href="https://repository.dszv.it/" title="Link zum Dokumentenserver des DSZV">Der Dokumentenserver des Deutschen Studienzentrums in Venedig</a>
+                  <span class="mcrmap_item_owner">Deutsches Studienzentrum in Venedig (DSZV)</span>
                 </p>
             </div>
           ]]>
@@ -1589,8 +1657,8 @@
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://publikationsserver.phtg.ch/" title="Link zum Publikationsserver der PHTG "><img class="icon" alt="icon" src="/map/icons/icon_thurgau_phtg.png" /></a>
                 <p>
-                	<a class="mcrmap_item_name" href="https://publikationsserver.phtg.ch/" title="Link zum Publikationsserver der PHTG ">PHTG</a>
-					<span class="mcrmap_item_owner">Publikationsserver der PHTG</span>
+                  <a class="mcrmap_item_name" href="https://publikationsserver.phtg.ch/" title="Link zum Publikationsserver der PHTG ">PHTG</a>
+                  <span class="mcrmap_item_owner">Publikationsserver der PHTG</span>
                 </p>
             </div>
           ]]>
