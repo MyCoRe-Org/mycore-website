@@ -249,9 +249,9 @@
       <name>EAE</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://mycms.rrz.uni-hamburg.de/eae"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
+                <a class="mcrmap_item_icon" href="http://mycms-vs01.rrz.uni-hamburg.de/eae/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
                 <p>
-                  <a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/eae">Encyclopaedia Aethiopica</a>
+                  <a class="mcrmap_item_name" href="http://mycms-vs01.rrz.uni-hamburg.de/eae/">Encyclopaedia Aethiopica</a>
                   <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
@@ -266,9 +266,9 @@
       <name>DOMLib</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://mycms.rrz.uni-hamburg.de/domlib"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
+                <a class="mcrmap_item_icon" href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/"><img class="icon" alt="icon" src="/map/icons/icon_hamburg_aai.png" /></a>
                 <p>
-                  <a class="mcrmap_item_name" href="https://mycms.rrz.uni-hamburg.de/domlib">Digital Oriental Manuscript Library</a>
+                  <a class="mcrmap_item_name" href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/">Digital Oriental Manuscript Library</a>
                         <span class="mcrmap_item_owner">Universität Hamburg</span>
                 </p>
             </div>
@@ -1022,11 +1022,10 @@
     <Placemark>
       <name>DuEPublico</name>
       <description><![CDATA[
-            <p>Universität Duisburg-Essen (Universitätsbibliothek)</p>
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://duepublico.uni-duisburg-essen.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_duepublico.png" /></a>
+                <a class="mcrmap_item_icon" href="https://duepublico2.uni-due.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_duepublico.png" /></a>
                 <p>
-                  <a class="mcrmap_item_name" href="https://duepublico.uni-duisburg-essen.de/">DuEPublico</a>
+                  <a class="mcrmap_item_name" href="https://duepublico2.uni-due.de/">DuEPublico</a>
                   <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
                 </p>
             </div>
@@ -1040,7 +1039,6 @@
     <Placemark>
       <name>Universitätsbibliograhie</name>
       <description><![CDATA[
-            <p>Universität Duisburg-Essen (Universitätsbibliothek)</p>
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://bibliographie.ub.uni-due.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_unibibliograhie.png" /></a>
                 <p>
@@ -1063,6 +1061,23 @@
                 <img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_metropolenzeichen.png" /></span>
                 <p>
                   <span class="mcrmap_item_name">Bilddatenbank "Metropolenzeichen - Visuelle Mehrsprachigkeit in der Metropole Ruhr"</span>
+                  <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>7.007442,51.464385,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Heinrich-Barth-Briefedition</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://heinrich-barth.ub.uni-due.de/"><img class="icon" alt="icon" src="/map/icons/icon_duisburg-essen_barth.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://heinrich-barth.ub.uni-due.de/">Heinrich-Barth-Briefedition</a>
                   <span class="mcrmap_item_owner">Universität Duisburg-Essen (Universitätsbibliothek)</span>
                 </p>
             </div>
