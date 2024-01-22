@@ -21,7 +21,7 @@ news/teaser_en: "Happy Birthday, MyCoRe! The first MyCoRe commit was uploaded 20
 ---
 
 ## 20 Jahre MyCoRe
-Vor 20 Jahren, am 13.07.2001 um 19:02 Uhr veröffentlichte Frank Lützenkirchen die erste MyCoRe-Klasse [`MCRConfiguration.java`](https://github.com/MyCoRe-Org/mycore/commit/04325937abcc00c62dbaefe215d07ec68034fdcc). Damit wurde der Grundstein gelegt für die Repository-Software MyCoRe. Hervorgegangen ist das Framework aus [Miless](https://www.mycore.de/blog/2008/10/anwendung-miless/), das z.B. die Basis bildet für den Dokumentenserver [DuEPublico](https://duepublico.uni-duisburg-essen.de/about/index.xml). Nach wie vor wird die Software von einer kleinen, feinen Community weiterentwickelt. Was es alles Neues gibt, erfahrt ihr im November bei unserem [Anwendertreffen](https://www.mycore.de/blog/2021/11/mycore-jubilee/) in Leipzig oder online...
+Vor 20 Jahren, am 13.07.2001 um 19:02 Uhr veröffentlichte Frank Lützenkirchen die erste MyCoRe-Klasse [`MCRConfiguration.java`](https://github.com/MyCoRe-Org/mycore/commit/04325937abcc00c62dbaefe215d07ec68034fdcc). Damit wurde der Grundstein gelegt für die Repository-Software MyCoRe. Hervorgegangen ist das Framework aus [Miless](https://www.mycore.de/blog/2008/10/anwendung-miless/), das z.B. die Basis bildet für den Dokumentenserver [DuEPublico](https://duepublico2.uni-due.de/about/index.xml). Nach wie vor wird die Software von einer kleinen, feinen Community weiterentwickelt. Was es alles Neues gibt, erfahrt ihr im November bei unserem [Anwendertreffen](https://www.mycore.de/blog/2021/11/mycore-jubilee/) in Leipzig oder online...
 
 ## Meilensteine der Entwicklung
 Es gab viele Meilensteine in den letzten 20 Jahren. Ein paar sollen hier genannt werden:  
