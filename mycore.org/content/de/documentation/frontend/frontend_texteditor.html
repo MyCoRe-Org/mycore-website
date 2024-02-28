@@ -1,0 +1,62 @@
+---
+
+title: "Texteditor"
+mcr_version: ['2023.06']
+author: ['Matthias Eichner']
+description: "Der Abschnitt beschreibt den Texteditor."
+date: "2024-02-27"
+
+---
+<h2>Texteditor in MyCoRe</h2>
+
+<p>
+    Der Texteditor in MyCoRe bietet eine einfache und schnelle Möglichkeit Objekte, Derivate, Klassifikation und
+    Textdokumente innerhalb von Derivaten zu ändern oder zu betrachten.
+</p>
+<p>
+    Er bietet Syntax-Highlighting für die meisten Textformate und kann Zeilennummern anzeigen.
+</p>
+
+<h2>Integration in die Webseite</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Typ</th>
+        <th>URL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Objekt XML</td>
+        <td>/modules/webtools/texteditor/objects/{mcr_object_id}</td>
+    </tr>
+    <tr>
+        <td>Derivat XML</td>
+        <td>/modules/webtools/texteditor/objects/{mcr_object_id}/derivates/{mcr_derivate_id}</td>
+    </tr>
+    <tr>
+        <td>Textdokument</td>
+        <td>/modules/webtools/texteditor/objects/{mcr_object_id}/derivates/{mcr_derivate_id}/contents/{path_to_file}
+        </td>
+    </tr>
+    <tr>
+        <td>Klassifikation</td>
+        <td>/modules/webtools/texteditor/classifications/{classification_id}</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Weitere Informationen</h2>
+<p>Der Texteditor verwendet im Backend die Rest v2 API. Aus diesem Grund ist es theoretisch möglich, auf
+    Nicht-Textdateien (wie z.B. TIFF) zuzugreifen. Der Texteditor kann diese natürlich nicht korrekt darstellen.
+    Der Aufrufer (Link-Ersteller) hat dementsprechend dafür Sorge zu tragen, dass der Texteditor nur mit Textdokumenten
+    aufgerufen wird.</p>
+
+<h2>Syntax Highlighting</h2>
+<p>Aktuell unterstützt der Texteditor folgende Formate:</p>
+<p>HTML, XML, SVG, MathML, SSML, Atom, RSS, Markup, Markdown, CSV, YAML</p>
+<p>Weitere Formate können bei Bedarf integriert werden. Siehe
+    <a href="//github.com/MyCoRe-Org/mycore/tree/main/mycore-webtools/src/main/vue/texteditor/src/modules/prismjs-languages.ts"
+       target="_blank">Link</a>.
+</p>

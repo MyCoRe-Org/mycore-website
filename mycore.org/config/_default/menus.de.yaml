@@ -114,6 +114,7 @@ main:
 -     {identifier: frontend_webtools,       parent: frontend,           name: WebTools,                      weight: -83,      url: /documentation/frontend/frontend_webtools}
 -     {identifier: frontend_wcms,           parent: frontend,           name: WCMS,                          weight: -82,      url: /documentation/frontend/frontend_wcms}
 -     {identifier: frontend_accesskeys,     parent: frontend,           name: Access Key Manager,            weight: -81,      url: /documentation/frontend/frontend_accesskeys}
+-     {identifier: frontend_texteditor,     parent: frontend,           name: Texteditor,                    weight: -80,      url: /documentation/frontend/frontend_texteditor}
 -   {identifier: permissions,             parent: documentation,      name: Benutzer und Rechte,           weight: -94,      url: /documentation/permissions}
 -     {identifier: accesskeys,              parent: permissions,        name: Zugriffsschlüssel,             weight: -87,      url: /documentation/permissions/accesskeys}
 -     {identifier: user_system,             parent: permissions,        name: Benutzersystem,                weight: -99,      url: /documentation/permissions/user_system}
