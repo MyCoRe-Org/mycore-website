@@ -124,7 +124,7 @@
           <execution>
             <phase>generate-resources</phase>
             <configuration>
-              <tasks>
+              <target>
                 <copy todir="${basedir}/mycore.org/themes/mycore-bootstrap/static/_gen/webjars">
                   <fileset dir="${project.build.directory}/_webjars/META-INF/resources/webjars">
                     <include name="**/jquery.min.js" />
@@ -144,7 +144,7 @@
                     <include name="**/bootstrap/*/scss/**" />
                   </fileset>
                 </copy>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
