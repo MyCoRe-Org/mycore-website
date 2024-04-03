@@ -173,6 +173,16 @@ a.latestnews:hover {
   margin: 0.25rem 0rem;
 }
 
+/* footnotes */
+
+section.footnotes {
+	font-size:smaller;
+}
+
+section.footnotes li p {
+	margin-bottom: 0.5rem;
+}
+
 /* author styles */
 
 .mcr-footer-authors{
