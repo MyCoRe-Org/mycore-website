@@ -18,27 +18,27 @@ date: "2020-09-22"
         werden. Zum Austausch von Metadaten unterstützt MyCoRe das Open Archives
         Initiative Protocol for Metadata Harvesting (OAI-PMH). Die Beschreibung
         des Standards finden Sie unter
-        <a href="http://www.openarchives.org/pmh/">http://www.openarchives.org/pmh/</a>.
+        <a href="https://www.openarchives.org/pmh/">https://www.openarchives.org/pmh/</a>.
         Machen Sie sich zunächst grob mit diesem Standard vertraut. In die Implementierung
         sind auch Anforderungen aus dem DINI-Zertifikat 2010 (
-        <a href="http://www.dini.de/dini-zertifikat/">http://www.dini.de/dini-zertifikat/</a>)
+        <a href="https://www.dini.de/dini-zertifikat/">https://www.dini.de/dini-zertifikat/</a>)
         eingeflossen.
       </p>
-      <p>
+<!--      <p>
         Die OAI-Schnittstelle ist auch in der MIR-Anwendung bereits integriert und kann
         dort getestet werden:
       </p>
       <ul>
         <li>
-          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=Identify">OAI 2.0 Request Results</a>
+          <a href="https://mycore.de/mir/servlets/OAIDataProvider?verb=Identify">OAI 2.0 Request Results</a>
         </li>
         <li>
-          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=epicur">xEpicur als Ausgabeformat der OAI-Schnittstelle</a>
+          <a href="https://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=epicur">xEpicur als Ausgabeformat der OAI-Schnittstelle</a>
         </li>
         <li>
-          <a href="http://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=xMetaDissPlus">xMetaDiss als Ausgabeformat der OAI-Schnittstelle</a>
+          <a href="https://mycore.de/mir/servlets/OAIDataProvider?verb=ListRecords&amp;metadataPrefix=xMetaDissPlus">xMetaDiss als Ausgabeformat der OAI-Schnittstelle</a>
         </li>
-      </ul>
+      </ul> -->
     </div>
 
     <div>
@@ -86,7 +86,7 @@ date: "2020-09-22"
       <h4>Property für die Ausgabeformatierung</h4>
       <p>
         Für die Visualisierung der OAI-Requests im Webbrowser wird das
-        <a href="http://www.eprints.org/software/xslt.php">OAI2 to
+        <a href="https://www.eprints.org/software/xslt.php">OAI2 to
           HTML XSLT Style Sheet
         </a>
         von Eprints verwendet.
@@ -101,7 +101,7 @@ date: "2020-09-22"
       <p>
         Für die genaue Bedeutung der Properties und ihre möglichen Werte sei
         ein Blick in den
-        <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#Identify">OAI-Standard</a>
+        <a href="https://www.openarchives.org/OAI/openarchivesprotocol.html#Identify">OAI-Standard</a>
         empfohlen:
       </p>
       {{< highlight shell "linenos=table">}}
@@ -127,7 +127,7 @@ MCR.OAIDataProvider.OAI2.Friends.DBThueringen=https://www.db-thueringen.de/servl
       <p>
         Mittels Resumption Tokens kann die Rückgabe großer Mengen an Dokumenten
         partitioniert werden. Genauere Angaben entnehmen Sie der
-        <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl">OAI-Spezifikation</a>.
+        <a href="https://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl">OAI-Spezifikation</a>.
       </p>
       <p>
         Für die Konfiguration werden folgende Properties verwendet:
@@ -217,10 +217,10 @@ MCR.OAIDataProvider.OAI2.EarliestDatestamp.SortBy=modified asc
       {{< highlight shell "linenos=table">}}MCR.OAIDataProvider.OAI2.Sets.open_access.URI=webapp:oai/set_open_access.xml{{< /highlight >}}
       <p>Beispiel für eine statische Sets Datei im XML Format:</p>
       {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
-<ListSets xmlns="http://www.openarchives.org/OAI/2.0/"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
-  http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<ListSets xmlns="https://www.openarchives.org/OAI/2.0/"
+  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.openarchives.org/OAI/2.0/
+  https://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
   <set>
     <setSpec>open_access</setSpec>
     <setName>Open Access publications</setName>
@@ -249,9 +249,9 @@ MCR.OAIDataProvider.OAI2.Sets.foo\:bar.Query=(mods.title:*foobar*)
       </p>
       {{< highlight shell "linenos=table">}}
 MCR.OAIDataProvider.OAI2.MetadataFormats=oai_dc,epicur
-MCR.OAIDataProvider.MetadataFormat.oai_dc.Schema=http://www.openarchives.org/OAI/2.0/oai_dc.xsd
-MCR.OAIDataProvider.MetadataFormat.oai_dc.Namespace=http://www.openarchives.org/OAI/2.0/oai_dc/
-MCR.OAIDataProvider.MetadataFormat.epicur.Schema=http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd
+MCR.OAIDataProvider.MetadataFormat.oai_dc.Schema=https://www.openarchives.org/OAI/2.0/oai_dc.xsd
+MCR.OAIDataProvider.MetadataFormat.oai_dc.Namespace=https://www.openarchives.org/OAI/2.0/oai_dc/
+MCR.OAIDataProvider.MetadataFormat.epicur.Schema=https://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd
 MCR.OAIDataProvider.MetadataFormat.epicur.Namespace=urn:nbn:de:1111-2004033116
       {{< /highlight >}}
 
@@ -294,7 +294,7 @@ MCR.OAIDataProvider.OAI2.Sets.ec_fundedresources.Query=((derCount:[1 TO *] AND m
       </p>
       {{< highlight shell "linenos=table">}}
 MCR.OAIDataProvider.OAI2.MetadataFormats=oai_dc,epicur,oai_datacite
-MCR.OAIDataProvider.MetadataFormat.oai_datacite.Namespace=http://schema.datacite.org/oai/oai-1.0/
+MCR.OAIDataProvider.MetadataFormat.oai_datacite.Namespace=https://schema.datacite.org/oai/oai-1.0/
 MCR.OAIDataProvider.MetadataFormat.oai_datacite.Schema=https://schema.datacite.org/oai/oai-1.0/oai.xsd
       {{< /highlight >}}
     </div>
@@ -306,13 +306,13 @@ MCR.OAIDataProvider.MetadataFormat.oai_datacite.Schema=https://schema.datacite.o
       </p>
       <ul>
         <li>
-          <a href="http://oanet.cms.hu-berlin.de/validator/pages/validation_dini.xhtml">DINI Check 2010</a>
+          <a href="https://oanet.cms.hu-berlin.de/validator/pages/validation_dini.xhtml">DINI Check 2010</a>
         </li>
         <li>
-          <a href="http://oval.base-search.net/">BASE OAI-PMH Validator: OVAL</a>
+          <a href="https://oval.base-search.net/">BASE OAI-PMH Validator: OVAL</a>
         </li>
         <li>
-          <a href="http://validator.oaipmh.com/">OAI-PMH Validator and data extractor Tool</a>
+          <a href="https://validator.oaipmh.com/">OAI-PMH Validator and data extractor Tool</a>
         </li>
       </ul>
     </div>
