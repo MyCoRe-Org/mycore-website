@@ -11,7 +11,7 @@ blog/categories:
  - Workshops
  - Konferenzen
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"Hands-on Lab während der 111. BiblioCON"
 news/teaser_de: 	"MyCoRe „Hands-on Lab“ Session während der 111. BiblioCON in Hannover. Termin: 23. Mai 2023"
 news/title_en: 		"MyCoRe-Hand-on Lab at 111. BiblioCON"

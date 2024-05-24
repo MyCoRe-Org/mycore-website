@@ -16,7 +16,8 @@ blog/tags:
 news/frontpage: true
 news/title_de: "Das Dilemma des 'Gecrawlt – zurzeit nicht indexiert'"
 news/teaser_de: "Warum landen Repository-Inhalte nicht im Google-Index?"
-
+news/title_en: "The dilemma of 'crawled - not currently indexed'"
+news/teaser_en: "Why does repository content not end up in the Google index?"
 
 ---
 Die Sichtbarkeit einer Website im Google-Suchindex ist von entscheidender Bedeutung, wenn es darum geht, im digitalen Zeitalter online präsent zu sein. Viele Website-Betreiber sehnen sich danach, dass ihre Seiten in den Weiten des Internets gefunden werden. Doch immer wieder taucht ein Problem auf, das Frust und Verwirrung auslöst: "Gecrawlt – zurzeit nicht indexiert." Was bedeutet diese Meldung, und warum landen manche Seiten nicht im Google-Index?
