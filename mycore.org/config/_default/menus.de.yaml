@@ -43,7 +43,7 @@ main:
 -         {identifier: migrate_mir2023_06,      parent: mir_migration,      name: MIR 2022.06 ⇒ 2023.06,       weight: -95,      url: /documentation/apps/mir/migration/migrate_mir2023_06}
 -         {identifier: migrate_mir2022_06,      parent: mir_migration,      name: MIR 2021.06 ⇒ 2022.06,       weight: -94,      url: /documentation/apps/mir/migration/migrate_mir2022_06}
 -         {identifier: migrate_mir2021_06,      parent: mir_migration,      name: MIR 2020.06 ⇒ 2021.06,       weight: -93,      url: /documentation/apps/mir/migration/migrate_mir2021_06}
--         {identifier: migrate_mir2020_06,      parent: mir_migration,      name: MIR 2019.06 ⇒ 2020.06,       weight: -93,      url: /documentation/apps/mir/migration/migrate_mir2020_06}
+-         {identifier: migrate_mir2020_06,      parent: mir_migration,      name: MIR 2019.06 ⇒ 2020.06,       weight: -92,      url: /documentation/apps/mir/migration/migrate_mir2020_06}
 -         {identifier: migrate_mir2018_08,      parent: mir_migration,      name: MIR 2017.06 ⇒ 2018.08,       weight: -91,      url: /documentation/apps/mir/migration/migrate_mir2018_08}
 -     {identifier: apps_ubo,                parent: apps,               name: UBO,                           weight: -98,      url: /documentation/apps/ubo}
 -       {identifier: ubo_about,               parent: apps_ubo,           name: Einleitung,                    weight: -98,      url: /documentation/apps/ubo/ubo_about}
