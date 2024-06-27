@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2023 in Bonn/Bad Godesberg"
 news/teaser_de: 	"Die MyCoRe-Community trifft sich  vom 7. bis 9.11.2023 in Bonn/Bad Godesberg."
 news/title_en: 		"MyCoRe-User-Workshop 2023 in Bad Godesberg"

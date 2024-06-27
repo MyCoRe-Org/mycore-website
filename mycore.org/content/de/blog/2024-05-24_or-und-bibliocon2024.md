@@ -19,10 +19,10 @@ news/teaser_en: "MyCoRe poster presentations at OR in Göteborg and at BiblioCon
 
 ---
 
-Auf der [Open Repositories Conference 2024](https://or2024.openrepositories.org/) in Göteborg und der [112. BiblioCon2024](https://2024.bibliocon.de/) in Hamburg werden MyCoRe-Anwendungen präsentiert 
+Auf der [Open Repositories Conference 2024](https://or2024.openrepositories.org/) in Göteborg und der [112. BiblioCon2024](https://2024.bibliocon.de/) in Hamburg wurden MyCoRe-Anwendungen präsentiert. 
 
 
 <!--more-->
-Kathleen Neumann und Robert Stephan präsentieren auf der Open Repositories Conference 2024 in Göteborg das [Poster](https://www.conftool.net/or2024/index.php?page=browseSessions&presentations=show&search=Kathleen+Neumann) "Unlocking the Potential of Digital Scholarly Editions: Strategies for Attracting the DH Community to Utilize Repositories". Außerdem zeigt Robert Stephan das [Poster](https://www.conftool.net/or2024/index.php?page=browseSessions&presentations=show&search=Robert+Stephan+LibMeta) "LibMeta - Java Object Models for Common Library Metadata Standards". Es gibt eine "Minute Madness" mit Poster Session am 04. Juni 2024: 16:30 - 19:00 Uhr, Location: Drottningporten in Göteborg.
+Kathleen Neumann und Robert Stephan präsentierten auf der Open Repositories Conference 2024 in Göteborg das [Poster](https://doi.org/10.5281/zenodo.12528079) "Unlocking the Potential of Digital Scholarly Editions: Strategies for Attracting the DH Community to Utilize Repositories". Außerdem zeigte Robert Stephan das [Poster](https://doi.org/10.5281/zenodo.12528105) "LibMeta - Java Object Models for Common Library Metadata Standards". 
 
-Auf der 112. BiblioCon2024 in Hamburg präsentiert Wiebke Oeltjen das [Poster](https://bibliocon2024.abstractserver.com/program/#/details/presentations/620) "Hochschul- und Universitätsbibliografien online auf der Basis von MyCoRe". Die Postersession findet am Mittwoch, 5. Juni und Donnerstag, 6. Juni  2024 jeweils von 12:45 – 13:45 Uhr in der Firmenausstellung / Halle H statt.
+Auf der 112. BiblioCon2024 in Hamburg präsentierte Wiebke Oeltjen das [Poster](https://nbn-resolving.org/urn:nbn:de:0290-opus4-192667) "Hochschul- und Universitätsbibliografien online auf der Basis von MyCoRe", das sie mit Frank Lützenkirchen und Kathleen Neumann erstellte. Die Postersession fand am Mittwoch, 5. Juni und Donnerstag, 6. Juni  2024 jeweils von 12:45 – 13:45 Uhr in der Firmenausstellung / Halle H statt.

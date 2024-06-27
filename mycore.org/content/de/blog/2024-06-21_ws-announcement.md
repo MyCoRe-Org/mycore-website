@@ -1,10 +1,10 @@
 ---
 title:  "19. MyCoRe-Workshop 2024"
 slug: 	mycore-workshop
-date:   2024-06-21
-publishDate: 2024-06-21
+date:   2024-06-27
+publishDate: 2024-06-27
 
-draft: 	true
+draft: 	false
 
 blog/authors: 	["Wiebke Oeltjen"]
 blog/periods: 	2024-06
@@ -14,15 +14,14 @@ blog/categories:
 
 news/frontpage: 	true
 news/title_de: 		"Ankündigung: MyCoRe-Workshop 2024 in  Köln"
-news/teaser_de: 	"Der MyCoRe-Workshop findet dieses Jahr vom 5. bis 7.11. in Köln-Deutz statt."
+news/teaser_de: 	"Der MyCoRe-Workshop findet dieses Jahr vom 5. bis 7.11. beim LVM in Köln-Deutz statt."
 news/title_en: 		"Announcement: MyCoRe Workshop 2024 in Cologne"
-news/teaser_en:	 	"From 5. to 7. November the MyCoRe User Workshop will take place in Cologne."
+news/teaser_en:	 	"From 5. to 7. November the MyCoRe User Workshop will take place at the LVM in Cologne."
 
 
 ---
 <p>
-  Vom 5. bis 7. November 2024 trifft sich die MyCoRe-Community mit den Kernentwicklern, um sich über
-  neuste MyCoRe-Entwicklungen auszutauschen und MyCoRe-relevante Themen zu diskutieren. Wir freuen und in diesem Jahr mit dem MyCoRe-Workshop beim Landschaftsverband Rheinland (LVR) am Sitz in Köln-Deutz zu Gast sein zu dürfen!
+  Vom 5. bis 7. November 2024 trifft sich die MyCoRe-Community mit den Kernentwicklern, um sich über neuste MyCoRe-Entwicklungen auszutauschen und MyCoRe-relevante Themen zu diskutieren. Wir freuen und in diesem Jahr mit dem MyCoRe-Workshop beim Landschaftsverband Rheinland <a href="https://wege-zum.lvr.de/LVR-Einrichtungen/LVR-InfoKom-Horion-Haus.html" title=LVM>LVM</a> am Sitz in Köln-Deutz zu Gast sein zu dürfen!
 </p>
 
 <!--more--> 
@@ -35,4 +34,11 @@ Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>6. November</stron
 Wer ein Thema für einen Vortrag vorschlagen möchte oder eine Anwendung vorstellen will, kann eine Mitteilung an <info@mycore.de> schicken.
 Alle weiteren Informationen folgen rechtzeitig vorher. 
   </p>
+</div>
+<div>  
+<!--  <h2>Anmeldung</h2>
+  <p>
+   Zur Anmeldung bitte eine E-Mail an <strong>info@mycore.de</strong> schicken und Kenntnisstand und Interessen bezüglich MyCoRe/MIR/UBO nennen. <br> 
+   Die Plätze sind begrenzt.</p>
+ -->
 </div>
