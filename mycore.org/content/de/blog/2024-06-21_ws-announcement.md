@@ -21,7 +21,7 @@ news/teaser_en:	 	"From 5. to 7. November the MyCoRe User Workshop will take pla
 
 ---
 <p>
-  Vom 5. bis 7. November 2024 trifft sich die MyCoRe-Community mit den Kernentwicklern, um sich über neuste MyCoRe-Entwicklungen auszutauschen und MyCoRe-relevante Themen zu diskutieren. Wir freuen und in diesem Jahr mit dem MyCoRe-Workshop beim Landschaftsverband Rheinland <a href="https://wege-zum.lvr.de/LVR-Einrichtungen/LVR-InfoKom-Horion-Haus.html" title=LVM>LVM</a> am Sitz in Köln-Deutz zu Gast sein zu dürfen!
+  Vom 5. bis 7. November 2024 trifft sich die MyCoRe-Community mit den Kernentwicklern, um sich über neuste MyCoRe-Entwicklungen auszutauschen und MyCoRe-relevante Themen zu diskutieren. Wir freuen uns in diesem Jahr mit dem MyCoRe-Workshop beim Landschaftsverband Rheinland <a href="https://wege-zum.lvr.de/LVR-Einrichtungen/LVR-InfoKom-Horion-Haus.html" title=LVM>LVM</a> am Sitz in Köln-Deutz zu Gast sein zu dürfen!
 </p>
 
 <!--more--> 
