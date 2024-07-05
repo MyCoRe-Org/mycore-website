@@ -1,19 +1,21 @@
-
 ---
 
 title: "Migration MyCoRe LTS 2023.06 nach 2024.06"
-mcr_version: ['2023.06']
-author: ['Silvio Hermann']
+mcr_version: ['2024.06']
+author: ['Silvio Hermann', 'Robert Stephan']
 description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2024.06 und die Migration von Version
       2023.06 zu 2024.06 zusammen.
     "
-date: "2024-05-24"
-
+date: "2024-07-05"
 ---
 
     <div id="requirements_202406">
-
+      <div class="alert alert-warning">
+        Diese Seite ist <strong>Work in Progress</strong>. <br />
+        Sie wird im Rahmen der Fertigstellung des aktuellen MyCoRe-Releases weiter ergänzt!
+      </div>
+  
       <h2>Systemanforderungen MyCoRe LTS 2024.06</h2>
       <p>
         Für den Betrieb einer MyCoRe-Anwendung unter LTS 2024.06 sind folgende Voraussetzungen zu erfüllen:
@@ -36,29 +38,115 @@ date: "2024-05-24"
         von Drittanbietern und im Normalfall in den Distributionen enthalten.
       </p>
       <ul>
-        <li>Java 17 (OpenJDK) (muss ggf. extern nachinstalliert werden, Java 21 als Laufzeitumgebung funktioniert ebenfalls)</li>
+        <li>Java 21 (OpenJDK) (muss ggf. extern nachinstalliert werden)</li>
         <li>Tomcat 10.1.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-6.0 und JakartaEE)</li>
-        <li>SOLR 8.11.2 oder höher</li>
+        <li>SOLR 8.11.2 oder höher</li> <!-- Empfehlung für SOLR 9 ?? -->
         <li>
           eine
-          <a href="http://docs.jboss.org/hibernate/orm/5.1/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
+          <a href="http://docs.jboss.org/hibernate/orm/6.5/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
           relationale Datenbank wie PostgreSQL 10 oder höher , MySQL/Maria-DB 10 oder höher, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
         </li>
         <li>Git 2.26 oder höher</li>
         <li>Apache Maven 3.6.3 oder höher</li>
       </ul>
       
-      <h3>Neuerungen</h3>
+      <h2>Neuerungen</h2>
+      <h3>... die eine Migration erforderlich machen</h3>
       <ul>
-        <li>ToDo: ergänzen</li>
+        <li> Java 21 als Minimal-Voraussetzung (<a href="https://mycore.atlassian.net/browse/MCR-3028">MCR-3028</a>, <a href="https://mycore.atlassian.net/browse/MCR-3029">MCR-3029</a>)</li>
+        <li> OCFL Filesystem (<a href="https://mycore.atlassian.net/browse/MCR-3126">MCR-3126</a>)
+          <ul>
+            <li>size als fixity ergänzt <!-- TODO: Migrationskommando, Java Programm für bestehenden OCFL Store -->
+          </ul>
+        </li>
+        <li>Kein URL-Rewriting mehr für Session-Tracking  (<a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a>)
+          <ul>
+            <li>Referenzen und Imports auf weggefallene XSL-Templates (<code>UrlAddSession</code>, <code>UrlDeleteSession</code>) im eigenen Code suchen und entfernen
+            <li>kein <code>$HttpSession</code> und <code>$JSessionID</code> Parameter mehr in XSL verfügbar oder nötig</li>
+          </ul>
+        </li>
+        <li> Absolute Pfade in XSLT1-Includes verwenden (<a href="https://mycore.atlassian.net/browse/MCR-3088">MCR-3088</a>, <a href="https://mycore.atlassian.net/browse/MCR-3055">MCR-3055</a>)
+          <ul>
+            <li>Auf Warnungen im Log achten und eigene Stylesheets anpassen <br />(z.B.: <code>WARN guest MCRURIResolver: The Stylesheet jar:file:[...].xsl which only works with an old absolute include mechanism. Please change the include to relative!</code>)</li>
+          </ul>  
+       </li>
+       <li>XSLT3-Migration
+        <ul>
+          <li>XSLT1(Xalan)-Legacy  (<a href="https://mycore.atlassian.net/browse/MCR-3087">MCR-3087</a>)</li>
+          <!--TODO muss noch umgesetzt werden: neues Legacy-Modul mit v1-Stylesheets / Voraussetzung: XEditor muss Xalan3 kompatibel sein -->
+        </ul>
+      </li>
+      <li>Wegfall der <code>persistence.xml</code> (<a href="https://mycore.atlassian.net/browse/MCR-3031">MCR-3031</a>)
+        <ul>
+          <li> die Datenbank wird jetzt vollständig über Properties konfiguiert</li> 
+            <!-- Ist diese Umstellung zwingend ??? -->
+       </ul>
+     </li>   
+     <li>Verbesserung der Java-API für konfigurierbare Instanzen (<a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a>)
+       <ul>
+        <li>
+          Folgende Methoden sind deprecated: 
+          <ul>
+          <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String name)</code>, </li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String name, Class)</code></li>
+          </ul>
+        </li>
+       </ul>
+     </li>
+     <li>Optimierung des Resource-Lookup-Mechanismus (<a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a>, <a href="https://mycore.atlassian.net/browse/MCR-2873">MCR-2873</a>)
+       <ul>
+        <li>Konsistente Priorisierung der Ladereihenfolge, Überschreibbarkeit von Resourcen aus der WAR-Datei, JAR-Dateien (Modulen), Anwendungskonfigurationsverzeichnis, ...</li>
+        <li><strong>Achtung:</strong> Das Laufzeitverzeichnis der Webanwendung (entpackte WAR-Datei im Servlet-Container) kann nicht mehr für das Überschreiben von Resourcen genutzt werden. <br />
+            Ggf muss auf das Konfigurationsverzeichnis oder JAR-Dateien (Module) ausgewichen werden.</li>
+       </ul>
+       </li>
       </ul>
       
-      <h3>aus dem Code entfernt</h3>
+      <h3>... die ohne Migration eingeführt wurden</h3>
+      <ul>
+        <li>Rate-Limiting-URI-Resolver</li>
+        <li>ggf. OCFL Store for Derivate</li>
+        <li>allow selection of XSLT processor when using MCRXslStyeResolver(<a href="https://mycore.atlassian.net/browse/MCR-MCR-3087">MCR-3087</a>)</li>
+        <li>Benutzer-Suche sucht nun auch in Attributen</li>
+        <li>SOLRJ 9.6 Clients
+          <ul>
+            <li>Varianten mit Apache HTTPClient deprecated, Alternativen basieren Java-internen HTTPClient (noch neu und fehleranfällig) oder 
+            JettyLibrary (untersützt nur  HTTP2 und läuft deshalb nur mit Solr Server 8 oder aktueller (Prüfen!)</li>
+          </ul>
+        <li>Support für Solr-Cloud-Installationen und externen Tika-Server
+          <ul>
+            <li>MCR-3113-15: SolrCloud-Support(<a href="https://mycore.atlassian.net/browse/MCR-3113">MCR-3113</a>)</li>
+            <li> Dedizierter TikaServer (<a href="https://mycore.atlassian.net/browse/MCR-3114">MCR-3113</a>)</li>
+            <li> paralleles Indizieren in mehreren Kernen (<a href="https://mycore.atlassian.net/browse/MCR-3115">MCR-3115</a>)</li>
+            <li> Verwendung von SOLR Nutzern (Logins) für Administrative Anfragen und Suchanfragen</li>
+          </ul>
+        </li> 
+        <li>ggf. SOLR 9 Server als Empfehlung?
+          <ul>
+            <li>SOL 10.0.alpha ist released. Es besteht die “Gefahr”, dass SOLR 9 im Laufe des nächsten Jahres zum LTS wird und damit der Update-Support für Version 8 einstellt wird.)</li>
+          </ul>
+        </li>
+        <li>Sichere Benutzer Passwörter: OWASP-empfohlene HashAlgorithmen verwendbar (<a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a>)
+          <ul>
+             <li>Update erfolgt “automatisch” (beim Anmelden des Nutzers)</li>
+             <li>Check-Constraint entfernen, falls vorhanden:<br>
+                  <code>ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check</code> oder vergleichbar je nach DBMS
+             </li>
+          </ul>
+        </li>
+      </ul>
+      
+      <h2>aus dem Code entfernt</h2>
       <ul>
         <li>ToDo: ergänzen</li>
+        <!--  ggf. Umstellung von Apache HTTPClient auf Java-internen HTTPClient -->
       </ul>
       
       <h2>Migrationsschritte</h2>
+       <ul>
+        <li>ToDo: Konkrete Migrationsschritte ergänzen</li>
+      </ul>
       <p></p>
    </div>
 
