@@ -148,5 +148,15 @@ date: "2024-07-05"
         <li>ToDo: Konkrete Migrationsschritte ergänzen</li>
       </ul>
       <p></p>
+
+      <h3>Datenbank anpassen</h3>
+      <p>Der Mechanismus zum Generieren, Speichern und Verifizieren von Passwort-Hashes kann nun flexibel konfiguriert
+        werden (Siehe MCR-3137). Um Dies zu erlauben, muss bei bestehenden Datenbanken eine Anpassung vorgenommen werden. 
+        Es muss die gegebenenfalls vorhandene Bedingung entfernt werden, mit dem bisher sichergestellt wurde, dass
+        Werte der Spalte <code>hashtype</code> in der Tabelle <code>mcruser</code> nur einer von vier bestimmten Werten
+        sind. Das passende Kommando lautet z.B. bei PostgreSQL:
+        <code>ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;</code> 
+      </p>
+      
    </div>
 
