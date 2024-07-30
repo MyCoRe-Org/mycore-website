@@ -107,7 +107,8 @@ date: "2024-07-05"
       <ul>
         <li>Rate-Limiting-URI-Resolver</li>
         <li>ggf. OCFL Store for Derivate</li>
-        <li>allow selection of XSLT processor when using MCRXslStyeResolver(<a href="https://mycore.atlassian.net/browse/MCR-MCR-3087">MCR-3087</a>)</li>
+        <li>Statt <code>MCRMD5InputStream</code> gibt es nun <code>MCRDigestInputStream</code>(<a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a>): Verwendung mit MD5: <code>MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);</code>, <code>String md5Digest = digestStream.getDigestAsHexString();</code></li>
+        <li>allow selection of XSLT processor when using MCRXslStyeResolver(<a href="https://mycore.atlassian.net/browse/MCR-3087">MCR-3087</a>)</li>
         <li>Benutzer-Suche sucht nun auch in Attributen</li>
         <li>SOLRJ 9.6 Clients
           <ul>
