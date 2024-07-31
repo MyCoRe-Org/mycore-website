@@ -78,7 +78,7 @@ date: "2024-07-05"
       </li>
       <li>Wegfall der <code>persistence.xml</code> (<a href="https://mycore.atlassian.net/browse/MCR-3031">MCR-3031</a>)
         <ul>
-          <li> die Datenbank wird jetzt vollständig über Properties konfiguiert</li> 
+          <li> die Datenbank wird jetzt vollständig über Properties konfiguriert</li> 
             <!-- Ist diese Umstellung zwingend ??? -->
        </ul>
      </li>   
@@ -101,13 +101,24 @@ date: "2024-07-05"
             Ggf muss auf das Konfigurationsverzeichnis oder JAR-Dateien (Module) ausgewichen werden.</li>
        </ul>
        </li>
+       <li>
+        <p>
+         Statt <code>MCRMD5InputStream</code> gibt es seit <a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a> die flexiblere Klasse <code>MCRDigestInputStream</code>.
+         <br/>
+         Verwendung mit MD5 als Hash-Algorithmus:
+        </p>
+        {{< highlight java "linenos=table">}}
+MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);
+...;
+String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
+       </li>
+
       </ul>
       
       <h3>... die ohne Migration eingeführt wurden</h3>
       <ul>
         <li>Rate-Limiting-URI-Resolver</li>
         <li>ggf. OCFL Store for Derivate</li>
-        <li>Statt <code>MCRMD5InputStream</code> gibt es nun <code>MCRDigestInputStream</code>(<a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a>): Verwendung mit MD5: <code>MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);</code>, <code>String md5Digest = digestStream.getDigestAsHexString();</code></li>
         <li>allow selection of XSLT processor when using MCRXslStyeResolver(<a href="https://mycore.atlassian.net/browse/MCR-3087">MCR-3087</a>)</li>
         <li>Benutzer-Suche sucht nun auch in Attributen</li>
         <li>SOLRJ 9.6 Clients
@@ -146,7 +157,25 @@ date: "2024-07-05"
       
       <h2>Migrationsschritte</h2>
        <ul>
-        <li>ToDo: Konkrete Migrationsschritte ergänzen</li>
+        <li>
+         <p>
+          Mit dem Ticket <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden umfangreiche neuen Möglichkeiten geschaffen,
+          Instanzen con Java-Klassen deklarativ mit Annotationen zu gestalten.
+          Hierbei hat sich eine ungewollte Änderung in der Funktion der Methode <code>MCRConfiguration2#getInstances(String)</code> eingeschlichen.
+         </p>
+         <p>
+          Sind z.B. Einträge für die Schlüssel <code>MCRExample.foo</code> und <code>MCRExample.bar</code> in der Konfiguration der MyCoRe-Anwendung vorhanden
+          und wird die genannte Methode mit dem Wert <code>MCRExample.</code> aufgerufen,
+          so sollten in der zurückgegebenen <code>Map&lt;String, Callable&gt;</code>
+          Einträge mit den Schlüsseln <code>foo</code> bzw. <code>bar</code> vorhanden sein.
+          Fehlerhafterweise wurden jedoch Einträge für die kompletten Schlüssel <code>MCRExample.foo</code> bzw. <code>MCRExample.bar</code> erzeugt.
+          Mit MyCoRe 2024.06 werden nun wieder Einträge mit den eigentlich angedachten Schlüsseln <code>foo</code> bzw. <code>bar</code> erzeugt.
+         </p>
+         <p>
+          Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
+          Wer diese Methode nicht in eigenen Java-Klassen verwendet, muss diesen Migrationsschritt nicht beachten. 
+         </p>
+        </li>
       </ul>
       <p></p>
 
