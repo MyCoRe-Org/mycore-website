@@ -2,10 +2,10 @@
 ---
 
 title: "Datenbank - JPA"
-mcr_version: ['2021.06','2022.06']
+mcr_version: ['2022.06','2023.06']
 author: ['Jens Kupferschmidt']
 description: "Diese Dokumentationsseite beschreibt die Integration der Java Persistence API (JPA) ab Release 2016.06."
-date: "2022-09-30"
+date: "2024-08-06"
 
 ---
 
@@ -16,8 +16,8 @@ date: "2022-09-30"
         umgestellt. Dies hat den Vorteil, dass bei Bedarf die darunter liegende
         <strong>Hibernate-API</strong> gegen eine andere JPA Implementation ausgetauscht werden kann.
       </p>
-
-      <h2>Konfiguration</h2>
+      
+      <h3>Konfiguration</h3>
       <p>
         Grundsätzlich bringt der MyCoRe-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
         Konfigurationsdatei <em>persistence.xml</em>
@@ -25,7 +25,27 @@ date: "2022-09-30"
         wie der Datenbankname <code>MY_DATABASE</code>, das Schema <code>MY_SCHEMA</code>, der Datenbankbenutzer <code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
       </p>
-      {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
+
+      <h3>Datenbank-Treiber</h3>
+      <p>
+        Der für den Zugriff auf die Datenbank notwendige JDBC-Treiber (i.d.R. eine JAR-Datei) kann im <code>lib</code> Ordner
+        des Konfigurationsverzeichnisses abgelegt werden.
+      </p>
+
+      <h2>Konfiguration bis Release 2022.06</h2>
+
+      <p>Im Normalfall wird bis Release 2022.06 das Connection-Pooling von C3P0 verwendet. Die nachfolgende Beschreibung nimmt diese als 
+        Standard.
+      </p>
+      
+      <h3>pom.xml</h3>
+      <p>
+        In der <em>pom.xml</em> sind keine weiteren dependencies hinzuzufügen, C3P0 ist per default gesetzt.
+      </p>
+
+      <h3>persitence.xml</h3>
+      
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -79,20 +99,97 @@ date: "2022-09-30"
 {{< /highlight >}}
 {{< /mcr-figure >}}
 
-  <h2>Datenbank-Treiber</h2>
-    <p>
-      Der für den Zugriff auf die Datenbank notwendige JDBC-Treiber (i.d.R. eine JAR-Datei) kann im <code>lib</code> Ordner
-      des Konfigurationsverzeichnisses abgelegt werden.
-    </p>
-
-  <h2>Hinweis bei Performance-Problemen</h2>
-  <p>Sollt die Anwendung wiederholt abstürzen, da es mit der Anzahl der freien Datenbankverbindungen 
-  Ausnahmen gibt, könnte folgende zusätzliche Konfiguration helfen. Tote Sessions werden dann automatisch geschlossen.</p>
-  {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
-  {{< highlight xml "linenos=table" >}}
+      <h3>Hinweis bei Performance-Problemen</h3>
+  
+      <p>Sollt die Anwendung wiederholt abstürzen, da es mit der Anzahl der freien Datenbankverbindungen 
+      Ausnahmen gibt, könnte folgende zusätzliche Konfiguration helfen. Tote Sessions werden dann automatisch geschlossen.</p>
+  
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
+{{< highlight xml "linenos=table" >}}
       <property name="hibernate.c3p0.unreturnedConnectionTimeout" value="1800" />
       <property name="hibernate.c3p0.debugUnreturnedConnectionStackTraces" value="true" />
-  {{< /highlight >}}
-  {{< /mcr-figure >}}
+{{< /highlight >}}
+{{< /mcr-figure >}}
+  
+      <h2>Konfiguration ab Release 2023.06</h2>
+
+      <p>
+        Ab Release 2023.06 wird empfohlen für das Connection-Pooling Hikari zu verwenden, da es ggf. mit C3P0 zu Problemen
+        kommen kann.
+      </p>
+      
+      <h3>pom.xml</h3>
+      
+      <p>
+        In der pom.xml der Anwendung sind nachfolgende dependencies zu ergänzen.
+        
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>pom.xml</code>">}}
+{{< highlight xml "linenos=table" >}}
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-hikaricp</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version>
+    </dependency>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+  
+      <h3>persitence.xml</h3>
+      
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
+{{< highlight xml "linenos=table" >}}
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+  version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+  <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
+
+    <mapping-file>META-INF/mycore-base-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-iview2-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-pi-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-user2-mappings.xml</mapping-file>
+    <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>
+
+    <properties>
+      <!--  PostgreSQL -->
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE?currentSchema=MY_SCHEMA" />
+
+      <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
+      <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
+
+      <property name="hibernate.default_schema" value="" />
+      <property name="hibernate.hbm2ddl.auto" value="update" />
+
+      <!-- second-level cache  -->
+      <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
+      <property name="hibernate.cache.use_second_level_cache" value="false" />
+      <property name="hibernate.cache.use_query_cache" value="false"/>
+
+      <!-- Set batch_size to "0" in case of SQL batch Errors -->
+      <property name="hibernate.jdbc.batch_size" value="2000" />
+      <property name="hibernate.default_batch_fetch_size" value="100" />
+
+      <!-- Echo all executed SQL to stdout -->
+      <property name="hibernate.show_sql.sql" value="false" />
+      <property name="hibernate.format_sql" value="false" />
+      
+      <!-- configure connection pooling via Hikari -->
+      <!-- Homepage: https://github.com/brettwooldridge/HikariCP -->
+      <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
+      <property name="hibernate.hikari.maximumPoolSize" value="30" />
+      <property name="hibernate.hikari.leakDetectionThreshold" value="9000" />
+      <property name="hibernate.hikari.registerMbeans" value="true" />    </properties>
+
+  </persistence-unit>
+
+</persistence>
+{{< /highlight >}}
+{{< /mcr-figure >}}
   
       
