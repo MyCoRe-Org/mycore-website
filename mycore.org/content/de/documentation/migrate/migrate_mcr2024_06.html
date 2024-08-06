@@ -59,12 +59,6 @@ date: "2024-07-05"
             <li>size als fixity ergänzt <!-- TODO: Migrationskommando, Java Programm für bestehenden OCFL Store -->
           </ul>
         </li>
-        <li>Kein URL-Rewriting mehr für Session-Tracking  (<a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a>)
-          <ul>
-            <li>Referenzen und Imports auf weggefallene XSL-Templates (<code>UrlAddSession</code>, <code>UrlDeleteSession</code>) im eigenen Code suchen und entfernen
-            <li>kein <code>$HttpSession</code> und <code>$JSessionID</code> Parameter mehr in XSL verfügbar oder nötig</li>
-          </ul>
-        </li>
         <li> Absolute Pfade in XSLT1-Includes verwenden (<a href="https://mycore.atlassian.net/browse/MCR-3088">MCR-3088</a>, <a href="https://mycore.atlassian.net/browse/MCR-3055">MCR-3055</a>)
           <ul>
             <li>Auf Warnungen im Log achten und eigene Stylesheets anpassen <br />(z.B.: <code>WARN guest MCRURIResolver: The Stylesheet jar:file:[...].xsl which only works with an old absolute include mechanism. Please change the include to relative!</code>)</li>
@@ -82,18 +76,6 @@ date: "2024-07-05"
             <!-- Ist diese Umstellung zwingend ??? -->
        </ul>
      </li>   
-     <li>Verbesserung der Java-API für konfigurierbare Instanzen (<a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a>)
-       <ul>
-        <li>
-          Folgende Methoden sind deprecated: 
-          <ul>
-          <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
-          <li><code>MCRConfiguration2#getSingleInstanceOf(String name)</code>, </li>
-          <li><code>MCRConfiguration2#getSingleInstanceOf(String name, Class)</code></li>
-          </ul>
-        </li>
-       </ul>
-     </li>
       </ul>
       
       <h3>... die ohne Migration eingeführt wurden</h3>
@@ -132,7 +114,7 @@ date: "2024-07-05"
        <ul>
         <li>
          <p>
-          Mit dem Ticket <a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a> wurden die Art und Weise,
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a> wurden die Art und Weise,
           wie MyCoRe Ressourcen ausfindig macht und ausliefert, komplett überarbeitet.
           Zuvor wurden nur ausgewählte Arten von Dateien (z.B. XML- oder XSL-Dateien) als Ressourcen angesehen.
           Für andere Arten von Dateien (z.B. Bilder) mussten eigenen Strategien entwickelt werden, um diese zu lokalisieren, auszuwählen und auszuliefern.
@@ -189,9 +171,9 @@ date: "2024-07-05"
         </li>
         <li>
          <p>
-          Mit dem Ticket <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden umfangreiche neuen Möglichkeiten geschaffen,
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden umfangreiche neuen Möglichkeiten geschaffen,
           die Konfiguration von Instanzen von Java-Klassen deklarativ mit Annotationen zu gestalten.
-          Hierbei hat sich eine ungewollte Änderung in der Funktion der Methode <code>MCRConfiguration2#getInstances(String)</code> eingeschlichen.
+          Hierbei hat sich eine ungewollte Änderung in der Funktion der Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> eingeschlichen.
          </p>
          <p>
           Sind z.B. Einträge für die Schlüssel <code>MCRExample.foo</code> und <code>MCRExample.bar</code> in der Konfiguration der MyCoRe-Anwendung vorhanden
@@ -202,8 +184,41 @@ date: "2024-07-05"
           Mit MyCoRe 2024.06 werden nun wieder Einträge mit den eigentlich angedachten Schlüsseln <code>foo</code> bzw. <code>bar</code> erzeugt.
          </p>
          <p>
-          Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
+          Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
           Wer diese Methode nicht in eigenen Java-Klassen verwendet, muss diesen Migrationsschritt nicht beachten. 
+         </p>
+        </li>
+        <li>
+         <p>
+          Durch <a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a> wurden die Einstiegspunkte
+          der Java-API zum instanziieren konfigurierter Objekte überarbeitet.
+          Die folgenden drei Methoden sind als veraltet markiert und werden in einer künftigen Version von MyCoRe entfernt:
+         </p>
+         <ul>
+          <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String, Class)</code></li>
+         </ul>
+         <p>
+          Als Ersatz wurden die folgenden vier Methoden hinzugefügt,
+          bei denen die erwartete Klasse des Rückgabewerts explizit als erster Parameter angegeben werden muss
+          und die entweder ein <Code>Optional</Code> zurückgeben oder bei Fehlen der entsprechenden Konfiguration direkt einen Fehler werfen:
+         </p>
+         <ul>
+          <li><code>MCRConfiguration2#getInstanceOf(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getInstanceOfOrThrow(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOfOrThrow(Class, String)</code></li>
+         </ul>
+         <p>
+          In diesem Zusammenhang wurden alle Verwendungen dieser API in MyCoRe und MIR auf die neuen Methoden umgestellt und
+          sichergestellt, dass die zu verwendende Klasse in einem Konfigurationswert definiert ist.
+          Zum Beispiel wurde <code>MCRConfiguration2<wbr>.&lt;MCRCategoryDAO&gt;<wbr>getInstanceOf(<wbr>"MCR.Category.DAO").orElseGet(<wbr>MCRCategoryDAOImpl::new);</code>
+          durch <code>MCRConfiguration2<wbr>.getInstanceOfOrThrow(<wbr>MCRCategoryDAO.class, <wbr>"MCR.Category.DAO");</code> ersetzt.
+          Zudem wurde der Konfigurationswert <code>MCR.Category.DAO<wbr>=org<wbr>.mycore<wbr>.datamodel<wbr>.classifications2<wbr>.impl<wbr>.MCRCategoryDAOImpl</code> angelegt.
+          Dies ist für zukünftige und eigene Entwicklungen die empfohlene Herangehensweise.
+          Wer in seiner eigenen Anwendung eine der nun als veraltet markierten Methoden verwendet,
+          muss entsprechende Anpassungen ebenfalls vornehmen. 
          </p>
         </li>
         <li>
@@ -218,23 +233,37 @@ MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5
 ...;
 String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
         </li>
-         <li>
-          <p>
-           Mit dem Ticket <a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a> wurden nicht mehr zeitgemäße Art,
-           wie MyCoRe Hash-Werte von Passwörtern speichert, modernisiert und anpassbar gemacht.
-           Statt <a href="https://de.wikipedia.org/wiki/SHA-2" target="_blank">SHA-256</a>
-           wird nun standardmäßig Algorithmus <a href="https://de.wikipedia.org/wiki/PBKDF2" target="_blank">PBKDF2</a>
-           als Hash-Funktion verwendet (für diesen wird typischerweise keine zusätzliche Programmbibliothek benötigt).
-           Eine explizite Migration ist nicht notwendig.
-           Die gespeicherten Hash-Werte werden automatisch aktualisiert, wenn sich Nutzende das nächste Mal erfolgreich anmelden.
+        <li>
+         <p>
+          Vor <a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a> hat MyCoRe die HTTP-Session,
+          falls erkannt wurde, dass der Client keine Cookies unterstützt,
+          die Session-ID als <code>JSESSIONID</code>-URL-Parameter in generierte Links eingefügt.
+          Dieser Mechanismus ist veraltet und potenziell unsicher und wurde daher ersatzlos entfernt.
+          Zudem heißt das Cookie, in dem die Session-ID gespeichert wird, nun technologieagnostisch <code>MCRSESSIONID</code>.
          </p>
          <p>
-          Empfehlenswert ist jedoch, statt PBKDF2 den <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">aktuell von OWASP empfohlenen</a> Algorithmus
-          <a href="https://de.wikipedia.org/wiki/Argon2" target="_blank">Argon2</a> zu verwenden.
-          Dazu muss der Anwendung die Bibliothek <a href="https://central.sonatype.com/artifact/org.bouncycastle/bcprov-jdk18on" target="_blank"><code>org.bouncycastle:bcprov-jdk18on</code></a> zur Verfügung gestellt
-          und folgenden Konfiguration vorgenommen werden:
+          In eigenen XSLT-Stylesheets muss die Verwendung der Variablen <code>$HttpSession</code> und <code>$JSessionID</code>
+          sowie die Verwendung der Templates <code>UrlAddSession</code> und <code>UrlDeleteSession</code> entfernt werden,
+          da diese nicht mehr zur Verfügung stehen. Wer das Session-Cookie manuell auswertet, muss die Namensänderung beachten.
          </p>
-         {{< highlight java "linenos=table">}}
+        </li>
+        <li>
+         <p>
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a> wurden nicht mehr zeitgemäße Art,
+          wie MyCoRe Hash-Werte von Passwörtern speichert, modernisiert und anpassbar gemacht.
+          Statt <a href="https://de.wikipedia.org/wiki/SHA-2" target="_blank">SHA-256</a>
+          wird nun standardmäßig Algorithmus <a href="https://de.wikipedia.org/wiki/PBKDF2" target="_blank">PBKDF2</a>
+          als Hash-Funktion verwendet (für diesen wird typischerweise keine zusätzliche Programmbibliothek benötigt).
+          Eine explizite Migration ist nicht notwendig.
+          Die gespeicherten Hash-Werte werden automatisch aktualisiert, wenn sich Nutzende das nächste Mal erfolgreich anmelden.
+        </p>
+        <p>
+         Empfehlenswert ist jedoch, statt PBKDF2 den <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">aktuell von OWASP empfohlenen</a> Algorithmus
+         <a href="https://de.wikipedia.org/wiki/Argon2" target="_blank">Argon2</a> zu verwenden.
+         Dazu muss der Anwendung die Bibliothek <a href="https://central.sonatype.com/artifact/org.bouncycastle/bcprov-jdk18on" target="_blank"><code>org.bouncycastle:bcprov-jdk18on</code></a> zur Verfügung gestellt
+         und folgenden Konfiguration vorgenommen werden:
+        </p>
+        {{< highlight java "linenos=table">}}
 MCR.User.PasswordCheck.Strategies.argon2.Class=org.mycore.user2.hash.bouncycastle.MCRArgon2Strategy
 MCR.User.PasswordCheck.Strategies.argon2.Enabled=true
 MCR.User.PasswordCheck.Strategies.argon2.SaltSizeBytes=32
