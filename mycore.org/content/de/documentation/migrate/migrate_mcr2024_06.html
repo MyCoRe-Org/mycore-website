@@ -59,12 +59,6 @@ date: "2024-07-05"
             <li>size als fixity ergänzt <!-- TODO: Migrationskommando, Java Programm für bestehenden OCFL Store -->
           </ul>
         </li>
-        <li>Kein URL-Rewriting mehr für Session-Tracking  (<a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a>)
-          <ul>
-            <li>Referenzen und Imports auf weggefallene XSL-Templates (<code>UrlAddSession</code>, <code>UrlDeleteSession</code>) im eigenen Code suchen und entfernen
-            <li>kein <code>$HttpSession</code> und <code>$JSessionID</code> Parameter mehr in XSL verfügbar oder nötig</li>
-          </ul>
-        </li>
         <li> Absolute Pfade in XSLT1-Includes verwenden (<a href="https://mycore.atlassian.net/browse/MCR-3088">MCR-3088</a>, <a href="https://mycore.atlassian.net/browse/MCR-3055">MCR-3055</a>)
           <ul>
             <li>Auf Warnungen im Log achten und eigene Stylesheets anpassen <br />(z.B.: <code>WARN guest MCRURIResolver: The Stylesheet jar:file:[...].xsl which only works with an old absolute include mechanism. Please change the include to relative!</code>)</li>
@@ -78,36 +72,16 @@ date: "2024-07-05"
       </li>
       <li>Wegfall der <code>persistence.xml</code> (<a href="https://mycore.atlassian.net/browse/MCR-3031">MCR-3031</a>)
         <ul>
-          <li> die Datenbank wird jetzt vollständig über Properties konfiguiert</li> 
+          <li> die Datenbank wird jetzt vollständig über Properties konfiguriert</li> 
             <!-- Ist diese Umstellung zwingend ??? -->
        </ul>
      </li>   
-     <li>Verbesserung der Java-API für konfigurierbare Instanzen (<a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a>)
-       <ul>
-        <li>
-          Folgende Methoden sind deprecated: 
-          <ul>
-          <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
-          <li><code>MCRConfiguration2#getSingleInstanceOf(String name)</code>, </li>
-          <li><code>MCRConfiguration2#getSingleInstanceOf(String name, Class)</code></li>
-          </ul>
-        </li>
-       </ul>
-     </li>
-     <li>Optimierung des Resource-Lookup-Mechanismus (<a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a>, <a href="https://mycore.atlassian.net/browse/MCR-2873">MCR-2873</a>)
-       <ul>
-        <li>Konsistente Priorisierung der Ladereihenfolge, Überschreibbarkeit von Resourcen aus der WAR-Datei, JAR-Dateien (Modulen), Anwendungskonfigurationsverzeichnis, ...</li>
-        <li><strong>Achtung:</strong> Das Laufzeitverzeichnis der Webanwendung (entpackte WAR-Datei im Servlet-Container) kann nicht mehr für das Überschreiben von Resourcen genutzt werden. <br />
-            Ggf muss auf das Konfigurationsverzeichnis oder JAR-Dateien (Module) ausgewichen werden.</li>
-       </ul>
-       </li>
       </ul>
       
       <h3>... die ohne Migration eingeführt wurden</h3>
       <ul>
         <li>Rate-Limiting-URI-Resolver</li>
         <li>ggf. OCFL Store for Derivate</li>
-        <li>Statt <code>MCRMD5InputStream</code> gibt es nun <code>MCRDigestInputStream</code>(<a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a>): Verwendung mit MD5: <code>MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);</code>, <code>String md5Digest = digestStream.getDigestAsHexString();</code></li>
         <li>allow selection of XSLT processor when using MCRXslStyeResolver(<a href="https://mycore.atlassian.net/browse/MCR-3087">MCR-3087</a>)</li>
         <li>Benutzer-Suche sucht nun auch in Attributen</li>
         <li>SOLRJ 9.6 Clients
@@ -128,14 +102,6 @@ date: "2024-07-05"
             <li>SOL 10.0.alpha ist released. Es besteht die “Gefahr”, dass SOLR 9 im Laufe des nächsten Jahres zum LTS wird und damit der Update-Support für Version 8 einstellt wird.)</li>
           </ul>
         </li>
-        <li>Sichere Benutzer Passwörter: OWASP-empfohlene HashAlgorithmen verwendbar (<a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a>)
-          <ul>
-             <li>Update erfolgt “automatisch” (beim Anmelden des Nutzers)</li>
-             <li>Check-Constraint entfernen, falls vorhanden:<br>
-                  <code>ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check</code> oder vergleichbar je nach DBMS
-             </li>
-          </ul>
-        </li>
       </ul>
       
       <h2>aus dem Code entfernt</h2>
@@ -146,17 +112,183 @@ date: "2024-07-05"
       
       <h2>Migrationsschritte</h2>
        <ul>
-        <li>ToDo: Konkrete Migrationsschritte ergänzen</li>
+        <li>
+         <p>
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a> wurden die Art und Weise,
+          wie MyCoRe Ressourcen ausfindig macht und ausliefert, komplett überarbeitet.
+          Zuvor wurden nur ausgewählte Arten von Dateien (z.B. XML- oder XSL-Dateien) als Ressourcen angesehen.
+          Für andere Arten von Dateien (z.B. Bilder) mussten eigenen Strategien entwickelt werden, um diese zu lokalisieren, auszuwählen und auszuliefern.
+          Nun können alle Arten von Dateien gleichartig als Ressourcen verwendet werden.
+          Die Orte, an denen nach solchen Dateien gesucht wird (z.B. Developer-Overlay, Konfigurationsverzeichnis, Bibliotheken)
+          und deren Priorisierung (z.B. nach MyCoRe-Modul-Priorisierung) wird jetzt konsequent und gleichartig genutzt.
+          Zudem ist die Auswahl dieser Orte nun konfigurierbar.
+         </p>
+         <p>
+          Bisher wurden folgende Orte in Betracht gezogen:
+         </p>
+         <ol>
+          <li>Developer-Overlay (falls konfiguriert)</li>
+          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und bei Änderungen während der Laufzeit der Webapplikation hierhin kopiert)</li>
+          <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
+          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses</li> (nach MyCoRe-Modul-Priorität)
+          <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
+          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>WEB-INF/lib</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise JAR-Dateien, die bereits in der WAR-Datei waren, nach MyCoRe-Modul-Priorität)</li>
+         </ol>
+         <p>
+          Auf das Kopieren der vom WCMS veränderten Dateien beim Start der Webapplikation und bei Änderungen wird nun verzichtet.
+          Der Mechanismus wurde ersatzlos entfernt, da er nicht mehr benötigt wird.
+          Zudem wird nun standardmäßig eine vereinfachte Reihenfolge verwendet:
+         </p>
+         <ol>
+          <li>Developer-Overlay (falls konfiguriert)</li>
+          <li>Unterverzeichnis <code>data/save/webpages</code> des Konfigurationsverzeichnisses (nur Web-Ressourcen, das WCMS speichert hier geänderte Dateien)</li>
+          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, einige Ressourcen und durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und letztere auch bei Änderungen während der Laufzeit hierhin kopiert)</li>
+          <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
+          <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
+          <li>Inhalt von geladenen JAR-Dateien (unabhängig von deren Ort, nach MyCoRe-Modul-Priorität)</li>
+         </ol>
+         <p>
+          Typischerweise sind keine Migrationsschritte notwendig.
+         </p>
+         <p>
+          Wer jedoch eine Reihenfolge benötigt, die sich bezüglich des Inhalts von JAR-Dateien nach dem Verhalten älterer MyCoRe-Versionen richtet,
+          kann mit folgender Einstellung zu einer alternativen Reihenfolge wechseln:
+         {{< highlight java "linenos=table">}}
+ MCR.Resource.Resolver.SelectedProvider=legacy{{< /highlight >}}
+         </p>
+         <p>
+          Potenziell kann es auch empfehlenswert sein, <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge zu definieren</a>.
+          Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
+          sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource z.B. auf das mehrfache Suchen im Dateisystem verzichtet werden.
+          Da in solch einem Szenario keine Ressourcen zur Laufzeit der Applikation verändert werden können, kann zudem ein Cache konfiguriert werden.
+          Beide Maßnahmen sorgen dafür, dass das Aufrufen von Ressourcen deutlich effizienter wird.
+          Eine solche Anpassung kann für produktive Systeme durchaus sinnvoll sein.
+         </p>
+         <p>
+          Wer in seiner eigenen Applikation bisher auf den Mechanismus angewiesen ist, mit dem ausgewählte Dateien beim Start der Webapplikation extrahiert werden, muss Alternativen hierzu finden.
+          Je nach Anwendungsfall kann z.B. eine eigene <a href="/documentation/basics/basics_resources/#strategien-zum-auffinden-von-ressourcen-mcrresourceprovider">Strategie zum Auffinden von Ressourcen</a> implementiert werden.          
+         </p>
+        </li>
+        <li>
+         <p>
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden umfangreiche neuen Möglichkeiten geschaffen,
+          die Konfiguration von Instanzen von Java-Klassen deklarativ mit Annotationen zu gestalten.
+          Hierbei hat sich eine ungewollte Änderung in der Funktion der Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> eingeschlichen.
+         </p>
+         <p>
+          Sind z.B. Einträge für die Schlüssel <code>MCRExample.foo</code> und <code>MCRExample.bar</code> in der Konfiguration der MyCoRe-Anwendung vorhanden
+          und wird die genannte Methode mit dem Wert <code>MCRExample</code>. aufgerufen,
+          so sollten in der zurückgegebenen <code>Map&lt;String, Callable&gt;</code>
+          Einträge mit den Schlüsseln <code>foo</code> bzw. <code>bar</code> vorhanden sein.
+          Fehlerhafterweise wurden jedoch Einträge für die kompletten Schlüssel <code>MCRExample.foo</code> bzw. <code>MCRExample.bar</code> erzeugt.
+          Mit MyCoRe 2024.06 werden nun wieder Einträge mit den eigentlich angedachten Schlüsseln <code>foo</code> bzw. <code>bar</code> erzeugt.
+         </p>
+         <p>
+          Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
+          Wer diese Methode nicht in eigenen Java-Klassen verwendet, muss diesen Migrationsschritt nicht beachten. 
+         </p>
+        </li>
+        <li>
+         <p>
+          Durch <a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a> wurden die Einstiegspunkte
+          der Java-API zum instanziieren konfigurierter Objekte überarbeitet.
+          Die folgenden drei Methoden sind als veraltet markiert und werden in einer künftigen Version von MyCoRe entfernt:
+         </p>
+         <ul>
+          <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(String, Class)</code></li>
+         </ul>
+         <p>
+          Als Ersatz wurden die folgenden vier Methoden hinzugefügt,
+          bei denen die erwartete Klasse des Rückgabewerts explizit als erster Parameter angegeben werden muss
+          und die entweder ein <Code>Optional</Code> zurückgeben oder bei Fehlen der entsprechenden Konfiguration direkt einen Fehler werfen:
+         </p>
+         <ul>
+          <li><code>MCRConfiguration2#getInstanceOf(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getInstanceOfOrThrow(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOf(Class, String)</code>,</li>
+          <li><code>MCRConfiguration2#getSingleInstanceOfOrThrow(Class, String)</code></li>
+         </ul>
+         <p>
+          In diesem Zusammenhang wurden alle Verwendungen dieser API in MyCoRe und MIR auf die neuen Methoden umgestellt und
+          sichergestellt, dass die zu verwendende Klasse in einem Konfigurationswert definiert ist.
+          Zum Beispiel wurde <code>MCRConfiguration2<wbr>.&lt;MCRCategoryDAO&gt;<wbr>getInstanceOf(<wbr>"MCR.Category.DAO").orElseGet(<wbr>MCRCategoryDAOImpl::new);</code>
+          durch <code>MCRConfiguration2<wbr>.getInstanceOfOrThrow(<wbr>MCRCategoryDAO.class, <wbr>"MCR.Category.DAO");</code> ersetzt.
+          Zudem wurde der Konfigurationswert <code>MCR.Category.DAO<wbr>=org<wbr>.mycore<wbr>.datamodel<wbr>.classifications2<wbr>.impl<wbr>.MCRCategoryDAOImpl</code> angelegt.
+          Dies ist für zukünftige und eigene Entwicklungen die empfohlene Herangehensweise.
+          Wer in seiner eigenen Anwendung eine der nun als veraltet markierten Methoden verwendet,
+          muss entsprechende Anpassungen ebenfalls vornehmen. 
+         </p>
+        </li>
+        <li>
+         <p>
+          Statt <code>MCRMD5InputStream</code> gibt es seit <a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a> die flexiblere Klasse <code>MCRDigestInputStream</code>.
+         </p>
+         <p>
+          Verwendung mit MD5 als Hash-Algorithmus:
+         </p>
+         {{< highlight java "linenos=table">}}
+MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);
+...;
+String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
+        </li>
+        <li>
+         <p>
+          Vor <a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a> hat MyCoRe die HTTP-Session,
+          falls erkannt wurde, dass der Client keine Cookies unterstützt,
+          die Session-ID als <code>JSESSIONID</code>-URL-Parameter in generierte Links eingefügt.
+          Dieser Mechanismus ist veraltet und potenziell unsicher und wurde daher ersatzlos entfernt.
+          Zudem heißt das Cookie, in dem die Session-ID gespeichert wird, nun technologieagnostisch <code>MCRSESSIONID</code>.
+         </p>
+         <p>
+          In eigenen XSLT-Stylesheets muss die Verwendung der Variablen <code>$HttpSession</code> und <code>$JSessionID</code>
+          sowie die Verwendung der Templates <code>UrlAddSession</code> und <code>UrlDeleteSession</code> entfernt werden,
+          da diese nicht mehr zur Verfügung stehen. Wer das Session-Cookie manuell auswertet, muss die Namensänderung beachten.
+         </p>
+        </li>
+        <li>
+         <p>
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a> wurden nicht mehr zeitgemäße Art,
+          wie MyCoRe Hash-Werte von Passwörtern speichert, modernisiert und anpassbar gemacht.
+          Statt <a href="https://de.wikipedia.org/wiki/SHA-2" target="_blank">SHA-256</a>
+          wird nun standardmäßig Algorithmus <a href="https://de.wikipedia.org/wiki/PBKDF2" target="_blank">PBKDF2</a>
+          als Hash-Funktion verwendet (für diesen wird typischerweise keine zusätzliche Programmbibliothek benötigt).
+          Eine explizite Migration ist nicht notwendig.
+          Die gespeicherten Hash-Werte werden automatisch aktualisiert, wenn sich Nutzende das nächste Mal erfolgreich anmelden.
+        </p>
+        <p>
+         Empfehlenswert ist jedoch, statt PBKDF2 den <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">aktuell von OWASP empfohlenen</a> Algorithmus
+         <a href="https://de.wikipedia.org/wiki/Argon2" target="_blank">Argon2</a> zu verwenden.
+         Dazu muss der Anwendung die Bibliothek <a href="https://central.sonatype.com/artifact/org.bouncycastle/bcprov-jdk18on" target="_blank"><code>org.bouncycastle:bcprov-jdk18on</code></a> zur Verfügung gestellt
+         und folgenden Konfiguration vorgenommen werden:
+        </p>
+        {{< highlight java "linenos=table">}}
+MCR.User.PasswordCheck.Strategies.argon2.Class=org.mycore.user2.hash.bouncycastle.MCRArgon2Strategy
+MCR.User.PasswordCheck.Strategies.argon2.Enabled=true
+MCR.User.PasswordCheck.Strategies.argon2.SaltSizeBytes=32
+MCR.User.PasswordCheck.Strategies.argon2.HashSizeBytes=64
+MCR.User.PasswordCheck.Strategies.argon2.Parallelism=1
+MCR.User.PasswordCheck.Strategies.argon2.MemoryLimitKilobytes=66536
+MCR.User.PasswordCheck.Strategies.argon2.Iterations=8
+
+MCR.User.PasswordCheck.SelectedStrategy=argon2{{< /highlight >}}
+        <p>
+         In der aktuellen Version von MIR sind diese Anpassungen bereits enthalten.
+         In eigenen Anwendungen sollten sie entsprechend vorgenommen werden.
+        </p>
+        <p>
+         Bei erst kürzlich aufgesetzten Systemen muss gegebenenfalls ein durch Hibernate erstelltes Datenbank-Costraint entfernt werden,
+         z.B. bei PostgreSQL mit dem folgenden Befehl:   
+        </p>
+        {{< highlight java "linenos=table">}}
+ ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;{{< /highlight >}}
+       </li>
       </ul>
       <p></p>
 
       <h3>Datenbank anpassen</h3>
-      <p>Der Mechanismus zum Generieren, Speichern und Verifizieren von Passwort-Hashes kann nun flexibel konfiguriert
-        werden (Siehe MCR-3137). Um Dies zu erlauben, muss bei bestehenden Datenbanken eine Anpassung vorgenommen werden. 
-        Es muss die gegebenenfalls vorhandene Bedingung entfernt werden, mit dem bisher sichergestellt wurde, dass
-        Werte der Spalte <code>hashtype</code> in der Tabelle <code>mcruser</code> nur einer von vier bestimmten Werten
-        sind. Das passende Kommando lautet z.B. bei PostgreSQL:
-        <code>ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;</code> 
+      <p>
       </p>
       
    </div>
