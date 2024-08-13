@@ -43,7 +43,7 @@ date: "2024-08-06"
         In der <em>pom.xml</em> sind keine weiteren dependencies hinzuzufügen, C3P0 ist per default gesetzt.
       </p>
 
-      <h3>persitence.xml</h3>
+      <h3>persistence.xml</h3>
       
 {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
@@ -138,7 +138,7 @@ date: "2024-08-06"
 {{< /highlight >}}
 {{< /mcr-figure >}}
   
-      <h3>persitence.xml</h3>
+      <h3>persistence.xml</h3>
       
 {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
@@ -184,8 +184,8 @@ date: "2024-08-06"
       <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
       <property name="hibernate.hikari.maximumPoolSize" value="30" />
       <property name="hibernate.hikari.leakDetectionThreshold" value="9000" />
-      <property name="hibernate.hikari.registerMbeans" value="true" />    </properties>
-
+      <property name="hibernate.hikari.registerMbeans" value="true" />
+    </properties>
   </persistence-unit>
 
 </persistence>
