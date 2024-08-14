@@ -10,7 +10,6 @@ main:
 -   {identifier: features_acl,          parent: features,       name: Rechteverwaltung,     weight: -93,      url: /site/features/acl}
 
 - {identifier: applications,                                    name: Anwendungen,          weight: -97,      url: /site/applications}
--   {identifier: new_apps,              parent: applications,   name: Neue Anwendungen,     weight: -99,      url: /site/applications/new_apps}
 -   {identifier: map,                   parent: applications,   name: Karte,                weight: -98,      url: /site/applications/map}
 -   {identifier: list,                  parent: applications,   name: von A bis Z,          weight: -97,      url: /site/applications/list}
 -   {identifier: mirdemo,               parent: applications,   name: MIR Demo,             weight: -96,      url: /site/applications/mirdemo}
