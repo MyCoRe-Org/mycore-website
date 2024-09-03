@@ -1,22 +1,17 @@
 <meta charset="utf-8"/>
 <meta title="{{ .Title }}"/>
 <link type="text/css" rel="stylesheet" href="https://webfonts.gbv.de/css?family=Source+Code+Pro|Sintony|Open+Sans::300,300i,400,400i,600,600i,700,700i">
-<link rel="stylesheet" href='{{ relURL "_gen/webjars/font-awesome/5.7.2/css/all.min.css"}}' />
+<link rel="stylesheet" href='{{ relURL "_gen/fontawesome-free/css/all.min.css"}}' />
 <!-- hugo syntax highlighting-->
 <link type="text/css" rel="stylesheet" href='{{ relURL "css/syntax.css"}}'>
 
 <!--  This switch is necessary, because our production server (Cent OS 7)  hhdoes not have the proper C-libraries (libstdc++6)  to run hugo-extend. 
 	  So we use maven to build the SCSS on p
 -->
-{{if .Site.IsServer}}
-	{{ $options := (dict  "targetPath" "_gen/css/mycore-website.css" "outputStyle" "compressed" "enableSourceMap" true ) }}
-	{{ $style := resources.Get "scss/mycore-website.scss" | resources.ToCSS $options }}
-	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
-{{ else }}
-	<link type="text/css" rel="stylesheet" href='{{ relURL "_gen/css/mycore-website.css"}}' />
-{{ end }}
 
-<script src='{{ relURL "_gen/webjars/jquery/3.5.1/jquery.min.js"}}'></script>
+<link type="text/css" rel="stylesheet" href='{{ relURL "_gen/css/mycore-website.css"}}' />
+
+<script src='{{ relURL "_gen/jquery/dist/jquery.min.js"}}'></script>
 
 {{ if eq .Page.RelPermalink "/blog/"}}
 	{{ with .OutputFormats.Get "rss" -}}

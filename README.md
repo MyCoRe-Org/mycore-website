@@ -10,7 +10,7 @@
 
  - clone repository
  ```
-> mvn clean compile
+> yarn build
 > cd mycore.org
 > hugo server
  ```
