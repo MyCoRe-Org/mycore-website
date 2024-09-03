@@ -2,104 +2,366 @@
 ---
 
 title: "Datenbank - JPA"
-mcr_version: ['2022.06','2023.06']
-author: ['Jens Kupferschmidt']
+mcr_version: ['2023.06','2024.06']
+author: ['Jens Kupferschmidt', 'Sebastian Hofmann']
 description: "Diese Dokumentationsseite beschreibt die Integration der Java Persistence API (JPA) ab Release 2016.06."
-date: "2024-08-06"
+date: "2024-09-03"
 
 ---
 
       <h2>Allgemeines</h2>
       <p>
-        Mit Release 2016.06 wurde die Datenbankanbindung in MyCoRe von der direkten Nutzung von
-        <strong>Hibernate</strong> auf die <strong>Java Persistence API (JPA)</strong>
-        umgestellt. Dies hat den Vorteil, dass bei Bedarf die darunter liegende
-        <strong>Hibernate-API</strong> gegen eine andere JPA Implementation ausgetauscht werden kann.
+          Die Java Persistence API (JPA) ist eine Spezifikation für das Speichern, Aktualisieren und Abrufen von Daten
+          in Java-Anwendungen.
+          MyCoRe verwendet JPA, um die Datenbankanbindung zu realisieren.
       </p>
       
       <h3>Konfiguration</h3>
+
+<h4>bis Version 2024.06</h4>
       <p>
         Grundsätzlich bringt der MyCoRe-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
         Konfigurationsdatei <em>persistence.xml</em>
         muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter 
         wie der Datenbankname <code>MY_DATABASE</code>, das Schema <code>MY_SCHEMA</code>, der Datenbankbenutzer <code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
+          Je nach verwendeter MyCoRe-Komponente müssen weitere Mapping-Dateien hinzugefügt oder entfernt werden.
       </p>
 
-      <h3>Datenbank-Treiber</h3>
-      <p>
-        Der für den Zugriff auf die Datenbank notwendige JDBC-Treiber (i.d.R. eine JAR-Datei) kann im <code>lib</code> Ordner
-        des Konfigurationsverzeichnisses abgelegt werden.
-      </p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>MyCoRe-Komponente</th>
+        <th>Mapping-Datei</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>mycore-base</td>
+        <td>META-INF/mycore-base-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-user2</td>
+        <td>META-INF/mycore-user2-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-acl</td>
+        <td>META-INF/mycore-acl-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-iview2</td>
+        <td>META-INF/mycore-iview2-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-pi</td>
+        <td>META-INF/mycore-pi-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-viewer</td>
+        <td>META-INF/mycore-viewer-mappings.xml</td>
+    </tr>
+    <tr>
+        <td>mycore-jobqueue</td>
+        <td>META-INF/mycore-jobqueue-mappings.xml</td>
+    </tr>
+    </tbody>
+</table>
 
-      <h2>Konfiguration bis Release 2022.06</h2>
+<b>persistence.xml</b>
 
-      <p>Im Normalfall wird bis Release 2022.06 das Connection-Pooling von C3P0 verwendet. Die nachfolgende Beschreibung nimmt diese als 
-        Standard.
-      </p>
-      
-      <h3>pom.xml</h3>
-      <p>
-        In der <em>pom.xml</em> sind keine weiteren dependencies hinzuzufügen, C3P0 ist per default gesetzt.
-      </p>
-
-      <h3>persistence.xml</h3>
-      
 {{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-  version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-  <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
-     
-    <mapping-file>META-INF/mycore-base-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-ifs-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-iview2-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-pi-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-user2-mappings.xml</mapping-file>
-    
-    <properties>
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
 
-      <!--  PostgreSQL -->
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE?currentSchema=MY_SCHEMA" />
+        <mapping-file>META-INF/mycore-base-mappings.xml</mapping-file>
+        <mapping-file>META-INF/mycore-ifs-mappings.xml</mapping-file>
+        <mapping-file>META-INF/mycore-iview2-mappings.xml</mapping-file>
+        <mapping-file>META-INF/mycore-pi-mappings.xml</mapping-file>
+        <mapping-file>META-INF/mycore-user2-mappings.xml</mapping-file>
+        <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>
 
-      <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
-      <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
-      
-      <property name="hibernate.default_schema" value="" />
-      <property name="hibernate.hbm2ddl.auto" value="update" />
+        <properties>
 
-      <!-- second-level cache  -->
-      <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
-      <property name="hibernate.cache.use_second_level_cache" value="false" />
-      <property name="hibernate.cache.use_query_cache" value="false"/>
-      
-      <!-- Set batch_size to "0" in case of SQL batch Errors -->
-      <property name="hibernate.jdbc.batch_size" value="2000" />
-      <property name="hibernate.default_batch_fetch_size" value="100" />
-      
-      <!-- Echo all executed SQL to stdout -->
-      <property name="hibernate.show.sql" value="true" />
-      <property name="hibernate.format.sql" value="true" />
-      
-      <!-- configuration pool via c3p0 -->
-      <!-- HowTo: http://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
-      <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
-      <property name="hibernate.c3p0.min_size" value="5" />
-      <property name="hibernate.c3p0.max_size" value="60" />
-      <property name="hibernate.c3p0.acquire_increment" value="2" />
-      <property name="hibernate.c3p0.max_statements" value="30" />
-      <property name="hibernate.c3p0.timeout" value="1800" />
+            <!--  PostgreSQL -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:postgresql://127.0.0.1/MY_DATABASE?currentSchema=MY_SCHEMA"/>
 
-    </properties>
-  </persistence-unit>
+            <property name="javax.persistence.jdbc.user" value="DATABASE_USER"/>
+            <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD"/>
+
+            <property name="hibernate.default_schema" value=""/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- second-level cache  -->
+            <property name="hibernate.cache.region.factory_class"
+                      value="org.hibernate.cache.internal.NoCachingRegionFactory"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+
+            <!-- Set batch_size to "0" in case of SQL batch Errors -->
+            <property name="hibernate.jdbc.batch_size" value="2000"/>
+            <property name="hibernate.default_batch_fetch_size" value="100"/>
+
+            <!-- Echo all executed SQL to stdout -->
+            <property name="hibernate.show.sql" value="true"/>
+            <property name="hibernate.format.sql" value="true"/>
+
+            <!-- Homepage: https://github.com/brettwooldridge/HikariCP -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
+            <property name="hibernate.hikari.maximumPoolSize" value="30" />
+            <property name="hibernate.hikari.leakDetectionThreshold" value="9000" />
+            <property name="hibernate.hikari.registerMbeans" value="true" />
+
+        </properties>
+    </persistence-unit>
 </persistence>
 {{< /highlight >}}
 {{< /mcr-figure >}}
 
-      <h3>Hinweis bei Performance-Problemen</h3>
+<p>
+    Außerdem muss für die Verwendung von HikariCP der Treiber in der pom.xml der Anwendung hinzugefügt werden.
+</p>
+
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>pom.xml</code>">}}
+{{< highlight xml "linenos=table" >}}
+<dependency>
+    <groupId>org.hibernate.orm</groupId>
+    <artifactId>hibernate-hikaricp</artifactId>
+    <version>${hibernate.version}</version>
+</dependency>
+<dependency>
+    <groupId>com.zaxxer</groupId>
+    <artifactId>HikariCP</artifactId>
+    <version>5.0.1</version>
+</dependency>
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
+<h4>ab Version 2024.06</h4>
+
+<p>
+    Ab Release 2024.06 wird empfohlen die Konfiguration über die mycore.properties zu realisieren.
+    Die persistence.xml wird weiterhin unterstützt, jedoch bietet die Konfiguration per mycore.properties einige
+    Vorteile.</p>
+<ul>
+    <li>Die Mappings werden automatisch konfiguriert, je nachdem welche MyCoRe-Komponenten in der Anwendung verwendet
+        werden.
+    </li>
+    <li>Die Konfiguration ist einfacher und übersichtlicher.</li>
+    <li>Die Konfiguration kann bereits in der jar-Datei enthalten sein und Urls, Passwörter und Benutzer können in
+        der mycore.properties im Konfigurationsverzeichnis überschrieben werden.
+    </li>
+</ul>
+
+<b>Beispiel für die Konfiguration per mycore.properties:</b>
+
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>mycore.properties</code>">}}
+{{< highlight properties "linenos=table" >}}
+MCR.JPA.PersistenceUnit.MyCoRe.Class=org.mycore.backend.jpa.MCRSimpleConfigPersistenceUnitDescriptor
+MCR.JPA.User=pguser
+MCR.JPA.Password=password
+MCR.JPA.Driver=org.postgresql.Driver
+MCR.JPA.URL=jdbc:postgresql://db:5432/mir
+MCR.JPA.Hbm2ddlAuto=update
+MCR.JPA.Connection.ProviderClass=org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+MCR.JPA.Connection.MaximumPoolSize=30
+MCR.JPA.Connection.MinimumIdle=2
+MCR.JPA.Connection.IdleTimeout=30000
+MCR.JPA.Connection.MaxLifetime=180000
+MCR.JPA.Connection.LeakDetectionThreshold=9000
+MCR.JPA.Connection.RegisterMbeans=true
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
+
+<h5>Erweiterte Konfiguration und interne Details</h5>
+<p>
+    Die Konfiguration erfolgt über PersistenceUnitDescriptors, die die Konfiguration der JPA-Verbindung steuern. Es können verschiedene
+    Implementierungen von PersistenceUnitDescriptors verwendet werden, welche über das Konzept der <a href="{{< ref basics_configurable_instance >}}">konfigurierbaren
+    Klasseninstanzen</a> mit dem Property <code>MCR.JPA.PersistenceUnit.DescriptorName.Class</code> konfiguriert werden.
+</p>
+<p>
+    Der verwendete PersistenceUnitDescriptor wird über das Property <code>MCR.JPA.PersistenceUnitName</code> mit dem
+    Standardwert <code>MyCoRe</code> Konfiguriert.
+    MyCoRe bringt die beiden Standardimplementierungen <code>org.mycore.backend.jpa.MCRPersistenceUnitDescriptor</code> und
+    <code>org.mycore.backend.jpa.MCRSimpleConfigPersistenceUnitDescriptor</code> mit.
+</p>
+
+Die Klasse <code>org.mycore.backend.jpa.MCRPersistenceUnitDescriptor</code> bietet folgende Konfigurationsmöglichkeiten:
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Persistence.xml equivalent</th>
+                <th>Standardproperty</th>
+                <th>Standardwert</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.PersistenceProviderClassName</td>
+                <td>persistence/persistence-unit/provider</td>
+                <td>MCR.JPA.ProviderClassName</td>
+                <td>org.hibernate.jpa.HibernatePersistenceProvider</td>
+            </tr>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.TransactionType</td>
+                <td>persistence/persistence-unit@transaction-type</td>
+                <td>MCR.JPA.TransactionType</td>
+                <td>RESOURCE_LOCAL</td>
+            </tr>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.ValidationMode</td>
+                <td>persistence/persistence-unit/validation-mode</td>
+                <td>MCR.JPA.ValidationMode</td>
+                <td>AUTO</td>
+            </tr>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.SharedCacheMode</td>
+                <td>persistence/persistence-unit/shared-cache-mode</td>
+                <td>MCR.JPA.SharedCacheMode</td>
+                <td>NONE</td>
+            </tr>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.ManagedClassNames</td>
+                <td>persistence/persistence-unit/class</td>
+                <td>MCR.JPA.ManagedClassNames</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>MCR.JPA.PersistenceUnit.MyCoRe.MappingFileNames</td>
+                <td>persistence/persistence-unit/mapping-file</td>
+                <td>MCR.JPA.MappingFileNames</td>
+                <td>Je nach verwendeten Modul</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>Die Properties innerhalb des <code>&lt;properties&gt;</code> Elements wird über die standard jpa Property Namen in kombination mit dem Prefix MCR.JPA.PersistenceUnit.MyCoRe.Properties. konfiguriert z.B.</p>
+
+{{< mcr-figure label="Konfigurationsdatei" caption="<code>mycore.properties</code>">}}
+{{< highlight properties "linenos=table" >}}
+
+MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:postgresql://localhost:5432/mycore
+
+{{< /highlight >}}
+{{< /mcr-figure >}}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>JPA Property</th>
+                <th>MyCoRe Property</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>jakarta.persistence.jdbc.driver</td>
+                <td>MCR.JPA.Driver</td>
+            </tr>
+            <tr>
+                <td>jakarta.persistence.jdbc.url</td>
+                <td>MCR.JPA.URL</td>
+            </tr>
+            <tr>
+                <td>jakarta.persistence.jdbc.user</td>
+                <td>MCR.JPA.User</td>
+            </tr>
+            <tr>
+                <td>jakarta.persistence.jdbc.password</td>
+                <td>MCR.JPA.Password</td>
+            </tr>
+            <tr>
+                <td>hibernate.cache.use_second_level_cache</td>
+                <td>MCR.JPA.Cache.UseSecondLevelCache</td>
+            </tr>
+            <tr>
+                <td>hibernate.cache.use_query_cache</td>
+                <td>MCR.JPA.Cache.UseQueryCache</td>
+            </tr>
+            <tr>
+                <td>hibernate.cache.region.factory_class</td>
+                <td>MCR.JPA.Cache.RegionFactoryClass</td>
+            </tr>
+            <tr>
+                <td>hibernate.globally_quoted_identifiers_skip_column_definitions</td>
+                <td>MCR.JPA.GloballyQuotedIdentifiers.SkipColumnDefinitions</td>
+            </tr>
+            <tr>
+                <td>hibernate.globally_quoted_identifiers</td>
+                <td>MCR.JPA.GloballyQuotedIdentifiers</td>
+            </tr>
+            <tr>
+                <td>hibernate.show_sql</td>
+                <td>MCR.JPA.ShowSql</td>
+            </tr>
+            <tr>
+                <td>hibernate.hbm2ddl.auto</td>
+                <td>MCR.JPA.Hbm2ddlAuto</td>
+            </tr>
+            <tr>
+                <td>hibernate.default_schema</td>
+                <td>MCR.JPA.DefaultSchema</td>
+            </tr>
+            <tr>
+                <td>hibernate.connection.provider_class</td>
+                <td>MCR.JPA.Connection.ProviderClass</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.maximumPoolSize</td>
+                <td>MCR.JPA.Connection.MaximumPoolSize</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.minimumIdle</td>
+                <td>MCR.JPA.Connection.MinimumIdle</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.idleTimeout</td>
+                <td>MCR.JPA.Connection.IdleTimeout</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.maxLifetime</td>
+                <td>MCR.JPA.Connection.MaxLifetime</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.connectionTimeout</td>
+                <td>MCR.JPA.Connection.ConnectionTimeout</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.leakDetectionThreshold</td>
+                <td>MCR.JPA.Connection.LeakDetectionThreshold</td>
+            </tr>
+            <tr>
+                <td>hibernate.hikari.registerMbeans</td>
+                <td>MCR.JPA.Connection.RegisterMbeans</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>
+    Die Klasse MCRSimpleConfigPersistenceUnitDescriptor erweitert MCRPersistenceUnitDescriptor und bietet einfachere
+    Alternativen zur Konfiguration der Properties, um die Länge der Properties zu reduzieren und die Namenskonventionen
+    von MyCoRe einzuhalten.
+</p>
+
+<h3>Datenbank-Treiber</h3>
+<p>
+    Der für den Zugriff auf die Datenbank notwendige JDBC-Treiber (i.d.R. eine JAR-Datei) kann im <code>lib</code>
+    Ordner des Konfigurationsverzeichnisses abgelegt werden.
+    Alternativ kann der Treiber auch in der <code>pom.xml</code> der Anwendung als Dependency hinzugefügt werden. Dies
+    funktioniert jedoch nur, wenn die Anwendung als WAR-Datei verpackt wird.
+</p>
+
+
+<h3>Hinweis bei Performance-Problemen</h3>
   
       <p>Sollt die Anwendung wiederholt abstürzen, da es mit der Anzahl der freien Datenbankverbindungen 
       Ausnahmen gibt, könnte folgende zusätzliche Konfiguration helfen. Tote Sessions werden dann automatisch geschlossen.</p>
@@ -111,85 +373,7 @@ date: "2024-08-06"
 {{< /highlight >}}
 {{< /mcr-figure >}}
   
-      <h2>Konfiguration ab Release 2023.06</h2>
 
-      <p>
-        Ab Release 2023.06 wird empfohlen für das Connection-Pooling Hikari zu verwenden, da es ggf. mit C3P0 zu Problemen
-        kommen kann.
-      </p>
-      
-      <h3>pom.xml</h3>
-      
-      <p>
-        In der pom.xml der Anwendung sind nachfolgende dependencies zu ergänzen.
-        
-{{< mcr-figure label="Konfigurationsdatei" caption="<code>pom.xml</code>">}}
-{{< highlight xml "linenos=table" >}}
-    <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-hikaricp</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-{{< /highlight >}}
-{{< /mcr-figure >}}
-  
-      <h3>persistence.xml</h3>
-      
-{{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
-{{< highlight xml "linenos=table" >}}
-<?xml version="1.0" encoding="UTF-8" ?>
 
-<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-  version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-
-  <persistence-unit name="MyCoRe" transaction-type="RESOURCE_LOCAL">
-
-    <mapping-file>META-INF/mycore-base-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-iview2-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-pi-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-user2-mappings.xml</mapping-file>
-    <mapping-file>META-INF/mycore-jobqueue-mappings.xml</mapping-file>
-
-    <properties>
-      <!--  PostgreSQL -->
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1/MY_DATABASE?currentSchema=MY_SCHEMA" />
-
-      <property name="javax.persistence.jdbc.user" value="DATABASE_USER" />
-      <property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD" />
-
-      <property name="hibernate.default_schema" value="" />
-      <property name="hibernate.hbm2ddl.auto" value="update" />
-
-      <!-- second-level cache  -->
-      <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
-      <property name="hibernate.cache.use_second_level_cache" value="false" />
-      <property name="hibernate.cache.use_query_cache" value="false"/>
-
-      <!-- Set batch_size to "0" in case of SQL batch Errors -->
-      <property name="hibernate.jdbc.batch_size" value="2000" />
-      <property name="hibernate.default_batch_fetch_size" value="100" />
-
-      <!-- Echo all executed SQL to stdout -->
-      <property name="hibernate.show_sql.sql" value="false" />
-      <property name="hibernate.format_sql" value="false" />
-      
-      <!-- configure connection pooling via Hikari -->
-      <!-- Homepage: https://github.com/brettwooldridge/HikariCP -->
-      <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
-      <property name="hibernate.hikari.maximumPoolSize" value="30" />
-      <property name="hibernate.hikari.leakDetectionThreshold" value="9000" />
-      <property name="hibernate.hikari.registerMbeans" value="true" />
-    </properties>
-  </persistence-unit>
-
-</persistence>
-{{< /highlight >}}
-{{< /mcr-figure >}}
   
       
