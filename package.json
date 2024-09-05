@@ -16,7 +16,7 @@
     "copy-all": "$npm_execpath run copy-fontawesome && $npm_execpath run copy-jquery && $npm_execpath run copy-bootstrap && $npm_execpath run copy-markjs && $npm_execpath run copy-fusejs && $npm_execpath run copy-classifications",
     "build-sass": "sass --load-path=node_modules/bootstrap/scss/ ./mycore.org/themes/mycore-bootstrap/assets/scss/mycore-website.scss ./mycore.org/themes/mycore-bootstrap/static/_gen/css/mycore-website.css",
     "build": "$npm_execpath run copy-all && $npm_execpath run build-sass",
-    "clean": "rimraf ./mycore.org/themes/mycore-bootstrap/static/_gen ./mycore.org/static/classifications"
+    "clean": "rimraf ./mycore.org/themes/mycore-bootstrap/static/_gen ./mycore.org/static/classifications ./mycore.org/public"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.7.2",
