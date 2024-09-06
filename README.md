@@ -6,14 +6,25 @@
  - Hugo extended 0.89 (https://github.com/gohugoio/hugo/releases)
 
 
-## To start local:
+## To start locally:
 
  - clone repository
- ```
-> yarn build
-> cd mycore.org
-> hugo server
- ```
+   ```
+   git clone https://github.com/MyCoRe-Org/mycore-website.git
+   ```
+ - build website
+   ```
+   > yarn build
+   ```
+   or
+   ```
+   > maven clean compile
+   ```
+- start Hugo
+  ```
+  > cd mycore.org
+  > hugo server
+  ```
 - open your browser and goto <http://localhost:1313/>
  
  ### Troubleshooting
