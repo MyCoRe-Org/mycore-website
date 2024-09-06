@@ -167,3 +167,6 @@ $RECYCLE.BIN/
 # Hugo
 **/.hugo_build.lock
 
+# Node.js
+node_modules/
+

@@ -1,177 +1,63 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.mycore.website</groupId>
-  <artifactId>mycore-website</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>MyCoRe Website</name>
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery</artifactId>
-      <version>3.5.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>4.6.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>font-awesome</artifactId>
-      <version>5.7.2</version>
-    </dependency>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mycore.website</groupId>
+    <artifactId>mycore-website</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>MyCoRe Website</name>
 
-    <dependency>
-      <groupId>org.webjars.bower</groupId>
-      <artifactId>mark.js</artifactId>
-      <version>8.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars.bower</groupId>
-      <artifactId>fuse.js</artifactId>
-      <version>3.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mycore</groupId>
-      <artifactId>mycore-classifications</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>mycore.org/themes/mycore-bootstrap/assets/_gen</directory>
-            </fileset>
-            <fileset>
-              <directory>mycore.org/themes/mycore-bootstrap/static/_gen</directory>
-            </fileset>
-            <fileset>
-              <directory>mycore.org/public</directory>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <!-- default version was 2.8 which does not have the file mappers element -->
-        <version>3.4.0</version>
-        <executions>
-          <execution>
-            <id>resource-dependencies</id>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <type>jar</type>
-              <includeArtifactIds>jquery,bootstrap,font-awesome,mark.js,fuse.js</includeArtifactIds>
-              <outputDirectory>${project.build.directory}/_webjars</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <phase>generate-sources</phase>
-            <id>classification-sources</id>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.mycore</groupId>
-                  <artifactId>mycore-classifications</artifactId>
-                  <includes>mycore-classifications/*.xml</includes>
-                  <outputDirectory>${project.basedir}/mycore.org/static/classifications</outputDirectory>
-                  <fileMappers>
-                    <org.codehaus.plexus.components.io.filemappers.FlattenFileMapper/>
-                  </fileMappers>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <configuration>
-              <target>
-                <copy todir="${basedir}/mycore.org/themes/mycore-bootstrap/static/_gen/webjars">
-                  <fileset dir="${project.build.directory}/_webjars/META-INF/resources/webjars">
-                    <include name="**/jquery.min.js" />
-                    <include name="**/bootstrap.bundle.min.js" />
-                    <include name="**/bootstrap.bundle.min.js.map" />
-                    <!-- font awesome -->
-                    <include name="**/font-awesome/*/css/all*.css" />
-                    <include name="**/font-awesome/*/webfonts/*" />
-                    <!-- mark.js -->
-                    <include name="**/dist/jquery.mark.min.js" />
-                    <!-- fuse.js -->
-                    <include name="**/dist/fuse.min.js" />
-                  </fileset>
-                </copy>
-                <copy todir="${basedir}/mycore.org/themes/mycore-bootstrap/assets/_gen/webjars">
-                  <fileset dir="${project.build.directory}/_webjars/META-INF/resources/webjars">
-                    <include name="**/bootstrap/*/scss/**" />
-                  </fileset>
-                </copy>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-       <plugin>
-        <groupId>com.github.warmuuh</groupId>
-        <artifactId>libsass-maven-plugin</artifactId>
-          <!-- <version>0.1.7-libsass_3.2.4</version> --> <!-- compiled for java7-->
-          <version>0.2.10-libsass_3.5.3</version>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <inputPath>${basedir}/mycore.org/themes/mycore-bootstrap/assets/scss/</inputPath>
-          <outputPath>${basedir}/mycore.org/themes/mycore-bootstrap/static/_gen/css</outputPath>
-          <enableClasspathAwareImporter>true</enableClasspathAwareImporter>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.15.0</version>
+                <configuration>
+                    <!-- override node version of mycore parent which is stuck on 16.x -->
+                    <nodeVersion>v20.11.0</nodeVersion>
+                    <yarnVersion>v1.22.22</yarnVersion>
+                    <installDirectory>${settings.localRepository}/node-yarn-v20.11.0-v1.22.22</installDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>download-yarn</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>yarn-install</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn-build</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>build</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>clean</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

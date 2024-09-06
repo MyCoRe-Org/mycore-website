@@ -1,0 +1,35 @@
+{
+  "name": "mycore-website",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/MyCoRe-Org/mycore-website.git",
+  "author": "MyCoRe Community <info@mycore.de>",
+  "license": "GPL-3.0-or-later",
+  "private": false,
+  "scripts": {
+    "copy-fontawesome": "copyfiles -u 2 ./node_modules/@fortawesome/fontawesome-free/css/all*.css ./node_modules/@fortawesome/fontawesome-free/webfonts/* ./mycore.org/themes/mycore-bootstrap/static/_gen/",
+    "copy-jquery": "copyfiles -u 1 ./node_modules/jquery/dist/jquery*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
+    "copy-bootstrap": "copyfiles -u 1 ./node_modules/bootstrap/dist/js/bootstrap*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
+    "copy-markjs": "copyfiles -u 1 ./node_modules/mark.js/dist/*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
+    "copy-fusejs": "copyfiles -u 1 ./node_modules/fuse.js/dist/fuse*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
+    "copy-classifications": "copyfiles -u 5 ./node_modules/mycore-classifications/src/main/resources/mycore-classifications/* ./mycore.org/static/classifications",
+    "copy-all": "yarpm run copy-fontawesome && yarpm run copy-jquery && yarpm run copy-bootstrap && yarpm run copy-markjs && yarpm run copy-fusejs && yarpm run copy-classifications",
+    "build-sass": "sass --load-path=node_modules/bootstrap/scss/ ./mycore.org/themes/mycore-bootstrap/assets/scss/mycore-website.scss ./mycore.org/themes/mycore-bootstrap/static/_gen/css/mycore-website.css",
+    "build": "yarpm run copy-all && yarpm run build-sass",
+    "clean": "rimraf ./mycore.org/themes/mycore-bootstrap/static/_gen ./mycore.org/static/classifications ./mycore.org/public"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.7.2",
+    "bootstrap": "^4.6.2",
+    "fuse.js": "3.4.2",
+    "jquery": "^3.5.1",
+    "mark.js": "8.11.1",
+    "mycore-classifications": "git+https://github.com/MyCoRe-Org/mycore-classifications.git"
+  },
+  "devDependencies": {
+    "yarpm": "^1.2.0",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.0.1",
+    "sass": "^1.77.8"
+  }
+}
