@@ -13,9 +13,9 @@
     "copy-markjs": "copyfiles -u 1 ./node_modules/mark.js/dist/*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
     "copy-fusejs": "copyfiles -u 1 ./node_modules/fuse.js/dist/fuse*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
     "copy-classifications": "copyfiles -u 5 ./node_modules/mycore-classifications/src/main/resources/mycore-classifications/* ./mycore.org/static/classifications",
-    "copy-all": "$npm_execpath run copy-fontawesome && $npm_execpath run copy-jquery && $npm_execpath run copy-bootstrap && $npm_execpath run copy-markjs && $npm_execpath run copy-fusejs && $npm_execpath run copy-classifications",
+    "copy-all": "yarpm run copy-fontawesome && yarpm run copy-jquery && yarpm run copy-bootstrap && yarpm run copy-markjs && yarpm run copy-fusejs && yarpm run copy-classifications",
     "build-sass": "sass --load-path=node_modules/bootstrap/scss/ ./mycore.org/themes/mycore-bootstrap/assets/scss/mycore-website.scss ./mycore.org/themes/mycore-bootstrap/static/_gen/css/mycore-website.css",
-    "build": "$npm_execpath run copy-all && $npm_execpath run build-sass",
+    "build": "yarpm run copy-all && yarpm run build-sass",
     "clean": "rimraf ./mycore.org/themes/mycore-bootstrap/static/_gen ./mycore.org/static/classifications ./mycore.org/public"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "mycore-classifications": "git+https://github.com/MyCoRe-Org/mycore-classifications.git"
   },
   "devDependencies": {
+	"yarpm": "^1.2.0",
     "copyfiles": "^2.4.1",
     "rimraf": "^6.0.1",
     "sass": "^1.77.8"
