@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/MyCoRe-Org/mycore-website.git",
-  "author": " Robert Stephan <robert.stephan@uni-rostock.de>",
-  "license": "GPL",
+  "author": "MyCoRe Community <info@mycore.de>",
+  "license": "GPL-3.0-or-later",
   "private": false,
   "scripts": {
     "copy-fontawesome": "copyfiles -u 2 ./node_modules/@fortawesome/fontawesome-free/css/all*.css ./node_modules/@fortawesome/fontawesome-free/webfonts/* ./mycore.org/themes/mycore-bootstrap/static/_gen/",
