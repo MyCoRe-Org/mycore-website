@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.7.2",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "fuse.js": "3.4.2",
     "jquery": "^3.5.1",
     "mark.js": "8.11.1",
