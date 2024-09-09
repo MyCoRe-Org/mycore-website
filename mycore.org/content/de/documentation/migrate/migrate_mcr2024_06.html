@@ -130,18 +130,18 @@ date: "2024-07-05"
           <li>Developer-Overlay (falls konfiguriert)</li>
           <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und bei Änderungen während der Laufzeit der Webapplikation hierhin kopiert)</li>
           <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
-          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses</li> (nach MyCoRe-Modul-Priorität)
+          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses (nach MyCoRe-Modul-Priorität)</li>
           <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
           <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>WEB-INF/lib</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise JAR-Dateien, die bereits in der WAR-Datei waren, nach MyCoRe-Modul-Priorität)</li>
          </ol>
          <p>
-          Auf das Kopieren der vom WCMS veränderten Dateien beim Start der Webapplikation und bei Änderungen wird nun verzichtet.
+          Auf das Kopieren der vom WCMS veränderten Dateien beim Start der Webapplikation und bei Änderungen während der Laufzeit der Anwendung wird nun verzichtet.
           Der Mechanismus wurde ersatzlos entfernt, da er nicht mehr benötigt wird.
           Zudem wird nun standardmäßig eine vereinfachte Reihenfolge verwendet:
          </p>
          <ol>
           <li>Developer-Overlay (falls konfiguriert)</li>
-          <li>Unterverzeichnis <code>data/save/webpages</code> des Konfigurationsverzeichnisses (nur Web-Ressourcen, das WCMS speichert hier geänderte Dateien)</li>
+          <li>Unterverzeichnis <code>data/save/webpages</code> des Konfigurationsverzeichnisses (nur Web-Ressourcen, vom WCMS geänderte Dateien werden hier gespeichert)</li>
           <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, einige Ressourcen und durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und letztere auch bei Änderungen während der Laufzeit hierhin kopiert)</li>
           <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
           <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
@@ -171,13 +171,13 @@ date: "2024-07-05"
         </li>
         <li>
          <p>
-          Mit <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden umfangreiche neuen Möglichkeiten geschaffen,
-          die Konfiguration von Instanzen von Java-Klassen deklarativ mit Annotationen zu gestalten.
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden erweiterte Möglichkeiten geschaffen,
+          die Konfiguration von Instanzen von Java-Klassen deklarativ mit Annotationen vorzunehmen.
           Hierbei hat sich eine ungewollte Änderung in der Funktion der Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> eingeschlichen.
          </p>
          <p>
           Sind z.B. Einträge für die Schlüssel <code>MCRExample.foo</code> und <code>MCRExample.bar</code> in der Konfiguration der MyCoRe-Anwendung vorhanden
-          und wird die genannte Methode mit dem Wert <code>MCRExample</code>. aufgerufen,
+          und wird die genannte Methode mit dem Wert <code>MCRExample.</code> aufgerufen,
           so sollten in der zurückgegebenen <code>Map&lt;String, Callable&gt;</code>
           Einträge mit den Schlüsseln <code>foo</code> bzw. <code>bar</code> vorhanden sein.
           Fehlerhafterweise wurden jedoch Einträge für die kompletten Schlüssel <code>MCRExample.foo</code> bzw. <code>MCRExample.bar</code> erzeugt.
@@ -185,14 +185,14 @@ date: "2024-07-05"
          </p>
          <p>
           Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
-          Wer diese Methode nicht in eigenen Java-Klassen verwendet, muss diesen Migrationsschritt nicht beachten. 
+          Wer diese Methode nicht in eigenen Java-Klassen verwendet, kann diesen Migrationsschritt ignorieren. 
          </p>
         </li>
         <li>
          <p>
           Durch <a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a> wurden die Einstiegspunkte
           der Java-API zum instanziieren konfigurierter Objekte überarbeitet.
-          Die folgenden drei Methoden sind als veraltet markiert und werden in einer künftigen Version von MyCoRe entfernt:
+          Die folgenden drei Methoden sind nun als veraltet markiert und werden in einer künftigen Version von MyCoRe entfernt:
          </p>
          <ul>
           <li><code>MCRConfiguration2#getInstanceOf(String)</code>,</li>
@@ -226,7 +226,8 @@ date: "2024-07-05"
           Statt <code>MCRMD5InputStream</code> gibt es seit <a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a> die flexiblere Klasse <code>MCRDigestInputStream</code>.
          </p>
          <p>
-          Verwendung mit MD5 als Hash-Algorithmus:
+          Wer die genannte Klasse in eigenem Java-Code verwendet, muss diesen anpassen.
+          Ein MD5-Hash kann nun wie folgt erzeugt werden:
          </p>
          {{< highlight java "linenos=table">}}
 MCRDigestInputStream digestStream = new MCRDigestInputStream(inputStream, MCRMD5Digest.ALGORITHM);
@@ -235,9 +236,9 @@ String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
         </li>
         <li>
          <p>
-          Vor <a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a> hat MyCoRe die HTTP-Session,
-          falls erkannt wurde, dass der Client keine Cookies unterstützt,
-          die Session-ID als <code>JSESSIONID</code>-URL-Parameter in generierte Links eingefügt.
+          Falls erkannt wurde, dass ein Client keine Cookies unterstützt,
+          hat MyCoRe vor <a href="https://mycore.atlassian.net/browse/MCR-3127">MCR-3127</a> 
+          die HTTP-Session verfolgt, indem die Session-ID als <code>JSESSIONID</code>-URL-Parameter in generierte Links eingefügt wurde.
           Dieser Mechanismus ist veraltet und potenziell unsicher und wurde daher ersatzlos entfernt.
           Zudem heißt das Cookie, in dem die Session-ID gespeichert wird, nun technologieagnostisch <code>MCRSESSIONID</code>.
          </p>
@@ -249,16 +250,16 @@ String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
         </li>
         <li>
          <p>
-          Mit <a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a> wurden nicht mehr zeitgemäße Art,
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-3137">MCR-3137</a> wurde die nicht mehr zeitgemäße Art,
           wie MyCoRe Hash-Werte von Passwörtern speichert, modernisiert und anpassbar gemacht.
           Statt <a href="https://de.wikipedia.org/wiki/SHA-2" target="_blank">SHA-256</a>
-          wird nun standardmäßig Algorithmus <a href="https://de.wikipedia.org/wiki/PBKDF2" target="_blank">PBKDF2</a>
+          wird nun standardmäßig der Algorithmus <a href="https://de.wikipedia.org/wiki/PBKDF2" target="_blank">PBKDF2</a>
           als Hash-Funktion verwendet (für diesen wird typischerweise keine zusätzliche Programmbibliothek benötigt).
           Eine explizite Migration ist nicht notwendig.
           Die gespeicherten Hash-Werte werden automatisch aktualisiert, wenn sich Nutzende das nächste Mal erfolgreich anmelden.
         </p>
         <p>
-         Empfehlenswert ist jedoch, statt PBKDF2 den <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">aktuell von OWASP empfohlenen</a> Algorithmus
+         Es ist jedoch sehr empfehlenswert, statt PBKDF2 den <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">aktuell von OWASP empfohlenen</a> Algorithmus
          <a href="https://de.wikipedia.org/wiki/Argon2" target="_blank">Argon2</a> zu verwenden.
          Dazu muss der Anwendung die Bibliothek <a href="https://central.sonatype.com/artifact/org.bouncycastle/bcprov-jdk18on" target="_blank"><code>org.bouncycastle:bcprov-jdk18on</code></a> zur Verfügung gestellt
          und folgenden Konfiguration vorgenommen werden:
@@ -284,7 +285,37 @@ MCR.User.PasswordCheck.SelectedStrategy=argon2{{< /highlight >}}
         {{< highlight java "linenos=table">}}
  ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;{{< /highlight >}}
        </li>
-      </ul>
+       <li>
+         <p>
+           <a href="https://mycore.atlassian.net/browse/MCR-3140">MCR-3140</a> hat einen Mechanismus eingeführt,
+           mit dem alte, nicht mehr benötigte Einträge in der Job-Queue entfernt werden können.
+           Dies ist insbesondere für banale Jobs (z.B. Erzeugen von statisch vorberechneten Inhalten, Erzeugen von Thumbnails) interessant, 
+           die häufig ausgeführt werden und deren Ausführung nicht langfristig dokumentiert werden muss.
+         </p>
+         <p>
+           Für derartige Jobs wurde eine Regel definiert und standardmäßig aktiviert, die die Einträge für erfolgreich ausgeführte Jobs am Folgetag entfernt.
+           Diese Regel kann wie folgt deaktiviert werden:
+         </p>
+           {{< highlight java "linenos=table">}}
+ MCR.QueuedJob.Cleaner.Selectors.finishedOrdinaryJobs.Enabled=false{{< /highlight >}}
+         <p>
+           Eigene Implementierungen von <code>MCRJobAction</code> (im Beispiel: <code>foo.bar.FooJobAction</code>) können
+           wie folgt in die Liste der als banal geltenden Jobs eingefügt werden, um von der genannten Regel ebenfalls behandelt zu werden:  
+         </p>
+           {{< highlight java "linenos=table">}}
+ MCR.QueuedJob.OrdinaryJobs=%MCR.QueuedJob.OrdinaryJobs%,foo.bar.FooJobAction{{< /highlight >}}
+         <p>
+           Zudem gibt es vordefinierte Regeln, die die Einträge für beliebige erfolgreich oder nicht-erfolgreich ausgeführte Jobs nach 30 bzw. 90 Tagen entfernt.
+           Diese Regeln sind jedoch nicht standardmäßig aktiviert und können wie folgt aktiviert werden.
+         </p>
+           {{< highlight java "linenos=table">}}
+MCR.QueuedJob.Cleaner.Selectors.finishedJobs.Enabled=true
+MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
+           <p>
+             In Anlehnung an die vordefinierten Regeln können zudem eigene Regeln definiert werden.  
+           </p>
+         </li>
+       </ul>
       <p></p>
 
       <h3>Datenbank anpassen</h3>
