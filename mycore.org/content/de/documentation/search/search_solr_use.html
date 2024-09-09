@@ -26,7 +26,7 @@ date: "2024-09-03"
     <dt>Configuration Set - config_set</dt>
     <dd>
         Beschreibt ein vorgefertigtes Template, welches alternativ zu dem in SOLR mitgelieferten
-        <code>_default</code>-Template für alle MyCoRe-Anwendungen zum Erstellen eines leeren Cores eingesetzt
+        <code>_default</code>-Template für alle MyCoRe-Anwendungen zum Erstellen eines neuen Cores eingesetzt
         werden kann. Seit MyCoRe 2024.06 LTS werden die config_sets zusammen mit der MyCoRe-SOLR-Komponente
         ausgeliefert.
     </dd>
@@ -41,8 +41,8 @@ date: "2024-09-03"
     </dd>
 
     <dt>CoreId - core_id</dt>
-    <dd>ist eine fiktive ID, welch dafür sorgen soll, die einzelnen Cores einer Anwendung zu bezeichnen und ihnen
-        spezifische Konfigurationen zuweisen zu können. Standardmäßig werden diese gleichlautend wie dei dazu
+    <dd>ist eine fiktive ID, mit der die einzelnen Cores einer Anwendung bezeichnet werden und mit der ihnen
+        spezifische Konfigurationen zugewiesen werden können. Standardmäßig werden diese gleichlautend wie die dazu
         passenden Konfigurationstypen mit <code>main</code> und <code>classification</code> bezeichnet.
     </dd>
 
@@ -134,8 +134,9 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
 </p>
 
 {{< highlight shell "linenos=table">}}
-cd .../solr/server/solr/configsets
-git clone https://github.com/MyCoRe-Org/mycore_solr_configset_main.git mycore_main
+git clone https://github.com/MyCoRe-Org/mycore
+cp -R mycore/mycore-solr/src/main/resources/configset ../solr/server/solr/configsets
+cd ../solr/server/solr/configsets
 {{< /highlight >}}
 
 <p>
@@ -429,8 +430,8 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
 </p>
 
 {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="xalan xlink mcrxsl">
+<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="xlink mcrxsl">
 
     <xsl:import href="xslImport:solr-document:viaf2solr.xsl"/>
 
