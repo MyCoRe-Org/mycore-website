@@ -12,7 +12,7 @@
     "copy-bootstrap": "copyfiles -u 1 ./node_modules/bootstrap/dist/js/bootstrap*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
     "copy-markjs": "copyfiles -u 1 ./node_modules/mark.js/dist/*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
     "copy-fusejs": "copyfiles -u 1 ./node_modules/fuse.js/dist/fuse*.js ./mycore.org/themes/mycore-bootstrap/static/_gen/",
-    "copy-classifications": "copyfiles -u 5 ./node_modules/mycore-classifications/src/main/resources/mycore-classifications/* ./mycore.org/static/classifications",
+    "copy-classifications": "copyfiles -u 6 ./node_modules/mycore-classifications/src/main/resources/mycore-classifications/* ./mycore.org/static/classifications",
     "copy-all": "yarpm run copy-fontawesome && yarpm run copy-jquery && yarpm run copy-bootstrap && yarpm run copy-markjs && yarpm run copy-fusejs && yarpm run copy-classifications",
     "build-sass": "sass --load-path=node_modules/bootstrap/scss/ ./mycore.org/themes/mycore-bootstrap/assets/scss/mycore-website.scss ./mycore.org/themes/mycore-bootstrap/static/_gen/css/mycore-website.css",
     "build": "yarpm run copy-all && yarpm run build-sass",
