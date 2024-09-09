@@ -15,14 +15,14 @@ date: "2024-09-03"
           in Java-Anwendungen.
           MyCoRe verwendet JPA, um die Datenbankanbindung zu realisieren.
       </p>
-      
+
       <h3>Konfiguration</h3>
 
 <h4>bis Version 2024.06</h4>
       <p>
         Grundsätzlich bringt der MyCoRe-Kern bereits alle erforderlichen Grundeinstellungen mit. Lediglich die
         Konfigurationsdatei <em>persistence.xml</em>
-        muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter 
+        muss in den Konfigurationsordner abgelegt werden. Hier sind nur noch einige wenige Parameter
         wie der Datenbankname <code>MY_DATABASE</code>, das Schema <code>MY_SCHEMA</code>, der Datenbankbenutzer <code>DATABASE_USER</code>
         und das Passwort <code>DATABASE_PASSWORD</code> anzupassen.
           Je nach verwendeter MyCoRe-Komponente müssen weitere Mapping-Dateien hinzugefügt oder entfernt werden.
@@ -363,18 +363,43 @@ MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:post
 
 
 <h3>Hinweis bei Performance-Problemen</h3>
-  
-      <p>Sollt die Anwendung wiederholt abstürzen, da es mit der Anzahl der freien Datenbankverbindungen 
-      Ausnahmen gibt, könnte folgende zusätzliche Konfiguration helfen. Tote Sessions werden dann automatisch geschlossen.</p>
-  
-{{< mcr-figure label="Konfigurationsdatei" caption="<code>resources/META-INF/persistence.xml</code>">}}
+
+<p>Sollten in der Anwendung vermehrt Meldungen wie <code>Connection leak detection triggered</code> auftauchen, dann ist
+    das ein Hinweis, dass Verbindungen nicht rechtzeitig geschlossen werden. Das kann daran liegen, dass ein
+    langwieriger Prozess läuft. In diesem Fall kann die <code>hibernate.hikari.leakDetectionThreshold</code> erhöht werden.
+    HikariCP überprüft in regelmäßigen Abständen, ob eine Verbindung länger als die angegebene Zeit offen ist. Ist das
+    der Fall, wird eine Warnung ausgegeben. Der Standardwert beträgt 2 Sekunden. Der Wert wird in Millisekunden angegeben.
+    Sollte der Wert auf 0 gesetzt werden, wird die Überprüfung deaktiviert.
+    Sollte die Meldung jedoch auch bei kurzen Prozessen auftreten, dann sollte die Anwendung genauer untersucht werden,
+    um die Ursache zu finden. Es handelt sich in der Regel um ein Problem in der Anwendung, das behoben werden muss.
+    Es ist nicht empfehlenswert, die Verbindungen automatisch durch den Pool schließen zu lassen.
+    Die Connections sollten nicht automatisch durch den Pool geschlossen werden.
+</p>
+
+<blockquote class="blockquote text-center">
+    <p class="small">
+        HikariCP does not, in principle, believe that the pool should coverup connection leaks. We disagree with the
+        reasoning behind C3P0's unreturned connection handling.
+        The leak detection is there to help you pinpoint the source of the leak. That should provide enough clues to track
+        down the configuration or coding error.
+    </p>
+    <footer class="blockquote-footer"><a href="https://github.com/brettwooldridge/HikariCP/issues/612#issuecomment-209839908">Entwickler von HikariCP
+        auf Github</a></footer>
+</blockquote>
+
+{{< mcr-figure label="Konfiguration per persitence.xml" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
-      <property name="hibernate.c3p0.unreturnedConnectionTimeout" value="1800" />
-      <property name="hibernate.c3p0.debugUnreturnedConnectionStackTraces" value="true" />
+ <!-- Meldungen erst ab 30 Sekunden anzeigen -->
+ <property name="hibernate.hikari.leakDetectionThreshold" value="30000" />
 {{< /highlight >}}
 {{< /mcr-figure >}}
-  
 
 
-  
+{{< mcr-figure label="Konfiguration per mycore.properties" caption="<code>mycore.properties</code>">}}
+{{< highlight properties "linenos=table" >}}
+ # Meldungen erst ab 30 Sekunden anzeigen
+ MCR.JPA.Connection.LeakDetectionThreshold=30000
+{{< /highlight >}}
+{{< /mcr-figure >}}
+
       
