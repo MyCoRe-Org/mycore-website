@@ -316,6 +316,52 @@ public void init(String property) {
         <li>Aufrufen der mit <code>@MCRPostConstruction</code> annotierten Methode (in aufsteigenden <code>order</code>-Reihenfolge)</li>
     </ol>
 
+    <h2>Unterbundene Initialisierung mit @MCRSentinel</h2>
+    <p>
+        Zuweilen möchte man in der Konfiguration diverse geschachtelte Instanzen vorhalten
+        (die teilweise aus einer erheblichen Menge von Konfigurationswerten bestehen können),
+        diese aber nicht in der tatsächlich verwendeten Konfiguration verwenden
+        (z.B. exemplarische Konfigurationen oder solche, die nur gelegentlich oder alternativ benötigt werden).
+        Damit in solchen Situationen nicht mit Aus- und Einkommentieren der zugehörigen Konfigurationswerte gearbeitet werden muss,
+        besteht mit <code>MCRSentinel</code> eine Möglichkeit, die Instantiierung von geschachtelten Instanzen zu unterbinden.
+        Dazu kann bei den Annotationen <code>@MCRInstance</code>, <code>@MCRInstanceMap</code> und <code>@MCRInstanceList</code> jeweils
+        das Attribut <code>sentinel</code> verwendet werden.
+        Dies führt dazu, dass bei jeder geschachtelten Instanz zunächst der Konfigurationswert mit dem Namen <code>Enabled</code> ausgewertet wird.
+        Ist dieses vorhanden und hat den Wert <code>false</code>, so wird die Instantiierung der jeweiligen geschachtelten Instanz unterbunden.
+    </p>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
+    </p>
+{{< highlight java "linenos=table">}}
+@MCRInstanceMap(name = "NestedMap", valueClass=Nested.class, sentinel=@MCRSentinel)
+public Map<String, Nested> nestedMap;
+{{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.NestedMap.foo.Class=my.configurable.MyNestedClassA
+MCR.Configurable.NestedMap.foo.Enabled=true
+MCR.Configurable.NestedMap.foo.ConfigValue1=...
+MCR.Configurable.NestedMap.foo.ConfigValue2=...
+MCR.Configurable.NestedMap.bar.Class=my.configurable.MyNestedClassB
+MCR.Configurable.NestedMap.bar.ConfigValue1=...
+MCR.Configurable.NestedMap.bar.ConfigValue2=...
+MCR.Configurable.NestedMap.baz.Class=my.configurable.MyNestedClassB
+MCR.Configurable.NestedMap.baz.Enabled=false
+MCR.Configurable.NestedMap.baz.ConfigValue1=...
+MCR.Configurable.NestedMap.baz.ConfigValue2=...
+{{< /highlight >}}
+    <p>
+        In diesem Beispiel würden nur die beiden geschachtelten Instanzen mit den Namen <code>foo</code> und <code>bar</code> instanziiert werden.
+        Die geschachtelte Instanz mit den Namen <code>baz</code> wird vollständig ignoriert.
+    </p>
+    <p>
+        Mit dem Attribut <code>name</code> von <code>MCRSentinel</code> kann der Name des ausgewerteten Konfigurationswerts angepasst werden.
+        Mit dem Attribut <code>defaultValue</code> von <code>MCRSentinel</code> kann das Standardverhalten bei Nichtvorhandensein des Konfigurationswerts angepasst werden.
+    </p>
+
     <h2>Stellvertretende Initialisierung mit @MCRConfigurationProxy</h2>
     <p>
         In Situationen in denen die oben beschriebene Anforderung (dass eine zu konfigurierende Klasse einen
