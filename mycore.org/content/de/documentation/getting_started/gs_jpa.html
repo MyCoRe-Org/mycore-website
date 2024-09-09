@@ -4,7 +4,7 @@
 title: "Datenbank - JPA"
 mcr_version: ['2023.06','2024.06']
 author: ['Jens Kupferschmidt', 'Sebastian Hofmann']
-description: "Diese Dokumentationsseite beschreibt die Integration der Java Persistence API (JPA) ab Release 2016.06."
+description: "Diese Dokumentationsseite beschreibt die Integration der Java Persistence API (JPA)"
 date: "2024-09-03"
 
 ---
@@ -128,7 +128,7 @@ date: "2024-09-03"
     Außerdem muss für die Verwendung von HikariCP der Treiber in der pom.xml der Anwendung hinzugefügt werden.
 </p>
 
-{{< mcr-figure label="Konfigurationsdatei" caption="<code>pom.xml</code>">}}
+{{< mcr-figure caption="<code>pom.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
 <dependency>
     <groupId>org.hibernate.orm</groupId>
@@ -154,7 +154,7 @@ date: "2024-09-03"
         werden.
     </li>
     <li>Die Konfiguration ist einfacher und übersichtlicher.</li>
-    <li>Die Konfiguration kann bereits in der jar-Datei enthalten sein und Urls, Passwörter und Benutzer können in
+    <li>Die Konfiguration kann bereits in der jar-Datei enthalten sein und URLs, Passwörter und Benutzer können in
         der mycore.properties im Konfigurationsverzeichnis überschrieben werden.
     </li>
 </ul>
@@ -371,9 +371,9 @@ MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:post
     der Fall, wird eine Warnung ausgegeben. Der Standardwert beträgt 2 Sekunden. Der Wert wird in Millisekunden angegeben.
     Sollte der Wert auf 0 gesetzt werden, wird die Überprüfung deaktiviert.
     Sollte die Meldung jedoch auch bei kurzen Prozessen auftreten, dann sollte die Anwendung genauer untersucht werden,
-    um die Ursache zu finden. Es handelt sich in der Regel um ein Problem in der Anwendung, das behoben werden muss.
+    um die Ursache zu finden. Es handelt sich in der Regel um ein Problem im Programmcode der Anwendung, das behoben
+    werden muss.
     Es ist nicht empfehlenswert, die Verbindungen automatisch durch den Pool schließen zu lassen.
-    Die Connections sollten nicht automatisch durch den Pool geschlossen werden.
 </p>
 
 <blockquote class="blockquote text-center">
@@ -387,7 +387,7 @@ MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:post
         auf Github</a></footer>
 </blockquote>
 
-{{< mcr-figure label="Konfiguration per persitence.xml" caption="<code>resources/META-INF/persistence.xml</code>">}}
+{{< mcr-figure label="Konfiguration per persistence.xml" caption="<code>resources/META-INF/persistence.xml</code>">}}
 {{< highlight xml "linenos=table" >}}
  <!-- Meldungen erst ab 30 Sekunden anzeigen -->
  <property name="hibernate.hikari.leakDetectionThreshold" value="30000" />
@@ -401,5 +401,4 @@ MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:post
  MCR.JPA.Connection.LeakDetectionThreshold=30000
 {{< /highlight >}}
 {{< /mcr-figure >}}
-
       
