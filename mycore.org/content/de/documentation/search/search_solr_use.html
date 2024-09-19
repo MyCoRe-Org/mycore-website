@@ -108,8 +108,9 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
 
 <h4>Authentifizierung</h4>
 <p>
-    Ab MyCoRe 2024.06 LTS bietet MyCoRe die Möglichkeit, Solr-Server die eine Authentifizierung benötigen zu nutzen.
-    Die Authentifizierung kann fein granular je nach benötigten Rechten konfiguriert werden. Hierfür können folgende
+    Ab Version 2024.06 bietet MyCoRe die Möglichkeit, Solr-Server mit einer Authentifizierung zu nutzen.
+    Im Solr können fein granular für verschiedene Funktionen und Cores die benötigten Rechten konfiguriert werden.
+    Für die Administration, Suche und Indexierung können in MyCoRe verschiedene Logins über folgende
     Properties gesetzt werden:
 </p>
 
@@ -129,16 +130,17 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
 
 <p>
     Die Authentifizierung wird über die
-    <a href="https://lucene.apache.org/solr/guide/8_11/basic-authentication-plugin.html">Basic Authentication</a>
-    von Solr realisiert. Die Authentifizierung wird über die <code>Authorization</code>-Header durchgeführt.
-    Wenn die Properties nicht gesetzt sind, wird keine Authentifizierung durchgeführt.
+    <a href="https://solr.apache.org/guide/solr/latest/deployment-guide/basic-authentication-plugin.html">Basic Authentication</a>
+    von Solr realisiert. Dazu wird die Konfigurationsdatei <code>security.json</code> auf dem Solr Server gepflegt.
+    Die Authentifizierung erfolgt über das Senden eines <code>Authorization</code>-Headers in den Solr-Requests.
+    Wenn die Properties nicht gesetzt sind, führt MyCoRe keine Authentifizierung durch.
 </p>
 
 <p>
     Der Search Nutzer benötigt das Recht <code>read</code> der Indexer die Rechte <code>read</code> und
     <code>update</code> und der Admin die Rechte <code>all</code>.
     Wenn mehrere Anwendungen auf den gleichen Solr-Server zugreifen, ist es ratsam, für jede Anwendung eigene Nutzer
-    mit den entsprechenden Rechten passend zu den Kernen/Collections zu erstellen.
+    mit den entsprechenden Rechten passend zu den jeweiligen Kernen/Collections zu erstellen.
 </p>
 
 <h3>Reguläre Solr-Installation</h3>
