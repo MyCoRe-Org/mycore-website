@@ -318,9 +318,30 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
        </ul>
       <p></p>
 
-      <h3>Datenbank anpassen</h3>
+      <h3>Datenbank(-konfiguration) anpassen</h3>
+      <h4>Anpassung der Spaltenlänge in MCRJobParameter-Tabelle</h4>
+      <p>Falls beim Update die Datenbank nicht neu erstellt wird, ist folgende Anpassungen an den Tabellen notwendig (siehe <a href="https://mycore.atlassian.net/browse/MCR-3125">MCR-3125</a>):</p>
+{{< highlight sql "linenos=table">}}
+PostgreSQL:>  ALTER TABLE mcrjobparameter ALTER COLUMN paramvalue SET DATA TYPE varchar(16384);
+        H2:>  alter table mcrjobparameter alter column paramvalue varchar(16384);{{< /highlight >}}
+      
+      <h4>H2 Migration</h4>
       <p>
+      Auf Grund der Aktualisierung von MyCoRe auf Hibernate 6.3.x und Jakarta Persistence 3.1 muss eine bestehende H2-Datenbank auf Version 2.x geupdatet werden.
+      Die notwendigen Schritte sind im Ticket <a href="https://mycore.atlassian.net/browse/MCR-2647">MCR-2637</a> beschrieben.
       </p>
       
-   </div>
+      <h4>H2: Konflikte beim Spaltennamen</h4>
+      <p>Bei der Datenbank <strong>H2 (Version 2.x)</strong> gibt es Namenskonflikte bei einem Spaltennamen. Deshalb müssen folgende JPA-Properties gesetzt sein:<p/>
+      <h6>via MyCoRe-Properties</h6>
+     {{< highlight java "linenos=table">}}
+MCR.JPA.GloballyQuotedIdentifiers=true
+MCR.JPA.GloballyQuotedIdentifiers.SkipColumnDefinitions=true{{< /highlight >}}
+      <h6>oder (veraltet): persistence.xml</h6>
+      {{< highlight xml "linenos=table">}}
+<property name="hibernate.globally_quoted_identifiers" value="true" />
+<property name="hibernate.globally_quoted_identifiers_skip_column_definitions" value="true" />{{< /highlight >}}
+      
+      <p></p>
+    </div>
 
