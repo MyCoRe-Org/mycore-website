@@ -106,6 +106,40 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
     add type main to solr core main
 {{< /highlight >}}
 
+<h4>Authentifizierung</h4>
+<p>
+    Ab MyCoRe 2024.06 LTS bietet MyCoRe die Möglichkeit, Solr-Server die eine Authentifizierung benötigen zu nutzen.
+    Die Authentifizierung kann fein granular je nach benötigten Rechten konfiguriert werden. Hierfür können folgende
+    Properties gesetzt werden:
+</p>
+
+{{< highlight shell "linenos=table">}}
+ MCR.Solr.Server.Auth.Admin.Class=org.mycore.solr.auth.MCRSolrBasicPropertyAuthentication
+ MCR.Solr.Server.Auth.Admin.Username=meinAdmin
+ MCR.Solr.Server.Auth.Admin.Password=geheim123
+
+ MCR.Solr.Server.Auth.Index.Class=org.mycore.solr.auth.MCRSolrBasicPropertyAuthentication
+ MCR.Solr.Server.Auth.Index.Username=meinIndexer
+ MCR.Solr.Server.Auth.Index.Password=geheim321
+
+ MCR.Solr.Server.Auth.Search.Class=org.mycore.solr.auth.MCRSolrBasicPropertyAuthentication
+ MCR.Solr.Server.Auth.Search.Username=meinSucher
+ MCR.Solr.Server.Auth.Search.Password=geheim!
+{{< /highlight >}}
+
+<p>
+    Die Authentifizierung wird über die
+    <a href="https://lucene.apache.org/solr/guide/8_11/basic-authentication-plugin.html">Basic Authentication</a>
+    von Solr realisiert. Die Authentifizierung wird über die <code>Authorization</code>-Header durchgeführt.
+    Wenn die Properties nicht gesetzt sind, wird keine Authentifizierung durchgeführt.
+</p>
+
+<p>
+    Der Search Nutzer benötigt das Recht <code>read</code> der Indexer die Rechte <code>read</code> und
+    <code>update</code> und der Admin die Rechte <code>all</code>.
+    Wenn mehrere Anwendungen auf den gleichen Solr-Server zugreifen, ist es ratsam, für jede Anwendung eigene Nutzer
+    mit den entsprechenden Rechten passend zu den Kernen/Collections zu erstellen.
+</p>
 
 <h3>Reguläre Solr-Installation</h3>
 
