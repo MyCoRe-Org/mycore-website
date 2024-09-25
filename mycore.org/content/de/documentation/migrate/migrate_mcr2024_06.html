@@ -315,6 +315,15 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
              In Anlehnung an die vordefinierten Regeln können zudem eigene Regeln definiert werden.  
            </p>
          </li>
+        <li>
+          <p>
+            Mit <a href="https://mycore.atlassian.net/browse/MCR-3200">MCR-3200</a> werden keine Standardwerte mehr für die ORCID-User-Properties ausgeliefert,
+            sofern jene nicht existieren. Damit wird ermöglicht, dass im Frontend unterschieden werden kann, ob ein User bereits Properties festgelegt hat.
+            Dies kann beispielsweise wichtig werden, wenn sich die Standardwerte einmal ändern sollten und ein User diese nicht für sich übernommen bzw. für sich gespeichert hat.
+            Außerdem können so einfacher weitere Properties hinzugefügt werden, denn so ist eine Abgrenzung bereits gespeicherter Properties möglich.
+            Durch diese Umstellung müssen die Properties ggf. im Frontend anders interpretiert werden.
+          </p>
+        </li>
        </ul>
       <p></p>
 
