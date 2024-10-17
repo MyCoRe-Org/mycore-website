@@ -4,74 +4,69 @@ title: "Solr und MyCoRe"
 mcr_version: ['2023.06', '2024.06']
 author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan', 'Sebastian Hofmann']
 description: "
-Dieses Kapitel beschäftigt sich mit der Einbindung der Apache Solr-Suchmaschine in MyCoRe.
-Das MyCoRe-Release 2023.06 LTS wurde erfolgreich mit Solr 8.11.1 getestet und das 2024.06 LTS wird mit Solr 9.6 getestet.
+Dieses Kapitel beschäftigt sich mit der Einbindung der Suchmaschine Apache Solr in MyCoRe.
+Das MyCoRe-Release 2023.06 LTS wird erfolgreich mit Solr 8.11.4 eingesetzt und das 2024.06 LTS wird mit Solr 9.7 getestet.
 "
 date: "2024-09-03"
 
 ---
-
-<h2>Solr Konfiguration für MyCoRe</h2>
 <p>
-    Falls noch kein Solr Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
-    <a href="{{< ref gs_solr >}}">Einrichtung eines Solr-Servers</a>
-    installiert werden.
+    Falls noch kein Solr-Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
+    <a href="{{< ref gs_solr >}}">Einrichtung eines Solr-Servers</a> installiert werden.
 </p>
 
-<h3>Begrifflichkeiten im Zusammenhang mit MyCoRe</h3>
-<p>Im Zusammenhang mit der Nutzung der Kommandos zur Konfiguration von SOLR-Cores in MyCoRe sind einige Begiffe
-    zu definieren. Dies soll Missverständnisse bei der Nutzung vermeiden.
+<h2>Begrifflichkeiten</h2>
+<p>Im Zusammenhang mit der Nutzung der Properties und Kommandos zur Konfiguration von Solr-Cores in MyCoRe sind vorab einige Begiffe
+   zu definieren.
 </p>
 <dl>
-    <dt>Configuration Set - <code>config_set</code></dt>
+    <dt>Configuration Set (<code>config_set</code>)</dt>
     <dd>
-        Beschreibt ein vorgefertigtes Template, welches alternativ zu dem in SOLR mitgelieferten
-        <code>_default</code>-Template für alle MyCoRe-Anwendungen zum Erstellen eines neuen Cores eingesetzt
-        werden kann. Seit MyCoRe 2024.06 LTS werden die config_sets zusammen mit der MyCoRe-SOLR-Komponente
-        ausgeliefert.
+        beschreibt ein vorgefertigtes Template, welches alternativ zu dem in Solr mitgelieferten
+        <code>_default</code>-Template zum Erstellen eines neuen Cores eingesetzt
+        werden kann. Die Configuration Sets sind für alle MyCoRe-Anwendungen auf dem selben Release-Stand gleich. 
+        Seit MyCoRe 2024.06 LTS werden sie zusammen mit der MyCoRe-Solr-Komponente ausgeliefert.
     </dd>
 
-    <dt>Core Configuration Type - core_config_type</dt>
-    <dd>Bezeichnet die Art der Konfiguration. Festgelegt wurden die Arten <code>main</code> und
-        <code> classification</code>. Die Typangabe beschreibt den Pfad zu den JSON-API-Vorlagen in den einzelnen
+    <dt>Core Configuration Type (<code>core_config_type</code>)</dt>
+    <dd>bezeichnet eine Variante der Konfiguration. Seit MyCoRe 2024.06 LTS können eigene Core-Typen definiert werden. 
+        Durch MyCoRe festgelegt sind die beiden Typen <code>main</code> und <code> classification</code>. 
+        Der Name des Types entspricht dem Pfad zu den JSON-API-Vorlagen für das Solr-Schema in den einzelnen
         MyCoRe-Modulen (z. B.<em>.../{modulname}/config/solr/{core_config_type}/solr-schema.json</em>).
-        Seit MyCoRe 2024.06 LTS können auch eigene Core-Typen definiert werden. Diese bestimmen jetzt auch in welchen
-        Kern die Daten indexiert werden. Es ist auch möglich, dass zwei Kerne den gleichen Typ haben und somit die
-        gleichen Daten parallel in zwei Kernen indexiert werden.
+        Es ist möglich, dass zwei Kerne den gleichen Typ zugewiesen haben und somit die gleichen Daten parallel in zwei Kernen indexiert werden.
     </dd>
 
-    <dt>CoreId - core_id</dt>
-    <dd>ist eine fiktive ID, mit der die einzelnen Cores einer Anwendung bezeichnet werden und mit der ihnen
-        spezifische Konfigurationen zugewiesen werden können. Standardmäßig werden diese gleichlautend wie die dazu
-        passenden Konfigurationstypen mit <code>main</code> und <code>classification</code> bezeichnet.
+    <dt>CoreId (<code>core_id</code>)</dt>
+    <dd>ist eine fiktive ID, mit der die einzelnen Cores in einer MyCoRe-Anwendung bezeichnet werden. Sie wird vor allem
+        für die Konfiguration benutzt. Standardmäßig werden die IDs anlog zu den passenden Konfigurationstypen
+        mit <code>main</code> und <code>classification</code> vergeben.
     </dd>
 
-    <dt>CoreName - core_name</dt>
-    <dd>ist der konkrete Name des Cores aus Sicht SOLR. Dies ist auch der Name, unter dem der Core tatsächlich in SOLR
-        zu finden ist.
+    <dt>CoreName (<code>core_name</code>)</dt>
+    <dd>ist der konkrete Name des Cores auf dem Solr-Server.
     </dd>
 </dl>
 
+<h2>Grundlegende Konfiguration</h2>
 <p>
     Nun müssen für jede MyCoRe-Anwendung ein oder mehrere Solr-Cores angelegt werden. Die Konfiguration der Kerne
     unterscheidet sich je nach Solr Installation. Wird Solr als Cloud-Installation betrieben, so wird die Konfiguration
-    über die seit 2024.06 LTS verfügbaren Solr-Cloud-CLI-Kommandos durchgeführt. Für eine reguläre Solr-Installation
-    werden Templates (Configuration Sets) für die Basiskonfiguration durch MyCoRe über GitHub bereitgestellt.
-
+    über die seit 2024.06 LTS verfügbaren Solr-Cloud-CLI-Kommandos durchgeführt. Für eine reguläre (Standalone) Solr-Installation
+    werden Templates (Configuration Sets) für die Basiskonfiguration durch MyCoRe über GitHub bereitgestellt oder per MyCoRe-Kommando erzeugt.
 </p>
 
-<h3>Grundlegende Konfiguration</h3>
+<h3>Solr-Cores</h3>
 <p>
-    Zunächst muss die Solr-Server-URL der MyCoRe-Anwendung über ein Property bekannt
-    gemacht werden (siehe <a href="{{< ref gs_properties >}}">MyCoRe-Konfigurationsverzeichnis</a>).
-    Weiterhin können für die einzelnen <em>CoreIds</em> der <em>CoreName</em> und falls abweichend auch die URLs
+    Zunächst muss die Solr-Server-URL der MyCoRe-Anwendung über ein Property
+    (siehe <a href="{{< ref gs_properties >}}">MyCoRe-Konfigurationsverzeichnis</a>) bekannt gemacht werden.
+    Weiterhin können für die einzelnen <em>CoreIds</em> der <em>CoreName</em> und falls abweichend auch die Solr-URLs
     definiert werden.
     Die <em>CoreId</em> <code>main</code> ist dabei immer erforderlich. Weitere <em>CoreIds</em> wie
-    <code>classification</code> sind optional.
+    <code>classification</code> sind optional.<br />
 
-    Es ist auch möglich, den Core auf einem anderen Solr Server zu erstellen. In diesem Fall
-    muss zusätzlich das Property <code>MCR.Solr.Core.{core_id}.ServerURL</code>
-    gesetzt werden. Somit können Solr-Cores auch auf verschiedenen physischen Hosts liegen.
+    Es ist möglich, den Core auf einem anderen Solr Server zu erstellen und zu benutzen. <br />
+    In diesem Fall muss das Property <code>MCR.Solr.Core.{core_id}.ServerURL</code>
+    gesetzt werden.
 </p>
 
 {{< highlight shell "linenos=table">}}
@@ -90,23 +85,22 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
     Bis MyCoRe 2023.06 LTS:
 </p>
 {{< highlight shell "linenos=table">}}
-    register solr core with name {core_name} as core main
-    register solr core with name my_core_name as core main
+register solr core with name {0} as core {1}
+register solr core with name my_core_name as core main
 {{< /highlight >}}
 
 
 <p>
     Ab MyCoRe 2024.06 LTS:
 </p>
-{{< highlight shell "linenos=table">}}
-    register solr core with name {0} as core {1}
-    add type {0} to solr core {1}
+{{< highlight txt "linenos=table">}}
+register solr core with name {0} as core {1}
+add type {0} to solr core {1}
 
-    register solr core with name my_core_name as core main
-    add type main to solr core main
-{{< /highlight >}}
+register solr core with name my_core_name as core main
+add type main to solr core main{{< /highlight >}}
 
-<h4>Authentifizierung</h4>
+<h3>Authentifizierung</h3>
 <p>
     Ab Version 2024.06 bietet MyCoRe die Möglichkeit, Solr-Server mit einer Authentifizierung zu nutzen.
     Im Solr können fein granular für verschiedene Funktionen und Cores die benötigten Rechten konfiguriert werden.
@@ -114,7 +108,7 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
     Properties gesetzt werden:
 </p>
 
-{{< highlight shell "linenos=table">}}
+{{< highlight txt "linenos=table">}}
  MCR.Solr.Server.Auth.Admin.Class=org.mycore.solr.auth.MCRSolrBasicPropertyAuthentication
  MCR.Solr.Server.Auth.Admin.Username=meinAdmin
  MCR.Solr.Server.Auth.Admin.Password=geheim123
@@ -125,7 +119,7 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
 
  MCR.Solr.Server.Auth.Search.Class=org.mycore.solr.auth.MCRSolrBasicPropertyAuthentication
  MCR.Solr.Server.Auth.Search.Username=meinSucher
- MCR.Solr.Server.Auth.Search.Password=geheim!
+ MCR.Solr.Server.Auth.Search.Password=geheim231
 {{< /highlight >}}
 
 <p>
@@ -133,61 +127,64 @@ MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
     <a href="https://solr.apache.org/guide/solr/latest/deployment-guide/basic-authentication-plugin.html">Basic Authentication</a>
     von Solr realisiert. Dazu wird die Konfigurationsdatei <code>security.json</code> auf dem Solr Server gepflegt.
     Die Authentifizierung erfolgt über das Senden eines <code>Authorization</code>-Headers in den Solr-Requests.
-    Wenn die Properties nicht gesetzt sind, führt MyCoRe keine Authentifizierung durch.
+    Wenn die Properties nicht gesetzt sind, führt MyCoRe keine Authentifizierung gegenüber Solr durch.
 </p>
 
 <p>
-    Der Search Nutzer benötigt das Recht <code>read</code> der Indexer die Rechte <code>read</code> und
-    <code>update</code> und der Admin die Rechte <code>all</code>.
+    Der <code>Search</code>-Nutzer benötigt das Recht <code>read</code> der <code>Index</code>-Nutzer die Rechte <code>read</code> und
+    <code>update</code> und der <code>Admin</code>-Nutzer das Recht <code>all</code>.
     Wenn mehrere Anwendungen auf den gleichen Solr-Server zugreifen, ist es ratsam, für jede Anwendung eigene Nutzer
     mit den entsprechenden Rechten passend zu den jeweiligen Kernen/Collections zu erstellen.
 </p>
 
-<h3>Reguläre Solr-Installation</h3>
-
-<h4>Configuration Sets laden</h4>
+<h3>Erstellen und Erweitern der Configsets</h3>
 <p>
-    Die Basis-Konfiguration eines Solr-Cores erfolgt über <strong>Configuration Sets</strong>.
-    Die Konfigurationen sind je nach MyCoRe-Version unterschiedlich. Ab 2024.06 LTS werden die Konfigurationen direkt
-    im Modul <code>mycore-solr</code> bereitgestellt. Für ältere Versionen müssen die Konfigurationen aus einen anderen
-    Repository geladen werden.
-<p>
-<h5>bis MyCoRe 2023.06 LTS</h5>
-<p>
-    Bei GitHub werden verschiedene
-    <a href="https://github.com/search?q=topic%3Asolr-core+org%3AMyCoRe-Org">MyCoRe-Config-Sets</a>
-    zur Verfügung gestellt. Für den Solr-Core vom Typ <code>main</code> wird das
-    <a href="https://github.com/MyCoRe-Org/mycore_solr_configset_main">mycore_solr_configset_main</a>
-    benötigt.
-</p>
-<h5>ab MyCoRe 2024.06 LTS</h5>
-<p>
-    Die <a href="https://github.com/MyCoRe-Org/mycore/tree/main/mycore-solr/src/main/resources/configset">MyCoRe-Config-Sets</a>
-    sind direkt im Modul <code>mycore-solr</code> enthalten.
-</p>
-<p>
-    Um das Set in den Solr-Server zu integrieren, können folgende Kommandos ausgeführt werden:
+    Ab MyCoRe 2024.06 LTS können die Configsets in der Anwendung definiert und erweitert werden.
+    Dazu werden die benötigten Dateien im Resource-Verzeichnis eines oder mehrerer MyCoRe-Module abgelegt und
+    über Properties spezifiert. Über den Mechanismus "Dynamische Properties" kann die Konfiguration auch 
+    über verschiedene Module hinweg erfolgen.<br />
+    Die Default-Konfiguration kann in der MyCoRe-Solr-Komponente gefunden werden. Sie lässt sich bei Bedarf erweitern:
 </p>
 
-{{< highlight shell "linenos=table">}}
-git clone https://github.com/MyCoRe-Org/mycore
-cp -R mycore/mycore-solr/src/main/resources/configset ../solr/server/solr/configsets
-cd ../solr/server/solr/configsets
+{{< highlight properties "linenos=table">}}
+MCR.Solr.ConfigSet.mycore_classification.Class=org.mycore.solr.cloud.configsets.MCRSolrResourceConfigSetProvider
+MCR.Solr.ConfigSet.mycore_classification.Files=managed-schema,solrconfig.xml,stopwords.txt,synonyms.txt
+MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
+
 {{< /highlight >}}
+<p>
+    <code>Base</code> stellt den Pfad zu den Konfigurationsdateien dar. Die Dateien welche in <code>Files</code> aufgeführt sind, werden als ein
+    ZIP-Archiv gepackt, welches per Kommando erzeugt oder an die Solr-Cloud gesendet wird. Die Dateien werden über den
+    <a href="{{<ref basics_resources>}}">ResourceResolver</a>-Mechanismus geladen.
+</p>
+<p>&nbsp;</p>
+<p>Die Einrichtung der Solr-Kerne ist abhängig von der Art des Solr-Servers und des verwendeten MyCoRe-Releases.</p>
+
+<h3>Standalone Solr-Server (bis MyCoRe 2023.06 LTS)</h3>
+<h4>Configuration Sets laden</h4>
+Bei GitHub werden verschiedene
+<a href="https://github.com/search?q=topic%3Asolr-core+org%3AMyCoRe-Org">MyCoRe-Config-Sets</a>
+zur Verfügung gestellt. Für den Solr-Core vom Typ <code>main</code> wird das
+<a href="https://github.com/MyCoRe-Org/mycore_solr_configset_main">mycore_solr_configset_main</a>
+benötigt.
+{{< highlight shell "linenos=table">}}
+ cd  .../solr/server/solr/configsets
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_main.git mycore_main {{< /highlight>}}
+
 
 <p>
-    Alternativ kann das Verzeichnis auch manuell heruntergeladen und in diesen Ordner kopiert werden. Analog kann
-    dies für das Klassifikations-Set aufgerufen werden:
+    Alternativ kann das Verzeichnis auch manuell heruntergeladen und in diesen Ordner kopiert werden.
 </p>
-
+<p>    
+    Analog kann das Configset für den Klassifikations-Core installiert werden:
 {{< highlight shell "linenos=table">}}
-git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git mycore_classification
+ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git mycore_classification
 {{< /highlight>}}
-
+</p>
 
 <h4>Standard Solr Core (main) erzeugen</h4>
 <p>
-    Basierend auf dem bereitgestellten Configuration Set wird nun ein Solr Core erzeugt.
+    Basierend auf den bereitgestellten Configuration Sets werden nun Solr-Cores erzeugt.
     Als Name des <strong>main</strong> Cores kann der Name der MyCoRe-Anwendung gewählt werden.
 </p>
 
@@ -196,22 +193,59 @@ git clone https://github.com/MyCoRe-Org/mycore_solr_configset_classification.git
 .../solr/bin/solr create -c my_core_name -d mycore_main
 {{< /highlight >}}
 
-<h3>Solr-Cloud-Installation (ab MyCoRe 2024.06 LTS)</h3>
+<h3>Standalone Solr-Server (ab MyCoRe 2024.06 LTS)</h3>
+<h4>Configuration Sets laden</h4>
+<p>
+    Die <a href="https://github.com/MyCoRe-Org/mycore/tree/main/mycore-solr/src/main/resources/configset">MyCoRe-Config-Sets</a>
+    sind direkt im Modul <code>mycore-solr</code> enthalten.
+ Da Anwendungen die Configuration Sets erweitern (z.B. Dateien ergänzen) können, sollte das vollständige Configuration Set über die MyCoRe-Kommandozeile
+ generiert werden:
+{{< highlight txt "linenos=table">}}
+ export solr configset mycore_main to folder /tmp/solr_configsets
+ export solr configset mycore_classification to folder /tmp/solr_configsets{{< /highlight >}}
 
+Die erstellten ZIP-Dateien müssen dann in den Ordner <code>.../solr/server/solr/configsets/%configset_name%/conf</code> entpackt werden:
+
+{{< highlight txt "linenos=table">}}
+ cd .../solr/server/solr/configsets
+ mkdir -p %configset_name%/conf
+ unzip /path/to/configset.zip -d %configset_name%/conf{{< /highlight >}}
+</p>
+
+<h4>Solr-Core(s) erzeugen</h4>
+<p>
+    Basierend auf den bereitgestellten Configuration Sets werden nun Solr-Cores erzeugt.
+    Als Name des <strong>main</strong> Cores kann der Name der MyCoRe-Anwendung gewählt werden.
+</p>
+
+{{< highlight shell "linenos=table">}}
+.../solr/bin/solr create -c {core_name} -d {config_set}
+.../solr/bin/solr create -c my_core_name -d mycore_main
+{{< /highlight >}}
+
+<h3>Solr-Cloud-Instanz (ab MyCoRe 2024.06 LTS)</h3>
+<h4>Configuration Sets laden</h4>
 <p>
     Seit MyCoRe 2024.06 LTS bietet MyCoRe die Möglichkeit, die Configuration Sets direkt in die Solr-Cloud zu laden und
     anschließend die Kerne(Collections) zu erstellen. Hierfür wird die Solr-ConfigSet-API und die Solr-Collection-API
     verwendet.
 </p>
-
-<h4>Configuration Sets laden</h4>
+<p>
+    Die ConfigSet-API erwartet ein ZIP-Archiv, welches die Konfigurationsdateien enthält, dass bedeutet MyCoRe muss
+    die Konfiguration aus einer Quelle laden können und diese in ein ZIP-Archiv packen und dieses an die Solr-Cloud
+    senden.
+    Hierfür wird das Interface <code>MCRSolrConfigSetProvider</code> verwendet. Dieses Interface muss von einer
+    Klasse implementiert werden, die die Konfigurationen bereitstellt.
+    Für den Standardfall, dass die Konfigurationen aus dem Klassenpfad zu laden sind, liefert MyCoRe die Klasse
+    <code>MCRSolrResourceConfigSetProvider</code>.
+</p>
 
 <p>
-    Die Configuration Sets mycore_main und mycore_classification sind direkt im Modul <code>mycore-solr</code> enthalten
-    und können direkt per MyCoRe-CLI geladen werden. Wichtig ist dafür das für den passenden Kern das richtige ConfigSet
+    Die Configuration Sets <code>mycore_main</code> und <code>mycore_classification</code> sind direkt im Modul <code>mycore-solr</code> enthalten
+    und können direkt per MyCoRe-CLI geladen werden. Wichtig ist dafür das für den passenden Kern das richtige Configuration Set
     festgelegt ist. Dies kann über das Property <code>MCR.Solr.Core.{core_id}.ConfigSetTemplate</code> erfolgen.
-    Für die Kerne <code>main</code> und <code>classification</code> sind die ConfigSets <code>mycore_main</code> und
-    <code>mycore_classification</code> in der MyCoRe-SOLR-Komponente vordefiniert.
+    Für die Kerne <code>main</code> und <code>classification</code> sind die Configuration Sets <code>mycore_main</code> und
+    <code>mycore_classification</code> in der MyCoRe-Solr-Komponente vordefiniert.
 </p>
 
 {{< highlight shell "linenos=table">}}
@@ -225,22 +259,22 @@ MCR.Solr.Core.classification.ConfigSetTemplate=mycore_classification
 {{< /highlight >}}
 
 <p>
-    Über die MyCoRe-CLI kann das ConfigSet geladen werden:
+    Über die MyCoRe-CLI kann das Configuration Set geladen werden:
 </p>
 
-{{< highlight shell "linenos=table">}}
+{{< highlight txt "linenos=table">}}
 
 upload local config set for {0}
-
 upload local config set for main
 
 {{< /highlight >}}
 
 <p>
-    Die ConfigSets können nicht für einen neuen Kern wiederverwendet werden, da nach dem Überspielen mit der Schema-API
-    auch das ConfigSet modifiziert wird. Daher werden die ConfigSets in der Solr-Cloud unter einem bestimmten
-    modifizierten Namen abgelegt, welcher sich aus dem Muster $CoreId_$ConfigSetName zusammen setzt. Das ConfigSet
-    <code>mycore_main</code> wird also in der Solr-Cloud unter dem Namen <code>main_mycore_main</code> abgelegt.
+    In der Solr-Cloud-Instanz können die Configuration Sets nicht für einen weiteren Kern wiederverwendet werden, 
+    da beim Aktualisieren mit der Schema-API auch das Configuration Set modifiziert wird. 
+    Daher werden sie in der Solr-Cloud unter einem bestimmten
+    modifizierten Namen abgelegt, welcher sich nach dem Muster <code>$CoreId_$ConfigSetName</code> zusammensetzt. Das Configuration Set
+    <code>mycore_main</code> wird also in der Solr-Cloud beispielsweise unter dem Namen <code>main_mycore_main</code> abgelegt.
 </p>
 
 <h4>Erzeugen des Solr-Cores</h4>
@@ -250,23 +284,20 @@ upload local config set for main
     Solr-Collection-API verwendet. Folgende Kommandos können verwendet werden:
 </p>
 
-{{< highlight shell "linenos=table">}}
+{{< highlight txt "linenos=table">}}
 
 create collection for core {0}
-
 create collection for core main
 
 {{< /highlight >}}
 
 <p>
-    Die Collection wird mit dem Standardwert für die Anzahl der Shards erstellt. Diese können über
+    Die Collection wird mit dem Standardwert für die Anzahl der Shards erstellt.<br /> Diese können über
     das Property <code>MCR.Solr.Core.{core_id}.ShardCount</code> angepasst werden.
 </p>
 
-<h3>Solr Schema laden</h3>
-
 <p>
-    Anschließend kann über die SOLR-Web-Oberfläche geprüft werden, ob der Core richtig angelegt wurde
+    Über die Solr-Web-Oberfläche kann geprüft werden, ob der Core richtig angelegt wurde
     (<a href="http://localhost:8983/solr/#/~cores">http://localhost:8983/solr/#/~cores</a>).
 </p>
 
@@ -276,7 +307,7 @@ create collection for core main
     kann eine Liste der zu setzenden Properties in der CLI angezeigt werden.
 </p>
 
-
+<h2>Solr Schema laden</h2>
 <p>
     Da verschiedene MyCoRe Komponenten und Module individuelle Suchfelder und Datentypen benötigen, können diese
     direkt in den Modulen definiert werden. Mittels eines MyCoRe-Kommandos werden diese Definitonsdateien ausgelesen
@@ -321,8 +352,8 @@ or
     In Solr wird die anwenderseitige Konfiguration in der gesonderten Datei <em>configoverlay.json</em>
     im jeweiligen Kern abgelegt. Hier können Einträge aus den Gruppen stehen, welche im Property
     <code>MCR.Solr.ObserverConfigTypes</code> definiert sind. Ggf. sind in diesen Definitionen auch Verweise
-    auf eigene SOLR-FieldTypes vorhanden. Diese Elemente (z. B. ein RequestHandler) müssen beim Reload der
-    SOLR-Kern-Konfiguration vorher gelöscht werden. Um nicht all Konfigurationen wahllos zu löschen, sind
+    auf eigene Solr-FieldTypes vorhanden. Diese Elemente (z. B. ein RequestHandler) müssen beim Reload der
+    Solr-Kern-Konfiguration vorher gelöscht werden. Um nicht all Konfigurationen wahllos zu löschen, sind
     diese im <em>mycore.properties</em> des jeweiligen Datenmodells explizit zum Löschen anzugeben.
 </p>
 
@@ -354,41 +385,13 @@ mycore.sh reload solr configuration main in core main
     <a href="https://lucene.apache.org/solr/guide/8_9/config-api.html">Config API</a>)
 </p>
 
-<h2>Erstellen und Hochladen eigener Configsets in die Solr-Cloud</h2>
-<p>
-    Mit MyCoRe 2024.06 LTS können eigene Configsets in die Solr-Cloud hochgeladen werden. Hierfür wird die
-    Solr-ConfigSet-API verwendet.
-    Die ConfigSet-API erwartet ein ZIP-Archiv, welches die Konfigurationsdateien enthält, dass bedeutet MyCoRe muss
-    die Konfiguration aus einer Quelle laden können und diese in ein ZIP-Archiv packen und dieses an die Solr-Cloud
-    senden.
-    Hierfür wird das Interface <code>MCRSolrConfigSetProvider</code> verwendet. Dieses Interface muss von einer
-    Klasse implementiert werden, die die Konfigurationen bereitstellt.
-    Für den Standardfall, dass die Konfigurationen aus dem Klassenpfad zu laden sind, liefert MyCoRe die Klasse
-    <code>MCRSolrResourceConfigSetProvider</code>.
-    Eine Beispielkonfiguration kann in der MyCoRe-SOLR-Komponente gefunden werden:
-</p>
-
-{{< highlight properties "linenos=table">}}
-
-MCR.Solr.ConfigSet.mycore_classification.Class=org.mycore.solr.cloud.configsets.MCRSolrResourceConfigSetProvider
-MCR.Solr.ConfigSet.mycore_classification.Files=managed-schema,solrconfig.xml,stopwords.txt,synonyms.txt
-MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
-
-{{< /highlight >}}
-
-<p>
-    Base stellt den Pfad zu den Konfigurationsdateien dar. Die Dateien welche in Files aufgeführt sind, werden in ein
-    ZIP-Archiv gepackt und an die Solr-Cloud gesendet. Die Dateien werden über den
-    <a href="{{<ref basics_resources>}}">ResourceResolver</a>geladen.
-</p>
-
 <h2>Textextraktion mit Tika</h2>
 <p>
     Standardmäßig findet die Textextraktion aus den Dokumenten innerhalb von Solr statt. Jedoch raten die Entwickler von
     Solr davon ab, die Textextraktion im produktiven Betrieb zu nutzen und empfehlen die Textextraktion vorab
     durchzuführen.
     Hierfür kann das Property <code>MCR.Solr.Indexer.File.AccumulatorList</code> genutzt werden. Dieses Property
-    erwartet eine Liste von Klassen, welche zusätzliche SOLR-Felder aus Dateien extrahieren und für die Indexierung
+    erwartet eine Liste von Klassen, welche zusätzliche Solr-Felder aus Dateien extrahieren und für die Indexierung
     bereitstellen.
     Für die Textextraktion mit Tika kann die Klasse
     <code>org.mycore.solr.index.file.tika.MCRSolrRemoteTikaAccumulator</code> verwendet werden. Diese Klasse sendet
@@ -456,7 +459,8 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
 
 <h2>Das Solr-Document</h2>
 <p>
-    Die in Solr zu speichernden Daten werden als Solr-Document über eine Kette von XSLT-Transformationen generiert.
+    Die in Solr zu speichernden Daten werden als Solr-Document über eine Kette von XSLT-Transformationen generiert,
+    welches dann an den Solr-Server gesendet wird.
     Hierfür ist das Property <code>MCR.URIResolver.xslImports.solr-document</code>
     zuständig. Grundsätzlich in der Kette enthalten sind die Stylesheets <code>solr-basetemplate.xsl</code>
     und <code>mycoreobject-dynamicfields.xsl</code>. Weitere Transformer können dieser Kette angefügt werden (siehe
@@ -488,7 +492,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
         <p>
             Über verschiedene <code>rebuild</code> Kommandos (siehe <a href="{{< ref "#solr_commands" >}}">Kommandos
             zur Arbeit mit Solr</a>)
-            können die Daten in den Solr Core eingespielt werden. Um alle Daten zu indexieren, kann folgendes Kommando
+            können die Daten in den Solr Core eingespielt werden. Um alle Daten zu indexieren, kann beispielsweise folgendes Kommando
             verwendet werden:
         </p>
         <p>
@@ -498,10 +502,9 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
         </p>
 
         <h2>Eigene Request-Handler einbinden</h2>
-        <p>MyCoRe verhindert grundsätzlich den Gebrauch eigener Request-Handler solange diese nicht MyCoRe bekannt
-            sind. Grundsätzlich sind nur die Handler <code>/select</code> und <code>/update</code> aus
-            Sicherheitsgründen
-            zugelassen. Sollen weitere Handler benutzt werden, so müssen diese im Property <code>MCR.Solr.Proxy.WhiteList</code>
+        <p>MyCoRe verhindert grundsätzlich den Gebrauch eigener Solr-Request-Handler solange diese nicht MyCoRe bekannt
+            sind. Aus Sicherheitsgründen sind zunächst nur die Handler <code>/select</code> und <code>/update</code> zugelassen.
+            Sollen weitere Handler benutzt werden, müssen diese im Property <code>MCR.Solr.Proxy.WhiteList</code>
             hinzugefügt werden. Dies kann mit folgender Konfiguration erfolgen:</p>
         <p>
 {{< highlight shell "linenos=table">}}
@@ -511,19 +514,16 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
         <!-- p>[ToDo] Beispiel Autosuggestion</p -->
 
         <h2>Solr und Content Security Policy</h2>
-        <p>Mit Solr8 kommt bei den Responses die <a href="https://www.w3.org/TR/CSP3/" target="_blank">Content Security
-            Policy (CSP)</a>
-            im Header zum tragen. Diese Policies werden in MyCoRe an die
+        <p>Mit Solr 8 kommt bei den Responses die <a href="https://www.w3.org/TR/CSP3/" target="_blank">Content Security
+            Policy (CSP)</a> im Header zum tragen. Diese Policies werden in MyCoRe an die
             Layout-Komponenten weiter gegeben. Nutzt die Webseite externe Referenzen, kann das zu Konflikten führen. Um
-            die CSP zu
-            überschreiben, wurde das folgende Property eingeführt. Diese kann die CSP aus Solr ersetzen oder, wenn es
-            leer ist, diese
-            abschalten.
+            die CSP zu überschreiben, wurde das folgende Property eingeführt. Es kann die CSP aus Solr ersetzen oder, wenn es
+            leer ist, diese abschalten.
         </p>
-{{< highlight shell "linenos=table">}}
+{{< highlight txt "linenos=table">}}
   MCR.Solr.HTTPResponseHeader.Content-Security-Policy=default-src 'none'; base-uri 'none'; connect-src 'self';
-  form-action 'self'; font-src 'self'; frame-ancestors 'none'; img-src 'self'; media-src 'self'; style-src 'self'
-  'unsafe-inline'; script-src 'self' 'unsafe-inline' https://...; worker-src 'self';
+    form-action 'self'; font-src 'self'; frame-ancestors 'none'; img-src 'self'; media-src 'self'; 
+    style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://...; worker-src 'self';
 {{< /highlight >}}
 
         <h2>Properties für die Solr-Komponente</h2>
@@ -575,7 +575,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
                         MCR.Solr.Core.{core_id}.ShardCount
                     </td>
                     <td>
-                        Beim Erschaffen eines Solr-Cores in der Solr-Cloud wird die Anzahl der Shards festgelegt.
+                        Beim Erstellen eines Solr-Cores in der Solr-Cloud wird die Anzahl der Shards festgelegt.
                     </td>
                     <td>
                         <strong>optional</strong> default=1
@@ -827,7 +827,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
         <h2>Solr Kommandos für die MyCoRe CLI</h2>
         <p>
             Folgende Kommandos stehen für die Arbeit mit Solr an der Kommandozeile zur Verfügung.
-            <strong class="text-warning">Bitte beachten Sie Folgendes bei der Arbeit mit SOLR-Kommandos: Verwenden Sie
+            <strong class="text-warning">Achtung: Verwenden Sie bei der Arbeit mit Solr-Kommandos
                 die CLI (mycore.sh) stets im interaktiven Modus. Andernfalls besteht die Gefahr, dass Operationen nicht
                 vollständig ausgeführt werden!</strong>
             Die Core ID für den Standard Solr Core in MyCoRe ist
@@ -844,33 +844,33 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
                 </thead>
                 <tbody>
                 <tr>
-                    <td>show remote config sets</td>
+                    <td><nobr>show remote config sets</nobr></td>
                     <td>Zeigt die Namen der Konfigurationssets auf dem Remote-Solr-Server an.</td>
                 </tr>
                 <tr>
-                    <td>show local config sets</td>
+                    <td><nobr>show local config sets</nobr></td>
                     <td>Zeigt die in den MyCoRe-Einstellungen definierten Konfigurationssets an.</td>
                 </tr>
                 <tr>
-                    <td>delete remote config set for {0}</td>
+                    <td><nobr>delete remote config set for {0}</nobr></td>
                     <td>Sucht das für den angegebenen Core {0} verwendete Konfigurationsset in den MyCoRe-Einstellungen
                         und löscht es vom Remote-Solr-Server.
                     </td>
                 </tr>
                 <tr>
-                    <td>upload local config set for {0}</td>
+                    <td><nobr>upload local config set for {0}</nobr></td>
                     <td>Sucht das für den angegebenen Core {0} verwendete Konfigurationsset in den MyCoRe-Einstellungen
                         und lädt es auf den Remote-Solr-Server hoch.
                     </td>
                 </tr>
                 <tr>
-                    <td>create collection for core {0}</td>
+                    <td><nobr>create collection for core {0}</nobr></td>
                     <td>Erstellt eine neue Collection auf dem Remote-Solr-Server unter Verwendung des in den
                         MyCoRe-Einstellungen definierten Konfigurationssets für den Core {0}.
                     </td>
                 </tr>
                 <tr>
-                    <td>remove collection for core {0}</td>
+                    <td><nobr>remove collection for core {0}</nobr></td>
                     <td>Entfernt eine Collection auf dem Remote-Solr-Server unter Verwendung des in den
                         MyCoRe-Einstellungen definierten Konfigurationssets für den Core {0}.
                     </td>
@@ -879,7 +879,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
             </table>
         </div>
 
-        <h3>SOLR Core Admin Commands</h3>
+        <h3>Solr Core Admin Commands</h3>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -904,7 +904,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
                     </td>
                 </tr>
                 <tr>
-                    <td>remove type {0} from solr core {1}</td>
+                    <td><nobr>remove type {0} from solr core {1}</nobr></td>
                     <td>Entfernt einen Typ aus einem Solr-Core, sodass Dokumente dieses Typs nicht mehr in diesem Core
                         indexiert werden. Der Typ kann 'main' oder 'classification' sein.
                     </td>
@@ -932,7 +932,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
                     </td>
                 </tr>
                 <tr>
-                    <td>reload solr configuration {0} in core {1}</td>
+                    <td><nobr>reload solr configuration {0} in core {1}</nobr></td>
                     <td>Lädt das Schema und die Konfiguration in Solr neu, indem die Solr-Schema-API für den Core mit
                         der
                         ID {0} verwendet wird.
@@ -942,7 +942,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
             </table>
         </div>
 
-        <h3>SOLR Index and Search Commands</h3>
+        <h3>Solr Index and Search Commands</h3>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -1050,15 +1050,9 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
 
         <h2>Solr-Abfragen über die MyCoRe-Java-API</h2>
         <p>
-            Mit diesem Code-Schnipsel soll demonstriert werden, wie ein Zugriff auf die Solr-Daten mittels MyCoRe-API
-            erfolgen kann. Seit MyCoRe 2024.06 LTS unterstützt MyCoRe die Authentifizierung für Solr-Abfragen, deshalb
-            sollte die Authentifizierung für die Abfrage angewendet werden. Dafür wird die Klasse
-            <code>MCRSolrAuthenticationManager</code> genutzt.
-            Sie bietet die Möglichkeit, die in MyCoRe konfigurierte Authentifizierung zu einem <code>SolrRequest</code>
-            oder
-            zu einem <code>HttpRequest.Builder</code> hinzuzufügen.
+            Mit diesen Code-Schnipseln soll demonstriert werden, wie ein Zugriff auf die Solr-Daten mittels MyCoRe-API
+            erfolgen kann.
         </p>
-
         <h3>Bis 2023.06 LTS</h3>
 
 {{< highlight java "linenos=table">}}
@@ -1083,6 +1077,11 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
 
 
         <h3>Ab 2024.06 LTS</h3>
+        <p>
+          Seit Version 2024.06 LTS unterstützt MyCoRe die Authentifizierung von Solr-Abfragen. Deshalb
+          sollte diese ab jetzt immer (unabhängig davon, ob die Authentifizierung tatsächlich konfiguriert ist) bei der Implementierung berücksichtigt werden.
+          Die Klasse <code>MCRSolrAuthenticationManager</code> enthält Methoden, die die in MyCoRe konfigurierte Authentifizierung zu einem <code>SolrRequest</code>
+          oder zu einem <code>HttpRequest.Builder</code> hinzufügen.</p>
 
 {{< highlight java "linenos=table">}}
  import org.apache.solr.client.solrj.SolrClient;
@@ -1109,7 +1108,7 @@ MCR.Solr.ConfigSet.mycore_classification.Base=configset/mycore_main/conf/
    QueryResponse process = queryRequest.process(solrClient);
    SolrDocumentList results = process.getResults();
  } catch (SolrServerException e) {
-   throw new RuntimeException(e); // handle this
+     throw new RuntimeException(e); // handle this
  }
 
  ...
