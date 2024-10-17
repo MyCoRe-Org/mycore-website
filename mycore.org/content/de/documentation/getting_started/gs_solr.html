@@ -42,10 +42,11 @@ date: "2024-10-16"
       </p>
       
       <p>
-        Werden innerhalb der MyCoRe-Anwendung Volltexte indexiert, sollte beim Solr-Start zusätzlich der Parameter<br />
-        <code>-Dsolr.jetty.request.header.size=524288</code> verwendet werden. <br />
-        Das ist notwendig, damit bei der Indexierung ausreichend Platz für die Übertragung
-        von Wort-Koordinaten zur Verfügung steht. Im Produktivbetrieb kann der Parameter über die Umgebungsvariable <code>SOLR_OPTS</code> gesetzt werden.
+        Wenn innerhalb der MyCoRe-Anwendung <strong>Volltexte im Alto-Format</strong> indexiert werden, ist eine weitere Einstellung notwendig. 
+        Das ist der Fall, wenn das Property <code>MCR.Solr.Indexer.File.AccumulatorList</code> den Wert <code>org.mycore.mets.solr.MCRSolrAltoExtractor</code> enthält.<br />
+        Dann sollte beim Solr-Start zusätzlich der Parameter <code>-Dsolr.jetty.request.header.size=524288</code> verwendet werden.
+        Dadurch steht bei der Indexierung ausreichend Platz für die Übertragung
+        der Wort-Koordinaten zur Verfügung. Im Produktivbetrieb kann der Parameter über die Umgebungsvariable <code>SOLR_OPTS</code> gesetzt werden.<br />
       </p>
       
       <p>
