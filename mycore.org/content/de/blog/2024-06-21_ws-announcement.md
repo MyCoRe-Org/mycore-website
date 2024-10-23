@@ -1,13 +1,13 @@
 ---
 title:  "19. MyCoRe-Workshop 2024"
 slug: 	mycore-workshop
-date:   2024-06-27
-publishDate: 2024-06-27
+date:   2024-10-23
+publishDate: 2024-10-23
 
 draft: 	false
 
 blog/authors: 	["Wiebke Oeltjen"]
-blog/periods: 	2024-06
+blog/periods: 	2024-10
 blog/categories:
  - Workshops
 
@@ -29,10 +29,27 @@ news/teaser_en:	 	"From 5. to 7. November the MyCoRe User Workshop will take pla
   <h2>Ankündigung und Einladung</h2>
   <p>
    Auch dieses Jahr trifft sich die MyCoRe-Community zum Austausch mit den MyCoRe-Kernentwicklern um sich über neuste Entwicklungen auszutauschen.
-Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>6. November</strong> von 9 bis 17:30 Uhr und am Donnerstag, dem <strong>7. November 2024</strong> von 9 bis 12 Uhr statt. Die <strong>Anreise</strong> ist für den <strong>5.11.2024</strong> geplant. Am Abend des 5.11. treffen wir uns um 19 Uhr zu einem ersten Austausch. Am Mittwoch, dem 6.11. sind Berichte über aktuelle Entwicklungen und Vorstellung neuer Anwendungen geplant, und am Donnerstag, dem 9.11. finden am Vormittag weitere Präsentationen und Diskussionen statt. Die Agenda wird rechtzeitig vorher bekannt gegeben.
+Der <strong>Workshop</strong> findet am Mittwoch, dem <strong>6. November</strong> von 9 bis 17:30 Uhr und am Donnerstag, dem <strong>7. November 2024</strong> von 9 bis 12 Uhr statt. Die <strong>Anreise</strong> ist für den <strong>5.11.2024</strong> geplant. Am Abend des 5.11. treffen wir uns um 19 Uhr zu einem ersten Austausch. Am Mittwoch, dem 6.11. sind Berichte über aktuelle Entwicklungen und Vorstellung neuer Anwendungen geplant, und am Donnerstag, dem 9.11. finden am Vormittag weitere Präsentationen und Diskussionen statt. 
 
-Wer ein Thema für einen Vortrag vorschlagen möchte oder eine Anwendung vorstellen will, kann eine Mitteilung an <info@mycore.de> schicken.
-Alle weiteren Informationen folgen rechtzeitig vorher. 
+  </p>
+  <h2>Adresse</h2>
+  <p>
+  Landschaftsverband Rheinland (LVR) </br>
+  Hermann-Pünder-Straße 1 </br>
+  50679 Köln-Deutz </br>
+  Raum "Erft" im Horion-Haus
+  </p>
+  
+  <h2>Agenda</h2>
+  Die <a href="https://mycore.atlassian.net/wiki/external/Yzg4OWM1OGU3NmE4NGFkMDgxZGUzZDlkMDNhMmYyMzc" title="Agenda zum MyCoRe-Workshop 2024">Agenda</a> steht fest, kann sich aber in einzelnen Punkten noch ändern.  
+  
+  Explizit hinweisen möchten wir auf die <strong>„Lightning-Talks“</strong>: Dazu bitten wir euch um kurze Berichte über eure Wünsche bezüglich MyCoRe „Ich wünsche mir für MyCoRe…“. Möglichst viele Entwickler:innen und Anwender:innen können hier jeweils kurz (2-5 min) berichten: Gibt es einen Featurewunsch? Oder könnt ihr uns ein Aha-Erlebnis mitteilen? 
+
+  <p>
+  Wer online teilnehmen möchte, schickt bitte eine E-Mail an die <a href="{{< ref contact >}}">MyCoRe Geschäftsstelle</a>. Die Zugangsdaten zum Zoom-Meeting werden dann mitgeteilt.
+  </p>
+
+  Wir freuen uns auf einen intensiven Austausch und eine spannende Veranstaltung.
   </p>
 </div>
 <div>  
