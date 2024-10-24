@@ -22,7 +22,7 @@ einsetzbaren Operatoren (z.B. Phrasensuche, Trunkierung, &lt;, &gt;, ...).
 {{< mcr-figure src="/images/io/features/searchfield.png"  title="Auszug aus der Datei searchfields.xml" width="100%" />}}
 {{< mcr-figure src="/images/io/features/mcrql.png"  title="Expertensuche mit der MyCoRe-Anfragesprache" width="100%" />}}
 Die Suche in MyCoRe ist auf Basis von
-[Apache Lucene](http://lucene.apache.org"Apache Lucene Home")
+[Apache Lucene](https://lucene.apache.org"Apache Lucene Home")
 realisiert. Obwohl auch andere Implementierungen denkbar sind, ist dies
 die zur Zeit einzige Implementierung der MyCoRe Suche, die für den Produktionseinsatz sinnvoll ist.
 Über Lucene durchlaufen indizierte Texte ggf. verschiedene Normalisierungsschritte wie Stammwortreduktion (Stemming) und

@@ -8,7 +8,7 @@ title: Standardisierte Schnittstellen
 ## „Open Archives Initiative“ OAI-PMH 2.0
 
 MyCoRe bietet eine Data-Provider-Schnittstelle entsprechend dem „Metadata Harvesting Protocol“ der
-[Open Archives Initiative](http://www.openarchives.org"OAI - Open Archives Initiative")
+[Open Archives Initiative](https://www.openarchives.org"OAI - Open Archives Initiative")
 in der aktuellen Protokoll-Version 2.0. 
 Als OAI-Data-Provider macht eine MyCoRe-Anwendung die Metadaten ihrer Inhalte in verschiedenen Formaten zugänglich.
 Externe OAI-Service-Provider können diese Daten über die Schnittstelle sammeln und weiterverarbeiten.
@@ -17,13 +17,13 @@ Die OAI-Schnittstelle ist frei konfigurierbar, unterstützt Sets, Resumption-Tok
 MyCoRe-Klassifikationen können dabei direkt zur Bildung einer Set-Struktur verwendet werden.
 Über XSL-Stylesheets können beliebige Ausgabeformate implementiert werden. Bereits implementiert sind die folgenden Formate:
 
-* [Dublin Core:](http://www.openarchives.org/OAI/openarchivesprotocol.html#dublincore)
+* [Dublin Core:](https://www.openarchives.org/OAI/openarchivesprotocol.html#dublincore)
 Dieses Format muss jede OAI-Data-Provider-Implementierung bereitstellen. 
 Es ist der kleinste gemeinsame Nenner für die Interoperabilität von Metadaten.
-* [XMetaDissPlus:](http://www.dnb.de/DE/Standardisierung/Metadaten/xMetadissPlus.html)
+* [XMetaDissPlus:](https://www.dnb.de/DE/Standardisierung/Metadaten/xMetadissPlus.html)
 In diesem Format sammelt die Deutsche Nationalbibliothek die Metadaten von Online-Hochschulschriften und E-Dissertationen.
 MyCoRe-basierte Publikationsserver können so neu eingestellte E-Publikationen automatisiert an die DNB melden.
-* [Epicur:](http://www.d-nb.de/wir/projekte/epicur.htm"EPICUR (Enhancement of Persistent Identifier Services - Comprehensive Method for unequivocal Resource Identification)
+* [Epicur:](https://www.d-nb.de/wir/projekte/epicur.htm"EPICUR (Enhancement of Persistent Identifier Services - Comprehensive Method for unequivocal Resource Identification)
 Über dieses Ausgabeformat werden persistente Identifikatoren (URNs) zu E-Publikationen und Digitalisaten an die Deutsche Nationalbibliothek zur Registrierung gemeldet. 
 
 ## Zugang für Suchmaschinen-Robots

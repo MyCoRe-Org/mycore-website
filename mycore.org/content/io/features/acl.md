@@ -35,7 +35,7 @@ das Passwort auch über die Weboberfläche verwaltet werden kann.
 
 Zusätzlich können weitere Authentifizierungsbereiche implementiert und konfiguriert werden, über die ein Login bei einem
 externen Dienst oder über eine externe Methode (etwa LDAP) erfolgt. Bereits implementiert ist eine Authentifizierung über
-[**CAS** (Central Authentication Service)](http://www.jasig.org/cas), ein Single-Sign-On-Dienst,
+[**CAS** (Central Authentication Service)](https://www.jasig.org/cas), ein Single-Sign-On-Dienst,
 der an vielen Hochschulen im Einsatz ist. Benutzer können sich über CAS anmelden, so dass die MyCoRe Anwendung nicht mehr das Passwort des Benutzers speichert. Über CAS authentifizierte Benutzer werden nach Login dynamisch in MyCoRe angelegt.
 Die Attribute wie Rollen und E-Mail des Benutzers werden dabei aus einem LDAP-Verzeichnis ausgelesen.
 

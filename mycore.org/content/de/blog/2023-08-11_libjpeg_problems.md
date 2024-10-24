@@ -68,7 +68,7 @@ Das Paket muss lediglich herunterladen und über den Paket-Manager installiert w
 
 ```
 $ cd /tmp
-$ wget http://de.archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.1.5-2ubuntu1_amd64.deb
+$ wget https://de.archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.1.5-2ubuntu1_amd64.deb
 $ sudo apt install -f /tmp/libjpeg-turbo8_2.1.5-2ubuntu1_amd64.deb
 ```
 

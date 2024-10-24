@@ -22,7 +22,7 @@ Neben den Datei-Inhalten werden auch weitere beschreibende Daten zu Dateien verw
 insbesondere eine MD5 Prüfsumme zur Konsistenzprüfung. Als physisches Speichermedium dient ein separater Bereich
 im lokalen Dateisystem, auf den der Browser des Anwenders nur indirekt über Java Servlets zugreift.
 So kann die Anwendung sicherstellen, dass Zugriffsberechtigungen nicht umgangen werden. Neben dem **lokalen Dateisystem**
-unterstützt MyCoRe über das [Apache Commons Virtual Fileystems](http://commons.apache.org/proper/commons-vfs/filesystems.html)
+unterstützt MyCoRe über das [Apache Commons Virtual Fileystems](https://commons.apache.org/proper/commons-vfs/filesystems.html)
 auch direkt die Speicherung auf entfernten Dateisystemen via <strong>FTP, SFTP oder CIFS</strong>.
 
 MyCoRe kann mehrere solcher Speicherorte für Dateien (Content Stores) parallel verwenden.

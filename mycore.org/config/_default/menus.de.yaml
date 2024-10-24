@@ -185,7 +185,7 @@ main:
 -   {identifier: contact,               parent: community,             name: Kontaktaufnahme,              weight: -98,     url: /site/community/contact}
 -   {identifier: team,                  parent: community,             name: Team,                         weight: -97,     url: /site/community/team}
 -   {identifier: workshops,             parent: community,             name: Workshops,                    weight: -96,     url: /site/community/workshops}
--   {identifier: bugs,                  parent: community,             name: zum JIRA,               weight: -94,     url: 'http://mycore.atlassian.net'}
--   {identifier: wiki,                  parent: community,             name: zum Wiki,               weight: -93,     url: 'http://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
--   {identifier: maven,                 parent: community,             name: zu Maven,               weight: -92,     url: 'http://mvnrepository.com/artifact/org.mycore'}
+-   {identifier: bugs,                  parent: community,             name: zum JIRA,               weight: -94,     url: 'https://mycore.atlassian.net'}
+-   {identifier: wiki,                  parent: community,             name: zum Wiki,               weight: -93,     url: 'https://cmswiki.rrz.uni-hamburg.de/hummel#MyCoReWikiWiki'}
+-   {identifier: maven,                 parent: community,             name: zu Maven,               weight: -92,     url: 'https://mvnrepository.com/artifact/org.mycore'}
 -   {identifier: github,                parent: community,             name: zu Github,              weight: -91,     url: 'https://github.com/MyCoRe-Org'}

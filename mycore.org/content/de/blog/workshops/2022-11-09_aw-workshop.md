@@ -28,6 +28,6 @@ news/teaser_en:	 	"MyCoRe user amd developers met in Kiel at CAU and online at 9
 <div>
   <h2>Der MyCoRe-Workshop 2022 fand in Kiel an der CAU und online statt</h2>
   <p>
-  Nachdem die letzten zwei MyCoRe-Workshops nur online stattfinden konnten, durften wir dieses Jahr an der Christian-Albrechts-Universität zu Kiel (CAU) zu Gast sein. Ein prall gefülltes Programm gab Gelegenheit zum Austausch über das neue <a href="http://localhost:1313/site/download/dl_mycore/release/"> MyCoRe-Release</a>. Es wurden neue MyCoRe-Anwendungen  präsentiert, Vorträge rund um MyCoRe gehalten und verschiedene Themen diskutiert. Die Präsentationen sind größtenteils  <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2022">online</a> abrufbar.
+  Nachdem die letzten zwei MyCoRe-Workshops nur online stattfinden konnten, durften wir dieses Jahr an der Christian-Albrechts-Universität zu Kiel (CAU) zu Gast sein. Ein prall gefülltes Programm gab Gelegenheit zum Austausch über das neue <a href="https://mycore.de/site/download/dl_mycore/release/"> MyCoRe-Release</a>. Es wurden neue MyCoRe-Anwendungen  präsentiert, Vorträge rund um MyCoRe gehalten und verschiedene Themen diskutiert. Die Präsentationen sind größtenteils  <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Organisation/AnwenderWorkshop2022">online</a> abrufbar.
   </p>
 </div>

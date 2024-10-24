@@ -24,5 +24,5 @@ Learn more and contribute on [GitHub](https://github.com/gohugoio).
 ---
 
 <small>
-_Favicon made by [Freepik](https://www.freepik.com/), from [Flaticon](https://www.flaticon.com/), licensed by [CC 3.0](http://creativecommons.org/licenses/by/3.0/)._
+_Favicon made by [Freepik](https://www.freepik.com/), from [Flaticon](https://www.flaticon.com/), licensed by [CC 3.0](https://creativecommons.org/licenses/by/3.0/)._
 </small>

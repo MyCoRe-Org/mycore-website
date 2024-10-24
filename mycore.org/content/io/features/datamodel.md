@@ -26,7 +26,7 @@ die ggf. durch ein **XML Schema** spezifiziert wird.
 So können beliebige XML-basierte Datenmodelle wie z. B. MODS direkt in MyCoRe
 zur Beschreibung von Objekten verwendet werden.
         
-[MODS](http://www.loc.gov/standards/mods/ "zur MODS-Homepage") (Metadata Object Description Schema)
+[MODS](https://www.loc.gov/standards/mods/ "zur MODS-Homepage") (Metadata Object Description Schema)
 ist ein XML-basiertes Metadatenschema der Library of Congress, für das MyCoRe bereits eine
 spezielle Unterstützung mit vordefinierter Funktionalität bietet.
 Dazu gehören etwa der direkte Import von MODS-Metadaten als MyCoRe-Objekte und die Abbildung auf MyCoRe-Klassifikationen.
@@ -98,7 +98,7 @@ und mit der sie zitiert werden können. Alle Formen von „Persistent Identifier
 gespeichert werden.
 
 MyCoRe unterstützt direkt die Generierung, Vergabe und Verwaltung von
-[URNs](http://www.persistent-identifier.de/),
+[URNs](https://www.persistent-identifier.de/),
 Persistent Identifiern im Namensraum urn:nbn:de,
 wie sie die Deutsche Nationalbibliothek für E-Publikationen einsetzt. Für die Generierung
 von URNs stehen verschieden Algorithmen zur Verfügung, etwa auf Basis von Zeitstempeln oder fortlaufenden
