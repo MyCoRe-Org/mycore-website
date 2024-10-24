@@ -28,6 +28,11 @@ date: "2023-06-30"
         Der jeweilige Endpunkt muss über <code>MCR.ORCID2.BaseURL</code> konfiguriert werden.
       </p>
       <p>
+        Bestehende Nutzer, wie beispielsweise Shibboleth-Nutzer, haben die Möglichkeit, sich zusätzlich bei ORCID zu autorisieren und von den damit verbundenen Vorteilen zu profitieren.
+        Alternativ können sie sich auch Gäste direkt bei ORCID autorisieren.
+        Standardmäßig ist <code>orcid.org</code> als Realm ID dafür vorgesehen.
+      <p>
+      <p>
         Bei der Autorisierung ist der sogeannte <i>Scope</i> entscheidend.
         Der <a href="https://info.orcid.org/ufaqs/what-is-an-oauth-scope-and-which-scopes-does-orcid-support/">Scope</a> beschreibt den Grad der Autorisierung.
         Scopes können kombiniert werden, beispielsweise würde die Kombination aus <code>read-limited</code>, <code>/activities/update</code> und <code>/person/update</code> vollständigen Lese- und Schreibzugriff für ein ORCID-Profil bedeuten.
@@ -36,7 +41,7 @@ date: "2023-06-30"
       <p>
         Das Resultat einer erfolgreichen Autorisierung eines Nutzenden ist letztendlich ein Token, das 30 Jahre gültig ist.
         Jenes wird als Nutzerattribut gespeichert.
-        Nutzende können sich theoretisch mehrmals gleichzeichtig über verschiedene ORCID iDs autorisieren.
+        Shibboleth-Nutzende können sich theoretisch mehrmals gleichzeichtig über verschiedene ORCID iDs autorisieren.
       </p>
       <p>
         Letztendlich kann die Konfiguration wie folgt aussehen:
@@ -49,17 +54,40 @@ MCR.ORCID2.OAuth.ClientSecret=foo
 MCR.ORCID2.OAuth.Scope=/read-limited /activities/update /person/update
 {{< /highlight >}}
       </p>
+      <p>
+        Die Autorisierung für Gäste ist standardmäßig nicht verfügbar und muss konfiguriert werden.
+        Mit folgender Konfiguration wird die Autorisierung für Gäste aktiviert und Nutzende werden nach erfolgreicher Autorisierung persistiert:
+      </p>
+      {{< highlight text "linenos=table">}}
+MCR.ORCID2.OAuth.EnableForGuests=true
+MCR.ORCID2.OAuth.PersistUser=true
+{{< /highlight >}}
+      </p>
       <h3>Prozess</h3>
       <p>
-        Die Autorisierung kann über <code>/rsc/orcid/init?scope=&lsaquo;scope&rsaquo;</code> gestartet werden.
+        Die Autorisierung kann über <code>/rsc/orcid/oauth/init?scope=&lsaquo;scope&rsaquo;</code> gestartet werden.
         Wichtig ist hier die Nennung des Scopes, der autorisiert werden soll.
         Über <code>MCR.ORCID2.OAuth.Scope</code> kann ein genereller Scope definiert werden.
         Sofern kein Scope als Parameter über bei der Anfrage übergeben wird, wird das Property als Fallback genommen.
-        Wenn <code>MCR.ORCID2.PreFillRegistrationForm=true</code>, werden <a href="https://info.orcid.org/ufaqs/what-information-can-i-pre-fill-on-the-authentication-screen/">Nutzerinformation</a> für die Autorisierung übergeben.
+        Wenn <code>MCR.ORCID2.OAuth.PreFillRegistrationForm=true</code>, werden ggf. <a href="https://info.orcid.org/ufaqs/what-information-can-i-pre-fill-on-the-authentication-screen/">Nutzerinformation</a> für die Autorisierung übergeben.
       </p>
       <p>
-        Generell wird seitens ORCID empfohlen, den Prozess in einem separaten Fenster laufen zu lassen.
         Für den Prozess der Autorisierung steht eine JavaScript-Bibliothek zur Verfügung.
+      </p>
+      <h4>Gäste</h4>
+      <p>
+        Sofern die Autorisierung für Gäste konfiguriert wurde kann, kann eine Einbindung beispielweise über <code>realms.xml</code> ermöglicht werden. Ein Beispiel dafür finden Sie hier:
+      </p>
+      {{< highlight xml "linenos=table">}}
+  <realm id="orcid.org">
+    <label xml:lang="de">Externe Personen</label>
+    <label xml:lang="en">External Persons</label>
+    <login url="/rsc/orcid/oauth/init">
+      <label xml:lang="de">Anmelden mit ORCID</label>
+      <label xml:lang="en">Login with ORCID</label>
+    </login>
+  </realm>
+{{< /highlight >}}
       </p>
     </div>
     <div>
