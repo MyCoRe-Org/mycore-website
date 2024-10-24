@@ -352,8 +352,8 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 {{< highlight xml "linenos=table">}}
   <xsl:variable name="diniclass">
     <mods:classification displayLabel="dini"
-                         authorityURI="http://mycore.de/mir/classifications/diniPublType" 
-                         valueURI="http://mycore.de/mir/classifications/diniPublType#StillImage" />
+                         authorityURI="http://www.mycore.de/mir/classifications/diniPublType" 
+                         valueURI="http://www.mycore.de/mir/classifications/diniPublType#StillImage" />
   </xsl:variable>
   
   <xsl:copy-of select="mcrmods:to-mycoreclass($diniclass/*, 'single')" />
@@ -411,8 +411,8 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
 <p>
 {{< highlight xml "linenos=table">}}
   <xsl:variable name="modsclass">
-    <mods:classification authorityURI="http://mycore.de/mir/classifications/accesscondition" 
-                         valueURI="http://mycore.de/mir/classifications/accesscondition#openaccess" 
+    <mods:classification authorityURI="http://www.mycore.de/mir/classifications/accesscondition" 
+                         valueURI="http://www.mycore.de/mir/classifications/accesscondition#openaccess" 
                          displayLabel="accesscondition">frei zugänglich (Open Access)</mods:classification>
   </xsl:variable>
   <xsl:value-of select="mcrmods:to-uri($modsclass/*)" />

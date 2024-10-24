@@ -8,7 +8,7 @@
 	<script>
 		$.ajax({
 			type : "GET",
-			url : "http://mycore.de/mir/api/v1/search?q=objectType:mods&rows=0&wt=json&json.wrf=?",
+			url : "https://www.mycore.de/mir/api/v1/search?q=objectType:mods&rows=0&wt=json&json.wrf=?",
 			dataType : "jsonp",
 			success : function(data) {
 				$('#doc_count').text(data.response.numFound);

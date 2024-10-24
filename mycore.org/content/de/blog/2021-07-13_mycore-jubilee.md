@@ -28,7 +28,7 @@ Es gab viele Meilensteine in den letzten 20 Jahren. Ein paar sollen hier genannt
 
 * Das erste MyCoRe-Treffen, die konstituierende Sitzung fand im November 2000 im Ziegenledersaal der Universität Leipzig statt. Mit dabei: Jens Kupferschmidt, Frank Lützenkirchen und einige weitere Personen und Firmenvertreter.  
 * Die Domain `mycore.de` wurde 2001 angemeldet. Es folgte die Anmeldung der Domain `mycore.org` am 11.06.2004.
-* Am 26.9.2001 wurde die erste Webseite mit Informationen über MyCoRe veröffentlicht und am [29.10.2001](https://web.archive.org/web/20011026120606/http://www.mycore.de/) im „Internet Archive“ erfasst.
+* Am 26.9.2001 wurde die erste Webseite mit Informationen über MyCoRe veröffentlicht und am [29.10.2001](https://web.archive.org/web/20011026120606/https://www.mycore.de/) im „Internet Archive“ erfasst.
 * 2003 geht die erste 100% pure MyCoRe-Anwendung an der Universität Leipzig online: das ist die _„Papyrussammlungen Halle-Jena-Leipzig“_, die inzwischen im [Papyrus-Portal](https://papyri.uni-leipzig.de/content/general.xml) aufgegangen ist.
 * Am 8. Juli 2005 wurde eine Wikipedia-Seite „[MyCoRe](https://de.wikipedia.org/wiki/MyCoRe)“ angelegt.
 * Seit 16.11.2005 gibt es die _MyCoRe-Projektkoordination_ (Geschäftsstelle).
