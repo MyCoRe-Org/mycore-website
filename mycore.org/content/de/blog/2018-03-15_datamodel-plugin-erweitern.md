@@ -15,7 +15,7 @@ blog/tags:
 
 ---
 
-Wer das MyCoRe [Datamodel-Plugin](https://github.com/MyCoRe-Org/datamodel-plugin) verwendet, um ein eigenes [Datenmodell](http://www.mycore.de/documentation/basics/mcrobject/mcrobject_datadef.html) in ein XML-Schema zu übersetzen kommt vielleicht an den Punkt, dass er eigene Datentypen ergänzen möchte. Dabei stellt sich die Frage, wie man Erweiterungen diesen Plugin zur Verfügung stellt.<!--more--> 
+Wer das MyCoRe [Datamodel-Plugin](https://github.com/MyCoRe-Org/datamodel-plugin) verwendet, um ein eigenes [Datenmodell](https://www.mycore.de/documentation/basics/mcrobject/mcrobject_datadef.html) in ein XML-Schema zu übersetzen kommt vielleicht an den Punkt, dass er eigene Datentypen ergänzen möchte. Dabei stellt sich die Frage, wie man Erweiterungen diesen Plugin zur Verfügung stellt.<!--more--> 
 
 Heute habe ich entdeckt, dass der Prozess des Übersetzens relativ leicht mittels [XML-Catalogs](http://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html) zu erweitern ist.
 

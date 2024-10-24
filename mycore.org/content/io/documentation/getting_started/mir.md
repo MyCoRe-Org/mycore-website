@@ -70,7 +70,7 @@ eine UUID - muss dann vollständig kopiert und eingefügt werden. Danach kann di
 
 {{< mcr-figure src="/images/io/documentation/getting_started/wizard_token.png"  title="MIR-Wizard - Sicherheitsabfrage nach einem Token" width="75%" />}}
 
-{{< mcr-figure class="border border-secondary" src="/images/_generated/documentation/getting_started/wizard_token.png"  caption="MIR-Wizard - Sicherheitsabfrage nach einem Token" count="Abbildung 1:" alt="Tokenabfrage im MIR-Wizard" width="550px" attr="MyCoRe-Community (http://www.mycore.org)" />}}
+{{< mcr-figure class="border border-secondary" src="/images/_generated/documentation/getting_started/wizard_token.png"  caption="MIR-Wizard - Sicherheitsabfrage nach einem Token" count="Abbildung 1:" alt="Tokenabfrage im MIR-Wizard" width="550px" attr="MyCoRe-Community (https://www.mycore.org)" />}}
 
      
 {{< mcr-figure src="/images/io/documentation/getting_started/wizard_install_log.png"  title="MIR-Wizard - Token-Logausgabe auf der Shell" width="100%" />}}
@@ -173,11 +173,11 @@ gibt einen Überblick über typische Anpassungen bei einer eigenen MIR-Anwendung
 Als Vorlage können dafür die Dateien in den MIR-Komponenten verwendet werden. Dateien, die an der gleichen Stelle liegen (unterhalb von <code>webpages</code>
 == unterhalb von <code>resources</code> in den MIR-Komponenten) und den gleichen Namen haben wie in einer MIR-Komponente werden dann
 durch die eigene Angabe überschrieben. Alle Inhaltsseiten, Erfassungsmasken und Stylesheets zur MIR-Anwendung liegen in
-[mir-module/src/main/resources](http://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-module/src/main/resources/).
+[mir-module/src/main/resources](https://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-module/src/main/resources/).
 Für Layoutanpassungen kann eine eigene css-Datei hinterlegt werden, die im Verzeichnis css wie in der obigen Abbildung dargestellt abzulegen ist.
 Sollte das Basis-HTML angepasst werden sollen, so stehen hierfür die beiden XSL-Dateien <code>mir-flatmir-layout.xsl</code> und
 <code>mir-flatmir-layout-utils.xsl</code> in
-[mir-flatmir-layout/src/main/resources/xsl/](http://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-flatmir-layout/src/main/resources/xsl/)
+[mir-flatmir-layout/src/main/resources/xsl/](https://www.mycore.de/viewvc/viewvc.cgi/maven/mir/trunk/mir-flatmir-layout/src/main/resources/xsl/)
 zur Verfügung.
 
 Sollten diese Möglichkeiten zur Layoutanpassung nicht genügen, so empfehlen wir (auch in Hinblick auf Migrierbarkeit), ein eigenes Layoutmodul
@@ -227,7 +227,7 @@ MIR.ReCaptcha.secret.key=1234hierkommtdannderprivateschluesselhin4321
 MIR.ReCaptcha.site.key=5678undhierderoeffentlicheschluessel8765
 {{< / highlight >}}
 
-Diese Konfiguration ist so auch auf [mycore.org/mir/](http://www.mycore.org/mir/) aktiv und kann dort getestet werden.
+Diese Konfiguration ist so auch auf [mycore.org/mir/](https://www.mycore.org/mir/) aktiv und kann dort getestet werden.
 
 ## Aktualisierung
 

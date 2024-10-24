@@ -24,7 +24,7 @@ draft: false
   <h3>OpenAPI-Dokumentation</h3>
   <p>
     Neben der Beschreibung auf dieser Webseite, liefert jede MyCoRe-Anwendung auch eine Dokumentation
-    der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="http://mycore.de/mir/api/v2/openapi.json">http://mycore.de/mir/api/v2/openapi.json</a>.  
+    der REST-Schnittstelle im OpenAPI-Format aus: z.B.: <a href="https://www.mycore.de/mir/api/v2/openapi.json">https://www.mycore.de/mir/api/v2/openapi.json</a>.  
    </p>
    <h3 id="security">Zugriffsschutz</h3>
    <p>Die Nutzung der REST-API wird durch 
@@ -55,8 +55,8 @@ draft: false
    </p>
    <h5 class="js-toc-ignore">Beispiel-Requests</h5>
    <ul>
-     <li><a href="http://www.mycore.de/mir/api/v2/objects">http://www.mycore.de/mir/api/v2/objects</a></li>
-     <li><a href="http://www.mycore.de/mir/api/v2/objects.json">http://www.mycore.de/mir/api/v2/objects.json</a></li>
+     <li><a href="https://www.mycore.de/mir/api/v2/objects">https://www.mycore.de/mir/api/v2/objects</a></li>
+     <li><a href="https://www.mycore.de/mir/api/v2/objects.json">https://www.mycore.de/mir/api/v2/objects.json</a></li>
    </ul>
    <p></p>
    <h4><span class="badge badge-secondary">GET</span> /objects/{$id}</h4>
@@ -82,8 +82,8 @@ draft: false
         
      <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
-       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003</a></li>
-       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03">http://www.mycore.de/mir/api/v2/objects/mir_mods_03</a></li>
+       <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003">https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003</a></li>
+       <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_03">https://www.mycore.de/mir/api/v2/objects/mir_mods_03</a></li>
        <li><a href="http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281">http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281</a></li>
      </ul>
      {{< highlight shell>}}
@@ -107,8 +107,8 @@ draft: false
         
      <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
-       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata</a></li>
-       <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata">http://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata</a></li>
+       <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata">https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/metadata</a></li>
+       <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata">https://www.mycore.de/mir/api/v2/objects/mir_mods_03/metadata</a></li>
        <li><a href="http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281/metadata">http://rosdok.uni-rostock.de/api/v2/objects/recordIdentifier:rosdok%252Fppn746606281/metadata</a></li>
      </ul>
      {{< highlight shell>}}
@@ -375,12 +375,12 @@ curl -D - -X PUT -u administrator:*PASSWORD*
        
       <h5 class="js-toc-ignore">Beispiel-Requests</h5>
       <ul>
-        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates</a></li>
-        <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates.xml">http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates.xml</a></li>
+        <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates">https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates</a></li>
+        <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates.xml">https://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates.xml</a></li>
       </ul>
       {{< highlight shell>}}
 curl -H "Accept: application/json" 
-     http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates
+     https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates
 {{< /highlight >}}    
       
      <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}</h4>
@@ -433,8 +433,8 @@ curl -H "Accept: application/json"
 
         <h5 class="js-toc-ignore">Beispiel-Requests</h5>
          <ul>
-          <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open</a></li>
-          <li><a href="http://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open">http://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open">https://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/Document_derivate_00000002/open</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v1/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open">https://www.mycore.de/mir/api/v1<br />/objects/mir_mods_00000003/derivates/label:data%20object%20from%20mir_mods_00000003/open</a></li>
           <li><a href="http://rosdok.uni-rostock.de/api/v1/objects/recordIdentifier:rosdok%252Fppn746606281/derivates/label:Cover/open">http://rosdok.uni-rostock.de/api/v1<br />/objects/recordIdentifier:rosdok%252Fppn746606281/derivates/label:Cover/open</a></li>
         </ul>
 -->
@@ -467,15 +467,15 @@ curl -H "Accept: application/json"
 
         <h5 class="js-toc-ignore">Beispiel-Requests</h5>
          <ul>
-          <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents</a></li>
-          <li><a href="http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents/document.pdf">http://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents/document.pdf</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents">https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003/derivates/Document_derivate_00000002/contents/document.pdf">https://www.mycore.de/mir/api/v2/objects/mir_mods_00000003<br />/derivates/Document_derivate_00000002/contents/document.pdf</a></li>
          </ul>
         
         <p><span class="badge badge-secondary">Hinweis:</span> Datei-Downloads sind auch über die File-API realisierbar:</p>
    
         <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
-          <li><a href="http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf">http://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf</a></li>
+          <li><a href="https://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf">https://www.mycore.de/mir/servlets/MCRFileNodeServlet/Document_derivate_00000002/handreichung-publikationsfonds.pdf</a></li>
           <li><a href="http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg">http://rosdok.uni-rostock.de/file/rosdok_document_0000006760/rosdok_derivate_0000025090/ppn746606281.cover.jpg</a></li>
         </ul>
         
@@ -510,7 +510,7 @@ curl -H "Accept: application/json"
      {{< highlight shell>}}
 curl -D - -X POST -u administrator:*PASSWORD*
      -H "Content-Type: application/x-www-form-urlencoded" 
-     -d "order=1&title=%28de%29Volltextdokument&title=%28en%29fulltext%20document&classification=derivate_types%3Acontent"
+     -d "order=1&maindoc=index.html&title=%28de%29Volltextdokument&title=%28en%29fulltext%20document&classification=derivate_types%3Acontent"
      http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates
 {{< /highlight >}}    
      
@@ -690,8 +690,8 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 
         <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
-          <li><a href="http://www.mycore.de/mir/api/v2/classifications">http://www.mycore.de/mir/api/v2/classifications</a></li>
-          <li><a href="http://www.mycore.de/mir/api/v2/classifications.json">http://www.mycore.de/mir/api/v2/classifications.json</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/classifications">https://www.mycore.de/mir/api/v2/classifications</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/classifications.json">https://www.mycore.de/mir/api/v2/classifications.json</a></li>
         </ul>
 
         
@@ -710,8 +710,8 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 
         <h5 class="js-toc-ignore">Beispiel-Requests</h5>
         <ul>
-          <li><a href="http://www.mycore.de/mir/api/v2/classifications/state">http://www.mycore.de/mir/api/v2/classifications/state</a></li>
-          <li><a href="http://www.mycore.de/mir/api/v2/classifications/state.xml">http://www.mycore.de/mir/api/v2/classifications/state.xml</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/classifications/state">https://www.mycore.de/mir/api/v2/classifications/state</a></li>
+          <li><a href="https://www.mycore.de/mir/api/v2/classifications/state.xml">https://www.mycore.de/mir/api/v2/classifications/state.xml</a></li>
         </ul>
 
 <!-- 

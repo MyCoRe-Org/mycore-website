@@ -136,7 +136,7 @@ Im Ergebnis sehen wir nun die neuen XML-Elemente <tt>&lt;maindoc_size&gt;</tt> u
 
 ## Erzeugen des Detailansicht mit XSLT3
 Zur Erzeugung des HTML-Codes der Detailansicht (Frontpage) können wir ab Version {{< mcr-version "2020.06" >}} XSLT3 verwenden.
-Ein neues Feature sind XSLT-Funktionen. Die MyCoRe-Community stellt einige [XSLT-Funktionen](http://www.mycore.de/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen) zur Verfügung, die 
+Ein neues Feature sind XSLT-Funktionen. Die MyCoRe-Community stellt einige [XSLT-Funktionen](https://www.mycore.de/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen) zur Verfügung, die 
 beispielsweise die Arbeit mit Übersetzungen (I18N) oder Anzeige von Klassifikationen erleichtern.
 
 Um die Funktionen nutzen zu können muss im ``<stylesheet>``- Element deren  Namespace deklariert werden

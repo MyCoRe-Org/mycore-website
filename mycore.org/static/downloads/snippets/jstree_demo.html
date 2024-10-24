@@ -10,7 +10,7 @@
     <script>
    	 $.ajax({
 		type: "GET",
-        url: "http://www.mycore.de/mir/api/v1/classifications/mir_genres?style=jstree;opened&format=json",
+        url: "https://www.mycore.de/mir/api/v1/classifications/mir_genres?style=jstree;opened&format=json",
         dataType: "jsonp",
         success: function (data) {
          	$('#jsTreeGenre').jstree({
@@ -21,7 +21,7 @@
            },
        });
    	 
-   	$.getJSON( "http://www.mycore.de/mir/api/v1/classifications/mir_institutes?style=jstree&format=json&callback=?", 
+   	$.getJSON( "https://www.mycore.de/mir/api/v1/classifications/mir_institutes?style=jstree&format=json&callback=?", 
    			function( data ){
 		   		$('#jsTreeInstitutions').jstree({
         		   'core' : {

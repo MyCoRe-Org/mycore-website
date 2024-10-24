@@ -32,7 +32,7 @@ Aufbau des neu erstellten Konfigurations-Verzeichnisses:
 mycore.properties
 {{< / highlight >}}
 
-Weitere Informationen dazu siehe [MCRConfigurationDir](http://www.mycore.de/generated/mycore/apidocs/org/mycore/common/config/MCRConfigurationDir.html)
+Weitere Informationen dazu siehe [MCRConfigurationDir](https://www.mycore.de/generated/mycore/apidocs/org/mycore/common/config/MCRConfigurationDir.html)
 
 ## MyCoRe-Properties
 
@@ -74,7 +74,7 @@ Weitere Informationen dazu siehe [MCRConfigurationDir](http://www.mycore.de/gene
           <tr>
             <td>MCR.baseurl</td>
             <td>Basis-URL unter der die Anwendung läuft</td>
-            <td>http://mycore.de/mir/</td>
+            <td>https://www.mycore.de/mir/</td>
           </tr>
         </tbody>
       </table>
