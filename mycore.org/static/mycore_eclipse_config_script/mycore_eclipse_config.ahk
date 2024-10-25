@@ -17,6 +17,7 @@
 ; Change History:
 ;   v.0.91:  - Git Basis-Verzeichnis aktualisieren
 ;            - Javascript Formatter Konfiguration herunterladen und installieren
+;   v.0.92:  - CSS-Code Formatierung hinzugefügt
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
@@ -70,10 +71,11 @@ Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y305 w260 r1 vOptJavascriptCodeStyle Checked, Javascript Code Style Formatter
 Gui, Add, CheckBox, x350 y330 w260 r1 vOptXMLCode Checked, XML File Formatting
 Gui, Add, CheckBox, x350 y350 w260 r1 vOptHTMLCode Checked, HTML File Formatting
-Gui, Add, CheckBox, x350 y375 w260 r1 vOptGitCode Checked, Git Repository Configuration
+Gui, Add, CheckBox, x350 y370 w260 r1 vOptCSSCode Checked, CSS File Formatting
+Gui, Add, CheckBox, x350 y395 w260 r1 vOptGitCode Checked, Git Repository Configuration
 
 Gui, Font, S10 bold, Verdana
-Gui, Add, Button, x410 y395 w120 r1 gConfigure, Konfigurieren
+Gui, Add, Button, x410 y415 w120 r1 gConfigure, Konfigurieren
 
 if(!A_isAdmin) {
 	GuiControl, Disable, TextEclipseVersion
@@ -99,7 +101,7 @@ Configure:
 	SetKeyDelay, %KeyDelay%
 	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
 	WinActivate, ahk_class SWT_Window0
-	
+
 	if(OptEncoding = 1) {
 		Encoding()
 	}
@@ -114,6 +116,9 @@ Configure:
 	}
 	if(OptHTMLCode = 1) {
 		HTMLCode()
+	}
+	if(OptCSSCode = 1) {
+		CSSCode()
 	}
 	if(OptGitCode = 1) {
 		GitCode()
@@ -239,7 +244,31 @@ HTMLCode() {
 		; Fenster schließen
 		Send, {Esc}
 	}
+
 }
+
+; CSS-Code Formatierung
+CSSCode() {
+		; Window -> Preferences -> Web -> CSS Files -> Editor
+		Send, ^3
+		Send, Editor Web CSS Files
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !e
+		Send, {Tab}
+		Send, {Enter}
+		; Line width 120
+		Send, !w
+		Send, ^a
+		Send, 120
+		; Indent using spaces
+		Send, !n
+		; Indentation size 2
+		Send, !d
+		Send, 2
+		; Fenster schließen
+		Send, {Esc}
+	}
 
 ; Git
 GitCode() {
