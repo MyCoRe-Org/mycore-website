@@ -76,12 +76,14 @@ date: "2024-07-05"
             <!-- Ist diese Umstellung zwingend ??? -->
        </ul>
      </li>   
-      <li>Backend
-        <ul>
-          <li>Das JPA-Model für Zugriffsschlüssel würde um den Member uuid erweitert. Deshalb die Tabelle MCRAccessKey um die Spalte uuid mit dem Type UUID erweitert werden. Das Schema kann automatisch über <code>MCR.JPA.Hbm2ddlAuto=update</code> aktualisiert werden.</li>
-        </ul>
-      </li>
-      </ul>
+	 <li>Backend
+	   <ul>
+	     <li>Das JPA-Model für Zugriffsschlüssel wurde um das Feld <code>uuid</code> erweitert. <br />
+	         Deshalb muss die Tabelle <code>MCRAccessKey</code> um die Spalte <code>uuid</code> mit dem Type UUID ergänzt werden.
+	         Das Schema kann automatisch über <code>MCR.JPA.Hbm2ddlAuto=update</code> aktualisiert werden.</li>
+	   </ul>
+	 </li>
+     </ul>
       
       <h3>... die ohne Migration eingeführt wurden</h3>
       <ul>
@@ -322,18 +324,23 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
          </li>
         <li>
           <p>
-            Mit <a href="https://mycore.atlassian.net/browse/MCR-3209">MCR-3209</a> wurden die ORCID API Endpunkte teilweise verändert.
+            Mit <a href="https://mycore.atlassian.net/browse/MCR-3209">MCR-3209</a> wurden die ORCID-API Endpunkte teilweise verändert.
           </p>
           <p>
-            <code>/api/orcid/v1/object-status/v3/{objectID}</code> wurde in member und public aufgeteilt.
-            So kann der Status explizit über <code>/api/orcid/v1/public/{orcid}/works/object/{objectId}</code> über die öffentliche ORCID API abgefragt werden.
-            Über <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> kann der Status über die ORCID Member API abgefragt werden.
-            Ebenfalls hat sich das resultierende JSON verändert, mit <code>own</code> wird ggf. der Put-Code für das Object, das über die Anwendung erstellt wurden, angegeben.
+            Der Endpunkt <code>/api/orcid/v1/object-status/v3/{objectID}</code> wurde in member und public aufgeteilt.<br />
+            So kann der Status explizit mittels <code>/api/orcid/v1/public/{orcid}/works/object/{objectId}</code> über die öffentliche ORCID API abgefragt werden.
+            Mit <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> kann der Status über die ORCID Member API abgefragt werden.
+          </p>
+          <p>
+            Ebenfalls hat sich das resultierende JSON verändert:<br /> mit <code>own</code> wird ggf. der Put-Code für das Objekt,
+            das über die Anwendung erstellt wurden, angegeben.<br />
             <code>other</code> gibt ein Array mit Put-Codes von dem Objekt wieder, die nicht von der Anwendung erstellt wurden.
-            Der Pfad zum Erstellen eines Objects hat sich auf <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> geändert.
           </p>
           <p>
-            Der Endpunkt zum Revoken einer ORCID ist nun <code>/rsc/orcid/oauth/{orcid}</code> und passiert mit einem HTTP-DELETE.
+            Der Pfad zum Erstellen eines Objekts wurde auf <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> geändert.
+          </p>
+          <p>
+            Der Endpunkt zum Revoken einer ORCID ist nun <code>/rsc/orcid/oauth/{orcid}</code> und passiert mit einem HTTP-DELETE-Request.
           </p>
           <p>
             Die Methode <code>revokeORCID</code> in orcid-auth.js wurde umbenannt in <code>revokeOrcidOAuth</code>.
