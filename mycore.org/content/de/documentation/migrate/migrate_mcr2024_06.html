@@ -76,6 +76,11 @@ date: "2024-07-05"
             <!-- Ist diese Umstellung zwingend ??? -->
        </ul>
      </li>   
+      <li>Backend
+        <ul>
+          <li>Das JPA-Model für Zugriffsschlüssel würde um den Member uuid erweitert. Deshalb die Tabelle MCRAccessKey um die Spalte uuid mit dem Type UUID erweitert werden. Das Schema kann automatisch über <code>MCR.JPA.Hbm2ddlAuto=update</code> aktualisiert werden.</li>
+        </ul>
+      </li>
       </ul>
       
       <h3>... die ohne Migration eingeführt wurden</h3>
