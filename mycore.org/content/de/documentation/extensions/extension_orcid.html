@@ -67,28 +67,31 @@ MCR.ORCID2.OAuth.PersistUser=true
       <p>
         Die Autorisierung kann über <code>/rsc/orcid/oauth/init?scope=&lsaquo;scope&rsaquo;</code> gestartet werden.
         Wichtig ist hier die Nennung des Scopes, der autorisiert werden soll.
-        Über <code>MCR.ORCID2.OAuth.Scope</code> kann ein genereller Scope definiert werden.
+        Über das Property <code>MCR.ORCID2.OAuth.Scope</code> kann ein genereller Scope definiert werden.
         Sofern kein Scope als Parameter über bei der Anfrage übergeben wird, wird das Property als Fallback genommen.
-        Wenn <code>MCR.ORCID2.OAuth.PreFillRegistrationForm=true</code>, werden ggf. <a href="https://info.orcid.org/ufaqs/what-information-can-i-pre-fill-on-the-authentication-screen/">Nutzerinformation</a> für die Autorisierung übergeben.
+        Wenn das Property <code>MCR.ORCID2.OAuth.PreFillRegistrationForm=true</code> gesetzt ist,
+        werden ggf. <a href="https://info.orcid.org/ufaqs/what-information-can-i-pre-fill-on-the-authentication-screen/">Nutzerinformation</a>
+        für die Autorisierung übergeben.
       </p>
       <p>
         Für den Prozess der Autorisierung steht eine JavaScript-Bibliothek zur Verfügung.
       </p>
       <h4>Gäste</h4>
       <p>
-        Sofern die Autorisierung für Gäste konfiguriert wurde kann, kann eine Einbindung beispielweise über <code>realms.xml</code> ermöglicht werden. Ein Beispiel dafür finden Sie hier:
+        Sofern die Autorisierung für Gäste konfiguriert wurde kann, kann eine Einbindung beispielweise über <code>realms.xml</code> 
+        ermöglicht werden. Ein Beispiel dafür finden Sie hier:
       </p>
-      {{< highlight xml "linenos=table">}}
-  <realm id="orcid.org">
-    <label xml:lang="de">Externe Personen</label>
-    <label xml:lang="en">External Persons</label>
-    <login url="/rsc/orcid/oauth/init">
-      <label xml:lang="de">Anmelden mit ORCID</label>
-      <label xml:lang="en">Login with ORCID</label>
-    </login>
-  </realm>
+{{< highlight xml "linenos=table">}}
+<realm id="orcid.org">
+  <label xml:lang="de">Externe Personen</label>
+  <label xml:lang="en">External Persons</label>
+  <login url="/rsc/orcid/oauth/init">
+    <label xml:lang="de">Anmelden mit ORCID</label>
+    <label xml:lang="en">Login with ORCID</label>
+  </login>
+</realm>
 {{< /highlight >}}
-      </p>
+
     </div>
     <div>
       <h2>Client</h2>
