@@ -322,6 +322,25 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
          </li>
         <li>
           <p>
+            Mit <a href="https://mycore.atlassian.net/browse/MCR-3209">MCR-3209</a> wurden die ORCID API Endpunkte teilweise verändert.
+          </p>
+          <p>
+            <code>/api/orcid/v1/object-status/v3/{objectID}</code> wurde in member und public aufgeteilt.
+            So kann der Status explizit über <code>/api/orcid/v1/public/{orcid}/works/object/{objectId}</code> über die öffentliche ORCID API abgefragt werden.
+            Über <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> kann der Status über die ORCID Member API abgefragt werden.
+            Ebenfalls hat sich das resultierende JSON verändert, mit <code>own</code> wird ggf. der Put-Code für das Object, das über die Anwendung erstellt wurden, angegeben.
+            <code>other</code> gibt ein Array mit Put-Codes von dem Objekt wieder, die nicht von der Anwendung erstellt wurden.
+            Der Pfad zum Erstellen eines Objects hat sich auf <code>/api/orcid/v1/member/{orcid}/works/object/{objectId}</code> geändert.
+          </p>
+          <p>
+            Der Endpunkt zum Revoken einer ORCID ist nun <code>/rsc/orcid/oauth/{orcid}</code> und passiert mit einem HTTP-DELETE.
+          </p>
+          <p>
+            Die Methode <code>revokeORCID</code> in orcid-auth.js wurde umbenannt in <code>revokeOrcidOAuth</code>.
+          </p>
+        </li>
+        <li>
+          <p>
             Mit <a href="https://mycore.atlassian.net/browse/MCR-3200">MCR-3200</a> werden keine Standardwerte mehr für die ORCID-User-Properties ausgeliefert,
             sofern jene nicht existieren. Damit wird ermöglicht, dass im Frontend unterschieden werden kann, ob ein User bereits Properties festgelegt hat.
             Dies kann beispielsweise wichtig werden, wenn sich die Standardwerte einmal ändern sollten und ein User diese nicht für sich übernommen bzw. für sich gespeichert hat.
