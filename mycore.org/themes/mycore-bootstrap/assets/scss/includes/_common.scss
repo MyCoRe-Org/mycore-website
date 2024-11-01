@@ -173,6 +173,21 @@ a.latestnews:hover {
   margin: 0.25rem 0rem;
 }
 
+/* blockquote */
+
+blockquote, .blockquote{
+	font-size: 1rem;
+	border-left: .2rem solid #062873;
+	margin-left: 1rem;
+	padding-left: 1rem;
+	margin-right:2rem;
+}
+
+blockquote footer, .blockquote-footer{
+	text-align:right;
+	font-style:italic;
+}
+
 /* footnotes */
 
 section.footnotes {

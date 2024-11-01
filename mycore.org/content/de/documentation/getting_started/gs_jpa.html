@@ -377,14 +377,14 @@ MCR.JPA.PersistenceUnit.MyCoRe.Properties.jakarta.persistence.jdbc.url=jdbc:post
     Es ist nicht empfehlenswert, die Verbindungen automatisch durch den Pool schließen zu lassen.
 </p>
 
-<blockquote class="blockquote text-center">
-    <p class="small">
+<blockquote>
+    <p>
         HikariCP does not, in principle, believe that the pool should coverup connection leaks. We disagree with the
         reasoning behind C3P0's unreturned connection handling.
         The leak detection is there to help you pinpoint the source of the leak. That should provide enough clues to track
         down the configuration or coding error.
     </p>
-    <footer class="blockquote-footer"><a href="https://github.com/brettwooldridge/HikariCP/issues/612#issuecomment-209839908">Entwickler von HikariCP
+    <footer><a href="https://github.com/brettwooldridge/HikariCP/issues/612#issuecomment-209839908">Entwickler von HikariCP
         auf Github</a></footer>
 </blockquote>
 
