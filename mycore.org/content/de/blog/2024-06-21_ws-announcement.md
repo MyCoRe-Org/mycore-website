@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"Ankündigung: MyCoRe-Workshop 2024 in  Köln"
 news/teaser_de: 	"Der MyCoRe-Workshop findet dieses Jahr vom 5. bis 7.11. beim LVR in Köln-Deutz statt."
 news/title_en: 		"Announcement: MyCoRe Workshop 2024 in Cologne"
