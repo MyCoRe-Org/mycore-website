@@ -79,6 +79,77 @@ draft: false
             </td>
           </tr>
      </table>
+
+    <h5>Verfügbare Filterparameter</h5>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Beschreibung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>offset</td>
+            <td>Überspringt die angegebene Anzahl an Ergebnissen. Hinweis: Nicht zusammen mit after_id verwenden.</td>
+        </tr>
+        <tr>
+            <td>limit</td>
+            <td>Begrenzt die Anzahl der zurückgegebenen Ergebnisse.</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>Filtert Objekte nach dem Typ in der ID.</td>
+        </tr>
+        <tr>
+            <td>project</td>
+            <td>Filtert Objekte nach dem Projekt in der ID.</td>
+        </tr>
+        <tr>
+            <td>number_greater</td>
+            <td>Nur Objekte mit einer ID, deren Nummer größer ist als der angegebene Wert.</td>
+        </tr>
+        <tr>
+            <td>number_less</td>
+            <td>Nur Objekte mit einer ID, deren Nummer kleiner ist als der angegebene Wert.</td>
+        </tr>
+        <tr>
+            <td>created_after / created_before</td>
+            <td>Filtert nach Objekten, die nach/vor einem bestimmten Datum erstellt wurden.</td>
+        </tr>
+        <tr>
+            <td>modified_after / modified_before</td>
+            <td>Filtert nach Objekten, die nach/vor einem bestimmten Datum zuletzt bearbeitet wurden.</td>
+        </tr>
+        <tr>
+            <td>deleted_after / deleted_before</td>
+            <td>Filtert nach Objekten, die nach/vor einem bestimmten Datum gelöscht wurden.</td>
+        </tr>
+        <tr>
+            <td>created_by / modified_by / deleted_by</td>
+            <td>Filtert nach Objekten, die von einem bestimmten Benutzer erstellt, bearbeitet oder gelöscht wurden.</td>
+        </tr>
+        <tr>
+            <td>sort_order</td>
+            <td>Gibt die Sortierreihenfolge an (asc für aufsteigend, desc für absteigend).</td>
+        </tr>
+        <tr>
+            <td>sort_by</td>
+            <td>Sortiert nach id, created (Standard) oder modified.</td>
+        </tr>
+        <tr>
+            <td>after_id</td>
+            <td>Gibt Ergebnisse nach einer bestimmten ID zurück. Hinweis: Nicht zusammen mit offset verwenden.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h5>Hinweis zum Datumsformat</h5>
+    <p>
+        Die Datumsangaben für die Parameter <code>created_after</code>, <code>created_before</code>, <code>modified_after</code>, <code>modified_before</code>, <code>deleted_after</code> und <code>deleted_before</code> verwenden das HTTP-Datumsformat.
+        Ein Beispiel für eine gültige Angabe ist: <code>Tue, 27 Aug 2024 09:16:02 GMT</code>.
+    </p>
+
         
      <h5 class="js-toc-ignore">Beispiel-Requests</h5>
      <ul>
