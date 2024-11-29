@@ -2,12 +2,12 @@
 title:  "19. MyCoRe-Workshop 2024"
 slug: 	aw-workshop
 date:   2024-11-19
-publishDate: 2022-11-19
+publishDate: 2024-11-19
 
 draft: 	false
 
 blog/authors: 	["Wiebke Oeltjen"]
-blog/periods: 	2022-11
+blog/periods: 	2024-11
 blog/categories:
  - Workshops
 

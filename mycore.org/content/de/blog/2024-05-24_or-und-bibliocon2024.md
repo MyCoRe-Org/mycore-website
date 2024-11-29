@@ -11,7 +11,7 @@ blog/categories:
  - News
  - Konferenzen
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "MyCoRe Konferenzbeteiligungen"
 news/teaser_de: "MyCoRe-Poster-Präsentationen auf der OR in Göteborg und der BiblioCon in Hamburg"
 news/title_en: "MyCoRe Conference participations"
