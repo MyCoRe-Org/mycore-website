@@ -325,7 +325,7 @@ TextEditoren() {
 		Send, {Esc}
 
 	} else {
-		; Eclipse Version >= 2024-12 Text Editoren Formatierung
+		; Eclipse Version >= 2024-12 Text 	Editoren Formatierung
 		; Window - Preferences -> General -> Editors -> Text Editors
 		Send, ^3
 		Send, General Editors Text Editors
@@ -340,8 +340,10 @@ TextEditoren() {
 		Send, {Enter}
 		; Insert spaces for tabs
 		Send, !i
-		; Remove multiple spaces on backspace/delete
-		Send, m
+		; Displayed tab width 2
+		Send, !t
+		Send, ^a
+		Send, 2
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
