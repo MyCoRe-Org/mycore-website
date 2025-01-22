@@ -18,6 +18,7 @@
 ;   v.0.91:  - Git Basis-Verzeichnis aktualisieren
 ;            - Javascript Formatter Konfiguration herunterladen und installieren
 ;   v.0.92:  - CSS-Code Formatierung hinzugefügt
+;   v.0.93:  - Text Editor Formatierung hinzugefügt
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
@@ -45,52 +46,50 @@ if(!A_IsAdmin) {
 	Gui, Add, Text, c800000 x40 y60 r1, Einige Funktionen wurden deaktiviert. Starten Sie das Programm / Skript als Administrator!
 }
 
-Gui, Font, S12 CDefault Bold, Verdana
-Gui, Add, GroupBox, x20 y110 w290 h350, Download und Installation
 Gui, Font, S8 norm, Verdana
-Gui, Add, Text, x40 y140 w260 r6 , Die Eclipse IDE for Enterprise Java and Web Developers (jee) wird heruntergeladen und nach %EclipseInstallationDir% entpackt. Wird keine Eclipse Version angegeben, wird die aktuelle Version automatisch ermittelt.
-Gui, Add, Text, x40 y240 w120 r1 vTextEclipseVersion, Eclipse Version
-Gui, Add, Edit, x150 y240 w140 r1 vEclipseVersion
-Gui, Font, S7, Verdana
-Gui, Add, Text, x40 y268 w270 r1 vInfoEclipseVersion, (z.B. 2020-09, 2022-06, ...)
-Gui, Font, S10 bold, Verdana
-Gui, Add, Button, x50 y300 w230 r1 gDownloadEclipse vDownloadEclipse, Downloaden und Installieren
+Gui, Add, Text, x20 y100 r1, Ihre Eclipse Version (z.B. 2024-09)
+Gui, Add, Edit, x250 y100 w60 vEclipseVersion
 
 Gui, Font, S12 CDefault Bold, Verdana
-Gui, Add, GroupBox, x330 y110 w290 h350, Konfiguration (Codestyle)
+Gui, Add, GroupBox, x20 y130 w290 h350, Download und Installation
 Gui, Font, S8 norm, Verdana
-Gui, Add, Text, x350 y140 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und öffnen Sie den zu konfigurierenden Eclipse-Workspace.
+Gui, Add, Text, x40 y160 w260 r6 , Die Eclipse IDE for Enterprise Java and Web Developers (jee) wird heruntergeladen und nach %EclipseInstallationDir% entpackt. Wird keine Eclipse Version angegeben, wird die aktuelle Version automatisch ermittelt.
+Gui, Font, S10 bold, Verdana
+Gui, Add, Button, x50 y260 w230 r1 gDownloadEclipse vDownloadEclipse, Downloaden und Installieren
+
+Gui, Font, S12 CDefault Bold, Verdana
+Gui, Add, GroupBox, x330 y130 w290 h350, Konfiguration (Codestyle)
+Gui, Font, S8 norm, Verdana
+Gui, Add, Text, x350 y160 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und öffnen Sie den zu konfigurierenden Eclipse-Workspace.
 Gui, Font, S8 bold, Verdana
-Gui, Add, Text, x350 y180 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung geöffnet ist.
+Gui, Add, Text, x350 y200 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung geöffnet ist.
 Gui, Font, S8 norm, Verdana
-Gui, Add, CheckBox, x350 y240 w260 vOptEncoding Checked, Text file encoding (UTF-8)
-Gui, Add, CheckBox, x350 y260 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter für MyCoRe
+Gui, Add, CheckBox, x350 y260 w260 vOptEncoding Checked, Text file encoding (UTF-8)
+Gui, Add, CheckBox, x350 y280 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter für MyCoRe
 Gui, Font, S7 norm, Verdana
-Gui, Add, Text, x365 y285 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Homepage)
+Gui, Add, Text, x365 y305 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Homepage)
 Gui, Font, S8 norm, Verdana
-Gui, Add, CheckBox, x350 y305 w260 r1 vOptJavascriptCodeStyle Checked, Javascript Code Style Formatter
-Gui, Add, CheckBox, x350 y330 w260 r1 vOptXMLCode Checked, XML File Formatting
-Gui, Add, CheckBox, x350 y350 w260 r1 vOptHTMLCode Checked, HTML File Formatting
-Gui, Add, CheckBox, x350 y370 w260 r1 vOptCSSCode Checked, CSS File Formatting
-Gui, Add, CheckBox, x350 y395 w260 r1 vOptGitCode Checked, Git Repository Configuration
+Gui, Add, CheckBox, x350 y325 w260 r1 vOptJavascriptCodeStyle Checked, Javascript Code Style Formatter
+Gui, Add, CheckBox, x350 y350 w260 r1 vOptXMLCode Checked, XML File Formatting
+Gui, Add, CheckBox, x350 y370 w260 r1 vOptHTMLCode Checked, HTML File Formatting
+Gui, Add, CheckBox, x350 y390 w260 r1 vOptGitCode Checked, Git Repository Configuration
 
 Gui, Font, S10 bold, Verdana
-Gui, Add, Button, x410 y415 w120 r1 gConfigure, Konfigurieren
+Gui, Add, Button, x410 y435 w120 r1 gConfigure, Konfigurieren
 
 if(!A_isAdmin) {
 	GuiControl, Disable, TextEclipseVersion
-	GuiControl, Disable, EclipseVersion
-	GuiControl, Disable, InfoEclipseVersion
 	GuiControl, Disable, DownloadEclipse
 	GuiControl, Disable, OptMyCoReJavaCodeStyle
 	GuiControl, Disable, OptJavascriptCodeStyle
 	;Uncheck MyCoReJavaCodeStyle Checkbox
+	GuiControl, Disable, OptHTMLCode
 	GuiControl, , OptMyCoReJavaCodeStyle,0
 	GuiControl, , OptJavascriptCodeStyle,0
 	GuiControl, Disable, TextMyCoReJavaCodeStyle
 }
 
-Gui, Show, w640 h480, MyCoRe: Eclipse Download und Konfiguration (%AppVersion%)
+Gui, Show, w640 h500, MyCoRe: Eclipse Download und Konfiguration (%AppVersion%)
 return
 
 ; Subroutine für die Eclipse Konfiguration
@@ -117,19 +116,19 @@ Configure:
 	if(OptHTMLCode = 1) {
 		HTMLCode()
 	}
-	if(OptCSSCode = 1) {
-		CSSCode()
-	}
 	if(OptGitCode = 1) {
 		GitCode()
 	}
 
 	MsgBox, 0, Eclipse Konfiguration abgeschlossen ..., Die Eclipse Konfiguration ist abgeschlossen!
+	Sleep 1000
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
 
 ; Subroutine für das Runterladen und Entpacken von Eclipse
 DownloadEclipse:
+    ; Formularfelder werden in Variablen gespeichert
+	Gui, Submit, NoHide
 	DownloadEclipseAndUnzip()
 	Sleep 200
 	WinActivate, ahk_class AutoHotkeyGUI
@@ -137,13 +136,21 @@ DownloadEclipse:
 
 ; Setzt für den Workspace die generelle Kodierung auf UTF-8
 Encoding() {
-	; Window -> Preferences -> General -> Workspace
-	Send, ^3
-	Send, General Workspace
-	Loop 4 {
-		Send, {down}
+	global EclipseVersion
+	if (EclipseVersion >= "2024-12") {
+		Send, ^3
+		Send, hook
+		Send, {Enter}
+	} else {
+		; Window -> Preferences -> General -> Workspace
+		Send, ^3
+		Send, General Workspace
+		Loop 4 {
+			Send, {down}
+		}
+		Send, {Enter}
 	}
-	Send, {Enter}
+
 	; Standardeinstellungen setzen
 	Send, !d
 	; Text File encoding -> Other -> UTF-8
@@ -193,35 +200,55 @@ MyCoReJavaCodeStyle() {
 
 ; XML-Code Formatierung
 XMLCode() {
-	; Window -> Preferences -> XML -> XML Files -> Editor
-	Send, ^3
-	Send, Editor XML XML Files
-	Send, {Enter}
-	; Standardeinstellungen setzen
-	Send, !a
-	Send, {Tab}
-	; Line width 120
-	Send, !w
-	Send, ^a
-	Send, 120
-	; Indent using spaces
-	Send, !n
-	; Indentation size 2
-	Send, !d
-	Send, 2
-	; Format Comments abschalten
-	Send, !f
-	Send, -
-	;Apply Button klicken
-	Send, !a
-	Send, {Space}
-	; Fenster schließen
-	Send, {Esc}
+	global EclipseVersion
+	if (EclipseVersion >= "2024-12") {
+	; Window -> Preferences -> XML -> Formatting
+		Send, ^3
+		Send, XML Wild Formatting
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !a
+		; Shift Tab. Ein Tab zur�ck
+		Send, +{Tab}
+		Send, {Enter}
+		; Line width 120
+		Send, !e
+		Send, +{Tab}, +{Tab}
+		Send, ^a
+		Send, 120
+		; Indent using spaces
+
+	} else {
+		; Window -> Preferences -> XML -> XML Files -> Editor
+		Send, ^3
+		Send, Editor XML XML Files
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !d
+		Send, {Tab}
+		; Line width 120
+		Send, !w
+		Send, ^a
+		Send, 120
+		; Indent using spaces
+		Send, !n
+		; Indentation size 2
+		Send, !d
+		Send, 2
+		; Format Comments abschalten
+		Send, !f
+		Send, -
+		;Apply Button klicken
+		Send, !a
+		Send, {Space}
+		; Fenster schließen
+		Send, {Esc}
+	}
 }
 
 ; HTML-Code Formatierung
 HTMLCode() {
-	global ConfigEclipseVersion
+	global EclipseVersion
 	if (ConfigEclipseVersion != "2022-12") {
 		; Window -> Preferences -> Web -> HTML Files -> Editor
 		Send, ^3
@@ -245,30 +272,57 @@ HTMLCode() {
 		Send, {Esc}
 	}
 
-}
-
 ; CSS-Code Formatierung
-CSSCode() {
-		; Window -> Preferences -> Web -> CSS Files -> Editor
-		Send, ^3
-		Send, Editor Web CSS Files
-		Send, {Enter}
-		; Standardeinstellungen setzen
-		Send, !e
-		Send, {Tab}
-		Send, {Enter}
-		; Line width 120
-		Send, !w
-		Send, ^a
-		Send, 120
-		; Indent using spaces
-		Send, !n
-		; Indentation size 2
-		Send, !d
-		Send, 2
-		; Fenster schließen
-		Send, {Esc}
+	; Window -> Preferences -> Web -> CSS Files -> Editor
+	Send, ^3
+	Send, Editor Web CSS Files
+	Send, {Enter}
+	; Standardeinstellungen setzen
+	Send, !e
+	Send, {Tab}
+	Send, {Enter}
+	; Line width 120
+	Send, !w
+	Send, ^a
+	Send, 120
+	; Indent using spaces
+	Send, !n
+	; Indentation size 2
+	Send, !d
+	Send, 2
+	; Apply Button klicken
+	Send, !e
+	Send, {Tab}
+	Send, {Tab}
+	Send, {Space}
+	; Fenster schließen
+	Send, {Esc}
+
+; Text Editoren Formatierung
+	; Window -> Preferencces -
+	Send, ^3
+	Send, Preferences Text Editor
+	Loop 15 {
+		Send, {down}
 	}
+	Send, {up}
+	Send, {Enter}
+	; Standardeinstellungen setzen
+	Send, !d
+	Send, {Enter}
+	; Displayed tab width 2
+	Send, !t
+	Send, ^a
+	Send, 2
+	; Insert spaces for tabs
+	Send, !i
+	; Apply Button klicken
+	Send, !a
+	Send, {Space}
+	; Fenster schließen
+	Send, {Esc}
+
+}
 
 ; Git
 GitCode() {
@@ -292,13 +346,18 @@ GitCode() {
 
 ; Javascript Style-Regeln von der MyCoRe Homepage runterladen und installieren
 JavascriptCode() {
+	global EclipseVersion
 	URLDownloadToFile, https://www.mycore.de/downloads/mycore-javascriptstyle.xml, %A_Desktop%\..\Downloads\mycore-javascriptstyle.xml
 	Sleep 500
 	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
 	WinActivate, ahk_class SWT_Window0
 	; Window -> Preferences -> Web -> Client-side JavaScript -> Formatter
 	Send, ^3
-	Send, Web Client-side JavaScript Formatter
+	if (EclipseVersion >= "2024-12") {
+		Send, Java Code Style Formatter
+	} else {
+		Send, Web Client-side JavaScript Formatter
+	}
 	Send, {Enter}
 	; Import
 	Send, !m
@@ -322,22 +381,23 @@ JavascriptCode() {
 DownloadEclipseAndUnzip() {
 	global EclipseDownloadServerURL
 	global EclipseInstallationDir
+	global EclipseVersion
 	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-	if(vEclipseVersion == "")
+	if(EclipseVersion == "")
 	{
 		URLDownloadToFile, %EclipseDownloadServerURL%/release/release.xml, %A_Desktop%\..\Downloads\eclipse-release.xml
 		FileRead, xmldata, %A_Desktop%\..\Downloads\eclipse-release.xml
 		xmlDoc := ComObjCreate("MSXML2.DOMDocument.6.0")
 		xmlDoc.async := false
 		xmlDoc.loadXML(xmldata)
-		vEclipseVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
+		EclipseVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
 	}
-	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%vEclipseVersion%-R-win32-x86_64
+	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%EclipseVersion%-R-win32-x86_64
 	; Ist der Eclipse Ordner nicht vorhanden, dann erfolgt die Installation
 	if !FileExist(EclipseDir)
 	{
-		EclipseDownloadURL = %EclipseDownloadServerURL%/release/%vEclipseVersion%/R/eclipse-jee-%vEclipseVersion%-R-win32-x86_64.zip
-		EclipseDownloadFile = %A_Desktop%\..\Downloads\eclipse-jee-%vEclipseVersion%-R-win32-x86_64.zip
+		EclipseDownloadURL = %EclipseDownloadServerURL%/release/%EclipseVersion%/R/eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip
+		EclipseDownloadFile = %A_Desktop%\..\Downloads\eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip
 		SplashImage , ,M W980 H140, Bitte warten..., `nEclipse wird gerade heruntergeladen. `n`n URL: %EclipseDownloadURL% `n Datei: %EclipseDownloadFile%
 		URLDownloadToFile, %EclipseDownloadURL%, %EclipseDownloadFile%
 		SplashImage, Off
@@ -354,7 +414,7 @@ DownloadEclipseAndUnzip() {
 		{
 			FileRemoveDir, %A_Desktop%\..\Downloads\eclipse, true
 		}
-		RunWait, PowerShell -Command Expand-Archive -LiteralPath $HOME\Downloads\eclipse-jee-%vEclipseVersion%-R-win32-x86_64.zip -DestinationPath $HOME\Downloads
+		RunWait, PowerShell -Command Expand-Archive -LiteralPath $HOME\Downloads\eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip -DestinationPath $HOME\Downloads
 		FileMoveDir, %A_Desktop%\..\Downloads\eclipse, %EclipseDir%
 		; Zip löschen
 		FileDelete, %EclipseDownloadFile%
