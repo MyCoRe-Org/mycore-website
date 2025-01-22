@@ -71,7 +71,7 @@ Gui, Add, Text, x365 y305 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Ho
 Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y325 w260 r1 vOptJavascriptCodeStyle Checked, Javascript Code Style Formatter
 Gui, Add, CheckBox, x350 y350 w260 r1 vOptXMLCode Checked, XML File Formatting
-Gui, Add, CheckBox, x350 y370 w260 r1 vOptHTMLCode Checked, HTML File Formatting
+Gui, Add, CheckBox, x350 y370 w260 r1 vOptTextEditoren Checked, Text Editors Formatting
 Gui, Add, CheckBox, x350 y390 w260 r1 vOptGitCode Checked, Git Repository Configuration
 
 Gui, Font, S10 bold, Verdana
@@ -83,7 +83,7 @@ if(!A_isAdmin) {
 	GuiControl, Disable, OptMyCoReJavaCodeStyle
 	GuiControl, Disable, OptJavascriptCodeStyle
 	;Uncheck MyCoReJavaCodeStyle Checkbox
-	GuiControl, Disable, OptHTMLCode
+	GuiControl, Disable, OptTexytEditoren
 	GuiControl, , OptMyCoReJavaCodeStyle,0
 	GuiControl, , OptJavascriptCodeStyle,0
 	GuiControl, Disable, TextMyCoReJavaCodeStyle
@@ -113,8 +113,8 @@ Configure:
 	if(OptXMLCode = 1) {
 		XMLCode()
 	}
-	if(OptHTMLCode = 1) {
-		HTMLCode()
+	if(OptTextEditoren = 1) {
+		TextEditoren()
 	}
 	if(OptGitCode = 1) {
 		GitCode()
@@ -246,10 +246,13 @@ XMLCode() {
 	}
 }
 
-; HTML-Code Formatierung
-HTMLCode() {
+; Text-Editoren Formatierung
+; Info Eclipse Version 2024-12
+; Text-Editoren wurden Generell zusammengefasst
+; Window -> Preferences -> General -> Editors -> Text Editors
+TextEditoren() {
 	global EclipseVersion
-	if (ConfigEclipseVersion != "2022-12") {
+	if (EclipseVersion < "2024-12") {
 		; Window -> Preferences -> Web -> HTML Files -> Editor
 		Send, ^3
 		Send, Editor Web HTML Files
@@ -270,57 +273,81 @@ HTMLCode() {
 		Send, {Space}
 		; Fenster schließen
 		Send, {Esc}
-	}
 
-; CSS-Code Formatierung
-	; Window -> Preferences -> Web -> CSS Files -> Editor
-	Send, ^3
-	Send, Editor Web CSS Files
-	Send, {Enter}
-	; Standardeinstellungen setzen
-	Send, !e
-	Send, {Tab}
-	Send, {Enter}
-	; Line width 120
-	Send, !w
-	Send, ^a
-	Send, 120
-	; Indent using spaces
-	Send, !n
-	; Indentation size 2
-	Send, !d
-	Send, 2
-	; Apply Button klicken
-	Send, !e
-	Send, {Tab}
-	Send, {Tab}
-	Send, {Space}
-	; Fenster schlieÃŸen
-	Send, {Esc}
+		; CSS-Code Formatierung
+		; Window -> Preferences -> Web -> CSS Files -> Editor
+		Send, ^3
+		Send, Editor Web CSS Files
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !e
+		Send, {Tab}
+		Send, {Enter}
+		; Line width 120
+		Send, !w
+		Send, ^a
+		Send, 120
+		; Indent using spaces
+		Send, !n
+		; Indentation size 2
+		Send, !d
+		Send, 2
+		; Apply Button klicken
+		Send, !e
+		Send, {Tab}
+		Send, {Tab}
+		Send, {Space}
+		; Fenster schließen
+		Send, {Esc}
 
-; Text Editoren Formatierung
-	; Window -> Preferencces -
-	Send, ^3
-	Send, Preferences Text Editor
-	Loop 15 {
-		Send, {down}
+		; Text Editoren Formatierung
+		; Window -> Preferencces -
+		Send, ^3
+		Send, Preferences Text Editor
+		Loop 15 {
+			Send, {down}
+		}
+		Send, {up}
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !d
+		Send, {Enter}
+		; Displayed tab width 2
+		Send, !t
+		Send, ^a
+		Send, 2
+		; Insert spaces for tabs
+		Send, !i
+		; Apply Button klicken
+		Send, !a
+		Send, {Space}
+		; Fenster schließen
+		Send, {Esc}
+
+	} else {
+		; Eclipse Version >= 2024-12 Text Editoren Formatierung
+		; Window - Preferences -> General -> Editors -> Text Editors
+		Send, ^3
+		Send, General Editors Text Editors
+		Loop 10 {
+			Send, {down}
+		}
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !a
+		; Shift Tab. Ein Tab zurück
+		Send, +{Tab}
+		Send, {Enter}
+		; Insert spaces for tabs
+		Send, !i
+		; Remove multiple spaces on backspace/delete
+		Send, m
+		; Apply Button klicken
+		Send, !a
+		Send, {Space}
+		; Fenster schließen
+		Send, {Esc}
 	}
-	Send, {up}
-	Send, {Enter}
-	; Standardeinstellungen setzen
-	Send, !d
-	Send, {Enter}
-	; Displayed tab width 2
-	Send, !t
-	Send, ^a
-	Send, 2
-	; Insert spaces for tabs
-	Send, !i
-	; Apply Button klicken
-	Send, !a
-	Send, {Space}
-	; Fenster schließen
-	Send, {Esc}
 
 }
 
