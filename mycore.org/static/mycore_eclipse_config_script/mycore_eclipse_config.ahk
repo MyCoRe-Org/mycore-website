@@ -6,26 +6,26 @@
 ; https://www.autohotkey.com/download/
 ;
 ; SciTe4 AutoHotKey Version 3.0.06.01
-; Script-Editor f√ºr AutoHotKey
+; Script-Editor f¸r AutoHotKey
 ; https://www.autohotkey.com/scite4ahk/
 ;
 ; MyCoRe-Code-Style
 ; https://www.mycore.de/documentation/developer/codestyle/
 ;
-; Getestet f√ºr die Eclipse Versionen 2022-06 bis 2023-03
+; Getestet f¸r die Eclipse Versionen 2022-06 bis 2024-12
 ;
 ; Change History:
 ;   v.0.91:  - Git Basis-Verzeichnis aktualisieren
 ;            - Javascript Formatter Konfiguration herunterladen und installieren
-;   v.0.92:  - CSS-Code Formatierung hinzugef√ºgt
-;   v.0.93:  - Text Editor Formatierung hinzugef√ºgt
+;   v.0.92:  - CSS-Code Formatierung hinzugef¸gt
+;   v.0.93:  - Text Editor Formatierung hinzugef¸gt
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
 ; GLOBALE VARIABLEN
 ; Programm Version
 AppVersion = v0.9
-; Verz√∂gerung der Tastaturanschl√§ge in Millisekunden bei der Programmausf√ºhrung
+; Verzˆgerung der Tastaturanschl‰ge in Millisekunden bei der Programmausf¸hrung
 KeyDelay = 250
 ; Basisadresse des Eclipse-Download-Servers
 EclipseDownloadServerURL = https://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads
@@ -37,7 +37,7 @@ EclipseInstallationDir = %A_ProgramFiles%\Eclipse
 ;----------------------------------------------------------------------------------------------------------------------
 
 ; GUI
-; Erzeugung der Benutzeroberfl√§che
+; Erzeugung der Benutzeroberfl‰che
 Gui, Font, S14 CDefault Bold, Verdana
 Gui, Add, Text, x20 y10 w500 h30 , MyCoRe: Eclipse Download und Konfiguration
 if(!A_IsAdmin) {
@@ -60,12 +60,12 @@ Gui, Add, Button, x50 y260 w230 r1 gDownloadEclipse vDownloadEclipse, Downloaden
 Gui, Font, S12 CDefault Bold, Verdana
 Gui, Add, GroupBox, x330 y130 w290 h350, Konfiguration (Codestyle)
 Gui, Font, S8 norm, Verdana
-Gui, Add, Text, x350 y160 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und √∂ffnen Sie den zu konfigurierenden Eclipse-Workspace.
+Gui, Add, Text, x350 y160 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und ˆffnen Sie den zu konfigurierenden Eclipse-Workspace.
 Gui, Font, S8 bold, Verdana
-Gui, Add, Text, x350 y200 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung ge√∂ffnet ist.
+Gui, Add, Text, x350 y200 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung geˆffnet ist.
 Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y260 w260 vOptEncoding Checked, Text file encoding (UTF-8)
-Gui, Add, CheckBox, x350 y280 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter f√ºr MyCoRe
+Gui, Add, CheckBox, x350 y280 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter f¸r MyCoRe
 Gui, Font, S7 norm, Verdana
 Gui, Add, Text, x365 y305 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Homepage)
 Gui, Font, S8 norm, Verdana
@@ -92,8 +92,8 @@ if(!A_isAdmin) {
 Gui, Show, w640 h500, MyCoRe: Eclipse Download und Konfiguration (%AppVersion%)
 return
 
-; Subroutine f√ºr die Eclipse Konfiguration
-; Ausgef√ºhrt vom Button 'Konfigurieren'
+; Subroutine f¸r die Eclipse Konfiguration
+; Ausgef¸hrt vom Button 'Konfigurieren'
 Configure:
 	; Benutzereingaben werden gespeichert
 	Gui, Submit, NoHide
@@ -125,7 +125,7 @@ Configure:
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
 
-; Subroutine f√ºr das Runterladen und Entpacken von Eclipse
+; Subroutine f¸r das Runterladen und Entpacken von Eclipse
 DownloadEclipse:
     ; Formularfelder werden in Variablen gespeichert
 	Gui, Submit, NoHide
@@ -134,7 +134,7 @@ DownloadEclipse:
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
 
-; Setzt f√ºr den Workspace die generelle Kodierung auf UTF-8
+; Setzt f¸r den Workspace die generelle Kodierung auf UTF-8
 Encoding() {
 	global EclipseVersion
 	if (EclipseVersion >= "2024-12") {
@@ -163,7 +163,7 @@ Encoding() {
 	Send, {TAB down}
 	Send, {TAB down}
 	Send, {Space}
-	; Fenster schlie√üen
+	; Fenster schlieﬂen
 	Send, {Esc}
 }
 
@@ -194,7 +194,7 @@ MyCoReJavaCodeStyle() {
 	; Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlie√üen
+	; Fenster schlieﬂen
 	Send, {Esc}
 }
 
@@ -208,7 +208,7 @@ XMLCode() {
 		Send, {Enter}
 		; Standardeinstellungen setzen
 		Send, !a
-		; Shift Tab. Ein Tab zurÔøΩck
+		; Shift Tab. Ein Tab zur¸ck
 		Send, +{Tab}
 		Send, {Enter}
 		; Line width 120
@@ -268,7 +268,7 @@ HTMLCode() {
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
-		; Fenster schlie√üen
+		; Fenster schlieﬂen
 		Send, {Esc}
 	}
 
@@ -319,7 +319,7 @@ HTMLCode() {
 	; Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlie√üen
+	; Fenster schlieﬂen
 	Send, {Esc}
 
 }
@@ -340,7 +340,7 @@ GitCode() {
 	}
 	Send, !a
 	Send, {Space}
-	; Fenster schlieÔøΩen
+	; Fenster schlieﬂen
 	Send, {Esc}
 }
 
@@ -373,7 +373,7 @@ JavascriptCode() {
 	; Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlieÔøΩen
+	; Fenster schlieﬂen
 	Send, {Esc}
 }
 
@@ -401,7 +401,7 @@ DownloadEclipseAndUnzip() {
 		SplashImage , ,M W980 H140, Bitte warten..., `nEclipse wird gerade heruntergeladen. `n`n URL: %EclipseDownloadURL% `n Datei: %EclipseDownloadFile%
 		URLDownloadToFile, %EclipseDownloadURL%, %EclipseDownloadFile%
 		SplashImage, Off
-		; Bei einer Falschen URL wird die Fehlerseite runtergeladen und ist ca 1Kb gro√ü, dass wird hier abgefangen und die Datei gel√∂scht
+		; Bei einer Falschen URL wird die Fehlerseite runtergeladen und ist ca 1Kb groﬂ, dass wird hier abgefangen und die Datei gelˆscht
 		FileGetSize, FileSize, %EclipseDownloadFile%, K
 		if(FileSize < 5)
 		{
@@ -409,16 +409,16 @@ DownloadEclipseAndUnzip() {
 			FileDelete, %EclipseDownloadFile%
 			return
 		}
-		; Gibt es einen Ordner Eclipse schon? Wenn ja l√∂schen
+		; Gibt es einen Ordner Eclipse schon? Wenn ja lˆschen
 		if FileExist(A_Desktop "\..\Downloads\eclipse")
 		{
 			FileRemoveDir, %A_Desktop%\..\Downloads\eclipse, true
 		}
 		RunWait, PowerShell -Command Expand-Archive -LiteralPath $HOME\Downloads\eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip -DestinationPath $HOME\Downloads
 		FileMoveDir, %A_Desktop%\..\Downloads\eclipse, %EclipseDir%
-		; Zip l√∂schen
+		; Zip lˆschen
 		FileDelete, %EclipseDownloadFile%
-		MsgBox, 4, Eclipse Installation beendet., Sie finden ihr neues Eclipse unter`n%EclipseDir%.`n`nOrdner √∂ffnen?
+		MsgBox, 4, Eclipse Installation beendet., Sie finden ihr neues Eclipse unter`n%EclipseDir%.`n`nOrdner ˆffnen?
 		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
@@ -426,7 +426,7 @@ DownloadEclipseAndUnzip() {
 		}
 	} else
 	{
-		MsgBox, 4, Eclipse Installation abgebrochen., Der Ordner `n%EclipseDir%`nexistiert bereits.`n`nOrdner √∂ffnen?
+		MsgBox, 4, Eclipse Installation abgebrochen., Der Ordner `n%EclipseDir%`nexistiert bereits.`n`nOrdner ˆffnen?
 		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
