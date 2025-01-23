@@ -202,7 +202,7 @@ MyCoReJavaCodeStyle() {
 XMLCode() {
 	global EclipseVersion
 	if (EclipseVersion >= "2024-12") {
-	; Window -> Preferences -> XML -> Formatting
+	; Window -> Preferences -> XML (Wild Web Developer) -> Formatting
 		Send, ^3
 		Send, XML Wild Formatting
 		Send, {Enter}
@@ -294,32 +294,7 @@ TextEditoren() {
 		; Fenster schlieﬂen
 		Send, {Esc}
 
-	if (EclipseVersion < "2024-12") {
-		; Text Editoren Formatierung
-		; Window -> Preferencces -
-		Send, ^3
-		Send, Preferences Text Editor
-		Loop 15 {
-			Send, {down}
-		}
-		Send, {up}
-		Send, {Enter}
-		; Standardeinstellungen setzen
-		Send, !d
-		Send, {Enter}
-		; Displayed tab width 2
-		Send, !t
-		Send, ^a
-		Send, 2
-		; Insert spaces for tabs
-		Send, !i
-		; Apply Button klicken
-		Send, !a
-		Send, {Space}
-		; Fenster schlieﬂen
-		Send, {Esc}
-
-	} else {
+	if (EclipseVersion >= "2024-12") {
 		; Eclipse Version >= 2024-12 Text 	Editoren Formatierung
 		; Window - Preferences -> General -> Editors -> Text Editors
 		Send, ^3
@@ -341,6 +316,30 @@ TextEditoren() {
 		Send, !t
 		Send, ^a
 		Send, 2
+		; Apply Button klicken
+		Send, !a
+		Send, {Space}
+		; Fenster schlieﬂen
+		Send, {Esc}
+	} else {
+		; Text Editoren Formatierung
+		; Window -> Preferencces -
+		Send, ^3
+		Send, Preferences Text Editor
+		Loop 15 {
+			Send, {down}
+		}
+		Send, {up}
+		Send, {Enter}
+		; Standardeinstellungen setzen
+		Send, !d
+		Send, {Enter}
+		; Displayed tab width 2
+		Send, !t
+		Send, ^a
+		Send, 2
+		; Insert spaces for tabs
+		Send, !i
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
