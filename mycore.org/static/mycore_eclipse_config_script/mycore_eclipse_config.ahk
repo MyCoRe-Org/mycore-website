@@ -2,6 +2,10 @@
 ;
 ; Tool zum automatischen download/entpacken und konfigurieren von Eclipse.
 ;
+;----------------------------------------------------------------------------------------------------------------------
+;
+; Encoding: ANSI
+;
 ; AutoHotKey Version 1.1.33.02
 ; https://www.autohotkey.com/download/
 ;
