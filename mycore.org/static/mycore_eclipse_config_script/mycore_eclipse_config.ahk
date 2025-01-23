@@ -216,8 +216,6 @@ XMLCode() {
 		Send, +{Tab}, +{Tab}
 		Send, ^a
 		Send, 120
-		; Indent using spaces
-
 	} else {
 		; Window -> Preferences -> XML -> XML Files -> Editor
 		Send, ^3
@@ -238,21 +236,17 @@ XMLCode() {
 		; Format Comments abschalten
 		Send, !f
 		Send, -
-		;Apply Button klicken
-		Send, !a
-		Send, {Space}
-		; Fenster schlieÃŸen
-		Send, {Esc}
 	}
+	;Apply Button klicken
+	Send, !a
+	Send, {Space}
+	; Fenster schließen
+	Send, {Esc}
 }
 
 ; Text-Editoren Formatierung
-; Info Eclipse Version 2024-12
-; Text-Editoren wurden Generell zusammengefasst
-; Window -> Preferences -> General -> Editors -> Text Editors
 TextEditoren() {
 	global EclipseVersion
-	if (EclipseVersion < "2024-12") {
 		; Window -> Preferences -> Web -> HTML Files -> Editor
 		Send, ^3
 		Send, Editor Web HTML Files
@@ -300,6 +294,7 @@ TextEditoren() {
 		; Fenster schließen
 		Send, {Esc}
 
+	if (EclipseVersion < "2024-12") {
 		; Text Editoren Formatierung
 		; Window -> Preferencces -
 		Send, ^3
@@ -328,11 +323,13 @@ TextEditoren() {
 		; Eclipse Version >= 2024-12 Text 	Editoren Formatierung
 		; Window - Preferences -> General -> Editors -> Text Editors
 		Send, ^3
-		Send, General Editors Text Editors
-		Loop 10 {
-			Send, {down}
-		}
+		Send, General Editors Accessibility
 		Send, {Enter}
+		; Shift Tab. Ein Tab zurück
+		Send, +{Tab}
+		; Shift Tab. Ein Tab zurück
+		Send, +{Tab}
+		Send, {Left}
 		; Standardeinstellungen setzen
 		Send, !a
 		; Shift Tab. Ein Tab zurück
