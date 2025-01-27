@@ -104,6 +104,8 @@ Configure:
 	SetKeyDelay, %KeyDelay%
 	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
 	WinActivate, ahk_class SWT_Window0
+	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
+	DetectEclipseVersion()
 
 	if(OptEncoding = 1) {
 		Encoding()
@@ -411,16 +413,10 @@ DownloadEclipseAndUnzip() {
 	global EclipseDownloadServerURL
 	global EclipseInstallationDir
 	global EclipseVersion
+
 	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-	if(EclipseVersion == "")
-	{
-		URLDownloadToFile, %EclipseDownloadServerURL%/release/release.xml, %A_Desktop%\..\Downloads\eclipse-release.xml
-		FileRead, xmldata, %A_Desktop%\..\Downloads\eclipse-release.xml
-		xmlDoc := ComObjCreate("MSXML2.DOMDocument.6.0")
-		xmlDoc.async := false
-		xmlDoc.loadXML(xmldata)
-		EclipseVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
-	}
+	DetectEclipseVersion()
+
 	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%EclipseVersion%-R-win32-x86_64
 	; Ist der Eclipse Ordner nicht vorhanden, dann erfolgt die Installation
 	if !FileExist(EclipseDir)
@@ -461,5 +457,19 @@ DownloadEclipseAndUnzip() {
 			Run, %EclipseDir%
 			return
 		}
+	}
+}
+
+; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
+DetectEclipseVersion() {
+	global EclipseVersion
+	if(EclipseVersion == "")
+	{
+		URLDownloadToFile, %EclipseDownloadServerURL%/release/release.xml, %A_Desktop%\..\Downloads\eclipse-release.xml
+		FileRead, xmldata, %A_Desktop%\..\Downloads\eclipse-release.xml
+		xmlDoc := ComObjCreate("MSXML2.DOMDocument.6.0")
+		xmlDoc.async := false
+		xmlDoc.loadXML(xmldata)
+		EclipseVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
 	}
 }
