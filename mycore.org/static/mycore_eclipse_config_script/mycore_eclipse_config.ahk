@@ -170,6 +170,7 @@ Encoding() {
 	Send, {TAB down}
 	Send, {Space}
 	; Fenster schlieﬂen
+	Sleep 3000
 	Send, {Esc}
 }
 
@@ -201,6 +202,7 @@ MyCoReJavaCodeStyle() {
 	Send, !a
 	Send, {Space}
 	; Fenster schlieﬂen
+	Sleep 3000
 	Send, {Esc}
 }
 
@@ -247,6 +249,7 @@ XMLCode() {
 	Send, !a
 	Send, {Space}
 	; Fenster schlieﬂen
+	Sleep 3000
 	Send, {Esc}
 }
 
@@ -272,6 +275,7 @@ TextEditoren() {
 		Send, !a
 		Send, {Space}
 		; Fenster schlieﬂen
+		Sleep 3000
 		Send, {Esc}
 
 		; CSS-Code Formatierung
@@ -298,6 +302,7 @@ TextEditoren() {
 		Send, {Tab}
 		Send, {Space}
 		; Fenster schlieﬂen
+		Sleep 3000
 		Send, {Esc}
 
 	if (EclipseVersion >= "2024-12") {
@@ -326,6 +331,7 @@ TextEditoren() {
 		Send, !a
 		Send, {Space}
 		; Fenster schlieﬂen
+		Sleep 3000
 		Send, {Esc}
 	} else {
 		; Text Editoren Formatierung
@@ -350,6 +356,7 @@ TextEditoren() {
 		Send, !a
 		Send, {Space}
 		; Fenster schlieﬂen
+		Sleep 3000
 		Send, {Esc}
 	}
 
@@ -372,6 +379,7 @@ GitCode() {
 	Send, !a
 	Send, {Space}
 	; Fenster schlieﬂen
+	Sleep 3000
 	Send, {Esc}
 }
 
@@ -405,6 +413,7 @@ JavascriptCode() {
 	Send, !a
 	Send, {Space}
 	; Fenster schlieﬂen
+	Sleep 3000
 	Send, {Esc}
 }
 
