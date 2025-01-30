@@ -392,11 +392,7 @@ JavascriptCode() {
 	WinActivate, ahk_class SWT_Window0
 	; Window -> Preferences -> Web -> Client-side JavaScript -> Formatter
 	Send, ^3
-	if (EclipseVersion >= "2024-12") {
-		Send, Java Code Style Formatter
-	} else {
-		Send, Web Client-side JavaScript Formatter
-	}
+	Send, Web Client-side JavaScript Formatter
 	Send, {Enter}
 	; Import
 	Send, !m
