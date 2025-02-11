@@ -1,20 +1,20 @@
 
 ---
 
-title: "JIRA als Ticket-System"
+title: "Arbeit mit JIRA"
 author: ['Kathleen Neumann', 'Robert Stephan']
 date: "2025-01-30"
 
 ---
 
     <p>
-      Seit 2015 nutzen wir <a href="https://de.atlassian.com/software/jira">JIRA</a> von Atlassian als Ticketsystem.
-      Das <strong><a href="https://mycore.atlassian.net/">MyCoRe-JIRA</a></strong> wird von Atlassian gehostet und 
-      wir können es als OpenSource-Community frei nutzen.
-      Hinweise über die Arbeitsweise kann auf den <a href="https://www.atlassian.com/de/software/jira/guides/getting-started/">Dokumentationsseiten</a>  
-      von Atlassian gefunden werden.
+      Seit 2015 nutzen wir <a href="https://de.atlassian.com/software/jira">JIRA</a> von Atlassian als unser Ticketsystem.
+      Allgemeine Hinweise über die Arbeitsweise von JIRA können auf den <a href="https://www.atlassian.com/de/software/jira/guides/getting-started/">Dokumentationsseiten</a>  
+      gefunden werden.
    </p>
    <p>
+      Das <a href="https://mycore.atlassian.net/"><strong>MyCoRe-JIRA</strong> (https://mycore.atlassian.net/)</a> wird von Atlassian gehostet und 
+      wir können es als OpenSource-Community frei nutzen.
       Als anonymer Nutzer können Sie sich einen Überblick über unsere Tickets und
       aktuelle Entwicklungsarbeit verschaffen. Um neue Tickets anzulegen ist eine Registrierung notwendig.
     </p>
@@ -33,8 +33,8 @@ date: "2025-01-30"
         caption="Hauptmenü mit Login-Button" width="100%"/>}}
 
     <h3>Ticket erstellen</h3>
-    Neue Tickets könne über den Button &quot;Erstellen&quot; im Hauptmenü angelegt werden.<br />
-    Die wichtigsten Einstellung werden hier erörtert:
+    Neue Tickets können über den Button &quot;Erstellen&quot; im Hauptmenü angelegt werden.<br />
+    Die wichtigsten Einstellung werden hier erläutert:
     <div class="row">
       <div class="col">
          {{< mcr-figure src="/images/documentation/developer/jira/jira_create_bug.png" label="Jira"
@@ -46,12 +46,13 @@ date: "2025-01-30"
           <dd>in der Regel <em>MyCoRe</em> oder ein anderes auf Jira verwaltetes Projekt der MyCoRe-Community</dd>
           <dt>Vorgangstyp</dt>
           <dd>Wir orientieren uns hier an den verlinkten
-             <a href="https://mycore.atlassian.net/secure/ShowConstantsHelp.jspa?decorator=popup#IssueTypes">Definitionen</a> der Vorgangstypen von JIRA, i.d.R:
+             <a href="https://mycore.atlassian.net/secure/ShowConstantsHelp.jspa?decorator=popup#IssueTypes">Definitionen</a> 
+             der Vorgangstypen von JIRA, also in der Regel:
             <ul>
-              <li><strong>Bug</strong> für einen Fehler oder Problem</li>
-              <li><strong>Neue Funktion</strong> für ein neues Feature</li>
-              <li><strong>Verbesserung</strong> für eine Erweiterung bestehender Funktionalitäten</li>
-              <li><strong>Task</strong> für weitere Aufgaben, die nicht in obige Kategorien passen (z.B. Dependency-Updates)
+              <li><em>Bug</em> für einen Fehler oder Problem</li>
+              <li><em>Neue Funktion</em> für ein neues Feature</li>
+              <li><em>Verbesserung</em> für eine Erweiterung bestehender Funktionalitäten</li>
+              <li><em>Task</em> für weitere Aufgaben, die nicht in obige Kategorien passen (z.B. Dependency-Updates)
             </ul>
           </dd>
           <dt>Status:<dt>
@@ -59,42 +60,46 @@ date: "2025-01-30"
           <dt>Zusammenfassung</dt>
           <dd>Kurze Beschreibung als Ticket-Titel (englisch)</dd>
           <dt>Betrifft Versionen</dt>
-          <dd>ist <em>immer</em> die Version ein bereits bestehenden Releases aus dem Abschnitt <em>veröffentlicht</em></dd>
+          <dd>ist <em>immer</em> die Version eines bestehenden Releases aus dem Abschnitt <em>veröffentlicht</em></dd>
           <dt>Komponente</dt>
-          <dd>Pflichtfeld, weist das Ticket einer MyCoRe-Komponenten (z.B. <em>mycore-base</em>) zu.
+          <dd>Pflichtfeld, weist das Ticket einer MyCoRe-Komponente (z.B. <em>mycore-base</em>) zu.
           <dt>Beschreibung</dt>
-          <dd>Problembeschreibung, gerne etwas umfangreicher (z.B. mit Screenshots für UI-Bugs);<br />
-              bevorzugt in englisch, aber auch deutsch möglich</dd>
+          <dd>Problembeschreibung, gerne etwas umfangreicher, z.B. mit Screenshots für UI-Bugs
+              (bevorzugt in englisch, aber auch deutsch möglich)</dd>
           <dt>Lösungsversionen</dt>
-          <dd>ist <em>immer</em> die Version ein zukünftigen Releases aus dem Abschnitt <em>unveröffentlicht</em>
+          <dd>ist <em>immer</em> die Version eines zukünftigen Releases aus dem Abschnitt <em>unveröffentlicht</em>
         </dl>
       </div>
     </div>
-    <h3>Weitere Hinweise zum Umgang mit Tickets</h3>
-    <ul>
-      <li>Tritt ein Fehler in einem <em>neuen, noch nicht release-ten Feature</em> auf,
-          wird das zugehörige Ticket wieder in den Status <em>Open</em> versetzt
-          und der Commit / Pull-Request diesem Ticket zugeordnet.</li>
-    </ul>
+    <h3>Weitere Hinweise</h3>
+    <h4>Tickets für Fehler in bereits veröffentlichten Features</h4>
+    Für solche Fehler werden neue Tickets (vom Typ <em>Bug</em>) angelegt und der
+    jeweiligen Komponente zugeordnet.
+    <h4>Tickets für Fehler in noch nicht veröffentlichten Features</h4>
+    Gelegentlich müssen auch Fehler in einem <em>neuen, noch nicht veröffentlichten (not released) Feature</em>
+    gemeldet werden. In diesen Fällen wird das zugehörige Ticket wieder in den Status <em>Open</em> gesetzt
+    und der Commit / Pull-Request diesem Ticket zugeordnet.
+    
+    <h4>Pull-Request</h4>
+    <p>Mit dem Öffnen des Pull-Requests auf Github, zeigt der Entwickler an,
+       dass die Bearbeitung aus seiner Sicht abgeschlossen ist.
+       Pull-Request, die diesen Status nicht haben, werden auf Github als <em>Draft</em> markiert. 
+       <strong>Im zugehörigen Ticket wird der Status auf <em>Behoben</em> gesetzt.</strong>
+    </p>
+    <div class="alert alert-warning" role="alert">
+      Tickets werden NUR durch das Release-Team in der <em>Release-Phase</em> geschlossen.
+    </div>
 
-    <h3>Verknüpfung der Tickets mit Github-Commits</h3>
+    <h4>Verknüpfung der Tickets mit Github-Commits</h4>
     <p>Das Ticketsystem ist mit dem Source-Code Repository auf Github verknüpft.
        Damit ein Commit auf Github einem Ticket zugeordnet werden kann, <em>muss</em>
        die Commit-Nachricht immer mit der Ticket-Nummer beginnen, z.B.:
     </p>
     <code>
-      MCR-792 This is a bugfix for ...
+      MCR-1234 Bugfix for problem X...
     </code>
     
-    <h3>Bei einem Pull-Request...</h3>
-    <p>Mit dem Öffnen des Pull-Requests auf Github, zeigt der Entwickler an,
-       dass die Bearbeitung aus seiner Sicht abgeschlossen ist.
-       Pull-Request, die diesen Status nicht haben, werden auf Github als <em>Draft</em> markiert.<br />
-       <strong>Im zugehörigen Ticket wird der Status auf <em>Behoben</em> gesetzt.</strong>
-    </p>
-    <div class="alert alert-warning" role="alert">
-      Tickets werden NUR durch das Release-Team in der Release-Phase geschlossen.
-    </div>
+
     
   {{<mcr-comment>}}
     TODO Prüfen, ob hier noch relevante Information stehen, die ggf. noch oben geholt werden müssen ...
