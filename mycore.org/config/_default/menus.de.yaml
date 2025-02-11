@@ -164,7 +164,7 @@ main:
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
 -     {identifier: conventions,             parent: developer,          name: Namenskonventionen,          weight: -97,      url: /documentation/developer/conventions}
 -     {identifier: release_docu,            parent: developer,          name: Releases,                    weight: -96,      url: /documentation/developer/release_docu}
--     {identifier: dev_jira,                parent: developer,          name: JIRA,                        weight: -95,      url: /documentation/developer/dev_jira}
+-     {identifier: dev_jira,                parent: developer,          name: Arbeit mit JIRA,             weight: -95,      url: /documentation/developer/dev_jira}
 -     {identifier: dev_work_with_git,       parent: developer,          name: Arbeit mit Git,              weight: -94,      url: /documentation/developer/dev_work_with_git}
 -     {identifier: dev_work_with_maven,     parent: developer,          name: Arbeit mit Maven,            weight: -93,      url: /documentation/developer/dev_work_with_maven}
 -     {identifier: dev_work_with_gradle,    parent: developer,          name: Arbeit mit Gradle,           weight: -92,      url: /documentation/developer/dev_work_with_gradle}

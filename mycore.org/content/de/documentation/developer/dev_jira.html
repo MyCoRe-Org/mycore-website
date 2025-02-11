@@ -1,67 +1,108 @@
 
 ---
 
-title: "JIRA als Ticket-System"
-mcr_version: ['2019.06','2020.06']
-author: ['Kathleen Neumann']
-date: "2020-06-04"
+title: "Arbeit mit JIRA"
+author: ['Kathleen Neumann', 'Robert Stephan']
+date: "2025-01-30"
 
 ---
 
-      <div>
-        <h2>Einleitung</h2>
-        <p>
-          Nachdem wir SourceForge mehr als 10 Jahre lang als Plattform genutzt haben, setzen wir seit 2015 das 
-          Ticketsystem der umfangreicheren und mächtigen <a href="https://de.atlassian.com/software/jira">JIRA Software</a>
-          ein. Alle SourceForge-Tickets wurden dahin migriert. Das
-          <a href="https://mycore.atlassian.net/">MyCoRe-JIRA</a> können wir als OpenSource-Community mit entsprechender
-          OpenSource-Lizenz frei nutzen. Als anonymer Nutzer können Sie sich einen Überblick über unsere Tickets und
-          aktuelle Entwicklungsarbeit verschaffen. Um neue Tickets anzulegen ist eine Registrierung notwendig.
-        </p>
-        <p>
-          Einen Überblick über die Systeme kann man sich auf den Dokumentationsseiten von Atlassian verschaffen. Wir
-          haben die Mails mit Links zu den wichtigsten Themen im Wiki zusammengestellt:
-          <a href="https://cmswiki.rrz.uni-hamburg.de/hummel/MyCoRe/Dokumentation/Atlassian">Atlassian im MyCoRe-Wiki</a>.
-        </p>
+    <p>
+      Seit 2015 nutzen wir <a href="https://de.atlassian.com/software/jira">JIRA</a> von Atlassian als unser Ticketsystem.
+      Allgemeine Hinweise über die Arbeitsweise von JIRA können auf den <a href="https://www.atlassian.com/de/software/jira/guides/getting-started/">Dokumentationsseiten</a>  
+      gefunden werden.
+   </p>
+   <p>
+      Das <a href="https://mycore.atlassian.net/"><strong>MyCoRe-JIRA</strong> (https://mycore.atlassian.net/)</a> wird von Atlassian gehostet und 
+      wir können es als OpenSource-Community frei nutzen.
+      Als anonymer Nutzer können Sie sich einen Überblick über unsere Tickets und
+      aktuelle Entwicklungsarbeit verschaffen. Um neue Tickets anzulegen ist eine Registrierung notwendig.
+    </p>
+  
+    <h2>Arbeit mit Tickets</h2>
+    <p>
+      In diesem Abschnitt sollen unsere Vorgaben und Richtlinien für die Erstellung von Tickets in Jira dokumentiert
+      werden.
+   </p>
+   <h3>Anmelden</h3>
+   <p>
+      Um neue Tickets anzulegen ist eine Anmeldung erfolderlich. Registrieren Sie sich dazu bei Atlassian und teilen
+      uns ihre Kennung mit, damit wir die notwendigen Berechtigungen für Sie freischalten können.
+    </p>
+    {{< mcr-figure src="/images/documentation/developer/jira/jira_login.png" label="Jira" 
+        caption="Hauptmenü mit Login-Button" width="100%"/>}}
+
+    <h3>Ticket erstellen</h3>
+    Neue Tickets können über den Button &quot;Erstellen&quot; im Hauptmenü angelegt werden.<br />
+    Die wichtigsten Einstellung werden hier erläutert:
+    <div class="row">
+      <div class="col">
+         {{< mcr-figure src="/images/documentation/developer/jira/jira_create_bug.png" label="Jira"
+                   caption="Ticket erstellen" width="100%"/>}}
       </div>
-      <div>
-        <h2>Zugang einrichten</h2>
-        <ol>
-          <li>Nutzer in Jira anlegen</li>
-          <li>Nutzer in Fish-Eye anlegen</li>
-          <li>von jira-&gt;FishEye authentifizieren mit OToken</li>
-          <li>und andersherum</li>
-        </ol>
+      <div class="col mt-4">
+        <dl>
+          <dt>Projekt</dt>
+          <dd>in der Regel <em>MyCoRe</em> oder ein anderes auf Jira verwaltetes Projekt der MyCoRe-Community</dd>
+          <dt>Vorgangstyp</dt>
+          <dd>Wir orientieren uns hier an den verlinkten
+             <a href="https://mycore.atlassian.net/secure/ShowConstantsHelp.jspa?decorator=popup#IssueTypes">Definitionen</a> 
+             der Vorgangstypen von JIRA, also in der Regel:
+            <ul>
+              <li><em>Bug</em> für einen Fehler oder Problem</li>
+              <li><em>Neue Funktion</em> für ein neues Feature</li>
+              <li><em>Verbesserung</em> für eine Erweiterung bestehender Funktionalitäten</li>
+              <li><em>Task</em> für weitere Aufgaben, die nicht in obige Kategorien passen (z.B. Dependency-Updates)
+            </ul>
+          </dd>
+          <dt>Status:<dt>
+          <dd>Open</dd>
+          <dt>Zusammenfassung</dt>
+          <dd>Kurze Beschreibung als Ticket-Titel (englisch)</dd>
+          <dt>Betrifft Versionen</dt>
+          <dd>ist <em>immer</em> die Version eines bestehenden Releases aus dem Abschnitt <em>veröffentlicht</em></dd>
+          <dt>Komponente</dt>
+          <dd>Pflichtfeld, weist das Ticket einer MyCoRe-Komponente (z.B. <em>mycore-base</em>) zu.
+          <dt>Beschreibung</dt>
+          <dd>Problembeschreibung, gerne etwas umfangreicher, z.B. mit Screenshots für UI-Bugs
+              (bevorzugt in englisch, aber auch deutsch möglich)</dd>
+          <dt>Lösungsversionen</dt>
+          <dd>ist <em>immer</em> die Version eines zukünftigen Releases aus dem Abschnitt <em>unveröffentlicht</em>
+        </dl>
       </div>
-      <div>
-        <h2>Verknüpfung der Tickets mit einzelnen Commits</h2>
-        <p>
-          Um diese sogenannten "Smart Commits" ausführen zu können, müssen die Commit-Kommentare einer definierten Form
-          folgen <code>&lt;ISSUE_KEY&gt; #&lt;COMMAND&gt; &lt;optional COMMAND_PARAMETERS&gt;</code>. Diese ist ausführlich
-          auf den Atlassian-Seiten unter <a href="https://confluence.atlassian.com/display/FISHEYE/Using+smart+commits">Using smart commits</a> dokumentiert. Nachfolgend einige Beispiele:
-        </p>
-        <code>
-          MCR-792 #comment This is a comment for ticket 792
-        </code><br /><br />
-        <code>
-          MCR-792 #start This commit starts the progress, working on ticket 792
-        </code><br /><br />
-        <code>
-          MCR-792 #stop This commit finishes the current progress on ticket 792 but didn't close it
-        </code><br /><br />
-        <code>
-          MCR-792 #close This commit closes ticket 792
-        </code><br /><br />
-        <code>
-          MCR-792 #resolve This commit closes and resolves ticket 792
-        </code><br /><br />
-        <p>
-          <span class="badge badge-info">Hinweis:</span> Aktuell funktioniert die Verwendung mehrfacher Kommandos
-          (z.B. <code>#resolve #comment</code>) nicht! Daher bitte bevorzugt mit <code>#comment</code> arbeiten
-          und das Ticket über Eclipse oder JIRA direkt schliessen.
-        </p>
-      </div>
-      <div>
+    </div>
+    <h3>Weitere Hinweise</h3>
+    <h4>Tickets für Fehler in bereits veröffentlichten Features</h4>
+    Für solche Fehler werden neue Tickets (vom Typ <em>Bug</em>) angelegt und der
+    jeweiligen Komponente zugeordnet.
+    <h4>Tickets für Fehler in noch nicht veröffentlichten Features</h4>
+    Gelegentlich müssen auch Fehler in einem <em>neuen, noch nicht veröffentlichten (not released) Feature</em>
+    gemeldet werden. In diesen Fällen wird das zugehörige Ticket wieder in den Status <em>Open</em> gesetzt
+    und der Commit / Pull-Request diesem Ticket zugeordnet.
+    
+    <h4>Pull-Request</h4>
+    <p>Mit dem Öffnen des Pull-Requests auf Github, zeigt der Entwickler an,
+       dass die Bearbeitung aus seiner Sicht abgeschlossen ist.
+       Pull-Request, die diesen Status nicht haben, werden auf Github als <em>Draft</em> markiert. 
+       <strong>Im zugehörigen Ticket wird der Status auf <em>Behoben</em> gesetzt.</strong>
+    </p>
+    <div class="alert alert-warning" role="alert">
+      Tickets werden NUR durch das Release-Team in der <em>Release-Phase</em> geschlossen.
+    </div>
+
+    <h4>Verknüpfung der Tickets mit Github-Commits</h4>
+    <p>Das Ticketsystem ist mit dem Source-Code Repository auf Github verknüpft.
+       Damit ein Commit auf Github einem Ticket zugeordnet werden kann, <em>muss</em>
+       die Commit-Nachricht immer mit der Ticket-Nummer beginnen, z.B.:
+    </p>
+    <code>
+      MCR-1234 Bugfix for problem X...
+    </code>
+    
+
+    
+  {{<mcr-comment>}}
+    TODO Prüfen, ob hier noch relevante Information stehen, die ggf. noch oben geholt werden müssen ...
         <h2>Projekt anlegen</h2>
         <p>
           Worauf ist zu achten, wenn ein neues Projekt angelegt wurde?
@@ -91,44 +132,4 @@ date: "2020-06-04"
           <li>in der Tabelle hinten in der Zeile des betreffenden Repositories unter Actions -&gt; "Application Links" auswählen</li>
           <li>Link zur Jira bzw. Bamboo-Projekten erstellen</li>
         </ol>
-      </div>
-      <div>
-        <h2>Eclipse und Jira</h2>
-        <p>
-          Über den Eclipse-Connector kann man Jira auch ins Eclipse einbinden. Details dazu sind in der
-          <a href="https://confluence.atlassian.com/display/IDEPLUGIN/Using+JIRA+in+the+Eclipse+Connector">Atlassian-Dokumentation</a> beschrieben.
-        </p>
-        <p>
-          <span class="badge badge-info">Hinweis:</span> Seit 1. Juni 2015 ist der Support für diesen Connector eingestellt. Siehe dazu die
-          entsprechende Meldung von Atlassian: <a href="https://developer.atlassian.com/blog/2015/06/discontinuing-ide-connectors-support/">We are discontinuing the support for Atlassian IDE Connectors</a>!
-        </p>
-      </div>
-      <div>
-        <h2>Tipps und Tricks im Umgang mit Jira</h2>
-        <div>
-          <h3>Probleme bei der Ticket-Ansicht</h3>
-          <div>{{< mcr-figure src="/images/documentation/developer/admin_help.png" class="border border-secondary" label="Abbildung 1" caption="Hilfe-Menü für Administratoren" alt="Issue-Screenshot mit Admin-Menü" width="100%" />}}</div>
-          <p>
-            Können bestimmte Felder nicht bearbeitet werden oder wird nicht alles wie erwartet angezeigt, so haben sich
-            die Adminwerkzeuge "Where is my field?" und "Permission Helper" als sehr nützlich erwiesen. Darüber kann man
-            sich dann mögliche Gründe aufzeigen lassen, warum ein Nutzer ein Feld nicht sieht oder bearbeiten kann.
-          </p>
-          <div>{{< mcr-figure src="/images/documentation/developer/admin_whereismyfield.png" class="border border-secondary" label="Abbildung 2" caption="Übersicht zum gesuchten Feld und dessen Status" alt="Screenshot zu 'Where is my field'" width="100%" />}}</div>
-        </div>
-        <div>
-          <h3>Commit-Message nachträglich ändern</h3>
-          <p>
-            Wurde versehentlich eine Commit-Nachricht abgesetzt, ohne diese einem Ticket zuzuweisen, kann dies nachträglich
-            geändert werden. Dies geht entweder über die Shell mittels eines <a href="https://subversion.apache.org/faq.html#change-log-msg">SVN-Befehls</a>, oder direkt im Eclipse mit den
-            folgenden Schritten:
-          </p>
-          <ol>
-            <li>Open for an item where you want to change a log message the history: Team &gt; Show History. This opens a new view named History.</li>
-            <li>In that view, you see the log messages of the selected item. Select one of the messages and choose from the context menu Show revision properties.</li>
-            <li>Select svn:log and then from the context menu Edit.... This opens a new dialog where you can change the log message (if allowed on the server).</li>
-          </ol>
-          <p>Anschließend sollte im JIRA-Ticket ein Kommentar ergänzt werden (das geht nicht automatisch). Die SVN-Revisionsnummer wird mit <tt>r{revision_nr}</tt> angegeben.
-             Dadurch verlinkt JIRA automatisch auf den Commit im FishEye.</p>
-        </div>
-      </div>
-  
+    {{</ mcr-comment>}}
