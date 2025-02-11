@@ -103,34 +103,6 @@ date: "2025-01-30"
     
   {{<mcr-comment>}}
     TODO Prüfen, ob hier noch relevante Information stehen, die ggf. noch oben geholt werden müssen ...
-    <p>
-      Um diese sogenannten "Smart Commits" ausführen zu können, müssen die Commit-Kommentare einer definierten Form
-      folgen <code>&lt;ISSUE_KEY&gt; #&lt;COMMAND&gt; &lt;optional COMMAND_PARAMETERS&gt;</code>. Diese ist ausführlich
-      auf den Atlassian-Seiten unter <a href="https://confluence.atlassian.com/display/FISHEYE/Using+smart+commits">Using smart commits</a> dokumentiert. Nachfolgend einige Beispiele:
-    </p>
-    <code>
-      MCR-792 #comment This is a comment for ticket 792
-    </code><br /><br />
-    <code>
-      MCR-792 #start This commit starts the progress, working on ticket 792
-    </code><br /><br />
-    <code>
-      MCR-792 #stop This commit finishes the current progress on ticket 792 but didn't close it
-    </code><br /><br />
-    <code>
-      MCR-792 #close This commit closes ticket 792
-    </code><br /><br />
-    <code>
-      MCR-792 #resolve This commit closes and resolves ticket 792
-    </code><br /><br />
-    <p>
-      <span class="badge badge-info">Hinweis:</span> Aktuell funktioniert die Verwendung mehrfacher Kommandos
-      (z.B. <code>#resolve #comment</code>) nicht! Daher bitte bevorzugt mit <code>#comment</code> arbeiten
-      und das Ticket über Eclipse oder JIRA direkt schliessen.
-    </p>
-    -->
-
-      <div>
         <h2>Projekt anlegen</h2>
         <p>
           Worauf ist zu achten, wenn ein neues Projekt angelegt wurde?
@@ -160,44 +132,4 @@ date: "2025-01-30"
           <li>in der Tabelle hinten in der Zeile des betreffenden Repositories unter Actions -&gt; "Application Links" auswählen</li>
           <li>Link zur Jira bzw. Bamboo-Projekten erstellen</li>
         </ol>
-      </div>
-      <div>
-        <h2>Eclipse und Jira</h2>
-        <p>
-          Über den Eclipse-Connector kann man Jira auch ins Eclipse einbinden. Details dazu sind in der
-          <a href="https://confluence.atlassian.com/display/IDEPLUGIN/Using+JIRA+in+the+Eclipse+Connector">Atlassian-Dokumentation</a> beschrieben.
-        </p>
-        <p>
-          <span class="badge badge-info">Hinweis:</span> Seit 1. Juni 2015 ist der Support für diesen Connector eingestellt. Siehe dazu die
-          entsprechende Meldung von Atlassian: <a href="https://developer.atlassian.com/blog/2015/06/discontinuing-ide-connectors-support/">We are discontinuing the support for Atlassian IDE Connectors</a>!
-        </p>
-      </div>
-      <div>
-        <h2>Tipps und Tricks im Umgang mit Jira</h2>
-        <div>
-          <h3>Probleme bei der Ticket-Ansicht</h3>
-          <div>{{< mcr-figure src="/images/documentation/developer/admin_help.png" class="border border-secondary" label="Abbildung 1" caption="Hilfe-Menü für Administratoren" alt="Issue-Screenshot mit Admin-Menü" width="100%" />}}</div>
-          <p>
-            Können bestimmte Felder nicht bearbeitet werden oder wird nicht alles wie erwartet angezeigt, so haben sich
-            die Adminwerkzeuge "Where is my field?" und "Permission Helper" als sehr nützlich erwiesen. Darüber kann man
-            sich dann mögliche Gründe aufzeigen lassen, warum ein Nutzer ein Feld nicht sieht oder bearbeiten kann.
-          </p>
-          <div>{{< mcr-figure src="/images/documentation/developer/admin_whereismyfield.png" class="border border-secondary" label="Abbildung 2" caption="Übersicht zum gesuchten Feld und dessen Status" alt="Screenshot zu 'Where is my field'" width="100%" />}}</div>
-        </div>
-        <div>
-          <h3>Commit-Message nachträglich ändern</h3>
-          <p>
-            Wurde versehentlich eine Commit-Nachricht abgesetzt, ohne diese einem Ticket zuzuweisen, kann dies nachträglich
-            geändert werden. Dies geht entweder über die Shell mittels eines <a href="https://subversion.apache.org/faq.html#change-log-msg">SVN-Befehls</a>, oder direkt im Eclipse mit den
-            folgenden Schritten:
-          </p>
-          <ol>
-            <li>Open for an item where you want to change a log message the history: Team &gt; Show History. This opens a new view named History.</li>
-            <li>In that view, you see the log messages of the selected item. Select one of the messages and choose from the context menu Show revision properties.</li>
-            <li>Select svn:log and then from the context menu Edit.... This opens a new dialog where you can change the log message (if allowed on the server).</li>
-          </ol>
-          <p>Anschließend sollte im JIRA-Ticket ein Kommentar ergänzt werden (das geht nicht automatisch). Die SVN-Revisionsnummer wird mit <tt>r{revision_nr}</tt> angegeben.
-             Dadurch verlinkt JIRA automatisch auf den Commit im FishEye.</p>
-        </div>
-      </div>
     {{</ mcr-comment>}}
