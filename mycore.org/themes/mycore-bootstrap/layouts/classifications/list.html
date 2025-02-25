@@ -19,9 +19,14 @@
     {{/* Liste der Dateien im Verzeichnis static/classifications */}}  
     <ul>
     {{ range os.ReadDir "static/classifications" }}
-      <li>
-        <a href = '{{ (print "classifications/" .Name) | relURL }}'>{{.Name}}</a>
-      </li>
+       {{/* zeige nur Dateien mit Punkt im Namen.
+            Der Ordner enthält außerdem XML-Dateien ohne Punkt als Zieladresse 
+            für Klassifikations-URLs in MyCoRe(/MODS)-Metadaten */}}
+       {{ if strings.Contains .Name "."}}
+         <li>
+           <a href = '{{ (print "classifications/" .Name) | relURL }}'>{{.Name}}</a>
+         </li>
+       {{ end }} 
     {{ end }}
     </ul>
     
