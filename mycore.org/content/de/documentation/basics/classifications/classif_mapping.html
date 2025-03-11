@@ -140,21 +140,23 @@ date: "2021-09-02"
             einzusetzenden Werte&gt;)}</code><br />
         im jeweiligen xPath und<br /> <code>MCR.Category.XPathMapping.Pattern.&lt;pattern name&gt;=&lt;XPath with optional
             placeholders&gt;
-        </code> <br />in den Properties.<br/>
-        <h4>ODER-Beziehung</h4>
-        Weiterhin gibt es in den Patterns einen Mechanismus, um Ausdrücke für mehrere Platzhalter zu wiederholen und
-        durch ein <em>ODER-Beziehung</em> zu verknüpfen. Würde in obigem Beispiel das Pattern
-        <code>{pattern:genre(article|chapter)} and not(mods:relatedItem[@type='host'])</code>
-        genutzt, wäre der resultierende xPath:</p>
-    {{< highlight shell "linenos=table">}}
-    (mods:genre[substring-after(@valueURI,'#')='article'] and not(mods:relatedItem[@type='host'])) or
-    (mods:genre[substring-after(@valueURI,'#')='chapter'] and not(mods:relatedItem[@type='host']))
-    {{< /highlight >}}
-    <p>Man kann dabei auf mehrere Platzhalter mehrere Oder-Verknüpfungen anwenden, und damit relativ komplexe
-        xPath-Ausdrücke generieren. Ein Ausdruck wie <code>{pattern:genre(article|chapter,magazine|book|other)}</code>,
-        angewendet auf eine Definition wie <code>mods:genre[substring-after(@valueURI,'#')='{0}'] and
-            mods:relatedItem[@type='{1}']</code>,
-        würde sechs mit <code>or</code> verknüpfte Teilausdrücke ergeben.</p>
+        </code> <br/>in den Properties.<br/>
+    </p>
+<!--    <h4>ODER-Beziehung</h4> TODO: einkommentieren, sobald MCR-3207 gemergt wurde -->
+<!--    <p>-->
+<!--        Weiterhin gibt es in den Patterns einen Mechanismus, um Ausdrücke für mehrere Platzhalter zu wiederholen und-->
+<!--        durch ein <em>ODER-Beziehung</em> zu verknüpfen. Würde in obigem Beispiel das Pattern-->
+<!--        <code>{pattern:genre(article|chapter)} and not(mods:relatedItem[@type='host'])</code>-->
+<!--        genutzt, wäre der resultierende xPath:</p>-->
+<!--    {{< highlight shell "linenos=table">}}-->
+<!--    (mods:genre[substring-after(@valueURI,'#')='article'] and not(mods:relatedItem[@type='host'])) or-->
+<!--    (mods:genre[substring-after(@valueURI,'#')='chapter'] and not(mods:relatedItem[@type='host']))-->
+<!--    {{< /highlight >}}-->
+<!--    <p>Man kann dabei auf mehrere Platzhalter mehrere Oder-Verknüpfungen anwenden, und damit relativ komplexe-->
+<!--        xPath-Ausdrücke generieren. Ein Ausdruck wie <code>{pattern:genre(article|chapter,magazine|book|other)}</code>,-->
+<!--        angewendet auf eine Definition wie <code>mods:genre[substring-after(@valueURI,'#')='{0}'] and-->
+<!--            mods:relatedItem[@type='{1}']</code>,-->
+<!--        würde sechs mit <code>or</code> verknüpfte Teilausdrücke ergeben.</p>-->
 </div>
 <div><h2>Technische Umsetzung</h2>
 
