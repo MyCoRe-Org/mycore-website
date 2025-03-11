@@ -176,8 +176,7 @@ date: "2021-09-02"
             zumindest noch vor dem Start der Indexierung.
         </p>
         {{< highlight shell "linenos=table">}}
-        MCR.EventHandler.MCRObject.015.Class
-        =org.mycore.oai.classmapping.MCRClassificationMappingEventHandler
+         MCR.EventHandler.MCRObject.015.Class=org.mycore.common.events.MCRClassificationMappingEventHandler
         {{< /highlight >}}
     </div>
     <div>
@@ -188,8 +187,7 @@ date: "2021-09-02"
         <p>Für dieses Verhalten wurde ein weiterer <a href="{{< ref basics_eventhandler >}}">Eventhandler</a>
             implementiert:</p>
         {{< highlight shell "linenos=table">}}
-        MCR.EventHandler.MCRObject.016.Class
-        =org.mycore.mods.classification.MCRClassificationMappingEventHandler
+         MCR.EventHandler.MCRObject.016.Class=org.mycore.mods.classification.MCRClassificationMappingEventHandler
         {{< /highlight >}}
         <p>
             Im resultierenden MODS wird der Eintrag durch das Attribut <code>generator</code>
