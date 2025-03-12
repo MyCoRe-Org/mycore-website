@@ -1,95 +1,213 @@
-
 ---
 
 title: "Mapping von Klassifikationen"
-mcr_version: ['2020.06','2021.06']
-author: ['Kathleen Neumann']
-date: "2021-09-02"
+mcr_version: ['2020.06','2021.06', '2023.06']
+author: ['Kathleen Neumann', 'Eva Roddeck']
+date: "2025-03-12"
 
 ---
-     <div>
+<div>
     <h2>Allgemein</h2>
+    <p>Es gibt zwei Arten von Klassifikationsmapping, die im Folgenden erläutert werden.</p>
+    <h3>x-Mapping</h3>
     <p>Wenn Metadaten z.B. über die OAI-Schnittstelle an externe Services ausgeliefert werden sollen,
-       werden häufige andere Klassifikationseinträge benötigt.
-       Um Mehrfacheingaben zu vermeiden, bietet MyCoRe mit dem <em>Klassifikationsmapping</em> die Möglichkeit,
-       dass nur eine primäre Klassifikation erfasst werden muss.
-       MyCoRe ergänzt dann die äquivalenten Einträge der anderen Klassifikationen automatisch.<br />
+        werden häufige andere Klassifikationseinträge benötigt.
+        Um Mehrfacheingaben zu vermeiden, bietet MyCoRe mit dem <em>Klassifikationsmapping</em> die Möglichkeit,
+        dass nur eine primäre Klassifikation erfasst werden muss.
+        MyCoRe ergänzt dann die äquivalenten Einträge der anderen Klassifikationen automatisch.<br/>
     </p>
-  <p>
-    Für einen DINI-konformen Betrieb der OAI-Schnittstelle müssen verschiedene Sets unterstützt werden. Sets werden im OAI-PMH Standard
-    verwendet, um Dokumente zu gruppieren. Sie ermöglichen selektives Harvesting und entsprechen konzeptionell den Klassifikationen in
-    MyCoRe. Deshalb wurden zunächst Klassifikationen für die Sets erstellt, die für das DINI-Zertifikat zu implementieren sind. Sie
-    stehen auf <a href="https://www.mycore.de/classifications/">mycore.de/classifications</a> als <a href="https://www.mycore.de/classifications/ddc.xml">ddc.xml</a>, <a href="https://www.mycore.de/classifications/diniPublType.xml">diniPublType.xml</a> und
-    <a href="https://www.mycore.de/classifications/diniVersion.xml">diniVersion.xml</a> zur Verfügung und müssen in die eigene Anwendung
-    übernommen werden.
-    </p>
-  <p>
-    Sollen Dokumente im xMetaDissPlus-Format ausgeliefert werden, sind weitere Klassifikationen zu verwenden:
-    <a href="https://www.mycore.de/classifications/dctermsDCMIType.xml">dctermsDCMIType.xml</a> und
-    <a href="https://www.mycore.de/classifications/XMetaDissPlusThesisLevel.xml">XMetaDissPlusThesisLevel.xml</a>
-    </p>
-  <p>
-    Im einfachsten Fall lassen sich diese Klassifikationen direkt in einem MyCoRe-Datenmodell verwenden. Allerdings werden die meisten
-    MyCoRe-Anwendungen eigene Klassifikationen besitzen, z.B eine detaillierte DDC oder detailliertere Klassifikation für
-    Dokumententypen. Für solche Fälle wurde das <em>Klassifikationsmapping</em> implementiert.
-    </p>
-    </div>
-     <div>
-      <h2>Anreicherung der Klassifikation</h2>
-      <p>
-        Die Definition des Mappings erfolgt, indem die Klassifikationseinträge um ein Label mit dem künstlichen Sprach-Attribut
-        <code>x-mapping</code> erweitert werden.
-        Als Wert wird <em>Klassifikations-ID</em> und <em>Kategorie-ID</em> getrennt durch einen Doppelpunkt dort eingetragen.
-        Mehre Werte können durch Leerzeichen getrennt werden. z.B.:
-      </p>
-      {{< highlight xml "linenos=table">}}
-  <category ID="TYPE0003.006">
-         <label xml:lang="de" text="Dissertation" />
-         <label xml:lang="en" text="dissertation" />
-         <label xml:lang="x-mapping"
-                text="diniPublType:doctoralThesis dctermsDCMIType:Text
-    XmetaDissPlusThesisLevel:thesis.doctoral diniVersion:publishedVersion" />
-  </category>{{< /highlight >}}
-   </div>
-   <div><h2>Technische Umsetzung</h2>
-
-    <div><h3>in einer "klassischen" MyCoRe-Anwendung</h3>
-      <p>Das Datenmodell wird um ein Datenfeld <tt>mappings/mapping</tt> ergänzt werden. Dieses Feld wird dann beim Einfügen oder Aktualisieren
-         der Dokumente automatisch befüllt.
-      </p>
-      {{< highlight xml "linenos=table">}}
-    <element name="mappings" minOccurs='0' maxOccurs='1'>
-      <mcrmetaclassification name="mapping"
-        class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
-    </element>{{< /highlight >}}
-      <p>Das Mapping wird per <a href="{{< ref basics_eventhandler >}}">EventHandler</a> aktiviert und sollte möglichst früh aufgerufen werden,
-         zumindest noch vor dem Start der Indexierung.
-      </p>
-    {{< highlight shell "linenos=table">}}
-  MCR.EventHandler.MCRObject.015.Class
-      =org.mycore.oai.classmapping.MCRClassificationMappingEventHandler
-    {{< /highlight >}}
-  </div>
-  <div>
-    <h3>in einer MyCoRe-Anwendung mit MODS-Datenmodell</h3>
-    <p>Wird das MODS-Datenmodell genutzt, muss kein zusätzlichen Datenfeld ergänzt werden. In diesem Fall werden die
-       generierten Einträge als zusätzliche <code>mods:classification</code> Elemente abgespeichert.
-       </p>
-    <p>Für dieses Verhalten wurde ein weiterer <a href="{{< ref basics_eventhandler >}}">Eventhandler</a> implementiert:</p>
-    {{< highlight shell "linenos=table">}}
-  MCR.EventHandler.MCRObject.016.Class
-      =org.mycore.mods.classification.MCRClassificationMappingEventHandler
-    {{< /highlight >}}
     <p>
-      Im resultierenden MODS wird der Eintrag durch das Attribut <code>generator</code>
-      eindeutig identifizierbar. Dieses enthält immer das Suffix <tt>-mycore</tt> und setzt sich weiterhin aus Quell-Klassifikations-ID und
-      Ziel-Klassifikations-ID zusammen. Siehe dazu nachfolgendes Beispiel:
+        Für einen DINI-konformen Betrieb der OAI-Schnittstelle müssen verschiedene Sets unterstützt werden. Sets werden
+        im OAI-PMH Standard
+        verwendet, um Dokumente zu gruppieren. Sie ermöglichen selektives Harvesting und entsprechen konzeptionell den
+        Klassifikationen in
+        MyCoRe. Deshalb wurden zunächst Klassifikationen für die Sets erstellt, die für das DINI-Zertifikat zu
+        implementieren sind. Sie
+        stehen auf <a href="https://www.mycore.de/classifications/">mycore.de/classifications</a> als <a
+            href="https://www.mycore.de/classifications/ddc.xml">ddc.xml</a>, <a
+            href="https://www.mycore.de/classifications/diniPublType.xml">diniPublType.xml</a> und
+        <a href="https://www.mycore.de/classifications/diniVersion.xml">diniVersion.xml</a> zur Verfügung und müssen in
+        die eigene Anwendung
+        übernommen werden.
+    </p>
+    <p>
+        Sollen Dokumente im xMetaDissPlus-Format ausgeliefert werden, sind weitere Klassifikationen zu verwenden:
+        <a href="https://www.mycore.de/classifications/dctermsDCMIType.xml">dctermsDCMIType.xml</a> und
+        <a href="https://www.mycore.de/classifications/XMetaDissPlusThesisLevel.xml">XMetaDissPlusThesisLevel.xml</a>
+    </p>
+    <p>
+        Im einfachsten Fall lassen sich diese Klassifikationen direkt in einem MyCoRe-Datenmodell verwenden. Allerdings
+        werden die meisten
+        MyCoRe-Anwendungen eigene Klassifikationen besitzen, z.B eine detaillierte DDC oder detailliertere
+        Klassifikation für
+        Dokumententypen. Für solche Fälle wurde das <em>Klassifikationsmapping</em> implementiert.
+    </p>
+    <h3>xPath-Mapping</h3>
+    <p>Es gibt Fälle, wo das klassische Klassifikationsmapping nicht ausreicht. Für ein erweitertes Mapping wird
+        deswegen
+        seit <span class="badge badge-info">LTS 2023.06</span> das <em>xPath-Mapping</em> angeboten. Auch dieses alternative
+        Mapping kann dazu benutzt werden, Fremdklassifikationen einer vorhanden Klassifikation zuzuordnen und doppelte
+        Eingaben zu vermeiden. Dadurch, dass Zuordnungen in den Fremdklassifikationen durch xPath-Ausdrücke festgelegt
+        werden, ist das Mapping flexibler in seiner Definition.
+    </p>
+</div>
+<div>
+    <h2>Anreicherung der Klassifikation</h2>
+    <h3>x-Mapping</h3>
+    <p>
+        Die Definition des Mappings erfolgt, indem die Klassifikationseinträge um ein Label mit dem künstlichen
+        Sprach-Attribut
+        <code>x-mapping</code> erweitert werden.
+        Als Wert wird <em>Klassifikations-ID</em> und <em>Kategorie-ID</em> getrennt durch einen Doppelpunkt dort
+        eingetragen.
+        Mehre Werte können durch Leerzeichen getrennt werden. z.B.:
     </p>
     {{< highlight xml "linenos=table">}}
-  <mods:classification
-    generator="mir_genres2diniPublType-mycore"
-    authorityURI="http://localhost:8291/mir/classifications/diniPublType"
-    valueURI="http://localhost:8291/mir/classifications/diniPublType#doctoralThesis"/>{{< /highlight >}}
+    <category ID="TYPE0003.006">
+        <label xml:lang="de" text="Dissertation"/>
+        <label xml:lang="en" text="dissertation"/>
+        <label xml:lang="x-mapping"
+               text="diniPublType:doctoralThesis dctermsDCMIType:Text
+    XmetaDissPlusThesisLevel:thesis.doctoral diniVersion:publishedVersion"/>
+    </category>
+    {{< /highlight >}}
+    <h3>xPath-Mapping</h3>
+    <p>
+        Die Definition des Mappings erfolgt, indem die Klassifikationseinträge in der Zielklassifikation
+        um ein Label mit dem künstlichen Sprach-Attribut
+        <code>x-mapping-xpath</code> erweitert werden.
+        Als Wert wird ein xPath-Ausdruck eingetragen. z.B.:
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <category ID="journal-article">
+        <label xml:lang="de" text="Zeitschriftenartikel"/>
+        <label xml:lang="en" text="Journal article"/>
+        <label xml:lang="x-mapping-xpath"
+               text="mods:genre[substring-after(@valueURI,'#')='article'] and mods:relatedItem[@type='host']/mods:genre[substring-after(@valueURI,'#')='journal']"/>
+    </category>
+    {{< /highlight >}}
+    <p>Es gibt weiterhin eine Variante des xPath-Mappings, das Sprach-Attribut <code>x-mapping-xpathfb</code>.
+        Diese wird als Fallback-Mechanismus genutzt, falls keiner der xPath-Ausdrücke einer Klassifikation zutrifft.
+        Das heißt, der xPath, der für dieses Sprachattribut hinterlegt ist, wird nur dann ausgewertet, wenn keiner
+        der anderen xPaths der Klassifikation einen Treffer erzielt. z.B.:</p>
+    {{< highlight xml "linenos=table">}}
+    <category ID="journal-article">
+        ...
+        <label xml:lang="x-mapping-xpath" text="..."/>
+    </category>
+    <category ID="newspaper-article">
+        ...
+        <label xml:lang="..."/>
+    </category>
+    <category ID="online-resource">
+        ...
+        <label xml:lang="x-mapping-xpathfb" text="mods:genre[substring-after(@valueURI,'#')='article']"/>
+    </category>
+    {{< /highlight >}}
+    <p>In diesem Beispiel würde ein Klassifikations-Mapping auf eine Online-Resource dann passieren, wenn keiner der
+        anderen
+        xPaths der Klassifikation eine Übereinstimmung hat.</p>
+
+    <p>Damit nicht alle Klassifikationen nach dem Sprach-Attribut <code>x-mapping-xpath</code> durchsucht werden müssen, werden die
+        Klassifikationen,
+        die solche Attribute enthalten, in einer Property angegeben:</p>
+    {{< highlight shell "linenos=table">}}
+     MCR.Category.XPathMapping.ClassIDs=orcidWorkType,kdsfPublicationType
+    {{< /highlight >}}
+    <p>Falls diese für eine Klassifikation nicht gesetzt ist, werden mögliche xPath-Mappings ignoriert. Das ist
+        nützlich, falls
+        man vorhandene Klassifikationen mit xPath-Mappings nachnutzen will, ohne die Funktionalität zu benötigen.</p>
+    <h4>Patterns</h4>
+    <p>Da xPath-Ausdrücke recht lang sein und sich wiederholen können, gibt es für das xPath-Mapping einen
+        Pattern-Mechanismus.
+        Damit können wiederkehrende xPath-Ausdrücke in Properties abgelegt und mit Platzhalter versehen werden,
+        z.B.:</p>
+    {{< highlight shell "linenos=table">}}
+     MCR.Category.XPathMapping.Pattern.genre=mods:genre[substring-after(@valueURI,'#')='{0}']
+    {{< /highlight >}}
+    <p>Diese Pattern können dann in Klassifikationen genutzt werden, um die Formulierung von xPaths abzukürzen:</p>
+    {{< highlight xml "linenos=table">}}
+    <category ID="journal-article">
+        <label xml:lang="de" text="Zeitschriftenartikel"/>
+        <label xml:lang="en" text="Journal article"/>
+        <label xml:lang="x-mapping-xpath"
+               text="{pattern:genre(article)} and not(mods:relatedItem[@type='host'])"/>
+    </category>
+    {{< /highlight >}}
+    <p>Aus der Konfiguration in diesem Beispiel würde sich folgender xPath ergeben:<br />
+        <code>mods:genre[substring-after(@valueURI,'#')='article'] and not(mods:relatedItem[@type='host'])</code>.<br/>
+        Die allgemeine Syntax lautet:<br /> <code>{pattern:&lt;Name der Property&gt;(&lt;Komma-separierte Liste der
+            einzusetzenden Werte&gt;)}</code><br />
+        im jeweiligen xPath und<br /> <code>MCR.Category.XPathMapping.Pattern.&lt;pattern name&gt;=&lt;XPath with optional
+            placeholders&gt;
+        </code> <br/>in den Properties.<br/>
+    </p>
+<!--    <h4>ODER-Beziehung</h4> TODO: einkommentieren, sobald MCR-3207 gemergt wurde -->
+<!--    <p>-->
+<!--        Weiterhin gibt es in den Patterns einen Mechanismus, um Ausdrücke für mehrere Platzhalter zu wiederholen und-->
+<!--        durch ein <em>ODER-Beziehung</em> zu verknüpfen. Würde in obigem Beispiel das Pattern-->
+<!--        <code>{pattern:genre(article|chapter)} and not(mods:relatedItem[@type='host'])</code>-->
+<!--        genutzt, wäre der resultierende xPath:</p>-->
+<!--    {{< highlight shell "linenos=table">}}-->
+<!--    (mods:genre[substring-after(@valueURI,'#')='article'] and not(mods:relatedItem[@type='host'])) or-->
+<!--    (mods:genre[substring-after(@valueURI,'#')='chapter'] and not(mods:relatedItem[@type='host']))-->
+<!--    {{< /highlight >}}-->
+<!--    <p>Man kann dabei auf mehrere Platzhalter mehrere Oder-Verknüpfungen anwenden, und damit relativ komplexe-->
+<!--        xPath-Ausdrücke generieren. Ein Ausdruck wie <code>{pattern:genre(article|chapter,magazine|book|other)}</code>,-->
+<!--        angewendet auf eine Definition wie <code>mods:genre[substring-after(@valueURI,'#')='{0}'] and-->
+<!--            mods:relatedItem[@type='{1}']</code>,-->
+<!--        würde sechs mit <code>or</code> verknüpfte Teilausdrücke ergeben.</p>-->
+</div>
+<div><h2>Technische Umsetzung</h2>
+
+    <div><h3>in einer "klassischen" MyCoRe-Anwendung</h3>
+        <p>Das Datenmodell wird um ein Datenfeld <tt>mappings/mapping</tt> ergänzt werden. Dieses Feld wird dann beim
+            Einfügen oder Aktualisieren
+            der Dokumente automatisch befüllt.
+        </p>
+        {{< highlight xml "linenos=table">}}
+        <element name="mappings" minOccurs='0' maxOccurs='1'>
+            <mcrmetaclassification name="mapping"
+                                   class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded'/>
+        </element>
+        {{< /highlight >}}
+        <p>Das Mapping wird per <a href="{{< ref basics_eventhandler >}}">EventHandler</a> aktiviert und sollte
+            möglichst früh aufgerufen werden,
+            zumindest noch vor dem Start der Indexierung.
+        </p>
+        {{< highlight shell "linenos=table">}}
+         MCR.EventHandler.MCRObject.015.Class=org.mycore.common.events.MCRClassificationMappingEventHandler
+        {{< /highlight >}}
     </div>
-  </div>
-  
+    <div>
+        <h3>in einer MyCoRe-Anwendung mit MODS-Datenmodell</h3>
+        <p>Wird das MODS-Datenmodell genutzt, muss kein zusätzlichen Datenfeld ergänzt werden. In diesem Fall werden die
+            generierten Einträge als zusätzliche <code>mods:classification</code> Elemente abgespeichert.
+        </p>
+        <p>Für dieses Verhalten wurde ein weiterer <a href="{{< ref basics_eventhandler >}}">Eventhandler</a>
+            implementiert:</p>
+        {{< highlight shell "linenos=table">}}
+         MCR.EventHandler.MCRObject.016.Class=org.mycore.mods.classification.MCRClassificationMappingEventHandler
+        {{< /highlight >}}
+        <p>
+            Im resultierenden MODS wird der Eintrag durch das Attribut <code>generator</code>
+            eindeutig identifizierbar. Dieses enthält immer das Suffix <tt>-mycore</tt> und setzt sich weiterhin aus:
+        </p>
+        <ul>
+            <li>Quell-Klassifikations-ID und Ziel-Klassifikations-ID, oder</li>
+            <li>dem Präfix "xpathmapping" und der Ziel-Klassifikations-ID zusammen</li>
+        </ul>
+        <p>Siehe dazu nachfolgende Beispiele:</p>
+        {{< highlight xml "linenos=table">}}
+        <mods:classification
+                generator="mir_genres2diniPublType-mycore"
+                authorityURI="http://localhost:8291/mir/classifications/diniPublType"
+                valueURI="http://localhost:8291/mir/classifications/diniPublType#doctoralThesis"/>
+        {{< /highlight >}}
+        {{< highlight xml "linenos=table">}}
+        <mods:classification generator="xpathmapping2orcidWorkType-mycore"
+                             authorityURI="/classifications/orcidWorkType"
+                             valueURI="/classifications/orcidWorkType#online-resource"/>
+        {{< /highlight >}}
+    </div>
+</div>

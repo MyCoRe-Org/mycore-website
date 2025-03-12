@@ -80,8 +80,17 @@ date: "2021-09-02"
               Wenn Metadaten z.B. über die OAI-Schnittstelle an externe Services ausgeliefert werden, werden häufige andere Klassifikationseinträge benötigt.
               Um Mehrfacheingaben zu vermeiden, bietet MyCoRe mit dem Klassifikationsmapping die Möglichkeit, dass nur eine primäre Klassifikation erfasst wird.
               MyCoRe trägt dann die äquivalenten Einträge der anderen Klassifikation automatisch dazu.<br />
-              Die Werte werden als Leerzeichen-getrennte Liste von Klassifikationseinträgen der Form <tt>classid:categid</tt> gespeichert.<br /><br />
-            </li>
+              Die Werte werden als Leerzeichen-getrennte Liste von Klassifikationseinträgen der Form <tt>classid:categid</tt> gespeichert.<br /><br /></li>
+
+            <li><strong><code>x-mapping-xpath</code></strong> ebenfalls für das <a href="{{< ref classif_mapping >}}">Klassifikationsmapping</a>.<br />
+              Ein alternatives Klassifikationsmapping, welches Klassifikationen nicht aufgrund einer bereits vergebenen Klassifikation ergänzt,
+              sondern aufgrund definierter xPath-Ausdrücke. Die Mappings werden in den Zielklassifikationen bestimmt. Ob sie angewendet werden,
+              ist abhängig von dem definierten xPath. Dadruch hat man mehr Spielraum in der Definition der Kriterien für ein Mapping.<br /><br /></li>
+
+            <li><strong><code>x-mapping-xpathfb</code></strong> als Fallback-Variante für <code>x-mapping-xpath</code>.<br />
+              Pro Zielklassifikation kann es mehrere xPath-Mappings geben, von denen eins oder mehrere greifen können. Um die Definition
+              von zu vielen xPath-Mappings zu vermeiden und Randfälle abzudecken, kann man ein Klassifikationsmapping definieren,
+              das gesetzt werden soll, wenn keines der anderen xPath-Mappings zutrifft.<br /><br /></li>
         </ul>
         </div>
         <div><h4>Format von IDs</h4></div>
@@ -145,4 +154,3 @@ date: "2021-09-02"
 
     </div>
     </div>
-  
