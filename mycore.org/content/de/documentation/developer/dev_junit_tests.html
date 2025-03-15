@@ -87,8 +87,8 @@ public class MCRMyUnitTest {
 
 <h3>@ExtendWith(MCRJPAExtension.class)</h3>
 
-<p>Mit <code>@MyCoReTest</code> wird die Datenbank nicht initialisiert, wird diese jedoch benötig, dann sollte die Test-Klasse von
-    wird die <code>MCRJPAExtension</code> zusätzlich benötigt.</p>
+<p>Mit <code>@MyCoReTest</code> wird die Datenbank nicht initialisiert, wird diese jedoch benötigt,
+    muss die <code>MCRJPAExtension</code> Extension zusätzlich aktiviert werden.</p>
 
 {{< highlight java "linenos=table">}}
 @MyCoReTest
@@ -110,11 +110,11 @@ public class MCRJPAExtensionTest {
 }
 {{< /highlight >}}
     
-<h3>@ExtendWith(MCRJPAExtension.class)</h3>
+<h3>@ExtendWith(MCRMetadataExtension.class)</h3>
  
 <p>Wird beabsichtigt Objekte mit dem MetadataManager zu Speichern oder Auszulesen,
    dann sollte die <code>MCRMetadataExtension</code> genutzt werden.
-   Diese muss nicht zwingend in Kombination mit <code>MCRJPAExtension</code> genutzt werden.</p> 
+   Diese benötigt unter Umständen nicht zwingend auch die <code>MCRJPAExtension</code>!</p> 
 
 
 {{< highlight java "linenos=table">}}
