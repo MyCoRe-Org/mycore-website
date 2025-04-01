@@ -16,7 +16,7 @@ date: "2021-09-02"
         <code>MCRCommandGroup</code>
         und
         <code>MCRCommand</code>
-        . Die Klassen sollten folgendes Codegerüst nutzen.
+        . Die Klassen sollten folgendes Codegerüst nutzen:
       </p>
       <p>
       {{< highlight xml "linenos=table">}}package org.mycore.frontend.cli;
@@ -34,9 +34,9 @@ public class MCRMyCommands extends MCRAbstractCommands {
 
 }{{< /highlight >}}
       </p>
-      <p>Die so erstellte Klasse kann in den mycore.properties folgender Maßen eingebunden werden.</p>
+      <p>Die so erstellte Klasse kann in den mycore.properties folgendermaßen eingebunden werden:</p>
       <p>
         <code>
           MCR.CLI.Classes.External=%MCR.CLI.Classes.External%,org.mycore.frontend.cli.MCRMyCommands</code>
       </p>
-  
+      <p>So eingebundene Kommandos sind danach sowohl über das CLI, als auch die Web Schnittstelle (WebCLI) verfügbar.</p>
