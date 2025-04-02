@@ -1,39 +1,246 @@
 ---
 
 title: "Modultests mit JUnit"
-mcr_version: ['2021.06']
-author: ['Sebastian Hofmann']
+mcr_version: ['2021.06','2025.02']
+author: ['Sebastian Hofmann', 'Thomas Scheffler']
 description: "
-MyCoRe bietet Hilfsklassen die das Erstellen von Tests mit dem Framework JUnit vereinfachen.
+MyCoRe bietet dedizierte Hilfsklassen und JUnit-Erweiterungen, die das Erstellen von Unit- und Integrationstests vereinfachen.
+Diese Utilities verwalten die Komplexität der MyCoRe-Umgebung (Konfiguration, Datenbank, Storage, Sessions),
+sodass sich Entwickler auf die Testlogik konzentrieren können.
 "
-date: '2021-12-07'
+date: '2025-04-02'
 
 ---
 
-<h2>MCRTestCase</h2>
+<h2>Einleitung</h2>
 
-<p>Für die Modultests wird in MyCoRe das <a href="https://junit.org/junit4/">JUnit-Framework</a> eingesetzt. Tests in MyCoRe sollten von der Klasse MCRTestCase
-    abgeleitet werden. Die Klasse initialisiert das System und ermöglicht es über die Methode getTestProperties()</p>
+<p>
+MyCoRe stellt Utilities bereit, um das Erstellen von Unit- und Integrationstests mit dem JUnit-Framework zu vereinfachen. Diese Helfer übernehmen das Management der MyCoRe-Umgebung (Konfiguration, Datenbank, Storage, Sessions) und ermöglichen es Entwicklern, sich auf das Testen der Komponentenlogik zu konzentrieren. Dieses Dokument beschreibt den modernen Ansatz mit JUnit 5 (empfohlen für neue Tests) sowie die Unterstützung für das ältere JUnit 4.
+</p>
+
+<h2>JUnit 5 Support (Empfohlen)</h2>
+
+<p>
+Seit MyCoRe {{<mcr-version "2025.02" >}} wird JUnit 5 mit dedizierten Erweiterungen unterstützt, die das Testen von MyCoRe-Komponenten vereinfachen. Das modulare Extension-Modell von JUnit 5 wird hierbei genutzt, um spezifische Aspekte der Testumgebung gezielt zu aktivieren. Tipps zur Migration von JUnit 4 auf JUnit 5 finden Sie <a href="https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4" target="_blank" rel="noopener">hier im offiziellen JUnit 5 User Guide</a>.
+</p>
+
+<h3>Basis-Setup mit @MyCoReTest</h3>
+<p>
+Die Annotation <strong><code>@MyCoReTest</code></strong> ist die <strong>grundlegende Annotation</strong> für JUnit 5 Tests in MyCoRe. Sie <strong>muss</strong> auf Testklassen angewendet werden, die eine MyCoRe-Laufzeitumgebung benötigen.
+Ihre Hauptaufgaben umfassen:
+</p>
+<ul>
+    <li>Initialisierung der Basis-MyCoRe-Umgebung.</li>
+    <li>Einrichtung eines temporären Verzeichnisses für <code>MCR.Home</code>.</li>
+    <li>Laden der Standard-MyCoRe-Konfigurationsproperties (<code>mycore.properties</code>).</li>
+    <li>Verwaltung des <code>MCRSession</code>-Lebenszyklus für jede Testmethode (Session wird vor dem Test verfügbar gemacht und danach geschlossen).</li>
+    <li>Ermöglicht das Setzen von test-spezifischen Konfigurationsproperties über <code>@MCRTestConfiguration</code> und <code>@MCRTestProperty</code> (siehe Beispiel).</li>
+</ul>
+<p>
+Mit <code>@MCRTestConfiguration</code> können Properties auf Klassen- oder Methodenebene definiert oder überschrieben werden.
+</p>
 
 {{< highlight java "linenos=table">}}
-public class MCRMyUnitTest extends MCRTestCase {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mycore.common.MCRTestConfiguration;
+import org.mycore.common.MCRTestProperty;
+import org.mycore.common.config.MCRConfiguration2;
+import org.mycore.common.config.MCRConfigurationBase;
+import org.mycore.common.config.MCRConfigurationException;
+import org.mycore.test.MyCoReTest;
+
+// Basis-Annotation für MyCoRe Tests
+@MyCoReTest
+// Test-spezifische Properties auf Klassenebene
+@MCRTestConfiguration(
+    properties = {
+        // Property mit Klassennamen als Wert
+        @MCRTestProperty(key = "MCR.Test.Class", classNameOf = MCRMyUnitTest.class),
+        // Property mit String-Wert
+        @MCRTestProperty(key = "MCR.myProperty", string = "junit-class-level")
+    }
+)
+public class MCRMyUnitTest {
 
     @Test
-    public void myTestMethod(){
+    public void testClassProperty() {
+        // Zugriff auf Property, das auf Klassenebene definiert wurde
+        Assertions.assertEquals(
+            "junit-class-level",
+            MCRConfiguration2.getStringOrThrow("MCR.myProperty")
+        );
+        Assertions.assertEquals(
+            MCRMyUnitTest.class.getName(),
+            MCRConfiguration2.getStringOrThrow("MCR.Test.Class")
+        );
+    }
+
+    // Zusätzliche / überschreibende Properties für diese Methode
+    @Test
+    @MCRTestConfiguration(
+        properties = {
+            // Überschreibt den Wert von "MCR.myProperty" nur für diesen Test
+            @MCRTestProperty(key = "MCR.myProperty", string = "junit-method-level"),
+            // Definiert ein leeres Property
+            @MCRTestProperty(key = "MCR.emptyProperty", empty = true)
+        }
+    )
+    public void testMethodProperty() {
+        // Property von Methode überschreibt Property von Klasse
+        Assertions.assertEquals(
+            "junit-method-level",
+            MCRConfiguration2.getStringOrThrow("MCR.myProperty")
+        );
+        Assertions.assertTrue(MCRConfigurationBase.getString("MCR.emptyProperty").isPresent());
+        Assertions.assertTrue(MCRConfigurationBase.getString("MCR.emptyProperty").get().isEmpty());
+        Assertions.assertThrowsExactly(MCRConfigurationException.class,
+            () -> MCRConfiguration2.getStringOrThrow("MCR.emptyProperty"));
+    }
+}
+{{< /highlight >}}
+
+<h3>Datenbank-Setup mit MCRJPAExtension</h3>
+
+<p>
+Wenn ein Test <strong>Datenbankzugriffe über JPA</strong> erfordert, aktivieren Sie <strong>zusätzlich</strong> zu <code>@MyCoReTest</code> die <strong><code>MCRJPAExtension</code></strong> mit <code>@ExtendWith(MCRJPAExtension.class)</code>. Diese Erweiterung kümmert sich spezifisch um:
+</p>
+<ul>
+    <li>Einrichtung einer dedizierten <strong>In-Memory-Datenbank (H2)</strong>, isoliert pro Testklasse bzw. Komponente.</li>
+    <li>Automatische <strong>Generierung des Datenbankschemas</strong> (<code>create</code>) basierend auf den JPA-Entitäten vor den Tests der Klasse.</li>
+    <li>Automatisches <strong>Löschen des Schemas</strong> (<code>drop</code>) nach allen Tests der Klasse.</li>
+    <li><strong>Transaktionsmanagement</strong>: Startet eine Transaktion vor jeder Testmethode und führt am Ende einen Commit oder Rollback durch.</li>
+    <li><strong>Datenbankbereinigung</strong>: Löscht die Inhalte aller Tabellen (<code>TRUNCATE</code>) nach jeder Testmethode, um Testisolation sicherzustellen.</li>
+    <li>Stellt sicher, dass ein <code>EntityManager</code> über <code>MCREntityManagerProvider.getCurrentEntityManager()</code> verfügbar ist.</li>
+</ul>
+
+{{< highlight java "linenos=table">}}
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mycore.backend.jpa.MCREntityManagerProvider;
+import org.mycore.test.MCRJPAExtension; // Import der Extension
+import org.mycore.test.MyCoReTest;
+
+@MyCoReTest // Basis-Setup
+@ExtendWith(MCRJPAExtension.class) // Zusätzliches JPA Setup aktivieren
+public class MCRJPAExtensionTest {
+
+    @Test
+    public void testEntityManagerAvailable() {
+        Assertions.assertNotNull(
+            MCREntityManagerProvider.getCurrentEntityManager(),
+            "EntityManager should be available"
+        );
+        // Hier können nun JPA Operationen durchgeführt werden
+    }
+
+    // Funktioniert auch in verschachtelten Tests
+    @Nested
+    class MCRJPAExtensionNestedTest {
+        @Test
+        public void testEntityManagerAvailableInNested() {
+            Assertions.assertNotNull(
+                MCREntityManagerProvider.getCurrentEntityManager(),
+                "EntityManager should be available in nested test"
+            );
+        }
+    }
+}
+{{< /highlight >}}
+
+<h3>Metadaten-Storage-Setup mit MCRMetadataExtension</h3>
+
+<p>
+Für Tests, die MyCoRe-Objekte über den <strong><code>MCRXMLMetadataManager</code></strong> speichern oder laden (z.B. Interaktion mit dem Dateisystem- oder SVN-basierten Storage), verwenden Sie <strong>zusätzlich</strong> zu <code>@MyCoReTest</code> die <strong><code>MCRMetadataExtension</code></strong> mit <code>@ExtendWith(MCRMetadataExtension.class)</code>. Sie ist verantwortlich für:
+</p>
+<ul>
+    <li>Einrichtung von <strong>temporären Verzeichnissen</strong> für den Metadaten-Store (<code>MCR.Metadata.Store.BaseDir</code>) und optional für SVN (<code>MCR.Metadata.Store.SVNBase</code>).</li>
+    <li>Konfiguration der entsprechenden MyCoRe-Properties, um diese temporären Verzeichnisse zu nutzen.</li>
+    <li><strong>Bereinigung</strong> dieser Verzeichnisse nach jeder Testmethode.</li>
+    <li>Sicherstellung, dass der <code>MCRXMLMetadataManager</code> initialisiert und einsatzbereit ist.</li>
+</ul>
+<p>
+<em>Hinweis:</em> Die <code>MCRJPAExtension</code> ist für die reine Nutzung der <code>MCRMetadataExtension</code> nicht zwingend erforderlich, wird aber oft zusammen verwendet, wenn Tests sowohl Metadaten- als auch Datenbankoperationen umfassen (z.B. Speichern eines MCRObjects und der zugehörigen Datenbankeinträge).
+</p>
+
+{{< highlight java "linenos=table">}}
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mycore.common.MCRTestConfiguration;
+import org.mycore.common.MCRTestProperty;
+import org.mycore.common.config.MCRConfiguration2;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.test.MCRJPAExtension; // Optional, wenn DB benötigt wird
+import org.mycore.test.MCRMetadataExtension; // Import der Extension
+import org.mycore.test.MyCoReTest;
+
+@MyCoReTest // Basis-Setup
+@ExtendWith(MCRJPAExtension.class) // Optional, nur wenn DB-Interaktion auch getestet wird
+@ExtendWith(MCRMetadataExtension.class) // Metadaten-Storage Setup aktivieren
+@MCRTestConfiguration(
+    properties = {
+        // Beispiel: Konfiguration für einen Metadatentyp
+        @MCRTestProperty(key = "MCR.Metadata.Type.test", string = "true")
+    })
+public class MCRMetadataExtensionTest {
+
+    @Test
+    public void testXMLMetadataManagerAvailable() {
+        // Property wird von MCRMetadataExtension gesetzt
+        Path storeBaseDir = MCRConfiguration2.getOrThrow("MCR.Metadata.Store.BaseDir", Paths::get);
+        System.out.println("Store BaseDir=" + storeBaseDir.toAbsolutePath());
+        Assertions.assertTrue(Files.isDirectory(storeBaseDir), "Store base dir should exist");
+
+        // MCRXMLMetadataManager ist nun konfiguriert und kann verwendet werden
+        Assertions.assertFalse(
+            MCRXMLMetadataManager.getInstance().exists(MCRObjectID.getInstance("MyCoRe_test_00004711")),
+            "Object should not exist in the temporary store initially"
+        );
+        // Hier können nun Operationen wie store(), retrieve() etc. getestet werden
+    }
+}
+{{< /highlight >}}
+
+<h2>JUnit 4 Support (Legacy)</h2>
+
+<p>
+Für ältere Tests oder Projekte, die noch nicht auf JUnit 5 migriert wurden, bietet MyCoRe Basisklassen für JUnit 4 Tests. Es wird jedoch empfohlen, neue Tests mit JUnit 5 und den oben beschriebenen Extensions zu schreiben.
+</p>
+<p>
+Tests sollten von der Klasse <strong><code>MCRTestCase</code></strong> abgeleitet werden. Diese Klasse initialisiert das Basis-System und ermöglicht es, über die Methode <code>getTestProperties()</code> test-spezifische Properties zu setzen.
+</p>
+
+{{< highlight java "linenos=table">}}
+import java.util.Map;
+import org.junit.Test; // JUnit 4 Annotation
+import org.mycore.common.config.MCRConfiguration2;
+import org.mycore.test.MCRTestCase; // JUnit 4 Basisklasse
+
+public class MCRMyLegacyUnitTest extends MCRTestCase { // Ableiten von MCRTestCase
+
+    @Test // JUnit 4 Test-Annotation
+    public void myTestMethod() {
+        // Property aus getTestProperties() ist verfügbar
         MCRConfiguration2.getStringOrThrow("meinProperty");
     }
 
+    // Überschreiben, um Test-Properties hinzuzufügen
     @Override
     protected Map<String, String> getTestProperties() {
         Map<String, String> properties = super.getTestProperties();
         properties.put("meinProperty", "wert");
-
         return properties;
     }
-
 }
 {{< /highlight >}}
 
-<p>Mit MCRTestCase wird die Datenbank nicht initialisiert, wird diese jedoch benötig, dann sollte die Test-Klasse von
-    MCRJPATestCase abgeleitet werden. Wird beabsichtigt Objekte mit dem MetadataManager zu Speichern oder Auszulesen, dann sollte von MCRStoreTestCase abgeleitet werden.</p>
-
+<p>
+Mit <code>MCRTestCase</code> allein wird die Datenbank <strong>nicht</strong> initialisiert. Wird Datenbankzugriff benötigt, sollte die Testklasse stattdessen von <strong><code>MCRJPATestCase</code></strong> abgeleitet werden. Wenn Objekte über den <code>MCRXMLMetadataManager</code> gespeichert oder gelesen werden sollen (Dateisystem/SVN-Storage), sollte von <strong><code>MCRStoreTestCase</code></strong> abgeleitet werden.
+</p>
