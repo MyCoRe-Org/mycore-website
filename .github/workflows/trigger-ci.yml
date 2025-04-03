@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Trigger GitLab CI Pipeline
         run: |
-          curl --request POST "${{ secrets.GITLAB_PROJECT_URL }}/trigger/pipeline" \
+          curl -X POST --fail -s -o /dev/null "${{ secrets.GITLAB_PROJECT_URL }}/trigger/pipeline" \
             --form "token=${{ secrets.GITLAB_TRIGGER_TOKEN }}" \
             --form "ref=main"
         env:
