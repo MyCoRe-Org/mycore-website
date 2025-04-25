@@ -1,0 +1,11 @@
+{{- define "head" -}}
+    <meta http-equiv="refresh" content="0; url={{ .Params.redirect_url }}">
+{{- end -}}
+
+{{- define "main" -}}
+    <p class="p-5">
+      Sie werden in wenigen Augenblicken auf die Seite <br />
+      <a class="font-weight-bold" href="{{ .Params.redirect_url }}">{{ .Params.redirect_label }}</a><br /> 
+      weitergeleitet ...
+    </p>
+{{- end -}}
