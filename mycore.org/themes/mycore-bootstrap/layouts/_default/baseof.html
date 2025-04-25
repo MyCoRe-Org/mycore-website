@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
-    {{- partial "head.html" . -}}
+    <head>
+      {{- partial "head.html" . -}}
+      {{- block "head" . }}{{- end }}
+    </head>
     <body class="page">
 
         <header class="page__header fixed-top">
