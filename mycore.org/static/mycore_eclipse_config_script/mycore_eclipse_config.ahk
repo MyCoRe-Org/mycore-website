@@ -1,35 +1,37 @@
-; MyCoRe: Eclipse Download und Konfiguration
+Ôªø; MyCoRe: Eclipse Download und Konfiguration
 ;
 ; Tool zum automatischen download/entpacken und konfigurieren von Eclipse.
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 ;
-; Encoding: ANSI
+; Encoding: UTF-8 BOM
 ;
-; AutoHotKey Version 1.1.33.02
+; AutoHotKey Version 1.1.37.02
 ; https://www.autohotkey.com/download/
 ;
 ; SciTe4 AutoHotKey Version 3.0.06.01
-; Script-Editor f¸r AutoHotKey
+; Script-Editor f√ºr AutoHotKey
 ; https://www.autohotkey.com/scite4ahk/
 ;
 ; MyCoRe-Code-Style
 ; https://www.mycore.de/documentation/developer/codestyle/
 ;
-; Getestet f¸r die Eclipse Versionen 2022-06 bis 2024-12
+; Getestet f√ºr die Eclipse Versionen 2022-06 bis 2024-12
 ;
 ; Change History:
 ;   v.0.91:  - Git Basis-Verzeichnis aktualisieren
 ;            - Javascript Formatter Konfiguration herunterladen und installieren
-;   v.0.92:  - CSS-Code Formatierung hinzugef¸gt
-;   v.0.93:  - Text Editor Formatierung hinzugef¸gt
+;   v.0.92:  - CSS-Code Formatierung hinzugef√ºgt
+;   v.0.93:  - Text Editor Formatierung hinzugef√ºgt
+;   v.0.94:  - Ermittlung der aktuellen Eclipse Version hinzugef√ºgt und vom Download separiert
+;			 - AutoHotKey Version 1.1.33.02 zu 1.1.37.02
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
 ; GLOBALE VARIABLEN
 ; Programm Version
 AppVersion = v0.9
-; Verzˆgerung der Tastaturanschl‰ge in Millisekunden bei der Programmausf¸hrung
+; Verz√∂gerung der Tastaturanschl√§ge in Millisekunden bei der Programmausf√ºhrung
 KeyDelay = 250
 ; Basisadresse des Eclipse-Download-Servers
 EclipseDownloadServerURL = https://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads
@@ -41,7 +43,7 @@ EclipseInstallationDir = %A_ProgramFiles%\Eclipse
 ;----------------------------------------------------------------------------------------------------------------------
 
 ; GUI
-; Erzeugung der Benutzeroberfl‰che
+; Erzeugung der Benutzeroberfl√§che
 Gui, Font, S14 CDefault Bold, Verdana
 Gui, Add, Text, x20 y10 w500 h30 , MyCoRe: Eclipse Download und Konfiguration
 if(!A_IsAdmin) {
@@ -50,26 +52,24 @@ if(!A_IsAdmin) {
 	Gui, Add, Text, c800000 x40 y60 r1, Einige Funktionen wurden deaktiviert. Starten Sie das Programm / Skript als Administrator!
 }
 
-Gui, Font, S8 norm, Verdana
-Gui, Add, Text, x20 y100 r1, Ihre Eclipse Version (z.B. 2024-09)
-Gui, Add, Edit, x250 y100 w60 vEclipseVersion
-
 Gui, Font, S12 CDefault Bold, Verdana
 Gui, Add, GroupBox, x20 y130 w290 h350, Download und Installation
 Gui, Font, S8 norm, Verdana
 Gui, Add, Text, x40 y160 w260 r6 , Die Eclipse IDE for Enterprise Java and Web Developers (jee) wird heruntergeladen und nach %EclipseInstallationDir% entpackt. Wird keine Eclipse Version angegeben, wird die aktuelle Version automatisch ermittelt.
+Gui, Add, Text, x40 y243 r1, Eclipse Version (z.B. 2024-09):
+Gui, Add, Edit, x220 y240 w60 vEclipseDownloadVersion
 Gui, Font, S10 bold, Verdana
-Gui, Add, Button, x50 y260 w230 r1 gDownloadEclipse vDownloadEclipse, Downloaden und Installieren
+Gui, Add, Button, x50 y280 w230 r1 gDownloadEclipse vDownloadEclipse, Downloaden und Installieren
 
 Gui, Font, S12 CDefault Bold, Verdana
 Gui, Add, GroupBox, x330 y130 w290 h350, Konfiguration (Codestyle)
 Gui, Font, S8 norm, Verdana
-Gui, Add, Text, x350 y160 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und ˆffnen Sie den zu konfigurierenden Eclipse-Workspace.
+Gui, Add, Text, x350 y160 w260 r3 , Die Eclipse-Anwendung wird eingerichtet. Starten Sie Eclipse und √∂ffnen Sie den zu konfigurierenden Eclipse-Workspace.
 Gui, Font, S8 bold, Verdana
-Gui, Add, Text, x350 y200 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung geˆffnet ist.
+Gui, Add, Text, x350 y200 w260 r2 , Achten Sie darauf, dass zur Zeit nur EINE Eclipse-Anwendung ge√∂ffnet ist.
 Gui, Font, S8 norm, Verdana
 Gui, Add, CheckBox, x350 y260 w260 vOptEncoding Checked, Text file encoding (UTF-8)
-Gui, Add, CheckBox, x350 y280 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter f¸r MyCoRe
+Gui, Add, CheckBox, x350 y280 w260 r2 vOptMyCoReJavaCodeStyle Checked, Java Code Style Formatter f√ºr MyCoRe
 Gui, Font, S7 norm, Verdana
 Gui, Add, Text, x365 y305 w260 r1 vTextMyCoReJavaCodeStyle, (Download von der Homepage)
 Gui, Font, S8 norm, Verdana
@@ -96,16 +96,18 @@ if(!A_isAdmin) {
 Gui, Show, w640 h500, MyCoRe: Eclipse Download und Konfiguration (%AppVersion%)
 return
 
-; Subroutine f¸r die Eclipse Konfiguration
-; Ausgef¸hrt vom Button 'Konfigurieren'
+; Subroutine f√ºr die Eclipse Konfiguration
+; Ausgef√ºhrt vom Button 'Konfigurieren'
 Configure:
 	; Benutzereingaben werden gespeichert
 	Gui, Submit, NoHide
 	SetKeyDelay, %KeyDelay%
 	; Eclipse Fenster wird in den Vordergrung geholt und aktiviert
 	WinActivate, ahk_class SWT_Window0
-	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-	DetectEclipseVersion()
+	; Setzt die aktuelle Eclipse Version, falls keine vorhanden ist
+	if(!EclipseVersion) {
+		DetectCurrentEclipseVersion()
+	}
 
 	if(OptEncoding = 1) {
 		Encoding()
@@ -131,7 +133,7 @@ Configure:
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
 
-; Subroutine f¸r das Runterladen und Entpacken von Eclipse
+; Subroutine f√ºr das Runterladen und Entpacken von Eclipse
 DownloadEclipse:
     ; Formularfelder werden in Variablen gespeichert
 	Gui, Submit, NoHide
@@ -140,10 +142,10 @@ DownloadEclipse:
 	WinActivate, ahk_class AutoHotkeyGUI
 	return
 
-; Setzt f¸r den Workspace die generelle Kodierung auf UTF-8
+; Setzt f√ºr den Workspace die generelle Kodierung auf UTF-8
 Encoding() {
 	global EclipseVersion
-	if (EclipseVersion >= "2024-12") {
+	if (VerCompare(EclipseVersion, ">=2024-12")) {
 		Send, ^3
 		Send, hook
 		Send, {Enter}
@@ -169,7 +171,7 @@ Encoding() {
 	Send, {TAB down}
 	Send, {TAB down}
 	Send, {Space}
-	; Fenster schlieﬂen
+	; Fenster schlie√üen
 	Sleep 3000
 	Send, {Esc}
 }
@@ -201,7 +203,7 @@ MyCoReJavaCodeStyle() {
 	; Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlieﬂen
+	; Fenster schlie√üen
 	Sleep 3000
 	Send, {Esc}
 }
@@ -209,14 +211,14 @@ MyCoReJavaCodeStyle() {
 ; XML-Code Formatierung
 XMLCode() {
 	global EclipseVersion
-	if (EclipseVersion >= "2024-12") {
+	if (VerCompare(EclipseVersion, ">=2024-12")) {
 	; Window -> Preferences -> XML (Wild Web Developer) -> Formatting
 		Send, ^3
 		Send, XML Wild Formatting
 		Send, {Enter}
 		; Standardeinstellungen setzen
 		Send, !a
-		; Shift Tab. Ein Tab zur¸ck
+		; Shift Tab. Ein Tab zur√ºck
 		Send, +{Tab}
 		Send, {Enter}
 		; Line width 120
@@ -248,7 +250,7 @@ XMLCode() {
 	;Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlieﬂen
+	; Fenster schlie√üen
 	Sleep 3000
 	Send, {Esc}
 }
@@ -274,7 +276,7 @@ TextEditoren() {
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
-		; Fenster schlieﬂen
+		; Fenster schlie√üen
 		Sleep 3000
 		Send, {Esc}
 
@@ -297,28 +299,28 @@ TextEditoren() {
 		Send, !d
 		Send, 2
 		; Apply Button klicken
-		Send, !e
+		Send, !r
 		Send, {Tab}
 		Send, {Tab}
 		Send, {Space}
-		; Fenster schlieﬂen
+		; Fenster schlie√üen
 		Sleep 3000
 		Send, {Esc}
 
-	if (EclipseVersion >= "2024-12") {
+	if (VerCompare(EclipseVersion, ">=2024-12")) {
 		; Eclipse Version >= 2024-12 Text 	Editoren Formatierung
 		; Window - Preferences -> General -> Editors -> Text Editors
 		Send, ^3
 		Send, General Editors Accessibility
 		Send, {Enter}
-		; Shift Tab. Ein Tab zur¸ck
+		; Shift Tab. Ein Tab zur√ºck
 		Send, +{Tab}
-		; Shift Tab. Ein Tab zur¸ck
+		; Shift Tab. Ein Tab zur√ºck
 		Send, +{Tab}
 		Send, {Left}
 		; Standardeinstellungen setzen
 		Send, !a
-		; Shift Tab. Ein Tab zur¸ck
+		; Shift Tab. Ein Tab zur√ºck
 		Send, +{Tab}
 		Send, {Enter}
 		; Insert spaces for tabs
@@ -330,7 +332,7 @@ TextEditoren() {
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
-		; Fenster schlieﬂen
+		; Fenster schlie√üen
 		Sleep 3000
 		Send, {Esc}
 	} else {
@@ -355,7 +357,7 @@ TextEditoren() {
 		; Apply Button klicken
 		Send, !a
 		Send, {Space}
-		; Fenster schlieﬂen
+		; Fenster schlie√üen
 		Sleep 3000
 		Send, {Esc}
 	}
@@ -378,7 +380,7 @@ GitCode() {
 	}
 	Send, !a
 	Send, {Space}
-	; Fenster schlieﬂen
+	; Fenster schlie√üen
 	Sleep 3000
 	Send, {Esc}
 }
@@ -408,7 +410,7 @@ JavascriptCode() {
 	; Apply Button klicken
 	Send, !a
 	Send, {Space}
-	; Fenster schlieﬂen
+	; Fenster schlie√üen
 	Sleep 3000
 	Send, {Esc}
 }
@@ -417,21 +419,21 @@ JavascriptCode() {
 DownloadEclipseAndUnzip() {
 	global EclipseDownloadServerURL
 	global EclipseInstallationDir
-	global EclipseVersion
+	global EclipseDownloadVersion
 
 	; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-	DetectEclipseVersion()
+	DetectEclipseDownloadVersion()
 
-	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%EclipseVersion%-R-win32-x86_64
+	EclipseDir = %EclipseInstallationDir%\eclipse-jee-%EclipseDownloadVersion%-R-win32-x86_64
 	; Ist der Eclipse Ordner nicht vorhanden, dann erfolgt die Installation
 	if !FileExist(EclipseDir)
 	{
-		EclipseDownloadURL = %EclipseDownloadServerURL%/release/%EclipseVersion%/R/eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip
-		EclipseDownloadFile = %A_Desktop%\..\Downloads\eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip
+		EclipseDownloadURL = %EclipseDownloadServerURL%/release/%EclipseDownloadVersion%/R/eclipse-jee-%EclipseDownloadVersion%-R-win32-x86_64.zip
+		EclipseDownloadFile = %A_Desktop%\..\Downloads\eclipse-jee-%EclipseDownloadVersion%-R-win32-x86_64.zip
 		SplashImage , ,M W980 H140, Bitte warten..., `nEclipse wird gerade heruntergeladen. `n`n URL: %EclipseDownloadURL% `n Datei: %EclipseDownloadFile%
 		URLDownloadToFile, %EclipseDownloadURL%, %EclipseDownloadFile%
 		SplashImage, Off
-		; Bei einer Falschen URL wird die Fehlerseite runtergeladen und ist ca 1Kb groﬂ, dass wird hier abgefangen und die Datei gelˆscht
+		; Bei einer Falschen URL wird die Fehlerseite runtergeladen und ist ca 1Kb gro√ü, dass wird hier abgefangen und die Datei gel√∂scht
 		FileGetSize, FileSize, %EclipseDownloadFile%, K
 		if(FileSize < 5)
 		{
@@ -439,16 +441,16 @@ DownloadEclipseAndUnzip() {
 			FileDelete, %EclipseDownloadFile%
 			return
 		}
-		; Gibt es einen Ordner Eclipse schon? Wenn ja lˆschen
+		; Gibt es einen Ordner Eclipse schon? Wenn ja l√∂schen
 		if FileExist(A_Desktop "\..\Downloads\eclipse")
 		{
 			FileRemoveDir, %A_Desktop%\..\Downloads\eclipse, true
 		}
-		RunWait, PowerShell -Command Expand-Archive -LiteralPath $HOME\Downloads\eclipse-jee-%EclipseVersion%-R-win32-x86_64.zip -DestinationPath $HOME\Downloads
+		RunWait, PowerShell -Command Expand-Archive -LiteralPath $HOME\Downloads\eclipse-jee-%EclipseDownloadVersion%-R-win32-x86_64.zip -DestinationPath $HOME\Downloads
 		FileMoveDir, %A_Desktop%\..\Downloads\eclipse, %EclipseDir%
-		; Zip lˆschen
+		; Zip l√∂schen
 		FileDelete, %EclipseDownloadFile%
-		MsgBox, 4, Eclipse Installation beendet., Sie finden ihr neues Eclipse unter`n%EclipseDir%.`n`nOrdner ˆffnen?
+		MsgBox, 4, Eclipse Installation beendet., Sie finden ihr neues Eclipse unter`n%EclipseDir%.`n`nOrdner √∂ffnen?
 		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
@@ -456,7 +458,7 @@ DownloadEclipseAndUnzip() {
 		}
 	} else
 	{
-		MsgBox, 4, Eclipse Installation abgebrochen., Der Ordner `n%EclipseDir%`nexistiert bereits.`n`nOrdner ˆffnen?
+		MsgBox, 4, Eclipse Installation abgebrochen., Der Ordner `n%EclipseDir%`nexistiert bereits.`n`nOrdner √∂ffnen?
 		IfMsgBox Yes
 		{
 			Run, %EclipseDir%
@@ -466,15 +468,47 @@ DownloadEclipseAndUnzip() {
 }
 
 ; Wenn keine Eclipse-Version eingegeben wurde, wird die aktuelle Version ermittelt
-DetectEclipseVersion() {
-	global EclipseVersion
-	if(EclipseVersion == "")
+DetectEclipseDownloadVersion() {
+	global EclipseDownloadVersion
+	if(!EclipseDownloadVersion)
 	{
 		URLDownloadToFile, %EclipseDownloadServerURL%/release/release.xml, %A_Desktop%\..\Downloads\eclipse-release.xml
 		FileRead, xmldata, %A_Desktop%\..\Downloads\eclipse-release.xml
 		xmlDoc := ComObjCreate("MSXML2.DOMDocument.6.0")
 		xmlDoc.async := false
 		xmlDoc.loadXML(xmldata)
-		EclipseVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
+		EclipseDownloadVersion := SubStr(xmlDoc.selectSingleNode("//present").text, 1, 7)
 	}
+}
+
+; Ermittelt die aktuelle Eclipse Version im ge√∂ffneten Eclipse und setzt sie in die globale "EclipseVersion" Variable
+DetectCurrentEclipseVersion() {
+	global EclipseVersion
+	WinActivate, ahk_class SWT_Window0
+	;Aktuelle Zwischenablage sichern
+	ClipSicherung := ClipboardAll
+	;Zwischenablage leeren
+	clipboard := ""
+	;Eclipse Version √ºber "About Eclipse IDE" in EclipseVersion speichern
+	Send, ^3
+	Send, About Eclipse IDE
+	Send, {Enter}
+	Sleep, 1000
+	Send, {Tab}
+	Send, ^a
+	Send, ^c
+	;warten bis die Zwischenablage Text enth√§lt
+	ClipWait
+	VersionPos := InStr(clipboard, "Version: ")
+	EclipseVersion := SubStr(Clipboard, VersionPos + 8, 8)
+	;Textfeld mit Eclipse Version
+	Gui, Font, S8 norm, Verdana
+	Gui, Add, Text, x350 y240 w160, Gefundene Eclipse Version:
+	Gui, Font, S8 bold, Verdana
+    Gui, Add, Text, x510 y240 w100, %EclipseVersion%
+	;Vorherige Zwischenablage wiederherstellen
+	Clipboard := ClipSicherung
+	; Fenster schlie√üen
+	Sleep 3000
+	Send, {Esc}
 }
