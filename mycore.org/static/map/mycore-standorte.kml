@@ -33,16 +33,16 @@
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>10.122435,54.33762,0</coordinates>
+        <coordinates>10.1225,54.338889,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
       <name>MACAU</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://macau.uni-kiel.de/"><img class="icon" alt="icon" src="/map/icons/icon_kiel_macau.png" /></a>
+                <a class="mcrmap_item_icon" href="https://macau.uni-kiel.de"><img class="icon" alt="icon" src="/map/icons/icon_kiel_macau.png" /></a>
                 <p>
-      <a class="mcrmap_item_name" href="https://macau.uni-kiel.de/">MACAU: Open-Access-Publikationsserver der Christian-Albrechts-Universität zu Kiel</a>
+      <a class="mcrmap_item_name" href="https://macau.uni-kiel.de">MACAU: Open-Access-Publikationsserver der Christian-Albrechts-Universität zu Kiel</a>
       <span class="mcrmap_item_owner">Christian-Albrechts-Universität zu Kiel (Universitätsbibliothek)</span>
                 </p>
             </div>
@@ -50,7 +50,7 @@
       </description>
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
-        <coordinates>10.122435,54.33762,0</coordinates>
+        <coordinates>10.1225,54.338889,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -68,6 +68,27 @@
       <styleUrl>#style_MyCoRe-Pin</styleUrl>
       <Point>
         <coordinates>10.14270131209587,54.32191432233373,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- ***************************************************************************************************************** -->
+    <!-- Heide                                                                                                             -->
+    <!-- ***************************************************************************************************************** -->
+    <Placemark>
+      <name>RepoWest</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://repo.fh-westkueste.de"><img class="icon" alt="icon" src="/map/icons/icon_heide_repowest.png" /></a>
+                <p>
+      <a class="mcrmap_item_name" href="https://repo.fh-westkueste.de">RepoWest: Open-Access-Publikationsserver der Fachhochschule Westküste</a>
+      <span class="mcrmap_item_owner">Fachhochschule Westküste (Bibliothek)</span>
+                </p>
+            </div>
+        ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>9.121667,54.195278,0</coordinates>
       </Point>
     </Placemark>
 
