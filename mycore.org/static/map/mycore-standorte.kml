@@ -897,14 +897,14 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>&amp;lt;intR>&#178;Dok</name>
+      <name>intRechtDok</name>
       <description><![CDATA[
             <div class="mcrmap_item">
                 <a class="mcrmap_item_icon" href="https://intr2dok.vifa-recht.de/">
                   <img class="icon" alt="icon" src="/map/icons/icon_berlin_intR2Dok.png" />
                 </a>
                 <p>
-                  <a class="mcrmap_item_name" href="https://intr2dok.vifa-recht.de/content/index.xml">Der Fachinformationsdienst &#60;intR&#62;&#178;Dok</a>
+                  <a class="mcrmap_item_name" href="https://intr2dok.vifa-recht.de/content/index.xml">Der Fachinformationsdienst intRechtDok</a>
                         <span class="mcrmap_item_owner">Staatsbibliothek zu Berlin</span>
                 </p>
             </div>
