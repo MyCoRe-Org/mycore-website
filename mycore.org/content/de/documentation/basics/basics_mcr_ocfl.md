@@ -32,7 +32,7 @@ Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* i
     <groupId>org.mycore</groupId>
     <artifactId>mycore-ocfl</artifactId>
     <version>${mycore.version}</version>
- </dependency>
+</dependency>
 ```
 
 # Konfiguration
@@ -261,7 +261,7 @@ MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 # MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager
 ```
 
-<b class="text-warning">Wichtig für Remote-Speicher (S3):</b> Bei Verwendung von Remote-Speichern ist es **zwingend erforderlich**, den `MCRFileBaseCacheObjectIDGenerator` zu konfigurieren, da das Ermitteln der höchsten ID durch Scannen des Repositories nicht effizient oder möglich ist:
+<b class="text-warning">Wichtig für Remote-Speicher (S3):</b> Bei Verwendung von Remote-Speichern ist es **zwingend erforderlich**, den `MCRFileBaseCacheObjectIDGenerator` zu konfigurieren, da das Ermitteln der höchsten ID durch Scannen des Repositories nicht effizient möglich ist:
 
 ```properties {linenos=table}
 MCR.Metadata.ObjectID.Generator.Class=org.mycore.datamodel.common.MCRFileBaseCacheObjectIDGenerator
@@ -324,14 +324,28 @@ MCR.NIO.DefaultScheme=ocfl
 # Definiert, welches OCFL Repository für Inhalte genutzt wird (z.B. "Main")
 # Dieses Repository muss natürlich oben unter MCR.OCFL.Repository.Main konfiguriert sein.
 MCR.Content.Manager.Repository=Main
+```
 
-# Konfiguration des temporären Speichers für Schreiboperationen
-# Notwendig für Transaktionen und Performance, insbesondere bei Remote-Backends (S3).
-# MCROCFLHybridStorage ist die empfohlene Implementierung.
-MCR.Content.TempStorage=org.mycore.ocfl.niofs.storage.MCROCFLHybridStorage
+Weiterhin muss ein Lokaler Speicher definiert werden. Dieser unterscheidet sich je nachdem ob ein lokales oder ein
+remote Repository eingesetzt wird.
+
+#### Lokales Repository
+In einem lokalen OCFL Repository wird der temporäre Speicher nur für Transaktions-Dateien verwendet. Dateioperationen
+werden grundsätzlich in einer OCFL-Transaktion zusammengefasst. Diese Dateien werden lokal abgelegt bevor sie zu OCFL
+committed werden.
+```properties {linenos=table}
+MCR.Content.TempStorage=org.mycore.ocfl.niofs.storage.MCROCFLLocalFileStorage
+MCR.Content.TempStorage.Path=%MCR.datadir%/ocfl-temp-storage
+```
+
+#### Remote Repository
+Ein remote Repository verwendet zusätzlich zum Transaktions-Cache noch ein Rolling-File-Cache. Dieser ermöglicht
+einen schnellen Zugriff auf oft verwendete Dateien, weil diese lokal vorgehalten werden.
+```properties {linenos=table}
+MCR.Content.TempStorage=org.mycore.ocfl.niofs.storage.MCROCFLRemoteFileStorage
 MCR.Content.TempStorage.Path=%MCR.datadir%/ocfl-temp-storage
 
-# Strategie zur Bereinigung des temporären Speichers (Beispiele):
+# Strategie zur Bereinigung des Rolling Cache Speichers (Beispiele):
 # Nie bereinigen (Standard):
 MCR.Content.TempStorage.EvictionStrategy=org.mycore.ocfl.niofs.storage.MCROCFLNeverEvictStrategy
 # Nach Größe bereinigen (z.B. max 1 GB):
@@ -351,12 +365,12 @@ import org.mycore.datamodel.niofs.MCRPath;
 // Beispiel mit MCRPath (wenn MCR.NIO.DefaultScheme=ocfl)
 Path filePath = MCRPath.getPath("myDerivateID_00000001", "/path/to/myFile.txt");
 Files.createDirectories(filePath.getParent());
-Files.writeString(filePath, "Hello OCFL!");
-byte[] content = Files.readAllBytes(filePath);
+    Files.writeString(filePath, "Hello OCFL!");
+    byte[] content = Files.readAllBytes(filePath);
 
-// Beispiel mit Standard NIO.2 Path und explizitem Schema
-URI fileUri = URI.create("ocfl:///myDerivateID_00000001/path/to/myFile.txt");
-Path filePathNIO = Path.of(fileUri);
+    // Beispiel mit Standard NIO.2 Path und explizitem Schema
+    URI fileUri = URI.create("ocfl:///myDerivateID_00000001/path/to/myFile.txt");
+    Path filePathNIO = Path.of(fileUri);
 Files.writeString(filePathNIO, "Hello again!");
 ```
 
@@ -415,12 +429,12 @@ Wenn alles erfolgreich übertragen wurde, kann man den MetadatenManager für den
 Um bestehende Derivat-Inhalte (z.B. aus IFS2) in das OCFL-Repository zu migrieren, nachdem `MCR.NIO.DefaultScheme=ocfl` konfiguriert wurde, stehen neue CLI-Kommandos zur Verfügung:
 
 1.  **Migration starten:**
-   *   Führen Sie `migrate derivates to ocfl` aus. Dies generiert eine Liste von `migrate derivate ...`-Kommandos für alle bekannten Derivate.
-   *   Führen Sie die generierten `migrate derivate {derivateId} to ocfl`-Kommandos aus (z.B. über `sh < file` oder `mcr_cli ...`). Jedes Kommando kopiert Dateien und Verzeichnisse aus dem vorherigen Default-Dateisystem (z.B. `ifs2://{derivateId}/...`) nach `ocfl://{derivateId}/...`.
+*   Führen Sie `migrate derivates to ocfl` aus. Dies generiert eine Liste von `migrate derivate ...`-Kommandos für alle bekannten Derivate.
+*   Führen Sie die generierten `migrate derivate {derivateId} to ocfl`-Kommandos aus (z.B. über `sh < file` oder `mcr_cli ...`). Jedes Kommando kopiert Dateien und Verzeichnisse aus dem vorherigen Default-Dateisystem (z.B. `ifs2://{derivateId}/...`) nach `ocfl://{derivateId}/...`.
 2.  **Validierung (Wichtig!):** Nach der Migration **muss** die Korrektheit überprüft werden:
-   *   Führen Sie `validate ocfl derivates` aus. Dies generiert `validate ocfl derivate ...`-Kommandos.
-   *   Führen Sie die generierten `validate ocfl derivate {derivateId}`-Kommandos aus. Diese vergleichen die Digests (Prüfsummen) der Dateien im alten Speicher mit denen im neuen OCFL-Speicher. Abweichungen werden in der Logdatei und in `conf/ocfl-derivate-migration-errors` protokolliert.
-   *   **Erst wenn die Validierung für alle Derivate fehlerfrei durchläuft (`ocfl-derivate-migration-errors` existiert nicht oder ist leer), kann der alte Speicher (z.B. IFS2-Verzeichnisse) sicher entfernt werden!**
+*   Führen Sie `validate ocfl derivates` aus. Dies generiert `validate ocfl derivate ...`-Kommandos.
+*   Führen Sie die generierten `validate ocfl derivate {derivateId}`-Kommandos aus. Diese vergleichen die Digests (Prüfsummen) der Dateien im alten Speicher mit denen im neuen OCFL-Speicher. Abweichungen werden in der Logdatei und in `conf/ocfl-derivate-migration-errors` protokolliert.
+*   **Erst wenn die Validierung für alle Derivate fehlerfrei durchläuft (`ocfl-derivate-migration-errors` existiert nicht oder ist leer), kann der alte Speicher (z.B. IFS2-Verzeichnisse) sicher entfernt werden!**
 
 ## Migration von Klassifikationen und Nutzerdaten zu OCFL
 
