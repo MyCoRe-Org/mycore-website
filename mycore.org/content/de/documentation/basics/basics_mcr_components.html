@@ -2,13 +2,13 @@
 ---
 
 title: "Komponenten des MyCoRe-Kerns"
-mcr_version: ['2020.06','2021.06']
+mcr_version: ['2023.06','2024.06']
 author: ['Jens Kupferschmidt', 'Thomas Scheffler']
 description: "
       Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
       MyCoRe nutzbare Bibliotheken.
     "
-date: "2021-09-01"
+date: "2025-05-26"
 
 ---
     <div>
@@ -23,7 +23,7 @@ date: "2021-09-01"
         <a target="blank" href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass">https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass</a>
         ).
       </p>
-      
+
         <h3>Liste der Komponenten</h3>
         <table class="table">
           <tr>
@@ -37,9 +37,11 @@ date: "2021-09-01"
             <td>acl</td>
             <td>*</td>
             <td>Access Control List System</td>
-            <td>optional <span class="badge badge-danger">since 2021.06</span></td>
+            <td>optional</td>
             <td>
               base
+              <br />
+              ifs
               <br />
               restapi
               <br />
@@ -55,8 +57,15 @@ date: "2021-09-01"
           </tr>
           <tr>
             <td>base</td>
-            <td>1</td>
+            <td>*</td>
             <td>Basis für alle anderen Komponenten</td>
+            <td>required</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>bom</td>
+            <td>*</td>
+            <td>General Maven version definitions</td>
             <td>required</td>
             <td>&nbsp;</td>
           </tr>
@@ -85,13 +94,13 @@ date: "2021-09-01"
               einen Überblick über den gesamten Bestand an Daten (evtl. auch Metadaten) hat.
             </td>
             <td>optional</td>
-            <td>base</td>
+            <td></td>
           </tr>
            <tr>
             <td>cronjob</td>
             <td>*</td>
             <td></td>
-            <td>optional <span class="badge badge-danger">since 2021.06</span></td>
+            <td>optional</td>
             <td>base</td>
           </tr>
            <tr>
@@ -99,7 +108,7 @@ date: "2021-09-01"
             <td>*</td>
             <td>Citation Style Language - mit mycore-csl kann man Objekte
               in verschiedene Citations transformieren.</td>
-            <td>optional <span class="badge badge-danger">since 2020.06</span></td>
+            <td>optional</td>
             <td>base</td>
           </tr>
            <tr>
@@ -120,29 +129,43 @@ date: "2021-09-01"
             <td>iiif</td>
             <td>*</td>
             <td>eine Komponente zur Einbindung von IIIF in MyCoRe</td>
-            <td />
-            <td>base</td>
+            <td>optional</td>
+            <td>base<br/>restapi</td>
           </tr>
           <tr>
             <td>impex</td>
             <td>95</td>
             <td>generiert Import- und Export-Pakete auf Grundlage einer SOLR-Query</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>packer<br/>solr</td>
           </tr>
           <tr>
             <td>indexing</td>
             <td>30</td>
             <td>Erstellung von Google-Sitemaps für angegebene Datenmodelltypen</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>solr</td>
           </tr>
           <tr>
             <td>iview2</td>
             <td>40</td>
             <td>Komponente zum Erstellen von Kacheln der Bilder</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>iiif<br/>jobqueue<br/>media</td>
+          </tr>
+          <tr>
+            <td>jobqueue</td>
+            <td>*</td>
+            <td>Komponente zur Verwaltung von asynchronen Aufgaben</td>
+            <td>optional</td>
+            <td>base<br/>cronjob<br/>restapi</td>
+          </tr>
+          <tr>
+            <td>lod</td>
+            <td>*</td>
+            <td>Komponente für Linked Open Data</td>
+            <td>optional</td>
+            <td>base<br/>restapi</td>
           </tr>
           <tr>
             <td>media</td>
@@ -158,8 +181,8 @@ date: "2021-09-01"
           <tr>
             <td>meta</td>
             <td>*</td>
-            <td>Komponente, die die Verweise auf alle Komponenten enthält</td>
-            <td>&nbsp;</td>
+            <td>Komponente, welche die Verweise auf alle Komponenten enthält</td>
+              <td></td>
             <td>base</td>
           </tr>
           <tr>
@@ -167,19 +190,26 @@ date: "2021-09-01"
             <td>45</td>
             <td>Komponente zur Bereitstellung von METS-Daten für die gespeicherten Derivate</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>solr</td>
           </tr>
           <tr>
             <td>migration</td>
             <td>35</td>
             <td>Komponente mit Werkzeugen zur Migration auf das aktuelle MyCoRe-Release</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>iview2</td>
           </tr>
           <tr>
             <td>mods</td>
             <td>50</td>
             <td>Werkzeuge zum Verarbeiten von MODS-Daten</td>
+            <td>optional</td>
+            <td>base<br/>cronjob<br/>csl<br/>jobqueue<br/>pi<br/>solr</td>
+          </tr>
+          <tr>
+            <td>neo4j</td>
+            <td>57</td>
+            <td>Bibliothek zur Arbeit mit NEO4J</td>
             <td>optional</td>
             <td>base</td>
           </tr>
@@ -188,25 +218,40 @@ date: "2021-09-01"
             <td>60</td>
             <td>Implementierung eines OAI-Data-Providers für die MyCoRe-Webanwendung</td>
             <td>optional</td>
-            <td>
-              base
-              <br />
-              ifs
-              <br />
-              solr
-            </td>
+            <td>base<br />solr</td>
           </tr>
           <tr>
             <td>ocfl</td>
             <td>*</td>
-            <td>Erste Implementierung einer OCFL-Versionierung</td>
-            <td>experimentell <span class="badge badge-danger">since 2021.06</span></td>
-            <td>base</td>
+            <td>Implementierung einer OCFL-Versionierung</td>
+            <td>optional</td>
+            <td>base<br/>user2</td>
           </tr>
           <tr>
             <td>orcid</td>
             <td>55</td>
             <td>ORCID Unterstützung</td>
+            <td>optional</td>
+            <td>base<br/>mods<br/>user2</td>
+          </tr>
+          <tr>
+            <td>orcid2</td>
+            <td>54</td>
+            <td>ORCID Unterstützung</td>
+            <td>optional</td>
+            <td>base<br/>mods<br/>restapi<br/>user2</td>
+          </tr>
+          <tr>
+            <td>packer</td>
+            <td>*</td>
+            <td>MyCoRe packer API</td>
+            <td>optional</td>
+            <td>base<br/>jobqueue</td>
+          </tr>
+          <tr>
+            <td>pandoc</td>
+            <td>*</td>
+            <td>Pandoc</td>
             <td>optional</td>
             <td>base</td>
           </tr>
@@ -215,18 +260,14 @@ date: "2021-09-01"
             <td>*</td>
             <td>Codesammlung zur Arbeit mit persitenten Identifiern (DOI, URN, PURL)</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>jobqueue</td>
           </tr>
           <tr>
             <td>restapi</td>
             <td>65</td>
             <td>Implementierung einer REST-API</td>
             <td>optional</td>
-            <td>
-              base
-              <br />
-              solr
-            </td>
+            <td>base<br />solr</td>
           </tr>
           <tr>
             <td>sass</td>
@@ -247,7 +288,7 @@ date: "2021-09-01"
             <td>*</td>
             <td>Implementierung einer Sword-Schnittstelle, Version 2</td>
             <td>optional</td>
-            <td>base</td>
+            <td>base<br/>solr</td>
           </tr>
            <tr>
             <td>tei</td>
@@ -261,11 +302,14 @@ date: "2021-09-01"
             <td>15</td>
             <td>Implementierung des Nutzer-Systems, Version 2</td>
             <td>required</td>
-            <td>
-              base
-              <br />
-              classeditor
-            </td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>validation</td>
+            <td>*</td>
+            <td>Validation</td>
+            <td>optional</td>
+            <td>base</td>
           </tr>
           <tr>
             <td>viewer</td>
@@ -326,15 +370,20 @@ date: "2021-09-01"
             <th>Version</th>
           </tr>
           <tr>
-            <td>datamodel-plugin</td>
-            <td>Eine Erweiterung zur Erstellung eigener Datenmodelldefinitionen in eigenen Maven-Modulen</td>
-            <td>0.6-SNAPSHOT</td>
+            <td>mycore-parent</td>
+            <td>Parent pom für MyCoRe-Maven-Modulen</td>
+            <td>57-SNAPSHOT</td>
           </tr>
           <tr>
-            <td>mets-printer</td>
+            <td>datamodel-plugin</td>
+            <td>Eine Erweiterung zur Erstellung eigener Datenmodelldefinitionen in eigenen Maven-Modulen</td>
+            <td>0.9-SNAPSHOT</td>
+          </tr>
+          <tr>
+            <td>mir-mets-printer</td>
             <td>Basis-Projekt mit dem man die PDF-Funktion des MyCoRe-Viewers benutzen kann
             </td>
-            <td>1.0-SNAPSHOT</td>
+            <td>2023.06-SNAPSHOT</td>
           </tr>
         </table>
       </div>
@@ -348,16 +397,16 @@ date: "2021-09-01"
         entsprechenden Angaben in der
         <em>pom.xml</em>
         -Datei zu machen. Wichtig ist dabei, auf Abhängigkeiten zu achten
-        (siehe oben). Alle Komponenten sollten auch denselben 
+        (siehe oben). Alle Komponenten sollten auch denselben
         Versionsstand haben, um Kompatibilitätsprobleme zu vermeiden.
         Die Integration der in den Komponenten
         enthaltenen Teile erfolgt entsprechend den
         <a href="https://jcp.org/en/jsr/detail?id=340">Servlet-3.1-Regeln</a>.
       </p>
       <p>Folgende Versionsnummern können genutzt werden:<ul>
-         <li>LTS 2020.06 -&gt; 2020.06.3-SNAPSHOT</li>
-         <li>LTS 2021.06 -&gt; 2021.06.0-SNAPSHOT</li>
-        <li>Mainr -&gt; 2021.11-SNAPSHOT</li>
+         <li>LTS 2023.06 -&gt; 2023.06.3-SNAPSHOT</li>
+         <li>LTS 2024.06 -&gt; 2024.06.0-SNAPSHOT</li>
+        <li>Main -&gt; 2025.02-SNAPSHOT</li>
       </ul></p>
       {{< highlight xml "linenos=table">}}
 <project>
