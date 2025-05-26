@@ -270,7 +270,14 @@ String md5Digest = digestStream.getDigestAsHexString();{{< /highlight >}}
          <a href="https://de.wikipedia.org/wiki/Argon2" target="_blank">Argon2</a> zu verwenden.
          Dazu muss der Anwendung die Bibliothek <a href="https://central.sonatype.com/artifact/org.bouncycastle/bcprov-jdk18on" target="_blank"><code>org.bouncycastle:bcprov-jdk18on</code></a> zur Verfügung gestellt
          und folgenden Konfiguration vorgenommen werden:
-        </p>
+            <br/>
+            {{< highlight java "linenos=table">}}
+<dependency>
+  <groupId>org.bouncycastle</groupId>
+  <artifactId>bcprov-jdk18on</artifactId>
+  <version>1.80</version>
+</dependency>{{< /highlight >}}
+            <br/>
         {{< highlight java "linenos=table">}}
 MCR.User.PasswordCheck.Strategies.argon2.Class=org.mycore.user2.hash.bouncycastle.MCRArgon2Strategy
 MCR.User.PasswordCheck.Strategies.argon2.Enabled=true
@@ -291,6 +298,10 @@ MCR.User.PasswordCheck.SelectedStrategy=argon2{{< /highlight >}}
         </p>
         {{< highlight java "linenos=table">}}
  ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;{{< /highlight >}}
+
+         <p>Um weiter mit der SHA256 Verschlüsselung zu arbeiten, kann das folgende Property gesetzt werden:</p>
+            {{< highlight java "linenos=table">}}
+ MCR.User.PasswordCheck.SelectedStrategy=sha256{{< /highlight >}}
        </li>
        <li>
          <p>
