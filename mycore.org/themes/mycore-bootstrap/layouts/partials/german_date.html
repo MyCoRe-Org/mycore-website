@@ -1,23 +1,23 @@
-{{ $ranslatedDate := .date2convert }}
+{{ $translatedDate := .date2convert }}
 {{/* order is important, complex pattern first */}}
-{{ $ranslatedDate := replace $ranslatedDate "January" "Januar" }}
-{{ $ranslatedDate := replace $ranslatedDate "February" "Februar" }}
-{{ $ranslatedDate := replace $ranslatedDate "March" "März" }}
-{{ $ranslatedDate := replace $ranslatedDate "May" "Mai" }}
-{{ $ranslatedDate := replace $ranslatedDate "June" "Juni" }}
-{{ $ranslatedDate := replace $ranslatedDate "July" "Juli" }}
-{{ $ranslatedDate := replace $ranslatedDate "October" "Oktober" }}
-{{ $ranslatedDate := replace $ranslatedDate "December" "Dezember" }}
+{{ $translatedDate := replace $translatedDate "January" "Januar" }}
+{{ $translatedDate := replace $translatedDate "February" "Februar" }}
+{{ $translatedDate := replace $translatedDate "March" "März" }}
+{{ $translatedDate := replace $translatedDate "May" "Mai" }}
+{{ $translatedDate := replace $translatedDate "June" "Juni" }}
+{{ $translatedDate := replace $translatedDate "July" "Juli" }}
+{{ $translatedDate := replace $translatedDate "October" "Oktober" }}
+{{ $translatedDate := replace $translatedDate "December" "Dezember" }}
 {{/* greedy pattern last */}}
-{{ $ranslatedDate := replace $ranslatedDate "Mar" "Mär" }}
-{{ $ranslatedDate := replace $ranslatedDate "Oct" "Okt" }}
-{{ $ranslatedDate := replace $ranslatedDate "Dec" "Dez" }}
+{{ $translatedDate := replace $translatedDate "Mar" "Mär" }}
+{{ $translatedDate := replace $translatedDate "Oct" "Okt" }}
+{{ $translatedDate := replace $translatedDate "Dec" "Dez" }}
 
-{{ $ranslatedDate := replace $ranslatedDate "Mon" "Mo" }}
-{{ $ranslatedDate := replace $ranslatedDate "Tue" "Di" }}
-{{ $ranslatedDate := replace $ranslatedDate "Wed" "Mi" }}
-{{ $ranslatedDate := replace $ranslatedDate "Thu" "Do" }}
-{{ $ranslatedDate := replace $ranslatedDate "Fri" "Fr" }}
-{{ $ranslatedDate := replace $ranslatedDate "Sat" "Sa" }}
-{{ $ranslatedDate := replace $ranslatedDate "Sun" "So" }}
-{{ $ranslatedDate }}
+{{ $translatedDate := replace $translatedDate "Mon" "Mo" }}
+{{ $translatedDate := replace $translatedDate "Tue" "Di" }}
+{{ $translatedDate := replace $translatedDate "Wed" "Mi" }}
+{{ $translatedDate := replace $translatedDate "Thu" "Do" }}
+{{ $translatedDate := replace $translatedDate "Fri" "Fr" }}
+{{ $translatedDate := replace $translatedDate "Sat" "Sa" }}
+{{ $translatedDate := replace $translatedDate "Sun" "So" }}
+{{ $translatedDate }}
