@@ -35,7 +35,8 @@ languages:
 summaryLength: 37
 
 permalinks:
-  blog: /blog/:year/:month/:slug/
+  page: 
+    blog: /blog/:year/:month/:slug
   
 #Alternative. Permalinks für Taxonomien, die "/blog/" enthalten
 taxonomies:
@@ -43,8 +44,6 @@ taxonomies:
   category: "blog/categories"
   tag: "blog/tags"
   author: "blog/authors"
-
-preserveTaxonomyNames: true
 
 #enable JSON output for search
 outputs:

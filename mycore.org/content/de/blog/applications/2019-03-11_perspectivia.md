@@ -5,7 +5,7 @@ date: 2019-03-11
 
 draft: false
 
-blog/authors: ["Katrin Neumann, Max Weber Stiftung, Bonn"]
+blog/authors: ["Katrin Neumann (Max Weber Stiftung, Bonn)"]
 blog/periods: 2019-03
 blog/categories:
  - "Anwendungen"

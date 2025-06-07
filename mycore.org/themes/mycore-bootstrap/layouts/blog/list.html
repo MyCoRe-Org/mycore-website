@@ -21,6 +21,7 @@
         <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
         {{.Content}}
 
+        {{if eq .Kind "section"}}
         {{ with .Site.GetPage "section" "blog" }}
           {{ range first 20 .Pages }}
             <div class="mcr-blog-listentry">
@@ -35,6 +36,33 @@
               </a>
             </div>
           {{ end }}
+        {{ end }}
+        {{ end }}
+        
+        {{if eq .Kind "term"}}
+          {{$term_key :=.Data.Plural }}
+          {{$term_value := .Data.Term}}
+
+          {{/*  TERM: {{ $term_key }}={{ $term_value }} */}}
+
+            {{/* 
+              RS: Folgende Kombination aus Range und Filter funkioniert nicht:
+               {{ range where site.RegularPages (index .Params $term_key) "in" $term_value }} 
+               Workaround: Range über alle Seiten und Filter per if
+            */}}
+            
+            {{ range site.RegularPages }}
+              {{if  in (index .Params $term_key) $term_value }}
+                  <div>
+                    <hr class="mcr-blog-seperator" />
+                    {{- partial "blog/badges.html" . -}}
+                    <h3 class="pt-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                    {{ .Summary | plainify| htmlUnescape | safeHTML}}
+                    <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
+                  </div>
+              {{ end }}
+            {{ end }}
+          </table>
         {{ end }}
       </div>
 
