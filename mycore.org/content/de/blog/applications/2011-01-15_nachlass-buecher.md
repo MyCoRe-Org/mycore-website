@@ -5,7 +5,7 @@ date: 2011-01-15
 
 draft: false
 
-blog/authors: ["ein MyCoRe Anwender"]
+blog/authors: ["Ein MyCoRe Anwender"]
 blog/periods: 2011-01
 blog/categories:
  - "Anwendungen"
