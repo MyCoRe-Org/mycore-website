@@ -27,9 +27,9 @@
             <div class="mcr-blog-listentry">
               <hr class="mcr-blog-seperator" />
               {{- partial "blog/badges.html" . -}}
-              <h5 class="pt-4">
+              <h2 class="h3 mt-3">
                 <a href="{{ .Permalink }}">{{ .Title }}</a>
-              </h5>
+              </h2>
               {{ .Summary | plainify | htmlUnescape | safeHTML}}
               <a class="pl-1" href="{{ .Permalink }}">
                 <i class="fas fa-book-reader"></i>
@@ -56,7 +56,7 @@
                   <div>
                     <hr class="mcr-blog-seperator" />
                     {{- partial "blog/badges.html" . -}}
-                    <h3 class="pt-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                    <h2 class="h3 mt-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
                     {{ .Summary | plainify| htmlUnescape | safeHTML}}
                     <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
                   </div>
