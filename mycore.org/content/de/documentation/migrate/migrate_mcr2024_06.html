@@ -128,43 +128,65 @@ date: "2025-06-13"
           Nun können alle Arten von Dateien gleichartig als Ressourcen verwendet werden.
           Die Orte, an denen nach solchen Dateien gesucht wird (z.B. Developer-Overlay, Konfigurationsverzeichnis, Bibliotheken)
           und deren Priorisierung (z.B. nach MyCoRe-Modul-Priorisierung) wird jetzt konsequent und gleichartig genutzt.
-          Zudem ist die Auswahl dieser Orte nun konfigurierbar.
+          Zudem ist die Auswahl dieser Orte jetzt konfigurierbar.
          </p>
          <p>
-          Bisher wurden folgende Orte in Betracht gezogen:
-         </p>
-         <ol>
-          <li>Developer-Overlay (falls konfiguriert)</li>
-          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und bei Änderungen während der Laufzeit der Webapplikation hierhin kopiert)</li>
-          <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
-          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses (nach MyCoRe-Modul-Priorität)</li>
-          <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
-          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>WEB-INF/lib</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise JAR-Dateien, die bereits in der WAR-Datei waren, nach MyCoRe-Modul-Priorität)</li>
-         </ol>
-         <p>
-          Auf das Kopieren der vom WCMS veränderten Dateien beim Start der Webapplikation und bei Änderungen während der Laufzeit der Anwendung wird nun verzichtet.
-          Der Mechanismus wurde ersatzlos entfernt, da er nicht mehr benötigt wird.
-          Zudem wird nun standardmäßig eine vereinfachte Reihenfolge verwendet:
+          Bisher wurden folgende in einer typischen Anwendung Dateien an folgenden Orten in Betracht gezogen:
          </p>
          <ol>
           <li>Developer-Overlay (falls konfiguriert)</li>
-          <li>Unterverzeichnis <code>data/save/webpages</code> des Konfigurationsverzeichnisses (nur Web-Ressourcen, vom WCMS geänderte Dateien werden hier gespeichert)</li>
-          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, einige Ressourcen und durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und letztere auch bei Änderungen während der Laufzeit hierhin kopiert)</li>
           <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
-          <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
-          <li>Inhalt von geladenen JAR-Dateien (unabhängig von deren Ort, nach MyCoRe-Modul-Priorität)</li>
+          <li>Inhalt von geladenen JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses</li>
+          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen, Dateien aus geladenen Modulen werden während des Starts der Webapplikation nach MyCoRe-Modul-Priorität hierhin kopiert, durch das WCMS geänderte Dateien werden während des Starts der Webapplikation und bei Änderungen während der Laufzeit der Webapplikation hierhin kopiert) und 
+          Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
+          <li>Inhalt von sonstigen geladenen JAR-Dateien (typischerweise JAR-Dateien, die bereits in der WAR-Datei waren, ggf. nach in <code>web.xml</code> definierter Reihenfolge)</li>
+          <li>Von Java bereitgestellte Inhalte (per <code>ClassLoader#getResources</code>), sofern noch nicht vorher berücksichtigt (erster Treffer, nach Reihenfolge, in der die JVM diese ausgibt)</li>
          </ol>
+         <br/>
          <p>
-          Typischerweise sind keine Migrationsschritte notwendig.
+          Dateien aus geladenen Modulen werden nun beim Start der Webapplikation nicht mehr in das Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden, kopiert.
+          Auf das Kopieren der vom WCMS veränderten Dateien beim Start der Webapplikation und bei Änderungen während der Laufzeit der Anwendung in dieses Verzeichnis wird ebenfalls verzichtet.
+          Beide Mechanismen wurden ersatzlos entfernt, da sie nicht mehr benötigt werden.
          </p>
          <p>
-          Wer jedoch eine Reihenfolge benötigt, die sich bezüglich des Inhalts von JAR-Dateien nach dem Verhalten älterer MyCoRe-Versionen richtet,
-          kann mit folgender Einstellung zu einer alternativen Reihenfolge wechseln:
-         {{< highlight java "linenos=table">}}
+          Es wird zudem standardmäßig nun eine vereinfachte und konsequenter durchgesetzte Reihenfolge verwendet:
+         </p>
+         <ol>
+          <li>Developer-Overlay (falls konfiguriert)</li>
+          <li>WCMS-Unterverzeichnis (<code>data/save/webpages</code>) des Konfigurationsverzeichnisses (nur Web-Ressourcen, vom WCMS geänderte Dateien werden hier gespeichert)</li>
+          <li>Unterverzeichnis <code>resources</code> des Konfigurationsverzeichnisses</li>
+          <li>Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (nur Web-Ressourcen)</li>
+          <li>Unterverzeichnis <code>WEB-INF/classes</code> des Verzeichnisses, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden (typischerweise Dateien, die bereits in der WAR-Datei waren)</li>
+          <li>Inhalt von geladenen JAR-Dateien (unabhängig von deren Ort, nach MyCoRe-Modul-Priorität und ggf. in <code>web.xml</code> definierter Reihenfolge)</li>
+          <li>Von Java bereitgestellte Inhalte (per <code>ClassLoader#getResource</code>)</li>
+         </ol>
+         <br/>
+         <p>
+           Wer jedoch eine Reihenfolge bevorzugt, die sich eher an dem Verhalten älterer MyCoRe-Versionen orientiert, kann mit folgender Einstellung zu einer alternativen Reihenfolge wechseln:
+           {{< highlight java "linenos=table">}}
  MCR.Resource.Resolver.SelectedProvider=legacy{{< /highlight >}}
          </p>
          <p>
-          Potenziell kann es auch empfehlenswert sein, <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge zu definieren</a>.
+          Typischerweise sind keine Migrationsschritte notwendig. In den folgenden Fällen kann dies aber der Fall sein:
+         </p>
+         <ol>
+           <li>
+             Bisher wurden JAR-Dateienm im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses und JAR-Dateien unterschiedliche behandelt und priorisiert. 
+             Jetzt werden alle JAR-Dateien gleich behandelt. Wer auf diese Unterscheidung angewiesen ist, kann entweder die genannte <code>legacy</code>-Reihenfolge verwenden,
+             oder muss <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge definieren</a>.
+           </li>
+           <li>
+             Wer seiner Anwendung einzelne Dateien über den Klassenpfad (<code>java -cp path/to/resource.txt</code>code>) übergibt und damit Dateien, z.B. aus MyCoRe-Modulen, überschreiben will,
+             seine Anwendung umstellen (z.B. indem diese Dateien der Anwendung stattdessen als eigenes Modul mit entsprechender Priorisierung bereitgestellt werden). 
+           </li>
+           <li>
+             Wer auf einen der Mechanismen angewiesen ist, mit dem Dateien in das Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden, kopiert werden, muss Alternativen hierzu finden.
+             Je nach Anwendungsfall kann z.B. eine eigene <a href="/documentation/basics/basics_resources/#strategien-zum-auffinden-von-ressourcen-mcrresourceprovider">Strategie zum Auffinden von Ressourcen</a> implementiert werden.
+           </li>
+         </ol>
+         <br/>
+         <p>
+          Potenziell kann es empfehlenswert sein, <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge zu definieren</a>.
           Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
           sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource z.B. auf das mehrfache Suchen im Dateisystem verzichtet werden.
           Da in solch einem Szenario keine Ressourcen zur Laufzeit der Applikation verändert werden können, kann zudem ein Cache konfiguriert werden.
@@ -172,24 +194,57 @@ date: "2025-06-13"
           Eine solche Anpassung kann für produktive Systeme durchaus sinnvoll sein.
          </p>
          <p>
-          Wer in seiner eigenen Applikation bisher auf den Mechanismus angewiesen ist, mit dem ausgewählte Dateien beim Start der Webapplikation extrahiert werden, muss Alternativen hierzu finden.
-          Je nach Anwendungsfall kann z.B. eine eigene <a href="/documentation/basics/basics_resources/#strategien-zum-auffinden-von-ressourcen-mcrresourceprovider">Strategie zum Auffinden von Ressourcen</a> implementiert werden.          
+           Wird in den eigenen Java-Klassen auf Ressourcen zugegriffen, so sollten die Ressourcen immer mit dem neuen Mechanismus geladen werden.
+           Hierzu muss die Klasse <code>MCRResourceResolver</code> verwendet werden. Insbesondere bei der Migration von bestehendem Code 
+           kann zudem die Klasse <code>MCRResourceHelper</code> hilfreich sein, die eine API anbietet, die sich mehr an klassischem MyCoRe-Code orientiert.
+           Es müssen insbesondere die folgenden Methodenaufrufe ersetzt werden:
          </p>
-          <p>
-            Wird in den eigenen Java-Klassen auf Resourcen (z. B. XSLT) zugegriffen, so sollten die originalen java-Methoden durch MyCoRe-spezifische
-            ersetzt werden:
-          </p>
-          <ul>
-            <li>Class#getResource --&gt MCRResourceHelper#getResourceUrl</li>
-            <li>Class#getResourceAsStream --&gt MCRResourceHelper#getResourceAsStream</li>
-            <li>ClassLoader#resources --&gt n/a</li>
-            <li>ClassLoader#getResource --&gt MCRResourceHelper#getResourceUrl</li>
-            <li>ClassLoader#getResources --&gt n/a</li>
-            <li>ClassLoader#getResourceAsStream --&gt MCRResourceHelper#getResourceAsStream</li>
-            <li>ServletContext#getResource --&gt MCRResourceHelper#getWebResourceUrl</li>
-            <li>ServletContext#getResourcePaths --&gt n/a</li>
-            <li>ServletContext#getResourceAsStream --&gt MCRResourceHelper#getWebResourceAsStream</li>
-          </ul>
+         <table>
+           <thead>
+             <tr>
+               <th>Alter Aufruf</th>
+               <th>Neuer Aufruf</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td><code>Class#getResource</code></td>
+               <td><code>MCRResourceHelper#getResourceUrl</code></td>
+             </tr>
+             <tr>
+               <td><code>Class#getResourceAsStream</code></td>
+               <td><code>MCRResourceHelper#getResourceAsStream</code></td>
+             </tr>
+             <tr>
+               <td><code>ClassLoader#resources</code></td>
+               <td>kein Pendant</td>
+             </tr>
+             <tr>
+               <td><code>ClassLoader#getResource</code></td>
+               <td><code>MCRResourceHelper#getResourceUrl</code></td>
+             </tr>
+             <tr>
+               <td><code>ClassLoader#getResources</code></td>
+               <td>kein Pendant</td>
+             </tr>
+             <tr>
+               <td><code>ClassLoader#getResourceAsStream</code></td>
+               <td><code>MCRResourceHelper#getResourceAsStream</code></td>
+             </tr>
+             <tr>
+               <td><code>ServletContext#getResource</code></td>
+               <td><code>MCRResourceHelper#getWebResourceUrl</code></td>
+             </tr>
+             <tr>
+               <td><code>ServletContext#getResourcePaths</code></td>
+               <td>kein Pendant</td>
+             </tr>
+             <tr>
+               <td><code>ServletContext#getResourceAsStream</code></td>
+               <td><code>MCRResourceHelper#getWebResourceAsStream</code></td>
+             </tr>
+           </tbody>
+          </table>
         </li>
          <br/>
         <li>
