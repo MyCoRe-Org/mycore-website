@@ -1,10 +1,10 @@
 ---
 
 title: "Developer-Tools"
-mcr_version: ['2019.06','2020.06']
-author: ['Sebastian Hofmann']
+mcr_version: ['2023.06','2024.06']
+author: ['Sebastian Hofmann', 'Jens Kupferschmidt']
 description: "Dieser Abschnitt beschreibt von MyCoRe bereitgestellte Komponenten und Werkzeuge, die die Entwicklung vereinfachen sollen."
-date: "2021-06-18"
+date: "2025-06-13"
 
 ---
 
@@ -66,6 +66,20 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
     <h3>Kommandos</h3>
     <dl>
         <dt>
+            <code>show message {0} for {1}</code>
+        </dt>
+        <dd>
+            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur den Schlüssel und Wert dessen Schlüssel mit dem als
+            <code>{1}</code> gegebenem Wert übereinstimmt.
+        </dd>
+        <dt>
+            <code>show messages {0} for {1}</code>
+        </dt>
+        <dd>
+            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur die Schlüssel und Werte deren Schlüssel
+            mit dem als <code>{1}</code> gegebenem Wert beginnen.
+        </dd>
+        <dt>
             <code>show all messages for {0}</code>
         </dt>
         <dd>
@@ -73,18 +87,18 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             Dies erspart einen Blick in die Datei <code>messages_XX.resolved.properties</code>.
         </dd>
         <dt>
-            <code>show messages {0} for {1}</code>
+            <code>show property {0}</code>
         </dt>
         <dd>
-            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur die Schlüssel und Werte deren Schlüssel 
-            mit dem als <code>{1}</code> gegebenem Wert beginnen.
+            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur das Schlüssel-Werte-Paar, dessen Schlüssel mit dem als
+            <code>{0}</code> gegebenem Wert übereinstimmt.
         </dd>
         <dt>
-            <code>show message {0} for {1}</code>
+            <code>show properties {0}</code>
         </dt>
         <dd>
-            Das Kommando hat dieselbe Funktion wie <code>show all messages for {0}</code>, zeigt aber nur den Schlüssel und Wert dessen Schlüssel mit dem als
-            <code>{1}</code> gegebenem Wert übereinstimmt.
+            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur die Schlüssel-Werte-Paare, deren Schlüssel mit dem als
+            <code>{0}</code> gegebenen Wert beginnen.
         </dd>
         <dt>
             <code>show all properties</code>
@@ -94,25 +108,28 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             und berücksichtigt auch zur Laufzeit getätigte Änderungen der Konfiguration.
         </dd>
         <dt>
-            <code>show properties {0}</code>
+            <code>show resource url for {0}</code>
         </dt>
         <dd>
-            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur die Schlüssel-Werte-Paare, deren Schlüssel mit dem als 
-            <code>{0}</code> gegebenen Wert beginnen.
+            Das Kommando zeigt das Ergebnis des URI-Resolvers für die in <code>{0}</code> angegebene Resource.
         </dd>
         <dt>
-            <code>show property {0}</code>
+            <code>show web resource url for {0}</code>
         </dt>
         <dd>
-            Das Kommando hat dieselbe Funktion wie <code>show all properties</code>, zeigt aber nur das Schlüssel-Werte-Paar, dessen Schlüssel mit dem als 
-            <code>{0}</code> gegebenem Wert übereinstimmt.     
+            Das Kommando zeigt das Ergebnis des URI-Resolvers für die in <code>{0}</code> angegebene Web-Resource.
         </dd>
         <dt>
-            <code>show resource {0}</code>
+            <code>show all resource url for {0}</code>
         </dt>
         <dd>
-            Das Kommando zeigt das Ergebnis des URI-Resolvers für die als <code>{0}</code> angegebene URI. Dies kann insbesondere bei komplexen URIs hilfreich sein,
-            z.B. <code>show resource xslStyle:items2options?allSelectable=true:classification:editor[TextCounter]:-1:children:mir_licenses</code>
+            Das Kommando zeigt alle Ergebnise des URI-Resolvers für die in <code>{0}</code> angegebene Resource.
+        </dd>
+        <dt>
+            <code>show all web resource url for {0}</code>
+        </dt>
+        <dd>
+            Das Kommando zeigt alle Ergebnise des URI-Resolvers für die in <code>{0}</code> angegebene Web-Resource.
         </dd>
         <dt>
             <code>touch object {0}</code>
