@@ -2,12 +2,12 @@
 
 title: "Migration MyCoRe LTS 2023.06 nach 2024.06"
 mcr_version: ['2024.06']
-author: ['Silvio Hermann', 'Robert Stephan']
+author: ['Silvio Hermann', 'Robert Stephan', 'Jens Kupferschmidt']
 description: "
       Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2024.06 und die Migration von Version
       2023.06 zu 2024.06 zusammen.
     "
-date: "2024-07-05"
+date: "2025-06-13"
 ---
 
     <div id="requirements_202406">
@@ -27,7 +27,7 @@ date: "2024-07-05"
       <ul>
         <li>Open SuSE Leap 15.6 oder höher</li>
         <li>SuSE SLES 15.6 oder höher</li>
-        <li>Ubuntu 20.04 LTS</li>
+        <li>Ubuntu 24.04 LTS</li>
         <li>CentOS 8</li>
         <li>RHEL 8</li>
         <li>Windows 10 für Test- und Entwicklungssysteme</li>
@@ -40,11 +40,11 @@ date: "2024-07-05"
       <ul>
         <li>Java 21 (OpenJDK) (muss ggf. extern nachinstalliert werden)</li>
         <li>Tomcat 10.1.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-6.0 und JakartaEE)</li>
-        <li>SOLR 8.11.2 oder höher</li> <!-- Empfehlung für SOLR 9 ?? -->
+        <li>SOLR 9.8.1 oder höher</li>
         <li>
           eine
           <a href="https://docs.jboss.org/hibernate/orm/6.5/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
-          relationale Datenbank wie PostgreSQL 10 oder höher , MySQL/Maria-DB 10 oder höher, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
+          relationale Datenbank wie PostgreSQL 16 oder höher , MySQL/Maria-DB 10 oder höher, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
         </li>
         <li>Git 2.26 oder höher</li>
         <li>Apache Maven 3.6.3 oder höher</li>
@@ -175,7 +175,23 @@ date: "2024-07-05"
           Wer in seiner eigenen Applikation bisher auf den Mechanismus angewiesen ist, mit dem ausgewählte Dateien beim Start der Webapplikation extrahiert werden, muss Alternativen hierzu finden.
           Je nach Anwendungsfall kann z.B. eine eigene <a href="/documentation/basics/basics_resources/#strategien-zum-auffinden-von-ressourcen-mcrresourceprovider">Strategie zum Auffinden von Ressourcen</a> implementiert werden.          
          </p>
+          <p>
+            Wird in den eigenen Java-Klassen auf Resourcen (z. B. XSLT) zugegriffen, so sollten die originalen java-Methoden durch MyCoRe-spezifische
+            ersetzt werden:
+          </p>
+          <ul>
+            <li>Class#getResource --&gt MCRResourceHelper#getResourceUrl</li>
+            <li>Class#getResourceAsStream --&gt MCRResourceHelper#getResourceAsStream</li>
+            <li>ClassLoader#resources --&gt n/a</li>
+            <li>ClassLoader#getResource --&gt MCRResourceHelper#getResourceUrl</li>
+            <li>ClassLoader#getResources --&gt n/a</li>
+            <li>ClassLoader#getResourceAsStream --&gt MCRResourceHelper#getResourceAsStream</li>
+            <li>ServletContext#getResource --&gt MCRResourceHelper#getWebResourceUrl</li>
+            <li>ServletContext#getResourcePaths --&gt n/a</li>
+            <li>ServletContext#getResourceAsStream --&gt MCRResourceHelper#getWebResourceAsStream</li>
+          </ul>
         </li>
+         <br/>
         <li>
          <p>
           Mit <a href="https://mycore.atlassian.net/browse/MCR-2919">MCR-2919</a> wurden erweiterte Möglichkeiten geschaffen,
@@ -195,6 +211,7 @@ date: "2024-07-05"
           Wer diese Methode nicht in eigenen Java-Klassen verwendet, kann diesen Migrationsschritt ignorieren. 
          </p>
         </li>
+         <br/>
         <li>
          <p>
           Durch <a href="https://mycore.atlassian.net/browse/MCR-3053">MCR-3053</a> wurden die Einstiegspunkte
@@ -228,6 +245,7 @@ date: "2024-07-05"
           muss entsprechende Anpassungen ebenfalls vornehmen. 
          </p>
         </li>
+         <br/>
         <li>
          <p>
           Statt <code>MCRMD5InputStream</code> gibt es seit <a href="https://mycore.atlassian.net/browse/MCR-3096">MCR-3096</a> die flexiblere Klasse <code>MCRDigestInputStream</code>.
@@ -303,6 +321,7 @@ MCR.User.PasswordCheck.SelectedStrategy=argon2{{< /highlight >}}
             {{< highlight java "linenos=table">}}
  MCR.User.PasswordCheck.SelectedStrategy=sha256{{< /highlight >}}
        </li>
+         <br/>
        <li>
          <p>
            <a href="https://mycore.atlassian.net/browse/MCR-3140">MCR-3140</a> hat einen Mechanismus eingeführt,
@@ -333,6 +352,7 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
              In Anlehnung an die vordefinierten Regeln können zudem eigene Regeln definiert werden.  
            </p>
          </li>
+         <br/>
         <li>
           <p>
             Mit <a href="https://mycore.atlassian.net/browse/MCR-3209">MCR-3209</a> wurden die ORCID-API Endpunkte teilweise verändert.
@@ -357,6 +377,7 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
             Die Methode <code>revokeORCID</code> in orcid-auth.js wurde umbenannt in <code>revokeOrcidOAuth</code>.
           </p>
         </li>
+         <br/>
         <li>
           <p>
             Mit <a href="https://mycore.atlassian.net/browse/MCR-3200">MCR-3200</a> werden keine Standardwerte mehr für die ORCID-User-Properties ausgeliefert,
