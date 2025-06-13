@@ -8,21 +8,54 @@ description: "
       Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
       MyCoRe nutzbare Bibliotheken.
     "
-date: "2025-05-26"
+date: "2025-06-13"
 
 ---
     <div>
-      <h2>MyCoRe-Komponenten</h2>
+      <h2>MyCoRe-Komponenten und Anwendungsmodule</h2>
       <p>
         MyCoRe ist kein monolithisches System. Vielmehr besteht der Kern aus Modulen, welche einzeln inklusive
         ihrer Abhängigkeiten genutzt werden können. Die nachfolgende alphabetische Auflistung gibt eine Übersicht über
         die verfügbaren Teile. Je nach Erfordernissen und Entwicklungen kann es vorkommen, dass einzelne Komponenten im
         Laufe der MyCoRe-Entwicklung bei neuen LTS-Releases neu hinzukommen oder entfallen. Diese Dokumentation
-        spiegelt den oben genannten Release-Stand wieder. Neben dieser Dokumentation sind die einzelnen Komponenten auch
+        spiegelt den oben genannten Release-Stand wider. Neben dieser Dokumentation sind die einzelnen Komponenten auch
         kurz auf den entsprechenden Git-Hub in ihren Kernpunkten beschrieben (z. B.
         <a target="blank" href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass">https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass</a>
         ).
       </p>
+      <p>
+        Daneben können durch die Anwender weitere Maven-Module hinzugefügt werden. Um bei der Abarbeitung diesen eine
+        höhere Priorität zu geben, ist dies in der pom.xml-Datei zu kennzeichnen. Entsprechend dem aktuellen
+        Resorce-Managemnt sind dann diese gültig (siehe MCR-2881 in Migartion zu 2024).
+      </p>
+
+      <h3>Priorität eigener Module</h3>
+      <p>
+        Die Priorität der eigenen Module wird in der <em>pom.xml</em> in der <em>plugins</em> Sektion festgelegt. Diese wird
+        MyCoRe-intern umgerechnet auf einen
+        Wert von +300. Applikationsmodule ohne Angabe bekommen den Wert 399. Analog ist es mit den MyCoRe-Komponenten. Diese haben
+        einen Basiswert von 200 und einen default-Wert von 299 als Priorität. mycore-base hat davon abweichend den wert von 199.
+      </p>
+      {{< highlight xml "linenos=table">}}
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addExtensions />
+            </manifest>
+            <manifestEntries>
+              <MCR-Artifact-Id>${project.artifactId}</MCR-Artifact-Id>
+              <MCR-Application-Module>${project.name}</MCR-Application-Module>
+              <Priority>${priority}</Priority>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>{{< /highlight >}}
+
 
         <h3>Liste der Komponenten</h3>
         <table class="table">
