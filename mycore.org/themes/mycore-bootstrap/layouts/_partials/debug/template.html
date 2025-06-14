@@ -1,0 +1,8 @@
+{{if not hugo.IsProduction}}
+<div class="p-2 bg-white">
+  <span class="badge badge-info">Hugo Version: <strong class="font-weight-bold">{{ hugo.Version }}</strong></span>
+  <span class="badge badge-info">Hugo Environment: <strong class="font-weight-bold">{{hugo.Environment}} </strong></span>
+  <span class="badge badge-warning">Kind of Page: <strong class="font-weight-bold">{{.Kind}} </strong></span>
+  <span class="badge badge-warning">Template: <strong class="font-weight-bold">{{templates.Current.Parent.Name}}</strong></span>
+</div>
+{{ end }}
