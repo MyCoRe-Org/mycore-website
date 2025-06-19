@@ -22,14 +22,16 @@ date: "2025-06-06"
         eine Master-Passphrase erstellt werden, die dann für die Verschlüsselung der Zugangsdaten verwendet wird.
         Dazu wird das Kommando <code>mvn --encrypt-master-password</code> ausgeführt. Das Ergebnis dieses Kommandos
         wird in der Datei <code>~/.m2/settings-security.xml</code> gespeichert. <span class="text-danger">Diese Datei sollte nicht im Quellcode-Repository abgelegt werden.</span>
-    <pre>
-&lt;settingsSecurity&gt;
-  &lt;master&gt;{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}&lt;/master&gt;
-&lt;/settingsSecurity&gt;
-        </pre>
-    Die Passwörter können nun über das Kommando <code>mvn --encrypt-password</code> verschlüsselt werden.
-    Siehe dazu auch die <a href="https://maven.apache.org/guides/mini/guide-encryption.html" target="_blank">Maven-Dokumentation</a>.
-
+    </p>
+    <p>
+      {{< highlight xml "linenos=table">}}
+<settingsSecurity>
+  <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
+</settingsSecurity>{{< /highlight >}}
+    </p>
+    <p>
+        Die Passwörter können nun über das Kommando <code>mvn --encrypt-password</code> verschlüsselt werden.
+        Siehe dazu auch die <a href="https://maven.apache.org/guides/mini/guide-encryption.html" target="_blank">Maven-Dokumentation</a>.
     </p>
 
 
@@ -44,36 +46,39 @@ date: "2025-06-06"
         Nach dem Hochladen des Schlüssels wird eine E-Mail versendet, in der die Verknüpfung des Schlüssels mit der E-Mail-Adresse bestätigt werden muss.</p>
 
     <p>Damit Maven den Schlüssel für die Signierung von Releases verwenden kann, muss die Datei <code>~/.m2/settings.xml</code> um den folgenden Abschnitt ergänzt werden:</p>
-    <pre>
-&lt;servers&gt;
-  &lt;server&gt;
-    &lt;id&gt;E4C544BE49C40BD4DB2CF54B3B0CDD6464CBA588&lt;/id&gt;
-    &lt;passphrase&gt;{verschlüsseltes_password}&lt;/passphrase&gt;
-  &lt;/server&gt;
-&lt;/servers&gt;
+    <p>
+      {{< highlight xml "linenos=table">}}
+<servers>
+  <server>
+    <id>E4C544BE49C40BD4DB2CF54B3B0CDD6464CBA588</id>
+    <passphrase>{verschlüsseltes_password}</passphrase>
+  </server>
+</servers>
 
-&lt;profiles&gt;
-  &lt;profile&gt;
-    &lt;id&gt;gpg_key_activation&lt;/id&gt;
-    &lt;activation&gt;
-      &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-    &lt;/activation&gt;
-    &lt;properties&gt;
-      &lt;gpg.keyname&gt;E4C544BE49C40BD4DB2CF54B3B0CDD6464CBA588&lt;/gpg.keyname&gt;
-    &lt;/properties&gt;
-  &lt;/profile&gt;
-&lt;/profiles&gt;
-        </pre>
+<profiles>
+  <profile>
+    <id>gpg_key_activation</id>
+    <activation>
+      <activeByDefault>true</activeByDefault>
+    </activation>
+    <properties>
+      <gpg.keyname>E4C544BE49C40BD4DB2CF54B3B0CDD6464CBA588</gpg.keyname>
+    </properties>
+  </profile>
+</profiles>{{< /highlight >}}
+    </p>
     <p>Der gpg.keyname ist die ID des GPG-Schlüssels, der für die Signierung der Releases verwendet werden soll. Diese ID muss jeweils in das Property <code>gpg.keyname</code>
         und als <code>id</code> in den <code>&lt;server&gt;</code>-Abschnitt eingetragen werden.</p>
     <p>Die Passphrase wird durch das Kommando <code>mvn --encrypt-password</code> verschlüsselt und in den Abschnitt <code>&lt;passphrase&gt;</code> eingetragen.
         Diese Passphrase wird dann von Maven verwendet, um den GPG-Schlüssel zu entsperren.</p>
     <p>Durch das Profil <code>gpg_key_activation</code> wird sichergestellt, dass der GPG-Schlüssel immer aktiviert ist, wenn Maven ausgeführt wird.</p>
     <p>Diese Änderung kann mit dem Kommando <code>mvn clean install</code> getestet werden. Wenn alles korrekt eingerichtet ist, sollte das Kommando ohne Fehler durchlaufen und folgende Ausgabe erzeugen:</p>
-    <pre>
+    <p>
+      {{< highlight bash >}}
 [INFO] --- gpg:3.2.7:sign (sign-artifacts) @ mycore-bom ---
 [INFO] Signer 'gpg' is signing 1 file with key E4C544BE49C40BD4DB2CF54B3B0CDD6464CBA588
-        </pre>
+      {{< /highlight >}}
+    </p>
 
     <h3>Sonatype Zugangsdaten</h3>
     <p>
@@ -85,13 +90,14 @@ date: "2025-06-06"
         Nach der Freischaltung des Accounts müssen die Zugangsdaten über die Oberfläche von Sonatype erstellt werden. Dazu wird die Account-Seite aufgerufen und dort unter dem Punkt "Generate user Token" ein Token erstellt.
         Dieses Token wird dann mit dem Kommando <code>mvn --encrypt-password</code> verschlüsselt und in der Datei <code>~/.m2/settings.xml</code> im Abschnitt <code>&lt;servers&gt;</code> unter dem Punkt <code>&lt;password&gt;</code> eingetragen.
         Der Abschnitt sollte dann wie folgt aussehen:</p>
-    <pre>
-&lt;server&gt;
-  &lt;id&gt;central&lt;/id&gt;
-  &lt;username&gt;your.username&lt;/username&gt;
-  &lt;password&gt;{your.encrypted.password}&lt;/password&gt;
-&lt;/server&gt;
-        </pre>
+    <p>
+      {{< highlight xml "linenos=table">}}
+<server>
+  <id>central</id>
+  <username>your.username</username>
+  <password>{your.encrypted.password}</password>
+</server>{{< /highlight >}}
+    </p>
     <p>Die Zugangsdaten werden dann von Maven verwendet, um die Releases in das zentrale Repository hochzuladen.</p>
     <p>Um die Zugangsdaten zu testen, kann das Kommando <code>mvn clean deploy</code> in einem kleinen Projekt ausgeführt werden.
         Sollte alles korrekt eingerichtet sein, sollte das Kommando ohne Fehler durchlaufen.</p>
@@ -100,10 +106,12 @@ date: "2025-06-06"
     <p>
         Bei der Erstellung eines Releases wird der Quellcode von Maven mit einem Git-Tag markiert und es werden Commit-Messages erstellt, die den Stand des Quellcodes zum Zeitpunkt des Releases dokumentieren.
         Um dies zu ermöglichen, muss der lokale Git-Client so konfiguriert werden, dass er die grundsätzlichen Informationen für die Commits kennt. Dazu werden die folgenden Kommandos ausgeführt:</p>
-    <pre>
+    <p>
+      {{< highlight bash >}}
 git config --global user.name "Max Mustermann"
 git config --global user.email "max.mustermann@mycore.de"
-        </pre>
+      {{< /highlight >}}
+    </p>
     <p>Diese Informationen werden dann in den Commits verwendet, die bei der Erstellung des Releases erstellt werden. In der Regel
         sollten diese Informationen bereits gesetzt sein, da sie auch für die normalen Commits verwendet werden.</p>
     <p>
@@ -150,14 +158,16 @@ git config --global user.email "max.mustermann@mycore.de"
         Anschließend wird ein Tag im Git-Repository erstellt, der den Stand des Quellcodes zum Zeitpunkt des Releases dokumentiert.
     </p>
     <p>Abfrage der Versionsangaben:</p>
-    <pre>
+    <p>
+      {{< highlight bash >}}
 [INFO] 5/17 prepare:map-release-versions
 What is the release version for "MyCoRe Parent POM"? (mycore-parent) 57:
 [INFO] 6/17 prepare:input-variables
 What is the SCM release tag or label for "MyCoRe Parent POM"? (mycore-parent) v57:
 [INFO] 7/17 prepare:map-development-versions
 What is the new development version for "MyCoRe Parent POM"? (mycore-parent) 58-SNAPSHOT:
-    </pre>
+      {{< /highlight >}}
+    </p>
 
     <p>
         Nach dem erfolgreichen Abschluss des <code>mvn release:prepare</code> Kommandos sollte der Quellcode in das zentrale Quellcode-Repository hochgeladen werden.
