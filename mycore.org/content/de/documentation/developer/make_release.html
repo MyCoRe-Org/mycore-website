@@ -4,7 +4,7 @@
 title: "Erstellen eines Releases"
 mcr_version: ['2025.06']
 author: ['Sebastian Hofmann']
-description: "Der Artikel beschreibt wie Releases erstellt werden können. Vorbereitung, GPG-Schlüssel, Sonatype Zugangsdaten und Git-Konfiguration und die Schritte zum Erstellen eines Releases."
+description: "Der Artikel beschreibt, wie Releases erstellt werden können. Vorbereitung, GPG-Schlüssel, Sonatype Zugangsdaten und Git-Konfiguration und die Schritte zum Erstellen eines Releases."
 date: "2025-06-06"
 
 ---
@@ -18,7 +18,7 @@ date: "2025-06-06"
     <h3>Vorbereiten des Maven Passwortspeichers</h3>
     <p>
         Damit Maven die Releases in das zentrale Repository hochladen kann, muss es über die Zugangsdaten für das Repository verfügen.
-        Diese Zugangssollten nicht im Klartext in der Datei <code>settings.xml</code> gespeichert werden. Um die Zugangsdaten sicher zu speichern, sollte
+        Diese Zugangsdaten sollten nicht im Klartext in der Datei <code>settings.xml</code> gespeichert werden. Um die Zugangsdaten sicher zu speichern, sollte
         eine Master-Passphrase erstellt werden, die dann für die Verschlüsselung der Zugangsdaten verwendet wird.
         Dazu wird das Kommando <code>mvn --encrypt-master-password</code> ausgeführt. Das Ergebnis dieses Kommandos
         wird in der Datei <code>~/.m2/settings-security.xml</code> gespeichert. <span class="text-danger">Diese Datei sollte nicht im Quellcode-Repository abgelegt werden.</span>
@@ -27,7 +27,7 @@ date: "2025-06-06"
   &lt;master&gt;{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}&lt;/master&gt;
 &lt;/settingsSecurity&gt;
         </pre>
-    Die Passwörter können nun über das Kommando <code>mvn --encrypt-password</code> Verschlüsselt werden.
+    Die Passwörter können nun über das Kommando <code>mvn --encrypt-password</code> verschlüsselt werden.
     Siehe dazu auch die <a href="https://maven.apache.org/guides/mini/guide-encryption.html" target="_blank">Maven-Dokumentation</a>.
 
     </p>
@@ -43,7 +43,7 @@ date: "2025-06-06"
         Ein Keyserver kann z.B. <a href="https://keys.openpgp.org" target="_blank">https://keys.openpgp.org</a> sein.
         Nach dem Hochladen des Schlüssels wird eine E-Mail versendet, in der die Verknüpfung des Schlüssels mit der E-Mail-Adresse bestätigt werden muss.</p>
 
-    <p>Damit maven den Schlüssel für die Signierung von Releases verwenden kann, muss die Datei <code>~/.m2/settings.xml</code> um den folgenden Abschnitt ergänzt werden:</p>
+    <p>Damit Maven den Schlüssel für die Signierung von Releases verwenden kann, muss die Datei <code>~/.m2/settings.xml</code> um den folgenden Abschnitt ergänzt werden:</p>
     <pre>
 &lt;servers&gt;
   &lt;server&gt;
@@ -108,20 +108,20 @@ git config --global user.email "max.mustermann@mycore.de"
         sollten diese Informationen bereits gesetzt sein, da sie auch für die normalen Commits verwendet werden.</p>
     <p>
         Es sollte sichergestellt werden, dass die Rechte vorhanden sind, um auf das zentrale Git-Repository zuzugreifen,
-        besonders weil die branches für die LTS-Releases normalerweise schreibgeschützt sind.
+        besonders, weil die Branches für die LTS-Releases normalerweise schreibgeschützt sind.
     </p>
     <p>
-        Da beim Release auch Commits mit Änderung an der <code>pom.xml</code> erstellt werden, sollten im Git vorher alle
-        Branches die regelmäßig aktualisiert werden, <a href="{{<ref "dev_work_with_git#mergen-von-ltsbranches" >}}">auf den aktuellen Stand gebracht werden.</a>
+        Da beim Release auch Commits mit Änderungen an der <code>pom.xml</code> erstellt werden, sollten im Git vorher alle
+        Branches, die regelmäßig aktualisiert werden, <a href="{{<ref "dev_work_with_git#mergen-von-ltsbranches" >}}">auf den aktuellen Stand gebracht werden.</a>
     </p>
 
-    <!-- Funktioniert leider nicht da Jira scheiße ist
+    <!-- Funktioniert leider nicht, da Jira nicht wie erwartet funktioniert.
   <h3>Vorbereitung des maven-changes-plugin</h3>
   <p>
     Das <code>maven-changes-plugin</code> wird verwendet, um die Änderungen in den Release-Notes zu dokumentieren.
     Um die Änderungen abzufragen, benötigt das Plugin eine Verbindung zum Jira-System, in dem die Änderungen in Form von Jira-Tickets dokumentiert sind.
     Dazu muss zunächst ein Token für die Verbindung zum Jira-System erstellt werden. Auf der Jira-Seite wird unter dem Punkt "Account settings" -> "Security -> "Create and manage API tokens" -> "Create API token" ein Token erstellt.
-    Nach der Auswahl eines Namens und Verfallsdatums kann mit dem Button "Create" das Token erstellt werden.
+    Nach der Auswahl eines Namens und Ablaufdatums kann mit dem Button "Create" das Token erstellt werden.
     Dieses Token wird dann in der Datei <code>~/.m2/settings.xml</code> im Abschnitt <code>&lt;servers&gt;</code> unter dem Punkt <code>&lt;password&gt;</code> eingetragen.
   </p>-->
 
@@ -133,10 +133,10 @@ git config --global user.email "max.mustermann@mycore.de"
         <li>Es dürfen keine lokalen Änderungen im Quellcode vorhanden sein.</li>
         <li>Die Tests müssen erfolgreich durchlaufen.</li>
         <li>In der Datei <code>pom.xml</code> dürfen keine SNAPSHOT-Versionen mehr enthalten sein.</li>
-        <li>Die obigen genannten Schritte zur Vorbereitung des Maven Passwortspeichers, GPG-Schlüssels und Sonatype Zugangsdaten müssen durchgeführt worden sein.</li>
+        <li>Die oben genannten Schritte zur Vorbereitung des Maven Passwortspeichers, GPG-Schlüssels und Sonatype Zugangsdaten müssen durchgeführt worden sein.</li>
     </ul>
     <p>
-        Die Version des Projektes bleibt eine SNAPSHOT-Version und wird im Release-Prozess von Maven auf eine Release-Version geändert.
+        Die Version des Projekts bleibt eine SNAPSHOT-Version und wird im Release-Prozess von Maven auf eine Release-Version geändert.
         Wenn in der Datei <code>pom.xml</code> noch SNAPSHOT-Versionen enthalten sind, dann muss die Version auf eine Release-Version geändert werden,
         dabei assistiert später ein Maven-Kommando. Wenn es sich um ein MyCoRe-Projekt handelt, dann muss davon zuerst ein Release erstellt werden,
         falls es noch nicht existiert.
@@ -169,15 +169,15 @@ What is the new development version for "MyCoRe Parent POM"? (mycore-parent) 58-
         Nachdem der Quellcode in das zentrale Quellcode-Repository hochgeladen wurde, kann der zweite Schritt des Release-Prozesses durchgeführt werden.
         Dazu wird das Kommando <code>mvn release:perform</code> ausgeführt.
         In diesem Schritt wird das Release erstellt und in das zentrale Maven-Repository hochgeladen.
-        Wenn das Kommando erfolgreich durchläuft, dann ist das Release fertig und dauert es einige Minuten, bis das Release im zentralen Maven-Repository verfügbar ist.
+        Wenn das Kommando erfolgreich durchläuft, dann ist das Release fertig und es dauert einige Minuten, bis das Release im zentralen Maven-Repository verfügbar ist.
     </p>
 
     <p>
-        Wenn es sich um ein Projekt handelt, welches in einem LTS-Branch liegt, dann sollte noch ein entsprechender merge in die
+        Wenn es sich um ein Projekt handelt, welches in einem LTS-Branch liegt, dann sollte noch ein entsprechender Merge in die
         neueren Branches erfolgen. Dabei kommt es zwangsweise zu Konflikten, da die Versionsnummern in den <code>pom.xml</code> von
         beiden Branches geändert wurden. Da das Release aber die einzige Änderung ist, die seit dem letzten Merge in den Branch vorgenommen wurde, kann der Merge
-        einfach durchgeführt werden, indem die POMs der neueren Branches übernommen werden. Dazu wird genau so vorgegangen <a href="{{<ref "dev_work_with_git#mergen-von-ltsbranches" >}}">wie bei einem normalen Merge</a>,
-        außer das der Parameter <code>-X ours</code> in das <code>git merge</code> Kommando eingefügt wird, um die POMs der neueren Branches zu übernehmen.
+        einfach durchgeführt werden, indem die POMs der neueren Branches übernommen werden. Dazu wird genauso vorgegangen <a href="{{<ref "dev_work_with_git#mergen-von-ltsbranches" >}}">wie bei einem normalen Merge</a>,
+        außer dass der Parameter <code>-X ours</code> in das <code>git merge</code> Kommando eingefügt wird, um die POMs der neueren Branches zu übernehmen.
     </p>
 
 
