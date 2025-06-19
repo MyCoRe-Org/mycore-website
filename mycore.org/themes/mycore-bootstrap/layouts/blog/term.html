@@ -1,0 +1,46 @@
+{{ define "main" }}
+<div class="container-fluid content-box">
+  <div class="row content-row">
+    <div class="col-12 col-md-3 col-xl-2 sub-menu">
+      {{- partial "blog/left_side_menu.html" . -}}
+    </div>
+
+    <div class="col-12 col-md-9 col-xl-8 content">
+      {{ with .OutputFormats.Get "rss" -}}
+        <div class="float-right h3 pt-2">
+          <a href="{{.Permalink}}" title='{{ i18n "blog_rss_abo" }}' ><i class="fas fa-rss"></i></a>
+        </div>
+      {{ end -}}
+      <h1>{{.Title}}</h1>
+      <p class="mcr-description">
+        {{ .Description }}
+      </p>
+      {{/* "{{.Content}}" pulls the markdown content of the corresponding _index.md  */}}
+      {{.Content}}
+
+      {{$term_key :=.Data.Plural }}
+      {{$term_value := .Data.Term}}
+
+      {{/* RS: Folgende Kombination aus Range und Filter funkioniert nicht:
+             {{ range where site.RegularPages (index .Params $term_key) "in" $term_value }} 
+             Workaround: Range über alle Seiten und Filter per if
+         */}}
+      {{ range site.RegularPages }}
+        {{if  in (index .Params $term_key) $term_value }}
+          <div>
+            <hr class="mcr-blog-seperator" />
+            {{- partial "blog/badges.html" . -}}
+            <h2 class="h3 mt-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+            {{ .Summary | plainify| htmlUnescape | safeHTML}}
+            <a class="pl-1" href="{{ .Permalink }}"><i class="fas fa-book-reader"></i></a>
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="d-none d-xl-block col-xl-2 toc-menu">
+      {{- partial "blog/right_side_menu.html" . -}}
+    </div>
+  </div>
+</div>
+{{ end }}

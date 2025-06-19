@@ -1,0 +1,36 @@
+{{- define "main" -}}
+<div class="container-fluid content-box">
+  <div class="row content-row">
+	  <div class="col-12 col-md-3 col-xl-2 sub-menu">
+	    {{- partial "blog/left_side_menu.html" . -}}
+	  </div>
+	  <div class="col-12 col-md-9 col-xl-8 content">
+      <h1>{{ .Title }}</h1>
+	    {{ $type := .Type }}
+      <ul>
+        {{ $terms := .Data.Terms }}
+        {{ if eq .Page.Params.taxonomy_sorted "alphabetical" }}
+          {{ $terms = .Data.Terms.Alphabetical }}
+        {{ else if eq .Page.Params.taxonomy_sorted "alphabetical.reverse" }}
+          {{ $terms = .Data.Terms.Alphabetical.Reverse}}
+        {{ else if eq .Page.Params.taxonomy_sorted "bycount" }}
+          {{ $terms = .Data.Terms.ByCount }}
+        {{ else if eq .Page.Params.taxonomy_sorted "bycount.reverse" }}
+          {{ $terms = .Data.Terms.ByCount.Reverse}}
+        {{ end }}
+      
+        {{ range $key, $value := $terms }}
+          {{ $name := .Page.Title }}
+          {{ $count := .Count }}
+          {{ with $.Site.GetPage (printf "/%s/%s" $type $name) }}
+            <li><a href="{{ .Permalink }}"><span>{{ $name }}</span></a> <small>({{ $count }})</small></li>
+          {{ end }}
+        {{ end }}
+      </ul>
+	  </div>
+	  <div class="d-none d-xl-block col-xl-2 toc-menu">
+	    {{- partial "blog/right_side_menu.html" . -}}
+	  </div>
+ 	</div>
+</div>
+{{- end -}}

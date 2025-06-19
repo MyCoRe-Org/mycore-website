@@ -1,22 +1,20 @@
 {{- define "main" -}}
 <div class="container-fluid content-box">
   <div class="row content-row">
-  <div class="col-12 col-md-3 col-xl-2 sub-menu">
-   {{- partial "blog/left_side_menu.html" . -}}
-  </div>
-  <div class="col-12 col-md-9 col-xl-8 content">
-    <div class="mb-3" style="font-size:120%">
-      {{- partial "blog/badges.html" . -}}
+    <div class="col-12 col-md-3 col-xl-2 sub-menu">
+       {{- partial "blog/left_side_menu.html" . -}}
     </div>
-    <h1>{{ if in (index .Params "blog/categories") "News" }}{{ end }}
+    <div class="col-12 col-md-9 col-xl-8 content">
+      <div class="mb-3" style="font-size:120%">
+        {{- partial "blog/badges.html" . -}}
+      </div>
+      <h1>{{ if in (index .Params "blog/categories") "News" }}{{ end }}
       {{ .Title }}</h1>
       {{ .Content  }}
     </div>
-  <div class="d-none d-xl-block col-xl-2 toc-menu">
-   {{- partial "blog/right_side_menu.html" . -}}
+    <div class="d-none d-xl-block col-xl-2 toc-menu">
+      {{- partial "blog/right_side_menu.html" . -}}
+    </div>
   </div>
- </div>
 </div>
-
-
 {{- end -}}
