@@ -1,0 +1,18 @@
+{{- /* Mit diesem Content Adapter werden die Klassifikationsdateien (xml) eingelesen
+       und ohne noch einmal ohne Endung ausgegeben.
+       Damit funktionieren die Klassifikations-URLs für MyCoRe-Standard-Klassifikationen,
+       z.B. https://www.mycore.org/classifications/mir_licenses
+       
+       Dokumentation: https://gohugo.io/content-management/content-adapters/ (ab v0.126.0)
+    */ -}}
+{{ range os.ReadDir "static/classifications" }}
+  {{if strings.HasSuffix .Name ".xml"}} 
+    {{ $fp := (print "static/classifications/" .Name) }}
+    {{ $x := os.ReadFile $fp }}
+    {{ $resourceObj := dict
+           "content" (dict "mediaType" "application/xml" "value" $x)
+           "path" (printf "%s" (strings.TrimSuffix ".xml" .Name )) 
+    }}
+    {{ $.AddResource $resourceObj }}
+  {{ end }}
+{{ end }}
