@@ -147,5 +147,26 @@ date: "2020-06-04"
       <h2>Wenn ein Pull Request nicht angenommen wird</h2>
       <p>[ToDo]</p>
     </div>
-    
+
+
+  <h2>Mergen von LTS-Branches</h2>
+  <p>
+    Da MyCoRe ein Long-Term-Support (LTS) Projekt ist, gibt es regelmäßig Bugfixes und kleinere Anpassungen, die in den älteren LTS-Branches vorgenommen werden
+    und dann in den aktuellen LTS-Branch gemerged werden müssen. Für diesen Merge-Prozess gibt es ein spezielles Vorgehen, das sicherstellt, dass die Änderungen korrekt übernommen werden.
+  </p>
+  <p>
+    Zuerst wird der ältere Branch ausgecheckt und alle remote Änderungen aktualisiert: <code>git checkout 2022.06.x && git pull</code>.
+    Anschließend wird der neuere Branch ausgecheckt und alle remote Änderungen aktualisiert: <code>git checkout 2023.06.x && git pull</code>.
+  </p>
+  <p>
+    Danach wird der ältere Branch in den neueren Branch gemerged: <code>git merge --log=1000 --no-commit 2022.06.x</code>.
+    Jetzt müssen die Konflikte im Quellcode gelöst werden, die beim Merge aufgetreten sind.
+    Dazu werden die betroffenen Dateien geöffnet und die Konflikte manuell gelöst. Nach dem Lösen der Konflikte müssen die Änderungen mit <code>git add</code> in den Index übernommen werden.
+  </p>
+  <p>
+    Anschließend muss geprüft werden, ob die Tests noch erfolgreich durchlaufen. Dazu wird das Kommando <code>mvn clean install</code> ausgeführt.
+    Wenn die Tests erfolgreich durchlaufen, kann der Merge mit <code>git commit</code> abgeschlossen werden.
+    In der Commit-Message sollten die Tickets nach der Nummer sortiert werden. Commits ohne Ticket-Nummer sollten an das Ende der Liste gestellt werden.
+    Nach dem Commit sollte der Merge-Branch in das zentrale Repository hochgeladen werden. Dazu wird das Kommando <code>git push</code> ausgeführt.
+  </p>
   
