@@ -1,0 +1,39 @@
+---
+
+title: "Migration MIR LTS 2024.06 nach 2025.06"
+mcr_version: ['2025.06']
+author: []
+description: "
+Listet die einzelnen Schritte zur Migration von MIR LTS 2024.06 nach 2025.06 auf.
+"
+date: "2025-06-20"
+
+---
+
+<div>
+      <div class="alert alert-warning">
+        Diese Seite ist <strong>Work in Progress</strong>. <br />
+        Sie wird im Rahmen der Fertigstellung des aktuellen MyCoRe-Releases weiter ergänzt!
+      </div>
+    <h2>Migrationsanleitung MIR</h2>
+    <p>
+        Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2025_06 >}}">Migrationsanleitung
+        für MyCoRe</a>
+        noch relevant sind.
+    </p>
+    <div>
+        <h3>Aktualisierung des Solr-Schemas und nachfolgende Neuindizierung der Metadaten</h3>
+        <p>
+            Damit ggf. vorhandende Abstracts in der aktuellen Sprache automatisch angezeigt werden können, müssen die
+            folgenden CLI-Kommandos einmal ausgeführt werden.
+
+        <ul>
+            <li><code>reload solr configuration main in core main</code></li>
+            <li><code>rebuild solr metadata index in core main</code></li>
+        </ul>
+        </p>
+
+    </div>
+</div>
+
+

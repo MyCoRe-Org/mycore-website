@@ -38,6 +38,8 @@ main:
 -       {identifier: mir_install,             parent: apps_mir,           name: Installieren,                  weight: -99,      url: /documentation/apps/mir/mir_install}
 -       {identifier: mir_customize,           parent: apps_mir,           name: Individualisieren,             weight: -98,      url: /documentation/apps/mir/mir_customize}
 -       {identifier: mir_migration,           parent: apps_mir,           name: Migrieren,                     weight: -97,      url: /documentation/apps/mir/migration}
+-         {identifier: migrate_mir2025_12,      parent: mir_migration,      name: MIR 2025.06 ⇒ 2025.12,       weight: -98,      url: /documentation/apps/mir/migration/migrate_mir2025_12}
+-         {identifier: migrate_mir2025_06,      parent: mir_migration,      name: MIR 2024.06 ⇒ 2025.06,       weight: -97,      url: /documentation/apps/mir/migration/migrate_mir2025_06}
 -         {identifier: migrate_mir2024_06,      parent: mir_migration,      name: MIR 2023.06 ⇒ 2024.06,       weight: -96,      url: /documentation/apps/mir/migration/migrate_mir2024_06}
 -         {identifier: migrate_mir2023_06,      parent: mir_migration,      name: MIR 2022.06 ⇒ 2023.06,       weight: -95,      url: /documentation/apps/mir/migration/migrate_mir2023_06}
 -         {identifier: migrate_mir2022_06,      parent: mir_migration,      name: MIR 2021.06 ⇒ 2022.06,       weight: -94,      url: /documentation/apps/mir/migration/migrate_mir2022_06}
@@ -151,14 +153,16 @@ main:
 -     {identifier: production_apache,       parent: production,         name: Integration Apache,          weight: -95,      url: /documentation/production/production_apache}
 -     {identifier: tips,                    parent: production,         name: Tipps,                       weight: -94,      url: /documentation/production/tips}
 -   {identifier: migrate,                 parent: documentation,      name: Migration,                   weight: -88,      url: /documentation/migrate}
--     {identifier: migrate_mcr2024_06,      parent: migrate,            name: MCR 2023.06 ⇒ 2024.06,       weight: -99,      url: /documentation/migrate/migrate_mcr2024_06}
--     {identifier: migrate_mcr2023_06,      parent: migrate,            name: MCR 2022.06 ⇒ 2023.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2023_06}
--     {identifier: migrate_mcr2022_06,      parent: migrate,            name: MCR 2021.06 ⇒ 2022.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2022_06}
--     {identifier: migrate_mcr2021_06,      parent: migrate,            name: MCR 2020.06 ⇒ 2021.06,       weight: -96,      url: /documentation/migrate/migrate_mcr2021_06}
--     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -95,      url: /documentation/migrate/migrate_mcr2020_06}
--     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -94,      url: /documentation/migrate/migrate_mcr2019_06}
--     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -93,      url: /documentation/migrate/migrate_mcr2018_06}
--     {identifier: migrate_solr7,           parent: migrate,            name: Solr7-Integration,           weight: -92,      url: /documentation/migrate/migrate_solr7}
+-     {identifier: migrate_mcr2025_12,      parent: migrate,            name: MCR 2025.06 ⇒ 2025.12,       weight: -99,      url: /documentation/migrate/migrate_mcr2025_12}
+-     {identifier: migrate_mcr2025_06,      parent: migrate,            name: MCR 2024.06 ⇒ 2025.06,       weight: -98,      url: /documentation/migrate/migrate_mcr2025_06}
+-     {identifier: migrate_mcr2024_06,      parent: migrate,            name: MCR 2023.06 ⇒ 2024.06,       weight: -97,      url: /documentation/migrate/migrate_mcr2024_06}
+-     {identifier: migrate_mcr2023_06,      parent: migrate,            name: MCR 2022.06 ⇒ 2023.06,       weight: -96,      url: /documentation/migrate/migrate_mcr2023_06}
+-     {identifier: migrate_mcr2022_06,      parent: migrate,            name: MCR 2021.06 ⇒ 2022.06,       weight: -95,      url: /documentation/migrate/migrate_mcr2022_06}
+-     {identifier: migrate_mcr2021_06,      parent: migrate,            name: MCR 2020.06 ⇒ 2021.06,       weight: -94,      url: /documentation/migrate/migrate_mcr2021_06}
+-     {identifier: migrate_mcr2020_06,      parent: migrate,            name: MCR 2019.06 ⇒ 2020.06,       weight: -93,      url: /documentation/migrate/migrate_mcr2020_06}
+-     {identifier: migrate_mcr2019_06,      parent: migrate,            name: MCR 2018.06 ⇒ 2019.06,       weight: -92,      url: /documentation/migrate/migrate_mcr2019_06}
+-     {identifier: migrate_mcr2018_06,      parent: migrate,            name: MCR 2017.06 ⇒ 2018.06,       weight: -91,      url: /documentation/migrate/migrate_mcr2018_06}
+-     {identifier: migrate_solr7,           parent: migrate,            name: Solr7-Integration,           weight: -90,      url: /documentation/migrate/migrate_solr7}
 -   {identifier: developer,               parent: documentation,      name: Für Entwickler,              weight: -87,      url: /documentation/developer}
 -     {identifier: dev_eclipse,             parent: developer,          name: Entwicklungsplattformen,     weight: -99,      url: /documentation/developer/dev_eclipse}
 -     {identifier: codestyle,               parent: developer,          name: Code-Style,                  weight: -98,      url: /documentation/developer/codestyle}
