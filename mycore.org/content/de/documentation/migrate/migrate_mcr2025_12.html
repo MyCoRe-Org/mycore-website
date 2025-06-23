@@ -53,7 +53,18 @@ date: "2025-06-20"
       <h2>Neuerungen</h2>
       <h3>... die eine Migration erforderlich machen</h3>
       <ul>
-        <li> ...</li>
-        </ul>
-    </div>
+        <li>Die Methode <code>MCRAccessControlSystem#instance()</code> wurde umbenannt (siehe unten).</li>
+      </ul>
 
+      <h2>Migrationsschritte</h2>
+      <ul>
+        <li>
+          <p>
+            Im Nachgang zu den Änderungen in 2025.06 wurde nun auch die Methode <code>MCRAccessControlSystem#instance()</code> in 
+            <code>MCRAccessControlSystem#getInstance()</code> umbenannt. Die alte Methode wurde als <code>@Deprecated</code> markiert.
+            Eigener Code bleibt daher noch funktionsfähig, muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+      </ul>
+
+    </div>
