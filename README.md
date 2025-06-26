@@ -3,7 +3,7 @@
 
 ## Requirements:
  - Maven 3.5 or higher (https://maven.apache.org/download.cgi)
- - Hugo extended 0.142 (https://github.com/gohugoio/hugo/releases/tag/v0.142.0)
+ - Hugo extended 0.147.0 or later (https://github.com/gohugoio/hugo/releases/tag/v0.147.8)
 
 
 ## To start locally:
