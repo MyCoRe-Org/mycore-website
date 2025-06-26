@@ -1,38 +1,36 @@
 {{- define "main" -}}
-
 <div class="container-fluid content-box">
   <div class="row content-row">
-  <div class="col-12 col-md-3 col-xl-2 sub-menu">
-   {{- partial "side_menu.html" . -}}
-  </div>
-  <div class="col-12 col-md-9 col-xl-8 content">
+    <div class="col-12 col-md-3 col-xl-2 sub-menu">
+      {{- partial "side_menu.html" . -}}
+    </div>
+    <div class="col-12 col-md-9 col-xl-8 content">
       <div class="text-right mcr-version-box">
-      {{ range .Params.mcr_version }}
-       <span class="badge mcr-version">{{.}}</span>
-      {{ end }}
+        {{ range .Params.mcr_version }}
+          <span class="badge mcr-version">{{.}}</span>
+        {{ end }}
       </div>
       <h1>{{ .Title | markdownify }}</h1>
       <p class="mcr-description">
         {{ .Description }}
       </p>
-    {{ .Content  }}
-    {{/* Liste der Dateien im Verzeichnis static/classifications */}}  
-    <ul>
-    {{ range os.ReadDir "static/classifications" }}
-      <li>
-        <a href = '{{ (print "classifications/" .Name) | relURL }}'>{{.Name}}</a>
-      </li>
-    {{ end }}
-    </ul>
+      {{ .Content  }}
+      {{/* Liste der Dateien im Verzeichnis static/classifications */}}  
+      <ul>
+        {{ range os.ReadDir "static/classifications" }}
+          <li>
+            <a href = '{{ (print "classifications/" .Name) | relURL }}'>{{.Name}}</a>
+          </li>
+        {{ end }}
+      </ul>
     
       {{- partial "authors.html" . -}}
-  </div>
-  <div class="d-none d-xl-block col-xl-2 toc-menu">
-  {{/* commented: 
-    {{- partial "toc.html" . -}}
-  */}}  
+    </div>
+    <div class="d-none d-xl-block col-xl-2 toc-menu">
+      {{/* commented: 
+        {{- partial "toc.html" . -}}
+      */}}  
+    </div>
   </div>
 </div>
-</div>
-
 {{ end }}
