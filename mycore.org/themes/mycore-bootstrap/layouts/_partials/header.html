@@ -63,13 +63,15 @@
             {{ if (eq .Language.LanguageName $.Site.Language.LanguageName) }}
               {{ $currentLangClass = "active" }}
             {{ end }}
-            <a class="dropdown-item lang-dropdown__link {{ $currentLangClass }}"
-               href="{{ .RelPermalink }}"
-              title="{{ .Language.LanguageName }}">
-            <img src="{{relURL .Language.Params.flag}}"
-                 class="lang-dropdown__link-image" />
-              {{ .Language.LanguageName }}
-            </a>
+            {{if not (and (hugo.IsProduction) (eq .Language.Lang "io"))}}
+              <a class="dropdown-item lang-dropdown__link {{ $currentLangClass }}"
+                 href="{{ .RelPermalink }}"
+                 title="{{ .Language.LanguageName }}">
+                <img src="{{relURL .Language.Params.flag}}"
+                     class="lang-dropdown__link-image" />
+                {{ .Language.LanguageName }}
+              </a>
+            {{ end }}
           {{ end }}
         </div>
       </div>
