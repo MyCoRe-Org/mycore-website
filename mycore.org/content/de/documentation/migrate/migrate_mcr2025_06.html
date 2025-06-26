@@ -53,7 +53,220 @@ date: "2025-06-20"
       <h2>Neuerungen</h2>
       <h3>... die eine Migration erforderlich machen</h3>
       <ul>
-        <li> Bootstrap-Migration</li>
-        </ul>
+        <li>Bootstrap-Migration</li>
+        <li>
+          Das in MyCoRe verwendete Regelwerk für das zur statischen Quellcodeanalyse eingesetzte Programm PMD wurden überarbeitet.
+          Dies hat Auswirkungen auf eigene MyCoRe-Module, da viele bestehende Methoden als <code>@Deprecated</code> markiert wurden.
+          Zudem müssen die angepassten Regeln eingehalten werden, wenn man sein Projekt so konfiguriert hat, dass die für MyCoRe geltenden
+          Regeln ebenfalls eingehalten werden sollen. Insbesondere in diesem Zusammenhang wurden einige Methoden und Klassen umbenannt
+          (siehe unten).
+        </li>
+        <li>
+          Die Klasse <code>MCRSystemUserInformation</code> wurde in ein Enum umgewandelt (siehe unten).
+        </li>
+        <li>
+          Die Klasse <code>MCRResourceException</code> wurde in ein entfernt (siehe unten).
+        </li>
+        <li>
+          Bei konfigurierbare Klasseninstanzen wurde die Art und Weise, wie Factory-Methoden gefunden werden und wie
+          Maps von Properties verarbeitet werden, überarbeitet (siehe unten).</li>
+        <li>
+          Das Erstellen von Kopien von Instanzen von <code>MCRUser</code> wurde verändert (siehe unten).
+        </li>
+        <li>
+          Das Property <code>MCR.Persistence.Rule.Store_Class</code> wurde in <code>MCR.Persistence.Rule.Store.Class</code> umbenannt.
+        </li>
+      </ul>
+
+      <h2>Migrationsschritte</h2>
+      <ul>
+        <li>
+          <p>
+            Die wohl wesentlichste Änderung im Zusammenhang mit den neuen PMD-Regeln ist das Benennungsschema für Methoden,
+            die im weitesten Sinne als <a href="https://de.wikipedia.org/wiki/Fabrikmethode#%E2%80%9EStatic_Factory_Method%E2%80%9C">"statische Factory-Methoden"</a>
+            aufgefasst werden können (also nicht zwingend nach der GoF-Definition). Dies sind statische Methoden, die ein Objekt vom Typ ihrer
+            umschließenden Klasse zurückliefern.
+          </p>
+          <p>
+            Insbesondere die zahlreichen Zugriffsmethoden für Singleton-Instanzen fallen in diese
+            Kategorie. Diese hießen bisher zumeist <code>instance()</code> oder <code>getInstance()</code>. Zugleich gab es bisher viele
+            Methode mit Namen <code>getInstance()</code>, die keine Zugriffsmethoden für Singleton-Instanzen waren. PMD verschreibt jedoch,
+            dass der Name <code>getInstance()</code> ausschließlich für Zugriffsmethoden für Singleton-Instanzen zu verwenden ist.
+          </p>
+          <p>
+            Für MyCoRe wurde das folgende Benennungsschema definiert:
+          </p>
+          <ul>
+            <li>
+              <code>getInstance()</code>: Zugriffsmethode für Singleton-Instanz
+            </li>
+            <li>
+              <code>createInstance()</code>, <code>createInstance(...)</code>: Methode die garantiert eine neue Instanz zurückliefert
+            </li>
+            <li>
+              <code>obtainInstance()</code>, <code>obtainInstance(...)</code>: Methode die nicht unbedingt eine neue Instanz zurückliefert
+            </li>
+            <li>
+              <code>of()</code>, <code>ofXXX()</code>, <code>of(...)</code>, <code>ofXXX(...)</code>: Fabrikmethode für 
+              <a href="https://de.wikipedia.org/wiki/Value_Object">"Value-artige"</a> Klassen (neuerdings jedoch eher als <code>record</code> implementiert).
+            </li>
+            <li>
+              <code>fromXXX(...)</code>: Fabrikmethode für Enums und "Enum-artige" Klassen.
+            </li>
+          </ul>
+          <br/>
+          <p>
+            Der Name <code>createInstance</code> wird nur verwendet, wenn die Eigenschaft, dass bei jedem Aufruf garantiert eine neue Instanz erzeugt wird, 
+            für den aufrufenden Code von Bedeutung ist. Andernfalls wird der Name <code>obtainInstance</code> verwendet. Letzterer sollte daher bevorzugt werden,
+            auch wenn die aktuelle Implementierung jedes Mal eine neue Instanz erzeugt. Dies lässt zukünftige Änderungen (z.B. Caching der erzeugten Instanzen) zu.
+          </p>
+          <p>
+            Alle Methoden, die diesem Benennungsschema nicht gerecht wurden, wurden umbenannt.
+            Zudem wurde jeweils eine weitere Methode mit dem alten Namen hinzugefügt und als <code>@Deprecated</code> markiert.
+            Im Kommentar zur Methode wird jeweils auf die nun zu verwendende Methode hingewiesen. Eigener Code bleibt daher noch funktionsfähig, 
+            muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+          <p>
+            In wenigen Fällen wurden für Fabrikmethoden auch semantische Bezeichnungen wie <code>now()</code> oder <code>parseXml()</code> beibehalten
+            oder die Fabrikmethode durch einen entsprechenden Konstruktor ersetzt.
+          </p>
+        </li>
+        <li>
+          <p>
+            Mit der Umstellung der PMD Regeln werden nun alle serialisierbaren Klassen wie folgendermaßen gekennzeichnet:
+           {{< highlight java "linenos=table">}}
+@Serial
+private static final long serialVersionUID = 1L;{{< /highlight >}}
+            Dies muss in eigenen Klassen ebenfalls umgestellt werden wenn man sein Projekt so konfiguriert hat, dass die für MyCoRe geltenden
+            Regeln ebenfalls eingehalten werden sollen.
+          </p>
+        </li>
+        <li>
+          <p>
+            Mit der Umstellung der PMD Regeln werden nun alle Logger folgendermaßen erstellt:
+            {{< highlight java "linenos=table">}}
+ private static final Logger LOGGER = LogManager.getLogger();{{< /highlight >}}
+          </p>
+          <p>
+            Einzig in abstrakten Klassen ist auch folgende Variante erlaubt und bei neuem Code bevorzugt zu verwenden:
+            {{< highlight java "linenos=table">}}
+ protected final Logger logger = LogManager.getLogger(getClass());{{< /highlight >}}
+            Dies muss in eigenen Klassen ebenfalls umgestellt werden, wenn man sein Projekt so konfiguriert hat, dass die für MyCoRe geltenden
+            Regeln ebenfalls eingehalten werden sollen.
+          </p>
+        </li>
+        <li>
+          <p>
+            Unabhängig von den PMD-Regeln wurden die folgenden Methoden umbenannt oder minimal modifiziert:
+          </p>
+          <ul>
+            <li><code>MCRMetaHistoryItem#getInternalid()</code> ⮕ <code>MCRMetaHistoryItem#getInternalId()</code></li>
+            <li><code>MCRMetaHistoryItem#setInternalid(long)</code> ⮕ <code>MCRMetaHistoryItem#setInternalId(long)</code></li>
+            <li><code>MCRMetaHistoryItem#createdNow(MCRObjectId)</code> ⮕ <code>MCRMetaHistoryItem#now(MCRObjectId, MCRMetadataHistoryEventType)</code></li>
+            <li><code>MCRMetaHistoryItem#deletedNow(MCRObjectId)</code> ⮕ <code>MCRMetaHistoryItem#now(MCRObjectId, MCRMetadataHistoryEventType)</code></li>
+            <li><code>MCRConfiguration2#getInstances(String)</code> ⮕ <code>MCRConfiguration2#getInstance(Class, String)</code></li>
+            <li><code>MCRConfiguration2#instantiateClass(String)</code> ⮕ <code>MCRConfiguration2#instantiateClass(Class, String)</code></li>
+            <li><code>MCRConfigurableInstanceHelper#getInstance(String)</code> ⮕ <code>MCRConfigurableInstanceHelper#getInstance(Class, String)</code></li>
+            <li><code>MCRConfigurableInstanceHelper#getInstance(MCRInstanceConfiguration)</code> ⮕ <code>MCRConfigurableInstanceHelper#getInstance(MCRInstanceConfiguration, String)</code></li>
+            <li><code>MCRAccessException#missingPrivilege(...)</code> ⮕ <code>MCRMissingPrivilegeException#new(...)</code></li>
+            <li><code>MCRAccessException#missingPermission(...)</code> ⮕ <code>MCRMissingPermissionException#new(...)</code></li>
+            <li><code>MCRUser#getPassword()</code> ⮕ <code>MCRUser#getHash()</code></li>
+            <li><code>MCRUser#setPassword(String)</code> ⮕ <code>MCRUser#setHash(String)</code></li>
+            <li><code>MCRUser#getEMailAddress()</code> ⮕ <code>MCRUser#getEMail()</code></li>
+            <li><code>MCRPersistenceHelper#getWebPage(ServletContext, String, String)</code> ⮕ <code>MCRPersistenceHelper#getWebPage(String, String)</code></li>
+          </ul>
+          <br/>
+          <p>
+            Es wurde jeweils eine weitere Methode mit dem alten Namen hinzugefügt und als <code>@Deprecated</code> markiert.
+            Im Kommentar zur Methode wird jeweils auf die nun zu verwendende Methode hingewiesen. Eigener Code bleibt daher noch funktionsfähig,
+            muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Die Klasse <code>MCRSystemUserInformation</code> wurde in ein Enum umgewandelt. Folgende Methoden wurden dabei durch Enum-Konstanten ersetzt:
+          </p>
+          <ul>
+            <li><code>MCRSystemUserInformation#getGuestInstance()</code> ⮕ <code>MCRSystemUserInformation#GUEST</code></li>
+            <li><code>MCRSystemUserInformation#getJanitorInstance()</code> ⮕ <code>MCRSystemUserInformation#JANITOR</code></li>
+            <li><code>MCRSystemUserInformation#getSystemInstance()</code> ⮕ <code>MCRSystemUserInformation#SYSTEM_USER</code></li>
+            <li><code>MCRSystemUserInformation#getSuperUserInstance()</code> ⮕ <code>MCRSystemUserInformation#SUPER_USER</code></li>
+          </ul>
+          <br/>
+          <p>
+            Die bestehenden Methoden wurden jeweils beibehalten und als <code>@Deprecated</code> markiert.
+            Im Kommentar zur Methode wird jeweils auf die nun zu verwendende Konstante hingewiesen. Eigener Code bleibt daher noch funktionsfähig,
+            muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Unabhängig von den PMD-Regeln wurden die folgenden Klassen umbenannt:
+          </p>
+          <ul>
+            <li><code>MCRDefaultXMLMetadataManager</code> ⮕ <code>MCRDefaultXMLMetadataManagerAdapter</code></li>
+            <li><code>MCRGZIPOCFLXMLMetadataManager</code> ⮕ <code>MCRGZIPOCFLXMLMetadataManagerAdapter</code></li>
+            <li><code>MCROCFLXMLMetadataManager</code> ⮕ <code>MCROCFLXMLMetadataManagerAdapter</code></li>
+            <li><code>MCRSolrBasicPropertyAuthentication</code> ⮕ <code>MCRSolrPropertyBasicAuthenticator</code></li>
+          </ul>
+          <br/>
+          <p>
+            Es wurde jeweils eine weitere Klasse mit dem alten Namen hinzugefügt und als <code>@Deprecated</code> markiert.
+            Im Kommentar zur Klasse wird jeweils auf die nun zu verwendende Klasse hingewiesen. Eigener Code bleibt daher noch funktionsfähig,
+            muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Beim Instanziieren von konfigurierbaren Klasseninstanzen kann in einer betroffenen Klasse eine Factory-Methode definiert werden.
+            Wenn eine solche Methode gefunden wird, wird diese Methode verwendet, um die Instanz zu erstellen, die anschließend mit aus der
+            Konfiguration entnommenen Werten befüllt wird. Bisher wurde als Factory-Methode diejenige Methode innerhalb der betroffenen
+            Klasse verwendet, die <code>public</code> ist, <code>static</code> ist,  parameterlos ist, einen passenden Rückgabewert hat und
+            deren Namen, unabhängig von der Groß- und Kleinschreibung das Wort <code>instance</code> beinhaltet. Es darf in diesem Fall keinen
+            parameterlosen öffentlichen Konstruktor geben.
+          </p>
+          <p>
+            Dieser Mechanismus wird in der nächsten MyCoRe-Version entfernt. Eine angedachte Factory-Methode muss stattdessen mit
+            <code>@MCRFactory</code> gekennzeichnet werden. In diesem Fall ist der Name egal und die Methode wird einem etwaigem parameterlosen
+            öffentlichen Konstruktor bevorzugt. In 2025.06 wird bei Verwendung des alten Mechanismus eine Warnung geloggt. Eigener Code bleibt
+            daher noch funktionsfähig, muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Beim Instanziieren von konfigurierbaren Klasseninstanzen kann ein Feld bisher mit einer <code>Map&lt;String, String&gt;</code>
+            befüllt werden (oder einer entsprechenden Methode übergeben werden), wenn diese mit <code>@MCRInstance("*")</code> oder
+            <code>@MCRInstance("Foo.Bar.*")</code> gekennzeichnet ist.
+          </p>
+          <p>
+            Dieser Mechanismus wird in der nächsten MyCoRe-Version entfernt. Ein solches Feld (oder eine solche Methode) dann stattdessen mit
+            <code>@MCRRawProperties("*")</code> oder <code>@MCRRawProperties("Foo.Bar.*")</code> gekennzeichnet werden. In 2025.06 wird bei
+            Verwendung des alten Mechanismus eine Warnung geloggt. Eigener Code bleibt daher noch funktionsfähig, muss aber vor der Verwendung
+            der nächsten MyCoRe-Version umgestellt werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Die Klasse <code>MCRResourceException</code> wurde entfernt. Methoden, die bisher derartige Ausnahmen geworfen haben, 
+            werfen nun <code>MCRResourcePath.IllegalPathException</code>; eine Subklasse von <code>IllegalArgumentException</code>.
+            Einer Instanz einer solchen Ausnahme kann mit <code>MCRResourcePath.IllegalPathException#code</code> der 
+            Grund für die Ausnahme entnommen werden.
+          </p>
+        </li>
+        <li>
+          <p>
+            Mit <a href="https://mycore.atlassian.net/browse/MCR-3273">MCR-3273</a> wurde u.A. die verschiedenen Methoden von <code>MCRUser</code>
+            zum Erstellen von Kopien (<code>clone</code>, <code>getBasicCopy</code>, <code>getSafeCopy</code>, <code>getFullCopy</code>) überarbeitet.
+            Enthaltenen <code>owner</code> werden nun nach demselben Kriterium kopiert. Eine "sichere Kopie" (u.A. ohne Zugangsinformationen) beinhaltet
+            nicht mehr die Zugangsinformationen des besitzenden Nutzers. Die jetzt umgesetzten Regeln lassen sich am besten
+            <code>MCRUserCopyTest</code> entnehmen. Eigener Code muss gegebenenfalls angepasst werden.
+          </p>
+          <p>
+            Instanzen von <code>MCRTransientUser</code> können nun nicht mehr geklont werden. Stattdessen kann die Methode <code>getPersistableCopy</code>
+            verwendet werden. Eigener Code muss gegebenenfalls angepasst werden.
+          </p>
+        </li>
+      </ul>
+
     </div>
 
