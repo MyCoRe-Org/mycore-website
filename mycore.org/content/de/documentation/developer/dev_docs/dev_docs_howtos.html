@@ -219,7 +219,19 @@ HTML-Seite ausblenden, oder Anmerkungen hinzufügen.
 
 
 <h2>Tipps und Tricks</h2>
-<h3>Hugo</h3>
+<h3>Redirects mit <code>/forward</code></h3>
+<p>
+Unter dem URL-Pfad <code>/forward</code> können wir Kurz-Links zu externen Webseiten mit MyCoRe-Bezug bereitstellen.<br />
+Zum Beispiel um sprechende Links für einzelne Seiten in unserem Wiki zu publizieren.
+</p>
+<p>
+  Dazu muss im Ordner <code>forward</code> eine Markdown-Datei mit folgendem Header abgelegt werden:
+{{< highlight text>}}---
+redirect_label: Festkolloqium 25 Jahre MyCoRe (im MyCoRe Wiki)
+redirect_url: https://mycore.atlassian.net/wiki/external/YWI2ZGI3NTZmMWVlNDE3NTkwODIyY2FjYmU1NWRkNmE
+---
+{{</highlight>}}
+</p>
 
 <h3>MarkDown</h3>
 <h5>"Im Notfall: HTML"</h5>
