@@ -2,6 +2,7 @@
 baseURL: "/"
 canonifyURLs: true
 theme: "mycore-bootstrap"
+enableGitInfo: true
 
 pygmentsUseClasses: true
 
