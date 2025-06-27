@@ -4,5 +4,7 @@
   <span class="badge badge-info">Hugo Environment: <strong class="font-weight-bold">{{hugo.Environment}} </strong></span>
   <span class="badge badge-warning">Kind of Page: <strong class="font-weight-bold">{{.Kind}} </strong></span>
   <span class="badge badge-warning">Template: <strong class="font-weight-bold">{{templates.Current.Parent.Name}}</strong></span>
+  <span class="badge badge-secondary">Git Lastmod: <strong class="font-weight-bold">{{strings.Substr .GitInfo.AuthorDate 0 10 }}</strong></span>
+  <span class="badge badge-secondary">Git Hash: <strong class="font-weight-bold">{{ .GitInfo.AbbreviatedHash }}</strong></span>
 </div>
 {{ end }}
