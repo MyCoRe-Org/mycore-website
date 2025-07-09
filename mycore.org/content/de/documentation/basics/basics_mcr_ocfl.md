@@ -15,7 +15,7 @@ Die Implementierung in MyCoRe wurde mit Hilfe der [Java OCFL Libary](https://git
 
 *   **Seit {{< mcr-version "2021.11" >}}:** Speicherung von **Objekt- und Klassifikations-Metadaten** im OCFL-Storage-Layout (Beta).
 *   **Seit {{< mcr-version "2022.06" >}}:** Erweiterung um **Nutzerdaten**-Speicherung.
-*   **Seit {{< mcr-version "2025.02" >}} (ca.):** Integration eines **NIO.2 FileSystem Providers** (`ocfl://`), welcher es ermöglicht, **Derivat-Inhalte (Dateien und Verzeichnisse)** direkt im OCFL-Repository über Standard-Java-IO/NIO-Operationen transaktional zu verwalten. Unterstützung für **S3-kompatiblen Objektspeicher** als Backend wurde hinzugefügt.
+*   **Seit {{< mcr-version "2025.12" >}} (ca.):** Integration eines **NIO.2 FileSystem Providers** (`ocfl://`), welcher es ermöglicht, **Derivat-Inhalte (Dateien und Verzeichnisse)** direkt im OCFL-Repository über Standard-Java-IO/NIO-Operationen transaktional zu verwalten. Unterstützung für **S3-kompatiblen Objektspeicher** als Backend wurde hinzugefügt.
 
 ACLs und Web-Seiten können aktuell noch nicht über dieses Modul versioniert werden.
 
@@ -309,73 +309,114 @@ MCR.Users.Manager.Repository=Main
 MCR.EventHandler.MCRUser.020.Class=org.mycore.ocfl.user.MCROCFLUserEventHandler
 ```
 
-## Versionierung von Derivat-Inhalten (Neu)
+## Versionierung von Derivat-Inhalten (NIO.2 FileSystem)
 
-Mit der Einführung des NIO.2 FileSystem Providers können nun auch die Inhalte von Derivaten (Dateien und Verzeichnisse) direkt im OCFL-Repository versioniert werden. Dies ersetzt potenziell ältere Speichermechanismen wie IFS2.
+Mit der Einführung des NIO.2 FileSystem Providers (`ocfl://`) können nun auch die Inhalte von Derivaten (Dateien und Verzeichnisse) direkt im OCFL-Repository versioniert werden. Dies bietet eine moderne, transaktionssichere und versionierte Alternative zu älteren Speichermechanismen wie IFS2.
 
 ### Konfiguration
 
-Die Verwaltung der Derivat-Inhalte über OCFL wird aktiviert, indem das Standard-Dateisystem von MyCoRe auf OCFL gesetzt und das zugehörige Repository konfiguriert wird:
+Die Verwaltung der Derivat-Inhalte über OCFL wird aktiviert, indem das Standard-Dateisystem von MyCoRe auf `ocfl` gesetzt und das zugehörige Repository konfiguriert wird:
 
 ```properties {linenos=table}
 # Setzt OCFL als Standard-Dateisystem für Derivat-Inhalte
 MCR.NIO.DefaultScheme=ocfl
 
-# Definiert, welches OCFL Repository für Inhalte genutzt wird (z.B. "Main")
-# Dieses Repository muss natürlich oben unter MCR.OCFL.Repository.Main konfiguriert sein.
+# Definiert, welches OCFL Repository für Inhalte genutzt wird (z.B. "Main").
+# Dieses Repository muss unter MCR.OCFL.Repository.Main konfiguriert sein.
 MCR.Content.Manager.Repository=Main
 ```
 
-Weiterhin muss ein Lokaler Speicher definiert werden. Dieser unterscheidet sich je nachdem ob ein lokales oder ein
-remote Repository eingesetzt wird.
+Für den Betrieb sind temporäre Speicherbereiche notwendig, deren Konfiguration sich je nach Repository-Typ (lokal vs. remote) unterscheidet.
 
-#### Lokales Repository
-In einem lokalen OCFL Repository wird der temporäre Speicher nur für Transaktions-Dateien verwendet. Dateioperationen
-werden grundsätzlich in einer OCFL-Transaktion zusammengefasst. Diese Dateien werden lokal abgelegt bevor sie zu OCFL
-committed werden.
+#### Transaktionaler Speicher (für alle Repository-Typen)
+
+Unabhängig vom Repository-Typ wird ein **transaktionaler Speicher** benötigt. Alle schreibenden Dateioperationen (Erstellen, Ändern, Löschen) werden zunächst in diesem lokalen Verzeichnis zwischengespeichert. Erst beim erfolgreichen Commit der MyCoRe-Transaktion werden die Änderungen atomar in das OCFL-Repository übernommen.
+
 ```properties {linenos=table}
-MCR.Content.TempStorage=org.mycore.ocfl.niofs.storage.MCROCFLLocalFileStorage
-MCR.Content.TempStorage.Path=%MCR.datadir%/ocfl-temp-storage
+# Konfiguration des transaktionalen Speichers
+MCR.Content.TransactionalStorage=org.mycore.ocfl.niofs.storage.MCROCFLDefaultTransactionalStorage
+MCR.Content.TransactionalStorage.Path=%MCR.datadir%/ocfl-storage/transactional
 ```
 
-#### Remote Repository
-Ein remote Repository verwendet zusätzlich zum Transaktions-Cache noch ein Rolling-File-Cache. Dieser ermöglicht
-einen schnellen Zugriff auf oft verwendete Dateien, weil diese lokal vorgehalten werden.
-```properties {linenos=table}
-MCR.Content.TempStorage=org.mycore.ocfl.niofs.storage.MCROCFLRemoteFileStorage
-MCR.Content.TempStorage.Path=%MCR.datadir%/ocfl-temp-storage
+#### Zusätzlicher Cache für Remote-Repositories
 
-# Strategie zur Bereinigung des Rolling Cache Speichers (Beispiele):
-# Nie bereinigen (Standard):
-MCR.Content.TempStorage.EvictionStrategy=org.mycore.ocfl.niofs.storage.MCROCFLNeverEvictStrategy
-# Nach Größe bereinigen (z.B. max 1 GB):
-# MCR.Content.TempStorage.EvictionStrategy=org.mycore.ocfl.niofs.storage.MCROCFLMaxSizeEvictionStrategy
-# MCR.Content.TempStorage.EvictionStrategy.MaxSize=1000 # in MB
+Bei der Verwendung eines Remote-Repositories (z.B. S3) wird *zusätzlich* ein temporärer Cache für Lesezugriffe empfohlen. Dieser "Remote-Cache" speichert heruntergeladene Dateien lokal, um wiederholte, langsame Netzwerkzugriffe zu vermeiden.
+
+```properties {linenos=table}
+# Konfiguration des Caches für Remote-Repositories
+MCR.Content.RemoteStorage=org.mycore.ocfl.niofs.storage.MCROCFLDefaultRemoteTemporaryStorage
+MCR.Content.RemoteStorage.Path=%MCR.datadir%/ocfl-storage/remote
+```
+
+Die Basisimplementierung `MCROCFLDefaultRemoteTemporaryStorage` ist ein intelligenter lokaler Cache, der als **Content-Addressable Storage (CAS)** arbeitet. Dateien werden nicht unter ihrem Pfad, sondern unter ihrem SHA-512-Digest gespeichert. Dies sorgt für eine automatische Deduplizierung: Eine Datei mit identischem Inhalt wird nur einmal lokal vorgehalten, selbst wenn sie in verschiedenen Derivaten vorkommt.
+
+**Eviction-Strategien:**
+
+Da der lokale Speicherplatz begrenzt ist, muss eine Strategie festgelegt werden, wann und wie alte Dateien aus dem Cache entfernt werden (`eviction`).
+
+*   **`MCROCFLNeverEvictStrategy` (Standard):** Der Cache wird niemals automatisch bereinigt. Dies ist sicher, kann aber dazu führen, dass der Speicherplatz vollläuft.
+*   **`MCROCFLMaxSizeEvictionStrategy`:** Der Cache wird bereinigt, sobald er eine konfigurierte Maximalgröße überschreitet. Dabei werden die am längsten nicht mehr genutzten Dateien (LRU-Prinzip) zuerst entfernt.
+
+**Beispielkonfiguration:**
+```properties
+# Aktiviert den Cache für Remote-Dateien
+MCR.Content.RemoteStorage=org.mycore.ocfl.niofs.storage.MCROCFLDefaultRemoteTemporaryStorage
+MCR.Content.RemoteStorage.Path=%MCR.datadir%/ocfl-storage/remote
+
+# Strategie: Bereinigung bei Überschreitung von 1 GB
+MCR.Content.RemoteStorage.EvictionStrategy=org.mycore.ocfl.niofs.storage.MCROCFLMaxSizeEvictionStrategy
+MCR.Content.RemoteStorage.EvictionStrategy.MaxSize=1000 # Größe in Megabyte (MB)
+```
+
+**Journaling und Wartung des Caches:**
+
+Um nach einem Neustart der Anwendung den Zustand des Caches schnell wiederherstellen zu können, ohne alle Dateien neu prüfen zu müssen, wird ein **Journal** (`cache.journal`) geführt. Jede Aktion (Hinzufügen, Löschen, Lesezugriff) wird protokolliert.
+
+Mit der Zeit kann dieses Journal sehr groß werden, was den Startvorgang verlangsamt. Daher sollte es regelmäßig komprimiert werden.
+
+**Kompirmierungs-Befehl:**
+
+Der Befehl `compact ocfl remote storage journal` liest den aktuellen Zustand des Caches und schreibt ein neues, sauberes Journal.
+
+**Automatisierung per Cronjob:**
+
+Es wird empfohlen, die Komprimierung regelmäßig (z.B. nächtlich) per Cronjob auszuführen.
+
+```properties
+# Cronjob zur Komprimierung des Remote-Cache-Journals
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal=org.mycore.mcr.cronjob.MCRCommandCronJob
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Command=compact ocfl remote storage journal
+MCR.Cronjob.Jobs.CompactRemoteStorage_Journal.Cron=0 2 * * * # Täglich um 2 Uhr morgens
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal.User=system:JANITOR
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Enabled=true
 ```
 
 ### Nutzung
 
-Nach der Konfiguration können Dateien und Verzeichnisse in Derivaten über die Standard-Java-NIO.2-API (`java.nio.file.*`) oder die MyCoRe-spezifische `MCRPath`-API zugegriffen und bearbeitet werden. Das `ocfl`-Schema wird verwendet:
+Nach der Konfiguration können Dateien und Verzeichnisse in Derivaten über die Standard-Java-NIO.2-API (`java.nio.file.*`) oder die MyCoRe-spezifische `MCRPath`-API zugegriffen und bearbeitet werden. Das `ocfl`-Schema wird hierfür verwendet:
 
 ```java {linenos=table}
-import java.nio.file.Path;
+import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import org.mycore.datamodel.niofs.MCRPath;
 
-// Beispiel mit MCRPath (wenn MCR.NIO.DefaultScheme=ocfl)
-Path filePath = MCRPath.getPath("myDerivateID_00000001", "/path/to/myFile.txt");
-Files.createDirectories(filePath.getParent());
+public void manageFile() throws IOException {
+    // Beispiel mit MCRPath (wenn MCR.NIO.DefaultScheme=ocfl)
+    Path filePath = MCRPath.getPath("myDerivateID_00000001", "/path/to/myFile.txt");
+    Files.createDirectories(filePath.getParent());
     Files.writeString(filePath, "Hello OCFL!");
     byte[] content = Files.readAllBytes(filePath);
 
     // Beispiel mit Standard NIO.2 Path und explizitem Schema
     URI fileUri = URI.create("ocfl:///myDerivateID_00000001/path/to/myFile.txt");
     Path filePathNIO = Path.of(fileUri);
-Files.writeString(filePathNIO, "Hello again!");
+    Files.writeString(filePathNIO, "Hello again!");
+}
 ```
 
-Alle Schreiboperationen (Erstellen, Schreiben, Löschen, Verschieben) innerhalb einer MyCoRe-Transaktion werden im `TempStorage` gepuffert und erst beim Commit der Transaktion (`MCRTransactionManager.commitTransactions()`) atomar in das OCFL-Repository geschrieben. Dies gewährleistet Konsistenz auch bei Fehlern.
-
+Alle Schreiboperationen (Erstellen, Schreiben, Löschen, Verschieben) innerhalb einer MyCoRe-Transaktion werden im **transaktionalen Speicher** gepuffert. Erst beim Commit der Transaktion (`MCRTransactionManager.commitTransactions()`) werden diese Änderungen in einer neuen OCFL-Version im Ziel-Repository festgeschrieben. Dies gewährleistet Konsistenz und atomare Operationen.
 ## Optionen für das Löschen
 
 Werden Daten im OCFL gelöscht, so werden sie per default nur als gelöscht markiert (logisches Löschen). Ältere Versionen können erstmal per default noch eingesehen werden.
