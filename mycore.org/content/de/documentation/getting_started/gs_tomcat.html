@@ -1,0 +1,68 @@
+---
+
+title: "MyCoRe und Apache Tomcat"
+mcr_version: ['2024.06', '2025.06']
+author: ['Robert Stephan']
+description: "
+      MyCoRe-Anwendungen benötigen einen Webserver (Servlet-Container), 
+      der Java-Webanwendungen ausführt und HTTP-Anfragen verarbeitet.
+      Insbesondere für den produktiven Einsatz wird dazu die Open-Source-Software Apache Tomcat empfohlen.
+    "
+date: "2025-07-23"
+
+---
+  <div>
+    <h2>Installation</h2>
+    <p>
+      Für den Betrieb einer MyCoRe-Awendung wird eine Tomcat-Version benötigt, die die darin verwendete Version der
+      <a href="https://jakarta.ee/specifications/servlet/">Jakarta Servlet Spezifikation</a> unterstützt. 
+      Eine Übersicht zu verschiedenen Tomcat Versionen befindet sich <a href="https://tomcat.apache.org/whichversion.html">hier</a>.
+      <br>MyCoRe-Anwendungen, die auf MyCoRe  {{<mcr-version "2025.06" >}} basieren, nutzen Servlet Spec <code>6.0</code> und benötigen deshalb einen Tomcat <code>10.1.x</code>.
+    </p>
+    <p>Im MyCoRe-Blog-Artikel  <a href="{{<ref "2023-11-07_tomcat_10_installation_konfiguration" >}}">&quot;Tomcat1 10.1 Installation und Konfiguration&quot;</a>
+      werden wesentliche Aspekte der Installation (Download, Konfiguration der <code>server.xml</code>, Systemd-Skript, Logging) ausführlich beschrieben.
+    </p>  
+  </div>
+
+  <div>
+    <h2>Konfiguration</h2>
+    <p>
+    Im folgenden Abschnitt werden Besonderheiten beim Betrieb eines Tomcat-Servers für MyCoRe-Anwendungen aufgeführt.
+    </p>
+    <h3>AJP-Connector in der <code>server.xml</code></h3>
+    <p>
+    Im Produktivbetrieb empfehlen wir, für die Kommunikation zwischen Tomcat-Server und vorgeschaltetem Proxy-Server (Apache2, Nginx)
+    den Einsatz des <a href="https://tomcat.apache.org/tomcat-10.1-doc/config/ajp.html">AJP-Connectors</a>.
+    Einige Parameter müssen angepasst werden:
+    </p>
+    <h4><code>encodedSolidusHandling</code></h4>
+    <p>
+    Mit diesem Parameter wird das Verhalten des Webservers bei der Verarbeitung von prozent-codierten Schrägstrichen im URL-Pfad konfiguriert.
+    Da beispielsweise in der IIIF-API Identifikatoren auftreten können, die einen Dateipfad enthalten, ist eine korrekte Behandlung
+    dieses Phänomens notwendig.
+    <br>Das Attribute muss auf <code>encodedSolidusHandling="decode"</code> gesetzt werden.
+    </p>
+    <h4><code>maxParameterCount</code> und <code>maxPartCount</code></h4>
+    <p>
+    Mit den letzten Tomcat-Minor-Releases (10.1.42, 10.1.43) wurden die Default-Werte für diese Parameter reduziert.
+    Damit die Such- und Eingabemasken in MyCoRe weiterhin funktionieren, müssen die Werte jetzt explizit überschrieben werden.
+    <br>Empfohlen sind: <code>maxParameterCount="100"</code> und <code>maxPartCount="10"</code>. 
+    </p>
+    <h4><code>packetSize</code></h4>
+    <p>
+    Dieser Parameter definiert die maximale Paketgröße bei der Kommunikation zwischen Webserver und vorgeschaltetem Proxy.
+    Der Defaultwert ist zu gering und es wird empfohlen hier den Maximalwert zu verwenden. Dabei ist zu beachten,
+    das in der Konfiguration des Proxy-Servers (Apache2, Nginx) der selbe Wert gesetzt wird.
+    <br>Empfohlen ist: <code>packetSize="65536"</code>.
+    </p> 
+    <p> Es folgt eine Beispiel-Konfiguration für den AJP-Connector:
+    {{< mcr-figure label="Konfiguration" caption="<code>server.xml</code>">}}
+    {{< highlight xml "linenos=table" >}}
+    <Connector protocol="AJP/1.3" packetSize="65536" maxParameterCount="100" maxPartCount="10" tomcatAuthentication="false"
+       scheme="https" secretRequired="false" allowedRequestAttributesPattern=".*"
+       encodedSolidusHandling="decode" address="0.0.0.0" port="8009" redirectPort="8443" />
+    {{< /highlight >}} 
+    {{< /mcr-figure >}}
+    </p>
+  </div>
+  
