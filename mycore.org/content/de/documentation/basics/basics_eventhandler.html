@@ -73,6 +73,12 @@ date: "2021-09-02"
       Code-Stelle einbauen und ihm ein von Ihnen definiertes Ereignis übergeben. Diese Komponente ist allgemein
       verwendbar und nicht auf das MyCoRe-Datenmodell festgelegt.
       </p>
+      <p>
+       Für die Event-Typen Anlage und Update (create, update, repair) werden die EventHandler nach Konfiguration
+       in aufsteigender Reihenfolge abgearbeitet. Wenn ein Löschen-Ereignis ausgelöst wird, werden die EventHandler
+       jedoch in umgekehrter Reihenfolge aufgerufen (höchste Nummer zuerst). Damit wird sichergestellt, dass
+       Strukturen in umgekehrter Reihenfolge abgebaut werden, als sie zuvor aufgebaut wurden.
+      </p>
      </div>
 
      <div>
