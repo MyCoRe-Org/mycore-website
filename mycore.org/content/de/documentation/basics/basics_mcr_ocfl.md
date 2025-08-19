@@ -228,14 +228,18 @@ Um einen S3-kompatiblen Speicher zu nutzen, muss der entsprechende Provider konf
 MCR.OCFL.Repository.Main=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider
 
 # S3 Konfiguration
-MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp # Lokaler Arbeitsordner bleibt nötig
+MCR.OCFL.Repository.Main.S3=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3Settings
 MCR.OCFL.Repository.Main.S3.Endpoint=http://your-s3-endpoint:9000
-MCR.OCFL.Repository.Main.S3.Bucket=mycore-ocfl-bucket
-MCR.OCFL.Repository.Main.S3.RepoPrefix=mycore-repo # Optionaler Präfix im Bucket
+MCR.OCFL.Repository.Main.S3.Bucket=mycore-ocfl
+# TODO -> why this? shouldn't be dependend on content
+MCR.OCFL.Repository.Main.S3.RepoPrefix=%MCR.Content.Manager.Repository%
+
+MCR.OCFL.Repository.Main.S3.Credentials=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3CredentialSettings
 MCR.OCFL.Repository.Main.S3.Credentials.AccessKeyId=ACCESS_KEY
 MCR.OCFL.Repository.Main.S3.Credentials.SecretAccessKey=SECRET_KEY
 
 # Optionale S3 Client-Einstellungen (Timeouts in Sekunden, Parallelität)
+# MCR.OCFL.Repository.Main.S3.Client=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3ClientSettings
 # MCR.OCFL.Repository.Main.S3.Client.ConnectionAcquisitionTimeout=60
 # MCR.OCFL.Repository.Main.S3.Client.WriteTimeout=120
 # MCR.OCFL.Repository.Main.S3.Client.ReadTimeout=60
