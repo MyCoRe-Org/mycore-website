@@ -60,6 +60,63 @@ date: "2025-06-20"
       <ul>
         <li>
           <p>
+            Bei allen MyCoRe-Modulen wurden die Tests von JUnit 4 auf JUnit 5 umgestellt.
+            Die Unterstützung für JUnit 4 wurde entfernt. Dementsprechend sind auch die Test-Basisklassen
+            <code>MCRTestCase</code>, <code>MCRJPATestCase</code> und <code>MCRStoreTestCase</code> entfernt worden.
+            Wer in eigenen Modulen JUnit 4 Test hat, muss diese entsprechend anpassen.
+          </p>
+          <ul>
+            <li>
+              Statt <code>MCRTestCase</code> zu erweitern, kann die Annotation <code>@MyCoReTest</code> verwendet werden.
+            </li>
+            <li>
+              Statt <code>MCRJPATestCase</code> zu erweitern, kann zusätzlich zu <code>@MyCoReTest</code> die Annotation
+              <code>@ExtendWith(MCRJPAExtension.class)</code> verwendet werden. Für einige Methoden der entfallenen Test-Basisklasse
+              gibt es Ersatz in der Hilfsklasse <code>MCRJPATestHelper</code> (z.B. <code>beginTransaction</code> und
+              <code>endTransaction</code>).
+            </li>
+            <li>
+              Statt <code>MCRStoreTestCase</code> zu erweitern, kann je nach Funktionsbedarf zusätzlich zu <code>@MyCoReTest</code> die Annotation<br/>
+              <code>@ExtendWith(MCRStoreExtension.class)</code> oder <code>@ExtendWith({MCRJPATestExtension, MCRStoreExtension.class})</code><br/>
+              verwendet werden.
+            </li>
+          </ul>
+          <br/>
+          <p>
+            Statt <code>getTestProperties()</code> zu überschreiben, kann mit <code>@MCRTestConfiguration</code>
+            oder, wenn die Werte dynamisch sind, direkt mit <code>MCRConfiguration2#set</code> gearbeitet werden.
+          </p>
+          <p>
+            Bestehende <code>setUp</code>- und <code>tearDown</code>-Methoden können erhalten bleiben, müssen aber als
+            <code>static</code> markiert werden und mit <code>@BeforeAll</code> bzw. <code>@AfterAll</code> annotiert werden.
+            Der Aufruf der jeweiligen Super-Methode sowie eine ggf. vorhandene <code>@Override</code>-Annotation können
+            ersatzlos entfernt werden.
+          </p>
+          <p>
+            Wer seine JUnit 4 Tests nicht während der Migration umstellen möchte, kann vorerst auch das neue Modul
+            <code>mycore-junit4</code> einbinden und die Migration später durchführen. Mit diesem Modul bleiben die
+            oben genannten Test-Basisklassen zunächst noch erhalten. Zudem muss JUnit 4 als Abhängigkeit erhalten bleiben.
+            {{< highlight xml "linenos=table">}}
+            <dependency>
+              <groupId>org.mycore</groupId>
+              <artifactId>mycore-junit4</artifactId>
+              <type>test-jar</type>
+              <scope>test</scope>
+            </dependency>
+            <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <scope>test</scope>
+            </dependency>
+            {{< /highlight >}}
+            Die Test-Basisklassen sind im neuen Modul <code>mycore-junit4</code> als <code>@Deprecated</code> markiert.
+            Im eigenen Modul muss daher innerhalb von <code>&lt;properties&gt;</code> vorübergehend der Eintrag <code>&lt;maven.compiler.arg/&gt;</code>
+            hinzugefügt werden. Dies überschreibt die Standardeinstellung von MyCoRe
+            (<code>&lt;maven.compiler.arg/&gt;-Werror&lt;/maven.compiler.arg/&gt;</code>) und erlaubt damit die Verwendung von derart markiertem Code.
+          </p>
+        </li>
+        <li>
+          <p>
             Im Nachgang zu den Änderungen in 2025.06 wurde nun auch die Methode <code>MCRAccessControlSystem#instance()</code> in 
             <code>MCRAccessControlSystem#getInstance()</code> umbenannt. Die alte Methode wurde als <code>@Deprecated</code> markiert.
             Eigener Code bleibt daher noch funktionsfähig, muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
