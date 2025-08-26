@@ -359,8 +359,36 @@ MCR.Configurable.NestedMap.baz.ConfigValue2=...
     </p>
     <p>
         Mit dem Attribut <code>name</code> von <code>MCRSentinel</code> kann der Name des ausgewerteten Konfigurationswerts angepasst werden.
-        Mit dem Attribut <code>defaultValue</code> von <code>MCRSentinel</code> kann das Standardverhalten bei Nichtvorhandensein des Konfigurationswerts angepasst werden.
+        Mit dem Attribut <code>rejectionValue</code> von <code>MCRSentinel</code> kann bestimmt werden, bei welchem Konfigurationswert
+        die Instanziierung der jeweiligen geschachtelten Instanz unterbunden wird.
+        Mit dem Attribut <code>defaultValue</code> von <code>MCRSentinel</code> kann der Standardwert
+        bei Nichtvorhandensein des Konfigurationswerts gesetzt werden.
     </p>
+    <p>
+        Java-Code in der Klasse <code>MyConfigurableClass</code> (Auszug):
+    </p>
+{{< highlight java "linenos=table">}}
+@MCRInstance(name = "Nested", valueClass=Nested.class, required=false,
+    sentinel=@MCRSentinel(name = "Default", rejectionValue=true, defaultValue=false))
+public Nested nested = new DefaultNestedClass();
+{{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Nested.Class=my.configurable.MySpecialNestedClass
+MCR.Configurable.Nested.Default=true
+MCR.Configurable.Nested.ConfigValue1=...
+MCR.Configurable.Nested.ConfigValue2=...
+{{< /highlight >}}
+    <p>
+        In diesem Beispiel würde die geschachtelte Instanz nicht instanziiert werden.
+        Die Variable <code>nested</code> wäre hätte weiterhin die Instanz von <code>DefaultNestedClass</code>, nicht von <code>MySpecialNestedClass</code>.
+        Würde der Wert von <code>MCR.Configurable.Nested.Default</code> auf <code>false</code> geändert, würde auch der Konfigurationsmechanismus wieder
+        greifen und eine Instanz von <code>DefaultNestedClass</code> anhand der weiteren Konfigurationswerte instanziiert werden.
+    </p>
+
 
     <h2>Stellvertretende Initialisierung mit @MCRConfigurationProxy</h2>
     <p>
