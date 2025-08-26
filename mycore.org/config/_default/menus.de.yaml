@@ -82,7 +82,10 @@ main:
 -     {identifier: basics_common_classes,   parent: basics,             name: Allgemeine Klassen,            weight: -87,      url: /documentation/basics/basics_common_classes}
 -     {identifier: basics_lifecycle,        parent: basics,             name: Init-/Shutdown Handling,       weight: -86,      url: /documentation/basics/basics_lifecycle}
 -     {identifier: basics_configurable_instance, parent: basics,        name: Konfigurierbare Klasseninstanzen, weight: -85,   url: /documentation/basics/basics_configurable_instance}
-# -     {identifier: basics_resources,        parent: basics,             name: Ressourcen,                    weight: -84,   url: /documentation/basics/basics_resources}
+-     {identifier: resources,               parent: basics,             name: Ressourcen,                    weight: -84,      url: /documentation/basics/resources}
+-       {identifier: res_index,              parent: resources,           name: Übersicht,                     weight: -99,      url: /documentation/basics/resources/res_index}
+-       {identifier: res_config,             parent: resources,           name: Konfiguration,                 weight: -98,      url: /documentation/basics/resources/res_config}
+-       {identifier: res_commands,           parent: resources,           name: Kommandos,                     weight: -97,      url: /documentation/basics/resources/res_commands}
 -     {identifier: basics_job_api,          parent: basics,             name: Job-API,                       weight: -83,      url: /documentation/basics/basics_job_api}
 -     {identifier: basics_cronjob,          parent: basics,             name: Cronjob,                       weight: -82,      url: /documentation/basics/basics_cronjob}
 -     {identifier: basics_mcr_crypt,        parent: basics,             name: Verschlüsselung,               weight: -81,      url: /documentation/basics/basics_mcr_crypt}

@@ -104,32 +104,29 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             <code>show all properties</code>
         </dt>
         <dd>
-            Das Kommando zeigt alle aktuellen Schlüssel-Werte-Paare der Konfiguration. Dies erspart einen Blick in die Datei <code>mycore.resolved.properties</code> 
+            Das Kommando zeigt alle aktuellen Schlüssel-Werte-Paare der Konfiguration. Dies erspart einen Blick in die Datei <code>mycore.resolved.properties</code>
             und berücksichtigt auch zur Laufzeit getätigte Änderungen der Konfiguration.
         </dd>
         <dt>
-            <code>show resource url for {0}</code>
+            <code>check permission {0} on {1} as {2}</code>
         </dt>
         <dd>
-            Das Kommando zeigt das Ergebnis des URI-Resolvers für die in <code>{0}</code> angegebene Resource.
+            Das Kommando prüft, ob der gegebene Nutzer <code>{2}</code> das gegebene Recht <code>{0}</code> für das gegebene Ziel <code>{1}</code> hat.
+            Der Nutzer wird dabei mit dem <code>MCRUserInformationResolver</code> ermittelt (z.B. <code>system:JANITOR</code> oder <code>user:username@realm</code>).
         </dd>
         <dt>
-            <code>show web resource url for {0}</code>
+            <code>resolve uri {0}</code>
         </dt>
         <dd>
-            Das Kommando zeigt das Ergebnis des URI-Resolvers für die in <code>{0}</code> angegebene Web-Resource.
+            Das Kommando liefert den Inhalt für die gegebenen URI <code>{0}</code>. Hierzu wird der <code>MCRURIResolver</code> verwendet.
         </dd>
         <dt>
-            <code>show all resource url for {0}</code>
+            <code>resolve uri {0} as {1}</code>
         </dt>
         <dd>
-            Das Kommando zeigt alle Ergebnise des URI-Resolvers für die in <code>{0}</code> angegebene Resource.
-        </dd>
-        <dt>
-            <code>show all web resource url for {0}</code>
-        </dt>
-        <dd>
-            Das Kommando zeigt alle Ergebnise des URI-Resolvers für die in <code>{0}</code> angegebene Web-Resource.
+            Das Kommando liefert den Inhalt für die gegebenen URI <code>{0}</code> für den gegebenen Benutzer <code>1</code>.
+            Hierzu wird der <code>MCRURIResolver</code> verwendet. Der Nutzer wird dabei mit dem <code>MCRUserInformationResolver</code>
+            ermittelt (z.B. <code>system:JANITOR</code> oder <code>user:username@realm</code>).
         </dd>
         <dt>
             <code>touch object {0}</code>
@@ -146,6 +143,7 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             Hierdurch werden alle beim Speichen von Derivaten auszuführenden Aktionen (z.B.: EventHandler, Aktualisierung des <code>modifydate</code>) ausgeführt.
         </dd>
     </dl>
+    Zudem gibt es einige <a href="{{<ref res_commands>}}">Kommandos für den Umgang mit Ressourcen</a>.
 
     <h2>Tracken von Datenbankverbindungen</h2>
     <p>
@@ -164,7 +162,7 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
     </p>
     <h3>Konfiguration</h3>
     <p>
-        Um den alternativen Connection-Provider zu verwenden, muss je nach <a href="{{<ref gs_jpa>}}">Art der Konfiguration</a> entweder
+        Um den alternativen Connection-Provider zu verwenden, muss je nach <a href="{{<ref gs_jpa>}}">Art der JPA-Konfiguration</a> entweder
     </p>
     {{< highlight shell "linenos=table">}} <property name="hibernate.connection.provider_class" value="org.mycore.backend.jpa.MCRTrackingConnectionProvider" />{{< /highlight >}}
     <p>
@@ -176,7 +174,7 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
     </p>
     {{< highlight shell "linenos=table">}} MCR.JPA.PersistenceUnit.MyCoRe.Properties.hibernate.connection.provider_class=org.mycore.backend.jpa.MCRTrackingConnectionProvider{{< /highlight >}}
     <p>
-        ind die entsprechende KOnfiguration aufgenommen werden.
+        in die entsprechende Konfiguration aufgenommen werden.
     </p>
 
 </div>
