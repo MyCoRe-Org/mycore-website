@@ -146,4 +146,37 @@ werden überschrieben. Die Pfade die als erstes aufgelistet werden haben eine h�
             Hierdurch werden alle beim Speichen von Derivaten auszuführenden Aktionen (z.B.: EventHandler, Aktualisierung des <code>modifydate</code>) ausgeführt.
         </dd>
     </dl>
+
+    <h2>Tracken von Datenbankverbindungen</h2>
+    <p>
+        Für den Fall, dass Datenbankverbindungen nicht ordentlich geschlossen werden (und damit nicht in den ggf. konfigurierten Connection-Pool zurückgegeben werden),
+        kann es zur Problembehebung hilfreich sein, die geöffneten Datenbankverbindungen zu tracken. Hierzu stellt MyCoRe den <code>MCRTrackingConnectionProvider</code>, 
+        eine Erweiterung des <code>HikariCPConnectionProvider</code>, bereit. Zum Verwenden muss der Connection-Provider von Hikari normal konfiguriert werden.
+        Anschließend kann <code>MCRTrackingConnectionProvider</code> als Alternative verwendet werden.
+    </p>
+    <p>
+        Der alternative Connection-Provider legt in der verwendeten Datenbank initial eine Tabelle mit Namen <code>connection_log</code> an.
+        Wenn eine Datenbankverbindung aus dem Pool herausgegeben wird, werden Informationen zum Verursacher (z.B. Thread-Name und Stacktrace) 
+        in dieser Tabelle gespeichert. Wenn die Verbindung zurückgegeben wird, wird der zugehörige Eintrag wieder gelöscht.
+        Einträge über nicht-zurückgegebene Verbindungen bleiben dementsprechend erhalten. Die Tabelle wird beim Start der MyCoRe-Anwendung geleert.
+        Wenn Einträge dauerhaft erhalten bleiben sollen, so kann dies mit <code>MCR.JPA.TrackingConnectionProvider.PersistDataAcrossRestarts=true</code>
+        erreicht werden.
+    </p>
+    <h3>Konfiguration</h3>
+    <p>
+        Um den alternativen Connection-Provider zu verwenden, muss je nach <a href="{{<ref gs_jpa>}}">Art der Konfiguration</a> entweder
+    </p>
+    {{< highlight shell "linenos=table">}} <property name="hibernate.connection.provider_class" value="org.mycore.backend.jpa.MCRTrackingConnectionProvider" />{{< /highlight >}}
+    <p>
+        oder
+    </p>  
+    {{< highlight shell "linenos=table">}} MCR.JPA.Connection.ProviderClass=org.mycore.backend.jpa.MCRTrackingConnectionProvider{{< /highlight >}}
+    <p>
+        oder z.B.
+    </p>
+    {{< highlight shell "linenos=table">}} MCR.JPA.PersistenceUnit.MyCoRe.Properties.hibernate.connection.provider_class=org.mycore.backend.jpa.MCRTrackingConnectionProvider{{< /highlight >}}
+    <p>
+        ind die entsprechende KOnfiguration aufgenommen werden.
+    </p>
+
 </div>
