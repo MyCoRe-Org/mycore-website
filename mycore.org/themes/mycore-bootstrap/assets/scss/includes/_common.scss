@@ -241,6 +241,10 @@ span.mcr-version {
   background-color: $warning;
 }
 
+#mycore25Jahre {
+  width: 75%;
+}
+
 /* Blog content */
 .mcr-blog-listentry a:hover {
   color: $link-color;
@@ -271,6 +275,10 @@ span.mcr-version {
 }
 .tag-cloud__link {
   white-space: nowrap;
+}
+
+#logos li {
+  margin-bottom: 0.75rem;
 }
 
 /* ============================================================================

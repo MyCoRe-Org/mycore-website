@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - Google
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Das Dilemma des 'Gecrawlt – zurzeit nicht indexiert'"
 news/teaser_de: "Warum landen Repository-Inhalte nicht im Google-Index?"
 news/title_en: "The dilemma of 'crawled - not currently indexed'"

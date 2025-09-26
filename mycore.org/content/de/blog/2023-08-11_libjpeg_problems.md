@@ -14,7 +14,7 @@ blog/tags:
  - libjpeg
  - Java17
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Problem bei der JPEG-Verarbeitung in Java17"
 news/teaser_de: "Anleitung zur Behebung des Problems bei der JPEG-Verarbeitung in Java17"
 news/title_en: "Solution for problems processing JPEG in Java17"
