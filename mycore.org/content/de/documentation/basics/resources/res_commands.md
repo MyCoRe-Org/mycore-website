@@ -8,7 +8,7 @@ date: '2025-09-01'
 ---
 
 Im Gegensatz zu den Standard-Java-Mechanismen sucht der Resource-Resolver nicht nur über den Classpath der Java-Anwendung
-oder sen Servlet-Context der Java-Web-Anwendung nach Ressourcen.
+oder den Servlet-Context der Java-Web-Anwendung nach Ressourcen.
 
 Über die Konfiguration der MyCoRe-Anwendung können mehrere Fundstellen konfiguriert werden, die durchsucht werden sollen.
 Die Reihenfolge wird dabei genau festgelegt.
@@ -16,7 +16,7 @@ Die Reihenfolge wird dabei genau festgelegt.
 Dementsprechend kann es für einen Ressourcen-Pfad in der MyCoRe-Anwendung durchaus mehrere Ressourcen geben.
 Der Resource-Resolver liefert die erste Ressource, die gefunden wird.
 
-Die [Developer-Kommandos](../../../developer/dev_devmode#kommandos) stellen die folgenden Kommandos,
+Die [Developer-Kommandos]({{< ref "dev_devmode#kommandos" >}}) stellen die folgenden Kommandos,
 die Fragestellungen hierzu beantworten können.
 
 ## Auflösen der URL zu einem Ressourcen-Pfad
@@ -58,7 +58,7 @@ Beide Ressourcen werden sowohl über den als `library resources` konfigurierten 
 
 > Um noch mehr Details über den Auswahlprozess der Resource zu erfahren, kann das Log-Level für den Resource-Resolver
 > mit dem Kommando `change log level of org.mycore.resource.MCRResourceResolver to TRACE` umgestellt werden.
-> Führt man nun z.B. das Kommando `show resource url for xsl/mods2dc.xsl` aus, wird in der Log-Ausgabe folgendes ausgegeben:
+> Führt man nun z.B. das Kommando `show resource url for xsl/mods2dc.xsl` aus, wird Folgendes geloggt:
 > 
 > ```text
 > [INFO] 2025-06-01T12:00:00,000 TRACE administrator MCRResourceResolver: Tracing resource URL for path /xsl/mods2dc.xsl
@@ -80,7 +80,7 @@ Beide Ressourcen werden sowohl über den als `library resources` konfigurierten 
 > [INFO] └─ Providing resource URL jar:file:/opt/tomcat/webapps/ROOT/WEB-INF/lib/mir-module-2025.06.jar!/xsl/mods2dc.xsl
 > ```
 > 
-> Die Ausgabe folgt strukturell den konfigurierten Resource-Providern. Es werden nacheinander die konfigurieren Instanzen von
+> Die Ausgabe folgt der Struktur der konfigurierten Resource-Provider. Es werden nacheinander die konfigurieren Instanzen von
 > `MCRDeveloperOverrideResourceProvider`, `MCRWCMSWebResourceProvider`, `MCRConfigDirResourceProvider` und `MCRCachingResourceProvider`
 > befragt. Letzterer hat in diesem Beispiel bereits ein gecachtes Ergebnis und gibt dieses zurück.
 > Die verbliebenen Resource-Provider werden nicht befragt.
@@ -135,17 +135,17 @@ INFO: Resolved resource /META-INF/resources/config/navigation.xml as jar:file:/o
 INFO: Command processed (7 ms)
 ```
 
-Hierbei wird für jede gefundene Ressource in eckigen Klammern angegeben, von welchem Resource-Provider die jeweilige Ressource gefunden wurde.
+Hierbei wird für jede gefundene Web-Ressource in eckigen Klammern angegeben, von welchem Resource-Provider die jeweilige Web-Ressource gefunden wurde.
 Dabei werden die `Coverage`-Konfigurationswerte aus der Konfiguration der Resource-Provider verwendet.
 
 Im Beispiel wird eine Datei im Konfigurationsverzeichnis über den als `config dir resources` konfigurierten
-`MCRConfigDirResourceProvider` gefunden. Zudem wird ein MyCoRe-Modul gefunden, die die genannte Web-Ressource beinhalten.
-Diese Ressource werd sowohl über den als `library resources` konfigurierten `MCRLibraryResourceProvider`
+`MCRConfigDirResourceProvider` gefunden. Zudem wird ein MyCoRe-Modul gefunden, das die genannte Web-Ressource beinhaltet.
+Diese Web-Ressource wird sowohl über den als `library resources` konfigurierten `MCRLibraryResourceProvider`
 als auch über den als `fallback resources` konfigurierten `MCRClassLoaderResourceProvider` gefunden.
 
 > Um noch mehr Details über den Auswahlprozess der Web-Resource zu erfahren, kann das Log-Level für den Resource-Resolver
 > mit dem Kommando `change log level of org.mycore.resource.MCRResourceResolver to TRACE` umgestellt werden.
-> Führt man nun z.B. das Kommando `show web resource url for config/navigation.xml` aus, wird in der Log-Ausgabe folgendes ausgegeben:
+> Führt man nun z.B. das Kommando `show web resource url for config/navigation.xml` aus, wird Folgendes geloggt:
 >
 > ```text
 > [INFO] 2025-06-01T12:00:00,000 TRACE administrator MCRResourceResolver: Tracing resource URL for path /META-INF/resources/config/navigation.xml
@@ -163,7 +163,7 @@ als auch über den als `fallback resources` konfigurierten `MCRClassLoaderResour
 > [INFO] └─ Providing resource URL file:/home/mcr/.mycore/resources/META-INF/resources/config/navigation.xml
 > ```
 >
-> Die Ausgabe folgt strukturell den konfigurierten Resource-Providern. Es werden nacheinander die konfigurieren Instanzen von
+> Die Ausgabe folgt der Struktur der konfigurierten Resource-Provider. Es werden nacheinander die konfigurieren Instanzen von
 > `MCRDeveloperOverrideResourceProvider`, `MCRWCMSWebResourceProvider` und `MCRConfigDirResourceProvider`
 > befragt. Letzterer hat in diesem Beispiel bereits ein Ergebnis und gibt dieses zurück.
 > Die verbliebenen Resource-Provider werden nicht befragt.
@@ -174,7 +174,7 @@ als auch über den als `fallback resources` konfigurierten `MCRClassLoaderResour
 
 ## Auflösen des Inhalts einer Web-Ressource
 
-Möchte man den Inhalt einer Ressource ermitteln, kann dies im Falle von XML-Dateien mit dem Kommando
+Möchte man den Inhalt einer Web-Ressource ermitteln, kann dies im Falle von XML-Dateien mit dem Kommando
 `resolve uri webapp:path/to/web-resource.xml` erledigt werden.
 
 Web-Ressourcen sind jedoch nicht zwangsweise XML-Dateien. Als Web-Ressourcen können beliebige Dateien verwendet werden.

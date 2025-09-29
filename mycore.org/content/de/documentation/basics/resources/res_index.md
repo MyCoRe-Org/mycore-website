@@ -30,8 +30,8 @@ eine zugehörige URL als `Optional<URL>` zurück.
 
 Zusätzlich bietet MyCoRe mit `MCRResourceHelper` eine Hilfsklasse an, um mit statischen Methoden direkt auf Ressourcen zuzugreifen
 (diese bieten nicht alle Möglichkeiten des Resource-Resolvers, sind typischerweise aber ausreichend), z.B.:
-- `MCRResourceHelper#getResourceUrl(String)`: liefert die URL zu einem Pfad als `URL` zurück
-- `MCRResourceHelper#getResourceAsStream(String)`: liefert direkt den Inhalt der zu einem Pfad als `InputStream` zurück
+- `MCRResourceHelper#getResourceUrl(String)`: liefert die URL zu einem Pfad als `URL` (oder `null`) zurück
+- `MCRResourceHelper#getResourceAsStream(String)`: liefert direkt den Inhalt der zu einem Pfad als `InputStream` (oder `null`) zurück
 
 ## Ressourcen-Pfade
 
@@ -53,27 +53,35 @@ MyCoRe stellt die Klasse `MCRResourcePath` bereit, um Ressourcen-Pfade zu reprä
 mit den Methoden `MCRResourcePath#ofPath(String)` oder `MCRResourcePath#ofPathOrThrow(String)` erzeugt
 und anschließend z.B. mit `MCRresourceResolver#resolve(MCRResourcePath)` verwendet werden.
 
-> Die Repräsentation von Ressourcen-Pfaden ist bewusst simpel implementiert.
+> Die Repräsentation von Ressourcen-Pfaden ist bewusst einfach implementiert.
 > Sie hat kein Konzept davon, was es für Pfade in (verschiedenen Kontexten) bedeutet, „relativ zueinander zu sein“.
 > Code, der mit dem Resource-Resolver interagiert, ist dafür verantwortlich, absolute Pfade zu bilden.
 > Diese Einschränkung soll verhindern, dass Dateien ungewollt als Ressourcen zur Verfügung stehen.
 {.note}
 
 Außerhalb von Java-Code, z.B. in einem XSL-Stylesheet, können Ressourcen mit dem URI-Resolver ermittelt werden.
-Der URI-Resolver nutzt beim Auflösen der URI `resource:path/to/resource.txt` den Resource-Resolver mit dem Ressourcen-Pfad `/path/to/resource.txt`.
+Der URI-Resolver nutzt beim Auflösen der URI `resource:/path/to/resource.txt` bzw. `resource:path/to/resource.txt`
+den Resource-Resolver mit dem Ressourcen-Pfad `/path/to/resource.txt`.
 
 ## Web-Ressourcen
 
 *Web-Ressourcen* sind Ressourcen, deren Pfad mit `/META-INF/resources` beginnt.
 Dies entspricht der Konvention von Java-Servlet-Containern.
 
-Der Teil des Pfades einer Web-Ressource direkt inter dem Präfix `/META-INF/resources` ist der *Web-Pfad* dieser Web-Ressource.
+Der Teil des Ressourcen-Pfades einer Web-Ressource direkt hinter dem Präfix `/META-INF/resources` ist der *Web-Pfad* dieser Web-Ressource.
 
 Die Ressource mit dem Pfad `/META-INF/resources/path/to/web-resource.txt` ist identisch mit der Web-Resource mit dem Web-Pfad `/path/to/web-resource.txt`.
 
-In einer klassischen Java-Web-Anwendung werden Web-Ressourcen mit Methoden wie `ServletContext#getResource(String)` genutzt.
+In einer klassischen Java-Web-Anwendung können Web-Ressourcen mit Methoden wie `ServletContext#getResource(String)` gefunden werden.
 Diese Methoden nehmen einen Web-Pfad als `String` und liefern, sofern eine entsprechende Web-Ressource vorhanden ist, eine zugehörige URL als `URL` zurück.
 Über diese URL kann mit der eigentlichen Web-Ressource interagiert werden.
+
+> Die Regeln zur Auswahl einer Web-Ressource unterschieden sich dabei von den Regeln, die Java zum Auffinden von Ressourcen verwendet.
+> Es werden z.B. Informationen aus `web.xml`- und `web-fragment.xml`-Dateien für die Priorisierung verwendet.
+> Ein Aufruf von `ServletContext#getResource("/path/to/web-resource.txt)` liefert nicht zwingend dasselbe Ergebnis, wie
+> `ClassLoader#getResource("/META-INF/resources/path/to/web-resource.txt")`.
+> Der Resource-Resolver nutzt für Ressourcen und Web-Ressourcen konsequent dieselben Regeln.
+{.note}
 
 Für Web-Pfade gelten in MyCoRe die folgenden Regeln:
 
@@ -87,7 +95,8 @@ die direkt einen Web-Pfad entgegennimmt, z.B. `MCRResourceResolver#resolveWebRes
 Im Java-Code einer MyCoRe-Anwendung sollte es keinen Bedarf geben, den Präfix `/META-INF/resources` direkt zu verwenden.
 
 Außerhalb von Java-Code, z.B. in einem XSL-Stylesheet, können Web-Ressourcen mit dem URI-Resolver ermittelt werden.
-Der URI-Resolver nutzt beim Auflösen der URI `webapp:path/to/web-resource.txt` den Resource-Resolver mit dem Web-Pfad `/path/to/web-resource.txt`.
+Der URI-Resolver nutzt beim Auflösen der URI `webapp:/path/to/web-resource.txt` bzw `webapp:path/to/web-resource.txt`
+den Resource-Resolver mit dem Web-Pfad `/path/to/web-resource.txt`.
 
 ### Auslieferung von Web-Ressourcen
 
@@ -111,20 +120,21 @@ die von der MyCoRe-Anwendung verwendet werden.
 Hierbei kann über die Konfiguration der MyCoRe-Anwendung genau festgelegt werden,
 welchen Fundstellen durchsucht werden sollen und in welcher Reihenfolge dies geschehen soll.
 Zudem kann z.B. festgelegt werden, dass die Suchergebnisse gecacht werden sollen,
-um nachfolgende Suchen nach bereits gesuchten Ressourcen zu beschleunigen.
+um wiederholte Suchen nach denselben Ressourcen zu beschleunigen.
 
 In den meisten Fällen werden die in einer Fundstelle vorhandenen Dateien direkt als Ressourcen verwendet.
 
 > Ist z.B. `/my/repo/resources` der Pfad zu einem als Fundstelle für Ressourcen verwendeten Verzeichnis im Dateisystem,
-> so wird beim Suchen nach einer Ressource mit Pfad `/path/to/resource.txt` nach einer Datei
-> mit Pfad `/my/repo/resources/path/to/resource.txt` gesucht.
+> so wird beim Suchen nach einer Ressource mit Pfad `/path/to/resource.txt` nachgesehen, ob eine Datei
+> mit Pfad `/my/repo/resources/path/to/resource.txt` existiert.
 {.note}
 
 In manchen Fällen werden die in einer Fundstelle vorhandenen Dateien jedoch als Web-Ressourcen verwendet.
 
 > Ist z.B. `/my/repo/web-resources` der Pfad zu einem als Fundstelle für Web-Ressourcen verwendeten Verzeichnisses im Dateisystem,
-> so wird beim Suchen nach einer Ressource mit Pfad `/META-INF/ressources/path/to/web-resource.txt` nach einer Datei
-> mit Pfad `/my/repo/web-resources/path/to/web-resource.txt` gesucht.
+> so wird beim Suchen nach einer Ressource mit Pfad `/META-INF/ressources/path/to/web-resource.txt`,
+> also der Web-Ressource mit Web-Pfad `/path/to/web-resource.txt`, nachgesehen, ob eine Datei
+> mit Pfad `/my/repo/web-resources/path/to/web-resource.txt` existiert.
 > Ressourcen ohne Präfix `/META-INF/ressources` in ihrem Pfad können in einer solchen Fundstelle nicht gefunden werden.
 {.note}
 
@@ -141,7 +151,7 @@ Diese Konfiguration ist für die meisten Fälle ausreichend.
 
 **Typischerweise besteht keine Notwendigkeit, die Standardkonfiguration anzupassen oder auszutauschen.**
 
-Dies muss nur dann gemach werden, wenn eine eigene MyCoRe-Anwendung besondere Bedarfe hat oder
+Dies muss nur dann getan werden, wenn eine eigene MyCoRe-Anwendung besondere Bedarfe hat oder
 auf einzelne Fundstellen der Standardkonfiguration verzichtet werden soll.
 Letzteres kann für einen effizienteren Betrieb durchaus sinnvoll sein.
 
@@ -155,13 +165,13 @@ die meisten Ressourcen typischerweise hier gefunden werden.
 
 **Ist für einen Ressource-Pfad in mehreren Fundstellen eine Datei vorhanden, so wird die Datei aus der ersten solchen Fundstelle verwendet.**
 
-Im einzelnen Umfasst die Standardkonfiguration die folgenden Fundstellen:
+Im einzelnen umfasst die Standardkonfiguration die folgenden Fundstellen:
 
 ### Developer-Override
 
 Ist ein [Developer-Override]({{< ref dev_devmode >}}) konfiguriert
 (z.B. mit `MCR.Developer.Resource.Override=/path/to/overrideDir`),
-so wird der Inhalt der dort genannten Verzeichnisse als Ressourcen verwendet.
+so werden die Dateien in den dort genannten Verzeichnissen als Ressourcen verwendet.
 
 ```
 /path/to/overrideDir/resource.txt
@@ -172,7 +182,7 @@ Ist für einen Ressource-Pfad in mehreren dieser Verzeichnisse eine Datei vorhan
 
 ### WCMS2
 
-Ist das [WCMS2]({{< ref frontend_wcms >}})-Modul vorhanden, so wird der Inhalt des Speicherverzeichnisses
+Ist das [WCMS2]({{< ref frontend_wcms >}})-Modul vorhanden, so werden die Dateien im WCMS-Speicherverzeichnis
 (typischerweise `/data/save/webpages` im [Konfigurationsverzeichnis]({{< ref basics_mcr_configdir >}}) der MyCoRe-Anwendung)
 als Web-Ressourcen verwendet.
 
@@ -182,7 +192,7 @@ als Web-Ressourcen verwendet.
 
 ### Konfigurationsverzeichnis
 
-Der Inhalt von `/resources` im [Konfigurationsverzeichnis]({{< ref basics_mcr_configdir >}}) der MyCoRe-Anwendung wird als Ressourcen verwendet.
+Die Dateien in `/resources` im [Konfigurationsverzeichnis]({{< ref basics_mcr_configdir >}}) der MyCoRe-Anwendung werden als Ressourcen verwendet.
 
 ```
 /path/to/configDir/resources/resource.txt
@@ -196,7 +206,7 @@ Der Inhalt von `/resources` im [Konfigurationsverzeichnis]({{< ref basics_mcr_co
 > vom Servlet-Container als Antwort auf HTTP-Requests ausgeliefert. Aus diesem Grund dürfen Web-Pfade auch in MyCoRe nicht mit `/META-INF` oder `/WEB-INF` beginnen.
 {.note}
 
-Der Inhalt des Webapp-Verzeichnisses wird als Web-Ressourcen verwendet.
+Die Dateien im Webapp-Verzeichnis werden als Web-Ressourcen verwendet.
 
 ```
 /path/to/webappDir/web-resource.txt
@@ -208,7 +218,7 @@ Der Inhalt des Webapp-Verzeichnisses wird als Web-Ressourcen verwendet.
 
 ### Webapp-Klassenverzeichnis
 
-Der Inhalt von `/WEB-INF/classes` im Webapp-Verzeichnis wird als Ressourcen verwendet.
+Die Dateien in `/WEB-INF/classes` im Webapp-Verzeichnis werden als Ressourcen verwendet.
 
 ```
 /path/to/webappDir/WEB-INF/classes/resource.txt

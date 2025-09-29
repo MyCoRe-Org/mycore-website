@@ -27,16 +27,17 @@ Dieser Mechanismus erlaubt den schnellen Wechsel zwischen verschiedenen Konfigur
 {.note}
 
 Im Basis-Modul von MyCoRe sind zwei derartige Kombinationen vorbereitet.
-Eine Kombination mit Namen `default` für die [Standardkonfiguration](../res_index#standardkonfiguration-des-resource-resolvers) und
+Eine Kombination mit Namen `default` für die [Standardkonfiguration]({{< ref "res_index#standardkonfiguration-des-resource-resolvers" >}}) und
 eine Kombination mit Namen `legacy`, die eher das Verhalten von MyCoRe vor {{<mcr-version "2023.08">}} weitestgehend nachbildet
-(siehe [Migrationsanleitung](../../../migrate/migrate_mcr2024_06/#migrationsschritte)).
+(siehe [Migrationsanleitung]({{< ref "migrate_mcr2024_06#migrationsschritte" >}})).
 Die Kombination mit Namen `default` ist dabei als die tatsächlich verwendete Kombination gesetzt.
 
 Im Falle einer Kombination aus mehreren Resource-Providern kann der „Sinn und Zweck“ der einzelnen Resource-Provider
 jeweils mit dem Konfigurationsparameter `Coverage` festgelegt werden. Diese Angabe dient lediglich der Dokumentation
 und wird in verschiedene Ausgaben integriert. Zudem kann jeder Resource-Provider
 mit dem Konfigurationsparameter `Enabled` einzeln aus der Konfiguration ausgeschlossen werden.
-Wird ein solcher Parameter auf `false` gesetzt, ist dies identisch dazu, den zugehörigen Resource-Provider komplett aus der Konfiguration zu entfernen.
+Wird ein solcher Parameter auf `false` gesetzt, hat dies denselben Effekt,
+als hätte man den zugehörigen Resource-Provider komplett aus der Konfiguration entfernt.
 Dieser Mechanismus erlaubt das schnelle Hinzufügen und Entfernen einzelner Resource-Provider.
 
 Resource-Provider-Implementierungen können zudem individuelle Konfigurationsparameter haben.
@@ -93,7 +94,7 @@ MCR.Resource.Resolver.Providers.default.Providers.30.Provider.Providers.40.Cover
 {.note}
 
 Während der [Initialisierung]({{< ref basics_lifecycle >}}) der MyCoRe-Anwendung wird im Log die Struktur
-der tatsächliche gewählten Kombination ausgegeben. Für die Standardkonfiguration sieht~~~~ diese Ausgabe folgendermaßen aus:
+der tatsächliche gewählten Kombination ausgegeben. Für die Standardkonfiguration sieht diese Ausgabe folgendermaßen aus:
 
 ```
 ├─ Class: org.mycore.common.resource.provider.MCRCombinedResourceProvider
@@ -136,17 +137,15 @@ der tatsächliche gewählten Kombination ausgegeben. Für die Standardkonfigurat
 > Die Methoden zum Suchen nach Ressourcen können daher keine individuellen Parameter haben. 
 >
 > Um Parameter in die Suche nach einer Ressource einfließen zu lassen,
-> haben die Methoden von `MCRResourceResolver` jeweils eine alternative Variante,
-> die neben dem Ressource-Pfad eine typsichere Hashmap in Form von `MCRHints` als weiteren Parameter hat.
+> haben die Methoden von `MCRResourceResolver` jeweils eine alternative Variante.
+> Diese hat neben dem Ressource-Pfad eine typsichere Hashmap in Form von `MCRHints` als weiteren Parameter.
 >
 > Die Klasse `MCRResourceHintKeys` definiert die von MyCoRe verwendeten Schlüssel für eine solche Hashmap.
-> Eigene Module können beliebige eigene Schlüssel definieren,
-> um weitere Parameter in die Suche nach Ressourcen einfließen zu lassen,
-> falls eigenen Resource-Provider-Implementierungen diese benötigen.
->
-> Zu jedem dieser Schlüssel implementiert MyCoRe je einen passenden `MCRHint`.
-> Eigen Module können beliebige eigene Hint-Implementierungen bereitstellen,
-> die zu den eigenen Schlüsseln passen.
+> Zu jedem Schlüssel implementiert MyCoRe je einen passenden `MCRHint`.
+> 
+> Eigene Module können weitere Schlüssel definieren und zugehörige Hint-Implementierungen bereitstellen,
+> um damit zusätzliche Parameter in die Ressourcen-Suche einfließen zu lassen,
+> falls eigene Resource-Provider-Implementierungen diese benötigen.
 {.note}
 
 Der Resource-Resolver wird neben dem zu verwendenden Resource-Provider mit
@@ -189,9 +188,9 @@ Die Standardkonfiguration stellt über diesen Mechanismus die folgenden Hints be
 > Wenn ein eigenes MyCoRe-Modul dem Classpath des verwendeten ClassLoaders zur Laufzeit
 > weitere Verzeichnisse hinzufügt, finden sich diese Verzeichnisse jedoch nicht im genannte Java-System-Property wieder.
 > In diesem Fall muss für eine korrekte Funktion die Klasse `MCRClassgraphClasspathDirsProvider`
-> verwendet werden und zudem die Programmbibliothek
+> verwendet und zudem die Programmbibliothek
 > [`io.github.classgraph:classgraph`](https://central.sonatype.com/artifact/io.github.classgraph/classgraph)
-> bereitgestellt werden sein. Die Konfiguration muss in diesem Fall folgendermaßen angepasst werden:
+> bereitgestellt werden. Die Konfiguration muss in diesem Fall folgendermaßen angepasst werden:
 >
 > ```
 > MCR.Resource.Resolver.Hints.classpathDirsProvider.Class=org.mycore.resource.hint.MCRClasspathDirsProviderResourceHint
@@ -202,7 +201,7 @@ Die Standardkonfiguration stellt über diesen Mechanismus die folgenden Hints be
 ## Globale Parameter
 
 Für Resource-Provider, die im Dateisystem nach Ressourcen suchen,
-kann die zu beachtenden List von `LinkOption`-Werten global konfiguriert werden.
+kann die zu berücksichtigende Liste von `LinkOption`-Werten global konfiguriert werden.
 Hierzu kann der Konfigurationsschlüssel `MCR.Resource.Common.LinkOptions` verwendet werden.
 Standardmäßig ist hier der Wert `NOFOLLOW_LINKS` konfiguriert.
 
