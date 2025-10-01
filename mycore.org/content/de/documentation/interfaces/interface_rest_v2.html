@@ -594,7 +594,7 @@ curl -D - -X POST -u administrator:*PASSWORD*
      {{< highlight shell>}}
 curl -D - -X PUT -u administrator:*PASSWORD*  
      -H "Content-Type: application/pdf" 
-     -d "@fulltext.pdf" 
+     --data-binary "@fulltext.pdf"
      - http://localhost:8080/skeleton/api/v2/objects/skeleton_simpledoc_00000012/derivates/skeleton_derivate_00000032/contents/fulltext.pdf
 {{< /highlight >}}    
       <p>&nbsp;</p>
