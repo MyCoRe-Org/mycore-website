@@ -117,7 +117,7 @@ date: "2025-06-13"
         <li>
          <p>
           Mit <a href="https://mycore.atlassian.net/browse/MCR-2881">MCR-2881</a> wurden die Art und Weise,
-          wie MyCoRe Ressourcen ausfindig macht und ausliefert, komplett überarbeitet.
+          <a href="{{< ref res_index >}}">wie MyCoRe Ressourcen ausfindig macht</a> und ausliefert, komplett überarbeitet.
           Zuvor wurden nur ausgewählte Arten von Dateien (z.B. XML- oder XSL-Dateien) als Ressourcen angesehen.
           Für andere Arten von Dateien (z.B. Bilder) mussten eigenen Strategien entwickelt werden, um diese zu lokalisieren, auszuwählen und auszuliefern.
           Nun können alle Arten von Dateien gleichartig als Ressourcen verwendet werden.
@@ -157,31 +157,31 @@ date: "2025-06-13"
          </ol>
          <br/>
          <p>
-           Wer jedoch eine Reihenfolge bevorzugt, die sich eher an dem Verhalten älterer MyCoRe-Versionen orientiert, kann mit folgender Einstellung zu einer alternativen Reihenfolge wechseln:
-           {{< highlight java "linenos=table">}}
+          Wer jedoch eine Reihenfolge bevorzugt, die sich eher an dem Verhalten älterer MyCoRe-Versionen orientiert, kann mit folgender Einstellung zu einer alternativen Reihenfolge wechseln:
+          {{< highlight java "linenos=table">}}
  MCR.Resource.Resolver.SelectedProvider=legacy{{< /highlight >}}
          </p>
          <p>
           Typischerweise sind keine Migrationsschritte notwendig. In den folgenden Fällen kann dies aber der Fall sein:
          </p>
          <ol>
-           <li>
-             Bisher wurden JAR-Dateienm im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses und JAR-Dateien unterschiedliche behandelt und priorisiert. 
-             Jetzt werden alle JAR-Dateien gleich behandelt. Wer auf diese Unterscheidung angewiesen ist, kann entweder die genannte <code>legacy</code>-Reihenfolge verwenden,
-             oder muss <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge definieren</a>.
-           </li>
-           <li>
-             Wer seiner Anwendung einzelne Dateien über den Klassenpfad (<code>java -cp path/to/resource.txt</code>code>) übergibt und damit Dateien, z.B. aus MyCoRe-Modulen, überschreiben will,
-             seine Anwendung umstellen (z.B. indem diese Dateien der Anwendung stattdessen als eigenes Modul mit entsprechender Priorisierung bereitgestellt werden). 
-           </li>
-           <li>
-             Wer auf einen der Mechanismen angewiesen ist, mit dem Dateien in das Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden, kopiert werden, muss Alternativen hierzu finden.
-             Je nach Anwendungsfall kann z.B. eine eigene <a href="/documentation/basics/basics_resources/#strategien-zum-auffinden-von-ressourcen-mcrresourceprovider">Strategie zum Auffinden von Ressourcen</a> implementiert werden.
-           </li>
+          <li>
+           Bisher wurden JAR-Dateienm im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses und JAR-Dateien unterschiedliche behandelt und priorisiert. 
+           Jetzt werden alle JAR-Dateien gleich behandelt. Wer auf diese Unterscheidung angewiesen ist, kann entweder die genannte <code>legacy</code>-Reihenfolge verwenden,
+           oder muss <a href="{{< ref res_config >}}">eine eigene Reihenfolge definieren</a>.
+          </li>
+          <li>
+           Wer seiner Anwendung einzelne Dateien über den Klassenpfad (<code>java -cp path/to/resource.txt</code>code>) übergibt und damit Dateien, z.B. aus MyCoRe-Modulen, überschreiben will,
+           seine Anwendung umstellen (z.B. indem diese Dateien der Anwendung stattdessen als eigenes Modul mit entsprechender Priorisierung bereitgestellt werden). 
+          </li>
+          <li>
+           Wer auf einen der Mechanismen angewiesen ist, mit dem Dateien in das Verzeichnis, in das die Dateien der Webapplikation beim Starten durch Tomcat oder Jetty extrahiert werden, kopiert werden, muss Alternativen hierzu finden.
+           Je nach Anwendungsfall kann z.B. eine eigene Strategie zum Auffinden von Ressourcen implementiert werden.
+          </li>
          </ol>
          <br/>
          <p>
-          Potenziell kann es empfehlenswert sein, <a href="/documentation/basics/basics_resources/#eigene-konfiguration">eine eigene Reihenfolge zu definieren</a>.
+          Potenziell kann es empfehlenswert sein, <a href="{{< ref res_config >}}">eine eigene Reihenfolge zu definieren</a>.
           Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
           sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource z.B. auf das mehrfache Suchen im Dateisystem verzichtet werden.
           Da in solch einem Szenario keine Ressourcen zur Laufzeit der Applikation verändert werden können, kann zudem ein Cache konfiguriert werden.
@@ -189,57 +189,62 @@ date: "2025-06-13"
           Eine solche Anpassung kann für produktive Systeme durchaus sinnvoll sein.
          </p>
          <p>
-           Wird in den eigenen Java-Klassen auf Ressourcen zugegriffen, so sollten die Ressourcen immer mit dem neuen Mechanismus geladen werden.
-           Hierzu muss die Klasse <code>MCRResourceResolver</code> verwendet werden. Insbesondere bei der Migration von bestehendem Code 
-           kann zudem die Klasse <code>MCRResourceHelper</code> hilfreich sein, die eine API anbietet, die sich mehr an klassischem MyCoRe-Code orientiert.
-           Es müssen insbesondere die folgenden Methodenaufrufe ersetzt werden:
+          Wird in den eigenen Java-Klassen auf Ressourcen zugegriffen, so sollten die Ressourcen immer mit dem neuen Mechanismus geladen werden.
+          Hierzu muss die Klasse <code>MCRResourceResolver</code> verwendet werden. Insbesondere bei der Migration von bestehendem Code 
+          kann zudem die Klasse <code>MCRResourceHelper</code> hilfreich sein, die eine API anbietet, die sich mehr an klassischem MyCoRe-Code orientiert.
+          Es müssen insbesondere die folgenden Methodenaufrufe ersetzt werden:
          </p>
-         <table>
-           <thead>
-             <tr>
-               <th>Alter Aufruf</th>
-               <th>Neuer Aufruf</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr>
-               <td><code>Class#getResource</code></td>
-               <td><code>MCRResourceHelper#getResourceUrl</code></td>
-             </tr>
-             <tr>
-               <td><code>Class#getResourceAsStream</code></td>
-               <td><code>MCRResourceHelper#getResourceAsStream</code></td>
-             </tr>
-             <tr>
-               <td><code>ClassLoader#resources</code></td>
-               <td>kein Pendant</td>
-             </tr>
-             <tr>
-               <td><code>ClassLoader#getResource</code></td>
-               <td><code>MCRResourceHelper#getResourceUrl</code></td>
-             </tr>
-             <tr>
-               <td><code>ClassLoader#getResources</code></td>
-               <td>kein Pendant</td>
-             </tr>
-             <tr>
-               <td><code>ClassLoader#getResourceAsStream</code></td>
-               <td><code>MCRResourceHelper#getResourceAsStream</code></td>
-             </tr>
-             <tr>
-               <td><code>ServletContext#getResource</code></td>
-               <td><code>MCRResourceHelper#getWebResourceUrl</code></td>
-             </tr>
-             <tr>
-               <td><code>ServletContext#getResourcePaths</code></td>
-               <td>kein Pendant</td>
-             </tr>
-             <tr>
-               <td><code>ServletContext#getResourceAsStream</code></td>
-               <td><code>MCRResourceHelper#getWebResourceAsStream</code></td>
-             </tr>
-           </tbody>
-          </table>
+         <table class="table">
+          <thead>
+           <tr>
+            <th>Alter Aufruf</th>
+            <th>Neuer Aufruf</th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <td><code>Class#getResource</code></td>
+            <td><code>MCRResourceHelper#getResourceUrl</code></td>
+           </tr>
+           <tr>
+            <td><code>Class#getResourceAsStream</code></td>
+            <td><code>MCRResourceHelper#getResourceAsStream</code></td>
+           </tr>
+           <tr>
+            <td><code>ClassLoader#resources</code></td>
+            <td>kein Pendant</td>
+           </tr>
+           <tr>
+            <td><code>ClassLoader#getResource</code></td>
+            <td><code>MCRResourceHelper#getResourceUrl</code></td>
+           </tr>
+           <tr>
+            <td><code>ClassLoader#getResources</code></td>
+            <td>kein Pendant</td>
+           </tr>
+           <tr>
+            <td><code>ClassLoader#getResourceAsStream</code></td>
+            <td><code>MCRResourceHelper#getResourceAsStream</code></td>
+           </tr>
+           <tr>
+            <td><code>ServletContext#getResource</code></td>
+            <td><code>MCRResourceHelper#getWebResourceUrl</code></td>
+           </tr>
+           <tr>
+            <td><code>ServletContext#getResourcePaths</code></td>
+            <td>kein Pendant</td>
+           </tr>
+           <tr>
+            <td><code>ServletContext#getResourceAsStream</code></td>
+            <td><code>MCRResourceHelper#getWebResourceAsStream</code></td>
+           </tr>
+          </tbody>
+         </table>
+         <p>
+          Wo angemessen, sollten die Methoden des <code>MCRResourceResolver</code> bzw. des <code>MCRResourceHelper</code> verwendet werden, 
+          die Web-Ressourcen liefern. Im Java-Code einer sollte es keinen Bedarf geben, den Präfix <code>/META-INF/resources</code>
+          für in Ressourcen-Pfaden direkt zu verwenden.
+         </p>
         </li>
          <br/>
         <li>
@@ -257,7 +262,7 @@ date: "2025-06-13"
           Mit MyCoRe 2024.06 werden nun wieder Einträge mit den eigentlich angedachten Schlüsseln <code>foo</code> bzw. <code>bar</code> erzeugt.
          </p>
          <p>
-          Wer in seinem eigenen Java-Code die Methode Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
+          Wer in seinem eigenen Java-Code die Methode <code>MCRConfiguration2<wbr>#getInstances(String)</code> nutzt, muss ggf. Anpassungen vornehmen.
           Wer diese Methode nicht in eigenen Java-Klassen verwendet, kann diesen Migrationsschritt ignorieren. 
          </p>
         </li>

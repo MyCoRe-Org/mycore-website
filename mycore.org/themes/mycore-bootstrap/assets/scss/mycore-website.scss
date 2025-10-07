@@ -4,3 +4,36 @@
 @import "includes/_buttons.scss";
 @import "includes/_navigation.scss";
 @import "includes/_common.scss";
+
+.danger,
+.note,
+.warning {
+  background: #f6f6f6;
+  border-left-style: solid;
+  border-left-width: 0.3rem;
+  border-radius: 0.2rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  > p, div {
+    font-size: 90%;
+    margin: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    > pre {
+      margin: 0;
+      background: #eaeaea;
+    }
+  }
+}
+
+.note {
+  border-left-color: #77878b;
+}
+
+.warning {
+  border-left-color: #ff9900;
+}
+
+.danger {
+  border-left-color: #e83e8c;
+}
