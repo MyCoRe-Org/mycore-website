@@ -167,47 +167,93 @@ date: "2025-03-12"
         </p>
         {{< highlight xml "linenos=table">}}
         <element name="mappings" minOccurs='0' maxOccurs='1'>
-            <mcrmetaclassification name="mapping"
-                                   class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded'/>
+          <mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded'/>
         </element>
-        {{< /highlight >}}
-        <p>Das Mapping wird per <a href="{{< ref basics_eventhandler >}}">EventHandler</a> aktiviert und sollte
-            möglichst früh aufgerufen werden,
-            zumindest noch vor dem Start der Indexierung.
-        </p>
-        {{< highlight shell "linenos=table">}}
-         MCR.EventHandler.MCRObject.015.Class=org.mycore.common.events.MCRClassificationMappingEventHandler
         {{< /highlight >}}
     </div>
     <div>
         <h3>in einer MyCoRe-Anwendung mit MODS-Datenmodell</h3>
-        <p>Wird das MODS-Datenmodell genutzt, muss kein zusätzlichen Datenfeld ergänzt werden. In diesem Fall werden die
+        <p>Wird das MODS-Datenmodell genutzt, muss kein zusätzliches Datenfeld ergänzt werden. In diesem Fall werden die
             generierten Einträge als zusätzliche <code>mods:classification</code> Elemente abgespeichert.
         </p>
-        <p>Für dieses Verhalten wurde ein weiterer <a href="{{< ref basics_eventhandler >}}">Eventhandler</a>
-            implementiert:</p>
-        {{< highlight shell "linenos=table">}}
-         MCR.EventHandler.MCRObject.016.Class=org.mycore.mods.classification.MCRClassificationMappingEventHandler
-        {{< /highlight >}}
         <p>
             Im resultierenden MODS wird der Eintrag durch das Attribut <code>generator</code>
-            eindeutig identifizierbar. Dieses enthält immer das Suffix <tt>-mycore</tt> und setzt sich weiterhin aus:
+            eindeutig identifizierbar. Dieses enthält immer das Suffix <tt>-mycore</tt> und 
         </p>
         <ul>
-            <li>Quell-Klassifikations-ID und Ziel-Klassifikations-ID, oder</li>
-            <li>dem Präfix "xpathmapping" und der Ziel-Klassifikations-ID zusammen</li>
+            <li>die Quell- und Ziel-Klassifikations-ID oder</li>
+            <li>das Präfix "xpathmapping" und die Ziel-Klassifikations-ID.</li>
         </ul>
-        <p>Siehe dazu nachfolgende Beispiele:</p>
+        <p>
+        Siehe dazu nachfolgende Beispiele:
+        </p>
         {{< highlight xml "linenos=table">}}
         <mods:classification
-                generator="mir_genres2diniPublType-mycore"
-                authorityURI="http://localhost:8291/mir/classifications/diniPublType"
-                valueURI="http://localhost:8291/mir/classifications/diniPublType#doctoralThesis"/>
+            generator="mir_genres2diniPublType-mycore"
+            authorityURI="http://localhost:8291/mir/classifications/diniPublType"
+            valueURI="http://localhost:8291/mir/classifications/diniPublType#doctoralThesis"/>
         {{< /highlight >}}
         {{< highlight xml "linenos=table">}}
-        <mods:classification generator="xpathmapping2orcidWorkType-mycore"
-                             authorityURI="/classifications/orcidWorkType"
-                             valueURI="/classifications/orcidWorkType#online-resource"/>
+        <mods:classification
+            generator="xpathmapping2orcidWorkType-mycore"
+            authorityURI="/classifications/orcidWorkType"
+            valueURI="/classifications/orcidWorkType#online-resource"/>
         {{< /highlight >}}
     </div>
+</div>
+<div><h2>Konfiguration und Anpassung</h2>
+    <p>
+        Die genannten Mappings werden beim Erstellen der expandierten Version eines MyCoRe-Objektes (<code>MCRExpandedObject</code>) ergänzt.
+        Hierbei wird ein datenmodellabhängig konfigurierter <code>MCRObjectExpander</code> verwendet, welcher wiederum einen
+        <code>MCRClassificationMapper</code> verwendet.
+    </p>
+    <p>
+        In einer "klassischen" MyCoRe-Anwendung ist hierzu ein <code>MCRDefaultGeneratorClassificationMapper</code> wie folgt definiert:
+    </p>
+    {{< highlight xml "linenos=table">}}
+     MCR.ObjectExpander.Impl.Default.ClassificationMapper.Class=org.mycore.datamodel.classifications2.mapping.MCRDefaultGeneratorClassificationMapper
+    {{< /highlight >}}
+    <p>
+        In einer MyCoRe-Anwendung mit MODS-Datenmodell ist hierzu ein <code>MCRMODSGeneratorClassificationMapper</code> wie folgt definiert:
+    </p>
+    {{< highlight xml "linenos=table">}}
+    MCR.ObjectExpander.Impl.mods.ClassificationMapper.Class=org.mycore.mods.classification.mapping.MCRMODSGeneratorClassificationMapper
+    {{< /highlight >}}
+    <p>
+        Diese Implementierungen können bei Bedarf ausgetauscht werden. Beide Implementierungen verwenden eine frei konfigurierbare Menge
+        von Generatoren, wobei jeder Generator eine Strategie für das Mappen von Klassifikationen umsetzt.
+        Typischerweise sollte es daher genügen, die bestehende Generatoren (<code>MCRDefaultXMappingClassificationGenerator</code>,
+        <code>MCRDefaultXPathClassificationGenerator</code>, <code>MCRMODSXMappingClassificationGenerator</code>,
+        <code>MCRMODSXPathClassificationGenerator</code>) umzukonfigurieren, zu deaktivieren oder eigene Generatoren hinzuzufügen.
+    </p>
+    <p>
+        Die Standardkonfiguration gibt Auskunft über die hierzu zu verwendenden Properties.
+    </p>
+    <p>
+        Im Falle von <code>MCRDefaultXMappingClassificationGenerator</code> und <code>MCRMODSXMappingClassificationGenerator</code>
+        kann für komplexere Anforderungen zudem der Evaluator für den Wert des <code>x-mapping</code>-Attributs ausgetauscht werden.
+    </p>
+    <p>
+        Die standardmäßige Auswertung als durch Leerzeichen getrennte Liste (<code>MCRSimpleXMappingEvaluator</code>) kann
+        durch eine andere Implementierung ersetzt werden. MyCoRe liefert hierzu z.B. eine Implementierung, bei der sich
+        Mappings in Abhängigkeit von gewissen Eigenschaften des behandelten Objekts auswählen lassen
+        (<code>MCRConditionalXMappingEvaluator</code>). Hierfür können aus den Metadaten des behandelten Objekts
+        Eigenschaften ermittelt werden (z.B. mit <code>MCRMODSParentGenreClassificationMappingCondition</code> als
+        <code>parentGenre</code>). Ein Klassifikationseintrag könnte dann z.B. so aussehen:
+    </p>
+    {{< highlight xml "linenos=table">}}
+    <category ID="preface">
+      <label xml:lang="de" text="Vorwort / Einleitung / Editorial"/>
+      <label xml:lang="en" text="Preface / Introduction / Editorial"/>
+      <label xml:lang="x-hosts" text="book collection festschrift proceedings journal issue"/>
+      <label xml:lang="x-mapping" text='[
+        "marcgt:article",
+        {
+          "@type": "parentGenre",
+          "journal issue": "diniPublType:article diniPublType2022:Editorial schemaOrg:ScholarlyArticle",
+          "@other": "diniPublType:bookPart diniPublType2022:BookPart schemaOrg:Chapter" 
+        }
+      ]'/>
+    </category>
+    {{< /highlight >}}
 </div>
