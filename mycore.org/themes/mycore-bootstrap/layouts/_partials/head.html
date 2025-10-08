@@ -4,9 +4,10 @@
 {{ hugo.Generator }}
 <meta name="hugo.IsExtended" content="{{ hugo.IsExtended }}" />
 <meta name="hugo.BuildDate" content="{{ hugo.BuildDate }}" />
+{{ if .GitInfo }}
 <meta name="hugo.Page.GitInfo.AbbreviatedHash" content="{{ .GitInfo.AbbreviatedHash }}" />
 <meta name="hugo.Page.GitInfo.AuthorDate" content="{{ .GitInfo.AuthorDate }}" />
-
+{{ end }}
 
 <link type="text/css" rel="stylesheet" href="https://webfonts.gbv.de/css?family=Source+Code+Pro|Sintony|Open+Sans::300,300i,400,400i,600,600i,700,700i">
 <link rel="stylesheet" href='{{ relURL "_gen/fontawesome-free/css/all.min.css"}}' />
