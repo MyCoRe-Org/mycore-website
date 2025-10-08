@@ -54,10 +54,161 @@ date: "2025-06-20"
       <h3>... die eine Migration erforderlich machen</h3>
       <ul>
         <li>Die Methode <code>MCRAccessControlSystem#instance()</code> wurde umbenannt (siehe unten).</li>
+        <li>
+          <strong>Umstellung auf das normalisierte Datenmodell und den Object Expander</strong><br/>
+          Mit diesen Änderungen führt das MyCoRe-Framework ein neues, robusteres und performanteres System zur Handhabung von Objektmetadaten ein. Das Kernkonzept ist die Trennung zwischen normalisierten und expandierten Objekten.
+          <strong>Normalisierte vs. Expandierte Objekte:</strong>
+          <ul>
+            <li>
+              <strong>Normalisiertes Objekt (MCRObject):</strong> Dies ist die Form, in der Objekte jetzt in der Datenbank (XML-Store) gespeichert werden. Sie enthalten keine redundanten Informationen mehr. Insbesondere sind die Listen von Kindern (&lt;children&gt;) und Derivaten (&lt;derobjects&gt;) nicht mehr Teil der MCRObjectStructure. Diese Informationen werden nun zentral und konsistent über den MCRLinkTableManager verwaltet.
+            </li>
+            <li>
+              <strong>Expandiertes Objekt (MCRExpandedObject):</strong> Dies ist eine angereicherte, denormalisierte In-Memory-Repräsentation eines Objekts. Sie wird zur Laufzeit für Anzeigezwecke (z. B. in XSLT-Transformationen), für die Indexierung (Solr) oder in APIs verwendet. Sie enthält die vollständigen Informationen, einschließlich Kinder, Derivate und von Eltern geerbte Metadaten.
+            </li>
+          </ul>
+          <strong>Der MCRExpandedObjectManager und Caching:</strong>
+          <ul>
+            <li>
+              Der neue MCRExpandedObjectManager ist die zentrale Anlaufstelle, um ein expandiertes Objekt zu erhalten (MCRExpandedObjectManager.getInstance().getExpandedObject(obj)).
+            </li>
+            <li>
+              Expandierte Objekte werden in einem Dateisystem-basierten Cache (MCRExpandedObjectCache) zwischengespeichert, um die Performance drastisch zu verbessern. Der Cache wird durch Event Handler automatisch invalidiert, wenn sich ein Objekt oder seine verknüpften Objekte ändern.
+            </li>
+          </ul>
+          <strong>Event-basierte Aktualisierungen statt MetadataShareAgent:</strong>
+          <ul>
+            <li>
+              Das alte MCRMetadataShareAgent-System zur Vererbung von Metadaten wurde vollständig entfernt.
+            </li>
+            <li>
+              Die Aktualisierung von abhängigen Objekten (z.B. Kinder, wenn sich ein Elternteil ändert) erfolgt nun über neue Events wie ANCESTOR_UPDATED und LINKED_UPDATED.
+            </li>
+            <li>
+              Diese Events führen zur Invalidierung des Caches für die betroffenen Objekte, die dann bei der nächsten Anforderung neu expandiert werden.
+            </li>
+          </ul>
+          <strong>Normalisierungs- und Validierungs-Framework:</strong>
+          <ul>
+            <li>
+              Es wurde ein konfigurierbares Framework eingeführt, um Objekte vor dem Speichern zu normalisieren und zu validieren. Dies sorgt für eine höhere Datenkonsistenz. Normalizer entfernen z.B. automatisch generierte Klassifikationen oder leeren die relatedItem-Struktur in MODS-Objekten, bevor diese gespeichert werden.
+            </li>
+          </ul>
+        </li>
       </ul>
 
       <h2>Migrationsschritte</h2>
       <ul>
+        <li>
+          <p>
+            <strong>API-Änderungen im Code beachten (Breaking Changes!)</strong><br/>
+            Der meiste Anpassungsbedarf wird in Ihrem eigenen Code entstehen, der auf die MyCoRe-Datenstrukturen zugreift.
+          </p>
+          <strong>Zugriff auf Kinder und Derivate:</strong>
+          <ul>
+            <li>
+              <strong>ALT:</strong> mcrObject.getStructure().getChildren() oder mcrObject.getStructure().getDerivates()
+            </li>
+            <li>
+              <strong>NEU:</strong> Diese Methoden existieren auf MCRObjectStructure nicht mehr. Verwenden Sie stattdessen:
+              <ul>
+                <li>
+                  Um die IDs zu erhalten (empfohlen und performant):
+                  {{< highlight java "linenos=table">}}
+List<MCRObjectID> childrenIDs = MCRMetadataManager.getChildren(mcrObject.getId());
+List<MCRObjectID> derivateIDs = MCRMetadataManager.getDerivateIds(mcrObject.getId());
+                  {{< /highlight >}}
+                </li>
+                <li>
+                  Um die vollständigen Link-Objekte (MCRMetaLinkID) zu erhalten, verwenden Sie die statische Methode `retrieveMCRExpandedObject` aus `MCRMetadataManager`, die die Daten aus dem Cache lädt:
+                  {{< highlight java "linenos=table">}}
+MCRExpandedObject expObject = MCRMetadataManager.retrieveMCRExpandedObject(mcrObject.getId());
+List<MCRMetaLinkID> children = expObject.getStructure().getChildren();
+List<MCRMetaEnrichedLinkID> derivates = expObject.getStructure().getDerivates();
+                  {{< /highlight >}}
+                </li>
+                <li>
+                  Alternativ kann der MCRExpandedObjectManager verwendet werden, wobei die Daten live ergänzt werden:
+                  {{< highlight java "linenos=table">}}
+MCRExpandedObject expObject = MCRExpandedObjectManager.getInstance().getExpandedObject(mcrObject);
+List<MCRMetaLinkID> children = expObject.getStructure().getChildren();
+List<MCRMetaEnrichedLinkID> derivates = expObject.getStructure().getDerivates();
+                  {{< /highlight >}}
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <strong>MCRMetadataManager API-Vereinfachung:</strong>
+          <ul>
+            <li>
+              Methoden mit Zeitstempel-basiertem Caching wurden entfernt.
+            </li>
+            <li>
+              <strong>ALT:</strong> MCRMetadataManager.getDerivateIds(objectId, 10, TimeUnit.SECONDS)
+            </li>
+            <li>
+              <strong>NEU:</strong> MCRMetadataManager.getDerivateIds(objectId)
+            </li>
+            <li>
+              <strong>ALT:</strong> MCRMetadataManager.getObjectId(derivateId, 10, TimeUnit.SECONDS)
+            </li>
+            <li>
+              <strong>NEU:</strong> MCRMetadataManager.getObjectId(derivateId)
+            </li>
+          </ul>
+          <strong>MCRLinkTableManager:</strong>
+          <ul>
+            <li>
+              Anstelle von String-Konstanten für Link-Typen (z.B. "parent", "derivate") wird nun das Enum MCRLinkType verwendet.
+            </li>
+            <li>
+              <strong>ALT:</strong> ltm.getSourceOf(id, "parent")
+            </li>
+            <li>
+              <strong>NEU:</strong> ltm.getSourceOf(id, MCRLinkType.PARENT)
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>
+            <strong>Datenmigration durchführen</strong><br/>
+            Ihre bestehenden XML-Daten in der Datenbank enthalten noch die alten, nicht-normalisierten Strukturen (&lt;children&gt; und &lt;derobjects&gt;). Diese müssen migriert werden.
+          </p>
+          <strong>CLI-Befehl zur Migration:</strong><br/>
+          Es wurde ein neuer CLI-Befehl eingeführt, um ein einzelnes Objekt zu migrieren:<br/>
+          <code>migrate to normalized object {id}</code>
+          <br/>
+          <strong>Migrationsstrategie für Kind-Reihenfolge:</strong>
+          <ul>
+            <li>
+              Der Migrationsbefehl entfernt die redundanten &lt;children&gt; und &lt;derobjects&gt; aus der XML-Struktur.
+            </li>
+            <li>
+              Die alte &lt;children&gt;-Liste enthielt eine implizite Reihenfolge. Sie können steuern, ob diese erhalten bleiben soll, indem Sie eine Strategie festlegen:
+              {{< highlight properties "linenos=table">}}
+# Behält die Reihenfolge in einem neuen <childrenOrder>-Element.
+# Gut, wenn die Reihenfolge wichtig war.
+MCR.Migration.ChildrenOrder.Strategy=org.mycore.migration.strategy.MCRAlwaysAddChildrenOrderStrategy
+
+# Standard: Entfernt die Kinderliste ohne sie zu überführen.
+# Sicher, wenn die Reihenfolge nie eine Rolle gespielt hat.
+# MCR.Migration.ChildrenOrder.Strategy=org.mycore.migration.strategy.MCRNeverAddChildrenOrderStrategy
+              {{< /highlight >}}
+            </li>
+          </ul>
+          <strong>Vorgehen:</strong>
+          <ul>
+            <li>
+              Das Migrationskommando besteht aus zwei Teilen:
+              <ol>
+                <li><code>select objects with xpath /mycoreobject</code> - um alle Objekte auszuwählen.</li>
+                <li><code>execute for selected migrate to normalized object {x}</code> - um die Migration für jedes ausgewählte Objekt auszuführen.</li>
+              </ol>
+            </li>
+            <li>
+              <strong>Wichtig:</strong> Führen Sie diesen Schritt aus, nachdem Sie Ihre Konfiguration und Ihren Code angepasst haben.
+            </li>
+          </ul>
+        </li>
         <li>
           <p>
             Bei allen MyCoRe-Modulen wurden die Tests von JUnit 4 auf JUnit 5 umgestellt.
@@ -117,7 +268,7 @@ date: "2025-06-20"
         </li>
         <li>
           <p>
-            Im Nachgang zu den Änderungen in 2025.06 wurde nun auch die Methode <code>MCRAccessControlSystem#instance()</code> in 
+            Im Nachgang zu den Änderungen in 2025.06 wurde nun auch die Methode <code>MCRAccessControlSystem#instance()</code> in
             <code>MCRAccessControlSystem#getInstance()</code> umbenannt. Die alte Methode wurde als <code>@Deprecated</code> markiert.
             Eigener Code bleibt daher noch funktionsfähig, muss aber vor der Verwendung der nächsten MyCoRe-Version umgestellt werden.
           </p>
