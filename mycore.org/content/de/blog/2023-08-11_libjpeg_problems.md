@@ -62,7 +62,7 @@ lrwxrwxrwx  1 root root        16 Feb 21  2022 libjpeg.so.8 -> libjpeg.so.8.2.2
 
 Zur Aktualisierung kann das Installationspaket für **libjpeg-turbo8** aus dem folgenden Ubuntu-Release (2023.04, Lunar) verwendet werden, welches eine reparierte Version der Bibliothek enthält.
 
-Die Downloadseite lautet: https://packages.ubuntu.com/lunar/libjpeg-turbo8.
+Die Downloadseite lautet: https://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.1.5-2ubuntu2_amd64.deb.
 
 Das Paket muss lediglich herunterladen und über den Paket-Manager installiert werden.
 
