@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2024"
 news/teaser_de: 	"MyCoRe-User und Entwickler trafen sich zum 19. MyCoRe-Workshop 2024 beim LVR in Sitz in Köln-Deutz und online."
 news/title_en: 		"MyCoRe-Workshop 2024"
