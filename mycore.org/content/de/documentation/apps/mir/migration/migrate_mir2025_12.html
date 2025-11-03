@@ -2,7 +2,7 @@
 
 title: "Migration MIR LTS 2025.06 nach 2025.12"
 mcr_version: ['2025.12']
-author: []
+author: ['']
 description: "
 Listet die einzelnen Schritte zur Migration von MIR LTS 2025.06 nach 2025.12 auf.
 "
@@ -40,17 +40,17 @@ date: "2025-06-20"
         <ul>
             <li>
                 Für die clientseitige Validierung in TinyMCE wird das Property <code>MIR.WebConfig.Editor.TinyMCE.ValidElements</code> verwendet.
-                Hierbei wird der Spezifikation von TinyMCE folgend die Liste der erlaubten Elemente mit Kommas getrennt.
+                Hierbei wird, der Spezifikation von TinyMCE folgend, die Liste der erlaubten Elemente mit Kommas getrennt.
             </li>
             <li>
                 Für die serverseitigen Validierung in <code>MIREditorUtils</code> wird das Property <code>MIR.Editor.HTML.Elements</code> verwendet.
-                Hierbei wird der Spezifikation von CKEditor folgend die Liste der erlaubten Elemente mit Semikolons getrennt.
+                Hierbei wird, der Spezifikation von CKEditor folgend, die Liste der erlaubten Elemente mit Semikolons getrennt.
             </li>
         </ul>
         <p>
-            Mit diesem Release von MIR wird dies vereinheitlicht. Durch <a href="https://mycore.atlassian.net/browse/MIR-1495">MIR-1495</a>
+            Mit diesem Release von MIR wird das vereinheitlicht. Durch <a href="https://mycore.atlassian.net/browse/MIR-1495">MIR-1495</a>
             muss ab sofort nur noch das Property <code>MIR.Editor.HTML.AllowedElements</code> gepflegt werden.
-            Hierbei wird der Spezifikation von TinyMCE folgend die Liste der erlaubten Elemente mit Kommas getrennt.
+            Hierbei wird der TinyMCE-Spezifikation folgend die Liste der erlaubten Elemente mit Kommas getrennt.
             Jedem Element-Namen kann in eckigen Klammern eine durch Senkrechtstriche getrennte Liste von erlaubten Attributen angehängt werden.
         </p>
         <p>
@@ -59,7 +59,7 @@ date: "2025-06-20"
         <div class="note">
             <p>
                 TinyMCE erlaubt <a href="https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#valid_elements">die Konfiguration weiterer Details</a>.
-                Dieser werden von der serverseitigen Implementierung in MIR jedoch nicht unterstützt. Es muss sich auf die hier beschriebenen Dinge beschränkt werden.
+                Dieser werden von der serverseitigen Implementierung in MIR jedoch nicht unterstützt. Es muss sich auf die hier beschriebenen Möglichkeiten beschränkt werden.
             </p>
         </div>
         <p>
@@ -75,7 +75,7 @@ date: "2025-06-20"
             </p>
         </div>
         <p>
-            Wer bisher eines der alten Properties angepasst hat, muss seine Anwendung auf das neue Property umstellen.
+            Wer bisher eines der alten Properties angepasst hat, muss es in seiner Anwendung auf das neue umstellen.
         </p>
         <div class="note">
             <p>
