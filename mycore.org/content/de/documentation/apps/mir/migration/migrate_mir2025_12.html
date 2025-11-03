@@ -26,12 +26,67 @@ date: "2025-06-20"
         <p>
             Damit ggf. vorhandende Abstracts in der aktuellen Sprache automatisch angezeigt werden können, müssen die
             folgenden CLI-Kommandos einmal ausgeführt werden.
-
+        </p>
         <ul>
             <li><code>reload solr configuration main in core main</code></li>
             <li><code>rebuild solr metadata index in core main</code></li>
         </ul>
+
+        <h3>HTML-Validierung</h3>
+        <p>
+            Mit {{<mcr-version "2024.06">}} wurden der XEditor für die Eingabe von formatierten Texten von CKEditor auf TinyMCE umgestellt.
+            Seit dem gibt es zwei Properties zur Konfiguration der hierbei erlaubten HTML-Elemente.
         </p>
+        <ul>
+            <li>
+                Für die clientseitige Validierung in TinyMCE wird das Property <code>MIR.WebConfig.Editor.TinyMCE.ValidElements</code> verwendet.
+                Hierbei wird der Spezifikation von TinyMCE folgend die Liste der erlaubten Elemente mit Kommas getrennt.
+            </li>
+            <li>
+                Für die serverseitigen Validierung in <code>MIREditorUtils</code> wird das Property <code>MIR.Editor.HTML.Elements</code> verwendet.
+                Hierbei wird der Spezifikation von CKEditor folgend die Liste der erlaubten Elemente mit Semikolons getrennt.
+            </li>
+        </ul>
+        <p>
+            Mit diesem Release von MIR wird dies vereinheitlicht. Durch <a href="https://mycore.atlassian.net/browse/MIR-1495">MIR-1495</a>
+            muss ab sofort nur noch das Property <code>MIR.Editor.HTML.AllowedElements</code> gepflegt werden.
+            Hierbei wird der Spezifikation von TinyMCE folgend die Liste der erlaubten Elemente mit Kommas getrennt.
+            Jedem Element-Namen kann in eckigen Klammern eine durch Senkrechtstriche getrennte Liste von erlaubten Attributen angehängt werden.
+        </p>
+        <p>
+            Beispiel: <code>a[href],b,i,div[style|class],span[style|class]</code>
+        </p>
+        <div class="note">
+            <p>
+                TinyMCE erlaubt <a href="https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#valid_elements">die Konfiguration weiterer Details</a>.
+                Dieser werden von der serverseitigen Implementierung in MIR jedoch nicht unterstützt. Es muss sich auf die hier beschriebenen Dinge beschränkt werden.
+            </p>
+        </div>
+        <p>
+            Standardmäßig wir das Property <code>MIR.Editor.HTML.AllowedElements</code> aus den beiden Properties 
+            <code>%MIR.Editor.HTML.HTMLElements</code> und <code>MIR.Editor.HTML.MathMLElements</code> zusammengesetzt.
+            In einer eigenen Anwendung können je nach Bedarf entweder die Gesamtliste oder die beiden Teillisten angepasst werden.
+        </p>
+        <div class="note">
+            <p>
+                Für die clientseitige Validierung wird die in <code>MIR.Editor.HTML.AllowedElements</code> konfigurierte Liste
+                in das Property <code>MIR.WebConfig.Editor.TinyMCE.AllowedElements</code> übernommen und clientseitig dem XEditor zur Verfügung gestellt.
+                Dieses Property sollte nicht direkt verändert werden.
+            </p>
+        </div>
+        <p>
+            Wer bisher eines der alten Properties angepasst hat, muss seine Anwendung auf das neue Property umstellen.
+        </p>
+        <div class="note">
+            <p>
+                TinyMCE verwendet die Liste der erlaubten HTML-Elemente ausschließlich zum Validieren der Eingabe.
+                Buttons und Menü-Einträge für verschiedene Formatierungen werden nicht automatisch ausgeblendet, wenn entsprechende Elemente nicht erlaubt sind.
+                Gegebenenfalls muss die Konfiguration des TinyMCE den eigenen Bedarfen entsprechend angepasst werden.
+                Hierzu kann die von MIR unter <code>/assets/tinymce/config.js</code> ausgelieferte Datei als Ausgangsbasis genommen werden.
+                Sie kann in einem eigenen Anwendungsmodul als <a href="{{< ref "res_index#web-ressourcen" >}}">Web-Ressource</a> unter demselben Web-Pfad bereitgestellt werden. 
+            </p>
+        </div>
+
 
     </div>
 </div>
