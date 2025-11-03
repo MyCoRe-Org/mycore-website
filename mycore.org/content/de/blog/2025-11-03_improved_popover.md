@@ -29,11 +29,11 @@ Als Ausgangsbasis dient die [Bootstrap 5 Dokumentation für Popovers](https://ge
 
 **Beispiel-Screenshot:**
 
-<img src="{{<relURL "/images/blog/howtos/improvedPopover.png">}}" alt="Screenshot des geöffneten Popovers" style="width:350px;display:block"/>  
+<img src="{{<relURL "/downloads/snippets/improved_popovers/improvedPopover.png">}}" alt="Screenshot des geöffneten Popovers" style="width:350px;display:block"/>  
 
 Der zugehörige Quelltext befindet sich in den beiden Dateien 
-[improvedPopover.html](/images/blog/howtos/improvedPopover.html) 
- und [improvedPopover.js](/images/blog/howtos/improvedPopover.js).
+[improvedPopover.html](/downloads/snippets/improved_popovers/improvedPopover.html) 
+ und [improvedPopover.js](/downloads/snippets/improved_popovers/improvedPopover.js).
 
 
 ### Initialisierung des Popovers im HTML
