@@ -10,7 +10,7 @@
   <xsl:variable name="baseurl_hero">https://raw.githubusercontent.com/tailwindlabs/heroicons/refs/heads/master/optimized/</xsl:variable>
   <xsl:variable name="baseurl_tabler">https://raw.githubusercontent.com/tabler/tabler-icons/refs/heads/main/icons/</xsl:variable>
   <xsl:variable name="baseurl_phosphor">https://raw.githubusercontent.com/phosphor-icons/core/refs/heads/main/assets/</xsl:variable>
-  <xsl:variable name="baseurl_radix">https://raw.githubusercontent.com/radix-ui/icons/refs/heads/master/packages/radix-icons/icons/</xsl:variable>
+  <xsl:variable name="baseurl_radix">https://raw.githubusercontent.com/radix-ui/icons/refs/heads/main/packages/radix-icons/icons/</xsl:variable>
   <xsl:variable name="baseurl_clarity">https://raw.githubusercontent.com/vmware-archive/clarity-assets/refs/heads/master/icons/</xsl:variable>
   <xsl:variable name="baseurl_simple">https://raw.githubusercontent.com/simple-icons/simple-icons/refs/heads/develop/icons/</xsl:variable>
   <xsl:variable name="baseurl_iconoir">https://raw.githubusercontent.com/iconoir-icons/iconoir/refs/heads/main/icons/</xsl:variable>

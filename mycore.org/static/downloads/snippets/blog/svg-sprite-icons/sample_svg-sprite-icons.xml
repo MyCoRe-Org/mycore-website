@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="svg-sprite-icons.xsl"?>
+<icons>
+  <i class="fa-brands fa-linux"></i>
+  <i class="fa-solid fa-bug"></i>
+  <i class="bi bi-cookie"></i>
+  <i class="teenyicons teenyicons-pdf-solid"></i>
+  <i class="teenyicons teenyicons-cog-outline"></i>
+  <i class="ic ic-baseline-alarm-add"></i>
+  <i class="ic ic-twotone-assignment-ind"></i>
+  <i class="ai ai-springer-square"></i>
+  <i class="oct oct-people-24"></i>
+  <i class="lucide lucide-rabbit"></i>
+  <i class="hero-24-outline hero-truck"></i>
+  <i class="tabler-outline tabler-plant"></i>
+  <i class="phosphor-duotone phosphor-bathtub"></i>
+  <i class="radix radix-rocket"></i>
+  <i class="clr-essential clr-objects-solid"></i>
+  <i class="simple simple-buymeacoffee"></i>
+  <i class="iconoir-regular iconoir-jellyfish"></i>
+</icons>
