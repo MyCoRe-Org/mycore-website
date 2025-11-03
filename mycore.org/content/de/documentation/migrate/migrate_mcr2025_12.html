@@ -51,13 +51,15 @@ date: "2025-06-20"
       </ul>
       
       <h2>Neuerungen</h2>
-      <h3>... die eine Migration erforderlich machen</h3>
+      <strong>... die eine Migration erforderlich machen</strong>
+      <h3>API-Anpassungen</h3>
       <ul>
         <li>Die Methode <code>MCRAccessControlSystem#instance()</code> wurde umbenannt (siehe unten).</li>
-        <li>
-          <strong>Umstellung auf das normalisierte Datenmodell und den Object Expander</strong><br/>
+      </ul>
+      <h3>Umstellung auf das normalisierte Datenmodell und den Object Expander</h3>
           Mit diesen Änderungen führt das MyCoRe-Framework ein neues, robusteres und performanteres System zur Handhabung von Objektmetadaten ein. Das Kernkonzept ist die Trennung zwischen normalisierten und expandierten Objekten.
-          <strong>Normalisierte vs. Expandierte Objekte:</strong>
+          
+          <h4>Normalisierte vs. Expandierte Objekte:</h4>
           <ul>
             <li>
               <strong>Normalisiertes Objekt (MCRObject):</strong> Dies ist die Form, in der Objekte jetzt in der Datenbank (XML-Store) gespeichert werden. Sie enthalten keine redundanten Informationen mehr. Insbesondere sind die Listen von Kindern (&lt;children&gt;) und Derivaten (&lt;derobjects&gt;) nicht mehr Teil der MCRObjectStructure. Diese Informationen werden nun zentral und konsistent über den MCRLinkTableManager verwaltet.
@@ -66,7 +68,7 @@ date: "2025-06-20"
               <strong>Expandiertes Objekt (MCRExpandedObject):</strong> Dies ist eine angereicherte, denormalisierte In-Memory-Repräsentation eines Objekts. Sie wird zur Laufzeit für Anzeigezwecke (z. B. in XSLT-Transformationen), für die Indexierung (Solr) oder in APIs verwendet. Sie enthält die vollständigen Informationen, einschließlich Kinder, Derivate und von Eltern geerbte Metadaten.
             </li>
           </ul>
-          <strong>Der MCRExpandedObjectManager und Caching:</strong>
+          <h4>Der MCRExpandedObjectManager und Caching</h4>
           <ul>
             <li>
               Der neue MCRExpandedObjectManager ist die zentrale Anlaufstelle, um ein expandiertes Objekt zu erhalten (MCRExpandedObjectManager.getInstance().getExpandedObject(obj)).
@@ -75,7 +77,7 @@ date: "2025-06-20"
               Expandierte Objekte werden in einem Dateisystem-basierten Cache (MCRExpandedObjectCache) zwischengespeichert, um die Performance drastisch zu verbessern. Der Cache wird durch Event Handler automatisch invalidiert, wenn sich ein Objekt oder seine verknüpften Objekte ändern.
             </li>
           </ul>
-          <strong>Event-basierte Aktualisierungen statt MetadataShareAgent:</strong>
+          <h4>Event-basierte Aktualisierungen statt MetadataShareAgent:</h4>
           <ul>
             <li>
               Das alte MCRMetadataShareAgent-System zur Vererbung von Metadaten wurde vollständig entfernt.
@@ -87,14 +89,12 @@ date: "2025-06-20"
               Diese Events führen zur Invalidierung des Caches für die betroffenen Objekte, die dann bei der nächsten Anforderung neu expandiert werden.
             </li>
           </ul>
-          <strong>Normalisierungs- und Validierungs-Framework:</strong>
+          <h4>Normalisierungs- und Validierungs-Framework</h4>
           <ul>
             <li>
               Es wurde ein konfigurierbares Framework eingeführt, um Objekte vor dem Speichern zu normalisieren und zu validieren. Dies sorgt für eine höhere Datenkonsistenz. Normalizer entfernen z.B. automatisch generierte Klassifikationen oder leeren die relatedItem-Struktur in MODS-Objekten, bevor diese gespeichert werden.
             </li>
           </ul>
-        </li>
-      </ul>
 
       <h2>Migrationsschritte</h2>
       <ul>
