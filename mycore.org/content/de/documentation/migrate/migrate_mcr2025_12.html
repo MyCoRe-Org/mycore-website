@@ -62,7 +62,7 @@ date: "2025-06-20"
           <h4>Normalisierte vs. Expandierte Objekte:</h4>
           <ul>
             <li>
-              <strong>Normalisiertes Objekt (MCRObject):</strong> Dies ist die Form, in der Objekte jetzt in der Datenbank (XML-Store) gespeichert werden. Sie enthalten keine redundanten Informationen mehr. Insbesondere sind die Listen von Kindern (&lt;children&gt;) und Derivaten (&lt;derobjects&gt;) nicht mehr Teil der MCRObjectStructure. Diese Informationen werden nun zentral und konsistent über den MCRLinkTableManager verwaltet.
+              <strong>Normalisiertes Objekt (MCRObject):</strong> Dies ist die Form, in der Objekte jetzt in der Datenbank (XML-Store) gespeichert werden. Sie enthalten keine redundanten Informationen mehr. Insbesondere sind die Listen von Kindern (<code>&lt;children&gt;</code>) und Derivaten (<code>&lt;derobjects&gt;</code>) nicht mehr Teil der <code>MCRObjectStructure</code>. Diese Informationen werden nun zentral und konsistent über den <code>MCRLinkTableManager</code> verwaltet.
             </li>
             <li>
               <strong>Expandiertes Objekt (MCRExpandedObject):</strong> Dies ist eine angereicherte, denormalisierte In-Memory-Repräsentation eines Objekts. Sie wird zur Laufzeit für Anzeigezwecke (z. B. in XSLT-Transformationen), für die Indexierung (Solr) oder in APIs verwendet. Sie enthält die vollständigen Informationen, einschließlich Kinder, Derivate und von Eltern geerbte Metadaten.
@@ -71,19 +71,19 @@ date: "2025-06-20"
           <h4>Der MCRExpandedObjectManager und Caching</h4>
           <ul>
             <li>
-              Der neue MCRExpandedObjectManager ist die zentrale Anlaufstelle, um ein expandiertes Objekt zu erhalten (MCRExpandedObjectManager.getInstance().getExpandedObject(obj)).
+              Der neue <code>MCRExpandedObjectManager</code> ist die zentrale Anlaufstelle, um ein expandiertes Objekt zu erhalten (<code>MCRExpandedObjectManager.getInstance().getExpandedObject(obj)</code>).
             </li>
             <li>
-              Expandierte Objekte werden in einem Dateisystem-basierten Cache (MCRExpandedObjectCache) zwischengespeichert, um die Performance drastisch zu verbessern. Der Cache wird durch Event Handler automatisch invalidiert, wenn sich ein Objekt oder seine verknüpften Objekte ändern.
+              Expandierte Objekte werden in einem Dateisystem-basierten Cache (<code>MCRExpandedObjectCache</code>) zwischengespeichert, um die Performance drastisch zu verbessern. Der Cache wird durch Event Handler automatisch invalidiert, wenn sich ein Objekt oder seine verknüpften Objekte ändern.
             </li>
           </ul>
-          <h4>Event-basierte Aktualisierungen statt MetadataShareAgent:</h4>
+          <h4>Event-basierte Aktualisierungen statt Metadata-Share-Agent:</h4>
           <ul>
             <li>
-              Das alte MCRMetadataShareAgent-System zur Vererbung von Metadaten wurde vollständig entfernt.
+              Das alte <code>MCRMetadataShareAgent</code>-System zur Vererbung von Metadaten wurde vollständig entfernt.
             </li>
             <li>
-              Die Aktualisierung von abhängigen Objekten (z.B. Kinder, wenn sich ein Elternteil ändert) erfolgt nun über neue Events wie ANCESTOR_UPDATED und LINKED_UPDATED.
+              Die Aktualisierung von abhängigen Objekten (z.B. Kinder, wenn sich ein Elternteil ändert) erfolgt nun über neue Events wie <code>ANCESTOR_UPDATED</code> und <code>LINKED_UPDATED</code>.
             </li>
             <li>
               Diese Events führen zur Invalidierung des Caches für die betroffenen Objekte, die dann bei der nächsten Anforderung neu expandiert werden.
@@ -92,7 +92,7 @@ date: "2025-06-20"
           <h4>Normalisierungs- und Validierungs-Framework</h4>
           <ul>
             <li>
-              Es wurde ein konfigurierbares Framework eingeführt, um Objekte vor dem Speichern zu normalisieren und zu validieren. Dies sorgt für eine höhere Datenkonsistenz. Normalizer entfernen z.B. automatisch generierte Klassifikationen oder leeren die relatedItem-Struktur in MODS-Objekten, bevor diese gespeichert werden.
+              Es wurde ein konfigurierbares Framework eingeführt, um Objekte vor dem Speichern zu normalisieren und zu validieren. Dies sorgt für eine höhere Datenkonsistenz. Normalizer entfernen z.B. automatisch generierte Klassifikationen oder leeren die <code>relatedItem</code>-Struktur in MODS-Objekten, bevor diese gespeichert werden.
             </li>
           </ul>
 
@@ -106,10 +106,10 @@ date: "2025-06-20"
           <strong>Zugriff auf Kinder und Derivate:</strong>
           <ul>
             <li>
-              <strong>ALT:</strong> mcrObject.getStructure().getChildren() oder mcrObject.getStructure().getDerivates()
+              <strong>ALT:</strong> <code>mcrObject.getStructure().getChildren()</code> oder <code>mcrObject.getStructure().getDerivates()</code>
             </li>
             <li>
-              <strong>NEU:</strong> Diese Methoden existieren auf MCRObjectStructure nicht mehr. Verwenden Sie stattdessen:
+              <strong>NEU:</strong> Diese Methoden existieren auf <code>MCRObjectStructure</code> nicht mehr. Verwenden Sie stattdessen:
               <ul>
                 <li>
                   Um die IDs zu erhalten (empfohlen und performant):
@@ -119,7 +119,7 @@ List<MCRObjectID> derivateIDs = MCRMetadataManager.getDerivateIds(mcrObject.getI
                   {{< /highlight >}}
                 </li>
                 <li>
-                  Um die vollständigen Link-Objekte (MCRMetaLinkID) zu erhalten, verwenden Sie die statische Methode `retrieveMCRExpandedObject` aus `MCRMetadataManager`, die die Daten aus dem Cache lädt:
+                  Um die vollständigen Link-Objekte (<code>MCRMetaLinkID</code>) zu erhalten, verwenden Sie die statische Methode <code>MCRMetadataManager#retrieveMCRExpandedObject</code>, die die Daten aus dem Cache lädt:
                   {{< highlight java "linenos=table">}}
 MCRExpandedObject expObject = MCRMetadataManager.retrieveMCRExpandedObject(mcrObject.getId());
 List<MCRMetaLinkID> children = expObject.getStructure().getChildren();
@@ -127,7 +127,7 @@ List<MCRMetaEnrichedLinkID> derivates = expObject.getStructure().getDerivates();
                   {{< /highlight >}}
                 </li>
                 <li>
-                  Alternativ kann der MCRExpandedObjectManager verwendet werden, wobei die Daten live ergänzt werden:
+                  Alternativ kann der <code>MCRExpandedObjectManager</code> verwendet werden, wobei die Daten live ergänzt werden:
                   {{< highlight java "linenos=table">}}
 MCRExpandedObject expObject = MCRExpandedObjectManager.getInstance().getExpandedObject(mcrObject);
 List<MCRMetaLinkID> children = expObject.getStructure().getChildren();
@@ -143,28 +143,28 @@ List<MCRMetaEnrichedLinkID> derivates = expObject.getStructure().getDerivates();
               Methoden mit Zeitstempel-basiertem Caching wurden entfernt.
             </li>
             <li>
-              <strong>ALT:</strong> MCRMetadataManager.getDerivateIds(objectId, 10, TimeUnit.SECONDS)
+              <strong>ALT:</strong> <code>MCRMetadataManager.getDerivateIds(objectId, 10, TimeUnit.SECONDS)</code>
             </li>
             <li>
-              <strong>NEU:</strong> MCRMetadataManager.getDerivateIds(objectId)
+              <strong>NEU:</strong> <code>MCRMetadataManager.getDerivateIds(objectId)</code>
             </li>
             <li>
-              <strong>ALT:</strong> MCRMetadataManager.getObjectId(derivateId, 10, TimeUnit.SECONDS)
+              <strong>ALT:</strong> <code>MCRMetadataManager.getObjectId(derivateId, 10, TimeUnit.SECONDS)</code>
             </li>
             <li>
-              <strong>NEU:</strong> MCRMetadataManager.getObjectId(derivateId)
+              <strong>NEU:</strong> <code>MCRMetadataManager.getObjectId(derivateId)</code>
             </li>
           </ul>
           <strong>MCRLinkTableManager:</strong>
           <ul>
             <li>
-              Anstelle von String-Konstanten für Link-Typen (z.B. "parent", "derivate") wird nun das Enum MCRLinkType verwendet.
+              Anstelle von String-Konstanten für Link-Typen (z.B. <code>parent</code>, <code>derivate</code>) wird nun das Enum <code>MCRLinkType</code> verwendet.
             </li>
             <li>
-              <strong>ALT:</strong> ltm.getSourceOf(id, "parent")
+              <strong>ALT:</strong> <code>ltm.getSourceOf(id, "parent")</code>
             </li>
             <li>
-              <strong>NEU:</strong> ltm.getSourceOf(id, MCRLinkType.PARENT)
+              <strong>NEU:</strong> <code>ltm.getSourceOf(id, MCRLinkType.PARENT)</code>
             </li>
           </ul>
         </li>
@@ -198,14 +198,16 @@ MCR.Migration.ChildrenOrder.Strategy=org.mycore.migration.strategy.MCRAlwaysAddC
           <strong>Vorgehen:</strong>
           <ul>
             <li>
-              Das Migrationskommando besteht aus zwei Teilen:
+              Für eine vollständige Datenmigration müssen mehrere Kommandos ausgeführt werden:
               <ol>
                 <li><code>select objects with xpath /mycoreobject</code> - um alle Objekte auszuwählen.</li>
                 <li><code>execute for selected migrate to normalized object {x}</code> - um die Migration für jedes ausgewählte Objekt auszuführen.</li>
+                <li><code>execute for selected repair metadata search of ID {x}</code> - um die Metadaten für jedes ausgewählte Objekt zu korrigieren.</li>
+                <li><code>repair metadata search of type derivate</code> - um die Metadaten für alle Derivate zu korrigieren.</li>
               </ol>
             </li>
             <li>
-              <strong>Wichtig:</strong> Führen Sie diesen Schritt aus, nachdem Sie Ihre Konfiguration und Ihren Code angepasst haben.
+              <strong>Wichtig:</strong> Führen Sie diesen Schritt erst aus, nachdem Sie Ihre Konfiguration und Ihren Code angepasst haben.
             </li>
           </ul>
         </li>
