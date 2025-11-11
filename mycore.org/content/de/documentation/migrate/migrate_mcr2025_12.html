@@ -265,6 +265,21 @@ MCR.Migration.ChildrenOrder.Strategy=org.mycore.migration.strategy.MCRAlwaysAddC
             hinzugefügt werden. Dies überschreibt die Standardeinstellung von MyCoRe
             (<code>&lt;maven.compiler.arg/&gt;-Werror&lt;/maven.compiler.arg/&gt;</code>) und erlaubt damit die Verwendung von derart markiertem Code.
           </p>
+          <p>
+            Dieses Modul soll nur vorübergehend die Migration eigener Tests erleichtern wird mit dem nächsten Release von MyCoRe wieder entfernt.
+          </p>
+        </li>
+        <li>
+          <p>
+            Die Unterstützung der indirekte Instanziierung von Event-Handlern wird mit dem nächsten Release von MyCoRe entfernt.
+            Hierbei handelt es sich um eigene Implementierungen von <code>MCREventHandlerInitializer</code>
+            im Kombination mit einer Konfigurationen der folgenden Art:
+            {{< highlight xml "linenos=table">}}
+            MCR.EventHandler.MCRObject.042.MyCustomMode
+            MCR.EventHandler.MyCustomMode=my.custom.CustomEventHandlerInitializer
+            {{< /highlight >}}
+            Wer diesen Mechanismus bisher nutzt, sollte bereits mit diesem Release auf die direkte Instanziierung umstellen.
+          </p>
         </li>
         <li>
           <p>
