@@ -316,6 +316,59 @@ public void init(String property) {
         <li>Aufrufen der mit <code>@MCRPostConstruction</code> annotierten Methode (in aufsteigenden <code>order</code>-Reihenfolge)</li>
     </ol>
 
+    <h2>Redundante Konfigurationseinträge</h2>
+    <p>
+        Bei den Annotationen <code>@MCRInstance</code>, <code>@MCRInstanceMap</code> oder <code>@MCRInstanceList</code> kann es den Fall geben, dass
+    </p>
+        <ul>
+            <li>
+                ein Property mit dem Klassennamen der zu instanziierenden Klasse notwendig ist (weil <code>required=false</code> nicht gesetzt wurde),
+            </li>
+            <li>
+                es nur einen einzigen möglichen Wert für dieses Property gibt (weil die unter <code>valueClass</code> benannte Klasse final ist) und
+            </li>
+            <li>
+                kontextuell klar ist, dass ein solches Property vorhanden sein muss (weil weitere Properties für die zu instanziierende Klasse gesetzt sind).
+            </li>
+        </ul>
+    <p> 
+        In so einem Fall kann das Property mit dem Klassennamen aus der Konfiguration weggelassen werden.
+    </p>
+    <p>
+        Eine solche Kombination kann z.B. bei Value-Klassen vorkommen, die die Konfiguration übersichtlicher machen, z.B.
+    </p>
+    {{< highlight java "linenos=table">}}
+    @MCRInstanceList(name = "Mappings", valueClass = Mapping.class)
+    public List<Mapping> mappings;
+
+    ...
+
+    public static final class Mapping {
+
+      @MCRProperty(name = "From")
+      public String from;
+
+      @MCRProperty(name = "To")
+      public String to;
+
+    }
+    {{< /highlight >}}
+    <p>
+        Eine passende Konfiguration könnte beispielsweise so aussehen:
+    </p>
+{{< highlight bash "linenos=table">}}
+MCR.Configurable.Class=my.configurable.MyConfigurableClass
+MCR.Configurable.Mappings.10.Class=my.configurable.MyConfigurableClass$Mapping
+MCR.Configurable.Mappings.10.From=foo
+MCR.Configurable.Mappings.10.To=bar
+MCR.Configurable.Mappings.20.Class=my.configurable.MyConfigurableClass$Mapping
+MCR.Configurable.Mappings.20.From=this
+MCR.Configurable.Mappings.20.To=that
+{{< /highlight >}}
+    <p>
+        Die redundanten Einträge <code>MCR.Configurable.Mappings.10.Class</code> und <code>MCR.Configurable.Mappings.20.Class</code> können hier weggelassen werden.
+    </p>
+
     <h2>Unterbundene Initialisierung mit @MCRSentinel</h2>
     <p>
         Zuweilen möchte man in der Konfiguration diverse geschachtelte Instanzen vorhalten
