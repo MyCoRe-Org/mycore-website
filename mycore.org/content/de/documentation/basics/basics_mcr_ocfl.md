@@ -16,7 +16,7 @@ Die Implementierung wurde mit Hilfe der [Java OCFL Libary](https://github.com/OC
 
 *   **Seit {{< mcr-version "2021.11" >}}:** Speicherung von **Objekt- und Klassifikations-Metadaten** im OCFL-Storage-Layout.
 *   **Seit {{< mcr-version "2022.06" >}}:** Erweiterung um **Nutzerdaten**-Speicherung.
-*   **Seit {{< mcr-version "2025.12" >}} (ca.):** Integration eines **NIO.2 FileSystem Providers** (`ocfl://`), welcher es ermöglicht, **Derivat-Inhalte (Dateien und Verzeichnisse)** direkt im OCFL-Repository über Standard-Java-IO/NIO-Operationen transaktional zu verwalten. Unterstützung für **S3-kompatiblen Objektspeicher** als Backend wurde hinzugefügt.
+*   **Seit {{< mcr-version "2025.12" >}}:** Integration eines **NIO.2 FileSystem Providers** (`ocfl://`), welcher es ermöglicht, **Derivat-Inhalte (Dateien und Verzeichnisse)** direkt im OCFL-Repository über Standard-Java-IO/NIO-Operationen transaktional zu verwalten. Unterstützung für **S3-kompatiblen Objektspeicher** als Backend wurde hinzugefügt.
 
 ### Zukünftige Pläne
 
@@ -35,6 +35,15 @@ Um OCFL zu nutzen, muss zuerst das entsprechende MyCoRe-Modul in der *pom.xml* i
     <version>${mycore.version}</version>
 </dependency>
 ```
+Für die S3 Anbindung wird zusätzlich das **mycore-ocfl-s3** Modul benötigt:
+```xml {linenos=table}
+ <dependency>
+    <groupId>org.mycore</groupId>
+    <artifactId>mycore-ocfl-s3</artifactId>
+    <version>${mycore.version}</version>
+</dependency>
+```
+
 ### Allgemeine Konfiguration
 
 Die folgenden Properties werden im Code als Standardwerte mitgeliefert. Alle Konfigurationen sind hier verfügbar: [ocfl-properties]
@@ -219,32 +228,21 @@ Link zur Spezifikation: [mycore-storage-layout.md](https://github.com/MyCoRe-Org
  ... (weitere Utility-Typen)
 ```
 
-### Konfiguration für S3-Speicher (`MCROCFLS3RepositoryProvider`)
+### Konfiguration für S3-Speicher
 
-Um einen S3-kompatiblen Speicher zu nutzen, muss der entsprechende Provider konfiguriert werden:
+Um einen S3-kompatiblen Speicher zu nutzen, muss das **mycore-ocfl-s3** Modul in der Anwendung eingebunden werden.
+Zusätzlich muss man den S3 Repository Provider setzen, den Endpoint, den Access- und den Secret-Key. 
 
+Hier ein Minimal Beispiel für eine MinIO-Instanz.
 ```properties {linenos=table}
-# S3 Repository Provider aktivieren (z.B. für "Main")
 MCR.OCFL.Repository.Main=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider
-
-# S3 Konfiguration
-MCR.OCFL.Repository.Main.S3=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3Settings
-MCR.OCFL.Repository.Main.S3.Endpoint=http://your-s3-endpoint:9000
-MCR.OCFL.Repository.Main.S3.Bucket=mycore-ocfl
-# TODO -> why this? shouldn't be dependend on content
-MCR.OCFL.Repository.Main.S3.RepoPrefix=%MCR.Content.Manager.Repository%
-
-MCR.OCFL.Repository.Main.S3.Credentials=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3CredentialSettings
-MCR.OCFL.Repository.Main.S3.Credentials.AccessKeyId=ACCESS_KEY
-MCR.OCFL.Repository.Main.S3.Credentials.SecretAccessKey=SECRET_KEY
-
-# Optionale S3 Client-Einstellungen (Timeouts in Sekunden, Parallelität)
-# MCR.OCFL.Repository.Main.S3.Client=org.mycore.ocfl.repository.MCROCFLS3RepositoryProvider$S3ClientSettings
-# MCR.OCFL.Repository.Main.S3.Client.ConnectionAcquisitionTimeout=60
-# MCR.OCFL.Repository.Main.S3.Client.WriteTimeout=120
-# MCR.OCFL.Repository.Main.S3.Client.ReadTimeout=60
-# MCR.OCFL.Repository.Main.S3.Client.MaxConcurrency=100
+MCR.OCFL.Repository.Main.S3.Endpoint=http://host.docker.internal:9010
+MCR.OCFL.Repository.Main.S3.Credentials.AccessKeyId={access key}
+MCR.OCFL.Repository.Main.S3.Credentials.SecretAccessKey={secret key}
 ```
+
+Eine vollständige Liste aller Properties findet sich
+[hier](https://github.com/MyCoRe-Org/mycore/blob/main/mycore-ocfl-s3/src/main/resources/components/ocfl-s3/config/mycore.properties).
 
 ### Versionierung von XML-Metadaten (Objekte & Derivate)
 
@@ -368,9 +366,9 @@ Da der lokale Speicherplatz begrenzt ist, muss eine Strategie festgelegt werden,
 MCR.Content.RemoteStorage=org.mycore.ocfl.niofs.storage.MCROCFLDefaultRemoteTemporaryStorage
 MCR.Content.RemoteStorage.Path=%MCR.datadir%/ocfl-storage/remote
 
-# Strategie: Bereinigung bei Überschreitung von 1 GB
+# Strategie: Bereinigung bei Überschreitung von 1000 MB
 MCR.Content.RemoteStorage.EvictionStrategy=org.mycore.ocfl.niofs.storage.MCROCFLMaxSizeEvictionStrategy
-MCR.Content.RemoteStorage.EvictionStrategy.MaxSize=1000 # Größe in Megabyte (MB)
+MCR.Content.RemoteStorage.EvictionStrategy.MaxSize=1000
 ```
 
 **Journaling und Wartung des Caches:**
@@ -388,10 +386,10 @@ Der Befehl `compact ocfl remote storage journal` liest den aktuellen Zustand des
 Es wird empfohlen, die Komprimierung regelmäßig (z.B. nächtlich) per Cronjob auszuführen.
 
 ```properties
-# Cronjob zur Komprimierung des Remote-Cache-Journals
+# Cronjob zur Komprimierung des Remote-Cache-Journals (Täglich um 2 Uhr morgens)
 MCR.Cronjob.Jobs.CompactRemoteStorageJournal=org.mycore.mcr.cronjob.MCRCommandCronJob
 MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Command=compact ocfl remote storage journal
-MCR.Cronjob.Jobs.CompactRemoteStorage_Journal.Cron=0 2 * * * # Täglich um 2 Uhr morgens
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Cron=0 2 * * *
 MCR.Cronjob.Jobs.CompactRemoteStorageJournal.User=system:JANITOR
 MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Enabled=true
 ```
