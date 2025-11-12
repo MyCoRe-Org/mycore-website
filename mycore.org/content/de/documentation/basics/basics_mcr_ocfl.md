@@ -166,9 +166,9 @@ Der Hashwert wird aus der OCFL Objekt ID gebildet (z.B. `mcrderivate:Project_der
 
 Das MyCoRe Storage Layout ist ein eigens entwickeltes OCFL Layout für **lokale Dateisysteme**, welches ähnlich dem nativen XML Store (IFS2) arbeitet. Die Pfadberechnung von `mcrobject` und `mcrderivate` erfolgt aus der ID und einem konfigurierbaren `SlotLayout` bzw. des eingestellten `NumberPatterns` (siehe [Metadataspeicher]({{< relref "basics_mcr_store">}})). Bei den Utility-Objekten (Klassifikationen, Nutzer, …) wird der Pfad aus deren Typ und dem Namen erstellt.
 
-<div class="warning">
-Es ist zu beachten, dass das MyCoRe Storage Layout keinem OCFL-Standard-Layout entspricht und daher nicht von externen Tools nativ unterstützt wird.
-</div>
+> **Achtung!**  
+> Das MyCoRe Storage Layout entspricht keinem OCFL-Standard-Layout und wird daher von externen Tools nicht nativ unterstützt.
+{.warning}
 
 Allerdings ist im Vergleich zum Hash-Layout die Ordnerstruktur des MyCoRe-Layouts besser ohne externe Tools zu navigieren. Es ist zu beachten, dass trotzdem keine Daten direkt verändert werden dürfen, da es sonst zu Fehlern bei der Validierung kommen kann.
 
@@ -263,8 +263,9 @@ MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 # MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager
 ```
 
-<div class="warning"><strong>Wichtig für Remote-Speicher (S3):</strong><br /> Bei Verwendung von Remote-Speichern ist es **zwingend erforderlich**, den `MCRFileBaseCacheObjectIDGenerator` zu konfigurieren, da das Ermitteln der höchsten ID durch Scannen des Repositories nicht effizient möglich ist:
-</div>
+> **Wichtig für Remote-Speicher (S3):**  
+> Bei Verwendung von Remote-Speichern ist es **zwingend erforderlich**, den `MCRFileBaseCacheObjectIDGenerator` zu konfigurieren, da das Ermitteln der höchsten ID durch Scannen des Repositories nicht effizient möglich ist:
+{.warning}
 
 ```properties {linenos=table}
 MCR.Metadata.ObjectID.Generator.Class=org.mycore.datamodel.common.MCRFileBaseCacheObjectIDGenerator
@@ -274,7 +275,9 @@ MCR.Metadata.ObjectID.Generator.Class=org.mycore.datamodel.common.MCRFileBaseCac
 
 Es ist auch möglich, Klassifikationen neben der Datenbank im OCFL Store zu speichern, aber primär wird dann weiterhin die Datenbank genutzt (OCFL als Backup/Historie).
 
-<div class="warning"><strong>Achtung!</strong> Aktuell ist die gleichzeitige Nutzung von OCFL und SOLR für Klassifikationen noch nicht möglich! Wir arbeiten daran.</div>
+> **Achtung!**  
+> Aktuell ist die gleichzeitige Nutzung von OCFL und SOLR für Klassifikationen noch nicht möglich! Wir arbeiten daran.
+{.warning}
 
 Die folgenden Properties werden im Code als Standardwerte mitgeliefert:
 
@@ -478,10 +481,10 @@ Um bestehende Derivat-Inhalte (z.B. aus IFS2) in das OCFL-Repository zu migriere
 2.  **Validierung (Wichtig!):** Nach der Migration **muss** die Korrektheit überprüft werden:
 *   Führen Sie `validate ocfl derivates` aus. Dies generiert `validate ocfl derivate ...`-Kommandos.
 *   Führen Sie die generierten `validate ocfl derivate {derivateId}`-Kommandos aus. Diese vergleichen die Digests (Prüfsummen) der Dateien im alten Speicher mit denen im neuen OCFL-Speicher. Abweichungen werden in der Logdatei und in `conf/ocfl-derivate-migration-errors` protokolliert.
-<div class="warning">
-<strong>Erst wenn die Validierung für alle Derivate fehlerfrei durchläuft (<code>ocfl-derivate-migration-errors</code> existiert nicht oder ist leer), kann der alte Speicher (z.B. IFS2-Verzeichnisse) sicher entfernt werden!</strong>
-</div>
 
+> **Achtung!**  
+> Erst wenn die Validierung für alle Derivate fehlerfrei durchläuft (<code>ocfl-derivate-migration-errors</code> existiert nicht oder ist leer), kann der alte Speicher (z.B. IFS2-Verzeichnisse) sicher entfernt werden! 
+{.warning}
 
 ### Migration von Klassifikationen und Nutzerdaten zu OCFL
 
