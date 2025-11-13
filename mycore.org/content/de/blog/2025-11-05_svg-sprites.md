@@ -52,17 +52,17 @@ Das *XSLT-Stylesheet* führt mit dieser Datei folgende **Transformation** durch:
 
 ### Ausführen der Transformation
 Das Stylesheet ist XSLT 1.0 konform, so lässt sich die Transformation mit einem gängigen Browser durchführen. Allerdings benötigt man inzwischen einen Webserver (z.B [Apache HTTPD](https://httpd.apache.org/), [Tomcat](https://tomcat.apache.org/) oder [jwebserver](https://dev.java/learn/jvm/tool/jwebserver/)), da aktuelle Browser es lokalen HTML-Dateien nicht mehr gestatten, zusätzliche Daten von externen Quellen nachzuladen.  
-Man startet beispielsweise *jwebserver* in dem Ordner, in dem sich die Beispiel-XML-Datei und die XSLT-Datei befinden, öffnet im Firefox-Browser die Seite [http://127.0.0.1:8000/sample_svg-sprite-icons.xml](http://127.0.0.1:8000/sample_svg-sprite-icons.xml) und speichert diese als SVG-Datei ab (z.B. als [sample-svg-sprite-icons.svg]({{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample-svg-sprite-icons.svg">}})). Alternativ lässt sich die Transformation auch an der Kommandozeile mit einem Tool wie [xsltproc](https://manpages.ubuntu.com/manpages/noble/en/man1/xsltproc.1.html) durchführen.
+Man startet beispielsweise *jwebserver* in dem Ordner, in dem sich die Beispiel-XML-Datei und die XSLT-Datei befinden, öffnet im Firefox-Browser die Seite [http://127.0.0.1:8000/sample_svg-sprite-icons.xml](http://127.0.0.1:8000/sample_svg-sprite-icons.xml) und speichert diese als SVG-Datei ab (z.B. als [sample_svg-sprite-icons.svg]({{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample_svg-sprite-icons.svg">}})). Alternativ lässt sich die Transformation auch an der Kommandozeile mit einem Tool wie [xsltproc](https://manpages.ubuntu.com/manpages/noble/en/man1/xsltproc.1.html) durchführen.
 
 ### Benutzung der SVG-Datei
 Als **Ergebnis** wird folgende SVG-Datei erzeugt:
-<img src="{{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample-svg-sprite-icons.svg">}}" alt="SVG-Datei mit allen Symbolen" style="display:block;width:400px" class="border border-secondary" />  
+<img src="{{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample_svg-sprite-icons.svg">}}" alt="SVG-Datei mit allen Symbolen" style="display:block;width:400px" class="border border-secondary" />  
 
 Die **Verwendung** im HTML-Code einer Webseite erfolgt beispielhaft auf folgende Weise:
 
 <button style="float:right;margin-left:3em;" type="button" class="btn btn-outline-danger">
   <svg class="icon" style="width: 1em; height:1em; vertical:align:-0.125em;">
-    <use xlink:href="{{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample-svg-sprite-icons.svg">}}#fa-solid_fa-bug" />
+    <use xlink:href="{{<relURL "/downloads/snippets/blog/svg-sprite-icons/sample_svg-sprite-icons.svg">}}#fa-solid_fa-bug" />
   </svg>  Käfer</button>
   
 ``` html
@@ -171,6 +171,12 @@ you can access and customize any SVG graphic elements inside the icon through st
 * Ressourcen: [Homeage](https://iconoir.com/),
 [GitHub](https://github.com/iconoir-icons/iconoir/)
 * Beispiel-XML: `<i class="iconoir-regular iconoir-jellyfish"></i>`
+
+#### Flag-Icons
+*"A curated collection of all country flags in SVG"*  (ca. 270 Symbole)  
+* Ressourcen: [Homepage](https://flagicons.lipis.dev/),
+[GitHub](https://github.com/lipis/flag-icons/)
+* Beispiel-XML: `<i class="flag-icons flag-icons-ki"></i>`
 
 #### Academicons
 *"Academicons is a specialist icon font for academics. It contains icons for websites and organisations related to academia that are often missing from mainstream font packages. It can be used by itself, but its primary purpose is to be used as a supplementary package alongside a larger icon set."*  (ca. 150 Symbole)  

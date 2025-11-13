@@ -16,6 +16,7 @@
   <xsl:variable name="baseurl_iconoir">https://raw.githubusercontent.com/iconoir-icons/iconoir/refs/heads/main/icons/</xsl:variable>
   <xsl:variable name="baseurl_academicons">https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/</xsl:variable>
   <xsl:variable name="baseurl_material_ic">https://raw.githubusercontent.com/material-icons/material-icons/refs/heads/master/svg/</xsl:variable>
+  <xsl:variable name="baseurl_flags">https://raw.githubusercontent.com/lipis/flag-icons/refs/heads/main/flags/4x3/</xsl:variable>
   
   <xsl:template match="icons" priority="1">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -75,6 +76,9 @@
               </xsl:when>
                <xsl:when test="$icon_provider='ic'">
                 <xsl:value-of select="concat($baseurl_material_ic, translate(substring-after(substring-after($icon_id, 'ic-'), '-'),'-', '_'), '/', substring-before(substring-after($icon_id, 'ic-'), '-'), '.svg')"/>
+              </xsl:when>
+              <xsl:when test="starts-with($icon_provider, 'flag-icons')">
+                <xsl:value-of select="concat($baseurl_flags, substring($icon_id, 12), '.svg')"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:value-of select="'https://example.org/unknown-icon'"/>
@@ -139,6 +143,10 @@
             <xsl:text>&#xa;    </xsl:text>
             <xsl:comment>This SVG sprite contains icons from: Material Design Icons by Google - https://github.com/material-icons/material-icons / Apache2 License https://www.apache.org/licenses/LICENSE-2.0</xsl:comment>
           </xsl:if>
+          <xsl:if test="((//icons/i[starts-with(@class,'flag-icons')])[1])/@class = ./@class">
+            <xsl:text>&#xa;    </xsl:text>
+            <xsl:comment>This SVG sprite contains icons from: Lipsis Flag-Icons - https://flagicons.lipis.dev/ MIT License https://mit-license.org</xsl:comment>
+          </xsl:if>
 
           <!-- output source url as comment-->
           <xsl:text>&#xa;    </xsl:text>
@@ -181,6 +189,7 @@
                     <xsl:if test="@stroke='black'">
                       <xsl:attribute name="stroke">currentColor</xsl:attribute>
                     </xsl:if>
+                    <xsl:copy-of select="*"/>
                   </xsl:element>
                 </xsl:for-each>
               </xsl:when>
