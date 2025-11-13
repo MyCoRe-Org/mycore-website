@@ -176,7 +176,7 @@ you can access and customize any SVG graphic elements inside the icon through st
 *"A curated collection of all country flags in SVG"*  (ca. 270 Symbole)  
 * Ressourcen: [Homepage](https://flagicons.lipis.dev/),
 [GitHub](https://github.com/lipis/flag-icons/)
-* Beispiel-XML: `<i class="flag-icons flag-icons-ki"></i>`
+* Beispiel-XML: `<i class="flagicons flagicons-ki"></i>`
 
 #### Academicons
 *"Academicons is a specialist icon font for academics. It contains icons for websites and organisations related to academia that are often missing from mainstream font packages. It can be used by itself, but its primary purpose is to be used as a supplementary package alongside a larger icon set."*  (ca. 150 Symbole)  
