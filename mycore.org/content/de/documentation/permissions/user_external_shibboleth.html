@@ -116,6 +116,32 @@ date: "2021-11-05"
     Informationen die beim Login vom Identity-Provider übermittelt wurden.</p>
 </p>
 
+<h3>MCRShibbolethLoginServlet</h3>
+<p>
+  Das <em>MCRShibbolethLoginServlet</em> verarbeitet die Attribute, die beim Login vom Identity-Provider übermittelt werden.
+  Grundsätzlich ermittelt das Servlet daraus die UserID, die zur eindeutigen Zuordnung des Benutzers benötigt wird.
+  Die UserID ist eindeutig und in der Regel aus dem Username und einer sogenannten <em>RealmID</em>, z.B. <code>user@mycore.de</code>.
+  Dabei steht <code>user</code> für den Username und <code>mycore.de</code> die RealmID.
+</p>
+<p>
+  <strong>Wichtig</strong>: Primär dient das <em>uid</em>-Attribut als Basis für die UserID.
+  Wird es nicht übermittelt, kommt als Fallback der <em>RemoteUser</em> zum Einsatz.
+  Es muss also sets sichergestellt sein, dass entweder aus der uid oder dem RemoteUser eine gültige UserID bestimmt werden kann.
+  Eignet sich die uid nicht für diesen Zweck, darf diese nicht übermittelt werden; stattdessen der RemoteUser korrekt bereitgestellt werden.
+  Die Übermittlung der Attribute an das Servlet kann z.B. im Tomcat-Connector über <code>allowedRequestAttributesPattern</code> gesteuert/gefiltert werden.
+  Der RemoteUser kann in der <code>shibboleth2.xml</code> definiert werden.
+</p>
+<p>
+Über die <code>realms.xml</code> kann eine <code>realm</code> konfiguriert werden, inkl. Mapping für die Nutzerattribute.
+Das Servlet nutzt das Mapping für die Attribute.
+</p>
+
+<h4>Fehlersuche</h4>
+<p>
+<code>request.getAttributeNames()</code> enthält leider nicht die Namen der Shibboleth Attribute.
+Attribute sollten demnach mit <code>request#getAttribute</code> geprüft werden.
+</p>
+
 <h3>Anpassen der Realms.xml</h3>
 <p>
   Nachdem Apache Konfiguriert ist, muss die <code>realms.xml</code> im Datenverzeichnis von MyCoRe angepasst
