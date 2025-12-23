@@ -442,6 +442,30 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
             Durch diese Umstellung müssen die Properties ggf. im Frontend anders interpretiert werden.
           </p>
         </li>
+        <li>
+          <p>
+            Mit <a href="https://mycore.atlassian.net/browse/MCR-3313">MCR-3313</a> wurde die Implementierung der Zugriffsschlüssel (inkl. REST-API und Rechtemangement) grundlegend überarbeitet.
+            Der Storage Mode muss nun ggf. über
+            <code>MCR.ACL.AccessKey.Service.SecretProcessor.Class</code> =&gt; <code>MCR.ACL.AccessKey.Secret.Storage.Mode</code>
+            konfiguriert werden, wobei <code>hash</code> nach wie vor Standard ist:
+            {{< highlight java "linenos=table">}}
+# plain
+#MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyPlainSecretProcessor
+# hash
+MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyHashSecretProcessor
+# crypt
+#MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyCryptSecretProcessor{{< /highlight >}}
+            Sofern <code>hash</code> eingesetzt wurde und die Iterationen angepasst wurden, müssen die Iterationen nun:
+            <code>MCR.ACL.AccessKey.Secret.Storage.Mode.Hash.Iterations</code> =&gt; <code>MCR.ACL.AccessKey.SecretProcessor.Hash.HashIterations</code>
+            gesetzt werden.
+          </p>
+          <p>
+            Für die Verwaltung der Zugriffsschlüssel über die den Access Key Manager / REST-API sind nur granulare Brechtigungen notwendig.
+            Diese Berechtigungen bestehen aus einem Tupel, das den Referenztyp und die Berechtigung umfasst.
+            Beispielsweise für die Verwaltung von &lt;Recht, z.B. read &gt;-Zugriffsschlüssel für mods: <code>(mods, manage-access-key-&lt;z.B. read&gt;)</code>.
+            <code>(POOLPRIVILEGE, manage-access-key)</code> bietet uneingeschränkte Verwaltung aller Zugriffsschlüssel.
+          </p>
+        </li>
        </ul>
       <p></p>
 
