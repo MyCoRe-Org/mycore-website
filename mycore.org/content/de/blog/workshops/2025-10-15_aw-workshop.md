@@ -1,13 +1,13 @@
 ---
 title:  "25 Jahre MyCoRe"
 slug: 	mycore-jubilee
-date:   2025-11-05
-publishDate: 2025-11-05
+date:   2025-12-23
+publishDate: 2025-12-23
 
 draft: 	false
 
 blog/authors: 	["Wiebke Oeltjen"]
-blog/periods: 	2025-11
+blog/periods: 	2025-12
 blog/categories:
  - Workshops
 
