@@ -187,6 +187,41 @@ date: "2022-10-18"
       </div>
 
       <div>
+        <h2>Statische Factory-Methoden in Java</h2>
+        <p>
+          Statische Facory-Methoden sind als <code>static</code> markierte Methoden innerhalb einer Klasse,
+          die eine Instanz dieser Klasse zurückliefern. Für derartige Methoden gibt es in MyCoRe
+          die folgende Namenskonvention:
+        </p>
+        <ul>
+          <li>
+            <code>getInstance()</code> ausschlielich für echte Singeltons
+          </li>
+          <li>
+            <code>createInstance(…)</code> für statische Methoden
+            <em>mit</em> Garantie, dass bei jedem Aufruf eine neue Instanz erzeugt wird
+            (wenn diese Garantie für die Semantik der API relevant ist)
+          </li>
+          <li>
+            <code>obtainInstance(…)</code> für statische Methoden
+            <em>ohne</em> Garantie, dass bei jedem Aufruf eine neue Instanz erzeugt wird
+            (auch wenn die aktuelle Implementierung immer eine neue Instanz erzeugen sollte,
+            dies aber für die Semantik der API nicht relevant ist und sich daher in Zukunft ändern darf)
+          </li>
+          <li>
+            <code>of(…)</code> oder <code>ofXXX(…)</code> für Records und Value/Record-artige Klassen
+          </li>
+          <li>
+            <code>from(…)</code> oder <code>fromXXX(…)</code> für Enums und Enum-artige Klassen
+          </li>
+          <li>
+            Semantische Benennung (z.B. <code>now()</code>, <code>parse()</code>, <code>parseXml()</code>)
+            wenn eine eindeutig passende Bennennung existiert
+          </li>
+        </ul>
+      </div>
+
+      <div>
         <h2>Verwendung des Maven-Datamodel-Plugin</h2>
         <p>Datenmodelle nach dem MyCoRe-Datenmodel-Schema 2 müssen im Maven-Modul unter <code>src/main/datamodel/def</code>
         stehen und den Namen <code>{datenmodel}.xml</code> haben. Dabei wird {datenmodel} dann in die Schemadatei
