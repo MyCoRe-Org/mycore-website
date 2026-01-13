@@ -1,10 +1,9 @@
 ---
-title: "Migration MyCoRe LTS 2025.12 nach 2026.06"
-mcr_version: ['2026.06']
+title: "Migration MyCoRe LTS 2026.06 nach 2026.12"
+mcr_version: ['2026.12']
 author: []
-description: "
-Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2026.06 und die Migration von Version
-2025.12 zu 2026.06 zusammen."
+description: "Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2026.12 und die Migration von Version
+2026.06 zu 2026.12 zusammen."
 date: "2000-01-01"
 ---
 {{< mcr-comment >}} Publish this page by setting the date and removing icon and property 'pre' from menus.de.yaml {{< /mcr-comment >}}
@@ -14,13 +13,13 @@ date: "2000-01-01"
         Sie wird im Rahmen der Fertigstellung des aktuellen MyCoRe-Releases weiter ergänzt!
     </div>
 
-    <h2>Systemanforderungen MyCoRe LTS 2026.06 [TODO: UPDATE]</h2>
+    <h2>Systemanforderungen MyCoRe LTS 2026.12 [TODO: UPDATE]</h2>
     <p>
-        Für den Betrieb einer MyCoRe-Anwendung unter LTS 2026.06 sind folgende Voraussetzungen zu erfüllen:
+        Für den Betrieb einer MyCoRe-Anwendung unter LTS 2026.12 sind folgende Voraussetzungen zu erfüllen:
     </p>
 
     <h3>Betriebssystem</h3>
-    <p>MyCoRe LTS 2026.06 ist auf diesen Betriebsystemen im Einsatz. Höhere Versionen sollten kein Problem darstellen.
+    <p>MyCoRe LTS 2026.12 ist auf diesen Betriebsystemen im Einsatz. Höhere Versionen sollten kein Problem darstellen.
     </p>
     <ul>
         <li>Open SuSE Leap 15.6 oder höher</li>
@@ -32,7 +31,7 @@ date: "2000-01-01"
     </ul>
 
     <h3>Standardsoftware</h3>
-    <p>Zur Arbeit mit MyCoRe LTS 2026.06 sind folgende Softwarekomponenten erforderlich bzw. empfohlen. Diese sind alle
+    <p>Zur Arbeit mit MyCoRe LTS 2026.12 sind folgende Softwarekomponenten erforderlich bzw. empfohlen. Diese sind alle
         von Drittanbietern und im Normalfall in den Distributionen enthalten.
     </p>
     <ul>
@@ -48,11 +47,9 @@ date: "2000-01-01"
 
     <h2>Neuerungen</h2>
     <strong>... die eine Migration erforderlich machen</strong>
-    <h4>Verhaltensänderung von MCRCronjob</h4>
+    <h4>Punkt 1</h4>
     <ul>
-        <li>Bisher wurden konfigurierte MCRCronjobs bei einer Exception im Job nicht mehr gemäß des CRON-Zeitplans neu geplant.
-            Ab dieser Version führt ein Fehler im Job nicht mehr zum vollständigen Abbruch des Zeitplans.
-            Ein Retry-Mechanismus für die erneute Ausführung des aktuellen Joblaufs ist weiterhin nicht vorgesehen.</li>
+        <li>Beschreibung</li>
     </ul>
 
     <h2>Migrationsschritte</h2>
