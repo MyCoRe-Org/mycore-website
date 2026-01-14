@@ -18,43 +18,20 @@
   <script>
     document.addEventListener("DOMContentLoaded", async function(event) { 
       for (let e of document.querySelectorAll("a.dynamic-maven-url")){
-        let metaURL = await retrieveMavenMetadataURL(e);
-        console.log(metaURL);
-        let mavenData = await retrieveMavenData(e, metaURL);
+        let mavenData = await retrieveMavenData(e);
         console.log(mavenData.url);
         e.setAttribute("href", mavenData.url);
         e.textContent = e.textContent.replace("$VERSION", mavenData.version ).replace("$SNAPSHOT", mavenData.snapshotVersion);
       }
     });
   
-    async function retrieveMavenMetadataURL(e){
-      // Beispiel: https://central.sonatype.com/repository/maven-snapshots/org/mycore/mir/mir-webapp/2023.06.5-SNAPSHOT/maven-metadata.xml
-      let metadataXmlURL = "https://central.sonatype.com/repository/maven-snapshots/"
-        + e.dataset.mavenGroupid.replaceAll(".","/") + "/" + e.dataset.mavenArtifactid
-        + "/" + e.dataset.mavenVersion + "-SNAPSHOT/maven-metadata.xml";
-      let version=e.dataset.mavenVersion;
-      console.log(version);
-      if(version.includes("$x")){
-        for (let i = 0; i < 10; i++) {
-          const url = "https://central.sonatype.com/repository/maven-snapshots/"
-            + e.dataset.mavenGroupid.replaceAll(".","/") + "/" + e.dataset.mavenArtifactid
-            + "/" + version.replace("$x", i) + "-SNAPSHOT/maven-metadata.xml";
-          
-          const r = await fetch("https://corsproxy.io/?url="+url)
-            .catch(error => { /*ignore */ });
-          if(r.ok){
-            metadataXmlURL = url;
-          }
-        }
-      }
-      return metadataXmlURL;
-    }
-
-    async function retrieveMavenData(e, metadataURL){
+    async function retrieveMavenData(e){
       //Beispiel-Result {url: 'https://central.sonatype.com/repository/maven-snapshots/org/mycore/mycore-base/2025.12.0-SNAPSHOT/mycore-base-2025.12.0-20251204.160950-64.pom',
       //                 version: '2023.06.5-SNAPSHOT',
       //                 snapshotVersion: '2023.06.5-20251216.150037-2'
       //                 }
+      
+      const metadataURL = await retrieveMavenMetadataURL(e);
       let text = await fetch("https://corsproxy.io/?url="+metadataURL)
           .then((response) => response.text());
 
@@ -76,6 +53,29 @@
           + "/" +e.dataset.mavenArtifactid + "-" + snapshotVersion
           + "." +e.dataset.mavenExtension;
       return {version: version, snapshotVersion:snapshotVersion, url: downloadURL};
+    }
+    
+    async function retrieveMavenMetadataURL(e){
+      // Beispiel: https://central.sonatype.com/repository/maven-snapshots/org/mycore/mir/mir-webapp/2023.06.5-SNAPSHOT/maven-metadata.xml
+      let metadataXmlURL = "https://central.sonatype.com/repository/maven-snapshots/"
+        + e.dataset.mavenGroupid.replaceAll(".","/") + "/" + e.dataset.mavenArtifactid
+        + "/" + e.dataset.mavenVersion + "-SNAPSHOT/maven-metadata.xml";
+      let version=e.dataset.mavenVersion;
+      console.log(version);
+      if(version.includes("$x")){
+        for (let i = 0; i < 10; i++) {
+          const url = "https://central.sonatype.com/repository/maven-snapshots/"
+            + e.dataset.mavenGroupid.replaceAll(".","/") + "/" + e.dataset.mavenArtifactid
+            + "/" + version.replace("$x", i) + "-SNAPSHOT/maven-metadata.xml";
+          
+          const r = await fetch("https://corsproxy.io/?url="+url)
+            .catch(error => { /*ignore */ });
+          if(r.ok){
+            metadataXmlURL = url;
+          }
+        }
+      }
+      return metadataXmlURL;
     }
   </script>
 </body>
