@@ -20,7 +20,7 @@
             <ul id='{{ .Identifier }}'
                 class='collapse {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} show {{ end }}'>
               {{ range .Children }}
-                {{ if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) (not (eq site.Draft true)) }}
+                {{ if or site.BuildDrafts (not (eq (upper .Pre) "DRAFT")) }}
                 <li><a class='nav-item nav-link {{ if .HasChildren}}has-children collapsed{{ else }}no-children{{ end }} {{ if (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}} active {{ end }}'
                        data-toggle='{{ if .HasChildren}}collapse{{ end }}'
                        href='{{ if .HasChildren }}{{ (print "#" .Identifier) }}{{ else }}{{ relLangURL .URL }}{{ end }}'>
