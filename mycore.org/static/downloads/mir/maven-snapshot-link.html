@@ -43,11 +43,11 @@
       const xmlDoc = parser.parseFromString(text, "text/xml");
 
       const ext = e.dataset.mavenExtension;
-      const snapshotVersion = document.evaluate(
+      const snapshotVersion = xmlDoc.evaluate(
           "//snapshotVersion[extension='" + ext + "']/value",
           xmlDoc, null, XPathResult.STRING_TYPE, null
         ).stringValue;
-      const version = document.evaluate(
+      const version = xmlDoc.evaluate(
           "/metadata/version",
           xmlDoc, null, XPathResult.STRING_TYPE, null
         ).stringValue;
