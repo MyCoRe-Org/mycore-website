@@ -1,34 +1,54 @@
 
 ---
 
-title: "Release 2025.06 (LTS)"
-mcr_version: ['2025.06']
+title: "Release 2025.12 (LTS)"
+mcr_version: ['2025.12']
 author: ['Kathleen Neumann']
-date: "2025-07-05"
+date: "2026-01-20"
 
 ---
-
+   <h3>Download der aktuellen SNAPSHOT-Version</h3>
     <p>
-      Hier kann das aktuelle
-      <a href="https://central.sonatype.com/repository/maven-snapshots/org/mycore/mir/mir-webapp/2025.06.1-SNAPSHOT/mir-webapp-2025.06.1-20250918.113022-20.war">MIR-LTS-Paket</a>
+      Hier kann die <strong>aktuelle</strong> LTS-Version der Web-Anwendung
+      <a class="maven-snapshot-link" data-maven-groupid="org.mycore.mir" data-maven-artifactid="mir-webapp" data-maven-version="2025.12" data-maven-extension="war">mir-webapp ($VERSION)</a>
       (speichern als <code>mir.war</code>) heruntergeladen werden. Dieses kann mit dem Context 'mir' direkt in einen Servlet Container ausgeliefert
       (deployed) werden.
     </p>
     <p>
-      Für administrative Zwecke kann zusätzlich eine MIR-CLI im Format zip oder tar.gz heruntergeladen werden:
+      Für administrative Zwecke kann zusätzlich eine Kommandozeile (MIR-CLI) im Format zip oder tar.gz heruntergeladen werden:
     </p>
     <ul>
       <li>
-        <a href="https://central.sonatype.com/repository/maven-snapshots/org/mycore/mir/mir-cli/2025.06.1-SNAPSHOT/mir-cli-2025.06.1-20250918.113022-20.zip">zip archive</a>
+      <a class="maven-snapshot-link" data-maven-groupid="org.mycore.mir" data-maven-artifactid="mir-cli" data-maven-version="2025.12" data-maven-extension="zip">ZIP-Archiv ($VERSION)</a>
         (speichern als <code>mir-cli.zip</code>)
       </li>
       <li>
-        <a href="https://central.sonatype.com/repository/maven-snapshots/org/mycore/mir/mir-cli/2025.06.1-SNAPSHOT/mir-cli-2025.06.1-20250918.113022-20.tar.gz">tar.gz archive</a>
+        <a class="maven-snapshot-link" data-maven-groupid="org.mycore.mir" data-maven-artifactid="mir-cli" data-maven-version="2025.12" data-maven-extension="tar.gz">TAR.GZ-Archiv ($VERSION)</a>
         (speichern als <code>mir-cli.tar.gz</code>)
       </li>
     </ul>
     <p>
-      Die Liste der Änderungen ist im <a href="../mir_changelog">Changelog zu finden</a>.
+      Die Neuerungen seit dem letzten Release (2025.06) und notwendigen Schritte für die Aktualisierung der Anwendung
+      finden Sie in der <nobr><a href="{{< ref migrate_mir2025_12 >}}">Migrationsanleitung "MIR LTS 2025.06 nach 2025.12"</a></nobr>.
     </p>
+    
+     <script src="../../../../js/maven-util.js"></script>
+       <script>
+       document.addEventListener("DOMContentLoaded", async function(event) { 
+         for (let e of document.querySelectorAll("a.maven-snapshot-link")){
+           const mavenData = await retrieveMavenData(e);
+           if(mavenData != null){
+             //console.log(mavenData.url);
+             e.setAttribute("href", mavenData.url);
+             e.setAttribute("data-maven-metadata-url", mavenData.metadataURL)
+             e.textContent = e.textContent.replace("$VERSION", mavenData.version ).replace("$SNAPSHOT", mavenData.snapshotVersion);
+           }
+           else {
+             e.textContent = e.textContent.replace("$VERSION", e.dataset.mavenVersion).replace("$SNAPSHOT", "");
+             e.textContent = e.textContent + " [! No SNAPSHOT found in Maven Repository !]";
+           }
+         }
+       });
+       </script>
 
   

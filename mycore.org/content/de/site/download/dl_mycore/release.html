@@ -1,41 +1,62 @@
 
 ---
 
-title: "Release 2025.06 (LTS)"
-mcr_version: ['2025.06']
+title: "Release 2025.12 (LTS)"
+mcr_version: ['2025.12']
 author: ['Kathleen Neumann']
-date: "2025-07-05"
+date: "2026-01-20"
 
 ---
     <div>
       <h2>Download der MyCoRe-Bibliotheken</h2>
       <p>
         MyCoRe ist ein Framework und stellt eine Menge zum Teil voneinander abhängiger Java-Bibliotheken zur Verfügung. Diese können je nach
-        Bedarf in die eigene Anwendung über <a href="{{< ref "release#einbindung-der-komponenten" >}}">Maven-Dependencies eingebunden</a> werden. Neben
-        den auch bei <a href="https://central.sonatype.com/artifact/org.mycore/mycore-base/2025.06.0">Maven Central</a> bereitgestellten
-        Release-Versionen, ist es möglich direkt die <a href="https://central.sonatype.com/repository/maven-snapshots/org/mycore/mycore-base/2025.06.1-SNAPSHOT/maven-metadata.xml"
-        >SNAPSHOT-Version</a> mit den aktuellsten Bugfixes bei Sonatype herunterzuladen. Der Quellcode steht bei
-        <a href="https://github.com/MyCoRe-Org/mycore/tree/2025.06.x">GitHub</a> zum Download bereit.
+        Bedarf in die eigene Anwendung über <a href="{{< ref "release#einbindung-der-komponenten" >}}">Maven-Dependencies eingebunden</a> werden.
       </p>
+      <p>Aktuelle und vergangene Release-Versionen der MyCoRe Bibliotheken finden Sie auf Maven-Central zum Download 
+        (z.B. <a href="https://central.sonatype.com/artifact/org.mycore/mycore-base">mycore-base</a>).
+        <br />
+        Über Sonatype können die aktuellen SNAPSHOT-Versionen 
+        (z.B. <a class="maven-snapshot-link" 
+                 data-maven-groupid="org.mycore" data-maven-artifactid="mycore-base" data-maven-version="2025.12" data-maven-extension="jar">mycore-base $VERSION</a>) 
+        mit den aktuellsten Bugfixes bezogen werden.
+        <br />
+        Der Quellcode steht bei
+        <a href="https://github.com/MyCoRe-Org/mycore/tree/2025.12.x">GitHub</a> zum Download bereit.
+      </p>
+      
+       <script src="../../../../js/maven-util.js"></script>
+       <script>
+       document.addEventListener("DOMContentLoaded", async function(event) { 
+         for (let e of document.querySelectorAll("a.maven-snapshot-link")){
+           const mavenData = await retrieveMavenData(e);
+           if(mavenData != null){
+             //console.log(mavenData.url);
+             e.setAttribute("href", mavenData.url);
+             e.setAttribute("data-maven-metadata-url", mavenData.metadataURL)
+             e.textContent = e.textContent.replace("$VERSION", mavenData.version ).replace("$SNAPSHOT", mavenData.snapshotVersion);
+           }
+           else {
+             e.textContent = e.textContent.replace("$VERSION", e.dataset.mavenVersion).replace("$SNAPSHOT", "");
+             e.textContent = e.textContent + " [! No SNAPSHOT found in Maven Repository !]";
+           }
+         }
+       });
+       </script>
     </div>
     <div>
-      <h2>Migration</h2>
+      <h2>Neuerungen und Migrationsanleitung</h2>
       <p>
-        Informationen zur Migration vom LTS 2024.06 finden Sie im <a href="{{< ref migrate_mcr2025_06 >}}">Abschnitt zur Migration</a>.
+        Die Neuerungen in dieser Version (nach dem dem LTS 2025.06) sowie eine Migrationsanleitung 
+        finden Sie im <a href="{{< ref migrate_mcr2025_12 >}}">Abschnitt zur Migration</a>.
       </p>
-    </div>
-    <div>
-      <h2>Was ist neu?</h2>
-      <ul>
-        <li>...</li>
-      </ul>
     </div>
 
     <div>
       <h2>Einbindung der Komponenten</h2>
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über <strong>Maven</strong> und die entsprechenden, für die
-        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS 2025.06 in der eigenen Anwendung zu verwenden, müssen in der
+        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS 2025.12 in der eigenen Anwendung zu verwenden, müssen in der
         pom.xml die MyCoRe-Version und mycore-parent angepasst werden:
       </p>
 
@@ -45,11 +66,11 @@ date: "2025-07-05"
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-parent</artifactId>
-    <version>57</version>
+    <version>58</version>
   </parent>
   ...
   <properties>
-    <mycore.version>2025.06.1-SNAPSHOT</mycore.version>
+    <mycore.version>2025.12.2-SNAPSHOT</mycore.version>
   </properties>
   ...
   <dependencies>
