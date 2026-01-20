@@ -18,7 +18,7 @@
    ```
    or
    ```
-   > maven clean compile
+   > mvn clean compile
    ```
 - start Hugo
   ```
