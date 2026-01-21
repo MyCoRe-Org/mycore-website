@@ -53,3 +53,20 @@
     + "/" + snapshotVersion + "/maven-metadata.xml";
   return metadataXmlURL;
 }
+
+async function extractMyCoReParentVersionFromPom(url){
+  const text = await fetch("https://corsproxy.io/?url="+url)
+       .then((response) => response.text());
+     const parser = new DOMParser();
+     const xmlDoc = parser.parseFromString(text, "text/xml");
+     const nsResolver = function(prefix){
+      const ns = {
+         mvn: "http://maven.apache.org/POM/4.0.0"
+       };
+       return ns[prefix] || null;
+     };
+     const mcrParentVersion = xmlDoc.evaluate(
+      "/mvn:project/mvn:parent/mvn:version",
+         xmlDoc, nsResolver, XPathResult.STRING_TYPE, null).stringValue;
+    return mcrParentVersion;
+}

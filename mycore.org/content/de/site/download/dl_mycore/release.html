@@ -3,6 +3,9 @@
 
 title: "Release 2025.12 (LTS)"
 mcr_version: ['2025.12']
+mcr_lts_version: '2025.12'
+mcr_migration_page_relurl: "./../../../../documentation/migrate/migrate_mcr2025_12/"
+
 author: ['Kathleen Neumann']
 date: "2026-01-20"
 
@@ -18,11 +21,11 @@ date: "2026-01-20"
         <br />
         Über Sonatype können die aktuellen SNAPSHOT-Versionen 
         (z.B. <a class="maven-snapshot-link" 
-                 data-maven-groupid="org.mycore" data-maven-artifactid="mycore-base" data-maven-version="2025.12" data-maven-extension="jar">mycore-base $VERSION</a>) 
+                 data-maven-groupid="org.mycore" data-maven-artifactid="mycore-base" data-maven-version="{{< param mcr_lts_version >}}" data-maven-extension="jar">mycore-base $VERSION</a>) 
         mit den aktuellsten Bugfixes bezogen werden.
         <br />
         Der Quellcode steht bei
-        <a href="https://github.com/MyCoRe-Org/mycore/tree/2025.12.x">GitHub</a> zum Download bereit.
+        <a href="https://github.com/MyCoRe-Org/mycore/tree/{{< param mcr_lts_version >}}.x">GitHub</a> zum Download bereit.
       </p>
       
        <script src="../../../../js/maven-util.js"></script>
@@ -35,6 +38,14 @@ date: "2026-01-20"
              e.setAttribute("href", mavenData.url);
              e.setAttribute("data-maven-metadata-url", mavenData.metadataURL)
              e.textContent = e.textContent.replace("$VERSION", mavenData.version ).replace("$SNAPSHOT", mavenData.snapshotVersion);
+             
+             //update maven pom xml
+             let eMvn = document.getElementById("mcr_maven_config");
+             if(eMvn) {
+                eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_VERSION", mavenData.version);
+                const mycoreParentVersion = await extractMyCoReParentVersionFromPom(mavenData.url.replaceAll("mycore-base", "mycore").replace(".jar", ".pom"));
+                eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_PARENT_VERSION", mycoreParentVersion);
+              }
            }
            else {
              e.textContent = e.textContent.replace("$VERSION", e.dataset.mavenVersion).replace("$SNAPSHOT", "");
@@ -47,8 +58,8 @@ date: "2026-01-20"
     <div>
       <h2>Neuerungen und Migrationsanleitung</h2>
       <p>
-        Die Neuerungen in dieser Version (nach dem dem LTS 2025.06) sowie eine Migrationsanleitung 
-        finden Sie im <a href="{{< ref migrate_mcr2025_12 >}}">Abschnitt zur Migration</a>.
+        Die Neuerungen in dieser Version (im Vergleich zum vorherigen LTS) sowie eine Migrationsanleitung 
+        finden Sie im <a href="{{< param mcr_migration_page_relurl>}}">Abschnitt zur Migration</a>.
       </p>
     </div>
 
@@ -56,21 +67,21 @@ date: "2026-01-20"
       <h2>Einbindung der Komponenten</h2>
       <p>
         Die Einbindung der Komponenten aus dem MyCoRe-Kern erfolgt über <strong>Maven</strong> und die entsprechenden, für die
-        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS 2025.12 in der eigenen Anwendung zu verwenden, müssen in der
+        eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS {{<param mcr_lts_version>}} in der eigenen Anwendung zu verwenden, müssen in der
         pom.xml die MyCoRe-Version und mycore-parent angepasst werden:
       </p>
-
-      {{< highlight xml "linenos=table">}}
+      <div id="mcr_maven_config">
+        {{< highlight xml "linenos=table">}}
 <project>
   ...
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-parent</artifactId>
-    <version>58</version>
+    <version>$MYCORE_PARENT_VERSION</version>
   </parent>
   ...
   <properties>
-    <mycore.version>2025.12.2-SNAPSHOT</mycore.version>
+    <mycore.version>$MYCORE_VERSION</mycore.version>
   </properties>
   ...
   <dependencies>
@@ -83,6 +94,5 @@ date: "2026-01-20"
   </dependencies>
 ...
 </project>{{< /highlight >}}
-    </div>
-
-  
+      </div>
+  </div>
