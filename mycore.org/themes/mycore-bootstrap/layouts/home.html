@@ -6,14 +6,8 @@
     {{ end }}
   {{ end }}
 
-
-  {{/* TODO: we should refacture this template and remove content from here */}}
-  <div class="download-banner">
-    <a href='{{ relURL "/site/download/dl_mycore/release/" }}' class="download-banner__link">Download Version 2025.12 (LTS)</a>
-  </div>
-
-  <div id="mcr-home" class="container content">
-    {{ .Content  }}
+  {{ .Content  }}
+  <div id="mcr-news" class="container">
     {{- partial "front_news.html" . -}}
   </div>
 

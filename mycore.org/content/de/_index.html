@@ -3,19 +3,24 @@
 title: Start
 description: Your framework for presentation and management of digital content
 date: 2025-08-18
+mcr_lts_version: "2025.12"
 
 ---
 
-<div class="row text-center">
+<div class="download-banner">
+  <a href="{{<relURL  "site/download/dl_mycore/release/" >}}" class="download-banner__link">Download Version {{<param mcr_lts_version>}} (LTS)</a>
+</div>
+
+<div id="mcr-home" class="container content">
+ <div class="row text-center">
   <div class="col">
     <!-- h1 id="mcr-project-name">MyCoRe</h1 -->
     <img alt="25 Jahre MyCoRe" id="mycore25Jahre" src="{{<relURL "images/start/mycore25Jahre--weiss.jpg">}}">
     <h2 id="mcr-project-description">Das Framework zur Präsentation und Verwaltung digitaler Inhalte</h2>
   </div>
-</div>
+ </div>
 
-<div class="row text-center mt-5" id="short_features">
-
+ <div class="row text-center mt-5" id="short_features">
   <div class="col">
     <a class="sphereLink" href='{{<ref "site/features" >}}'>
       <img alt="Vielseitigkeit" class="sphere" rel="sphere_manysided" src="{{<relURL "images/start/abbildung_vielseitig.jpg">}}">
@@ -39,10 +44,9 @@ date: 2025-08-18
       <p class="text-center">seit 25 Jahren kontinuierliche Community-Entwicklung</p>
     </a>
   </div>
+ </div>
 
-</div>
-
-<div class="row mt-5" id="verbreitung">
+ <div class="row mt-5" id="verbreitung">
   <div class="mcr-well card w-100">
       <div class="card-body">
         <div class="row">
@@ -72,4 +76,5 @@ date: 2025-08-18
       </div>
     </div>
   </div>
+ </div>
 </div>
