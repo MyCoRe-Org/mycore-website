@@ -6,7 +6,7 @@ publishDate: 2026-01-23
 draft:  false
 
 blog/authors:  ["Robert Stephan"]
-blog/periods:  2025-11
+blog/periods:  2026-01
 blog/categories:
  - HowTos
 blog/tags:
