@@ -37,7 +37,8 @@ date: '2021-09-08'
         Instanz unabdingbar ist, bietet sich die Nutzung der Methode <code>createConfigurationException</code> an.
     </p>
 {{< highlight java "linenos=table">}}
-MyConfigurableClass mandatoryInstance = MCRConfiguration2.getInstanceOf("MCR.Configurable.Class")
+MyConfigurableClass mandatoryInstance = MCRConfiguration2
+    .getInstanceOf(MyConfigurableClass.class, "MCR.Configurable.Class")
     .orElseThrow(() -> MCRConfiguration2.createConfigurationException("MCR.Configurable.Class"));
 {{< /highlight >}}
     <p>
@@ -45,7 +46,7 @@ MyConfigurableClass mandatoryInstance = MCRConfiguration2.getInstanceOf("MCR.Con
         mit ihrem vollqualifizierten Klassennamen benennen.
     </p>
 {{< highlight bash "linenos=table">}}
-MCR.Configurable.Class=my.configurable.MyConfigurableClass
+ MCR.Configurable.Class=my.configurable.MyConfigurableClass
 {{< /highlight >}}
     <p>
         Diese Klasse darf nicht abstrakt sein und muss
@@ -67,6 +68,21 @@ MCR.Configurable.Class=my.configurable.MyConfigurableClass
         so werden für die im Folgenden beschriebenen Funktionen alle weitere Properties relativ zu dem davorstehenden
         Namensanteil (im Beispiel <code>My.Configurable</code>) gesucht, andernfalls relativ zum vollen Namen.
     </p>
+    <p>
+        Statt <code>getInstanceOf</code> kann auch <code>getInstanceOfOrThrow</code> verwendet werden.
+        In diesem Fall wird ein Fehler geworfen, wenn keine passende KOnfiguration existiert. 
+    </p>
+    <p>
+        Statt <code>getInstanceOf</code> oder <code>getInstanceOfOrThrow</code> kann auch <code>getSingleInstanceOf</code>
+        bzw. <code>getSingleInstanceOfOrThrow</code> verwendet werden. In diesem Fall wird eine erzeugte Instanz gecacht
+        und erneut zurückgegeben, wenn derselbe Konfigurationsname nochmals übergeben wird.
+    </p>
+    <div class="note">
+        <p>
+            Wenn eine instanziierte Instanz über eine statische Factoy-Methode exponiert wird, sind die entsprechenden
+            <a href="{{< ref "conventions#statische-factorymethoden-in-java" >}}">Namenskonventionen</a> zu beachten.
+        </p>
+    </div>
 
     <h2>Zuweisen von Properties mit @MCRProperty</h2>
     <p>
