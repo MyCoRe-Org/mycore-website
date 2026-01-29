@@ -1,14 +1,15 @@
 ---
 
 title: "Konfigurierbare Klasseninstanzen"
-mcr_version: ['2021.06']
+mcr_version: ['2025.12']
 author: ['Sebastian Hofmann']
 description: "
-Oft ist es nötig Implementierungen auszutauschen, diese Implementierungen benötigen oft zusätzliche
-Properties. Um die Austauschbarkeit und das Zuweisen von weiteren Properties zu vereinfachen, ist es möglich
-Instanzen einer Klasse mit der Angabe eines Properties von MyCoRe erzeugen zu lassen.
+Oft ist es nötig, die Implementierung eines Features auszutauschen zu gestallten, wobei die verschiedenen 
+Implementierungen typischerweise jeweils unterschiedliche, zusätzliche Properties benötigen.
+Um die Austauschbarkeit und das Zuweisen von Properties zu vereinfachen, ist es möglich,
+Instanzen einer Klasse mit der Angabe eines einzelnen Properties von MyCoRe erzeugen zu lassen.
 "
-date: '2021-09-08'
+date: '2026-01-29'
 
 ---
 <!--
@@ -33,8 +34,9 @@ date: '2021-09-08'
     <h2>Erzeugen einer Instanz</h2>
     <p>
         Für das Erzeugen einer Instanz kann die statische Methode <code>getInstanceOf</code> in der Klasse
-        <code>MCRConfiguration2</code> mit einem frei wählbaren Konfigurationsnamen aufgerufen werden. Wenn das Vorhandensein einer
-        Instanz unabdingbar ist, bietet sich die Nutzung der Methode <code>createConfigurationException</code> an.
+        <code>MCRConfiguration2</code> mit einem frei wählbaren Konfigurationsnamen aufgerufen werden. Wenn das
+        Vorhandensein einer Instanz unabdingbar ist, bietet sich die Nutzung der Methode
+        <code>createConfigurationException</code> an.
     </p>
 {{< highlight java "linenos=table">}}
 MyConfigurableClass mandatoryInstance = MCRConfiguration2
@@ -42,26 +44,32 @@ MyConfigurableClass mandatoryInstance = MCRConfiguration2
     .orElseThrow(() -> MCRConfiguration2.createConfigurationException("MCR.Configurable.Class"));
 {{< /highlight >}}
     <p>
-        Damit eine entsprechende Instanz erzeugt werden kann, muss ein entsprechendes Property die zu instanziierende Klasse
-        mit ihrem vollqualifizierten Klassennamen benennen.
+        Damit eine entsprechende Instanz erzeugt werden kann, muss <code>getInstanceOf</code> als zweiten Parameter
+        der Name eines Properties übergeben werden, in dem der vollqualifizierten Klassennamen der zu instanziierenden
+        Klasse steht (im Folgenden: Konfigurationsname). Der erste Parameter gibt die Klasse vor, zu der die instanziierte
+        Instanz zuweisungskompatibel sein soll (also z.B. eine Überklasse der instanziierten Klasse, oder ein Interface,
+        dass von der instanziierten Klasse implementiert wird).
     </p>
 {{< highlight bash "linenos=table">}}
- MCR.Configurable.Class=my.configurable.MyConfigurableClass
+ MCR.Configurable.Class=my.configurable.MyConfigurableSubClass
 {{< /highlight >}}
     <p>
-        Diese Klasse darf nicht abstrakt sein und muss
+        In diesem Beispiel muss <code>MyConfigurableSubClass</code> eine Unterklasase von <code>MyConfigurableClass</code> sein.
+        Zudem darf diese Klasse nicht abstrakt sein und muss
     </p>
     <ul>
         <li>
-            einen öffentlichen, parameterlosen Konstruktor oder
+            eine einzelne öffentliche, statische, parameterlose Methode mit passendem Rückgabewert und Namen <code>getInstance</code>,
         </li>
         <li>
-            eine öffentliche, statische, parameterlose Methode mit passendem Rückgabetyp und dem Wort
-            <code>instance</code> im Namen als Factory-Methode
+            eine einzelne öffentliche, statische, parameterlose Methode mit passendem Rückgabewert und Annotation <code>@MCRFactory</code> oder
+        </li>
+        <li>
+            einen öffentlichen, parameterlosen Konstruktor
         </li>
     </ul>
     <p>
-        anbieten. Falls beides vorhanden ist, wird der Konstruktor bevorzugt.
+        anbieten, wobei die jeweils früher genannte Variante bevorzugt wird.
     </p>
     <p>
         Endet der gewählte Konfigurationsname (wie in diesem Beispiel) auf <code>.Class</code> oder <code>.class</code>,
@@ -69,8 +77,9 @@ MyConfigurableClass mandatoryInstance = MCRConfiguration2
         Namensanteil (im Beispiel <code>My.Configurable</code>) gesucht, andernfalls relativ zum vollen Namen.
     </p>
     <p>
-        Statt <code>getInstanceOf</code> kann auch <code>getInstanceOfOrThrow</code> verwendet werden.
-        In diesem Fall wird ein Fehler geworfen, wenn keine passende Konfiguration existiert.
+        Statt <code>getInstanceOf</code> in Kombination mit <code>createConfigurationException</code> kann auch
+        <code>getInstanceOfOrThrow</code> verwendet werden. In diesem Fall wird ein Fehler geworfen,
+        wenn keine passende Konfiguration existiert.
     </p>
     <p>
         Statt <code>getInstanceOf</code> oder <code>getInstanceOfOrThrow</code> kann auch <code>getSingleInstanceOf</code>
@@ -452,23 +461,25 @@ MCR.Configurable.Nested.ConfigValue1=...
 MCR.Configurable.Nested.ConfigValue2=...
 {{< /highlight >}}
     <p>
-        In diesem Beispiel würde die geschachtelte Instanz nicht instanziiert werden.
-        Die Variable <code>nested</code> wäre hätte weiterhin die Instanz von <code>DefaultNestedClass</code>, nicht von <code>MySpecialNestedClass</code>.
-        Würde der Wert von <code>MCR.Configurable.Nested.Default</code> auf <code>false</code> geändert, würde auch der Konfigurationsmechanismus wieder
-        greifen und eine Instanz von <code>DefaultNestedClass</code> anhand der weiteren Konfigurationswerte instanziiert werden.
+        In diesem Beispiel würde die geschachtelte Instanz nicht instanziiert werden, sondern das 
+        "Standardverhalten" verwendet werden. Der Variable <code>nested</code> wird also eine Instanz
+        von <code>DefaultNestedClass</code> zugewiesen, nicht von <code>MySpecialNestedClass</code>.
+        Würde der Wert von <code>MCR.Configurable.Nested.Default</code> auf <code>false</code> geändert,
+        würde der Konfigurationsmechanismus wieder greifen und eine Instanz von <code>DefaultNestedClass</code>
+        anhand der weiteren Konfigurationswerte instanziiert werden.
     </p>
 
 
     <h2>Stellvertretende Initialisierung mit @MCRConfigurationProxy</h2>
     <p>
-        In Situationen in denen die oben beschriebene Anforderung (dass eine zu konfigurierende Klasse einen
+        In Situationen, in denen die oben beschriebene Anforderung (z.B., dass eine zu konfigurierende Klasse einen
         öffentlichen, parameterlosen Konstruktor oder eine qualifizierte Factory-Methode haben muss) nicht umsetzbar ist
-        oder eine derartige Umsetzung anderen Design-Entscheidungen (z.B. Kapselung, Immutability) entgegen spricht, oder die Klasse allgemein vom Konfigurationsmechanismus
-        entkoppelt werden soll, so kann die zu instanziierende Klasse mit <code>MCRConfigurationProxy</code>
-        annotiert werden. Diese Annotation hat ein Attribut <code>proxyClass</code> das eine Klasse benennt, die stattdessen
-        mit dem hier beschriebenen Mechanismus konfiguriert und anschließend verwendet wird, um eine Instanz der
-        eigentlich zu instanziierende Klasse zu erlangen. Hierzu muss diese Klasse das Interface
-        <code>Supplier&lt;X&gt;</code> implementieren, wobei <code>X</code> die eigentlich zu instanziierende
+        oder eine derartige Umsetzung anderen Design-Entscheidungen (z.B. Kapselung, Immutability) entgegen spricht,
+        oder die Klasse allgemein vom Konfigurationsmechanismus entkoppelt werden soll, so kann die zu instanziierende
+        Klasse mit <code>MCRConfigurationProxy</code> annotiert werden. Diese Annotation hat ein Attribut <code>proxyClass</code>,
+        dass eine Klasse benennt, die stattdessen mit dem hier beschriebenen Mechanismus konfiguriert und anschließend
+        verwendet wird, um eine Instanz der eigentlich zu instanziierende Klasse zu erlangen. Hierzu muss diese Klasse
+        das Interface <code>Supplier&lt;X&gt;</code> implementieren, wobei <code>X</code> die eigentlich zu instanziierende
         Klasse ist.
     </p>
     <p>
