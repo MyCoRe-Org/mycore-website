@@ -18,18 +18,26 @@ date: "2000-01-01"
     <a href="{{< ref migrate_mcr2026_06 >}}">Migrationsanleitung für MyCoRe</a> noch relevant sind.
   </p>
   <div>
-    <h3>Punkt 1</h3>
+    <h3>Umstellung bestehender Stylesheets auf <code>xslt</code></h3>
     <p>
-      Beschreibung.
+      Mit <a href="https://mycore.atlassian.net/browse/MCR-3497">MCR-3497</a> wurde das Stylesheet <code>items2options</code> aus <code>xsl</code> entfernt.
+      Daher wurden mit <a href="https://mycore.atlassian.net/browse/MIR-1514">MIR-1514</a> alle Stellen in MIR, die <code>items2options</code> bisher genutzt haben, auf die neuere Variante aus <code>xslt</code> umgestellt.
+      Im Zuge der Umstellung wurden ebenfalls folgende Änderungen umgesetzt:
     </p>
     <ul>
-      <li><code>comando 1</code></li>
-      <li><code>commado 2</code></li>
+      <li>
+        <code>convertClassificationOptions</code> nach <code>fix-classification-options</code> umbenannt und nach <code>xslt</code> verschoben
+      </li>
+      <li>
+        <code>license-filter</code> nach <code>xslt</code> verschoben
+      </li>
     </ul>
-    
+    <p>
+      Eigene Anpassungen, die die genannten Stylesheets nutzen, müssen folglich auf <code>xslt</code> umgestellt werden.
+    </p>
     <div class="note">
       <p>
-        Zusätzliche Hinweise 
+        Generell können Stylesheets über den <a href="https://mycore.atlassian.net/browse/MCR-3087">Flavour</a>-Mechanismus gezielt und selektiv auf <code>xslt</code> umgestellt werden, siehe MIR-1514.
       </p>
     </div>
   </div>
