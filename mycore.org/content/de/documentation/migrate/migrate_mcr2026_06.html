@@ -56,8 +56,34 @@ date: "2000-01-01"
     </ul>
 
     <h2>Migrationsschritte</h2>
-    <h4>Schritt 1</h4>
     <ul>
-        <li>Beschreibung</li>
+        <li>
+            <p>
+                Bisher war <code>MCRXMLMetadataManager</code> eine finale Klasse. Die konkrete Implementierung konnte ausgetauscht werden,
+                indem per <code>MCR.Metadata.Manager</code> eine Instanz von <code>MCRXMLMetadataManagerAdapter</code> angegeben wurde.
+                Damit war <code>MCRXMLMetadataManager</code> die einzige Stelle in MyCoRe, die dieses Adapter-Pattern verwendet hat.
+                Zur Harmonisierung wurde daher <code>MCRXMLMetadataManager</code> in ein Interface umgewandelt.
+            </p>
+            <p>
+                Die bestehenden Implementierungen implementieren nun direkt <code>MCRXMLMetadataManager</code> und nicht mehr
+                <code>MCRXMLMetadataManagerAdapter</code>. Sie wurden daher wie folgt umbeannnt:
+            </p>
+            <ul>
+                <li><code>MCRDefaultXMLMetadataManagerAdapter</code> ⮕ <code>MCRDefaultXMLMetadataManager</code></li>
+                <li><code>MCRGZIPOCFLXMLMetadataManagerAdapter</code> ⮕ <code>MCRGZIPOCFLXMLMetadataManager</code></li>
+                <li><code>MCROCFLXMLMetadataManagerAdapter</code> ⮕ <code>MCROCFLXMLMetadataManager</code></li>
+            </ul>
+            <br/>
+            <p>
+                Es wurde jeweils eine weitere Klasse mit dem alten Namen hinzugefügt und als <code>@Deprecated</code> markiert.
+                Im Kommentar zur Klasse wird jeweils auf die nun zu verwendende Klasse hingewiesen. Eigener Code bleibt daher noch
+                funktionsfähig, muss aber vor der Verwendung des nächsten MyCoRe-Releases umgestellt werden.
+            </p>
+            <p>
+                Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode <code>MCRXMLMetadataManager#getInstance</code>
+                in <code>MCRXMLMetadataManager#obtainInstance</code> umbenannt und die alte Methode ebenfalls als <code>@Deprecated</code>
+                markiert. Auch sie wird mit dem nächsten Release entfernt.
+            </p>
+        </li>
     </ul>
 </div>
