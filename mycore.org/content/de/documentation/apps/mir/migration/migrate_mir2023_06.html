@@ -1,4 +1,3 @@
-
 ---
 
 title: "Migration MIR LTS 2022.06 nach 2023.06"
@@ -11,18 +10,69 @@ date: "2023-07-11"
 
 ---
 
-    <div>
-      <h2>Migrationsanleitung MIR</h2>
-      <p>
-        Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref migrate_mcr2023_06 >}}">Migrationsanleitung für MyCoRe</a>
-        noch relevant sind.
-      </p>
-        <div>
-          <h3>Neue Klassifikationen</h3>
-          <p>
-            ToDo: Ergänzen
-          </p>
-       </div>
-    </div>
+<div>
+  <h2>Migrationsanleitung MIR</h2>
+  <p>
+    Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a
+      href="{{< ref migrate_mcr2023_06 >}}">Migrationsanleitung für MyCoRe</a>
+    noch relevant sind.
+  </p>
+  <!-- https://mycore.atlassian.net/browse/MIR-1521 -->
+  <h3>Migration von <code>mods:originInfo/mods:publisher</code>-Elementen nach Crossref-Import</h3>
+  <p>
+    Während des Crossref-Imports wird das Stylesheet <code>crossref2mods.xsl</code> verwendet,
+    um Crossref-Metadaten in MODS zu transformieren.
+    Problematisch sind Publisher-Information (<code>mods:originInfo/mods:publisher</code>).
+    Hier fehlt das <code>eventType</code>-Attribut.
+    Dadurch ist das resultierende MODS nicht kompatibel mit dem Editor und kann nicht bearbeitet werden.
+  </p>
+  <p>
+    Alle Elemente, die über Crossref importiert wurden sollten daher jedenfalls mit dem Stylesheet
+    <code>mycoreobject-migrate-origininfo.xsl</code> migriert werden.
+    Allgemein bietet sich hierfür der <code>select</code>-Befehl für alle fehlerhaften Objekte an:
+    {{< highlight plain>}}
+    select objects with xpath /mycoreobject//mods:originInfo[not(@eventType)]
+    list selected
+    {{< /highlight >}}
+    Mögliche Duplikate, die das richtige <code>eventType</code>-Attribut besitzen, durch nachträgliche
+    Anpassungen, sollten anschließend händisch entfernt werden. Migriert kann allgemein darauf basierend mit:
+    {{< highlight plain>}}
+    execute for selected xslt {x} with file mycoreobject-migrate-origininfo.xsl
+    {{< /highlight >}}
+  </p>
+  <div class="note">
+    <p>
+      Dieses Problem wurde nachträglich entdeckt und betrifft auch die Versionen 2024 und 2025.
+    </p>
+  </div>
+  <!-- https://mycore.atlassian.net/browse/MIR-1522 -->
+  <h3>Änderung der Behandlung von <code>mods:displayForm</code> bei Konferenzen</h3>
+  <p>
+    Im Editor gab es für Konferenzen (<code>mods:name[@type='conference']</code>) ein Preprocessing für das
+    <code>mods:displayForm</code>-Element.
+    War kein <code>mods:displayForm</code>-Element gesetzt, wurde es automatisch aus dem <code>mods:namePart</code>
+    abgeleitet.
+    Existierte bereits ein <code>mods:displayForm</code>-Element, wurde kein neues erzeugt oder überschrieben.
+    Dieses Verhalten führte dazu, dass spätere Updates am <code>mods:namePart</code> keine Auswirkung mehr auf das
+    <code>mods:displayForm</code>-Element hatten und die Ausgabe dadurch inkonsistent war.
+  <p>
+  <p>
+    Das Preprocessing wurde mit <a href="https://mycore.atlassian.net/browse/MIR-1522">MIR-1522</a> entfernt.
+    Das <code>mods:displayForm</code>-Element soll für Konferenzen künftig grundsätzlich nicht mehr verwendet werden.
+    Aus diesem Grund müssen alle bestehenden <code>mods:displayForm</code>-Elemente für Konferenzen entfernt werden.
+    Hierfür steht das Stylesheet <code>mycoreobject-migrate-name-displayform</code> zur Migration zur Verfügung.
+    Generell bietet sich der <code>select</code>-Befehl an für die Bestimmung aller fehlerhaften Objekte
+    und eine anschließende Migration:
+    {{< highlight plain>}}
+    select objects with xpath /mycoreobject//mods:name[@type='conference']/mods:displayForm
+    execute for selected xslt {x} with file mycoreobject-migrate-name-displayform.xsl
+    {{< /highlight >}}
+  </p>
+  <div class="note">
+    <p>
+      Dieses Problem wurde nachträglich entdeckt und betrifft auch die Versionen 2024 und 2025.
+    </p>
+  </div>
+</div>
 
 
