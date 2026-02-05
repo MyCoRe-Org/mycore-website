@@ -39,7 +39,7 @@ date: "2000-01-01"
         <li>Java 21 (OpenJDK) (muss ggf. extern nachinstalliert werden)</li>
         <li>Tomcat 10.1.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-6.0 und JakartaEE)</li>
         <li>SOLR 9.8.1 oder höher</li>
-        <li>eine  <a href="https://docs.jboss.org/hibernate/orm/6.5/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
+        <li>eine <a href="https://docs.jboss.org/hibernate/orm/6.5/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
             relationale Datenbank wie PostgreSQL 16 oder höher , MySQL/Maria-DB 10 oder höher, DB2; für Testzwecke genügt auch die integrierte Datenbank H2
         </li>
         <li>Git 2.26 oder höher</li>
@@ -54,10 +54,44 @@ date: "2000-01-01"
             Ab dieser Version führt ein Fehler im Job nicht mehr zum vollständigen Abbruch des Zeitplans.
             Ein Retry-Mechanismus für die erneute Ausführung des aktuellen Joblaufs ist weiterhin nicht vorgesehen.</li>
     </ul>
-
+    <h2>API-Änderungen</h2>
+    <h4><code>MCRAccessKeyServiceFactory</code> ist deprecated</h4>
+    <p>
+        Mit <a href="https://mycore.atlassian.net/browse/MCR-3581">MCR-3581</a> wurde die gesamte Factory-Klasse
+        <code>MCRAccessKeyServiceFactory</code> als <code>@Deprecated(forRemoval = true)</code> markiert.
+        Alle bisherigen Factory-Methoden sollten ersetzt werden:
+    </p>
+    <ul>
+        <li>
+            <strong>ALT:</strong>
+            <code>MCRAccessKeyService aks = MCRAccessKeyServiceFactory.getAccessKeyService();</code>
+        </li>
+        <li>
+            <strong>NEU:</strong>
+            <code>MCRAccessKeyService aks = MCRAccessKeyService.obtainInstance(); // Direkt über die Service-Klasse</code>
+        </li>
+    </ul>
+    <p>
+        Weitere Factory-Methoden wurden analog verschoben:
+    </p>
+    <ul>
+        <li>
+            <strong>ALT:</strong>
+            <code>MCRAccessKeyServiceFactory.getAccessKeySessionService()</code>
+        </li>
+        <li>
+            <strong>NEU:</strong>
+            <code>MCRAccessKeySessionService.obtainInstance()</code>
+        </li>
+        <li>
+            <strong>ALT:</strong>
+            <code>MCRAccessKeyServiceFactory.getAccessKeyPermissionService()</code>
+        </li>
+        <li>
+            <strong>NEU:</strong>
+            <code>MCRAccessKeyPermissionService.obtainInstance()</code>
+        </li>
+    </ul>
     <h2>Migrationsschritte</h2>
     <h4>Schritt 1</h4>
-    <ul>
-        <li>Beschreibung</li>
-    </ul>
 </div>
