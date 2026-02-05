@@ -82,7 +82,60 @@ date: "2025-06-20"
                 Sie kann in einem eigenen Anwendungsmodul als <a href="{{< ref "res_index#web-ressourcen" >}}">Web-Ressource</a> unter demselben Web-Pfad bereitgestellt werden. 
             </p>
         </div>
-
+        <div>
+            <h3>Migration der OpenAIRE-Projekte</h3>
+            <p>
+                Bisher konnten ausschließlich OpenAIRE-Projekte erfasst werden.
+                Die grundlegenden Informationen wurden dabei in einem <code>mods:identifier</code> wie folgt kodiert:
+            </p>
+            {{< highlight xml "linenos=table">}}
+            <mods:identifier type="open-aire">
+              info:eu-repo/grantAgreement/EC/H2020/862695/EU/Towards climate-smart sustainable management of agricultural soils/EJP SOIL
+            </mods:identifier>
+            {{< /highlight >}}
+            <p>
+                Mit der Umsetzung von <a href="https://mycore.atlassian.net/browse/MIR-1451">MIR-1451</a> ist es nun
+                möglich, allgemein Projekt- und Förderinformationen zu erfassen. Dabei werden die Projekt- und
+                Förderinformationen mittels <code>mods:extension</code> über die
+                <a href="https://datacite-metadata-schema.readthedocs.io/en/4.5/properties/fundingreference/">
+                fundingReferences</a> des DataCite-Metadaten-Schemas erfasst.
+                Bezogen auf das obige Beispiel sieht die neue Darstellung folgendermaßen aus:
+            </p>
+            {{< highlight xml "linenos=table">}}
+            <mods:extension type="datacite-funding">
+              <resource xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4.3/metadata.xsd">
+                <fundingReferences>
+                  <fundingReference>
+                    <funderName>European Commission</funderName>
+                    <funderIdentifier funderIdentifierType="Crossref Funder ID">https://doi.org/10.13039/501100000780</funderIdentifier>
+                    <awardNumber awardURI="https://cordis.europa.eu/project/id/862695">862695</awardNumber>
+                    <awardTitle>Towards climate-smart sustainable management of agricultural soils</awardTitle>
+                  </fundingReference>
+                </fundingReferences>
+              </resource>
+            </mods:extension>
+            {{< /highlight >}}
+            <p>
+                Daher ist es erforderlich, alle bisherigen OpenAIRE-Identifier zu migrieren.
+                Für diesen Zweck steht der Transformer <code>migrate-openaire</code> zur Verfügung.
+                Die betroffenen Objekte können wir folgt selected werden und anschließend migriert werden:
+            </p>
+            {{< highlight plain>}}
+            select objects with xpath /mycoreobject//mods:identifier[@type='open-aire']
+            execute for selected transform object {x} with transformer migrate-open-aire
+            {{< /highlight >}}
+            <div class="note">
+                <p>
+                    Der Transformer/Migration setzt voraus, dass die bisherigen OpenAIRE-Identifier korrekt genutzt
+                    wurden und sich auf die European Commission beziehen.
+                    Wurde das Feld anderweitig verwendet, sollte die Migration manuell erfolgen.
+                </p>
+            </div>
+            <p>
+                Außerdem ist das OAI2-Set <code>ec_fundedresources</code> damit obsolet und sollte aus
+                <code>MCR.OAIDataProvider.OAI2.Sets</code> entfernt werden.
+            </p>
+        </div>
 
     </div>
 </div>
