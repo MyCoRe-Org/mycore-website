@@ -15,38 +15,92 @@ date: "2020-06-04"
       <h2>Allgemeines</h2>
       <p>
         Neben der interaktiven Arbeit über die WEB-Oberfläche kann es bei Produktivanwendungen immer wieder zu dem
-        Erfordeniss kommen, via Script Änderungen an den daten vornehmen zu müssen. Hierfür können die MyCoRe-Kommandos
+        Erfordernis kommen, via Script Änderungen an den Daten vornehmen zu müssen. Hierfür können die MyCoRe-Kommandos
         in Shell-Scripts eingebunden werden. Neben Kommandos für eine feste Gruppe von Daten oder die Auswahl aller
         Daten bietet die <a href="{{< ref cli_overview >}}">MyCoRe Kommandozeile</a> auch die Möglichkeit Daten zu selektieren 
         und dann auf diese Auswahl zuzugreifen.
       </p>
+      <p>
+        Grundsätzlich wird hierbei zunächst eine Menge von Werten (typischerweise Objekt-IDs) selektiert
+        und anschließend entweder
+      </p>
+      <ul>
+        <li>eines der unten genannten Kommandos ausgeführt, dass mit dieser Auswahl arbeitet, oder</li>
+        <li>ein anderes Kommando für alle selektierten Werte ausgeführt.</li>
+      </ul>
     </div>
 
     <div>
-      <h2>Start der Auswahl</h2>
-      <p>Die Auswahl auf bestimmte Daten erfolgt mittels einer SOLR-Query.</p>
+      <h2>Erstellen einer Auswahl</h2>
+      Eine Auswahl kann explizit als mit Leerzeichen separierte Liste angegeben werden:
+      <p>
+        <code>mycore.sh select values {0}</code>
+      </p>
+      Eine Auswahl von Object IDs kann per XPath erfolgen,
+      wobei alle (normalisierten) Objekte geprüft werden:
+      <p>
+        <code>mycore.sh select objects with xpath {0}</code>
+      </p>
+      Eine Auswahl von Object IDs kann per XPath erfolgen,
+      wobei alle (expandierten) Objekte geprüft werden:
+      <p>
+        <code>mycore.sh select expanded objects with xpath {0}</code>
+      </p>
+      Eine Auswahl von Object IDs kann per XPath erfolgen,
+      wobei alle Derivate geprüft werden:
+      <p>
+        <code>mycore.sh select derivates with xpath {0}</code>
+      </p>
+      Eine Auswahl von Object IDs kann per Solr Query erfolgen:
       <p>
         <code>mycore.sh select objects with solr query {0} in core {1}</code>
       </p>
-      <p>Diese Auswahl kann auch zurückgesetzt werden.</p>
-      <p>
-        <code>mycore.sh delete selected</code>
-      </p>
-      <p>Auch eine Auflistung der aktuellen Auswahl ist möglich.</p>
-      <p>
-        <code>mycore.sh list selected</code>
-      </p>
-      <p>Weiterhin besteht die option, für ausgewählte Daten ein Kommando auszuführen.</p>
-      <p>
-        <code>mycore.sh execute for selected {0}</code>
-      </p>
     </div>
 
     <div>
-      <h2>Kommandos für ausgewählte Daten</h2>
-      <p>Nach erfolgreicher Auswahl mittels SOLR-Query können dann u. a. die folgenden Kommandos für die selektierten
-        datensätze aufgerufen werden.
+      <h2>Reduzieren einer Auswahl</h2>
+      Eine Auswahl von Object IDs kann per XPath reduziert werden,
+      wobei für alle bereits ausgewählten Objekt-IDs das zugehörige (normalisierten) Objekte geprüft werden:
+      <p>
+        <code>mycore.sh filter object selection with xpath {0}</code>
       </p>
+      Eine Auswahl von Object IDs kann per XPath reduziert werden,
+      wobei für alle bereits ausgewählten Objekt-IDs das zugehörige (expandierte) Objekte geprüft werden:
+      <p>
+        <code>mycore.sh filter expanded object selection with xpath {0}</code>
+      </p>
+      Eine Auswahl von Object IDs kann per XPath reduziert werden,
+      wobei für alle bereits ausgewählten Objekt-IDs das zugehörige Derivat geprüft werden:
+      <p>
+        <code>mycore.sh filter dereivate selection with xpath {0}</code>
+      </p>
+    </div>
+
+
+    <div>
+      <h2>Kommandos für ausgewählte Daten</h2>
+      <p>Nach erfolgreicher Auswahl können dann u. a. die folgenden Kommandos für die selektierten
+        Werte aufgerufen werden.
+      </p>
+
+      <div>
+        <h3>Allgemeine Kommandos</h3>
+        <dl>
+          <dt>
+            <code>mycore.sh list selected</code>
+          </dt>
+          <dd>
+            Listet alle ausgewählten Werte auf
+          </dd>
+          <dt>
+            <code>mycore.sh execute for selected {0}</code>
+          </dt>
+          <dd>
+            Führt für alle ausgewählten Werte ein anderes Kommando aus
+          </dd>
+        </dl>
+      </div>
+
       <div>
         <h3>Kommandos für SOLR</h3>
         <p><span style="color:red">Achtung, Kommandos für die SOLR-Indizierung sollten nicht im Batch, sondern nur direkt im CLI-Tool
@@ -54,17 +108,18 @@ date: "2020-06-04"
         im CLI eingetroffen sind. Andernfalls kann es zu Datenverlusten im SOLR-Server kommen!</span></p>
         <dl>
           <dt>
-            <code>mycore.sh restricted rebuild solr metadata index for selected</code>
+            <code>mycore.sh rebuild solr metadata index for selected in core {0}</code>
           </dt>
           <dd>rebuilds solr's metadata index for selected objects
           </dd>
           <dt>
-            <code>mycore.sh restricted rebuild solr content index for selected</code>
+            <code>mycore.sh rebuild solr content index for selected in core {0}</code>
           </dt>
           <dd>rebuilds solr's content index for selected objects and or derivates
           </dd>
         </dl>
       </div>
+      
       <div>
         <h3>Kommandos für Permissions</h3>
         <dl>
@@ -90,6 +145,7 @@ date: "2020-06-04"
           </dd>
         </dl>
       </div>
+
       <div>
         <h3>Kommandos für METS-Daten</h3>
         <dl>
@@ -100,15 +156,5 @@ date: "2020-06-04"
           </dd>
         </dl>
       </div>
-      <div>
-        <h3>Kommandos für Objekte</h3>
-        <dl>
-          <dt>
-            <code>export selected to directory {0} with {1}</code>
-          </dt>
-          <dd>Stores selected MCRObjects to the directory {0} with the stylesheet {1}-object.xsl. For {1} save is the default.
-          </dd>
-        </dl>
-      </div>
+
     </div>
-  
