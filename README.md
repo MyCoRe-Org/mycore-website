@@ -14,6 +14,7 @@
    ```
  - build website
    ```
+   > yarn install
    > yarn build
    ```
    or
