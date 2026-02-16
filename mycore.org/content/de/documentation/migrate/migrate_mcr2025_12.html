@@ -213,6 +213,18 @@ MCR.Migration.ChildrenOrder.Strategy=org.mycore.migration.strategy.MCRAlwaysAddC
         </li>
         <li>
           <p>
+            <strong>Objekt-ID-Cache initialisieren</strong><br/>
+            Die Objekt-ID-Generierung im mycore-ocfl Modul verwendet nun eine dateibasierte Cache-Implementierung
+            (<code>MCR.Metadata.ObjectID.Generator.Class=org.mycore.datamodel.common.MCRFileBaseCacheObjectIDGenerator</code>),
+            die deutlich performanter als die bisherige XML-Store-basierte Lösung ist.
+            Der Cache wird verwendet sobald das OCFL-Modul eingebunden ist,
+            auch wenn noch kein OCFL verwendet wird, zum Beispiel in MIR.
+            <strong class="text-danger">Der Cache muss nach dem Update einmalig initialisiert werden,
+            da sonst bestehende Objete überschrieben werden könnten:</strong> <br/>
+            <code>create object id cache</code></p>
+        </li>
+        <li>
+          <p>
             Bei allen MyCoRe-Modulen wurden die Tests von JUnit 4 auf JUnit 5 umgestellt.
             Die Unterstützung für JUnit 4 wurde entfernt. Dementsprechend sind auch die Test-Basisklassen
             <code>MCRTestCase</code>, <code>MCRJPATestCase</code> und <code>MCRStoreTestCase</code> entfernt worden.
