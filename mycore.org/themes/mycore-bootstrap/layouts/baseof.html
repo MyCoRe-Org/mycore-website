@@ -17,5 +17,9 @@
     <footer class="page__footer">
       {{- partial "footer.html" . -}}
     </footer>
+    
+    {{ if .Store.Get "hasMermaid" }}
+    <script src='{{ absURL "js/mermaid@11.12.3/mermaid.min.js" }}'></script>
+    {{ end }}
   </body>
 </html>
