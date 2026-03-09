@@ -8,3 +8,4 @@ config:
 {{ end -}}
 {{ .Inner | htmlEscape | safeHTML }}
 </pre>
+{{ .Page.Store.Set "hasMermaid" true }}
