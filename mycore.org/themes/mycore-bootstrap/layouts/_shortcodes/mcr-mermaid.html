@@ -1,0 +1,21 @@
+{{- /* add a div if class and style attributes are present */ -}}
+{{- if or (.Get "class") (.Get "style") }}
+<div {{- if .Get "class" }} class='{{ .Get "class" -}}'{{- end -}}
+     {{- if .Get "style" }} style='{{ .Get "style" -}}'{{- end -}}>
+{{ end -}}     
+<pre class="mermaid">
+{{- /* add a default config header if there is none the in diagram definition */ -}}
+{{ if not (strings.HasPrefix (strings.TrimSpace .Inner) "---") }}
+---
+config:
+  theme: forest
+---
+{{ end -}}
+{{ .Inner | htmlEscape | safeHTML }}
+</pre>
+{{- if or (.Get "class") (.Get "style") }}
+</div>
+{{ end -}}
+{{- /* set a flag, to let the baseof.html template know, 
+     that is needs to integrate the mermaid.js. */ -}}
+{{ .Page.Store.Set "hasMermaid" true }}

@@ -1,0 +1,11 @@
+<pre class="mermaid">
+{{- /* add a default config header if there is none in diagram definition */ -}}
+{{ if not (strings.HasPrefix (strings.TrimSpace .Inner) "---") }}
+---
+config:
+  theme: forest
+---
+{{ end -}}
+{{ .Inner | htmlEscape | safeHTML }}
+</pre>
+{{ .Page.Store.Set "hasMermaid" true }}
