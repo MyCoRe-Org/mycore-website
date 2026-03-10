@@ -210,12 +210,65 @@ HTML-Seite ausblenden, oder Anmerkungen hinzufügen.
 
 <h4>Anwendungsbeispiel</h4>
 {{< highlight text>}}
-{{</*mcr-comment */>}}
+{{</* mcr-comment */>}}
   RS: Das ist ein interner Kommentar.
-{{</*/mcr-comment */>}}
+{{</* /mcr-comment */>}}
+{{</highlight>}}
+
+<h3><code>{{&lt;mcr-mermaid&gt;}}</code> für Diagramme mit Mermaid.js</h3>
+<p>
+Bei <a href="https://mermaid.ai/">Mermaid.js</a> handelt es sich um ein JavaScript-basiertes Werkzeug,
+das aus textbasierten Definitionen – unter Verwendung einer an Markdown angelehnten Syntax – Diagramme und Grafiken rendert.
+</p>
+
+<p>
+Folgende Parameter können verwendet werden:
+</p>
+<table class="table">
+	<tr><td><code>class</code></td><td>CSS-Klasse</td></tr>
+	<tr><td><code>style</code></td><td>CSS-Stylesheet-Definition</td></tr>
+</table>
+
+<p>
+Wenn einer der Parameter <code>class</code> oder <code>style</code> vorhanden ist, wird ein umschließendes <code>&lt;div&gt;</code> mit diesen Attributen erzeugt.
+Wenn in der Diagramm-Definition kein Header gesetzt ist, wird ein Default-Header eingebunden.
+</p> 
+
+<h4>Anwendungsbeispiel</h4>
+{{< highlight text>}}
+{{</* mcr-mermaid class="alert alert-info w-25" */>}}
+---
+config:
+  theme: 'dark'
+  class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+    class Animal
+    class Dog
+    class Cat
+    Animal <|-- Dog
+    Animal <|-- Cat
+{{</* /mcr-mermaid */>}}
 {{</highlight>}}
 
 
+{{< mcr-mermaid class="alert alert-info w-25" >}}
+---
+config:
+  theme: 'dark'
+  class:
+      hideEmptyMembersBox: true
+---
+
+classDiagram
+    class Animal
+    class Dog
+    class Cat
+    Animal <|-- Dog
+    Animal <|-- Cat
+    
+{{< /mcr-mermaid >}}
 
 
 <h2>Tipps und Tricks</h2>
