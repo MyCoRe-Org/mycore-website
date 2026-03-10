@@ -92,6 +92,12 @@ date: "2000-01-01"
             <code>MCRAccessKeyPermissionService.obtainInstance()</code>
         </li>
     </ul>
+    <h4><code>MCRCategoryID</code>: Umbenenennung der Methode <code>isRootID()</code> zu <code>isRoot()</code></h4>
+    Wegen eines Konfliktes  bei der Benennung der beiden Methoden <code>isRootID()</code> und <code>getRootID()</code> 
+    im Zusammenhang mit der Verwendung der Klassse als JavaBean wurde die Methode <code>isRootID()</code>
+    zu <strong><code>isRoot()</code></strong> umbenannt. 
+    (siehe <a href="https://mycore.atlassian.net/browse/MCR-3637">Ticket MCR-3637</a>).
+    
     <h2>Migrationsschritte</h2>
     <h4>Umwandlung von MCRXMLMetadataManager in ein Interface</h4>
 
