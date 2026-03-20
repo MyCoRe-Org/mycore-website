@@ -48,6 +48,21 @@ date: "2000-01-01"
 
     <h2>Neuerungen</h2>
     <strong>... die eine Migration erforderlich machen</strong>
+    <h4>Überarbeitung der Solr-Integration (MCR-3645)</h4>
+    <p>
+        Die Solr-Integration wurde grundlegend refaktoriert. Das bisherige Konzept mit
+        <code>MCRSolrCore</code> und <code>MCRSolrCoreManager</code> wurde durch ein neues,
+        klassenbasiertes <strong>Index-Registry</strong>-Konzept ersetzt.
+        Dabei wurden sowohl die Property-Namen als auch die Java-API geändert.
+        Die bisherigen Properties werden als deprecated erkannt und führen zu einer Warnung im Log,
+        bleiben aber zunächst noch funktionsfähig.
+    </p>
+    <ul>
+        <li>Die Konfiguration der Solr-Kerne erfolgt nun über <code>MCR.Solr.IndexRegistry.Index.{id}.*</code> statt <code>MCR.Solr.Core.{id}.*</code>.</li>
+        <li>Der Verbindungstyp (Standalone / SolrCloud) wird über eine <code>Class</code>-Property explizit festgelegt.</li>
+        <li>Client-Timeouts und Parallelisierungs-Properties wurden unter <code>MCR.Solr.Default.*</code> zusammengefasst.</li>
+        <li>Die Java-Klassen <code>MCRSolrClientFactory</code> und <code>MCRSolrCoreManager</code> sind deprecated und werden mit dem nächsten Release entfernt.</li>
+    </ul>
     <h4>Verhaltensänderung von MCRCronjob</h4>
     <ul>
         <li>Bisher wurden konfigurierte MCRCronjobs bei einer Exception im Job nicht mehr gemäß des CRON-Zeitplans neu geplant.
@@ -99,6 +114,151 @@ date: "2000-01-01"
     (siehe <a href="https://mycore.atlassian.net/browse/MCR-3637">Ticket MCR-3637</a>).
     
     <h2>Migrationsschritte</h2>
+
+    <h3>Solr-Konfiguration migrieren (MCR-3645)</h3>
+
+    <h4>Property-Umbenennung</h4>
+    <p>
+        Die folgende Tabelle zeigt die alten Properties und ihre neuen Entsprechungen.
+        Ob <code>CoreName</code> oder <code>CollectionName</code> zu verwenden ist, hängt vom
+        Betriebsmodus ab (Standalone vs. SolrCloud). Ebenso ob <code>SolrUrl</code> (Standalone),
+        <code>SolrUrls</code> (SolrCloud URL-Modus) oder <code>ZkUrls</code> (SolrCloud ZooKeeper-Modus)
+        gesetzt werden muss.
+    </p>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th>Altes Property (bis 2025.12)</th>
+                <th>Neues Property (ab 2026.06)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><code>MCR.Solr.ServerURL</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.main.SolrUrl</code> (Standalone)<br>
+                    <code>MCR.Solr.IndexRegistry.Index.main.SolrUrls</code> (Cloud URL)<br>
+                    <em>und analog für <code>classification</code></em></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.Core.main.Name</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.main.CoreName</code> (Standalone)<br>
+                    <code>MCR.Solr.IndexRegistry.Index.main.CollectionName</code> (SolrCloud)</td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.Core.main.ServerURL</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.main.SolrUrl</code> oder <code>.SolrUrls</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.Core.main.ConfigSetTemplate</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.main.ConfigSetTemplate</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.Core.main.Type</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.main.IndexTypes</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.Core.classification.*</code></td>
+                <td><code>MCR.Solr.IndexRegistry.Index.classification.*</code> (analog zu <code>main</code>)</td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.SolrClient.ConnectionTimeout</code></td>
+                <td><code>MCR.Solr.Default.Client.ConnectionTimeout</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.SolrClient.SocketTimeout</code></td>
+                <td><code>MCR.Solr.Default.Client.RequestTimeout</code> und <code>MCR.Solr.Default.Client.IdleTimeout</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.SolrClient.JettyHttpClient.Enabled</code></td>
+                <td><code>MCR.Solr.Default.UseJettyHttpClient</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.ConcurrentUpdateSolrClient.Enabled</code></td>
+                <td><code>MCR.Solr.Default.ConcurrentClient.Enabled</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.ConcurrentUpdateSolrClient.QueueSize</code></td>
+                <td><code>MCR.Solr.Default.ConcurrentClient.QueueSize</code></td>
+            </tr>
+            <tr>
+                <td><code>MCR.Solr.ConcurrentUpdateSolrClient.ThreadCount</code></td>
+                <td><code>MCR.Solr.Default.ConcurrentClient.ThreadCount</code></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Neue Pflicht-Property: Class</h4>
+    <p>
+        Neu ist das Property <code>MCR.Solr.IndexRegistry.Index.{id}.Class</code>, das den
+        Verbindungstyp explizit festlegt. Es muss für jeden konfigurierten Index gesetzt werden:
+    </p>
+{{< highlight properties "linenos=table">}}
+# Standalone Solr
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.standalone.core.MCRConfigurableSolrCore
+
+# SolrCloud (URL-basiert oder ZooKeeper)
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.cloud.collection.MCRConfigurableSolrCloudCollection
+{{< /highlight >}}
+
+    <h4>Minimales Migrationbeispiel</h4>
+    <p>Eine typische Standalone-Konfiguration sah bisher so aus:</p>
+{{< highlight properties "linenos=table">}}
+# ALT (bis 2025.12)
+MCR.Solr.ServerURL=http://localhost:8983/
+MCR.Solr.Core.main.Name=mycore
+MCR.Solr.Core.classification.Name=mycore-classifications
+{{< /highlight >}}
+    <p>Die neue Konfiguration lautet:</p>
+{{< highlight properties "linenos=table">}}
+# NEU (ab 2026.06)
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.standalone.core.MCRConfigurableSolrCore
+MCR.Solr.IndexRegistry.Index.main.SolrUrl=http://localhost:8983/solr
+MCR.Solr.IndexRegistry.Index.main.CoreName=mycore
+
+MCR.Solr.IndexRegistry.Index.classification.Class=org.mycore.solr.standalone.core.MCRConfigurableSolrCore
+MCR.Solr.IndexRegistry.Index.classification.SolrUrl=http://localhost:8983/solr
+MCR.Solr.IndexRegistry.Index.classification.CoreName=mycore-classifications
+{{< /highlight >}}
+
+    <p>
+        Den Konfigurationsassistenten zum Erzeugen der Properties für alle Verbindungstypen findet
+        man in der <a href="{{< ref search_solr_use >}}">Solr-Dokumentation</a>.
+    </p>
+
+    <h4>Java API: MCRSolrClientFactory und MCRSolrCoreManager</h4>
+    <p>
+        Die Klassen <code>MCRSolrClientFactory</code> und <code>MCRSolrCoreManager</code> sind
+        deprecated. Der Zugriff auf Solr-Clients erfolgt nun über die Index-Registry:
+    </p>
+{{< highlight java "linenos=table">}}
+// ALT (bis 2025.12)
+SolrClient client = MCRSolrClientFactory.getMainSolrClient();
+// oder:
+SolrClient client = MCRSolrCoreManager.get("main").get().getClient();
+
+// NEU (ab 2026.06)
+SolrClient client = MCRSolrIndexRegistryManager.obtainRegistry()
+    .getIndex("main")
+    .orElseThrow()
+    .getClient();
+{{< /highlight >}}
+
+    <h4>Java API: MCRSolrAuthenticationManager</h4>
+    <p>
+        Die Methode <code>MCRSolrAuthenticationManager.getInstance()</code> wurde in
+        <code>MCRSolrAuthenticationManager.obtainInstance()</code> umbenannt.
+    </p>
+{{< highlight java "linenos=table">}}
+// ALT
+MCRSolrAuthenticationManager.getInstance().applyAuthentication(request, level);
+
+// NEU
+MCRSolrAuthenticationManager.obtainInstance().applyAuthentication(request, level);
+{{< /highlight >}}
+
+    <h3>Umwandlung von MCRXMLMetadataManager in ein Interface</h3>
     <h4>Umwandlung von MCRXMLMetadataManager in ein Interface</h4>
 
     <p>
