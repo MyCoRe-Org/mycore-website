@@ -99,6 +99,7 @@ main:
 -     {identifier: cli_extension,           parent: cli,                name: Erweiterungen,                 weight: -97,      url: /documentation/cli/cli_extension}
 -   {identifier: search,                  parent: documentation,      name: Suche,                         weight: -96,      url: /documentation/search}
 -     {identifier: search_solr_use,         parent: search,             name: Solr Nutzung,                  weight: -99,      url: /documentation/search/search_solr_use}
+-     {identifier: search_solr_use_lts2024, parent: search,             name: Solr Nutzung (bis 2025.12),    weight: -98,      url: /documentation/search/search_solr_use_lts2024}
 -     {identifier: search_query_language,   parent: search,             name: Query-Language,                weight: -97,      url: /documentation/search/search_query_language}
 -     {identifier: search_extract,          parent: search,             name: Daten extrahieren,             weight: -96,      url: /documentation/search/search_extract}
 -   {identifier: frontend,                parent: documentation,      name: Weboberfläche,                 weight: -95,      url: /documentation/frontend}
