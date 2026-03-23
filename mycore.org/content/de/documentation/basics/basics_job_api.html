@@ -1,7 +1,7 @@
 ---
 
 title: "Job-Api"
-mcr_version: ['2020.06', '2021.06']
+mcr_version: ['2020.06', '2021.06', '2023.06', '2026.06']
 author: ['Sebastian Hofmann']
 date: '2021-09-08'
 ---
@@ -36,7 +36,22 @@ date: '2021-09-08'
         <dt>MCR.QueuedJob.KlassenName.JobThreads=2</dt>
         <dd>Wie viele Jobs dieser Klasse sollen parallel abgearbeitet werden.</dd>
         <dt>MCR.QueuedJob.KlassenName.TimeTillReset=10</dt>
-        <dd>Die Zeit in Minuten ab der dieser Job als "Fehlgeschlagen" angesehen wird und anschließend neu gestartet wird.</dd>
+        <dd>Die Zeit in Minuten bis ein fehlgeschlagener Job (Status <code>ERROR</code>) zurückgesetzt und erneut
+            ausgeführt wird.</dd>
+        <dt>MCR.QueuedJob.KlassenName.MaxTry=2 <span class="badge badge-info">LTS 2023.06</span></dt>
+        <dd>Maximale Anzahl der Versuche für einen Job. Wird diese Anzahl überschritten, erhält der Job den
+            Status <code>MAX_TRIES</code> und wird nicht mehr automatisch neu gestartet.</dd>
+        <dt>MCR.QueuedJob.KlassenName.RetryDelayMultiplier=1 <span class="badge badge-info">LTS 2026.06</span></dt>
+        <dd>
+            Multiplikator für exponentiellen Backoff bei fehlgeschlagenen Jobs. Der tatsächliche Delay vor einem
+            Retry berechnet sich als <code>TimeTillReset * Multiplier^(Versuche-1)</code>.
+            Der Standardwert ist <code>1</code>, d.h. der Delay bleibt konstant (bisheriges Verhalten).
+            Bei einem Wert von <code>2</code> verdoppelt sich der Delay mit jedem Fehlversuch.
+            <p>
+                <strong>Beispiel:</strong> Mit <code>TimeTillReset=5</code> und <code>RetryDelayMultiplier=2</code>
+                ergibt sich folgende Verzögerung: 5 Min → 10 Min → 20 Min → 40 Min → ...
+            </p>
+        </dd>
     </dl>
 </section>
 <section>
