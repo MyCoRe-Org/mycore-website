@@ -1077,9 +1077,16 @@ relevant, und sie wird durch die Bereinigungsregel entfernt.</p>
 <div>
     <h4>Nachbearbeitung über XSL: &lt;xed:post-processor /&gt;</h4>
 <p>Syntax:</p>
-{{< highlight xml "linenos=table">}} <xed:post-processor xsl="..." />{{< /highlight >}}
+{{< highlight xml "linenos=table">}} <xed:post-processor xsl="..." />
+ <xed:post-processor class="..." xsl="..." />{{< /highlight >}}
 
-<p>Gibt mit dem Attribut @xsl ein Stylesheet an, das zur Nachbearbeitung des resultierenden XML-Dokumentes verwendet werden soll. Über ein solches XSL-Stylesheet kann das XML-Dokument nach Bearbeitung im Formular, aber noch vor Übergabe an das Zielservlet transformiert werden. </p>
+<p>Gibt mit dem Attribut @xsl ein Stylesheet an, das zur Nachbearbeitung des resultierenden XML-Dokumentes verwendet werden soll. Über ein solches XSL-Stylesheet kann das XML-Dokument nach Bearbeitung im Formular, aber noch vor Übergabe an das Zielservlet transformiert werden.</p>
+<p>Über das optionale Attribut @class kann eine eigene Implementierung des Post-Processors angegeben werden (eine Klasse, die das Interface <code>MCRXEditorPostProcessor</code> implementiert).
+Das @class Attribut unterstützt die Auflösung von XPath-Ausdrücken und MCR Properties. Damit kann die Post-Processor-Klasse über ein MCR Property konfigurierbar gemacht werden:</p>
+{{< highlight xml "linenos=table">}} <xed:post-processor class="{$MIR.Editor.MODS.PostProcessor}" xsl="editor/xeditor2mods.xsl" />{{< /highlight >}}
+<p>In der zugehörigen <code>mycore.properties</code> wird dann der Standardwert definiert:</p>
+{{< highlight properties "linenos=table">}} MIR.Editor.MODS.PostProcessor=org.mycore.mir.editor.MIRPostProcessor{{< /highlight >}}
+<p>Anwendungen können diesen Wert überschreiben, um einen eigenen Post-Processor zu verwenden.</p>
 <p>Über die XEditor-Syntax können Eingabefelder flexibel auf XML-Elemente und Attribute abgebildet werden. In einigen Fällen kann die XML-Struktur aber zu komplex sein, um sie einfach auf Eingabefelder abzubilden. In solchen Fällen kann man das zu bearbeitende XML-Dokument</p>
 <ul>
 <li>vor der Bearbeitung im Formular durch ein XSL-Stylesheet in eine für die Bearbeitung geeignetere Form umwandeln: Dies ist einfach über Verwendung des xslStyle URI Resolvers möglich, z. B.
