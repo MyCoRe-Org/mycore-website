@@ -34,3 +34,46 @@ Eigene Anpassungen, die die genannten Stylesheets nutzen, müssen folglich auf `
 > Generell können Stylesheets über den <a href="https://mycore.atlassian.net/browse/MCR-3087">Flavour</a>-Mechanismus
 > gezielt und selektiv auf `xslt` umgestellt werden, siehe MIR-1514.
 {.note}
+
+### Wegfall von `MIR.Viewer.DisableDerivateType`
+
+Im Rahmen von <a href="https://mycore.atlassian.net/browse/MCR-3551">MCR-3551</a> ist das Property
+`MIR.Viewer.DisableDerivateType` weggefallen. Wer dieses Property z.B. mit
+
+```properties
+MIR.Viewer.DisableDerivateType=foo,bar
+```
+
+angepasst hat, muss für jeden genannten Publikationstypen ein neues Property anlegen:
+
+```properties
+MCR.Derivate.DisplayFilter.Filter.Filters.20.Mappings.show-file-viewer.foo=false
+MCR.Derivate.DisplayFilter.Filter.Filters.20.Mappings.show-file-viewer.bar=false
+```
+
+> Die augenscheinliche Komplexität des Property-Names liegt daran, dass in MyCoRe/MIR mit
+> <a href="https://mycore.atlassian.net/browse/MCR-3551">MCR-3551</a> ein flexibel
+> konfigurierbarer Mechanismus geschaffen wurde, um Derivate in verschiedenen
+> Situationen auszublenden. In MIR sind dies:
+>
+> - Das Anzeigen des Viewers (`show-file-viewer`)
+> - Das Anzeigen der Dateiliste (`show-file-area`)
+> - Das Berücksichtigen beim Export (ZIP-Download, OAI-Schnittstelle) (`export`)
+>
+> Standardmäßig wird dies in MIR über den Derivat-Typ gesteuert. Mit
+>
+> ```
+> MIR.Editor.Derivate.EditableIntentServiceFlags=true
+> ```
+>
+> kann ein zusätzlicher Mechanismus aktiviert werden, bei dem das Standardverhalten für jedes Derivat einzeln
+> überschrieben werden kann. Hierzu werden im Derivat-Editor zusätzliche Konfigurationsmöglichkeiten eingeblendet.
+> 
+> <div class="w-75">
+> <img src="/images/apps/mir/migration/derivate_editor_2026_06.webp" class="border border-secondary p-0 w-100" />
+> </div>
+>
+> Über das Berechtigungssystem (für das jeweilige Derivat und die Rechte `manage-intent-show-file-viewer`,
+> `manage-intent-show-file-area` bzw. `manage-intent-export`) kann gesteuert werden, wer diese Einstellungen vornehmen kann.
+{.note}
+
