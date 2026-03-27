@@ -76,4 +76,3 @@ MCR.Derivate.DisplayFilter.Filter.Filters.20.Mappings.show-file-viewer.bar=false
 > Über das Berechtigungssystem (für das jeweilige Derivat und die Rechte `manage-intent-show-file-viewer`,
 > `manage-intent-show-file-area` bzw. `manage-intent-export`) kann gesteuert werden, wer diese Einstellungen vornehmen kann.
 {.note}
-
