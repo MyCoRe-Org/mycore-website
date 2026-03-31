@@ -36,7 +36,9 @@ Die folgenden Properties werden in dieser Form im Code mitgeliefert.
 ```
  MCR.CLI.Classes.Internal=%MCR.CLI.Classes.Internal%,org.mycore.ocfl.commands.MCROCFLCommands
 
- MCR.OCFL.Repository.Main=org.mycore.ocfl.MCRSimpleOcflRepositoryProvider
+ # Bis 2025.02: org.mycore.ocfl.MCRSimpleOcflRepositoryProvider
+ # Ab 2022.06:
+ MCR.OCFL.Repository.Main=org.mycore.ocfl.repository.MCROCFLHashRepositoryProvider
  MCR.OCFL.Repository.Main.RepositoryRoot=%MCR.datadir%/ocfl-root
  MCR.OCFL.Repository.Main.WorkDir=%MCR.datadir%/ocfl-temp
 ```
@@ -44,6 +46,11 @@ Die folgenden Properties werden in dieser Form im Code mitgeliefert.
 Diese Properties sind benötigt um den Metadatenmanager für XML zu ersetzen durch den für OCFL:
 
 ```
- MCR.Metadata.Manager=org.mycore.ocfl.MCROCFLXMLMetadataManager
  MCR.Metadata.Manager.Repository=Main
+
+ # Ab 2024.06 heißt das Property MCR.Metadata.Manager.Class (vorher MCR.Metadata.Manager)
+ # Bis 2025.02 und ab 2026.06:
+ MCR.Metadata.Manager.Class=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
+ # 2025.06 bis 2025.12:
+ # MCR.Metadata.Manager.Class=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManagerAdapter
 ```

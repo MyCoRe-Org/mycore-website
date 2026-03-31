@@ -1,7 +1,7 @@
 ---
 title: "Versionierung mit OCFL in MyCoRe"
 description: "Nutzung des Oxford Common File Layout (OCFL) zur Versionierung von Metadaten, Klassifikationen, Nutzerdaten und Derivat-Inhalten in MyCoRe."
-mcr_version: ['2025.02']
+mcr_version: ['2026.06']
 author: ['Kathleen Neumann', 'Jens Kupferschmidt', 'Robert Stephan', 'Tobias Lenhardt', 'Matthias Eichner']
 date: "2025-04-01"
 
@@ -255,12 +255,59 @@ MCR.Metadata.Manager.Repository=Main
 
 Mit dem folgenden Property kann der Metadaten Manager von der bisherigen Implementierung (nativer XML Store) auf OCFL umgestellt werden. **Dies darf erst NACH der Migration der Metadaten erfolgen!**
 
+Der Property-Name und die Klassennamen haben sich im Laufe der Versionen geändert:
+
+> **Hinweis:**
+> Das Property hieß ursprünglich `MCR.Metadata.Manager` und wurde mit Version 2024.06 in `MCR.Metadata.Manager.Class` umbenannt (MCR-3053). Der alte Name ist seit 2024.06 deprecated und wird auf den neuen Namen gemappt.
+{.info}
+
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Version</th>
+            <th>Property</th>
+            <th>Wert (Standard)</th>
+            <th>Wert (GZIP-komprimiert)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>2021.11 bis 2023.06</td>
+            <td><code>MCR.Metadata.Manager</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager</code></td>
+        </tr>
+        <tr>
+            <td>2024.06 bis 2025.02</td>
+            <td><code>MCR.Metadata.Manager.Class</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager</code></td>
+        </tr>
+        <tr>
+            <td>2025.06 bis 2025.12</td>
+            <td><code>MCR.Metadata.Manager.Class</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCROCFLXMLMetadataManagerAdapter</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManagerAdapter</code></td>
+        </tr>
+        <tr>
+            <td>ab 2026.06</td>
+            <td><code>MCR.Metadata.Manager.Class</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager</code></td>
+            <td><code>org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager</code></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+Beispielkonfiguration (ab 2026.06):
+
 ```properties {linenos=table}
 # Standard OCFL Metadaten Manager
-MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
+MCR.Metadata.Manager.Class=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 
 # Optional: GZIP-komprimierte Speicherung
-# MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager
+# MCR.Metadata.Manager.Class=org.mycore.ocfl.metadata.MCRGZIPOCFLXMLMetadataManager
 ```
 
 > **Wichtig für Remote-Speicher (S3):**  
@@ -460,15 +507,16 @@ Das endgültige Löschen von Daten (Purge), inklusive der gesamten Historie des 
 
 Es sollte sichergestellt werden, dass während des Migrationsprozesses durch die Nutzer keine Daten bearbeitet werden.
 
-Zunächst wird der Metadaten-Manager bei dem nativen XML-Plattenspeicher belassen (`MCR.Metadata.Manager` **nicht** auf OCFL setzen) und es sollte geprüft werden, dass das Ziel-Repository (z. B. `Main`) korrekt eingerichtet ist.
+Zunächst wird der Metadaten-Manager bei dem nativen XML-Plattenspeicher belassen (`MCR.Metadata.Manager.Class` **nicht** auf OCFL setzen) und es sollte geprüft werden, dass das Ziel-Repository (z. B. `Main`) korrekt eingerichtet ist.
 
 Mit dem Kommando `migrate metadata to repository {RepositoryID}` können die Daten in das angegebene OCFL Repository überspielt werden. `{RepositoryID}` ist der Name des Repositories (z.B. `Main`). Das Kommando gibt in einer Statistik aus, ob alle Metadaten migriert werden konnten. Optional kann mit `migrate metadata to repository {RepositoryID} with pruners {PrunerIDs}` die Historie während der Migration reduziert werden (siehe `MCR.OCFL.Metadata.Migration.Pruners.*` Properties).
 
 Auch wenn keine Fehler zu sehen sind, sollte man trotzdem anhand der Anzahl überprüfen, ob alle Objekte erfolgreich übertragen wurden.
 
-Wenn alles erfolgreich übertragen wurde, kann man den MetadatenManager für den Produktivbetrieb umstellen:
+Wenn alles erfolgreich übertragen wurde, kann man den MetadatenManager für den Produktivbetrieb umstellen (den zur eigenen Version passenden Klassennamen verwenden, siehe [Tabelle oben](#metadata-manager-versions)):
 ```properties {linenos=table}
- MCR.Metadata.Manager=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
+ # Ab 2026.06 (für ältere Versionen siehe Tabelle oben)
+ MCR.Metadata.Manager.Class=org.mycore.ocfl.metadata.MCROCFLXMLMetadataManager
 ```
 
 ### Migration von Derivat-Inhalten zu OCFL (Work in Progress!)
@@ -493,7 +541,7 @@ Die Daten für User und Klassifikationen können initial mit `update ocfl classi
 ### Migration zwischen OCFL Layouts/Backends
 
 Die Migration von **Metadaten** zwischen verschiedenen OCFL-Repositories (z.B. von lokal Hash zu S3, oder von MyCoRe-Layout zu Hash-Layout) funktioniert analog zur initialen Migration:
-1.  Stellen Sie sicher, dass `MCR.Metadata.Manager` auf die **Quell**-OCFL-Implementierung zeigt (`MCROCFLXMLMetadataManager`).
+1.  Stellen Sie sicher, dass `MCR.Metadata.Manager.Class` auf die **Quell**-OCFL-Implementierung zeigt (`MCROCFLXMLMetadataManager`).
 2.  Konfigurieren Sie das Quell-Repository mit `MCR.Metadata.Manager.Repository={Quell-RepositoryID}`.
 3.  Konfigurieren Sie das **Ziel**-Repository unter einem **anderen** Namen (z.B. `Target`) mit dem gewünschten Provider und Pfad/Endpoint.
 4.  Führen Sie `migrate metadata to repository {Ziel-RepositoryID}` aus.
@@ -510,7 +558,10 @@ Für **Derivat-Inhalte** gibt es derzeit keine dedizierten MyCoRe-Kommandos zur 
 **Experimentell: Muss noch endgültig getestet werden.**
 
 ### XML-Metadaten
-1.  Den `MCR.Metadata.Manager` zurück auf die vorherige Implementierung (z.B. `org.mycore.datamodel.common.MCRXMLMetadataManager`) setzen.
+1.  Den `MCR.Metadata.Manager.Class` zurück auf die vorherige Implementierung setzen:
+    - bis 2025.02: `org.mycore.datamodel.common.MCRDefaultXMLMetadataManager`
+    - 2025.06 bis 2025.12: `org.mycore.datamodel.common.MCRDefaultXMLMetadataManagerAdapter`
+    - ab 2026.06: `org.mycore.datamodel.common.MCRDefaultXMLMetadataManager`
 2.  Ggf. `MCR.Metadata.Manager.Repository` entfernen.
 3.  Die Metadaten müssen aus dem OCFL-Repository (z.B. über `restore object`-Kommandos oder externe Tools) in das alte Format/den alten Speicher zurückmigriert werden. **Dieser Prozess ist komplex und erfordert sorgfältige Planung.**
 
@@ -537,11 +588,11 @@ Für die laufende Benutzung (nach initialer Konfiguration/Migration) ist es nich
 
 ### Metadaten (Objekte/Derivate)
 
-*   `migrate metadata to repository {RepositoryID} [with pruners {PrunerIDs}]`: Migriert alle Metadaten aus dem aktuellen `MCR.Metadata.Manager` in das angegebene OCFL Repository. Optional können Pruner zur Reduzierung der Historie angegeben werden.
+*   `migrate metadata to repository {RepositoryID} [with pruners {PrunerIDs}]`: Migriert alle Metadaten aus dem aktuellen `MCR.Metadata.Manager.Class` in das angegebene OCFL Repository. Optional können Pruner zur Reduzierung der Historie angegeben werden.
 *   `purge marked metadata from ocfl`: Löscht **endgültig** alle logisch gelöschten Metadaten-Objekte (erfordert Bestätigung).
 *   `purge object {MCRID} from ocfl`: Löscht ein spezifisches Metadaten-Objekt **endgültig** aus OCFL (erfordert Bestätigung).
 *   `purge marked ocfl objects matching {RegEx}`: Löscht **endgültig** logisch gelöschte Metadaten-Objekte, deren MCRID dem Regex entspricht (erfordert Bestätigung).
-*   `restore object {MCRID} from ocfl`: Stellt die letzte Version des Objekts aus OCFL im aktuellen `MCR.Metadata.Manager` wieder her (überschreibt ggf. existierende Daten!).
+*   `restore object {MCRID} from ocfl`: Stellt die letzte Version des Objekts aus OCFL im aktuellen `MCR.Metadata.Manager.Class` wieder her (überschreibt ggf. existierende Daten!).
 *   `restore object {MCRID} from ocfl with version {version}`: Stellt eine spezifische Version des Objekts aus OCFL wieder her.
 *   `restore ocfl objects matching {RegEx}`: Stellt die letzte Version von logisch gelöschten Objekten wieder her, deren MCRID dem Regex entspricht.
 
