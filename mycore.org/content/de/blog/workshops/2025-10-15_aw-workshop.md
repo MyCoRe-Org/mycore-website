@@ -12,7 +12,7 @@ blog/categories:
  - Workshops
 
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"„25 Jahre MyCoRe!“"
 news/teaser_de: 	"Die MyCoRe-Community feierte 2025 das Jubiläum der Software mit einem Festkolloquium."
 news/title_en: 		"Announcement: „25 years MyCoRe“"
