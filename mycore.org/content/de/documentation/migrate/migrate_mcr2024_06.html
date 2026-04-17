@@ -371,10 +371,11 @@ MCR.User.PasswordCheck.SelectedStrategy=argon2{{< /highlight >}}
         </p>
         {{< highlight java "linenos=table">}}
  ALTER TABLE mcruser DROP CONSTRAINT mcruser_hashtype_check;{{< /highlight >}}
-
-         <p>Um weiter mit SHA256 zu arbeiten, kann das folgende Property gesetzt werden:</p>
-            {{< highlight java "linenos=table">}}
+        <p>Um weiter mit SHA256 zu arbeiten, kann das folgende Property gesetzt werden:</p>
+        {{< highlight java "linenos=table">}}
  MCR.User.PasswordCheck.SelectedStrategy=sha256{{< /highlight >}}
+        <p>Dies ist explizit <strong>nicht empfohlen</strong>, außer ggf. während der Migration, wenn man sich offen halten möchte
+        zu einer vorherigen Version von MyCoRe zurückzukehren.</p>
        </li>
          <br/>
        <li>
