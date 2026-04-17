@@ -466,6 +466,18 @@ MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.ser
             <code>(POOLPRIVILEGE, manage-access-key)</code> bietet uneingeschränkte Verwaltung aller Zugriffsschlüssel.
           </p>
         </li>
+        <li>
+         <p>
+          Mit <a href="https://mycore.atlassian.net/browse/MCR-3033">MCR-3033</a> können für PI-Jobs mittels Konfigurationsschlüssel
+          <code>JobApiUser</code> nun nicht mehr nur Benutzerkonten konfiguriert werden, die in der Datenbank gespeichert sind 
+          (verwaltet vom Modul <code>mycore-user2</code>). Stattdessen können beliebige Benutzerkonten konfiguriert werden,
+          sofern ein passender <code>MCRUserInformationProvider</code> konfiguriert ist.
+         </p>
+         <p>
+          Bestehenden Konfigurationswerten sollte das Präfix <code>user:</code> hinzugefügt werden, um explizit den Provider
+          für in der Datenbank gespeicherte Benutzerkonten zu verwenden.
+         </p>
+        </li>
        </ul>
       <p></p>
 
