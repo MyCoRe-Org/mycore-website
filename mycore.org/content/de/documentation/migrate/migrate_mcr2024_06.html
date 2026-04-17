@@ -483,7 +483,7 @@ PostgreSQL:>  ALTER TABLE mcrjobparameter ALTER COLUMN paramvalue SET DATA TYPE 
       </p>
       
       <h4>H2: Konflikte beim Spaltennamen</h4>
-      <p>Bei der Datenbank <strong>H2 (Version 2.x)</strong> gibt es Namenskonflikte bei einem Spaltennamen. Deshalb müssen folgende JPA-Properties gesetzt sein:<p/>
+      <p>Bei der Datenbank <strong>H2 (Version 2.x)</strong> gibt es durch den Umstieg auf Hibernate 6.5.x Namenskonflikte bei einem Spaltennamen. Deshalb müssen folgende JPA-Properties gesetzt sein:<p/>
       <h6>via MyCoRe-Properties</h6>
      {{< highlight java "linenos=table">}}
 MCR.JPA.GloballyQuotedIdentifiers=true
@@ -492,6 +492,13 @@ MCR.JPA.GloballyQuotedIdentifiers.SkipColumnDefinitions=true{{< /highlight >}}
       {{< highlight xml "linenos=table">}}
 <property name="hibernate.globally_quoted_identifiers" value="true" />
 <property name="hibernate.globally_quoted_identifiers_skip_column_definitions" value="true" />{{< /highlight >}}
+      
+      <p>
+
+      <h4>PostgreSQL: Konflikte beim Spaltennamen</h4>
+      <p>Bei der Datenbank <strong>PostgreSQL</strong> gibt es durch den Umstieg auf Hibernate 6.5.x Namenskonflikte bei einem Spaltennamen. Deshalb muss bei bestehenden Datenbanken folgende Migration durchgeführt werden:<p/>
+      {{< highlight xml "linenos=table">}}
+ALTER TABLE MCRACCESSRULE RENAME COLUMN rule TO "RULE";{{< /highlight >}}
       
       <p></p>
     </div>
