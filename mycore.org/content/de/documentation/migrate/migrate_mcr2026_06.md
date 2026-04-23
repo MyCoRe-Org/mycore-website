@@ -34,7 +34,7 @@ MyCoRe LTS 2026.06 ist auf diesen Betriebssystemen im Einsatz. Höhere Versionen
 Zur Arbeit mit MyCoRe LTS 2026.06 sind folgende Softwarekomponenten erforderlich bzw. empfohlen.
 Diese sind alle von Drittanbietern und im Normalfall in den Distributionen enthalten.
 
-- Java 21 (OpenJDK) (muss ggf. extern nachinstalliert werden)
+- Java 25 (OpenJDK) (muss ggf. extern nachinstalliert werden)
 - Tomcat 10.1.x bzw. Jetty 11.x (alternativ ein System mit Unterstützung von Servlet-6.0 und JakartaEE)
 - SOLR 9.8.1 oder höher
 - eine <a href="https://docs.jboss.org/hibernate/orm/6.5/javadocs/org/hibernate/dialect/package-summary.html">hibernate-fähige</a>
