@@ -2,10 +2,10 @@
 ---
 
 title: "Release-Konzept"
-mcr_version: ['2019.06','2020.06']
-author: ['Jens Kupferschmidt', 'Thomas Scheffler']
+mcr_version: ['2026.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler', 'Sebastian Hofmann']
 description: "Der Artikel beschreibt die Konzeption von MyCoRe-Releases."
-date: "2020-06-04"
+date: "2026-04-23"
 
 ---
 
@@ -14,61 +14,222 @@ date: "2020-06-04"
       <p>
         Releases des
         <strong>MyCoRe</strong>
-        -Projektes unterteilen sich in Ausgaben mit langzeitlicher Unterstützung (
-        <em>LTS</em>
-        ) und Zwischen-Releases der Entwickler, um den Abschluss bestimmter Entwicklungsteilschritte zu markieren und
-        bereit zu stellen. Der garantierte Supportzeitraum für
-        <em>LTS</em>
-        beträgt ein Jahr nach dem Erscheinen. In Ausnahmefällen können auch nach diesem Zeitraum noch kritische Fixes
-        eingespielt werden. Die Versionsnummern entsprechen den Tags in GitHub und beginnen mit <code>v</code>. 
-        Branches (für LTS) die Form yyyy.06.x.
+        -Projektes erscheinen zweimal pro Jahr: ein Juni-Release und ein Dezember-Release. Der garantierte
+        Supportzeitraum für ein Release beträgt ein Jahr nach dem Erscheinen. In Ausnahmefällen können auch nach
+        diesem Zeitraum noch kritische Fixes eingespielt werden. Die Versionsnummern entsprechen den Tags in GitHub
+        und beginnen mit <code>v</code>. Branches haben die Form <code>yyyy.06.x</code> bzw. <code>yyyy.12.x</code>.
       </p>
     </div>
 
     <div>
-      <h2>LTS</h2>
+      <h2>Release-Zyklus</h2>
       <p>
-        <em>LTS</em>
-        erscheinen einmal jährlich und werden mit dem Erscheinungsjahr und Monat bezeichnet. Releases sind unter ihrer
-        Nummer
-        <code>yyyy.06.fix</code>
-        (z. B. 2019.06.1) auf
-        <a href="https://mvnrepository.com/artifact/org.mycore" target="_blank">https://mvnrepository.com/artifact/org.mycore
-        </a>
-        abgelegt. Erscheinungsmonat soll der September des Jahres sein.
+        Pro Jahr werden zwei Releases erstellt. Die Release-Zeitpunkte werden mit den Entwicklertreffen synchronisiert:
       </p>
+      <ul>
+        <li>Juni-Release, Entwicklertreffen kurz vor oder nach dem Release</li>
+        <li>Dezember-Release, Entwicklertreffen kurz vor oder nach dem Release</li>
+      </ul>
+      <p>
+        Sechs Wochen vor einem Release wird der Release-Branch vom Main abgezweigt. Ab diesem Zeitpunkt werden
+        in den LTS-Branches keine umfangreichen Änderungen mehr zugelassen.
+      </p>
+
+      <h3>Phasen zwischen zwei Releases</h3>
+      <table class="table">
+        <tr>
+          <th>Zeitpunkt</th>
+          <th>Aktivität</th>
+        </tr>
+        <tr>
+          <td>Ab Release der Vorversion</td>
+          <td>Beginn des neuen Entwicklungszyklus im Main</td>
+        </tr>
+        <tr>
+          <td>Bei nächster Telko</td>
+          <td>Durchsicht der Draft-PRs</td>
+        </tr>
+        <tr>
+          <td>bis 8 Wochen nach Alt-Release</td>
+          <td>
+            <ul>
+              <li>„richtig wilde“ PRs erlaubt</li>
+              <li>Major-Updates bei JS- und Java-Dependencies</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>bis 8 Wochen vor Release</td>
+          <td>Dependabot-JS-PRs mit Minor-Updates</td>
+        </tr>
+        <tr>
+          <td>6 Wochen vor Release</td>
+          <td>
+            <ul>
+              <li>Release-Branch abzweigen</li>
+              <li>keine „wilden“ PRs mehr in LTS-Branches</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Tag des Releases</td>
+          <td>Release wird erstellt und in das zentrale Maven-Repository hochgeladen</td>
+        </tr>
+      </table>
+
+      <h3>Zeitstrahl eines Release-Zyklus</h3>
+      <p>
+        Die folgenden Diagramme zeigen den typischen Ablauf eines Release-Zyklus. Zuerst der Zyklus vom
+        Juni-Release zum darauffolgenden Dezember-Release:
+      </p>
+      {{< mcr-mermaid >}}
+gantt
+    title Release-Zyklus (Juni-Release -> Dezember-Release)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %Y
+
+    section Main-Branch
+    richtig wilde PRs + Major-Updates    :active, phase1, 2025-06-30, 56d
+    wilde PRs + Minor-Dependency-Updates :phase2, after phase1, 70d
+    nur noch milde PRs (Stabilisierung)  :phase3, after phase2, 14d
+
+    section LTS-Branch 2025.12.x
+    nur milde PRs                        :crit, relbranch, after phase3, 42d
+
+    section Meilensteine
+    Alt-Release 2025.06.0     :milestone, m1, 2025-06-30, 0d
+    Release-Branch abzweigen  :milestone, m2, after phase3, 0d
+    Neues Release 2025.12.0   :milestone, m3, after relbranch, 0d
+      {{< /mcr-mermaid >}}
+      <p>Und analog der Zyklus vom Dezember-Release zum darauffolgenden Juni-Release:</p>
+      {{< mcr-mermaid >}}
+gantt
+    title Release-Zyklus (Dezember-Release -> Juni-Release)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %Y
+
+    section Main-Branch
+    richtig wilde PRs + Major-Updates    :active, phase1, 2025-12-29, 56d
+    wilde PRs + Minor-Dependency-Updates :phase2, after phase1, 70d
+    nur noch milde PRs (Stabilisierung)  :phase3, after phase2, 14d
+
+    section LTS-Branch 2026.06.x
+    nur milde PRs                        :crit, relbranch, after phase3, 42d
+
+    section Meilensteine
+    Alt-Release 2025.12.0     :milestone, m1, 2025-12-29, 0d
+    Release-Branch abzweigen  :milestone, m2, after phase3, 0d
+    Neues Release 2026.06.0   :milestone, m3, after relbranch, 0d
+      {{< /mcr-mermaid >}}
     </div>
 
     <div>
-      <h2>Zwischen-Releases</h2>
+      <h2>Kategorisierung von Pull Requests</h2>
       <p>
-        Zwischen-Releases sollen mehrfach im laufenden Entwicklungsjahr gemacht werden, um Anwendern einen fixen
-        Stand zum Testen anzubieten. Dies ist für die Monate Februar, Mai, August und November geplant. Die Releases stehen auch auf Maven Central und
-        haben Nummern wie yyyy.mm.
+        Pull Requests werden nach Umfang und Risiko in drei Kategorien eingeteilt. Diese Einteilung bestimmt,
+        in welcher Phase des Release-Zyklus ein PR in den Main aufgenommen werden darf.
       </p>
+
+      <table class="table">
+        <tr>
+          <th>richtig wild</th>
+          <th>wild</th>
+          <th>mild</th>
+        </tr>
+        <tr>
+          <td>PMD-Änderungen</td>
+          <td>Update von Major-Versionen der Dependencies</td>
+          <td>Bugfix</td>
+        </tr>
+        <tr>
+          <td>Architekturänderungen</td>
+          <td>neue Features</td>
+          <td>Update von Minor-Versionen der Dependencies</td>
+        </tr>
+        <tr>
+          <td>umfangreiche oder tiefgehende API-Änderungen</td>
+          <td>nicht-umfangreiche und nicht-tiefgehende API-Änderungen</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>umfangreiche Migration erforderlich</td>
+          <td>einfache Migration erforderlich</td>
+          <td></td>
+        </tr>
+      </table>
+
+      <h3>mild <small class="text-muted">– „Kann man einspielen, ohne Puls zu kriegen“</small></h3>
+      <ul>
+        <li>Bugfixes ohne API-Änderungen</li>
+        <li>Patch- und unkritische Minor-Updates von Dependencies</li>
+        <li>Interne Refactorings</li>
+        <li>Performance-Optimierungen ohne Verhaltensänderung</li>
+        <li>Dokumentationsänderungen</li>
+        <li>Logging- und Monitoring-Anpassungen</li>
+      </ul>
+      <p><strong>Eigenschaften:</strong></p>
+      <ul>
+        <li>Keine oder triviale Migration</li>
+        <li>Rückwärtskompatibel</li>
+        <li>Geringes Risiko</li>
+        <li>Rollback trivial</li>
+      </ul>
+
+      <h3>wild <small class="text-muted">– „Man sollte wissen, was man tut“</small></h3>
+      <ul>
+        <li>Neue Features (aktiviert oder relevant für Nutzer)</li>
+        <li>Major-Version-Updates von Dependencies</li>
+        <li>Nicht-tiefgehende API-Änderungen</li>
+        <li>Minor-Updates mit Behavior-Changes</li>
+        <li>Konfigurationsänderungen</li>
+        <li>Security Fixes mit Seiteneffekten</li>
+        <li>Entfernen von Deprecated APIs (mit Ersatz)</li>
+        <li>Performance-Änderungen mit messbarem Impact</li>
+      </ul>
+      <p><strong>Eigenschaften:</strong></p>
+      <ul>
+        <li>Einfache Migration</li>
+        <li>Teilweise Breaking Potenzial</li>
+        <li>Tests und Doku empfohlen</li>
+        <li>Rollback möglich, aber nicht trivial</li>
+      </ul>
+
+      <h3>richtig wild <small class="text-muted">– „Hier brennt potentiell alles“</small></h3>
+      <ul>
+        <li>Breaking Changes</li>
+        <li>Umfangreiche oder tiefgehende API-Änderungen</li>
+        <li>Architekturänderungen</li>
+        <li>Datenmodell- oder Persistenzänderungen</li>
+        <li>Verhaltensänderungen bestehender Features</li>
+        <li>Entfernen rückwärtskompatibler Pfade</li>
+        <li>Große Security-Fixes (Auth, Crypto, Permissions)</li>
+      </ul>
+      <p><strong>Eigenschaften:</strong></p>
+      <ul>
+        <li>Umfangreiche Migration erforderlich</li>
+        <li>Nicht rückwärtskompatibel</li>
+        <li>Hoher Test- und Abstimmungsaufwand</li>
+        <li>Rollback schwierig oder unmöglich</li>
+      </ul>
     </div>
 
     <div>
-      <h2>Snapshots</h2>
+      <h2>Versionsnummern</h2>
       <p>
-        Für den Main und alle LTS-Zweige gibt es auf
-        <a href="https://oss.sonatype.org/#nexus-search;quick~mycore" target="_blank">Sonatype</a>
-        Snapshots des jeweiligen Standes. Diese Versionen haben die Form
-        <code>yyyy.06.{x+1}-SNAPSHOT</code>
-        (z. B. 2019.06.2-SNAPSHOT). Snapshots werden regelmäßig ergänzt durch aktuelle Bug-Fixes und sollte genutzt
-        werden, um von aktuellen Korrekturen des LTS zu profitieren.
+        Releases werden unter ihrer Nummer
+        <code>yyyy.06.fix</code> bzw. <code>yyyy.12.fix</code>
+        (z. B. 2026.06.1) auf
+        <a href="https://central.sonatype.com/artifact/org.mycore/mycore" target="_blank">https://central.sonatype.com/artifact/org.mycore/mycore</a>
+        abgelegt. Die ersten beiden Bestandteile der Versionsnummer entsprechen dem geplanten Erscheinungsmonat
+        des Releases (Juni bzw. Dezember). Der dritte Bestandteil (<code>fix</code>) zählt Bugfix-Releases
+        innerhalb eines LTS-Branches.
       </p>
-      <p>Die aktuelle Version für ein LTS bekommt man immer mit folgender Maven Versionsangabe <code>[yyyy.06,yyyy.06.9-SNAPSHOT]</code>.</p>
     </div>
 
     <div>
       <h2>Main</h2>
       <p>
-        Der Main ist der aktuelle Entwicklungszweig. Nach erfolgreicher Übernahme eines Developer Branch in den
-        Main wird nach dem CI-Test ein entsprechender Snapshot in
-        <a href="https://oss.sonatype.org/#nexus-search;quick~mycore" target="_blank">Sonatype</a>
-        abgelegt. Zyklisch werden davon Zwischen-Releases gebaut.
+        Der Main ist der aktuelle Entwicklungszweig. Nach erfolgreicher Übernahme eines Developer-Branches in den
+        Main wird nach dem CI-Test ein entsprechender Snapshot bereitgestellt.
       </p>
     </div>
-
-  
