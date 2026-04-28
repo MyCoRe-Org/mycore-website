@@ -13,7 +13,7 @@ Für den Einstieg in MyCoRe empfielt sich die [MIR-Anwendung]({{< ref "/document
 
 Möchte man eine eigene MyCoRe-Anwendung entwickeln mit eigenem Datenmodell und angepassten Funktionen, kann das [Skeleton-Modul]({{< ref "/documentation/getting_started/skeleton.md" >}}) als Einstieg genutzt werden.
 
-Eine Übersicht bestehender Applikationen der MyCore-Anwender steht unter Standorte und Projekte.
+Eine Übersicht bestehender Applikationen der MyCoRe-Anwender steht unter Standorte und Projekte.
 
 ## Generierte Projektdokumentation (Maven)
 
