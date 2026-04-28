@@ -22,7 +22,7 @@ Dieser Mechanismus erlaubt den schnellen Wechsel zwischen verschiedenen Konfigur
 > 
 > ```
 > MCR.Resource.Resolver.Providers.example.Class=org.mycore.resource.provider.MCRClassLoaderResourceProvider
-> MCR.Resource.Resolver=example
+> MCR.Resource.Resolver.SelectedProvider=example
 > ```
 {.note}
 
@@ -53,7 +53,7 @@ Resource-Provider-Implementierungen können zudem individuelle Konfigurationspar
 > MCR.Resource.Resolver.Providers.example.Providers.10.Coverage=debug resource override
 > MCR.Resource.Resolver.Providers.example.Providers.10.Enabled=false
 > MCR.Resource.Resolver.Providers.example.Providers.20.Class=org.mycore.resource.provider.MCRClassLoaderResourceProvider
-> MCR.Resource.Resolver=example
+> MCR.Resource.Resolver.SelectedProvider=example
 > ```
 > Für den `MCRClassLoaderResourceProvider` wird der individuelle Konfigurationsparameter `Providers` verwendet,
 > über den eine Liste von Resource-Providern konfiguriert werden kann.
@@ -127,6 +127,28 @@ der tatsächliche gewählten Kombination ausgegeben. Für die Standardkonfigurat
       └─ Provider:
          ├─ Class: org.mycore.common.resource.provider.MCRClassLoaderResourceProvider
          └─ Coverage: fallback resources
+```
+
+## Beispielkonfiguration für Produktivsysteme
+
+Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
+sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource auf das mehrfache Suchen im Dateisystem verzichtet werden.
+In diesem Fall können keine Ressourcen zur Laufzeit der Applikation verändert werden können, sodass ein Cache auf oberster Ebene verwendet werden kann.
+
+Diese beiden Maßnahmen sorgen dafür, dass das Aufrufen von Ressourcen deutlich effizienter wird.
+Eine entsprechende Konfiguration kann für produktive Systeme daher sinnvoll sein und sieht folgendermaßen aus:
+
+```
+MCR.Resource.Resolver.Providers.static.Class=org.mycore.resource.provider.MCRCachingResourceProvider
+MCR.Resource.Resolver.Providers.lars.Coverage=cached app resources
+MCR.Resource.Resolver.Providers.static.Capacity=1000
+MCR.Resource.Resolver.Providers.static.Provider.Class=org.mycore.resource.provider.MCRCombinedResourceProvider
+MCR.Resource.Resolver.Providers.static.Provider.Coverage=app resources
+MCR.Resource.Resolver.Providers.static.Provider.Providers.10.Class=org.mycore.resource.provider.MCRWebappDirWebResourceProvider
+MCR.Resource.Resolver.Providers.static.Provider.Providers.20.Class=org.mycore.resource.provider.MCRWebappClassesDirResourceProvider
+MCR.Resource.Resolver.Providers.static.Provider.Providers.30.Class=org.mycore.resource.provider.MCRLibraryResourceProvider
+MCR.Resource.Resolver.Providers.static.Provider.Providers.40.Class=org.mycore.resource.provider.MCRClassLoaderResourceProvider
+MCR.Resource.Resolver.SelectedProvider=static
 ```
 
 ## Dynamische Parameter
