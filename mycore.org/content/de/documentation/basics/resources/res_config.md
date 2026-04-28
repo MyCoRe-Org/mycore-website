@@ -131,16 +131,16 @@ der tatsächliche gewählten Kombination ausgegeben. Für die Standardkonfigurat
 
 ## Beispielkonfiguration für Produktivsysteme
 
-Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
-sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource auf das mehrfache Suchen im Dateisystem verzichtet werden.
-In diesem Fall können keine Ressourcen zur Laufzeit der Applikation verändert werden können, sodass ein Cache auf oberster Ebene verwendet werden kann.
+Wenn man kein Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
+sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Suchen nach einer Ressource auf das mehrfache Suchen im Dateisystem verzichtet werden.
+Da in diesem Fall keine Ressourcen zur Laufzeit der Applikation verändert werden können, kann ein Cache bereits auf oberster Ebene verwendet werden.
 
-Diese beiden Maßnahmen sorgen dafür, dass das Aufrufen von Ressourcen deutlich effizienter wird.
+Beide Maßnahmen sorgen dafür, dass das Suchen von Ressourcen deutlich effizienter werden kann.
 Eine entsprechende Konfiguration kann für produktive Systeme daher sinnvoll sein und sieht folgendermaßen aus:
 
 ```
 MCR.Resource.Resolver.Providers.static.Class=org.mycore.resource.provider.MCRCachingResourceProvider
-MCR.Resource.Resolver.Providers.lars.Coverage=cached app resources
+MCR.Resource.Resolver.Providers.static.Coverage=cached app resources
 MCR.Resource.Resolver.Providers.static.Capacity=1000
 MCR.Resource.Resolver.Providers.static.Provider.Class=org.mycore.resource.provider.MCRCombinedResourceProvider
 MCR.Resource.Resolver.Providers.static.Provider.Coverage=app resources
