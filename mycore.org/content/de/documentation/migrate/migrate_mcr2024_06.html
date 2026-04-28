@@ -166,7 +166,7 @@ date: "2025-06-13"
          </p>
          <ol>
           <li>
-           Bisher wurden JAR-Dateienm im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses und JAR-Dateien unterschiedliche behandelt und priorisiert. 
+           Bisher wurden JAR-Dateien im Unterverzeichnis <code>lib</code> des Konfigurationsverzeichnisses und JAR-Dateien unterschiedliche behandelt und priorisiert.
            Jetzt werden alle JAR-Dateien gleich behandelt. Wer auf diese Unterscheidung angewiesen ist, kann entweder die genannte <code>legacy</code>-Reihenfolge verwenden,
            oder muss <a href="{{< ref res_config >}}">eine eigene Reihenfolge definieren</a>.
           </li>
@@ -181,12 +181,11 @@ date: "2025-06-13"
          </ol>
          <br/>
          <p>
-          Potenziell kann es empfehlenswert sein, <a href="{{< ref res_config >}}">eine eigene Reihenfolge zu definieren</a>.
           Wenn man keinen Developer-Overlay und kein WCMS verwendet und keine Dateien im Konfigurationsverzeichnis ablegt,
           sondern alle relevanten Dateien in MyCoRe-Modulen vorhält, kann beim Aufruf einer Ressource z.B. auf das mehrfache Suchen im Dateisystem verzichtet werden.
           Da in solch einem Szenario keine Ressourcen zur Laufzeit der Applikation verändert werden können, kann zudem ein Cache konfiguriert werden.
-          Beide Maßnahmen sorgen dafür, dass das Aufrufen von Ressourcen deutlich effizienter wird.
-          Eine solche Anpassung kann für produktive Systeme durchaus sinnvoll sein.
+          Beide Maßnahmen würden dafür sorgen, dass das Aufrufen von Ressourcen deutlich effizienter wird.
+          Eine <a href="{{< ref "res_config#beispielkonfiguration-für-produktivsysteme" >}}">derartige Konfiguration</a> für produktive Systeme durchaus sinnvoll sein.
          </p>
          <p>
           Wird in den eigenen Java-Klassen auf Ressourcen zugegriffen, so sollten die Ressourcen immer mit dem neuen Mechanismus geladen werden.
