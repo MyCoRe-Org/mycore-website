@@ -73,7 +73,7 @@ Mittels der MyCoRe-CLI kann ein schlüssel generiert werden: `generate keyfile f
 
 ## Einbindung der Daten
 
-Die Daten im S3 können nun über ein MyCore-Derivate refernziert werden. Hierfür eis ein Derivate mit einer XML-Datei der folgenden Form erstellt und
+Die Daten im S3 können nun über ein MyCoRe-Derivate refernziert werden. Hierfür eis ein Derivate mit einer XML-Datei der folgenden Form erstellt und
 hochgeladen werden.
 ```xml {linenos=table}
 <folder-extension-bind encrypted="false"

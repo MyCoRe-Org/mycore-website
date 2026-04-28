@@ -59,7 +59,7 @@ Resource-Provider-Implementierungen können zudem individuelle Konfigurationspar
 > über den eine Liste von Resource-Providern konfiguriert werden kann.
 {.note}
 
-Die in MyCore verfügbaren Resource-Provider können der [JavaDoc-Dokumentation](https://javadoc.io/doc/org.mycore/mycore-base/latest/org/mycore/resource/provider/package-summary.html)
+Die in MyCoRe verfügbaren Resource-Provider können der [JavaDoc-Dokumentation](https://javadoc.io/doc/org.mycore/mycore-base/latest/org/mycore/resource/provider/package-summary.html)
 entnommen werden. Hier werden auch die jeweils verfügbaren individuellen Konfigurationsparameter beschrieben.
 
 ## Standardkonfiguration des Resource-Resolvers
