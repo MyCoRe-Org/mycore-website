@@ -103,16 +103,16 @@ date: "2025-06-20"
             </p>
             {{< highlight xml "linenos=table">}}
             <mods:extension type="datacite-funding">
-              <resource xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4.3/metadata.xsd">
-                <fundingReferences>
-                  <fundingReference>
-                    <funderName>European Commission</funderName>
-                    <funderIdentifier funderIdentifierType="Crossref Funder ID">https://doi.org/10.13039/501100000780</funderIdentifier>
-                    <awardNumber awardURI="https://cordis.europa.eu/project/id/862695">862695</awardNumber>
-                    <awardTitle>Towards climate-smart sustainable management of agricultural soils</awardTitle>
-                  </fundingReference>
-                </fundingReferences>
-              </resource>
+              <datacite:fundingReferences
+                xmlns:datacite="http://datacite.org/schema/kernel-4"
+                xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4.3/metadata.xsd">
+                <datacite:fundingReference>
+                  <datacite:funderName>European Commission</datacite:funderName>
+                  <datacite:funderIdentifier funderIdentifierType="Crossref Funder ID">https://doi.org/10.13039/501100000780</datacite:funderIdentifier>
+                  <datacite:awardNumber awardURI="https://cordis.europa.eu/project/id/862695">862695</datacite:awardNumber>
+                  <datacite:awardTitle>Towards climate-smart sustainable management of agricultural soils</datacite:awardTitle>
+                </datacite:fundingReference>
+              </datacite:fundingReferences>
             </mods:extension>
             {{< /highlight >}}
             <p>
@@ -139,5 +139,3 @@ date: "2025-06-20"
 
     </div>
 </div>
-
-
