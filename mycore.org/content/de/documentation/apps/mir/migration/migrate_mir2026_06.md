@@ -47,8 +47,8 @@ MIR.Viewer.DisableDerivateType=foo,bar
 angepasst hat, muss für jeden genannten Publikationstypen ein neues Property anlegen:
 
 ```properties
-MCR.Derivate.DisplayFilter.Filter.Filters.20.Mappings.show-file-viewer.foo=false
-MCR.Derivate.DisplayFilter.Filter.Filters.20.Mappings.show-file-viewer.bar=false
+MCR.Derivate.DisplayFilters.mir.Filter.Filters.20.Mappings.show-file-viewer.foo=false
+MCR.Derivate.DisplayFilters.mir.Filter.Filters.20.Mappings.show-file-viewer.bar=false
 ```
 
 > Die augenscheinliche Komplexität des Property-Names liegt daran, dass in MyCoRe/MIR mit
