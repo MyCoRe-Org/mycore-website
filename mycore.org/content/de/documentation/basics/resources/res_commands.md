@@ -1,7 +1,7 @@
 ---
 
 title: "Kommandos für den Resource-Resolver"
-mcr_version: ['2025']
+mcr_version: ['2025.06']
 author: ['Torsten Krause']
 date: '2025-09-01'
 

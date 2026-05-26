@@ -1,0 +1,72 @@
+MCR.Crypt.Cipher.(\S+).class ==> MCR.Crypt.Cipher.$1.Class
+
+MCR.Category.DAO ==> MCR.Category.DAO.Class
+MCR.Category.LinkService ==> MCR.Category.LinkService.Class
+MCR.Jersey.Configuration ==> MCR.Jersey.Configuration.Class
+MCR.Layout.Transformer.Factory ==> MCR.Layout.Transformer.Factory.Class
+MCR.Metadata.Normalizer.(\S+).(\S+) ==> MCR.Metadata.Normalizer.$1.$2.Class
+MCR.Metadata.Validator.(\S+).(\S+) ==> MCR.Metadata.Validator.$1.$2.Class
+MCR.Access.Facts.Condition.(\S+) ==> MCR.Access.Facts.Condition.$1.Class
+MCR.RuleParser.(\S+) ==> MCR.RuleParser.$1.Class
+
+MCR.Cronjob.Jobs.(\S+) ==> MCR.Cronjob.Jobs.$1.Class
+
+MCR.ContentTransformer.(\S+).ItemProviderClass ==> MCR.ContentTransformer.$1.ItemProvider.Class
+
+MCR.LayoutService.FoFormatter.class ==> MCR.LayoutService.FoFormatter.Class
+
+MCR.IIIFImage.Iview ==> MCR.IIIFImage.Iview.Class
+MCR.IIIFImage.Iview.TileFileProvider ==> MCR.IIIFImage.Iview.TileFileProvider.Class
+MCR.IIIFImage.thumbnail ==> MCR.IIIFImage.thumbnail.Class
+MCR.Module-iview2.MCRIView2XSLFunctionsAdapter ==> MCR.Module-iview2.MCRIView2XSLFunctionsAdapter.Class
+
+MCR.Component.MetsMods.Generator.Selector ==> MCR.Component.MetsMods.Generator.Selector.Class
+MCR.Component.MetsMods.Generator ==> MCR.Component.MetsMods.Generator.Class
+
+MCR.Persistence.LinkProvider.Impl.(\S+) ==> MCR.Persistence.LinkProvider.Impl.$1.Class
+MCR.MODS.Merger.(\S+) ==> MCR.MODS.Merger.$1.Class
+
+MCR.Neo4J.MetaParser.ParserClass.BaseParser ==> MCR.Neo4J.MetaParser.Parser.BaseParser.Class
+MCR.Neo4J.ParserClass.(\S+) ==> MCR.Neo4J.Parser.$1.Class
+
+MCR.OAIDataProvider.DefaultAdapter ==> MCR.OAIDataProvider.DefaultAdapter.Class
+MCR.OAIDataProvider.DefaultSearcher ==> MCR.OAIDataProvider.DefaultSearcher.Class
+MCR.OAIDataProvider.DefaultSetManager ==> MCR.OAIDataProvider.DefaultSetManager.Class
+MCR.OAIDataProvider.(\S+).Adapter ==> MCR.OAIDataProvider.$1.Adapter.Class
+MCR.OAIDataProvider.(\S+).Searcher ==> MCR.OAIDataProvider.$1.Searcher.Class
+MCR.OAIDataProvider.(\S+).SetManager ==> MCR.OAIDataProvider.$1.SetManager.Class
+
+MCR.Content.DigestCalculator ==> MCR.Content.DigestCalculator.Class
+MCR.Content.TransactionalStorage ==> MCR.Content.TransactionalStorage.Class
+
+MCR.OCFL.Repository.Main ==> MCR.OCFL.Repository.Main.Class
+MCR.Classification.Manager ==> MCR.Classification.Manager.Class
+MCR.Content.DigestCalculator ==> MCR.Content.DigestCalculator.Class
+MCR.Content.TransactionalStorage ==> MCR.Content.TransactionalStorage.Class
+MCR.Content.RemoteStorage ==> MCR.Content.RemoteStorage.Class
+MCR.Content.RemoteStorage.EvictionStrategy ==> MCR.Content.RemoteStorage.EvictionStrategy.Class
+MCR.Cronjob.Jobs.CompactRemoteStorageJournal ==> MCR.Cronjob.Jobs.CompactRemoteStorageJournal.Class
+
+MCR.PI.Service.(\S+) ==> MCR.PI.Service.$1.Class
+MCR.PI.Service.(\S+).CreationPredicate ==> MCR.PI.Service.$1.CreationPredicate.Class
+MCR.PI.Service.(\S+).RegistrationPredicate ==> MCR.PI.Service.$1.RegistrationPredicate.Class
+MCR.PI.Generator.(\S+) ==> MCR.PI.Generator.$1.Class
+MCR.PI.MetadataService.(\S+) ==> MCR.PI.MetadataService.$1.Class
+
+MCR.RestAPI.V2.Services ==> MCR.RestAPI.V2.Services.Class
+
+MCR.Module-classbrowser.QueryAdapter ==> MCR.Module-classbrowser.QueryAdapter.Class
+MCR.Solr.SolrInputDocument.Factory ==> MCR.Solr.SolrInputDocument.Factory.Class
+MCR.Solr.SolrInputDocument.Path.Factory ==> MCR.Solr.SolrInputDocument.Path.Factory.Class
+MCR.Solr.IndexHandler.Factory ==> MCR.Solr.IndexHandler.Factory.Class
+
+MCR.Viewer.configuration.strategy ==> MCR.Viewer.configuration.strategy.Class
+MCR.Viewer.MCRIviewACLProvider ==> MCR.Viewer.MCRIviewACLProvider.Class
+
+MCR.Upload.Handler.(\S+).Class ==> MCR.Upload.Handler.$1.Class
+
+MCR.Viewer.configuration.strategy ==> MCR.Viewer.configuration.strategy.Class
+
+MCR.Migration.ChildrenOrder.Strategy ==> MCR.Migration.ChildrenOrder.Strategy.Class
+MIR.OwnerStrategy.FallbackClass ==> MIR.OwnerStrategy.Fallback.Class
+MIR.Sherpa ==> MIR.Sherpa.Class

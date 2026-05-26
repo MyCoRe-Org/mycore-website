@@ -56,6 +56,8 @@ bleiben aber zunächst noch funktionsfähig.
 - Der Verbindungstyp (Standalone / SolrCloud) wird über eine `Class`-Property explizit festgelegt.
 - Client-Timeouts und Parallelisierungs-Properties wurden unter `MCR.Solr.Default.*` zusammengefasst.
 - Die Java-Klassen `MCRSolrClientFactory` und `MCRSolrCoreManager` sind deprecated und werden mit dem nächsten Release entfernt.
+- Das Benennungsschema zum Instanziieren von konfigurierten Komponenten wurde vereinheitlicht.
+- Anpassung des Standardverhaltens von `@MCRPostConstruction`.
 
 ### Verhaltensänderung von `MCRCronjob`
 
@@ -260,3 +262,44 @@ Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode `MCR
 in `MCRXMLMetadataManager#obtainInstance` umbenannt und die alte Methode ebenfalls als `@Deprecated`
 markiert. Auch sie wird mit dem nächsten Release entfernt.
 
+### Benennungsschema zum Instanziieren von konfigurierten Komponenten
+
+Bisher gab es mehrere Varianten bei der Benennung des Properties für den Klassennamen einer
+[konfigurierbaren Komponente]({{< ref basics_configurable_instance >}})
+(mit Suffix `.Class` oder `.class` oder ohne Suffix).
+Mit [MCR-3670](https://mycore.atlassian.net/browse/MCR-3670) wurde das Benennungsschema
+vereinheitlicht. Es wird nun nur noch die Variante mit Suffix `.Class` verwendet.
+Die Unterstützung für die anderen beiden Varianten wurde entfernt.
+Entsprechend wurden [diverse Properties](/downloads/MCR-3670.txt) umbenannt.
+
+> Jetzt gilt allgemein:
+>
+> Eine Komponente mit Namen `MCR.Example` wird mit z.B.
+> `MCRConfiguration2.getInstanceOf(MCRExample.class, "MCR.Example")` instanziiert.
+>
+> In den Properties muss für diese Komponente ein Eintrag mit Namen `Class` für diese Komponente vorhanden sein,
+> in dem der Klassenname der zu instanziierenden Klasse steht, also z.B.
+> `MCR.Example.Class=my.example.MyExample.class`.
+{.note}
+
+Dies erfordert zwei Migrationsschritte:
+1. Wer [betroffene Properties](/downloads/MCR-3670.txt) in eigenen Modulen gesetzt oder überschrieben hat,
+   muss dort die Namen entsprechend anpassen.
+2. Wer in eigenem Java-Code konfigurierte Komponenten instanziiert,
+   muss seinen Code ggf. auf die einzige nun unterstützte Variante umstellen
+   und seine eigenen Properties entsprechend umbenennen.
+
+In diesem Zusammenhang wurde zudem `MCRConfiguration2#getInstantiatablePropertyKeys` dahingehend angepasst,
+dass die Komponentennamen (ohne Suffix `.Class`) zurückgeliefert werden. Eigener Java-Code muss ggf. angepasst werden.
+
+### Anpassung des Standardverhaltens von `@MCRPostConstruction`
+
+Ebenfalls mit [MCR-3670](https://mycore.atlassian.net/browse/MCR-3670) wurde Standardverhaltens von `@MCRPostConstruction` angepasst.
+Es wird nun standardmäßig der Name der Komponente (ohne Suffix `.Class`) als Wert geliefert,
+nicht mehr der Name des Properties, dass den Klassennamen beinhaltet (mit Suffix `.Class`).
+
+Eigener Java-Code sollt oder muss ggf. angepasst werden:
+
+- `@MCRPostConstruction(MCRPostConstruction.Value.CANONICAL)` kann zu `@MCRPostConstruction` vereinfacht werden.
+- `@MCRPostConstruction` muss entweder zu `@MCRPostConstruction(MCRPostConstruction.Value.ACTUAL)` geändert werden, oder
+  der Code, der den Property-Namen verarbeitet, muss angepasst werden.
