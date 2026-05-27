@@ -1172,27 +1172,10 @@
       <name>Papyrus- und Ostraka- Sammlungen</name>
       <description><![CDATA[
             <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://papyri.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
+                <a class="mcrmap_item_icon" href="https://www.papyrusportal.de/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus1.png" /></a>
                 <p>
-                  <a class="mcrmap_item_name" href="https://papyri.uni-leipzig.de/">Papyrus- und Ostraka-Sammlungen</a>
-                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek) u. a. / Portal</span>
-                </p>
-            </div>
-          ]]>
-      </description>
-      <styleUrl>#style_MyCoRe-Pin</styleUrl>
-      <Point>
-        <coordinates>12.379101,51.338608,0</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Organa Papyrologica</name>
-      <description><![CDATA[
-            <div class="mcrmap_item">
-                <a class="mcrmap_item_icon" href="https://www.organapapyrologica.net/"><img class="icon" alt="icon" src="/map/icons/icon_diverse_papyrus.png" /></a>
-                <p>
-                  <a class="mcrmap_item_name" href="https://www.organapapyrologica.net/">Organa Papyrologica</a>
-                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Alte Geschichte)</span>
+                  <a class="mcrmap_item_name" href="https://www.papyrusportal.de/">Papyrus- und Ostraka-Sammlungen</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Universitätsbibliothek/Alte Geschichte) u. a. / Portal</span>
                 </p>
             </div>
           ]]>
@@ -1261,6 +1244,23 @@
                 <p>
                   <a class="mcrmap_item_name" href="https://sammlungen.uni-leipzig.de/">Sammlungsportal der Universität Leipzig</a>
                   <span class="mcrmap_item_owner">Universität Leipzig (URZ)</span>
+                </p>
+            </div>
+          ]]>
+      </description>
+      <styleUrl>#style_MyCoRe-Pin</styleUrl>
+      <Point>
+        <coordinates>12.379101,51.338608,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Musikstadt Leipzig</name>
+      <description><![CDATA[
+            <div class="mcrmap_item">
+                <a class="mcrmap_item_icon" href="https://musiclpz.dl.uni-leipzig.de/"><img class="icon" alt="icon" src="/map/icons/icon_leipzig_collection.png" /></a>
+                <p>
+                  <a class="mcrmap_item_name" href="https://musiclpz.dl.uni-leipzig.de/">Musikstadt Leipzig</a>
+                  <span class="mcrmap_item_owner">Universität Leipzig (URZ/Institut für Musikwissenschften)</span>
                 </p>
             </div>
           ]]>
