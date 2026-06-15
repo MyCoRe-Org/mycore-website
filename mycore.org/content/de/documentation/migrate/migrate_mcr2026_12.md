@@ -72,7 +72,7 @@ Beschreibung
 Durch `property.xsl` wurden ursprünglich zwei Funktionen bereitgestellt;
 eine, `one`, die den Wert zu einem Property-Namen zurückliefert und
 eine, `all`, die alle Sub-Properties zu einem Präfix zurückliefert.
-Letztere Funktion gibt eine geschachtelte XML-Elementstruktur zurück. 
+Letztere Funktion gibt eine geschachtelte XML-Elementstruktur zurück.
 
 Im Rahmen der XSLT3-Umstellung wurde eine weitere Funktion, `map`, hinzugefügt,
 die dasselbe tut wie `all`, dabei aber eine XSL-Map zurückliefert.
@@ -98,6 +98,98 @@ Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
 > `<xsl:variable name=​"Bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` auf oberster Ebene des Stylesheets oder, besser,
 > `<xsl:variable name=​"bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` am Verwendungsort ersetzt werden,
 > um Probleme mit undefinierten oder doppelt definierten Parametern im Zusammenhang mir `xsl:include` / `xsl:import` zu vermeiden.
+{.note}
+
+### Überarbeitung der Generatoren für persistente Identifikatoren ({{<mcr-ticket "MCR-3723" >}})
+
+Die Generatoren für persistente Identifikatoren wurden stark überarbeitet.
+Dies erfordert kleinere Anpassungen in eigenen Implementierungen und an der Konfiguration.
+
+Die folgenden Klassen wurden umbenannt:
+
+| bisher | neu |
+| ---------------------------- | -------------------------------- |
+| `MCRDNBURNGenerator` | `MCRDNBURNGeneratorBase` |
+| `MCRCountingDNBURNGenerator` | `MCRCountingDNBURNGeneratorBase` |
+
+
+Zudem gibt es mehrere neue Implementierungen von `MCRPIGenerator`; z.B. `MCROtherPIDOIGenerator`, die
+eine DOI basierend auf dem Werte eines bereits vergebenen Identifikators, z.B. einer URN, erstellen kann.
+
+Alle Implementierungen von `MCRPIGenerator` wurden auf den annotationsbasierten Konfigurationsmechanismus
+umgestellt. Hierbei wurden für alle Klassen Konfigurationsproxies angelegt. Die ehemals zur Konfiguration eingesetzten
+Methoden `setProperties(Map)` und `init(String)` wurden entfernt. Alle Klassen verfügen nun über Konstruktoren, die
+alle von der jeweiligen Implementierung benötigten Werte aufnehmen. Eigener Java-Code muss ggf. angepasst werden.
+Eigene Implementierungen müssen ggf. analog hierzu umgestellt werden.
+
+### Flexible Datumsformatierung für Generatoren für persistente Identifikatoren ({{<mcr-ticket "MCR-3760" >}})
+
+Die Generatoren für persistente Identifikatoren, die formatierte Datumsangaben verwenden, implementieren hierzu unterschiedliche Strategien.
+Es wurde ein neues Interface `MCRDateFormatter` und diverse Implementierungen erstellt, u.A. für alle von Generatoren verwendeten Strategien.
+
+`MCRGenericPIGenerator` wurde dahingehend erweitert, dass eine beliebige Strategie verwendet werden kann.
+Die sonstigen Generatoren, die formatierte Datumsangaben verwenden, wurden nicht angepasst.
+
+Die Strategie zum Formatieren von Datumsangaben kann bei `MCRGenericPIGenerator` über den Konfigurationswert `DateFormatter` gesetzt werden.
+Der alte Konfigurationswert `DateFormat` behält zunächst seine Funktion, wird aber nachrangig verwendet, wenn beide Werte vorhanden sind.
+
+Eine Konfiguration der Form
+
+```properties
+# Alt
+MCR.PI.Generator.TypeYearCountURN.Class=org.mycore.pi.MCRGenericPIGenerator
+...
+MCR.PI.Generator.TypeYearCountURN.DateFormat=yyyyMMdd
+...
+```
+
+sollte bereits äquivalent in  
+
+```properties
+# Neu
+MCR.PI.Generator.TypeYearCountURN.Class=org.mycore.pi.MCRGenericPIGenerator
+...
+MCR.PI.Generator.TypeYearCountURN.DateFormatter.Class=org.mycore.common.date.MCRSimpleDateFormatter
+MCR.PI.Generator.TypeYearCountURN.DateFormatter.Format=yyyyMMdd
+MCR.PI.Generator.TypeYearCountURN.DateFormatter.Locale=ROOT
+...
+```
+
+geändert werden.
+
+Statt `MCRSimpleDateFormatter` kann alternativ z.B. `MCRISO8601DateFormatter` oder `MCRFLDateScrambler` verwendet werden.
+
+### Ersatz von `MCRCreateDateDOIGenerator` durch generischen Generator ({{<mcr-ticket "MCR-3723" >}})
+
+`MCRCreateDateDOIGenerator` wurde auf Basis von `MCRGenericPIGenerator` neu implementiert und wird in einem zukünftigen Release entfernt.
+
+Eine Konfiguration der Form
+
+```properties
+# Alt
+MCR.PI.Generator.CreateDateDOI.Class=org.mycore.pi.MCRCreateDateDOIGenerator
+MCR.PI.Generator.CreateDateDOI.DateFormat=yyyy-MM-dd
+MCR.PI.Generator.CreateDateDOI.Prefix=10.1234
+MCR.PI.Generator.CreateDateDOI.CountPrecision=6
+```
+
+sollte bereits äquivalent in
+
+```properties
+# Neu
+MCR.PI.Generator.CreateDateDOI.Class=org.mycore.pi.MCRGenericPIGenerator
+MCR.PI.Generator.CreateDateDOI.GeneralPattern=10.1234/$ObjectDate-$Count
+MCR.PI.Generator.CreateDateDOI.DateFormatter.Class=org.mycore.common.date.MCRISO8601DateFormatter
+MCR.PI.Generator.CreateDateDOI.DateFormatter.Format=yyyy-MM-dd
+MCR.PI.Generator.CreateDateDOI.DateFormatter.Locale=en
+MCR.PI.Generator.CreateDateDOI.CountPrecision=6
+MCR.PI.Generator.CreateDateDOI.Type=doi
+```
+
+geändert werden.
+
+> Es ist angedacht, dass alle anderen Implementierung ebenfalls derart umgestellt und anschließend entfernt werden sollen,
+> nachdem die Fähigkeiten von `MCRGenericPIGenerator` entsprechend erweitert worden sind.
 {.note}
 
 ### Methoden in `MCRConfigurationBase` und `MCRConfiguration2` ({{<mcr-ticket "MCR-3785" >}})
@@ -127,7 +219,6 @@ Methoden aus `MCRConfiguration2` harmonisch verhalten hat).
 
 Grundsätzlich ist es empfehlenswert, jeweils die neue Methode zu verwenden, es sei denn es gibt wichtige Gründe dafür,
 Konfigurationseinträge mit leeren Werten zu verarbeiten.
-
 
 ### `MCRVueRootServlet` in ein neues Modul und Paket verschoben ({{<mcr-ticket "MCR-3811" >}})
 
