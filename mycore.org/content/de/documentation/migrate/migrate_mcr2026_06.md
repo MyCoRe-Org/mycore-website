@@ -322,3 +322,82 @@ Eigener Java-Code sollt oder muss ggf. angepasst werden:
 - `@MCRPostConstruction(MCRPostConstruction.Value.CANONICAL)` kann zu `@MCRPostConstruction` vereinfacht werden.
 - `@MCRPostConstruction` muss entweder zu `@MCRPostConstruction(MCRPostConstruction.Value.ACTUAL)` geändert werden, oder
   der Code, der den Property-Namen verarbeitet, muss angepasst werden.
+
+### URI Resolver Refactoring (MCR-3688)
+
+Im Rahmen dieses [Refactorings](https://mycore.atlassian.net/browse/MCR-3688) wurde primär die zentrale
+`MCRURIResolver`-Klasse refactored und in ein neues Paket verlegt.  
+Durch die Auslagerung der bisherigen Resolver-Logik aus `MCRURIResolver` in eigenständige URI Resolver Module/Klassen,
+die als Configurable Instances geladen werden, sind alle nun über Properties individuell überschreibbar und können so
+gezielt durch eigene Implementierungen ersetzt werden.
+
+Dazu wurden ggf. Klassen in dedizierte Pakete verschoben und umbenannt.
+Die alten Klassen und Methoden sind als `@Deprecated` markiert und werden in einer späteren Version entfernt.
+
+> **Hinweis**: Sofern keine URI-Resolver-Module anderweitig eingesetzt oder genutzt werden, keine zugehörigen
+> Properties überschrieben und keine zusätzlichen Properties definiert wurden, ist keine Migration notwendig.
+
+---
+
+#### 1. Neues Paket für `MCRURIResolver`
+
+Die zentrale Resolver-Klasse hat ein neues Paket erhalten:
+
+- `org.mycore.common.xml.MCRURIResolver` ⮕ `org.mycore.common.xsl.uriresolver.MCRURIResolver`
+- `org.mycore.common.xml.MCRURIResolverFilter` ⮕ `org.mycore.common.xsl.uriresolver.MCRURIResolverFilter`
+
+**Aktion:** Alle Java-Importe aktualisieren.
+
+---
+
+#### 2. Weitere Resolver in neue Pakete verschoben / umbenannte Klassen
+
+Alle eigenständigen URI Resolver aus `mycore-base` wurden aus ihren bisherigen Paketen in dedizierte
+Pakete verschoben.
+Die Klassen selbst existieren weiterhin an den alten Stellen, sind aber als `@Deprecated` markiert.
+
+Die folgenden Klassen wurden zusätzlich umbenannt:
+
+- `MCRUserAndObjectRightsURIResolver` ⮕ `MCRUserObjectRightsURIResolver`
+- `MCRCryptResolver` ⮕ `MCRCryptURIResolver`
+- `MCRLanguageResolver` ⮕ `MCRLanguageURIResolver`
+- `MCRBasketResolver` ⮕ `MCRBasketURIResolver`
+- `MCRStaticContentResolver` ⮕ `MCRStaticContentURIResolver`
+
+**Aktion:** Direkte Verwendungen dieser Klassen (z. B. in `mycore.properties` oder Java-Code) auf die neuen Namen /
+Pakete umstellen.
+
+---
+
+#### 3. Anpassung `mycore.properties`
+
+URI Resolver Module werden nun als **Configurable Instances** geladen.
+Das bedeutet, dass der Wert der Property zwingend einen vollqualifizierten Klassennamen enthalten muss (`.
+Class`-Suffix).
+Werden eigene oder überschriebene Properties noch im alten Format ohne `.Class`-Suffix definiert, müssen diese
+entsprechend angepasst werden.
+
+Eventuell werden URI Resolver nun direkt konfiguriert. Dies betrifft vor allem die folgenden URI Resolver:
+
+- **classification** (`MCR.URIResolver.ModuleResolver.classification.Class`)
+- **http/https** (`MCR.URIResolver.ModuleResolver.http.Class` / `MCR.URIResolver.ModuleResolver.https.Class`)
+- **xslStyle** (`MCR.URIResolver.ModuleResolver.xslStyle.Class`)
+
+> **Empfehlung:** Log beim Hochfahren auf Deprecation-Warnungen prüfen.
+
+**Aktion:** Ggf. eigene `mycore.properties` und alle Properties die `MCR.URIResolver.ModuleResolver.*=` setzen auf
+`.Class`-Suffix umstellen.
+
+---
+
+#### 4. Neue Hilfsklassen
+
+Im neuen Paket `org.mycore.common.xsl.uriresolver` stehen neue Hilfsklassen zur Verfügung, die bei der Implementierung
+eigener URI Resolver genutzt werden sollten:
+
+- `MCRURIResolverHelper`: Hilfsmethoden, z. B. zum Parsen von Query-Parametern (`parseQueryParameters(String)`)
+- `MCRURIResolverResponse`: Fabrikmethoden für häufige XML-Antworttypen (z. B. `ofBoolean(boolean)`)
+
+**Aktion:** Optional Hilfsklassen in bestehenden Implementierungen nutzen.
+
+---
