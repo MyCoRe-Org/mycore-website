@@ -340,7 +340,7 @@ Die Klassen selbst existieren weiterhin an den alten Stellen, sind aber als `@De
 Die folgenden Klassen wurden zusätzlich umbenannt:
 
 - `MCRUserAndObjectRightsURIResolver` ⮕ `MCRUserObjectRightsURIResolver`
-- `MCRCryptResolver` ⮕ `MCRCryptResolverURIResolver`
+- `MCRCryptResolver` ⮕ `MCRCryptURIResolver`
 - `MCRLanguageResolver` ⮕ `MCRLanguageURIResolver`
 - `MCRBasketResolver` ⮕ `MCRBasketURIResolver`
 - `MCRStaticContentResolver` ⮕ `MCRStaticContentURIResolver`
