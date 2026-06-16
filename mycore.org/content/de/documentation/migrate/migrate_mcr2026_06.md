@@ -42,7 +42,17 @@ Diese sind alle von Drittanbietern und im Normalfall in den Distributionen entha
 - Git 2.26 oder höher
 - Apache Maven 3.6.3 oder höher
 
-## Neuerungen, die eine Migration erforderlich machen
+## Neuerungen
+
+- Das Benennungsschema zum Instanziieren von konfigurierten Komponenten wurde vereinheitlicht.
+- Anpassung des Standardverhaltens von `@MCRPostConstruction`.
+
+### Verhaltensänderung von `MCRCronjob` (MCR-3560)
+
+Bisher wurden in MyCoRe konfigurierte Cronjobs bei einer Exception im Job nicht mehr gemäß des CRON-Zeitplans neu geplant.
+Ab dieser Version führt ein Fehler im Job nicht mehr zum vollständigen Abbruch des Zeitplans.
+Ein Retry-Mechanismus für die erneute Ausführung des aktuellen Joblaufs ist weiterhin nicht vorgesehen.
+
 ### Überarbeitung der Solr-Integration (MCR-3645)
 
 Die Solr-Integration wurde grundlegend refaktoriert. Das bisherige Konzept mit
@@ -56,16 +66,10 @@ bleiben aber zunächst noch funktionsfähig.
 - Der Verbindungstyp (Standalone / SolrCloud) wird über eine `Class`-Property explizit festgelegt.
 - Client-Timeouts und Parallelisierungs-Properties wurden unter `MCR.Solr.Default.*` zusammengefasst.
 - Die Java-Klassen `MCRSolrClientFactory` und `MCRSolrCoreManager` sind deprecated und werden mit dem nächsten Release entfernt.
-- Das Benennungsschema zum Instanziieren von konfigurierten Komponenten wurde vereinheitlicht.
-- Anpassung des Standardverhaltens von `@MCRPostConstruction`.
 
-### Verhaltensänderung von `MCRCronjob`
+## Migrationsschritte
 
-Bisher wurden in MyCoRe konfigurierte Cronjobs bei einer Exception im Job nicht mehr gemäß des CRON-Zeitplans neu geplant.
-Ab dieser Version führt ein Fehler im Job nicht mehr zum vollständigen Abbruch des Zeitplans.
-Ein Retry-Mechanismus für die erneute Ausführung des aktuellen Joblaufs ist weiterhin nicht vorgesehen.
-
-### `MCRAccessKeyServiceFactory` ist deprecated
+### `MCRAccessKeyServiceFactory` ist deprecated (MCR-3581)
 
 Mit <a href="https://mycore.atlassian.net/browse/MCR-3581">MCR-3581</a> wurde die gesamte Factory-Klasse
 `MCRAccessKeyServiceFactory` als `@Deprecated(forRemoval = true)` markiert.
@@ -90,8 +94,28 @@ Weitere Factory-Methoden wurden analog verschoben:
 Wegen eines Konfliktes bei der Benennung der beiden Methoden `isRootID()` und `getRootID()` im Zusammenhang mit der
 Verwendung der Klasse als JavaBean wurde die Methode `isRootID()` zu **`isRoot()`** umbenannt
 (siehe <a href="https://mycore.atlassian.net/browse/MCR-3637">Ticket MCR-3637</a>).
-    
-## Migrationsschritte
+
+### Umwandlung von `MCRXMLMetadataManager` in ein Interface (MCR-3600)
+
+Bisher war `MCRXMLMetadataManager` eine finale Klasse. Die konkrete Implementierung konnte ausgetauscht werden,
+indem per `MCR.Metadata.Manager` eine Instanz von `MCRXMLMetadataManagerAdapter` angegeben wurde.
+Damit war `MCRXMLMetadataManager` die einzige Stelle in MyCoRe, die dieses Adapter-Pattern verwendet hat.
+Zur Harmonisierung wurde daher `MCRXMLMetadataManager` in ein Interface umgewandelt.
+
+Die bestehenden Implementierungen implementieren nun direkt `MCRXMLMetadataManager` und nicht mehr
+`MCRXMLMetadataManagerAdapter`. Sie wurden daher wie folgt umbeannnt:
+
+- `MCRDefaultXMLMetadataManagerAdapter` ⮕ `MCRDefaultXMLMetadataManager`
+- `MCRGZIPOCFLXMLMetadataManagerAdapter` ⮕ `MCRGZIPOCFLXMLMetadataManager`
+- `MCROCFLXMLMetadataManagerAdapter` ⮕ `MCROCFLXMLMetadataManager`
+
+Es wurde jeweils eine weitere Klasse mit dem alten Namen hinzugefügt und als `@Deprecated` markiert.
+Im Kommentar zur Klasse wird jeweils auf die nun zu verwendende Klasse hingewiesen. Eigener Code bleibt daher noch
+funktionsfähig, muss aber vor der Verwendung des nächsten MyCoRe-Releases umgestellt werden.
+
+Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode `MCRXMLMetadataManager#getInstance`
+in `MCRXMLMetadataManager#obtainInstance` umbenannt und die alte Methode ebenfalls als `@Deprecated`
+markiert. Auch sie wird mit dem nächsten Release entfernt.
 
 ### Solr-Konfiguration migrieren (MCR-3645)
 
@@ -239,30 +263,25 @@ MCRSolrAuthenticationManager.getInstance().applyAuthentication(request, level);
 MCRSolrAuthenticationManager.obtainInstance().applyAuthentication(request, level);
 ```
 
-### Umwandlung von `MCRXMLMetadataManager` in ein Interface
+### Anpassung des Standardverhaltens von der annotationsbasierten Konfiguration (MCR-3646)
 
+Ebenfalls mit [MCR-3646](https://mycore.atlassian.net/browse/MCR-3646) wurde Standardverhaltens
+von `@MCRInstance`, `@MCRInstanceMap` und `@MCRInstanceList` angeglichen und abgerundet;
+insbesondere unter Betrachtung der vielen Kombinationsmöglichkeiten bzgl.
 
-Bisher war `MCRXMLMetadataManager` eine finale Klasse. Die konkrete Implementierung konnte ausgetauscht werden,
-indem per `MCR.Metadata.Manager` eine Instanz von `MCRXMLMetadataManagerAdapter` angegeben wurde.
-Damit war `MCRXMLMetadataManager` die einzige Stelle in MyCoRe, die dieses Adapter-Pattern verwendet hat.
-Zur Harmonisierung wurde daher `MCRXMLMetadataManager` in ein Interface umgewandelt.
+- der verschiedenen Konfigurationsmöglichkeiten von `@MCRSentinel`,
+- redundanten Konfigurationseinträgen und
+- ob Instanzen optional oder notwendig sind.
 
-Die bestehenden Implementierungen implementieren nun direkt `MCRXMLMetadataManager` und nicht mehr
-`MCRXMLMetadataManagerAdapter`. Sie wurden daher wie folgt umbeannnt:
+Hierbei wurden das Verhalten einiger (in der Praxis vermutlich selten bis nie vorkommender)
+Randfälle angepasst, insbesondere solcher, bei denen keine Konfigurationswerte vorhanden sind.
+Wo früher eine Exception geworfen wurde, wird nun z.B. eine Leere `Map` oder `List` generiert,
+oder umgekehrt. In der [Ticket-Beschreibung](https://mycore.atlassian.net/browse/MCR-3646) sind
+das aktuelle Verhalten und alle Verhaltensänderungen ausführlich beschrieben.
 
-- `MCRDefaultXMLMetadataManagerAdapter` ⮕ `MCRDefaultXMLMetadataManager`
-- `MCRGZIPOCFLXMLMetadataManagerAdapter` ⮕ `MCRGZIPOCFLXMLMetadataManager`
-- `MCROCFLXMLMetadataManagerAdapter` ⮕ `MCROCFLXMLMetadataManager`
+Die Konfiguration eigener Anwendungen muss ggf. angepasst werden.
 
-Es wurde jeweils eine weitere Klasse mit dem alten Namen hinzugefügt und als `@Deprecated` markiert.
-Im Kommentar zur Klasse wird jeweils auf die nun zu verwendende Klasse hingewiesen. Eigener Code bleibt daher noch
-funktionsfähig, muss aber vor der Verwendung des nächsten MyCoRe-Releases umgestellt werden.
-
-Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode `MCRXMLMetadataManager#getInstance`
-in `MCRXMLMetadataManager#obtainInstance` umbenannt und die alte Methode ebenfalls als `@Deprecated`
-markiert. Auch sie wird mit dem nächsten Release entfernt.
-
-### Benennungsschema zum Instanziieren von konfigurierten Komponenten
+### Benennungsschema zum Instanziieren von konfigurierten Komponenten (MCR-3670)
 
 Bisher gab es mehrere Varianten bei der Benennung des Properties für den Klassennamen einer
 [konfigurierbaren Komponente]({{< ref basics_configurable_instance >}})
@@ -292,7 +311,7 @@ Dies erfordert zwei Migrationsschritte:
 In diesem Zusammenhang wurde zudem `MCRConfiguration2#getInstantiatablePropertyKeys` dahingehend angepasst,
 dass die Komponentennamen (ohne Suffix `.Class`) zurückgeliefert werden. Eigener Java-Code muss ggf. angepasst werden.
 
-### Anpassung des Standardverhaltens von `@MCRPostConstruction`
+### Anpassung des Standardverhaltens von `@MCRPostConstruction` (MCR-3670)
 
 Ebenfalls mit [MCR-3670](https://mycore.atlassian.net/browse/MCR-3670) wurde Standardverhaltens von `@MCRPostConstruction` angepasst.
 Es wird nun standardmäßig der Name der Komponente (ohne Suffix `.Class`) als Wert geliefert,

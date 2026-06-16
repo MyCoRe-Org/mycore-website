@@ -42,23 +42,26 @@ Diese sind alle von Drittanbietern und im Normalfall in den Distributionen entha
 - Git 2.26 oder höher
 - Apache Maven 3.6.3 oder höher
 
-## Neuerungen, die eine Migration erforderlich machen
+## Neuerungen
 
-### Neuerung 1
+- Kleinere Neuerung 1
+- Kleinere Neuerung 2
+- Kleinere Neuerung 3
+
+### Größere Neuerung 1 (MCR-XXXX)
 
 Beschreibung
 
-### Neuerung 2
+### Größere Neuerung 2 (MCR-XXXX)
 
 Beschreibung
 
 ## Migrationsschritte
 
-### Schritt 1
+### Schritt 1 (MCR-XXXX)
 
 Beschreibung
 
-### Schritt 2
+### Schritt 2 (MCR-XXXX)
 
 Beschreibung
-
