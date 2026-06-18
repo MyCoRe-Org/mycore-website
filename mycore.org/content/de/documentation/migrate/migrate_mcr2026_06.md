@@ -65,7 +65,7 @@ bleiben aber zunächst noch funktionsfähig.
 - Die Konfiguration der Solr-Kerne erfolgt nun über `MCR.Solr.IndexRegistry.Index.{id}.*` statt `MCR.Solr.Core.{id}.*`.
 - Der Verbindungstyp (Standalone / SolrCloud) wird über eine `Class`-Property explizit festgelegt.
 - Client-Timeouts und Parallelisierungs-Properties wurden unter `MCR.Solr.Default.*` zusammengefasst.
-- Die Java-Klassen `MCRSolrClientFactory` und `MCRSolrCoreManager` sind deprecated und werden mit dem nächsten Release entfernt.
+- Die Java-Klassen `MCRSolrCore` und `MCRSolrCoreManager` wurden entfernt; der Zugriff auf Solr-Clients erfolgt nun über die Index-Registry.
 
 ## Migrationsschritte
 
@@ -232,14 +232,14 @@ Den Konfigurationsassistenten zum Erzeugen der Properties für alle Verbindungst
 man in der [Solr-Dokumentation]({{< ref search_solr_use >}}).
     </p>
 
-#### Java API: `MCRSolrClientFactory` und `MCRSolrCoreManager`
+#### Java API: `MCRSolrCoreManager`
 
-Die Klassen `MCRSolrClientFactory` und `MCRSolrCoreManager` sind
-deprecated. Der Zugriff auf Solr-Clients erfolgt nun über die Index-Registry:
+Die Klassen `MCRSolrCore` und `MCRSolrCoreManager` wurden
+entfernt. Der Zugriff auf Solr-Clients erfolgt nun über die Index-Registry:
 
 ```java
 // ALT (bis 2025.12)
-SolrClient client = MCRSolrClientFactory.getMainSolrClient();
+SolrClient client = MCRSolrCoreManager.getMainSolrClient();
 // oder:
 SolrClient client = MCRSolrCoreManager.get("main").get().getClient();
 
