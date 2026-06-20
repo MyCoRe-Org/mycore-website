@@ -22,13 +22,17 @@ date: "2024-05-24"
         <p>
             Damit ggf. vorhandende Abstracts in der aktuellen Sprache automatisch angezeigt werden können, müssen die
             folgenden CLI-Kommandos einmal ausgeführt werden.
-
+        </p>
         <ul>
             <li><code>reload solr configuration main in core main</code></li>
             <li><code>rebuild solr metadata index in core main</code></li>
         </ul>
+        <h3>Modernisierung der Prozess-GUI</h3>
+        <p>
+            Durch die Modernisierung der Prozess-GUI muss der die Object ID im zugehörige ACL-Eintrag 
+            von <code>webpage:/modules/webtools/processing-processing.xml</code> zu
+            <code>webpage:/modules/webtools/processing</code> geändert werden.
         </p>
-
     </div>
 </div>
 
