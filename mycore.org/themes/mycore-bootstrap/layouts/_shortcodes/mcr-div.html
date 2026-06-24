@@ -1,0 +1,4 @@
+<div {{- if .Get "class" }} class='{{ .Get "class" -}}'{{- end -}}
+     {{- if .Get "style" }} style='{{ .Get "style" -}}'{{- end -}}>
+{{ .Inner | markdownify | safeHTML }}
+</div>
