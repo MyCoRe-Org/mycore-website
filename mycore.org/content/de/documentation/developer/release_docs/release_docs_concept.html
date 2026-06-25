@@ -3,7 +3,7 @@
 
 title: "Release-Konzept"
 mcr_version: ['2026.06']
-author: ['Jens Kupferschmidt', 'Thomas Scheffler', 'Sebastian Hofmann']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler', 'Sebastian Hofmann', 'Torsten Krause']
 description: "Der Artikel beschreibt die Konzeption von MyCoRe-Releases."
 date: "2026-04-23"
 
@@ -53,7 +53,7 @@ date: "2026-04-23"
           <td>bis 8 Wochen nach Alt-Release</td>
           <td>
             <ul>
-              <li>„richtig wilde“ PRs erlaubt</li>
+              <li>PRs mit hohem Risiko erlaubt</li>
               <li>Major-Updates bei JS- und Java-Dependencies</li>
             </ul>
           </td>
@@ -67,7 +67,7 @@ date: "2026-04-23"
           <td>
             <ul>
               <li>Release-Branch abzweigen</li>
-              <li>keine „wilden“ PRs mehr in LTS-Branches</li>
+              <li>keine PRs mit mittlerem oder hohem Risiko mehr in LTS-Branches</li>
             </ul>
           </td>
         </tr>
@@ -89,12 +89,12 @@ gantt
     axisFormat  %b %Y
 
     section Main-Branch
-    richtig wilde PRs + Major-Updates    :active, phase1, 2025-06-30, 56d
-    wilde PRs + Minor-Dependency-Updates :phase2, after phase1, 70d
-    nur noch milde PRs (Stabilisierung)  :phase3, after phase2, 14d
+    PRs mit hohem Risiko + Major-Updates              :active, phase1, 2025-06-30, 56d
+    PRs mit mittlerem Risiko + Minor-Dependency-Updates :phase2, after phase1, 70d
+    nur noch PRs mit geringem Risiko (Stabilisierung) :phase3, after phase2, 14d
 
     section LTS-Branch 2025.12.x
-    nur milde PRs                        :crit, relbranch, after phase3, 42d
+    nur PRs mit geringem Risiko                       :crit, relbranch, after phase3, 42d
 
     section Meilensteine
     Alt-Release 2025.06.0     :milestone, m1, 2025-06-30, 0d
@@ -109,12 +109,12 @@ gantt
     axisFormat  %b %Y
 
     section Main-Branch
-    richtig wilde PRs + Major-Updates    :active, phase1, 2025-12-29, 56d
-    wilde PRs + Minor-Dependency-Updates :phase2, after phase1, 70d
-    nur noch milde PRs (Stabilisierung)  :phase3, after phase2, 14d
+    PRs mit hohem Risiko + Major-Updates              :active, phase1, 2025-12-29, 56d
+    PRs mit mittlerem Risiko + Minor-Dependency-Updates :phase2, after phase1, 70d
+    nur noch PRs mit geringem Risiko (Stabilisierung) :phase3, after phase2, 14d
 
     section LTS-Branch 2026.06.x
-    nur milde PRs                        :crit, relbranch, after phase3, 42d
+    nur PRs mit geringem Risiko                       :crit, relbranch, after phase3, 42d
 
     section Meilensteine
     Alt-Release 2025.12.0     :milestone, m1, 2025-12-29, 0d
@@ -132,33 +132,33 @@ gantt
 
       <table class="table">
         <tr>
-          <th>richtig wild</th>
-          <th>wild</th>
-          <th>mild</th>
+          <th>gering</th>
+          <th>mittel</th>
+          <th>hoch</th>
         </tr>
         <tr>
-          <td>PMD-Änderungen</td>
-          <td>Update von Major-Versionen der Dependencies</td>
           <td>Bugfix</td>
+          <td>Update von Major-Versionen der Dependencies</td>
+          <td>PMD-Änderungen</td>
         </tr>
         <tr>
-          <td>Architekturänderungen</td>
-          <td>neue Features</td>
           <td>Update von Minor-Versionen der Dependencies</td>
+          <td>neue Features</td>
+          <td>Architekturänderungen</td>
         </tr>
         <tr>
-          <td>umfangreiche oder tiefgehende API-Änderungen</td>
+          <td></td>
           <td>nicht-umfangreiche und nicht-tiefgehende API-Änderungen</td>
-          <td></td>
+          <td>umfangreiche oder tiefgehende API-Änderungen</td>
         </tr>
         <tr>
-          <td>umfangreiche Migration erforderlich</td>
-          <td>einfache Migration erforderlich</td>
           <td></td>
+          <td>einfache Migration erforderlich</td>
+          <td>umfangreiche Migration erforderlich</td>
         </tr>
       </table>
 
-      <h3>mild <small class="text-muted">– „Kann man einspielen, ohne Puls zu kriegen“</small></h3>
+      <h3>gering <small class="text-muted">– „Kann man einspielen, ohne Puls zu kriegen“</small></h3>
       <ul>
         <li>Bugfixes ohne API-Änderungen</li>
         <li>Patch- und unkritische Minor-Updates von Dependencies</li>
@@ -175,7 +175,7 @@ gantt
         <li>Rollback trivial</li>
       </ul>
 
-      <h3>wild <small class="text-muted">– „Man sollte wissen, was man tut“</small></h3>
+      <h3>mittel <small class="text-muted">– „Man sollte wissen, was man tut“</small></h3>
       <ul>
         <li>Neue Features (aktiviert oder relevant für Nutzer)</li>
         <li>Major-Version-Updates von Dependencies</li>
@@ -194,7 +194,7 @@ gantt
         <li>Rollback möglich, aber nicht trivial</li>
       </ul>
 
-      <h3>richtig wild <small class="text-muted">– „Hier brennt potentiell alles“</small></h3>
+      <h3>hoch <small class="text-muted">– „Hier brennt potentiell alles“</small></h3>
       <ul>
         <li>Breaking Changes</li>
         <li>Umfangreiche oder tiefgehende API-Änderungen</li>
