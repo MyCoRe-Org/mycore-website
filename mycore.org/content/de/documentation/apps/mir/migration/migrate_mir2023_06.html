@@ -99,6 +99,60 @@ date: "2023-07-11"
     MCR.ContentTransformer.deepgreenjats2mods.Stylesheet=xslt/sword/jats2mods.xsl
     {{< /highlight >}}
   </p>
+  <!-- https://mycore.atlassian.net/browse/MIR-1613 -->
+  <h3>Zugriffsrechte für gesperrte und gelöschte Objekte ergänzen</h3>
+  <p>
+    Mit <a href="https://mycore.atlassian.net/browse/MIR-1613">MIR-1613</a> wurde behoben, dass die
+    Dateien von Objekten im Zustand <code>blocked</code> (gesperrt) oder <code>deleted</code> (gelöscht)
+    über das <code>MCRFileNodeServlet</code> auch an nicht angemeldete bzw. unprivilegierte Nutzer
+    ausgeliefert wurden &ndash; selbst dann, wenn auf der Metadatenseite die Hinweise
+    &bdquo;Das Dokument ist gesperrt!&ldquo; bzw. &bdquo;Das Dokument wurde gelöscht!&ldquo; angezeigt wurden.
+    Die Zugriffsstrategie berücksichtigte bislang nur die Klassifikation <code>mir_access</code>, nicht
+    aber den Objektzustand.
+  </p>
+  <p>
+    Die zugehörige Property-Anpassung wird durch das Update automatisch übernommen, sofern sie nicht in
+    der eigenen <code>mycore.properties</code> überschrieben wurde. Anwendungen, die diese Property
+    selbst gesetzt haben, müssen den Zustand <code>state</code> ergänzen:
+    {{< highlight plain>}}
+    MIR.Access.Strategy.Classifications=state,mir_access
+    {{< /highlight >}}
+    Die Reihenfolge ist entscheidend: <code>state</code> muss vor <code>mir_access</code> stehen, damit der
+    Objektzustand Vorrang hat und ein <code>mir_access</code>-Wert wie <code>unlimited</code> den Zugriff auf
+    gesperrte/gelöschte Inhalte nicht doch erlaubt.
+  </p>
+  <p>
+    Die neuen Zugriffsrechte liegen pro Installation in der Datenbank und werden durch das Update
+    <strong>nicht</strong> automatisch angelegt. Sie müssen daher in bestehenden Installationen manuell
+    ergänzt werden. Am einfachsten geschieht dies über die Oberfläche der Rechteverwaltung (ACL-Editor)
+    im Administrationsbereich. Dort sind folgende Zugriffsdefinitionen anzulegen:
+  </p>
+  <ul>
+    <li><code>derivate:state:blocked</code> &ndash; Berechtigungen <code>read</code> und <code>view</code>,
+      Regel <code>grant-editors</code> (&bdquo;administrators and editors&ldquo;)</li>
+    <li><code>derivate:state:deleted</code> &ndash; Berechtigungen <code>read</code> und <code>view</code>,
+      Regel <code>grant-editors</code> (&bdquo;administrators and editors&ldquo;)</li>
+    <li><code>derivate:mir_access:unlimited</code> &ndash; zusätzlich die Berechtigung <code>view</code>,
+      Regel <code>grant-all</code> (&bdquo;always allowed&ldquo;)</li>
+  </ul>
+  <p>
+    Alternativ können die Rechte über die Kommandozeile mit dem Werkzeug <code>mir-cli</code> gesetzt
+    werden. Der Platzhalter <code>{mir-cli}</code> in den folgenden Kommandos ist dabei durch das
+    Installationsverzeichnis von <code>mir-cli</code> zu ersetzen (das Verzeichnis, in dem die
+    Regeldateien unter <code>config/acl/</code> liegen):
+    {{< highlight plain>}}
+    update permission view for id derivate:mir_access:unlimited with rulefile {mir-cli}/config/acl/grant-all.xml described by always allowed
+    update permission read for id derivate:state:blocked with rulefile {mir-cli}/config/acl/grant-editors.xml described by administrators and editors
+    update permission view for id derivate:state:blocked with rulefile {mir-cli}/config/acl/grant-editors.xml described by administrators and editors
+    update permission read for id derivate:state:deleted with rulefile {mir-cli}/config/acl/grant-editors.xml described by administrators and editors
+    update permission view for id derivate:state:deleted with rulefile {mir-cli}/config/acl/grant-editors.xml described by administrators and editors
+    {{< /highlight >}}
+  </p>
+  <div class="note">
+    <p>
+      Dieses Problem betrifft alle bestehenden Installationen und damit auch die Versionen 2024 und 2025.
+    </p>
+  </div>
 </div>
 
 
