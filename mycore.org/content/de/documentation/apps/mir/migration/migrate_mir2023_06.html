@@ -73,6 +73,32 @@ date: "2023-07-11"
       Dieses Problem wurde nachträglich entdeckt und betrifft auch die Versionen 2024 und 2025.
     </p>
   </div>
+  <!-- https://mycore.atlassian.net/browse/MCR-2966 -->
+  <h3>Verschiebung der "Saxon ready"-Stylesheets nach <code>xslt/</code></h3>
+  <p>
+    Mit <a href="https://mycore.atlassian.net/browse/MCR-2966">MCR-2966</a> wurden die XSLT3-fähigen
+    ("Saxon ready") Stylesheets aus dem Verzeichnis <code>xsl/</code> nach <code>xslt/</code> verschoben.
+    Für die meisten Stylesheets ist das unkritisch, da die zugehörigen Properties in der
+    MIR-<code>mycore.properties</code> mitgepflegt wurden und beim Update automatisch übernommen werden.
+  </p>
+  <p>
+    Problematisch ist das Stylesheet für den DeepGreen-JATS-Import
+    (<code>sword/jats2mods.xsl</code>). Die zugehörige Property ist in der
+    MIR-<code>mycore.properties</code> nur <strong>auskommentiert</strong> enthalten:
+    {{< highlight plain>}}
+    # MCR.ContentTransformer.deepgreenjats2mods.Stylesheet=xslt/sword/jats2mods.xsl
+    {{< /highlight >}}
+    Anwendungen, die diese Property in einer älteren Version in ihre eigene <code>mycore.properties</code>
+    kopiert und aktiviert haben, verweisen weiterhin auf den alten Pfad <code>xsl/sword/jats2mods.xsl</code>
+    und werden durch das Update <strong>nicht</strong> automatisch angepasst.
+  </p>
+  <p>
+    Betroffene Anwendungen (mit aktiviertem DeepGreen-/SWORD-Import) müssen den Pfad in ihrer eigenen
+    <code>mycore.properties</code> daher manuell anpassen:
+    {{< highlight plain>}}
+    MCR.ContentTransformer.deepgreenjats2mods.Stylesheet=xslt/sword/jats2mods.xsl
+    {{< /highlight >}}
+  </p>
 </div>
 
 
