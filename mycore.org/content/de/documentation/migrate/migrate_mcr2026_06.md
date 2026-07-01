@@ -1,11 +1,11 @@
 ---
 title: "Migration MyCoRe LTS 2025.12 nach 2026.06"
 mcr_version: ['2026.06']
-author: []
+author: ["MyCoRe-Community"]
 description: "
 Diese Seite fasst Systemanforderungen für die Nutzung des MyCoRe LTS 2026.06 und die Migration von Version
 2025.12 zu 2026.06 zusammen."
-date: "2000-01-01"
+date: "2026-07-01"
 ---
 {{< mcr-comment >}} Publish this page by setting the date and removing icon and property 'pre' from menus.de.yaml {{< /mcr-comment >}}
 
@@ -47,13 +47,13 @@ Diese sind alle von Drittanbietern und im Normalfall in den Distributionen entha
 - Das Benennungsschema zum Instanziieren von konfigurierten Komponenten wurde vereinheitlicht.
 - Anpassung des Standardverhaltens von `@MCRPostConstruction`.
 
-### Verhaltensänderung von `MCRCronjob` (MCR-3560)
+### Verhaltensänderung von `MCRCronjob` ({{<mcr-ticket "MCR-3560">}})
 
 Bisher wurden in MyCoRe konfigurierte Cronjobs bei einer Exception im Job nicht mehr gemäß des CRON-Zeitplans neu geplant.
 Ab dieser Version führt ein Fehler im Job nicht mehr zum vollständigen Abbruch des Zeitplans.
 Ein Retry-Mechanismus für die erneute Ausführung des aktuellen Joblaufs ist weiterhin nicht vorgesehen.
 
-### Überarbeitung der Solr-Integration (MCR-3645)
+### Überarbeitung der Solr-Integration ({{<mcr-ticket "MCR-3645">}})
 
 Die Solr-Integration wurde grundlegend refaktoriert. Das bisherige Konzept mit
 `MCRSolrCore` und `MCRSolrCoreManager` wurde durch ein neues,
@@ -73,9 +73,9 @@ Der generierte Inhalt sollte bezüglich XSS-Attacken abgesichert werden, wenn Nu
 
 ## Migrationsschritte
 
-### `MCRAccessKeyServiceFactory` ist deprecated (MCR-3581)
+### `MCRAccessKeyServiceFactory` ist deprecated ({{<mcr-ticket "MCR-3581" >}})
 
-Mit <a href="https://mycore.atlassian.net/browse/MCR-3581">MCR-3581</a> wurde die gesamte Factory-Klasse
+Mit diesem Ticket wurde die gesamte Factory-Klasse
 `MCRAccessKeyServiceFactory` als `@Deprecated(forRemoval = true)` markiert.
 
 Alle bisherigen Factory-Methoden sollten ersetzt werden:
@@ -93,13 +93,12 @@ Weitere Factory-Methoden wurden analog verschoben:
 - **ALT:** `MCRAccessKeyServiceFactory.getAccessKeyPermissionService()`
 - **NEU:** `MCRAccessKeyPermissionService.obtainInstance()`
 
-### `MCRCategoryID`: Umbenennung der Methode `isRootID()` zu `isRoot()`
+### `MCRCategoryID`: Umbenennung der Methode `isRootID()` zu `isRoot()` ({{<mcr-ticket "MCR-3637" >}})
 
 Wegen eines Konfliktes bei der Benennung der beiden Methoden `isRootID()` und `getRootID()` im Zusammenhang mit der
-Verwendung der Klasse als JavaBean wurde die Methode `isRootID()` zu **`isRoot()`** umbenannt
-(siehe <a href="https://mycore.atlassian.net/browse/MCR-3637">Ticket MCR-3637</a>).
+Verwendung der Klasse als Java Bean wurde die Methode `isRootID()` zu **`isRoot()`** umbenannt.
 
-### Umwandlung von `MCRXMLMetadataManager` in ein Interface (MCR-3600)
+### Umwandlung von `MCRXMLMetadataManager` in ein Interface ({{<mcr-ticket "MCR-3600" >}})
 
 Bisher war `MCRXMLMetadataManager` eine finale Klasse. Die konkrete Implementierung konnte ausgetauscht werden,
 indem per `MCR.Metadata.Manager` eine Instanz von `MCRXMLMetadataManagerAdapter` angegeben wurde.
@@ -121,7 +120,7 @@ Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode `MCR
 in `MCRXMLMetadataManager#obtainInstance` umbenannt und die alte Methode ebenfalls als `@Deprecated`
 markiert. Auch sie wird mit dem nächsten Release entfernt.
 
-### Solr-Konfiguration migrieren (MCR-3645)
+### Solr-Konfiguration migrieren ({{<mcr-ticket "MCR-3645" >}})
 
 #### Property-Umbenennung
 
@@ -267,10 +266,9 @@ MCRSolrAuthenticationManager.getInstance().applyAuthentication(request, level);
 MCRSolrAuthenticationManager.obtainInstance().applyAuthentication(request, level);
 ```
 
-### Anpassung des Standardverhaltens von der annotationsbasierten Konfiguration (MCR-3646)
+### Anpassung des Standardverhaltens von der annotationsbasierten Konfiguration ({{<mcr-ticket "MCR-3646" >}})
 
-Ebenfalls mit [MCR-3646](https://mycore.atlassian.net/browse/MCR-3646) wurde Standardverhaltens
-von `@MCRInstance`, `@MCRInstanceMap` und `@MCRInstanceList` angeglichen und abgerundet;
+Ebenfalls wurde das Standardverhalten von `@MCRInstance`, `@MCRInstanceMap` und `@MCRInstanceList` angeglichen und abgerundet;
 insbesondere unter Betrachtung der vielen Kombinationsmöglichkeiten bzgl.
 
 - der verschiedenen Konfigurationsmöglichkeiten von `@MCRSentinel`,
@@ -280,27 +278,27 @@ insbesondere unter Betrachtung der vielen Kombinationsmöglichkeiten bzgl.
 Hierbei wurden das Verhalten einiger (in der Praxis vermutlich selten bis nie vorkommender)
 Randfälle angepasst, insbesondere solcher, bei denen keine Konfigurationswerte vorhanden sind.
 Wo früher eine Exception geworfen wurde, wird nun z.B. eine Leere `Map` oder `List` generiert,
-oder umgekehrt. In der [Ticket-Beschreibung](https://mycore.atlassian.net/browse/MCR-3646) sind
-das aktuelle Verhalten und alle Verhaltensänderungen ausführlich beschrieben.
+oder umgekehrt. In der Beschreibung zu {{<mcr-ticket "MCR-3646" >}} sind
+das aktuelle Verhalten und alle Verhaltensänderungen ausführlich dargestellt.
 
 Die Konfiguration eigener Anwendungen muss ggf. angepasst werden.
 
-### Benennungsschema zum Instanziieren von konfigurierten Komponenten (MCR-3670)
+### Benennungsschema zum Instanziieren von konfigurierten Komponenten ({{<mcr-ticket "MCR-3670" >}})
 
 Bisher gab es mehrere Varianten bei der Benennung des Properties für den Klassennamen einer
 [konfigurierbaren Komponente]({{< ref basics_configurable_instance >}})
 (mit Suffix `.Class` oder `.class` oder ohne Suffix).
-Mit [MCR-3670](https://mycore.atlassian.net/browse/MCR-3670) wurde das Benennungsschema
-vereinheitlicht. Es wird nun nur noch die Variante mit Suffix `.Class` verwendet.
+Nun wurde das Benennungsschema vereinheitlicht.
+
+**Es wird nun nur noch die Variante mit Suffix `.Class` verwendet.**
 Die Unterstützung für die anderen beiden Varianten wurde entfernt.
 Entsprechend wurden [diverse Properties](/downloads/MCR-3670.txt) umbenannt.
 
 > Jetzt gilt allgemein:
 >
 > Eine Komponente mit Namen `MCR.Example` wird mit z.B.
-> `MCRConfiguration2.getInstanceOf(MCRExample.class, "MCR.Example")` instanziiert.
->
-> In den Properties muss für diese Komponente ein Eintrag mit Namen `Class` für diese Komponente vorhanden sein,
+> `MCRConfiguration2.getInstanceOf(MCRExample.class, "MCR.Example")` instanziiert.  
+> In den Properties muss für diese Komponente ein Eintrag mit Namen `*.Class` für diese Komponente vorhanden sein,
 > in dem der Klassenname der zu instanziierenden Klasse steht, also z.B.
 > `MCR.Example.Class=my.example.MyExample.class`.
 {.note}
@@ -315,9 +313,9 @@ Dies erfordert zwei Migrationsschritte:
 In diesem Zusammenhang wurde zudem `MCRConfiguration2#getInstantiatablePropertyKeys` dahingehend angepasst,
 dass die Komponentennamen (ohne Suffix `.Class`) zurückgeliefert werden. Eigener Java-Code muss ggf. angepasst werden.
 
-### Anpassung des Standardverhaltens von `@MCRPostConstruction` (MCR-3670)
+### Anpassung des Standardverhaltens von `@MCRPostConstruction` ({{<mcr-ticket "MCR-3670" >}})
 
-Ebenfalls mit [MCR-3670](https://mycore.atlassian.net/browse/MCR-3670) wurde Standardverhaltens von `@MCRPostConstruction` angepasst.
+Es wurde ebenfalls das Standardverhalten von `@MCRPostConstruction` angepasst.
 Es wird nun standardmäßig der Name der Komponente (ohne Suffix `.Class`) als Wert geliefert,
 nicht mehr der Name des Properties, dass den Klassennamen beinhaltet (mit Suffix `.Class`).
 
@@ -327,10 +325,10 @@ Eigener Java-Code sollt oder muss ggf. angepasst werden:
 - `@MCRPostConstruction` muss entweder zu `@MCRPostConstruction(MCRPostConstruction.Value.ACTUAL)` geändert werden, oder
   der Code, der den Property-Namen verarbeitet, muss angepasst werden.
 
-### URI Resolver Refactoring (MCR-3688)
+### URI Resolver Refactoring ({{<mcr-ticket "MCR-3688" >}})
 
-Im Rahmen dieses [Refactorings](https://mycore.atlassian.net/browse/MCR-3688) wurde primär die zentrale
-`MCRURIResolver`-Klasse refactored und in ein neues Paket verlegt.  
+Im Rahmen dieses Anpassung wurde primär die zentrale
+`MCRURIResolver`-Klasse refactored und in ein neues Paket verschoben.  
 Durch die Auslagerung der bisherigen Resolver-Logik aus `MCRURIResolver` in eigenständige URI Resolver Module/Klassen,
 die als Configurable Instances geladen werden, sind alle nun über Properties individuell überschreibbar und können so
 gezielt durch eigene Implementierungen ersetzt werden.
@@ -340,7 +338,7 @@ Die alten Klassen und Methoden sind als `@Deprecated` markiert und werden in ein
 
 > **Hinweis**: Sofern keine URI-Resolver-Module anderweitig eingesetzt oder genutzt werden, keine zugehörigen
 > Properties überschrieben und keine zusätzlichen Properties definiert wurden, ist keine Migration notwendig.
-
+{.note}
 ---
 
 #### 1. Neues Paket für `MCRURIResolver`
