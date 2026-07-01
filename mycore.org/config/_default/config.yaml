@@ -65,4 +65,12 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    guessSyntax: true 
+    guessSyntax: true
+
+# Diese Website basiert vorrangig auf HTML-Content-Dateien.
+# Seit Hugo v0.158 blockt die Security-Policy "security.allowContent" den Medientyp
+# text/html standardmäßig (siehe https://gohugo.io/configuration/security/).
+# Daher wird text/html hier wieder explizit erlaubt.
+security:
+  allowContent:
+    - '.*'
