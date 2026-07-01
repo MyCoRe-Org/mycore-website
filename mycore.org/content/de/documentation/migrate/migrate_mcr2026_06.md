@@ -67,6 +67,10 @@ bleiben aber zunächst noch funktionsfähig.
 - Client-Timeouts und Parallelisierungs-Properties wurden unter `MCR.Solr.Default.*` zusammengefasst.
 - Die Java-Klassen `MCRSolrCore` und `MCRSolrCoreManager` wurden entfernt; der Zugriff auf Solr-Clients erfolgt nun über die Index-Registry.
 
+### Erweiterung von `<xed:output>` um das Attribut `@escape-xml='false'` (MCR-3749)
+Darüber kann HTML-Code in die Formular-Webseite direkt eingebettet werden. 
+Der generierte Inhalt sollte bezüglich XSS-Attacken abgesichert werden, wenn Nutzereingaben integriert werden.
+
 ## Migrationsschritte
 
 ### `MCRAccessKeyServiceFactory` ist deprecated (MCR-3581)
