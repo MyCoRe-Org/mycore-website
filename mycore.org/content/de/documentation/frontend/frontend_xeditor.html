@@ -551,7 +551,7 @@ setzen und so beim Absenden des Formulars durchreichen. Die Buttons können als 
 <div>
     <h4>Werte ausgeben mit <code>&lt;xed:output /&gt;</code></h4>
 <p>Syntax:</p>
-{{< highlight xml "linenos=table">}} <xed:output value="..." i18n="..." />{{< /highlight >}}
+{{< highlight xml "linenos=table">}} <xed:output value="..." i18n="..." escape-xml="..." />{{< /highlight >}}
 
 <p>Ermöglicht die Ausgabe eines Wertes. Der Wert kann über einen XPath-Ausdruck definiert werden und/oder das aktuelle Binding im bearbeiteten XML-Dokument verwenden. Auch eine Kombination mit mehrsprachigen Bezeichnern aus messages-*.properties Dateien ist möglich. </p>
 
@@ -562,6 +562,7 @@ setzen und so beim Absenden des Formulars durchreichen. Die Buttons können als 
   <xed:output />
 </xed:bind>{{< /highlight >}}
 
+<h5>Attribute <code>@value</code></h5>
 <p>Wenn das Attribut @value angegeben ist, wird der darin enthaltene XPath-Ausdruck ausgewertet und ausgegeben. Der XPath-Ausdruck kann die XML-Struktur des bearbeiteten Dokumentes, sowie Variablen verwenden, die aus HTTP Request Parametern, Konfigurationsparametern aus mycore.properties oder MCRSession Variablen stammen. Beispiele:</p>
 
 {{< highlight xml "linenos=table">}}<label>Name: </label>
@@ -571,6 +572,7 @@ setzen und so beim Absenden des Formulars durchreichen. Die Buttons können als 
   Diese Publikation mit dem Titel "<xed:output />" dürfen Sie als <xed:output value="$SomeUser" /> bearbeiten.
 </xed:bind>{{< /highlight >}}
 
+<h5>Attribute <code>@i18n</code></h5>
 <p>Wenn das Attribut @i18n angegeben ist, wird der mehrsprachige Bezeichner aus den messages-*.properties Dateien ausgegeben, dessen Schlüssel angegeben ist. Beispiel:</p>
 
 {{< highlight xml "linenos=table">}}<label>
@@ -580,15 +582,22 @@ setzen und so beim Absenden des Formulars durchreichen. Die Buttons können als 
 <p>Das Attribut @i18n kann auch Variablen enthalten, die dann, wie in einem XPath-Ausdruck, ersetzt werden.</p>
 <p>Wenn sowohl das Attribut @value als auch das Attribut @i18n angegeben ist, wird zunächst der XPath-Ausdruck aus dem Attribut @value ausgewertet, und der resultierende Wert in den mehrsprachigen Bezeichner eingesetzt. Der Bezeichner in den messages-*.properties Dateien muss einen entsprechenden Platzhalter vorsehen. Beispiel:</p>
 
-<p>In messages-de.properties:
-<code>edit.datePublished=Das Dokument wurde am {0} veröffentlicht.</code></p>
-
-<p>In messages-en.properties:
-<code>edit.datePublished=The document was publised at {0}.</code></p>
+<p>In messages-de.properties: <code>edit.datePublished=Das Dokument wurde am {0} veröffentlicht.</code><br />
+In messages-en.properties: <code>edit.datePublished=The document was publised at {0}.</code></p>
 
 {{< highlight xml "linenos=table">}}<label>
   <xed:output value="date[@type='published']" i18n="edit.datePublished" />
 </label>{{< /highlight >}}
+
+<h5>Attribute <code>@escape-xml</code></h5>
+<p>Wenn HMTL-Content durch das Tag erzeugt wird, wird dieser standarmäßig als maskierter Text ausgegeben.
+   Soll der Content direkt als HTML-Code in die Webseite eingebettet werden, 
+   muss explizit das Attribute <code>@escape-xml='false'</code> (Default: <code>true</code>) gesetzt werden.</p>
+   <div class="alert alert-warning" role="alert">
+    <strong>Achtung:</strong> Bei der Verwendung des Attributes ist darauf zu achten, dass user-generierte Inhalte 
+    (Formulareingaben, ...) nicht ungeprüft bei der Erstellung des Contents übernommen werden,
+    um das Einschleusen und Ausführen von Javascript (XSS-Attacken) zu verhindern.</div>
+<p>
 </div>
 
 <div>
