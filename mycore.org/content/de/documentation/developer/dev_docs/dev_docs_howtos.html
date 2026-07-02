@@ -25,7 +25,7 @@ Der erste Parameter enthält die <a href="https://gohugo.io/content-management/s
 Zeilennummen können durch die Parameter <code>linenos=table</code> und <code>linenostart</code> eingeblendet werden.
 Mit dem Parameter <code>hl_lines</code> lassen sich einzelne Zeilen hervorheben.
 </p>
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 {{</* highlight xml "linenos=table, linenostart=11, hl_lines=1 6" */>}}
   <category ID="article">
@@ -51,7 +51,7 @@ Mit dem Hugo-Shortcode <strong><a href="https://gohugo.io/content-management/cro
 des Webauftritts verlinkt werden. Es reicht, den Dateinamen der Seite anzugeben. Wenn dieser eindeutig ist, dann ermittelt Hugo automatisch den Pfad.
 Wenn die Seite nicht (mehr) existiert, bricht Hugo den Buildprozess mit einer Fehlermeldung ab.
 Dadurch werden tote Links vermieden.
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{<highlight text >}}
   <span>Hier geht es zum <a href="{{</* ref /blog */>}}">Blog</a>.</span>
 {{< /highlight >}}
@@ -68,7 +68,7 @@ um relative Links in die Webseite einbetten zu können. Das ist dann relevant, w
 sondern unter einer URL mit Subpfad betrieben wird.
 </p>
 
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 Relative Adresse dieser Seite: 
 <strong>{{</*relURL "documentation/developer/dev_docs/dev_docs_howtos/" */>}}</strong>{{</highlight>}}
@@ -85,7 +85,7 @@ Dieser Shortcode sollte verwendet werden, wenn im Fließtext auf MyCoRe-LTS-Tags
 Mehre Versionsstände können mit Komma (<code>,</code>) getrennt werden.
 </p>
 
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 Das Feature <strong>XY</strong> wurde mit MyCoRe {{</*mcr-version "2015.06" */>}} eingeführt
 und in MyCoRe {{</* mcr-version "2016.06,2017.06" */>}} verwendet.
@@ -101,7 +101,7 @@ und in MyCoRe {{<mcr-version "2016.06,2017.06">}} verwendet.
 Dieser Shortcode sollte verwendet werden, um Links zu einem Ticket im Jira zu erzeugen.
 </p>
 
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 Weitere Informationen sind verfügbar im Ticket {{</*mcr-ticket "DOC-64" */>}}.
 {{</highlight>}}
@@ -130,7 +130,7 @@ Folgende Parameter können verwendet werden:
 	<tr><td><code>caption</code></td><td>Bildbeschreibung</td></tr>
 	<tr><td><code>attr</code></td><td>Angaben zum Urheber</td></tr>
 </table>
-<h4>Anwendungsbeispiele</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiele</h4>
 
 {{< highlight text>}}
 {{</* mcr-figure src="http://localhost:1313/images/site/download/mycore_logo_powered_175x55_weiss.jpg" 
@@ -221,7 +221,7 @@ So lassen sich beispielsweise einzelne Dokumentationsabschnitte vorübergehend a
 HTML-Seite ausblenden, oder Anmerkungen hinzufügen. 
 </p>
 
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 {{</* mcr-comment */>}}
   RS: Das ist ein interner Kommentar.
@@ -247,7 +247,7 @@ Wenn einer der Parameter <code>class</code> oder <code>style</code> vorhanden is
 Wenn in der Diagramm-Definition kein Header gesetzt ist, wird ein Default-Header eingebunden.
 </p> 
 
-<h4>Anwendungsbeispiel</h4>
+<h4 class="js-toc-ignore">Anwendungsbeispiel</h4>
 {{< highlight text>}}
 {{</* mcr-mermaid class="alert alert-info w-25" */>}}
 ---
