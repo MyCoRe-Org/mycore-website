@@ -57,6 +57,34 @@ Beschreibung
 
 ## Migrationsschritte
 
+### Geänderte Funktionen in `property.xsl` ({{<mcr-ticket "MCR-3719" >}})
+
+Durch `property.xsl` wurden ursprünglich zwei Funktionen bereitgestellt;
+eine, `one`, die den Wert zu einem Property-Namen zurückliefert und
+eine, `all`, die alle Sub-Properties zu einem Präfix zurückliefert.
+Letztere Funktion gibt eine geschachtelte XML-Elementstruktur zurück. 
+
+Im Rahmen der XSLT3-Umstellung wurde eine weitere Funktion, `map`, hinzugefügt,
+die dasselbe tut wie `all`, dabei aber eine XSL-Map zurückliefert.
+
+Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
+
+- Die Methode `one` wurde in `get` umbenannt.  
+  Aufrufe von `mcrproperty:one` müssen durch `mcrproperty:get` ersetzt werden.
+- Die Methode `map` wurde in `get-sub-properties` umbenannt.  
+  Aufrufe von `mcrproperty:map` müssen durch `mcrproperty:get-sub-properties` ersetzt werden.
+- Die Methode `all` wurde entfernt.  
+  Aufrufe der Form `mcrproperty:all('MCR.Foo.Bars')/entry[@key='baz']` müssen durch
+  - `map:get(mcrproperty:get-sub-properties('MCR.Foo.Bars'), 'baz')` (Hilfsmethode),
+  - `mcrproperty:get-sub-properties('MCR.Foo.Bars')('baz')` (Funktionsaufruf) oder
+  - `mcrproperty:get-sub-properties('MCR.Foo.Bars')?'baz'` (Lookup-Operator) ersetzt werden.
+
+> Die Verwendung von `<xsl:param name=​'MCR.Foo.Bar'>` auf oberster Ebene eines Stylesheets sollte durch
+> `<xsl:variable name=​"Bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` auf oberster Ebene des Stylesheets oder, besser,
+> `<xsl:variable name=​"bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` am Verwendungsort ersetzt werden,
+> um Probleme mit undefinierten oder doppelt definierten Parametern im Zusammenhang mir `xsl:include` / `xsl:import` zu vermeiden.
+{.note}
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
