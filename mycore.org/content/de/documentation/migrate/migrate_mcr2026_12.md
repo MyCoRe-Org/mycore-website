@@ -47,20 +47,20 @@ Diese sind alle von Drittanbietern und im Normalfall in den Distributionen entha
 - Kleinere Neuerung 2
 - Kleinere Neuerung 3
 
-### Größere Neuerung 1 (MCR-XXXX)
+### Größere Neuerung 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
 
-### Größere Neuerung 2 (MCR-XXXX)
+### Größere Neuerung 2 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
 
 ## Migrationsschritte
 
-### Schritt 1 (MCR-XXXX)
+### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
 
-### Schritt 2 (MCR-XXXX)
+### Schritt 2 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
