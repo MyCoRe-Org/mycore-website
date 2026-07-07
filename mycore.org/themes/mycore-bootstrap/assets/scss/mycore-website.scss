@@ -5,6 +5,10 @@
 @import "includes/_navigation.scss";
 @import "includes/_common.scss";
 
+code {
+  hyphens: none;
+}
+
 .danger,
 .note,
 .warning {
