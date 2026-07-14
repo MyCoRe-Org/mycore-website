@@ -21,9 +21,9 @@ date: "2024-10-16"
         von der Solr Homepage. Die jeweilige aktuelle Solr Version kann dort heruntergeladen werden.
       </p>
       <p>
-        Für das MyCoRe-Release 2024.06 sollte ein Solr 9.x verwendet werden.
+        Ab dem MyCoRe-Release 2024.06 sollte ein Solr 9.x verwendet werden.
         Zur Installation folgt man der Anleitung  
-        <a href="https://solr.apache.org/guide/solr/latest/deployment-guide/installing-solr.html">"Installing Solr"</a>
+        <a href="https://solr.apache.org/guide/solr/9_10/deployment-guide/installing-solr.html">"Installing Solr"</a>
         von der Solr Homepage. Die jeweilige aktuelle Solr Version kann dort heruntergeladen werden.
       </p>
       <p><strong>Es ist sinnvoll, wenn man das Datenverzeichnis nicht innerhalb der Solr-Distribution anlegt.<br />
@@ -45,14 +45,27 @@ date: "2024-10-16"
         die notwendigen Informationen.
       </p>
       
+      <h3>Hinweise</h3>
       <p>
         Wenn innerhalb der MyCoRe-Anwendung <strong>Volltexte im Alto-Format</strong> indexiert werden, ist eine weitere Einstellung notwendig. 
-        Das ist der Fall, wenn das Property <code>MCR.Solr.Indexer.File.AccumulatorList</code> den Wert <code>org.mycore.mets.solr.MCRSolrAltoExtractor</code> enthält.<br />
+        Das ist notwendig, wenn das Property <code>MCR.Solr.Indexer.File.AccumulatorList=org.mycore.mets.solr.MCRSolrAltoExtractor</code> gesetzt wurde.<br />
         Dann sollte beim Solr-Start zusätzlich der Parameter <code>-Dsolr.jetty.request.header.size=524288</code> verwendet werden.
         Dadurch steht bei der Indexierung ausreichend Platz für die Übertragung
         der Wort-Koordinaten zur Verfügung. Im Produktivbetrieb kann der Parameter über die Umgebungsvariable <code>SOLR_OPTS</code> gesetzt werden.<br />
       </p>
       
+      <p>Mit Solr 9.10.1 wurde die von MyCoRe benötigte ICU-Bibliothek in das <strong>Modul <code>analysis-extras</code></strong> verschoben.
+         Wenn das Modul beim Start von Solr nicht geladen wurde, sieht man beispielsweise beim Initialisieren der Solr-Cores folgende Fehlermeldung:
+         <div class="note">
+            <p>SOLR config add-field-type: ... Error loading class 'solr.ICUNormalizer2FilterFactory'></p>
+         </div>
+         Das Modul muss beim Solr-Start konfiguriert werden, z.B. durch 
+         <ul>
+            <li>Setzen der Umgebungsvariable <code>SOLR_MODULES=analysis-extras</code> in <code>solr.in.sh</code> (Linux), oder</li>
+            <li>einen Parameter beim Start über die Kommandozeile: <code>bin/solr start -m analysis-extras</code></li>
+         </ul>
+         Das Modul ist <strong>nicht</strong> in der Slim-Variante von Solr enthalten. Es muss die full-Version installiert werden.
+      </p> 
       <p>
         Damit ist die Solr-Installation abgeschlossen.
       </p>
