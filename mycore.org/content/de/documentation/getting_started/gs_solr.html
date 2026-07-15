@@ -46,6 +46,7 @@ date: "2024-10-16"
       </p>
       
       <h3>Hinweise</h3>
+      <h4>Alto-Indexierung</h4>
       <p>
         Wenn innerhalb der MyCoRe-Anwendung <strong>Volltexte im Alto-Format</strong> indexiert werden, ist eine weitere Einstellung notwendig. 
         Das ist notwendig, wenn das Property <code>MCR.Solr.Indexer.File.AccumulatorList=org.mycore.mets.solr.MCRSolrAltoExtractor</code> gesetzt wurde.<br />
@@ -53,21 +54,21 @@ date: "2024-10-16"
         Dadurch steht bei der Indexierung ausreichend Platz für die Übertragung
         der Wort-Koordinaten zur Verfügung. Im Produktivbetrieb kann der Parameter über die Umgebungsvariable <code>SOLR_OPTS</code> gesetzt werden.<br />
       </p>
-      
+      <h4>Solr Module</h4>
       <p>Mit Solr 9.10.1 wurde die von MyCoRe benötigte ICU-Bibliothek in das <strong>Modul <code>analysis-extras</code></strong> verschoben.
          Wenn das Modul beim Start von Solr nicht geladen wurde, sieht man beispielsweise beim Initialisieren der Solr-Cores folgende Fehlermeldung:
          <div class="note">
             <p>SOLR config add-field-type: ... Error loading class 'solr.ICUNormalizer2FilterFactory'></p>
          </div>
-         Das Modul muss beim Solr-Start konfiguriert werden, z.B. durch 
-         <ul>
-            <li>Setzen der Umgebungsvariable <code>SOLR_MODULES=analysis-extras</code> in <code>solr.in.sh</code> (Linux), oder</li>
-            <li>einen Parameter beim Start über die Kommandozeile: <code>bin/solr start -m analysis-extras</code></li>
-         </ul>
-         Das Modul ist <strong>nicht</strong> in der Slim-Variante von Solr enthalten. Es muss die full-Version installiert werden.
-      </p> 
+      </p>
+      <p>Ebenfalls mit Solr 9.10.1 wurde Code für das Verarbeiten von XML in das <strong>Modul <code>extraction</code></strong> verschoben.</p>
       <p>
-        Damit ist die Solr-Installation abgeschlossen.
+         Beide Module müssen beim Solr-Start konfiguriert werden, z.B. durch 
+         <ul>
+            <li>Setzen der Umgebungsvariable <code>SOLR_MODULES=analysis-extras,extraction</code><br /> in <code>solr.in.sh</code> (Linux) bzw. <code>solr.in.cmd</code> (Windows), oder</li>
+            <li>einen Parameter beim Start über die Kommandozeile:<br /> <code>bin/solr start -Dsolr.modules=analysis-extras,extraction</code></li>
+         </ul>
+         Die Module sind <strong>nicht</strong> in der Slim-Variante von Solr enthalten. Es muss die full-Variante von Solr installiert werden.
       </p>
     </div>
 
