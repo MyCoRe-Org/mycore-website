@@ -41,12 +41,12 @@ RosDok (MyCoRe) speichert die Metadaten der Dokumente intern als XML im [MODS](h
 
 #### • XSLT3 für die Erzeugung der Metadatenseite eingeführt:
 Das HTML für die Anzeige der Metadaten wurde in der alten RosDok-Version hauptsächlich mittels der [JSP XML Tag Library](https://docs.oracle.com/javaee/5/tutorial/doc/bnakq.html) erzeugt.
-In der aktuellen Version wird als Technologie [XSLT3](https://www.w3.org/TR/xslt-30/) verwendet. In MyCoRe wurden neue [XSLT3-Funktionen]({{< ref "/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen" >}}) implementiert, die die Generierung der Metadatenseite unterstützen.
+In der aktuellen Version wird als Technologie [XSLT3](https://www.w3.org/TR/xslt-30/) verwendet. In MyCoRe wurden neue [XSLT3-Funktionen]({{< ref "/documentation/reference/mycore/xslt/xslt-3#mycore-xslt3-funktionen" >}}) implementiert, die die Generierung der Metadatenseite unterstützen.
 
 {{< mcr-figure src="/images/blog/applications/2021_rosdok_metadata_krey.png" 
          class="border border-primary text-center" width="100%" 
          label="Screenshot" caption="RosDok - Beispiel für Metadatenseite" attr="UB Rostock" />}}
 
-Mit der Umstellung auf die aktuelle MyCoRe Version konnten verschiedene neue Features, wie die bereits erwähnten [XSLT-3 Funktionen]({{< ref "/documentation/frontend/xsl/xsl_xslt3#mycore-xslt3-funktionen" >}}), das [Factbased Access System]({{< ref "/documentation/permissions/acl_factbased" >}}) oder die [IIIF-Image-API für Thumbnails]({{< ref "/documentation/interfaces/interface_iiif_support#implementierung-fr-thumbnails-von-bilder-und-pdfdateien" >}}) direkt in RosDok integriert und eingesetzt werden.
+Mit der Umstellung auf die aktuelle MyCoRe Version konnten verschiedene neue Features, wie die bereits erwähnten [XSLT-3 Funktionen]({{< ref "/documentation/reference/mycore/xslt/xslt-3#mycore-xslt3-funktionen" >}}), das [Factbased Access System]({{< ref "/documentation/explanation/mycore/access-control/fact-based-access" >}}) oder die [IIIF-Image-API für Thumbnails]({{< ref "/documentation/reference/mycore/interfaces/iiif#implementierung-fr-thumbnails-von-bilder-und-pdfdateien" >}}) direkt in RosDok integriert und eingesetzt werden.
 
 <br>

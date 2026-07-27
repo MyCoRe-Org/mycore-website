@@ -1,0 +1,375 @@
+---
+aliases:
+  - /documentation/developer/codestyle/
+doc_type: reference
+product: mycore
+title: "Festlegungen für die Code Entwicklung"
+mcr_version: ['2019.06','2020.06']
+author: ['Kathleen Neumann', 'Thomas Scheffler', 'Jens Kupferschmidt', 'Robert Stephan']
+date: "2022-09-23"
+---
+<div>
+  <h2>Vorbemerkungen</h2>
+  <p>Von den MyCoRe-Entwicklern wird eine Entwicklungsumgebung wie <em>Eclipse IDE</em> oder <em>IntelliJ IDEA</em> 
+     zur Arbeit am MyCoRe-Projekt empfohlen.</p>
+  <p>Einheitliche Format-Konventionen sind die Voraussetzung dafür, dass Änderungen an den Dateien im Github-Repository nachvollziehbar
+     bleiben. Deshalb sollten neue und geänderte Dateien vor einem Commit automatisch mit folgenden Einstellungen formatiert werden:</p>
+
+  <h2>Encoding</h2>
+    <h3>Allgemeines</h3>
+    <p>
+      Grundsätzlich geht MyCoRe davon aus, dass alle Dateien, die nicht sprachabhängig sind, mit <strong>UTF-8</strong>
+      kodiert sind. Dies betrifft vor allem die Dateitypen:
+    </p>
+    <ul>
+      <li>Java-Code: *.java</li>
+      <li>XML-/XED-/XSD-/XSL-Dateien: *.xml, *.xed, *.xsd, *.xsl</li>
+      <li>HTML-Dateien: *.html, *.xhtml</li>
+    </ul>
+
+    <h3>Konfiguration unter Eclipse</h3>
+    <p>Die Einstellung erfolgt in Eclipse global für alle Dateien unter:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; General &rarr; Workspace &rarr; Text file encoding &rarr; Other: UTF-8</li>
+    </ul>
+    <p>Für einzelne Dateien kann die Eigenschaft auch in den <em>Properties</em> gesetzt werden:
+    <ul>
+      <li>Context-Menü (rechte Maustaste / Alt+Enter): <br />
+          Properties &rarr; Resource &rarr; Text file encoding &rarr; Other: UTF-8</li>
+    </ul>
+  <h2>Formatierung der Dateien</h2>
+  <p>Um bei der Arbeit mit Git nur funktionale Änderungen zu commiten und diese nicht mit
+     Änderungen an der Formatierung zu vermischen, 
+     wird der gesamte Code einheitlich nach folgenden Regeln erstellt:</p>
+  <h3>Java Importorder</h3>
+  <p>Die Import-Reihenfolge für Java-Packages lautet:</p>
+  <ul>
+    <li><code>java</code></li>
+    <li><code>javax</code></li>
+    <li><code>org</code></li>
+    <li><code>com</code></li>
+  </ul>
+  
+   <h4>Konfiguration unter Eclipse</h4>
+  <p>Die Einstellung erfolgt unter:</p>
+  <ul>
+    <li>Anwendungs-Menü: <br />
+        Window &rarr; Preferences &rarr; Java &rarr; Code Style &rarr; Organize Imports</li>
+  </ul>
+  <p>
+    Dort lässt sich die oben beschriebene Reihenfolge einstellen.<br />
+    Alternativ kann diese 
+      <a href="/downloads/mycore.importorder">ImportOrder-Konfiguration</a> heruntergeladen und importiert werden.
+  </p>
+  
+
+  <h3>Java-Code Formatierung</h3>
+  
+  <h4>Allgemeines</h4>
+  <p>Für die Formatierung von Java-Dateien gelten folgende Regeln:</p>
+  <ul>
+    <li>Formatierung gemäß den Java-Konventionen</li>
+    <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
+    <li>Einrückung mit vier Zeichen</li>
+    <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+    <li>Kommenare nicht umformatieren</li>
+  </ul>
+      
+  <h4>Konfiguration unter Eclipse</h4>
+  <p>Die Einstellung erfolgt unter:</p>
+  <ul>
+    <li>Anwendungs-Menü: <br />
+        Window &rarr; Preferences &rarr; Java &rarr; Code Style &rarr; Formatter</li>
+  </ul>
+  <p>
+    Dort wählt man das Profile <strong>Java Conventions [built-in]</strong> als Vorlage und nimmt folgende Anpassungen vor:
+  </p>
+  <ul>
+    <li>Indentation:
+        <ul>
+          <li>Tab Policy: Spaces only</li>
+          <li>Indentation size: 4 (default)</li>
+          <li>Tab size: 4</li>
+          <li>Statements within 'switch' body: [on]</li>
+        </ul>
+    </li>
+    <li>New Lines:
+      <ul>
+        <li> At end of file: [on]</li>
+      </ul>
+    </li>
+    <li>Line wrapping:
+      <ul>
+        <li>Maximum line width: 120 (default)</li>
+        <li>Default indentation for wrapped lines: 1</li>
+        <li>Default indentation for array initializers: 1</li>
+        <li>Never join already wrapped lines: [on]</li>
+      </ul>
+    </li>
+    <li>Line wrapping / Wrapping settings:<br />
+      <em>(Diese werden global für alle folgenden Einträge gesetzt.<br />
+       Durch Anklicken des Checkbox-Symbols am Zeilenende öffnen sich mehrere Auswahlboxen.)</em>
+      <ul>
+        <li>Auswahl 1: "Wrap before operators"</li>
+        <li>Auswahl 2: "Wrap where necessary"</li>
+      </ul>
+    </li>
+    <li>Line wrapping / Wrapping settings / Other expressions / Assignments:<br />
+      <em>(Nimmt die vorherige Einstellung für einfache Variablenzuweisungen zurück.)</em>
+      <ul>
+        <li>Auswahl 1: "Wrap after operators"</li>
+      </ul>
+    </li>
+    
+    <li>Comments:<br />
+      <ul>
+        <li>Maxium width: 120</li>
+        <li>Count width from comments' starting position: [off]</li>
+        <li>Enable Javadoc comment formatting: [off]</li>
+        <li>Enable block comment formatting: [off]</li>
+        <li>Enable line comment formatting: [off]</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Die Vorlage wird dann unter dem Namen <strong>MyCoRe</strong> gespeichert.</p>
+  <p>Eclipse-Nutzer können sich einfach die 
+      <a href="/downloads/mycore-javastyle.xml">Code-Style-Definition</a> herunterladen und importieren<br /> 
+      (Anwendungs-Menü: Window &rarr; Preferences &rarr; Java &rarr; Code Style &rarr; Formatter). 
+  </p>
+  
+  <h3>Javascript-Code Formatierung</h3>
+  <p>Für den Javascript-Editor sind folgende Einstellungen vorzunehmen
+  <ul>
+    <li>Formatierung gemäß den JavaScript-Konventionen</li>
+    <li>Tabulatoren werden durch Leerzeichen ersetzt</li>
+    <li>Einrückung mit vier Zeichen</li>
+    <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+  </ul>
+      
+ <h4>Konfiguration unter Eclipse</h4>
+  <p>Die Einstellung erfolgt unter:</p>
+  <ul>
+    <li>Anwendungs-Menü: <br />
+        Window &rarr; Preferences &rarr; Web &rarr; Client-side JavaScript &rarr; Formatter</li>
+  </ul>
+  <p>
+    Dort wählt man das Profile <strong>JavaScript Conventions [built-in]</strong> als Vorlage und nimmt folgende Anpassungen vor:
+  </p>
+  <ul>
+    <li>Indentation:
+        <ul>
+          <li>Tab Policy: Spaces only</li>
+          <li>Indentation size: 4 (default)</li>
+          <li>Tab size: 4</li>
+        </ul>
+    </li>
+    <li>New Lines:
+      <ul>
+        <li> At end of file: [on]</li>
+      </ul>
+    </li>
+    <li>Line wrapping:
+      <ul>
+        <li>Maximum line width: 120</li>
+        <li>Default indentation for wrapped lines: 1</li>
+        <li>Default indentation for array initializers: 1</li>
+        <li>Default indentation for object literal initializers: 1</li>
+      </ul>
+    </li>
+    <li>Comments:<br />
+      <ul>
+        <li>Maxium width: 120</li>
+        <li>Count width from comment's starting position: [off]</li>
+        <li>Enable JSDoc comment formatting: [off]</li>
+        <li>Enable block comment formatting: [off]</li>
+        <li>Enable line comment formatting: [off]</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Die Vorlage wird dann unter dem Namen <strong>MyCoRe Javascript</strong> gespeichert.</p>
+  <p>Eclipse-Nutzer können sich einfach die 
+      <a href="/downloads/mycore-javascriptstyle.xml">Code-Style-Definition</a> herunterladen und importieren<br /> 
+      (Anwendungs-Menü: Window &rarr; Preferences &rarr; Web &rarr; Client-side JavaScript &rarr; Formatter). 
+  </p>
+  
+  <h3>XML-Code Formatierung</h3>
+    <h4>Allgemeines</h4>
+    <p>Auch für die Gestaltung von XML-Dateien wurde eine einheitliche Formatierung festgelegt:</p>
+    <ul>
+      <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+      <li>Für Einrückungen sind nur Leerzeichen zu verwenden.</li>
+      <li>Pro Tab sind 2 Zeichen Einrückung vorgesehen.</li>
+    </ul>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>Die Einstellung erfolgt in Eclipse im jeweiligen Projekt unter:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; XML &rarr; XML Files &rarr; Editor</li>
+    </ul>
+    Dort wählt man:
+    <ul>
+      <li>Line width: 120</li>
+      <li>Format Comments [off]</li>
+      <li>Indent using spaces: [on]</li>
+      <li>Indentation size: 2</li>
+    </ul>
+    <p>Weiterhin ist die Erkennung von *.xed-Dateien als XML im Editor einzuschalten:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; General &rarr; Editors &rarr; File Associations</li>
+    </ul>
+    <p>
+      Dort wird zunächst bei <em>File types:</em> über <em>Add..</em> der Typ <code>*.xed</code> ausgewählt
+      und anschließend unter <em>Associated editors:</em> über <em>Add..</em> der <em>XML-Editor</em> mit der Dateiendung verknüpft.
+    </p>
+    
+    <p>Wenn Ant-Skripte (Datei: <em>build.xml</em>) zum Bauen oder Konfigurieren der Anwendung verwendet werden,
+       muss auch dieser Editor entsprechend den Vorgaben zu XML-Dateien konfiguriert werden. Seine Einstellungen befinden sich unter:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; Ant &rarr; Editor &rarr; Formatter</li>
+    </ul>
+
+  <h3>HTML-Code Formatierung</h3>
+    <h4>Allgemeines</h4>
+    <p>Auch für die Gestaltung von HTML-Dateien wurde eine einheitliche Formatierung festgelegt:</p>
+    <ul>
+      <li>Zeilenumbruch und maximale Zeilenlänge 120</li>
+      <li>Für Einrückungen sind nur Leerzeichen zu verwenden.</li>
+      <li>Pro Tab sind 2 Zeichen Einrückung vorgesehen.</li>
+    </ul>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>Die Einstellung erfolgt unter:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; Web &rarr; HTML Files &rarr; Editor</li>
+    </ul>
+    Dort stellt man folgendes ein:
+    <ul>
+      <li>Line width: 120</li>
+      <li>Indent using spaces: [on]</li>
+      <li>Indentation size:2</li>
+    </ul>
+
+  <h3>CSS-Code Formatierung</h3>
+    <h4>Allgemeines</h4>
+    <p>Für CSS-Dateien gelten dieselben Einstellungen wie für HTML-Dateien:</p>
+    <ul>
+      <li>maximale Zeilenlänge 120</li>
+      <li>Für Einrückungen sind nur Leerzeichen zu verwenden.</li>
+      <li>Pro Tab sind 2 Zeichen Einrückung vorgesehen.</li>
+    </ul>
+    <h4>Konfiguration unter Eclipse</h4>
+    <p>Die Einstellung erfolgt unter:</p>
+    <ul>
+      <li>Anwendungs-Menü: <br />
+          Window &rarr; Preferences &rarr; Web &rarr; CSS Files &rarr; Editor</li>
+    </ul>
+    Dort stellt man folgendes ein:
+    <ul>
+      <li>Line width: 120</li>
+      <li>Indent using spaces: [on]</li>
+      <li>Indentation size:2</li>
+    </ul>
+
+  <h2>Compilieren und Code-Test</h2>
+    <p>
+      Bevor ein Codeteil (Javaklasse, Stylesheet oder Konfigurationsdatei) committed wird, sollte diese <strong>gründlich</strong>
+      getestet werden. Für Java-Klassen ist als erstes sicher zu stellen, dass sie den Compiler-Lauf erfolgreich
+      bestehen. Um auch Konflikte mit anderen Java-Klassen von vorn herein auszuschließen, sollte vor jedem Commit einer
+      Klasse des MyCoRe-Kerns der Code einmal mittels Maven gebaut werden:
+    </p>
+    {{<highlight cmd>}}> mvn [-o] clean install {{</highlight>}}
+    <p>So können Fehler in der Abhängigkeit schneller gefunden werden. Dabei steht -o für Offline. Dies
+      kann genutzt werden, wenn man gerade im Zug oder an ähnlichen Orten entwickelt, wo man offline ist.</p>
+
+  <h2>Kommentare im Code</h2>
+  
+    <h3>Allgemeines</h3>
+    <p>Alle Kommentare sind in Englisch abzufassen. Dabei ist auf allgemein verständliche Sprachkonstrukte zu
+      achten. Der Kommentar soll die kodierten Vorgänge gut beschreiben und für andere nachvollziehbar machen.</p>
+  
+    <h3>Kommentare im Java-Code</h3>
+    <p>Jede Java-Datei hat das nachfolgende Aussehen. Das gestattet ein einheitliches Auftreten des
+      Projektes. Da für alle Dateien mittels JavaDoc automatisch eine Dokumentation generiert wird, ist es Pflicht, die
+      erstellte Klasse mit einer allgemeinen Beschreibung zum Zweck und Einsatz der Klasse zu versehen. Weiterhin sind
+      alle public oder protected Methoden mit einer Beschreibung zu versehen. Hierzu gehört auch die Dokumentation der
+      übergebenen Parameter, der Rückgabewerte und ggf. der geworfenen Exceptions.</p>
+    
+    <strong>Kommentar für eine Java-Klasse:</strong>
+    {{< highlight java "linenos=table">}}
+/* 
+ * This file is part of *** M y C o R e *** 
+ * See https://www.mycore.de/ for details. 
+ * 
+ * This program is free software; you can use it, redistribute it 
+ * and / or modify it under the terms of the GNU General Public License 
+ * (GPL) as published by the Free Software Foundation; either version 2 
+ * of the License or (at your option) any later version. 
+ * 
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ * 
+ * You should have received a copy of the GNU General Public License 
+ * along with this program, in a file called gpl.txt or license.txt. 
+ * If not, write to the Free Software Foundation Inc., 
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307 USA 
+ */
+ package org.mycore.modules.hello; 
+ import java.io.File; 
+ /**
+  * This class implements methods for ... 
+  * 
+  * @author Jens Kupferschmidt 
+  * @version $Revision: 1.49 $ $Date$ 
+  */ 
+  public class MCRHello { 
+      ... 
+  }
+    {{< /highlight >}}
+
+    <strong>Minimaler Kommentar für Java Methoden:</strong>
+    {{< highlight java "linenos=table">}} 
+/**
+ * This method .. 
+ * 
+ * @param a the parameter a is the first value. 
+ * @return a if it is a positive number, else return 0. 
+ */ 
+ public final int abs(a) { ... } 
+{{< /highlight >}}
+
+    <h3>Kommentare in Stylesheets</h3>
+    <p>Auch alle XSLT-Dateien sollen kurze Kommentare enthalten. Unbedingt erforderlich sind auf jeden Fall die
+      Zeilen für die Versionskontrolle. Angestrebt wird folgendes Aussehen eines Stylesheets.</p>
+
+{{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================== -->
+<!-- $Revision: 1.2 $ $Date$ -->
+<!-- ============================================== -->
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  ...
+</xsl:stylesheet>
+{{< /highlight >}}
+
+<h2>Logging</h2>
+    <p>
+      Alle Logging-Informationen werden, sofern nicht eine Umsetzung mittels der Internationalisierung I18N erfolgt, in
+      Englisch notiert. Für MyCoRe ist das <strong>log4j</strong>-Paket des Apache-Projektes zu verwenden. Es gib 4
+      definierte Log-Level mit nachfolgenden Bestimmungen. Es ist davon auszugehen, dass eine normale Anwendung
+      allgemein auf den Level INFO gesetzt ist.
+    </p>
+    <ul>
+      <li><code>ERROR</code> – Gibt Informationen zu nicht behebbaren Fehlern, z.B. Exceptions, zurück.</li>
+      <li><code>WARN</code> – Gibt Informationen zu Fehlern zurück, welche die Weiterarbeit der Anwendung nicht ausschließen. In
+        der Regel wird mit Standardwerten weitergearbeitet.</li>
+      <li><code>INFO</code> – Gibt allgemeine Informationen für den normalen Anwender bzw. die Log-Datei aus. Diese Nachrichten
+        haben nur informativen Charakter.</li>
+      <li><code>DEBUG</code> – Gibt zusätzliche Informationen, die gezielt durch Einschalten dieses Levels abgerufen werden,
+        aus.</li>
+    </ul>
+</div>

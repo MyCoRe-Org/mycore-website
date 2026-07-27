@@ -126,6 +126,36 @@
         list-style: none;
     }
 
+    .mcr-documentation-menu__row {
+      display: flex;
+      align-items: flex-start;
+      gap: .25rem;
+    }
+
+    .mcr-documentation-menu__row > a {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .mcr-documentation-menu__toggle {
+      flex: 0 0 1.75rem;
+      padding: 0;
+      border: 0;
+      color: $mcr-gray;
+      background: transparent;
+      line-height: 1.25;
+      transition: transform .2s ease;
+    }
+
+    .mcr-documentation-menu__toggle.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .mcr-documentation-menu__toggle:focus {
+      outline: 2px solid $yellow;
+      outline-offset: 2px;
+    }
+
     .mcr-navbar-side ul {
         padding-left: 15px;
         list-style: none;

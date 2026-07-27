@@ -1,0 +1,43 @@
+{{- $page := .page -}}
+{{- $current := .current -}}
+{{- $directChildren := where $page.Pages.ByWeight "Params.nav_exclude" "ne" true -}}
+{{- $target := $page -}}
+{{- $children := $directChildren -}}
+{{- /* Follow singleton chains; the documentation tree is much shallower than this safety bound. */ -}}
+{{- range seq 12 -}}
+  {{- if eq (len $children) 1 -}}
+    {{- $target = index $children 0 -}}
+    {{- $children = where $target.Pages.ByWeight "Params.nav_exclude" "ne" true -}}
+  {{- end -}}
+{{- end -}}
+{{- $hasChildren := gt (len $children) 0 -}}
+{{- $active := or (eq $current.RelPermalink $page.RelPermalink) (hasPrefix $current.RelPermalink $page.RelPermalink) -}}
+{{- $collapseID := printf "doc-nav-%s" (md5 $page.RelPermalink) -}}
+<li>
+  <div class="mcr-documentation-menu__row">
+    <a
+      class="nav-item nav-link {{ if $hasChildren }}has-children{{ else }}no-children{{ end }} {{ if $active }}active{{ end }}"
+      href="{{ $target.RelPermalink }}">
+      {{ if $page.Draft }}👷{{ end }}{{ $page.LinkTitle }}
+    </a>
+    {{ if $hasChildren }}
+      <button
+        class="mcr-documentation-menu__toggle {{ if not $active }}collapsed{{ end }}"
+        type="button"
+        data-toggle="collapse"
+        data-target="#{{ $collapseID }}"
+        aria-controls="{{ $collapseID }}"
+        aria-expanded="{{ if $active }}true{{ else }}false{{ end }}"
+        aria-label="Unterseiten von {{ $page.LinkTitle }} ein- oder ausblenden">
+        <span aria-hidden="true">⌄</span>
+      </button>
+    {{ end }}
+  </div>
+  {{ if $hasChildren }}
+    <ul id="{{ $collapseID }}" class="collapse {{ if $active }}show{{ end }}">
+      {{ range $children }}
+        {{ partial "documentation_menu_node.html" (dict "page" . "current" $current) }}
+      {{ end }}
+    </ul>
+  {{ end }}
+</li>

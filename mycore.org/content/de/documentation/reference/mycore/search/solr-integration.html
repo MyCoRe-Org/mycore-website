@@ -1,0 +1,1306 @@
+
+---
+doc_type: reference
+product: mycore
+
+title: "Solr und MyCoRe"
+mcr_version: ['2026.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann', 'Robert Stephan', 'Sebastian Hofmann']
+description: "
+Dieses Kapitel beschreibt die Einbindung von Apache Solr in MyCoRe ab Release 2026.06.
+Die Solr-Integration wurde grundlegend überarbeitet und setzt auf ein flexibles, klassenbasiertes
+Index-Registry-Konzept, das Standalone- und SolrCloud-Betrieb gleichermaßen unterstützt.
+"
+date: "2026-03-20"
+
+---
+
+<div class="alert alert-info" role="alert">
+    <strong>Hinweis:</strong> Diese Seite beschreibt die Solr-Konfiguration ab MyCoRe-Release <strong>2026.06</strong>.
+    Für ältere Releases (bis 2025.12) steht die
+    <a href="{{< ref "/documentation/archive/mycore/reference/solr-until-2025-12" >}}">archivierte Dokumentation</a> bereit.
+</div>
+
+<p>
+    Falls noch kein Solr-Server zur Verfügung steht, kann er gemäß der Anleitung im Abschnitt
+    <a href="{{< ref "/documentation/how-to-guides/mycore/setup/configure-solr" >}}">Einrichtung eines Solr-Servers</a> installiert werden.
+    MyCoRe 2026.06 wird mit Apache Solr 9.x eingesetzt.
+</p>
+
+<h2>Begrifflichkeiten</h2>
+<dl>
+    <dt>Index-Registry</dt>
+    <dd>
+        Die zentrale Verwaltungskomponente für alle Solr-Indizes einer MyCoRe-Anwendung.
+        Die Implementierung <code>MCRConfigurableIndexRegistry</code> liest die Konfiguration
+        aus MyCoRe-Properties und erstellt daraus konfigurierbare Index-Instanzen.
+        Konfiguriert wird sie über das Property <code>MCR.Solr.IndexRegistry.Class</code>.
+    </dd>
+
+    <dt>Index-ID (<code>index_id</code>)</dt>
+    <dd>
+        Eine eindeutige Kennung für einen Solr-Index innerhalb der MyCoRe-Anwendung. Die
+        Standard-IDs sind <code>main</code> (Metadaten-Index) und <code>classification</code>
+        (Klassifikations-Index). Weitere Index-IDs können für spezielle Anwendungsfälle definiert werden.
+        Die Index-ID wird als Teil des Property-Pfades verwendet:
+        <code>MCR.Solr.IndexRegistry.Index.{index_id}.*</code>
+    </dd>
+
+    <dt>Index-Typ (<code>index_type</code>)</dt>
+    <dd>
+        Bestimmt, welche Art von Dokumenten in einem Index gespeichert wird. MyCoRe kennt die
+        vordefinierten Typen <code>main</code> und <code>classification</code>. Der Index-Typ
+        steuert auch, welche <code>solr-schema.json</code>- und <code>solr-config.json</code>-Dateien
+        aus den MyCoRe-Modulen in den Index geladen werden.
+        Ein Index kann mehrere Typen haben (Mehrfach-Indexierung).
+    </dd>
+
+    <dt>ConfigSet</dt>
+    <dd>
+        Eine Sammlung von Solr-Konfigurationsdateien (Schema, Konfiguration, Stoplisten etc.),
+        die als Vorlage für einen neuen Solr-Core oder eine SolrCloud-Collection dient.
+        MyCoRe liefert die ConfigSets <code>mycore_main</code> und <code>mycore_classification</code>
+        direkt mit und ermöglicht es Anwendungen, diese zu erweitern.
+    </dd>
+
+    <dt>Core / Collection</dt>
+    <dd>
+        Im Standalone-Betrieb wird ein Solr-Index als <em>Core</em> bezeichnet, in der SolrCloud als
+        <em>Collection</em>. Der tatsächliche Name auf dem Solr-Server wird über das Property
+        <code>MCR.Solr.IndexRegistry.Index.{index_id}.CoreName</code> (Standalone) bzw.
+        <code>MCR.Solr.IndexRegistry.Index.{index_id}.CollectionName</code> (SolrCloud) festgelegt.
+    </dd>
+</dl>
+
+<h2>Konfigurationsassistent</h2>
+<p>
+    Mit dem folgenden Assistenten können die MyCoRe-Properties für die Solr-Anbindung komfortabel
+    zusammengestellt werden. Die generierten Properties können direkt in die
+    <code>mycore.properties</code> der Anwendung übernommen werden.
+</p>
+
+<div class="card mb-4 border-primary">
+    <div class="card-header bg-primary text-white">
+        <strong>Solr-Konfigurationsassistent</strong>
+    </div>
+    <div class="card-body">
+
+        <!-- Verbindungstyp -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Verbindungstyp</label>
+            <div class="col-sm-9 pt-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="solrMode" id="modeStandalone" value="standalone" checked onchange="solrConfigUpdate()">
+                    <label class="form-check-label" for="modeStandalone">Standalone</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="solrMode" id="modeCloudUrl" value="cloud-url" onchange="solrConfigUpdate()">
+                    <label class="form-check-label" for="modeCloudUrl">SolrCloud (Solr-URL)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="solrMode" id="modeCloudZk" value="cloud-zk" onchange="solrConfigUpdate()">
+                    <label class="form-check-label" for="modeCloudZk">SolrCloud (ZooKeeper)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solr URL (Standalone + Cloud-URL) -->
+        <div id="fieldSolrUrl" class="form-group row">
+            <label class="col-sm-3 col-form-label" for="solrUrl">Solr-URL(s)</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="solrUrl" value="http://localhost:8983/solr"
+                    placeholder="http://localhost:8983/solr" oninput="solrConfigUpdate()">
+                <small class="form-text text-muted">Bei SolrCloud mehrere URLs kommagetrennt angeben, z.B. <code>http://solr1:8983/solr,http://solr2:8983/solr</code></small>
+            </div>
+        </div>
+
+        <!-- ZooKeeper URL (Cloud-ZK) -->
+        <div id="fieldZkUrl" class="form-group row" style="display:none">
+            <label class="col-sm-3 col-form-label" for="zkUrl">ZooKeeper-Host(s)</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="zkUrl" placeholder="zk1:2181,zk2:2181" oninput="solrConfigUpdate()">
+                <small class="form-text text-muted">ZooKeeper-Hosts und Ports, kommagetrennt.</small>
+            </div>
+        </div>
+        <div id="fieldZkChroot" class="form-group row" style="display:none">
+            <label class="col-sm-3 col-form-label" for="zkChroot">ZooKeeper Chroot <span class="text-muted">(optional)</span></label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="zkChroot" placeholder="/solr" oninput="solrConfigUpdate()">
+                <small class="form-text text-muted">Optionaler Pfad (Chroot), unter dem SolrCloud seine Daten ablegt.</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Haupt-Index -->
+        <div id="fieldMainCore" class="form-group row">
+            <label class="col-sm-3 col-form-label" for="mainCoreName">Haupt-Core/-Collection</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="mainCoreName" value="mycore"
+                    placeholder="mycore" oninput="solrConfigUpdate()">
+                <small class="form-text text-muted" id="mainCoreHelp">Name des Solr-Kerns für den Hauptindex (Core-Name auf dem Solr-Server).</small>
+            </div>
+        </div>
+
+        <!-- Klassifikations-Index -->
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useClassification" checked onchange="solrConfigUpdate()">
+                    <label class="form-check-label" for="useClassification">
+                        Klassifikations-Index verwenden
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="fieldClassificationCore" class="form-group row">
+            <label class="col-sm-3 col-form-label" for="classificationCoreName">Klassifikations-Core/-Collection</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="classificationCoreName" value="mycore-classifications"
+                    placeholder="mycore-classifications" oninput="solrConfigUpdate()">
+            </div>
+        </div>
+
+        <!-- SolrCloud: Shard / Replica Konfiguration -->
+        <div id="fieldCloudReplication" style="display:none">
+            <hr>
+            <h5>SolrCloud-Konfiguration <small class="text-muted">(optional)</small></h5>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Konfigurationsmodus</label>
+                <div class="col-sm-9 pt-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="replicaMode" id="replicaModeSimple" value="simple" checked onchange="solrConfigUpdate()">
+                        <label class="form-check-label" for="replicaModeSimple">Einfach</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="replicaMode" id="replicaModeAdvanced" value="advanced" onchange="solrConfigUpdate()">
+                        <label class="form-check-label" for="replicaModeAdvanced">Erweitert</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Einfacher Modus: globale Defaults -->
+            <div id="replicaSimple">
+                <p class="text-muted small">Setzt globale Standardwerte (<code>MCR.Solr.Default.*</code>), die für alle Indizes gelten. Leer lassen, um die MyCoRe-Standardwerte zu behalten.</p>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="defaultShards">Shards</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" id="defaultShards" placeholder="1" min="1" oninput="solrConfigUpdate()">
+                    </div>
+                    <label class="col-sm-3 col-form-label" for="defaultReplicas">Replikate</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" id="defaultReplicas" placeholder="1" min="1" oninput="solrConfigUpdate()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erweiterter Modus: pro Index -->
+            <div id="replicaAdvanced" style="display:none">
+                <p class="text-muted small">Setzt Shard- und Replikat-Konfiguration direkt pro Index. Leer lassen für den jeweiligen Solr-Standardwert.</p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th></th>
+                                <th>Shards</th>
+                                <th>NRT-Replikate<br><small class="font-weight-normal text-muted">Aktive Schreibreplikate</small></th>
+                                <th>TLOG-Replikate<br><small class="font-weight-normal text-muted">Passive via Tlog</small></th>
+                                <th>Pull-Replikate<br><small class="font-weight-normal text-muted">Reine Lesereplikate</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle"><strong>main</strong></td>
+                                <td><input type="number" class="form-control form-control-sm" id="mainNumShards" placeholder="–" min="1" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="mainNumNrt" placeholder="–" min="1" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="mainNumTlog" placeholder="–" min="0" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="mainNumPull" placeholder="–" min="0" oninput="solrConfigUpdate()"></td>
+                            </tr>
+                            <tr id="classificationReplicaRow">
+                                <td class="align-middle"><strong>classification</strong></td>
+                                <td><input type="number" class="form-control form-control-sm" id="classNumShards" placeholder="–" min="1" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="classNumNrt" placeholder="–" min="1" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="classNumTlog" placeholder="–" min="0" oninput="solrConfigUpdate()"></td>
+                                <td><input type="number" class="form-control form-control-sm" id="classNumPull" placeholder="–" min="0" oninput="solrConfigUpdate()"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <h5>Authentifizierung <small class="text-muted">(optional)</small></h5>
+
+        <!-- Admin -->
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useAdminAuth" onchange="solrConfigToggleAuth('Admin'); solrConfigUpdate()">
+                    <label class="form-check-label" for="useAdminAuth">Admin-Benutzer konfigurieren</label>
+                </div>
+            </div>
+        </div>
+        <div id="fieldAdminAuth" style="display:none">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="adminUser">Admin-Benutzername</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="adminUser" placeholder="solr-admin" oninput="solrConfigUpdate()"></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="adminPassword">Admin-Passwort</label>
+                <div class="col-sm-9"><input type="password" class="form-control" id="adminPassword" placeholder="••••••••" oninput="solrConfigUpdate()"></div>
+            </div>
+        </div>
+
+        <!-- Index -->
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useIndexAuth" onchange="solrConfigToggleAuth('Index'); solrConfigUpdate()">
+                    <label class="form-check-label" for="useIndexAuth">Indexierungs-Benutzer konfigurieren</label>
+                </div>
+            </div>
+        </div>
+        <div id="fieldIndexAuth" style="display:none">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="indexUser">Indexierungs-Benutzername</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="indexUser" placeholder="solr-indexer" oninput="solrConfigUpdate()"></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="indexPassword">Indexierungs-Passwort</label>
+                <div class="col-sm-9"><input type="password" class="form-control" id="indexPassword" placeholder="••••••••" oninput="solrConfigUpdate()"></div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useSearchAuth" onchange="solrConfigToggleAuth('Search'); solrConfigUpdate()">
+                    <label class="form-check-label" for="useSearchAuth">Such-Benutzer konfigurieren</label>
+                </div>
+            </div>
+        </div>
+        <div id="fieldSearchAuth" style="display:none">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="searchUser">Such-Benutzername</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="searchUser" placeholder="solr-searcher" oninput="solrConfigUpdate()"></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="searchPassword">Such-Passwort</label>
+                <div class="col-sm-9"><input type="password" class="form-control" id="searchPassword" placeholder="••••••••" oninput="solrConfigUpdate()"></div>
+            </div>
+        </div>
+
+        <hr>
+        <h5>Tika <small class="text-muted">(optional)</small></h5>
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useTika" onchange="solrConfigToggleTika(); solrConfigUpdate()">
+                    <label class="form-check-label" for="useTika">Externen Tika-Server für Volltext-Extraktion verwenden</label>
+                </div>
+            </div>
+        </div>
+        <div id="fieldTikaUrl" style="display:none">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="tikaUrl">Tika-Server URL</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="tikaUrl" placeholder="http://tika:9998" oninput="solrConfigUpdate()">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <h5>Generierte Konfiguration</h5>
+        <p class="text-muted small">Die folgenden Properties können in die <code>mycore.properties</code> der Anwendung eingefügt werden.</p>
+        <textarea id="solrConfigOutput" class="form-control font-monospace" rows="22" readonly
+            style="font-family: monospace; font-size: 0.85em; background-color: #f8f9fa;"></textarea>
+        <button class="btn btn-outline-secondary btn-sm mt-2" onclick="solrConfigCopy()">
+            In Zwischenablage kopieren
+        </button>
+        <span id="copySuccess" class="text-success ml-2" style="display:none">Kopiert!</span>
+    </div>
+</div>
+
+<script>
+function solrConfigToggleAuth(role) {
+    var cb = document.getElementById('use' + role + 'Auth');
+    var fields = document.getElementById('field' + role + 'Auth');
+    fields.style.display = cb.checked ? 'block' : 'none';
+}
+
+function solrConfigToggleTika() {
+    var cb = document.getElementById('useTika');
+    document.getElementById('fieldTikaUrl').style.display = cb.checked ? 'block' : 'none';
+}
+
+function solrConfigUpdate() {
+    var mode = document.querySelector('input[name="solrMode"]:checked').value;
+    var lines = [];
+
+    // Show/hide fields based on mode
+    var isStandalone = mode === 'standalone';
+    var isCloudUrl   = mode === 'cloud-url';
+    var isCloudZk    = mode === 'cloud-zk';
+    var isCloud      = isCloudUrl || isCloudZk;
+
+    document.getElementById('fieldSolrUrl').style.display         = (isStandalone || isCloudUrl) ? 'flex' : 'none';
+    document.getElementById('fieldZkUrl').style.display           = isCloudZk ? 'flex' : 'none';
+    document.getElementById('fieldZkChroot').style.display        = isCloudZk ? 'flex' : 'none';
+    document.getElementById('fieldCloudReplication').style.display = isCloud ? 'block' : 'none';
+
+    if (isCloud) {
+        var replicaMode = document.querySelector('input[name="replicaMode"]:checked').value;
+        document.getElementById('replicaSimple').style.display   = replicaMode === 'simple'   ? 'block' : 'none';
+        document.getElementById('replicaAdvanced').style.display = replicaMode === 'advanced' ? 'block' : 'none';
+        // zeige classification-Zeile nur wenn Klassifikations-Index aktiv
+        var classRow = document.getElementById('classificationReplicaRow');
+        if (classRow) classRow.style.display = document.getElementById('useClassification').checked ? '' : 'none';
+    }
+
+    document.getElementById('mainCoreHelp').textContent    = isStandalone
+        ? 'Name des Solr-Kerns für den Hauptindex (Core-Name auf dem Solr-Server).'
+        : 'Name der SolrCloud-Collection für den Hauptindex.';
+
+    var mainName           = document.getElementById('mainCoreName').value || 'mycore';
+    var classificationName = document.getElementById('classificationCoreName').value || 'mycore-classifications';
+    var useClassification  = document.getElementById('useClassification').checked;
+
+    var solrClass = isStandalone
+        ? 'org.mycore.solr.standalone.core.MCRConfigurableSolrCore'
+        : 'org.mycore.solr.cloud.collection.MCRConfigurableSolrCloudCollection';
+
+    lines.push('# --- Solr Index-Konfiguration ---');
+    lines.push('');
+
+    // Main index
+    lines.push('# Haupt-Index (Index-ID: main)');
+    lines.push('MCR.Solr.IndexRegistry.Index.main.Class=' + solrClass);
+    if (isStandalone) {
+        var url = document.getElementById('solrUrl').value || 'http://localhost:8983/solr';
+        lines.push('MCR.Solr.IndexRegistry.Index.main.SolrUrl=' + url);
+        lines.push('MCR.Solr.IndexRegistry.Index.main.CoreName=' + mainName);
+    } else if (isCloudUrl) {
+        var urls = document.getElementById('solrUrl').value || 'http://localhost:8983/solr';
+        lines.push('MCR.Solr.IndexRegistry.Index.main.SolrUrls=' + urls);
+        lines.push('MCR.Solr.IndexRegistry.Index.main.CollectionName=' + mainName);
+    } else {
+        var zkUrls   = document.getElementById('zkUrl').value || 'localhost:2181';
+        var zkChroot = document.getElementById('zkChroot').value;
+        lines.push('MCR.Solr.IndexRegistry.Index.main.ZkUrls=' + zkUrls);
+        if (zkChroot) {
+            lines.push('MCR.Solr.IndexRegistry.Index.main.ZkChroot=' + zkChroot);
+        }
+        lines.push('MCR.Solr.IndexRegistry.Index.main.CollectionName=' + mainName);
+    }
+    lines.push('MCR.Solr.IndexRegistry.Index.main.IndexTypes=main');
+    lines.push('MCR.Solr.IndexRegistry.Index.main.ConfigSetTemplate=mycore_main');
+
+    // SolrCloud: Shard/Replica settings
+    if (isCloud) {
+        var replicaMode = document.querySelector('input[name="replicaMode"]:checked').value;
+        if (replicaMode === 'advanced') {
+            var mnShards = document.getElementById('mainNumShards').value;
+            var mnNrt    = document.getElementById('mainNumNrt').value;
+            var mnTlog   = document.getElementById('mainNumTlog').value;
+            var mnPull   = document.getElementById('mainNumPull').value;
+            if (mnShards) lines.push('MCR.Solr.IndexRegistry.Index.main.NumShards=' + mnShards);
+            if (mnNrt)    lines.push('MCR.Solr.IndexRegistry.Index.main.NumNrtReplicas=' + mnNrt);
+            if (mnTlog)   lines.push('MCR.Solr.IndexRegistry.Index.main.NumTlogReplicas=' + mnTlog);
+            if (mnPull)   lines.push('MCR.Solr.IndexRegistry.Index.main.NumPullReplicas=' + mnPull);
+        }
+    }
+
+    // Classification index
+    if (useClassification) {
+        lines.push('');
+        lines.push('# Klassifikations-Index (Index-ID: classification)');
+        lines.push('MCR.Solr.IndexRegistry.Index.classification.Class=' + solrClass);
+        if (isStandalone) {
+            var url2 = document.getElementById('solrUrl').value || 'http://localhost:8983/solr';
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.SolrUrl=' + url2);
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.CoreName=' + classificationName);
+        } else if (isCloudUrl) {
+            var urls2 = document.getElementById('solrUrl').value || 'http://localhost:8983/solr';
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.SolrUrls=' + urls2);
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.CollectionName=' + classificationName);
+        } else {
+            var zkUrls2   = document.getElementById('zkUrl').value || 'localhost:2181';
+            var zkChroot2 = document.getElementById('zkChroot').value;
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.ZkUrls=' + zkUrls2);
+            if (zkChroot2) {
+                lines.push('MCR.Solr.IndexRegistry.Index.classification.ZkChroot=' + zkChroot2);
+            }
+            lines.push('MCR.Solr.IndexRegistry.Index.classification.CollectionName=' + classificationName);
+        }
+        lines.push('MCR.Solr.IndexRegistry.Index.classification.IndexTypes=classification');
+        lines.push('MCR.Solr.IndexRegistry.Index.classification.ConfigSetTemplate=mycore_classification');
+        if (isCloud && document.querySelector('input[name="replicaMode"]:checked').value === 'advanced') {
+            var clShards = document.getElementById('classNumShards').value;
+            var clNrt    = document.getElementById('classNumNrt').value;
+            var clTlog   = document.getElementById('classNumTlog').value;
+            var clPull   = document.getElementById('classNumPull').value;
+            if (clShards) lines.push('MCR.Solr.IndexRegistry.Index.classification.NumShards=' + clShards);
+            if (clNrt)    lines.push('MCR.Solr.IndexRegistry.Index.classification.NumNrtReplicas=' + clNrt);
+            if (clTlog)   lines.push('MCR.Solr.IndexRegistry.Index.classification.NumTlogReplicas=' + clTlog);
+            if (clPull)   lines.push('MCR.Solr.IndexRegistry.Index.classification.NumPullReplicas=' + clPull);
+        }
+    }
+
+    // SolrCloud einfacher Modus: globale Defaults
+    if (isCloud && document.querySelector('input[name="replicaMode"]:checked').value === 'simple') {
+        var defShards   = document.getElementById('defaultShards').value;
+        var defReplicas = document.getElementById('defaultReplicas').value;
+        if (defShards || defReplicas) {
+            lines.push('');
+            lines.push('# --- SolrCloud-Standardwerte ---');
+            if (defShards)   lines.push('MCR.Solr.Default.ShardCount=' + defShards);
+            if (defReplicas) lines.push('MCR.Solr.Default.ReplicaCount=' + defReplicas);
+        }
+    }
+
+    // Authentication
+    var useAdmin  = document.getElementById('useAdminAuth').checked;
+    var useIndex  = document.getElementById('useIndexAuth').checked;
+    var useSearch = document.getElementById('useSearchAuth').checked;
+
+    if (useAdmin || useIndex || useSearch) {
+        lines.push('');
+        lines.push('# --- Authentifizierung ---');
+    }
+    if (useAdmin) {
+        lines.push('MCR.Solr.Server.Auth.Admin.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator');
+        lines.push('MCR.Solr.Server.Auth.Admin.Username=' + (document.getElementById('adminUser').value || 'admin'));
+        lines.push('MCR.Solr.Server.Auth.Admin.Password=' + (document.getElementById('adminPassword').value || ''));
+    }
+    if (useIndex) {
+        lines.push('MCR.Solr.Server.Auth.Index.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator');
+        lines.push('MCR.Solr.Server.Auth.Index.Username=' + (document.getElementById('indexUser').value || 'indexer'));
+        lines.push('MCR.Solr.Server.Auth.Index.Password=' + (document.getElementById('indexPassword').value || ''));
+    }
+    if (useSearch) {
+        lines.push('MCR.Solr.Server.Auth.Search.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator');
+        lines.push('MCR.Solr.Server.Auth.Search.Username=' + (document.getElementById('searchUser').value || 'searcher'));
+        lines.push('MCR.Solr.Server.Auth.Search.Password=' + (document.getElementById('searchPassword').value || ''));
+    }
+
+    // Tika
+    if (document.getElementById('useTika').checked) {
+        lines.push('');
+        lines.push('# --- Tika-Server ---');
+        lines.push('MCR.Solr.FileIndexStrategy=org.mycore.solr.index.file.tika.MCRTikaSolrFileStrategy');
+        var tikaUrl = document.getElementById('tikaUrl').value || 'http://tika:9998';
+        lines.push('MCR.Solr.Tika.ServerURL=' + tikaUrl);
+    }
+
+    document.getElementById('solrConfigOutput').value = lines.join('\n');
+}
+
+function solrConfigCopy() {
+    var ta = document.getElementById('solrConfigOutput');
+    ta.select();
+    document.execCommand('copy');
+    var msg = document.getElementById('copySuccess');
+    msg.style.display = 'inline';
+    setTimeout(function() { msg.style.display = 'none'; }, 2000);
+}
+
+// Initial render
+document.addEventListener('DOMContentLoaded', solrConfigUpdate);
+</script>
+
+<h2>Grundlegende Konfiguration</h2>
+
+<p>
+    Ab MyCoRe 2026.06 erfolgt die Solr-Konfiguration über das <strong>Index-Registry</strong>-Konzept.
+    Jeder Solr-Index wird als eigenständige, konfigurierbare Instanz in der Registry registriert.
+    Das Property <code>MCR.Solr.IndexRegistry.Class</code> bestimmt die Implementierungsklasse der Registry
+    (Standard: <code>MCRConfigurableIndexRegistry</code>).
+</p>
+
+<p>
+    Alle Index-Properties folgen dem Schema:
+    <code>MCR.Solr.IndexRegistry.Index.{index_id}.{eigenschaft}=wert</code>
+</p>
+
+<h3>Standalone Solr</h3>
+<p>
+    Für eine klassische Standalone-Solr-Installation wird die Klasse
+    <code>MCRConfigurableSolrCore</code> verwendet.
+    Die Konfiguration besteht aus der Solr-URL, dem Core-Namen sowie dem Index-Typ:
+</p>
+
+{{< highlight properties "linenos=table">}}
+# Haupt-Index
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.standalone.core.MCRConfigurableSolrCore
+MCR.Solr.IndexRegistry.Index.main.SolrUrl=http://localhost:8983/solr
+MCR.Solr.IndexRegistry.Index.main.CoreName=mycore
+MCR.Solr.IndexRegistry.Index.main.IndexTypes=main
+MCR.Solr.IndexRegistry.Index.main.ConfigSetTemplate=mycore_main
+
+# Klassifikations-Index (optional)
+MCR.Solr.IndexRegistry.Index.classification.Class=org.mycore.solr.standalone.core.MCRConfigurableSolrCore
+MCR.Solr.IndexRegistry.Index.classification.SolrUrl=http://localhost:8983/solr
+MCR.Solr.IndexRegistry.Index.classification.CoreName=mycore-classifications
+MCR.Solr.IndexRegistry.Index.classification.IndexTypes=classification
+MCR.Solr.IndexRegistry.Index.classification.ConfigSetTemplate=mycore_classification
+{{< /highlight >}}
+
+<h4>Solr-Core anlegen</h4>
+<p>
+    Die ConfigSets werden aus der MyCoRe-Anwendung heraus exportiert und dann in Solr eingespielt.
+    Da Anwendungen die ConfigSets erweitern können, muss das vollständige ConfigSet über die
+    MyCoRe-Kommandozeile generiert werden:
+</p>
+
+{{< highlight txt "linenos=table">}}
+export solr configset mycore_main to folder /tmp/solr_configsets
+export solr configset mycore_classification to folder /tmp/solr_configsets
+{{< /highlight >}}
+
+<p>
+    Die erzeugten ZIP-Dateien werden in den Solr-ConfigSets-Ordner entpackt:
+</p>
+
+{{< highlight shell "linenos=table">}}
+cd .../solr/server/solr/configsets
+mkdir -p mycore_main/conf && unzip /tmp/solr_configsets/mycore_main.zip -d mycore_main/conf
+mkdir -p mycore_classification/conf && unzip /tmp/solr_configsets/mycore_classification.zip -d mycore_classification/conf
+{{< /highlight >}}
+
+<p>
+    Anschließend wird der Solr-Core angelegt:
+</p>
+
+{{< highlight shell "linenos=table">}}
+.../solr/bin/solr create -c mycore -d mycore_main
+.../solr/bin/solr create -c mycore-classifications -d mycore_classification
+{{< /highlight >}}
+
+<p>
+    Nach dem Anlegen des Cores muss das Solr-Schema über die MyCoRe-CLI geladen werden,
+    damit alle anwendungsspezifischen Felder vorhanden sind:
+</p>
+
+{{< highlight txt "linenos=table">}}
+reload solr configuration main in core main
+reload solr configuration classification in core classification
+{{< /highlight >}}
+
+<h3>SolrCloud (Solr-URL)</h3>
+<p>
+    Für SolrCloud-Installationen steht die Klasse <code>MCRConfigurableSolrCloudCollection</code> bereit.
+    Beim URL-basierten Zugang werden ein oder mehrere Solr-URLs (kommagetrennt) angegeben:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.cloud.collection.MCRConfigurableSolrCloudCollection
+MCR.Solr.IndexRegistry.Index.main.SolrUrls=http://solr1:8983/solr,http://solr2:8983/solr
+MCR.Solr.IndexRegistry.Index.main.CollectionName=mycore
+MCR.Solr.IndexRegistry.Index.main.IndexTypes=main
+MCR.Solr.IndexRegistry.Index.main.ConfigSetTemplate=mycore_main
+{{< /highlight >}}
+
+<h3>SolrCloud (ZooKeeper)</h3>
+<p>
+    Alternativ kann die SolrCloud über ZooKeeper angebunden werden. Die ZooKeeper-Hosts werden
+    kommagetrennt angegeben. Ein optionaler Chroot-Pfad kann ebenfalls definiert werden:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.IndexRegistry.Index.main.Class=org.mycore.solr.cloud.collection.MCRConfigurableSolrCloudCollection
+MCR.Solr.IndexRegistry.Index.main.ZkUrls=zk1:2181,zk2:2181,zk3:2181
+MCR.Solr.IndexRegistry.Index.main.ZkChroot=/solr
+MCR.Solr.IndexRegistry.Index.main.CollectionName=mycore
+MCR.Solr.IndexRegistry.Index.main.IndexTypes=main
+MCR.Solr.IndexRegistry.Index.main.ConfigSetTemplate=mycore_main
+{{< /highlight >}}
+
+<h4>Einrichtung in der SolrCloud</h4>
+<p>
+    In der SolrCloud werden ConfigSet und Collection über die MyCoRe-CLI angelegt.
+    Zunächst wird das ConfigSet auf den SolrCloud-Server hochgeladen:
+</p>
+
+{{< highlight txt "linenos=table">}}
+upload local config set for main
+upload local config set for classification
+{{< /highlight >}}
+
+<p>
+    Das ConfigSet wird in der SolrCloud unter dem Namen <code>{index_id}_{configset_name}</code> gespeichert,
+    also z.B. <code>main_mycore_main</code>. Danach wird die Collection angelegt:
+</p>
+
+{{< highlight txt "linenos=table">}}
+create collection for core main
+create collection for core classification
+{{< /highlight >}}
+
+<p>
+    Die Anzahl der Shards und Replikate können global als Default oder pro Index konfiguriert werden.
+    Für SolrCloud unterstützt MyCoRe drei Replikat-Typen:
+</p>
+<ul>
+    <li><strong>NRT-Replikate</strong> (<code>NumNrtReplicas</code>): Aktive Schreibreplikate, die den Leader ersetzen können.</li>
+    <li><strong>TLOG-Replikate</strong> (<code>NumTlogReplicas</code>): Passive Replikate, die über den Transaction-Log replizieren.</li>
+    <li><strong>Pull-Replikate</strong> (<code>NumPullReplicas</code>): Reine Lesereplikate ohne Schreibfähigkeit.</li>
+</ul>
+
+{{< highlight properties "linenos=table">}}
+# Globale Standardwerte (Fallback für alle Indizes)
+MCR.Solr.Default.ShardCount=1
+MCR.Solr.Default.ReplicaCount=1
+
+# Pro-Index-Konfiguration (überschreibt den globalen Standard)
+MCR.Solr.IndexRegistry.Index.main.NumShards=2
+MCR.Solr.IndexRegistry.Index.main.NumNrtReplicas=1
+MCR.Solr.IndexRegistry.Index.main.NumTlogReplicas=1
+MCR.Solr.IndexRegistry.Index.main.NumPullReplicas=0
+{{< /highlight >}}
+
+<h2>Authentifizierung</h2>
+<p>
+    MyCoRe unterstützt die
+    <a href="https://solr.apache.org/guide/solr/latest/deployment-guide/basic-authentication-plugin.html">HTTP Basic Authentication</a>
+    gegenüber Solr. Es können drei verschiedene Benutzerrollen konfiguriert werden, die auf
+    unterschiedliche Solr-Rechte abgebildet werden:
+</p>
+
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Rolle</th>
+            <th>Verwendung</th>
+            <th>Benötigte Solr-Rechte</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>Admin</code></td>
+            <td>Verwaltungsoperationen (Collections erstellen, ConfigSets hochladen)</td>
+            <td><code>all</code></td>
+        </tr>
+        <tr>
+            <td><code>Index</code></td>
+            <td>Indexierung von Dokumenten</td>
+            <td><code>read</code>, <code>update</code></td>
+        </tr>
+        <tr>
+            <td><code>Search</code></td>
+            <td>Suchanfragen</td>
+            <td><code>read</code></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>
+    Ohne Konfiguration verwendet MyCoRe keinen Authentifizierungsheader (Klasse <code>MCRSolrNoOpAuthenticator</code>).
+    Zur Aktivierung der Basic Authentication:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.Server.Auth.Admin.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator
+MCR.Solr.Server.Auth.Admin.Username=solr-admin
+MCR.Solr.Server.Auth.Admin.Password=geheim123
+
+MCR.Solr.Server.Auth.Index.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator
+MCR.Solr.Server.Auth.Index.Username=solr-indexer
+MCR.Solr.Server.Auth.Index.Password=geheim321
+
+MCR.Solr.Server.Auth.Search.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator
+MCR.Solr.Server.Auth.Search.Username=solr-searcher
+MCR.Solr.Server.Auth.Search.Password=geheim231
+{{< /highlight >}}
+
+<p>
+    Die Authentifizierungskonfiguration wird in der <code>security.json</code> auf dem Solr-Server gepflegt.
+    Bei mehreren Anwendungen auf demselben Solr-Server empfiehlt es sich, für jede Anwendung eigene
+    Benutzer mit core-spezifischen Rechten anzulegen.
+</p>
+
+<h2>HTTP-Client Konfiguration</h2>
+<p>
+    Die Verbindungsparameter des Solr-HTTP-Clients können über Properties angepasst werden.
+    MyCoRe verwendet standardmäßig den Jetty HTTP-Client:
+</p>
+
+{{< highlight properties "linenos=table">}}
+# HTTP-Client
+MCR.Solr.Default.UseJettyHttpClient=true
+MCR.Solr.Default.Client.ConnectionTimeout=0
+MCR.Solr.Default.Client.ConnectionTimeout.Unit=MILLISECONDS
+MCR.Solr.Default.Client.IdleTimeout=50000
+MCR.Solr.Default.Client.IdleTimeout.Unit=MILLISECONDS
+MCR.Solr.Default.Client.RequestTimeout=50000
+MCR.Solr.Default.Client.RequestTimeout.Unit=MILLISECONDS
+
+# Parallele Indexierung
+MCR.Solr.Default.ConcurrentClient.Enabled=true
+MCR.Solr.Default.ConcurrentClient.QueueSize=100
+MCR.Solr.Default.ConcurrentClient.ThreadCount=%MCR.Solr.Indexer.ThreadCount%
+{{< /highlight >}}
+
+<h2>ConfigSets laden und erweitern</h2>
+<p>
+    MyCoRe liefert die ConfigSets <code>mycore_main</code> und <code>mycore_classification</code> direkt mit.
+    Anwendungen können diese über den
+    <a href="{{< ref "/documentation/explanation/mycore/runtime/resource-system" >}}">Resource-Resolver</a>-Mechanismus überschreiben oder erweitern.
+    Die ConfigSet-Konfiguration erfolgt über Properties:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.ConfigSet.mycore_main.Class=org.mycore.solr.cloud.configsets.MCRSolrResourceConfigSetProvider
+MCR.Solr.ConfigSet.mycore_main.Base=configset/mycore_main/conf/
+MCR.Solr.ConfigSet.mycore_main.Files=managed-schema,solrconfig.xml,stopwords.txt,synonyms.txt
+{{< /highlight >}}
+
+<p>
+    <code>Base</code> gibt den Basispfad im Classpath an, unter dem die Konfigurationsdateien gesucht werden.
+    <code>Files</code> listet alle Dateien auf, die in das ConfigSet-ZIP-Archiv gepackt werden.
+    Der Resource-Resolver priorisiert Dateien aus der Anwendung gegenüber den Framework-Defaults,
+    sodass einzelne Dateien (z.B. <code>synonyms.txt</code>) überschrieben werden können, indem sie
+    an der gleichen relativen Pfadposition in den Ressourcen der Anwendung abgelegt werden.
+</p>
+
+<p>
+    Um eigene Dateien zum ConfigSet hinzuzufügen, muss das Property <code>Files</code> in der
+    Anwendung erweitert werden:
+</p>
+
+{{< highlight properties "linenos=table">}}
+# In der Anwendung (mycore.properties):
+MCR.Solr.ConfigSet.mycore_main.Files=%MCR.Solr.ConfigSet.mycore_main.Files%,meine-synonyme.txt
+{{< /highlight >}}
+
+<h2>Solr-Schema und Konfiguration erweitern</h2>
+<p>
+    MyCoRe-Module und Anwendungsmodule können das Solr-Schema und die Solr-Konfiguration über
+    JSON-Dateien erweitern. Diese Dateien werden über die Solr Schema API bzw. Config API in
+    den Core eingespielt, wenn das Kommando <code>reload solr configuration {type} in core {id}</code>
+    ausgeführt wird.
+</p>
+
+<h3>Verzeichnisstruktur</h3>
+<p>
+    Die JSON-Dateien werden unter folgenden Pfaden in den Modulen abgelegt:
+</p>
+
+{{< highlight txt "linenos=table">}}
+# MyCoRe-Kernmodul:
+src/main/resources/components/{module_name}/config/solr/{index_type}/solr-schema.json
+src/main/resources/components/{module_name}/config/solr/{index_type}/solr-config.json
+
+# Anwendungsmodul (z.B. MIR):
+src/main/resources/config/{application_name}/solr/{index_type}/solr-schema.json
+src/main/resources/config/{application_name}/solr/{index_type}/solr-config.json
+{{< /highlight >}}
+
+<h3>Schema erweitern (solr-schema.json)</h3>
+<p>
+    Die Datei enthält ein JSON-Array mit Befehlen der
+    <a href="https://solr.apache.org/guide/solr/latest/indexing-guide/schema-api.html">Solr Schema API</a>.
+    Folgende Operationen stehen zur Verfügung:
+</p>
+
+{{< highlight json "linenos=table">}}
+[
+  {
+    "add-field-type": {
+      "name": "mein_typ",
+      "class": "solr.TextField",
+      "positionIncrementGap": "100",
+      "analyzer": {
+        "tokenizer": { "class": "solr.StandardTokenizerFactory" },
+        "filters": [{ "class": "solr.LowerCaseFilterFactory" }]
+      }
+    }
+  },
+  {
+    "add-field": {
+      "name": "mein_feld",
+      "type": "text_general",
+      "stored": true,
+      "indexed": true,
+      "multiValued": false
+    }
+  },
+  {
+    "add-copy-field": {
+      "source": "mein_feld",
+      "dest": "_text_"
+    }
+  },
+  {
+    "replace-field": {
+      "name": "title",
+      "type": "text_general",
+      "stored": true,
+      "indexed": true,
+      "multiValued": true
+    }
+  }
+]
+{{< /highlight >}}
+
+<h3>Solr-Konfiguration erweitern (solr-config.json)</h3>
+<p>
+    Analog zum Schema können Request-Handler und andere Solr-Konfigurationsbestandteile
+    über die <a href="https://solr.apache.org/guide/solr/latest/configuration-guide/config-api.html">Solr Config API</a>
+    hinzugefügt werden:
+</p>
+
+{{< highlight json "linenos=table">}}
+[
+  {
+    "add-requesthandler": {
+      "name": "/mein-handler",
+      "class": "solr.SearchHandler",
+      "defaults": {
+        "echoParams": "explicit",
+        "rows": 10,
+        "df": "title"
+      }
+    }
+  }
+]
+{{< /highlight >}}
+
+<p>
+    Eigene Request-Handler müssen zusätzlich in der MyCoRe-Whitelist freigegeben werden (siehe
+    <a href="#eigene-handler">Eigene Request-Handler</a>).
+    Beim Reload der Konfiguration werden zuvor definierte Konfigurations-Elemente automatisch
+    bereinigt, wenn sie im Property <code>MCR.Solr.ObserverConfigTypes.{type}.toClean</code>
+    aufgeführt sind:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.ObserverConfigTypes.requestHandler.toClean=/mein-handler
+{{< /highlight >}}
+
+<h2>Das Solr-Document</h2>
+<p>
+    MyCoRe-Objekte werden über eine XSLT-Transformationskette in Solr-Documents überführt.
+    Die Kette wird über das Property <code>MCR.URIResolver.xslImports.solr-document</code> gesteuert.
+    Anwendungsmodule können eigene XSLT-Stylesheets in diese Kette einhängen:
+</p>
+
+{{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+    <!-- Importiert die MyCoRe-Basistransformation und hängt sich in die Kette ein -->
+    <xsl:import href="xslImport:solr-document:mein-modul2solr.xsl"/>
+
+    <!-- Felder für eigene Dokumenttypen hinzufügen -->
+    <xsl:template match="mycoreobject[contains(@ID,'_meintyp_')]">
+        <xsl:apply-imports/>
+        <field name="mein_suchfeld">
+            <xsl:value-of select="./metadata/def.meinFeld/meinFeld/text()"/>
+        </field>
+    </xsl:template>
+
+</xsl:stylesheet>
+{{< /highlight >}}
+
+<p>
+    Das eigene Stylesheet wird über ein Property in die Import-Kette eingehängt:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.URIResolver.xslImports.solr-document=%MCR.URIResolver.xslImports.solr-document%,mein-modul2solr.xsl
+{{< /highlight >}}
+
+<p>
+    Der an Solr ausgehende Datenstrom kann im Browser mit der URL
+    <code>https://{anwendung}/receive/{mycore_id}?XSL.Style=solrdocument</code> geprüft werden.
+</p>
+
+<h2>Textextraktion mit Tika</h2>
+<p>
+    Für die Volltextindexierung von Dokumenten (PDF, Word etc.) empfiehlt MyCoRe den Einsatz
+    eines externen <a href="https://tika.apache.org/">Apache Tika</a>-Servers.
+    Die Konfiguration erfolgt über folgende Properties:
+</p>
+
+{{< highlight properties "linenos=table">}}
+# Tika-Server aktivieren
+MCR.Solr.FileIndexStrategy=org.mycore.solr.index.file.tika.MCRTikaSolrFileStrategy
+MCR.Solr.Tika.ServerURL=http://tika:9998
+
+# Maximale Dateigröße (Standard: 1 GB)
+MCR.Solr.Tika.MaxFileSize=1073741824
+
+# Tika-Feld-Mapping: Standard-Mapper (ignoriert unbekannte Felder)
+MCR.Solr.Tika.Mapper.Default.Class=org.mycore.solr.index.file.tika.MCRTikaNOPMapper
+
+# Volltext in Solr-Feld "content" schreiben
+MCR.Solr.Tika.Mapper.x_tika_content.Class=org.mycore.solr.index.file.tika.MCRSimpleTikaMapper
+MCR.Solr.Tika.Mapper.x_tika_content.StripNamespace=true
+MCR.Solr.Tika.Mapper.x_tika_content.MultiValueField=true
+
+# Dateien, die nicht an Tika gesendet werden (Regex)
+MCR.Solr.Tika.IgnoredFiles=/alto/.*[.]xml,/mets[.]xml
+{{< /highlight >}}
+
+<p>
+    Der <code>MCRSimpleTikaMapper</code> schreibt den Wert eines Tika-JSON-Keys in ein Solr-Feld.
+    Der Feldname wird aus dem JSON-Key abgeleitet (Sonderzeichen entfernt, Kleinbuchstaben).
+    Das JSON-Feld <code>X-TIKA:content</code> wird so zum Solr-Feld <code>content</code>.
+</p>
+
+<h2 id="eigene-handler">Eigene Request-Handler</h2>
+<p>
+    MyCoRe erlaubt standardmäßig nur die Request-Handler <code>/select</code> und <code>/update</code>.
+    Weitere Handler müssen in der Whitelist eingetragen werden:
+</p>
+
+{{< highlight properties "linenos=table">}}
+MCR.Solr.Proxy.WhiteList=%MCR.Solr.Proxy.WhiteList%,/mein-handler
+{{< /highlight >}}
+
+<h2>Properties-Referenz</h2>
+<div class="table-responsive">
+    <table class="table table-condensed table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Property</th>
+            <th>Bedeutung</th>
+            <th>Standard</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Class</code></td>
+            <td>Implementierungsklasse der Index-Registry</td>
+            <td><code>MCRConfigurableIndexRegistry</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.Class</code></td>
+            <td>Klasse des Index: <code>MCRConfigurableSolrCore</code> (Standalone) oder
+                <code>MCRConfigurableSolrCloudCollection</code> (Cloud)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.SolrUrl</code></td>
+            <td>Solr-URL für Standalone-Betrieb</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.CoreName</code></td>
+            <td>Core-Name auf dem Solr-Server (Standalone)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.SolrUrls</code></td>
+            <td>Kommagetrennte Solr-URLs für SolrCloud (URL-Modus)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.ZkUrls</code></td>
+            <td>ZooKeeper-Hosts für SolrCloud (ZK-Modus), z.B. <code>zk1:2181,zk2:2181</code></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.ZkChroot</code></td>
+            <td>ZooKeeper Chroot-Pfad (optional), z.B. <code>/solr</code></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.CollectionName</code></td>
+            <td>Collection-Name in der SolrCloud</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.IndexTypes</code></td>
+            <td>Kommagetrennte Index-Typen dieses Index (z.B. <code>main</code>)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.ConfigSetTemplate</code></td>
+            <td>Name des ConfigSets, das für diesen Index verwendet wird</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.ConfigSet.{name}.Class</code></td>
+            <td>Klasse des ConfigSet-Providers (Standard: <code>MCRSolrResourceConfigSetProvider</code>)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.ConfigSet.{name}.Base</code></td>
+            <td>Basispfad im Classpath für die ConfigSet-Dateien</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.ConfigSet.{name}.Files</code></td>
+            <td>Kommagetrennte Liste der Dateien im ConfigSet</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Server.Auth.{Admin|Index|Search}.Class</code></td>
+            <td>Authentifizierungsklasse (Standard: <code>MCRSolrNoOpAuthenticator</code>)</td>
+            <td><code>MCRSolrNoOpAuthenticator</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Server.Auth.{Admin|Index|Search}.Username</code></td>
+            <td>Benutzername für Basic Authentication</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Server.Auth.{Admin|Index|Search}.Password</code></td>
+            <td>Passwort für Basic Authentication</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.UseJettyHttpClient</code></td>
+            <td>Jetty HTTP-Client verwenden</td>
+            <td><code>true</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.Client.IdleTimeout</code></td>
+            <td>Idle-Timeout des HTTP-Clients in Millisekunden</td>
+            <td><code>50000</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.Client.RequestTimeout</code></td>
+            <td>Request-Timeout des HTTP-Clients in Millisekunden</td>
+            <td><code>50000</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.ShardCount</code></td>
+            <td>Standard-Anzahl der Shards bei Collection-Erstellung (Fallback für <code>NumShards</code>)</td>
+            <td><code>1</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.ReplicaCount</code></td>
+            <td>Standard-Anzahl der NRT-Replikate bei Collection-Erstellung (Fallback für <code>NumNrtReplicas</code>)</td>
+            <td><code>1</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.NumShards</code></td>
+            <td>Anzahl Shards für diese Collection (SolrCloud); überschreibt <code>MCR.Solr.Default.ShardCount</code></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.NumNrtReplicas</code></td>
+            <td>Anzahl NRT-Replikate (aktive Schreibreplikate); überschreibt <code>MCR.Solr.Default.ReplicaCount</code></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.NumTlogReplicas</code></td>
+            <td>Anzahl TLOG-Replikate (passive Replikate via Transaction-Log), optional</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.NumPullReplicas</code></td>
+            <td>Anzahl Pull-Replikate (reine Lesereplikate), optional</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.ConcurrentClient.Enabled</code></td>
+            <td>Parallele Indexierung aktivieren</td>
+            <td><code>true</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Default.ConcurrentClient.QueueSize</code></td>
+            <td>Warteschlangengröße für parallele Indexierung</td>
+            <td><code>100</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Indexer.BulkSize</code></td>
+            <td>Anzahl Objekte pro Batch-Indexierung</td>
+            <td><code>100</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Indexer.ThreadCount</code></td>
+            <td>Anzahl der Indexierungs-Threads</td>
+            <td><code>4</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.FileIndexStrategy</code></td>
+            <td>Strategie für die Datei-Indexierung</td>
+            <td><code>MCRSolrMimeTypeStrategie</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Tika.ServerURL</code></td>
+            <td>URL des Tika-Servers (aktiviert Tika-Extraktion)</td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Tika.MaxFileSize</code></td>
+            <td>Maximale Dateigröße für Tika in Bytes</td>
+            <td><code>1073741824</code> (1 GB)</td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.Proxy.WhiteList</code></td>
+            <td>Erlaubte Solr Request-Handler</td>
+            <td><code>/select</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.URIResolver.xslImports.solr-document</code></td>
+            <td>XSLT-Import-Kette für die Solr-Document-Generierung</td>
+            <td><code>solr/indexing/solr-basetemplate.xsl</code></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Solr-Kommandos</h2>
+<p>
+    <strong class="text-warning">Achtung:</strong> Solr-Kommandos sollten stets im interaktiven
+    Modus der CLI ausgeführt werden, um sicherzustellen, dass Operationen vollständig abgeschlossen werden.
+</p>
+
+<h3>Index-Verwaltung</h3>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th style="width:50%">Kommando</th>
+            <th>Beschreibung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>show solr configuration</code></td>
+            <td>Zeigt die aktuelle Solr-Konfiguration der Anwendung an.</td>
+        </tr>
+        <tr>
+            <td><code>reload solr configuration {type} in core {id}</code></td>
+            <td>Lädt Schema und Konfiguration für den angegebenen Core neu (z.B. <code>reload solr configuration main in core main</code>).</td>
+        </tr>
+        <tr>
+            <td><code>export solr configset {name} to folder {path}</code></td>
+            <td>Exportiert ein ConfigSet als ZIP-Archiv in den angegebenen Ordner.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3>SolrCloud-Kommandos</h3>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th style="width:50%">Kommando</th>
+            <th>Beschreibung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>show local config sets</code></td>
+            <td>Listet alle lokal konfigurierten ConfigSets auf.</td>
+        </tr>
+        <tr>
+            <td><code>show remote config sets</code></td>
+            <td>Listet die ConfigSets auf dem Solr-Server auf.</td>
+        </tr>
+        <tr>
+            <td><code>upload local config set for {id}</code></td>
+            <td>Lädt das ConfigSet für den angegebenen Index-ID auf den Solr-Server hoch.</td>
+        </tr>
+        <tr>
+            <td><code>delete remote config set for {id}</code></td>
+            <td>Löscht das ConfigSet des angegebenen Index vom Solr-Server.</td>
+        </tr>
+        <tr>
+            <td><code>create collection for core {id}</code></td>
+            <td>Erstellt eine neue SolrCloud-Collection für den angegebenen Index.</td>
+        </tr>
+        <tr>
+            <td><code>remove collection for core {id}</code></td>
+            <td>Entfernt die SolrCloud-Collection des angegebenen Index.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3>Indexierungs-Kommandos</h3>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th style="width:50%">Kommando</th>
+            <th>Beschreibung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>rebuild solr metadata and content index in core {id}</code></td>
+            <td>Indexiert alle Metadaten und Dateien im angegebenen Core neu.</td>
+        </tr>
+        <tr>
+            <td><code>rebuild solr metadata index in core {id}</code></td>
+            <td>Indexiert alle Objekte neu (nur Metadaten).</td>
+        </tr>
+        <tr>
+            <td><code>rebuild solr content index in core {id}</code></td>
+            <td>Indexiert alle Derivate und Dateien neu.</td>
+        </tr>
+        <tr>
+            <td><code>rebuild solr metadata index for all objects of type {type} in core {id}</code></td>
+            <td>Indexiert alle Objekte des angegebenen Typs neu.</td>
+        </tr>
+        <tr>
+            <td><code>rebuild solr classification index in core {id}</code></td>
+            <td>Indexiert alle Klassifikationen neu.</td>
+        </tr>
+        <tr>
+            <td><code>clear solr index in core {id}</code></td>
+            <td>Löscht alle Einträge aus dem Index.</td>
+        </tr>
+        <tr>
+            <td><code>synchronize solr metadata index in core {id}</code></td>
+            <td>Synchronisiert den MyCoRe-Store mit dem Solr-Index.</td>
+        </tr>
+        <tr>
+            <td><code>optimize solr index in core {id}</code></td>
+            <td>Optimiert den Solr-Index (selten ausführen, da ressourcenintensiv).</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Solr-Abfragen über die Java-API</h2>
+<p>
+    Ab MyCoRe 2026.06 erfolgt der Zugriff auf Solr-Clients über die Index-Registry.
+    Die Authentifizierung muss dabei immer berücksichtigt werden:
+</p>
+
+{{< highlight java "linenos=table">}}
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.request.QueryRequest;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.mycore.solr.MCRSolrIndex;
+import org.mycore.solr.MCRSolrIndexRegistryManager;
+import org.mycore.solr.auth.MCRSolrAuthenticationLevel;
+import org.mycore.solr.auth.MCRSolrAuthenticationManager;
+
+// Index über die Registry beziehen (gibt Optional zurück)
+MCRSolrIndex mainIndex = MCRSolrIndexRegistryManager.obtainRegistry()
+    .getIndex("main")
+    .orElseThrow(() -> new IllegalStateException("Kein Solr-Index 'main' konfiguriert"));
+
+// getClient() liefert einen SolrClient mit voreingestellter Collection/Core
+SolrClient solrClient = mainIndex.getClient();
+
+// Suchanfrage mit Authentifizierung
+SolrQuery query = new SolrQuery();
+query.setQuery("title:foo");
+query.setRows(10);
+
+QueryRequest queryRequest = new QueryRequest(query);
+MCRSolrAuthenticationManager.obtainInstance()
+    .applyAuthentication(queryRequest, MCRSolrAuthenticationLevel.SEARCH);
+
+try {
+    QueryResponse response = queryRequest.process(solrClient);
+    // response.getResults() enthält die Treffer
+} catch (Exception e) {
+    // Fehlerbehandlung
+}
+{{< /highlight >}}

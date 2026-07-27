@@ -1,0 +1,493 @@
+---
+aliases:
+  - /documentation/frontend/xsl/xsl_xslt3/
+doc_type: reference
+product: mycore
+title: "Die Nutzung von XSLT3"
+mcr_version: ['2022.06']
+author: ['Jens Kupferschmidt','Thomas Scheffler', 'Robert Stephan']
+description: "Der Abschnitt beschreibt die Nutzung von XSLT3 zur Transformation von Layouts und Daten sowie die zusätzlichen MyCoRe-XSLT3-Funktionen."
+date: "2022-10-26"
+---
+
+<h2>Standardverhalten</h2>
+<p>
+  Mit LTS 2022.06 ist Saxon und damit XSLT3 der Standardtransormer Prozess für alle Transformationen. Die Rückkehr zu XSLT1 ist über das 
+  folgende Property möglich.
+</p>
+<p>
+  {{< highlight xml "linenos=table">}}
+  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+</p>
+<h2>Einbindung von Saxon in die MyCoRe-Transformation</h2>
+<p>
+  In MyCoRe ist es möglich, einzelne gekapselte Transformationsprozesse, z. B. für Datenexporte, generieren von PDF-Dateien
+  u. ä. bereits auf XSLT3 umzustellen, ohne dies schon für die Gesamtanwendung tun zu müssen.
+  <a target="_blank" href="https://www.saxonica.com/html/documentation/about/">Saxon</a>
+  ist dabei das Mittel der Wahl.
+  Um einen einzelnen Transformationsprozess umzustellen, sind folgende Konfigurations-Properties notwendig:
+</p>
+<p>
+  {{< highlight text "linenos=table">}}
+  MCR.ContentTransformer.{my_process}.Class=org.mycore.common.content.transformer.MCRXSLTransformer
+  MCR.ContentTransformer.{my_process}.Stylesheet=xsl/{my_stylesheet}.xsl
+  MCR.ContentTransformer.{my_process}.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl{{< /highlight >}}
+</p>
+<p>Wird die <tt>TransformerFactoryClass</tt> nicht gesetzt, ist <a href="https://xml.apache.org/xalan-j/">Xalan</a> der Fallback.</p>
+<p>Unabhängig davon kann durch Konfiguration auch die gesamte Anwendung auf XSLT3 (Saxon) umgestellt werden, wenn dies 
+   alle verwendeten Transformations-Stylesheets unterstützen:
+{{< highlight text "linenos=table">}}
+   MCR.LayoutService.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl
+{{< /highlight >}}
+</p>
+
+<h2>Developer-Modus</h2>
+<p>
+Durch Setzen einiger Properties im Entwicklungssystem lässt sich die Arbeit mit XSLT-Stylesheets vereinfachen.
+So können Stylesheets zur Laufzeit überschrieben werden, ohne die Anwendung neu bauen zu müssen.
+</p>
+<p>
+Die Details sind auf der Seite <a href="{{< ref "/documentation/how-to-guides/mycore/development/use-development-mode" >}}">Developer-Tools</a> beschrieben.
+</p>
+
+<h2>Migrationshinweise XSLT1 nach XSLT3</h2>
+<p>Grundsätzlich stehen bei XSLT3 keine XALAN-Extensions mehr zur Verfügung. Diese müssen bei der Migration ersetzt werden. Weiterhin
+sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise zur Umstellung geben.
+</p>
+
+<h3>Ersetzung i18n:translate</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:value-of xmlns:i18n="xalan://org.mycore.services.i18n.MCRTranslation" select="i18n:translate({i18n_property_string})" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:value-of xmlns:mcri18n="http://www.mycore.de/xslt/i18n" select="mcri18n:translate({i18n_property_string})" />
+  oder
+  <xsl:value-of select="document(concat('i18n:',{i18n_property_string}))/i18n/text()" />
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung exsl:node-set</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each xmlns:exsl="http://exslt.org/common" select="exsl:node-set($list)/node()">
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each select="$list">
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung xalan:nodeset</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each select="xalan:nodeset($result)/content">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each select="$result/content">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung encoder:encode</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:variable name="url" xmlns:encoder="xalan://java.net.URLEncoder" select="encoder:encode(string($RequestURL))" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:vaiable name="url" xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:encode-for-uri($RequestURL)" />
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung decoder:decode</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:variable name="url" xmlns:decoder="xalan://java.net.URLDecoder" select="decoder:decode(string($paramValue),'UTF-8')" />
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:vaiable name="url" select="$paramValue" disable-output-escaping="yes" />
+{{< /highlight >}}
+</p>
+
+<h3>Ersetzung str:tokenizer</h3>
+<p>XSLT1-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each xmlns:str="http://exslt.org/strings" select="str:tokenize($MCR.Mail.Recipients,',')">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+<p>XSLT3-Code</p>
+<p>
+{{< highlight text "linenos=table">}}
+  <xsl:for-each xmlns:fn="http://www.w3.org/2005/xpath-functions" select="fn:tokenize($MCR.Mail.Recipients,',')">
+  ...
+  </xsl:for-each>
+{{< /highlight >}}
+</p>
+
+<h2>MyCoRe XSLT3 Funktionen</h2>
+<p>
+  MyCoRe stellt für bestimmte Aufgaben (Mehrsprachigkeit, Verarbeitung von Klassifikationen, ...) 
+  eigene XSLT3-Funktionen als Alternative zu den URI-Resolvern bereit. 
+  Diese Funktionen werden im Folgenden beschrieben. Jedes der angegebenen Stylesheets muss dabei inkludiert werden. 
+  Weiterhin muss der jeweilige <b>Namespace definiert</b> werden.
+</p>
+<p></p>
+<h3>I18N Integration</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/i18n.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcri18n="http://www.mycore.de/xslt/i18n"</td>
+  </tr>
+</table>
+
+<p>Für die Integration von I18N-Properties sind zwei XSLT-Funktionen konzipiert. Die erste Funktion enthält als Argument
+  nur den String des einzelnen Properties. In der zweiten Variante können der Transformation zusätzliche Argumente
+  mitgegeben werden.
+</p>
+
+<h4>mcri18n:translate()</h4>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:value-of select="mcri18n:translate({i18n_property_string})" />
+  <xsl:value-of select="mcri18n:translate('my_message_string')" />
+{{< /highlight >}}
+</p>
+<p></p>
+<h4>mcri18n:translate-with-params()</h4>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:value-of select="mcri18n:translate-with-params({i18n_property_string}, ({arg_1}, ...))" />
+  <xsl:value-of select="mcri18n:translate-with-params('my_message_string_with_args', ('arg_1', 'arg_2'))" />
+{{< /highlight >}}
+</p>
+<p>&nbsp;</p>
+<h3>XSLT3-Funktionen für Zugriffsrechte</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/acl.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcracl="http://www.mycore.de/xslt/acl"</td>
+  </tr>
+</table>
+<p></p>
+<h4>mcracl:check-permission()</h4>
+<p>
+  Es wurde eine XSLT Funktion konzipiert, welche die Zugriffsrechte für Objekte und Permissions testet und eine
+  boolschen Wert als Ergebnis zurückgibt.
+  Die Funktion hat zwei Parameter <tt>id</tt> und <tt>permission</tt>.<br />
+  Dabei kann <tt>id</tt> auch den Wert der leeren Sequenz <tt>()</tt> annehmen.
+  
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcracl:check-permission({id}, {permission})
+  mcracl:check-permission((), {permission})
+{{< /highlight >}}
+</p>
+<p>Hier die Beispiele dazu:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcracl:check-permission('mir_mods_00004711', 'delete')
+  mcracl:check-permission((), 'create-mods')
+{{< /highlight >}}
+</p>
+
+<p>&nbsp;</p>
+<h3>XSLT3-Funktionen für MyCoRe-Properties</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/property.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcrproperty="http://www.mycore.de/xslt/property"</td>
+  </tr>
+</table>
+<p></p>
+<h4>mcrproperty:one()</h4>
+<p>
+  Diese Funktion gibt den Wert eines einzelnen Properties als String zurück.<br />
+  Im Parameter <tt>key</tt> wird der Schlüssel des Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:one({key})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <h3><xsl:value-of select="mcrproperty:one('MCR.NameOfProject')" /></h3>
+  
+  <!-- Ausgabe: -->
+  <h3>MIR</h3>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:all()</h4>
+<p>
+  Diese Funktion gibt eine Liste von Properties zurück.<br />
+  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:all({keyPrefix})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="props" select="mcrproperty:all('MCR.Solr.Core.')" />
+  <xsl:copy-of select="$props" />
+  
+  <!-- Ausgabe: -->
+  <properties>
+    <entry key="MCR.Solr.Core.main.Name">mir_main</entry>
+    <entry key="MCR.Solr.Core.classification.Name">mir_class</entry>
+    <entry key="MCR.Solr.Core.main.ServerURL">http://localhost:8983/</entry>
+    <entry key="MCR.Solr.Core.classification.ServerURL">http://localhost:8983/</entry>
+  </properties>{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}
+  <xsl:for-each select="mcrproperty:all('MCR.Solr.Core.')/entry">
+    <span><xsl:value-of select="@key" /> = <xsl:value-of select="." /></span>
+  </xsl:for-each>
+  
+  <!-- Ausgabe: -->
+  <span>MCR.Solr.Core.main.Name = mir_main</span>
+  <span>MCR.Solr.Core.classification.Name = mir_class</span>
+  <span>MCR.Solr.Core.main.ServerURL = http://localhost:8983/</span>
+  <span>MCR.Solr.Core.classification.ServerURL = http://localhost:8983/</span>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:map()</h4>
+<p>
+  Diese Funktion gibt eine <a href="https://www.saxonica.com/html/documentation12/xsl-elements/map.html">XSL-Map</a> von Properties zurück.<br />
+  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:map({keyPrefix})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="propMap" select="mcrproperty:map('MCR.Solr.Core.')" />
+  <span><xsl:value-of select="map:get($propMap, 'MCR.Solr.Core.main.Name')" /></span>
+  
+  <!-- Ausgabe: -->
+  <span>mir_main</span>{{< /highlight >}}
+</p>
+
+<p>&nbsp;</p>
+
+<h3>XSLT3-Funktionen für MODS</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-mods</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/mods.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcrmods="http://www.mycore.de/xslt/mods"</td>
+  </tr>
+</table>
+<p></p>
+
+<h4>mcrmods:to-mycoreclass()</h4>
+<p>liefert Klassifikationsdaten im MyCoRe-XML-Format zurück für ein Element (1. Parameter) und einen <code>mode</code> 
+   (2. Parameter). Der erste Parameter ist ein MODS-Element, das ggf. eine Klassifikationsangabe enthält 
+   (siehe <tt>mcrmods:is-supported()</tt>). 
+   Der <code>mode</code>-Parameter kann entweder <tt>parent</tt> oder <tt>single</tt> sein. 
+   Bei <tt>parent</tt> werden alle Elternkategorien mit ausgeliefert  (die gesuchte Kategorie ist also die, die keine
+   Kinder mehr enthält). Bei <tt>single</tt> wird nur die gewünschte Kategorie 
+   mit allen Labels zurückgeliefert - eingebettet in das bekannte <tt>mycoreclass</tt>-XML-Element.</p>  
+
+<p>Hier ein Beispiel dazu:</p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="diniclass">
+    <mods:classification displayLabel="dini"
+                         authorityURI="http://www.mycore.de/mir/classifications/diniPublType" 
+                         valueURI="http://www.mycore.de/mir/classifications/diniPublType#StillImage" />
+  </xsl:variable>
+  
+  <xsl:copy-of select="mcrmods:to-mycoreclass($diniclass/*, 'single')" />
+  <!-- Ausgabe: -->
+  <mycoreclass ID="diniPublType">
+    <label xml:lang="en" text="DINI publication- and document types" description="general vocabulary..." />
+    <label xml:lang="de" text="DINI Publikations- und Dokumenttypen" description="Gemeinsames Vokabular..." />
+    <categories>
+      <category ID="StillImage">
+        <label xml:lang="en" text="still image" />
+        <label xml:lang="de" text="Einzelbild" description="Eine statische visuelle Darstellung.." />
+      </category>
+    </categories>
+  </mycoreclass>  
+  
+  <xsl:copy-of select="mcrmods:to-mycoreclass($diniclass/*, 'parent')" />
+  <!-- Ausgabe: -->
+  <mycoreclass ID="diniPublType">
+    <label xml:lang="en" text="DINI publication- and document types" description="general vocabulary..." />
+    <label xml:lang="de" text="DINI Publikations- und Dokumenttypen" description="Gemeinsames Vokabular..." />
+    <categories>
+      <category ID="Image">
+        <label xml:lang="de" text="Bild" description="Eine nicht textgebundene visuelle Darstellung..."/>
+        <label xml:lang="en" text="image" description="A visual representation other than text." />
+        <category ID="StillImage">
+          <label xml:lang="en" text="still image" />
+          <label xml:lang="de" text="Einzelbild" description="Eine statische visuelle Darstellung..." />
+        </category>
+      </category>
+    </categories>
+  </mycoreclass>
+{{< /highlight >}}
+
+<h4>mcrmods:to-category()</h4>
+<p>liefert für ein gegebenes Element ein MyCoRe-Category-XML-Element zurück. Der Parameter ist ein MODS-Element, 
+   das ggf. eine Klassifikationsangabe enthält (s.o.).
+   Es wird das <tt>&lt;category&gt;</tt> XML-Element mit allen Labels zurückgeliefert.</p>  
+
+<p>Hier ein Beispiel dazu:</p>
+{{< highlight xml "linenos=table">}}
+  <xsl:copy-of select="mcrmods:to-category($diniclass/*)" />
+  <!-- Ausgabe: -->
+  <category ID="StillImage">
+    <label xml:lang="en" text="still image" />
+    <label xml:lang="de" text="Einzelbild" description="Eine statische visuelle Darstellung..." />
+  </category>
+{{< /highlight >}}
+
+<h4>mcrmods:mcrmods:to-uri() <span class="badge badge-secondary">internal</span></h4> 
+<p>liefert für ein Element eine <tt>modsclass:</tt>-URI zurück für den 
+   <tt><a href="https://github.com/MyCoRe-Org/mycore/blob/master/mycore-mods/src/main/java/org/mycore/mods/classification/MCRModsClassificationURIResolver.java">MCRModsClassificationURIResolver</a></tt>, wenn das Element eine 
+   Klassifikationsangabe enthält (z.B. über <tt>@authorityURI</tt> und <tt>@valueURI</tt>). Diese Funktion wird hauptsächlich intern verwendet.
+</p>
+<p>Hier ein Beispiel dazu</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="modsclass">
+    <mods:classification authorityURI="http://www.mycore.de/mir/classifications/accesscondition" 
+                         valueURI="http://www.mycore.de/mir/classifications/accesscondition#openaccess" 
+                         displayLabel="accesscondition">frei zugänglich (Open Access)</mods:classification>
+  </xsl:variable>
+  <xsl:value-of select="mcrmods:to-uri($modsclass/*)" />
+  
+  <!-- Ausgabe: -->
+  modsclass:/uri/http%3A%2F%2Frosdok.uni-rostock.de%2Fclassifications%2Faccesscondition/http%3A%2F%2Frosdok.uni-rostock.de%2Fclassifications%2Faccesscondition%23openaccess
+{{< /highlight >}}
+</p>
+
+<h4>mcrmods:is-supported() <span class="badge badge-secondary">internal</span></h4>
+<p>gibt <tt>true</tt> für ein MODS-Element (s.o.) zurück, wenn es prinzipiell geeignet ist eine Klassifikationsangabe 
+zu enthalten. Das ist eine hauptsächlich intern benutzte Hilfsfunktion.
+</p>
+<p>Hier die Beispiele dazu:</p>
+{{< highlight xml "linenos=table">}}
+  mcrmods:is-supported(mods:classification)  —> IMMER true
+  mcrmods:is-supported(/mycoreobject)  —> IMMER false
+{{< /highlight >}}
+
+<p>&nbsp;</p>
+<h3>XSLT3-Funktionen für Klassifikationen</h3>
+<table>
+  <tr>
+    <th>MyCoRe-Komponente:</th>
+    <td style="padding-left:10px;">mycore-base</td>
+  </tr>
+  <tr>
+    <th>Stylesheet:</th>
+    <td style="padding-left:10px;">xslt/functions/classification.xsl</td>
+  </tr>
+  <tr>
+    <th>Namespace:</th>
+    <td style="padding-left:10px;">xmlns:mcrclass="http://www.mycore.de/xslt/classification"</td>
+  </tr>
+</table>
+<p></p>
+<h4>mcrclass:current-label()</h4>
+<p>gibt für ein MyCoRe-Klassifikations-Element oder ein MyCoRe-Category-Element das Label-Element 
+   in der aktuellen Sprache zurück. Als Fallback wird zuerst versucht, das Label der Default-Sprache und anschließend
+   das erste Label der Klassifikation zurückzuliefern.
+</p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="categ">
+    <category ID="published">
+       <label xml:lang="en" text="published" />
+       <label xml:lang="de" text="veröffentlicht" />
+    </category>
+  </xsl:variable>
+  <xsl:value-of select="mcrclass:current-label($categ/*)" />
+  
+  <!-- Rückgabe (in deutsch-sprachiger Anwendung): -->
+  <label xml:lang="de" text="veröffentlicht" /> 
+{{< /highlight >}}
+
+<h4>mcrclass:current-label-text()</h4>
+<p>verhält sich wie die vorhergehende Funktion, gibt jedoch direkt den Wert des Labels für die Anzeige zurück.
+</p>
+
+{{< highlight xml "linenos=table">}}
+  <xsl:value-of select="mcrclass:current-label-text($categ/*)" />
+  
+  <!-- Rückgabe (in deutsch-sprachiger Anwendung): -->
+  veröffentlicht 
+{{< /highlight >}}
+
+Diese Funktionen lassen sich auch mit den Funktionen für MODS kombinieren, z.B.:
+<p>
+{{< highlight xml "linenos=table">}}
+  Label: <xsl:value-of select="mcrclass:current-label-text(mcrmods:to-category($diniclass/*))" />
+  
+  <!-- Rückgabe (in deutsch-sprachiger Anwendung): -->
+  Label: Einzelbild 
+{{< /highlight >}}
+</p>

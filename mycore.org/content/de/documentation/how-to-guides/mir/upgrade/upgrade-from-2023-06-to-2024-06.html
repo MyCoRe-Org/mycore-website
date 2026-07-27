@@ -1,0 +1,43 @@
+---
+aliases:
+  - /documentation/apps/mir/migration/migrate_mir2024_06/
+doc_type: how-to
+product: mir
+
+title: "Migration MIR LTS 2023.06 nach 2024.06"
+linkTitle: "2024.06.x"
+mcr_version: ['2024.06']
+author: ['Silvio Hermann']
+description: "
+Listet die einzelnen Schritte zur Migration von MIR LTS 2023.06 nach 2024.06 auf.
+"
+date: "2024-05-24"
+
+---
+
+<div>
+    <h2>Migrationsanleitung MIR</h2>
+    <p>
+        Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref "/documentation/how-to-guides/mycore/upgrade/upgrade-to-2024-06" >}}">Migrationsanleitung
+        für MyCoRe</a>
+        noch relevant sind.
+    </p>
+    <div>
+        <h3>Aktualisierung des Solr-Schemas und nachfolgende Neuindizierung der Metadaten</h3>
+        <p>
+            Damit ggf. vorhandende Abstracts in der aktuellen Sprache automatisch angezeigt werden können, müssen die
+            folgenden CLI-Kommandos einmal ausgeführt werden.
+        </p>
+        <ul>
+            <li><code>reload solr configuration main in core main</code></li>
+            <li><code>rebuild solr metadata index in core main</code></li>
+        </ul>
+        <h3>Modernisierung der Prozess-GUI</h3>
+        <p>
+            Durch die Modernisierung der Prozess-GUI muss die Object ID im zugehörigen ACL-Eintrag
+            von <code>webpage:/modules/webtools/processing/processing.xml</code> zu
+            <code>webpage:/modules/webtools/processing</code> geändert werden.
+        </p>
+    </div>
+</div>
+

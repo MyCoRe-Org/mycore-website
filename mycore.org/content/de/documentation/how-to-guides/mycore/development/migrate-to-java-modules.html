@@ -1,0 +1,152 @@
+
+---
+aliases:
+  - /documentation/developer/dev_migrate_to_java_modules/
+doc_type: how-to
+product: mycore
+
+title: "Festlegungen zur Umstellung der Code Basis auf Java Modulsystem"
+mcr_version: ['2022.06, 2023.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler', 'Robert Stephan']
+date: "2023-07-24"
+
+---
+
+<h2>Allgemeines</h2>
+
+<p>
+  Mit erscheinen des Java 11 LTS ergibt sich die Notwendigkeit, den bestehenden Code ab Release 2022.06 schrittweise
+  in das Java Platform Module System
+  <strong>JPMS</strong>
+  zu überführen. Die folgenden Schritte und darin getroffenen Festlegungen sollen dies
+  ermöglichen.
+</p>
+
+<p>
+  siehe
+  <strong>Modularisierung mit Java 9; Oelmann, Guido; ISBN 978-3-86490-477-6</strong>
+</p>
+<p>
+  siehe
+  <strong>Java – die Neuerungen in Version 17 LTS, 18 und 19; Michael Inden; 978-3-86490-902-3</strong>
+</p>
+
+<h2>Festlegungen für Maven</h2>
+<p>Diese Festlegung gilt für alle Projekte, welche das MyCoRe-Git-Repository und die zentralen Maven-Instanzen nutzen.
+</p>
+
+<h3>GroupId</h3>
+<ul>
+  <li>org.mycore.{mcr | mir | ubo | profkat | ... }
+  </li>
+</ul>
+
+<h3>ArtifactId</h3>
+<ul>
+  <li>
+    MyCoRe
+    <ul>
+      <li>{mcr | mycore}-{jpa | mail | ifs2 | ...}
+      </li>
+      <li>JPMS mit mcr-*</li>
+      <li>alte Komponenten mit mycore-*</li>
+    </ul>
+  </li>
+  <li>mir-{common | layout | webapp | ...}</li>
+  <li>ubo-{common | layout | ...}</li>
+  <li>profkat-{...}</li>
+</ul>
+
+<p>
+  {{< highlight xml "linenos=table">}}
+  <dependency>
+    <groupId>org.mycore.mcr</groupId>
+    <artifactId>mcr-oai2</artifactId>
+    <version>2022.06.1-SNAPSHOT</version>
+  </dependency>
+  {{< /highlight >}}
+</p>
+
+<h2>JPMS Module</h2>
+<ul>
+  <li>
+    MyCoRe
+    <ul>
+      <li>JPA: org.mycore.jpa</li>
+      <li>ACL-Editor: org.mycore.mcr.acl.editor (generisch -> speziell)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Java Package Namen</h2>
+<ul>
+  <li>
+    MyCoRe
+    <ul>
+      <li>JPA: org.mycore.jpa.*</li>
+      <li>ACL-Editor: org.mycore.mcr.acl.editor.* (generisch -> speziell)</li>
+    </ul>
+  </li>
+  <li>MIR
+    <ul>
+      <li>org.mycore.mir.*
+        <ul>
+          <li>layout: org.mycore.mir.layout.*</li>
+          <li>common: org.mycore.mir.common.*</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Plugins</h2>
+<p>Plugins teilen keine Eigenschaften von Package-, Module-, GroupId und ArtifactId von den zugehörigen Anwendungen.</p>
+<ul>
+<li>mir-plugin-dbt (statt vorher mir-dbt; davor dbt-module)
+<ul>
+<li>Paket de.uni.jena.thulb-dbt.*</li>
+<li>JPMS: de.uni.jena.thulb.dbt</li>
+<li>GroupId: de.uni.jena.thulb.dbt.plugin</li>
+<li>ArtifactId: mir-plugin-dbt</li>
+</ul></li>
+<li>mir-plugin-foo (ArtifactId eindeutig wegen 'mir-plugin'-Präfix)
+<ul>
+<li>Paket org.mycore.mir.plugin.*</li>
+<li>JPMS: org.mycore.mir.plugin</li>
+<li>GroupId: org.mycore.mir.plugin</li>
+<li>ArtifactId: mir-plugin-foo</li>
+</ul>
+</li>
+<li>Achtung bei Maven-Plugins (siehe Namenskonvention unter <a href="https://maven.apache.org/guides/plugin/guide-java-plugin-development.html" target="_blank">https://maven.apache.org/guides/plugin/guide-java-plugin-development.html</a>)
+<ul>
+<li><strong>ArtifactId mit Präfix 'maven' ist nicht erlaubt!</strong></li>
+<li>Alternative: mycore-maven-plugin-datamodel
+<ul>
+<li>Paket org.mycore.maven.plugin.datamodel.*</li>
+<li>JPMS: org.mycore.maven.plugin.datamodel</li>
+<li>GroupId: org.mycore.maven.plugin</li>
+<li>ArtifactId: mycore-maven-plugin-foo</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>Einzuhaltende Regeln</h2>
+<ul>
+<li>Alles klein schreiben.</li>
+<li>Keine Binde- und Unterstriche in Package- und Modulnamen, dafür '.' als Trenner verwenden und von
+generisch (links) nach speziell (rechts) untergliedern.</li>
+<li>ArtifactId - den Abschluss der GroupId vor einen Bindestrich setzten.
+<ul>
+<li>GroupId: org.mycore.mcr</li>
+<li>ArtifactId: mcr-...</li>
+</ul></li>
+<li>Immer den Singular verwenden!
+<ul>
+<li>common statt commons</li>
+<li>api statt apis</li>
+<li>plugin statt plugins</li>
+</ul></li>
+</ul>
+

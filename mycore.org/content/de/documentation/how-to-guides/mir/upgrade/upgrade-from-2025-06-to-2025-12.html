@@ -1,0 +1,146 @@
+---
+aliases:
+  - /documentation/apps/mir/migration/migrate_mir2025_12/
+doc_type: how-to
+product: mir
+title: "Migration MIR LTS 2025.06 nach 2025.12"
+linkTitle: "2025.12.x"
+mcr_version: ['2025.12']
+author: ['']
+description: "Listet die einzelnen Schritte zur Migration von MIR LTS 2025.06 nach 2025.12 auf."
+date: "2025-06-20"
+---
+
+<div>
+      <div class="alert alert-warning">
+        Diese Seite ist <strong>Work in Progress</strong>. <br />
+        Sie wird im Rahmen der Fertigstellung des aktuellen MIR-Releases weiter ergänzt!
+      </div>
+    <h2>Migrationsanleitung MIR</h2>
+    <p>
+        Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der <a href="{{< ref "/documentation/how-to-guides/mycore/upgrade/upgrade-to-2025-12" >}}">Migrationsanleitung
+        für MyCoRe</a>
+        noch relevant sind.
+    </p>
+    <div>
+        <h3>Aktualisierung des Solr-Schemas und nachfolgende Neuindizierung der Metadaten</h3>
+        <p>
+            Damit ggf. vorhandende Abstracts in der aktuellen Sprache automatisch angezeigt werden können, müssen die
+            folgenden CLI-Kommandos einmal ausgeführt werden.
+        </p>
+        <ul>
+            <li><code>reload solr configuration main in core main</code></li>
+            <li><code>rebuild solr metadata index in core main</code></li>
+        </ul>
+
+        <h3>HTML-Validierung</h3>
+        <p>
+            Mit {{<mcr-version "2024.06">}} wurden der XEditor für die Eingabe von formatierten Texten von CKEditor auf TinyMCE umgestellt.
+            Seit dem gibt es zwei Properties zur Konfiguration der hierbei erlaubten HTML-Elemente.
+        </p>
+        <ul>
+            <li>
+                Für die clientseitige Validierung in TinyMCE wird das Property <code>MIR.WebConfig.Editor.TinyMCE.ValidElements</code> verwendet.
+                Hierbei wird, der Spezifikation von TinyMCE folgend, die Liste der erlaubten Elemente mit Kommas getrennt.
+            </li>
+            <li>
+                Für die serverseitigen Validierung in <code>MIREditorUtils</code> wird das Property <code>MIR.Editor.HTML.Elements</code> verwendet.
+                Hierbei wird, der Spezifikation von CKEditor folgend, die Liste der erlaubten Elemente mit Semikolons getrennt.
+            </li>
+        </ul>
+        <p>
+            Mit diesem Release von MIR wird das vereinheitlicht. Durch <a href="https://mycore.atlassian.net/browse/MIR-1495">MIR-1495</a>
+            muss ab sofort nur noch das Property <code>MIR.Editor.HTML.AllowedElements</code> gepflegt werden.
+            Hierbei wird der TinyMCE-Spezifikation folgend die Liste der erlaubten Elemente mit Kommas getrennt.
+            Jedem Element-Namen kann in eckigen Klammern eine durch Senkrechtstriche getrennte Liste von erlaubten Attributen angehängt werden.
+        </p>
+        <p>
+            Beispiel: <code>a[href],b,i,div[style|class],span[style|class]</code>
+        </p>
+        <div class="note">
+            <p>
+                TinyMCE erlaubt <a href="https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#valid_elements">die Konfiguration weiterer Details</a>.
+                Dieser werden von der serverseitigen Implementierung in MIR jedoch nicht unterstützt. Es muss sich auf die hier beschriebenen Möglichkeiten beschränkt werden.
+            </p>
+        </div>
+        <p>
+            Standardmäßig wir das Property <code>MIR.Editor.HTML.AllowedElements</code> aus den beiden Properties 
+            <code>%MIR.Editor.HTML.HTMLElements</code> und <code>MIR.Editor.HTML.MathMLElements</code> zusammengesetzt.
+            In einer eigenen Anwendung können je nach Bedarf entweder die Gesamtliste oder die beiden Teillisten angepasst werden.
+        </p>
+        <div class="note">
+            <p>
+                Für die clientseitige Validierung wird die in <code>MIR.Editor.HTML.AllowedElements</code> konfigurierte Liste
+                in das Property <code>MIR.WebConfig.Editor.TinyMCE.AllowedElements</code> übernommen und clientseitig dem XEditor zur Verfügung gestellt.
+                Dieses Property sollte nicht direkt verändert werden.
+            </p>
+        </div>
+        <p>
+            Wer bisher eines der alten Properties angepasst hat, muss es in seiner Anwendung auf das neue umstellen.
+        </p>
+        <div class="note">
+            <p>
+                TinyMCE verwendet die Liste der erlaubten HTML-Elemente ausschließlich zum Validieren der Eingabe.
+                Buttons und Menü-Einträge für verschiedene Formatierungen werden nicht automatisch ausgeblendet, wenn entsprechende Elemente nicht erlaubt sind.
+                Gegebenenfalls muss die Konfiguration des TinyMCE den eigenen Bedarfen entsprechend angepasst werden.
+                Hierzu kann die von MIR unter <code>/assets/tinymce/config.js</code> ausgelieferte Datei als Ausgangsbasis genommen werden.
+                Sie kann in einem eigenen Anwendungsmodul als <a href="{{< ref "/documentation/explanation/mycore/runtime/resource-system#web-ressourcen" >}}">Web-Ressource</a> unter demselben Web-Pfad bereitgestellt werden. 
+            </p>
+        </div>
+        <div>
+            <h3>Migration der OpenAIRE-Projekte</h3>
+            <p>
+                Bisher konnten ausschließlich OpenAIRE-Projekte erfasst werden.
+                Die grundlegenden Informationen wurden dabei in einem <code>mods:identifier</code> wie folgt kodiert:
+            </p>
+            {{< highlight xml "linenos=table">}}
+            <mods:identifier type="open-aire">
+              info:eu-repo/grantAgreement/EC/H2020/862695/EU/Towards climate-smart sustainable management of agricultural soils/EJP SOIL
+            </mods:identifier>
+            {{< /highlight >}}
+            <p>
+                Mit der Umsetzung von <a href="https://mycore.atlassian.net/browse/MIR-1451">MIR-1451</a> ist es nun
+                möglich, allgemein Projekt- und Förderinformationen zu erfassen. Dabei werden die Projekt- und
+                Förderinformationen mittels <code>mods:extension</code> über die
+                <a href="https://datacite-metadata-schema.readthedocs.io/en/4.5/properties/fundingreference/">
+                fundingReferences</a> des DataCite-Metadaten-Schemas erfasst.
+                Bezogen auf das obige Beispiel sieht die neue Darstellung folgendermaßen aus:
+            </p>
+            {{< highlight xml "linenos=table">}}
+            <mods:extension type="datacite-funding">
+              <datacite:fundingReferences
+                xmlns:datacite="http://datacite.org/schema/kernel-4"
+                xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4.3/metadata.xsd">
+                <datacite:fundingReference>
+                  <datacite:funderName>European Commission</datacite:funderName>
+                  <datacite:funderIdentifier funderIdentifierType="Crossref Funder ID">https://doi.org/10.13039/501100000780</datacite:funderIdentifier>
+                  <datacite:awardNumber awardURI="https://cordis.europa.eu/project/id/862695">862695</datacite:awardNumber>
+                  <datacite:awardTitle>Towards climate-smart sustainable management of agricultural soils</datacite:awardTitle>
+                </datacite:fundingReference>
+              </datacite:fundingReferences>
+            </mods:extension>
+            {{< /highlight >}}
+            <p>
+                Daher ist es erforderlich, alle bisherigen OpenAIRE-Identifier zu migrieren.
+                Für diesen Zweck steht der Transformer <code>migrate-openaire</code> zur Verfügung.
+                Die betroffenen Objekte können wir folgt selected werden und anschließend migriert werden:
+            </p>
+            {{< highlight plain>}}
+            select objects with xpath /mycoreobject//mods:identifier[@type='open-aire']
+            execute for selected transform object {x} with transformer migrate-openaire
+            {{< /highlight >}}
+            <div class="note">
+                <p>
+                    Der Transformer/Migration setzt voraus, dass die bisherigen OpenAIRE-Identifier korrekt genutzt
+                    wurden und sich auf die European Commission beziehen.
+                    Wurde das Feld anderweitig verwendet, sollte die Migration manuell erfolgen.
+                </p>
+            </div>
+            <p>
+                Außerdem ist das OAI2-Set <code>ec_fundedresources</code> damit obsolet und sollte aus
+                <code>MCR.OAIDataProvider.OAI2.Sets</code> entfernt werden.
+            </p>
+        </div>
+
+    </div>
+</div>

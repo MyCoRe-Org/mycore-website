@@ -1,0 +1,308 @@
+
+---
+aliases:
+  - /documentation/getting_started/gs_ma_customize/
+doc_type: how-to
+product: mycore
+
+title: "Initialisierung der eigenen Anwendung"
+mcr_version: ['2022.06']
+author: ['Kathleen Neumann', 'Robert Stephan']
+date: "2023-07-18"
+
+---
+<p>Die folgende Anleitung geht davon aus, dass eine neue Anwendung mit dem Namen <code>skeleton</code> eingerichtet werden soll.
+
+<h2>Installation</h2>
+<h3>1. CLI erstellen</h3>
+<p>
+    Im Arbeitsverzeichnis wird mit dem Kommando <code>mvn clean install</code> die Skeleton Anwendung erstmals gebaut.
+</p>
+<p>    
+    Danach steht im Verzeichnis <code>skeleton-cli/target</code> ein <code>zip</code> bzw. <code>tar.gz</code> für die MyCoRe-Kommandozeile zur Verfügung.
+    Das <code>zip</code> bzw. <code>tar.gz</code> kann nun in einem beliebigen Projektverzeichnis auf dem Anwendungsserver entpackt werden.
+</p>
+<p>    
+    Befindet man sich bereits auf dem Server kann man die CLI auch aus dem Verzeichnis <code>skeleton-cli/target/appassembler</code> heraus starten.
+</p>
+
+
+<h3>2. Konfigurieren</h3>
+<h4>Konfigurationsverzeichnis generieren</h4>
+        <p>
+          Zuerst wechselt man in das CLI-Verzeichnis der gerade entpackten Anwendung, z.B.:
+        </p>
+{{< highlight txt>}}cd c:\...\skeleton\skeleton-cli{{< /highlight >}}
+
+        <p>
+           und ruft das folgende Kommando auf:
+        </p>
+
+           <dl>
+            <dt>Linux:</dt><dd> {{< highlight txt>}}bin/skeleton.sh create configuration directory{{< /highlight >}}</dd>
+            <dt>Windows:</dt><dd> {{< highlight txt>}}bin\skeleton.bat create configuration directory{{< /highlight >}}</dd>
+          </dl>
+          Im Home-Verzeichnis des aktuellen Nutzers wird dadurch das <strong>MyCoRe-Konfigurationsverzeichnis</strong>
+          fürd die Anwendung generiert.
+          <dl>
+            <dt>Linux:</dt><dd> <code>~/.mycore/skeleton</code></dd>
+            <dt>Windows:</dt><dd> <code>c:\Users\&lt;userName&gt;\AppData\Local\MyCoRe\skeleton\</code></dd>
+          </dl>
+         
+        <p>
+          Es ist darauf zu achten, dass der Name des Konfigurationsverzeichnisses dem Namen der
+          MyCoRe-Anwendung entspricht, in diesem Beispiel also <code>skeleton</code>.
+        </p>
+
+<h4>Solr konfigurieren</h4>
+<p>
+    Für die Suche und Recherche in der Anwendung wird ein Solr-Server benötigt.<br />
+    Dessen Konfigutation wird im Abschnitt <a href="{{< ref "/documentation/reference/mycore/search/solr-integration" >}}">Solr Nutzung</a> ausführlicher beschrieben.
+</p>
+<p>Die beiden benötigten Solr-Cores sollten (wie die Anwendung) <code>skeleton_main</code> und <code>skeleton_classs</code> benannt 
+   und mit folgenden Kommandos angelegt werden:</p>
+ {{< highlight txt>}}
+ .../solr/bin/solr create -c skeleton_main -d mycore_main
+ .../solr/bin/solr create -c skeleton_class -d mycore_classification{{< /highlight>}}
+ 
+        <p>Abschließend wird in der Datei <code>mycore.properties</code> im MyCoRe-Konfigurationsverzeichnis
+        der Core definiert:</p>
+ {{< highlight txt>}}
+  MCR.Solr.ServerURL=http://localhost:8983/
+  MCR.Solr.Core.main.Name=skeleton_main
+  MCR.Solr.Core.main.ServerURL=%MCR.Solr.ServerURL%
+  MCR.Solr.Core.classification.Name=skeleton_class
+  MCR.Solr.Core.classification.ServerURL=%MCR.Solr.ServerURL%{{< /highlight>}}
+<h5>Solr im Entwicklermodus (Alternative)</h5>
+<p>
+  Wer einen Solr-Server nur zur Entwicklungs- oder Demonstrationszwecken nutzen möchte, kann ihn
+  über das <a href="https://github.com/MyCoRe-Org/solr-runner-maven-plugin">MyCoRe Solr-Runner-Maven-Plugin</a> konfigurieren und starten.
+<p>
+  Dazu können im <code>skeleton-webpp</code>-Verzeichnis die folgenden Maven Kommandos ausgeführt werden:</p> 
+ {{< highlight txt>}}
+  mvn solr-runner:copyHome
+  mvn solr-runner:installConfigSet@cs_main
+  mvn solr-runner:installConfigSet@cs_classification
+{{< /highlight>}}
+<p> Der Solr-Server wird mit <code> mvn solr-runner:start</code> gestartet,
+    später mit <code>mvn solr-runner:stop</code> angehalten und ist über die URL
+    <a href="http://localhost:8983/solr/">http://localhost:8983/solr/</a> erreichbar. 
+
+<h4>Datenbank konfigurieren</h4>
+<p>
+    Zur Konfiguration der Datenbank muss die Datei <code>resources/META-INF/persistence.xml</code> im
+    <a href="{{< ref "/documentation/reference/mycore/configuration/properties" >}}">MyCoRe-Konfigurationsverzeichnis</a> angepasst werden.
+    Weitere Hinweise dazu befinden sich im Abschnitt <a href="{{< ref "/documentation/how-to-guides/mycore/setup/configure-a-database" >}}">Datenbank-JPA</a>.
+</p>
+<p>
+    Soll zu Entwicklungs- und Demonstrationszwecken mit der Datenbank H2 gearbeitet werden,
+    muss die Konfigurationsdatei nicht geändert werden. Dann wird während der folgenden JPA-Konfiguration 
+    der Pfad zur H2-Datei im Data-Verzeichnis automatisch gesetzt.
+</p>
+<p>
+    Mit dem folgenden Kommando, das im CLI-Verzeichnis der MyCoRe-Anwendung ausgeführt wird, wird die Datenbank konfiguriert. <br />
+    Abhängig von den verwendeten MyCoRe-Modulen werden Mappings zu Datenbanktabellen in die Datei <code>persistence.xml</code> eingetragen:</p>
+    <dl>
+    <dt>Linux:</dt><dd>{{< highlight txt>}}bin/skeleton.sh reload mappings in jpa configuration file{{< /highlight>}}</dd>
+    <dt>Windows:</dt><dd>{{< highlight txt>}}bin\skeleton.bat reload mappings in jpa configuration file{{< /highlight>}}</dd>
+    </dl>
+
+ 
+<h3>3. Anwendung initialisieren</h3>
+<p>
+   Nun können die Klassifikationen, Nutzer und Rechte in die MyCoRe-Anwendung geladen werden.
+   Dazu wird folgendes Kommando verwendet:
+</p>
+<dl>
+    <dt>Linux:</dt><dd>{{< highlight txt>}}bin/skeleton.sh process config/setup-commands.txt{{< /highlight>}}</dd>
+    <dt>Windows:</dt><dd>{{< highlight txt>}}bin\skeleton.bat process config\setup-commands.txt{{< /highlight>}}</dd>
+</dl>
+<p>Später kann die Datei <code>setup-commands.txt</code>
+   um anwendungsspezifische Nutzer, Rechte und Klassifikationen ergänzt werden.</p>
+
+ <h3>4. Anwendung deployen</h3>
+ <p>
+    Abschließend wird die Webanwendung online gestellt.
+</p>
+<p>
+   Wenn Änderungen am Source-Code oder Konfiguration vorgenommen worden sind,
+   dann muss die Anwendung nocheinmal im Arbeitsverzeichnis mit dem Kommando 
+   <code>mvn clean install</code> neu gebaut werden.
+</p>
+<p>
+    Dadurch wird die Datei <code>skeleton-webapp\target\skeleton-{version}.war</code>
+    erzeugt oder aktualisiert. Diese wird in <code>skeleton.war</code> umbenannt und
+    dann in das <code>\webapps</code>-Verzeichnis des Servlet-Containers (Tomcat) kopiert.
+    Der Servlet-Container entpackt und startet die Anwendung.
+</p>
+
+<h5>Jetty-Webserver im Entwicklermodus (Alternative)</h5>
+<p>
+  Zu Entwicklungs- und Demonstrationszwecken kann auch ein vorkonfigurierter Jetty-Webserver verwendet werden.
+  Dieser wird im <code>skeleton-webpp</code>-Verzeichnis mit den  Maven Kommandos <code> mvn jetty:run</code> 
+  gestartet und mit <code>&lt;Strg&gt; + &lt;C&gt;</code> gestoppt.</p> 
+    
+
+
+<p class="text-success"><strong>Herzlichen Glückwunsch!</strong> <br />Ihre MyCoRe-Anwendung ist jetzt online:
+    <strong><a href="http://localhost:8080/skeleton">http://localhost:8080/skeleton</a></strong>
+</p>
+
+       <h2>Schritt-für-Schritt zur eigenen Anwendung</h2>
+
+       <p>
+         Nachdem das Anwendungsskelett eingerichtet und initial gebaut wurde, ist es an der Zeit einen
+         genaueren Blick auf die Verzeichnisse und Dateien zu werfen. Um nun ausgehend von diesem
+         Anwendungsskelett zur eigenen Anwendung zu kommen, ist es notwendig zu verstehen, wo was steht.
+       </p>
+       
+       {{< mcr-figure src="/images/documentation/getting_started/dir-structure.png" class="text-center p-3 border border-secondary" label="Abbildung" caption="Verzeichnisstruktur des Skeleton-Moduls im Überblick" alt="Verzeichnisstruktur des Skeleton-Moduls" width="550px" height="" />}}
+       <p>
+         In der nachfolgenden Schritt-für-Schritt-Anleitung wird genauer in die einzelnen Bereiche geschaut.
+         Grob kann man jedoch sagen:
+       </p>
+       <dl>
+         <dt style="border:2px solid #9BBB5A;padding-left:5px;">skeleton-cli</dt>
+         <dd>erstellt die CLI und enthält die Basis-Konfiguration inkl. ACL-Spezifikation, Solr-Konfiguration und den nötigen Klassifikationen</dd>
+
+         <dt style="border:2px solid #A34AA4;margin-top:10px;padding-left:5px;">skeleton-module</dt>
+         <dd>umfasst die gesamte Anwendungslogik</dd>
+
+         <dt style="border:2px solid #4049CC;margin-top:10px;padding-left:5px;">skeleton-webapp</dt>
+         <dd>erstellt das Webarchiv</dd>
+       </dl>
+
+      
+         <h3>1. Datenmodell erstellen</h3>
+         <p>
+           Im ersten Schritt muss das eigene <a href="{{< ref "/documentation/reference/mycore/data-formats/object-data-model" >}}">Datenmodell</a> basierend auf den <a href="{{< ref "/documentation/reference/mycore/data-formats/object-data-types" >}}">MyCoRe-Datentypen</a>
+           spezifiziert werden. Diese Spezifikation erfolgt im <span style="border:2px solid #A34AA4;padding:0px 5px;">skeleton-module</span> unter <code>src/main/datamodel/def</code>.
+           Die dort hinterlegte <code>simpledoc.xml</code> soll als Vorlage für eigene MyCoRe-Objektdefinitionen dienen. Für jedes MyCoRe-Objekt ist eine eigene
+           Datei anzulegen.
+         </p>
+         <p>
+           Neue Datenmodelldefinitionen müssen in der Konfigurationsdatei <code>src/main/resources/config/skeleton/mycore.properties</code>
+           über das Property <code>MCR.Metadata.Type.{objecttype-name}=true</code> registriert werden. Dabei entspricht der <code>{objecttype-name}</code>
+           dem Dateinamen, der die MyCoRe-Objektdefinition enthält und dem im name-Attribut angegebenen String (wie hier am Beispiel der <code>simpledoc.xml</code>).
+         </p>
+        {{< highlight xml "linenos=table">}}<?xml version="1.0" encoding="UTF-8"?>
+<objecttype ...
+            name="simpledoc"
+            ...>
+  <metadata>
+    [...]
+  </metadata>
+</objecttype>{{< /highlight >}}
+
+{{< highlight xml "linenos=table">}}
+# in mycore.properties
+MCR.Metadata.Type.simpledoc=true{{< /highlight >}}
+<p>
+   Abschließend muss die Anwendung inkl. der CLI mit <code>mvn clean install</code> neu gebaut werden.
+</p>
+
+<h3>2. Erfassungsmasken</h3>
+         <p>
+           Um eigene Erfasssungsmasken zu erstellen, muss als erstes das HTML-Formular nach eigenen Anforderungen erstellt werden.
+           Dies kann z.B. mit Bootstrap und unter Verwendung des <a href="http://bootsnipp.com/forms?version=3">FormBuilder für Bootstrap 3</a>
+           realisiert werden.
+         </p>
+         {{< mcr-figure src="/images/documentation/getting_started/formbuilder.png" class="text-center p-3 border border-secondary" label="Abbildung" caption="Schnell zum Bootstrap-Formular mit dem Formbuilder" alt="Formular erstellen" width="550px" height="" />}}
+         <p>
+           <span class="badge badge-warning">Achtung:</span> Der Formbuilder setzt <code>name</code>-Attribute für Buttons, Input-Felder, etc.
+           Diese kann der XEditor nicht verarbeiten und produziert Fehler. Diese Attribute also bitte unbedingt entfernen!
+         </p>
+         <p>
+           Nachdem das HTML-Formular fertig ist, muss dies mit den entsprechenden XEditor-Bestandteilen angereichert werden. Alle Details
+           dazu finden sich in der <a href="{{< ref "/documentation/reference/mycore/frontend/xeditor" >}}">XEditor-Dokumentation</a>.
+         </p>
+         <p>Die Definitionsdatei für die Erfassungsmaske für <code>simpledoc</code> befindet sich im <span style="border:2px solid #A34AA4;padding:0px 5px;">skeleton-module</span>
+         unter <code>src/main/resources/META-INF/resources/content/publish/simpledoc.xed</code></p>
+   
+         <h3>3. Anzeige der Daten</h3>
+         <p>
+           Um die Daten auf der Webseite präsentieren, wird mittels XSLT das XML des MyCoRe-Objektes zu HTML transformiert.
+         </p>
+         <p>Ein Beispiel für die Transformation eines <code>simpledoc</code>-MyCoRe-Objektes befindet sich im <span style="border:2px solid #A34AA4;padding:0px 5px;">skeleton-module</span> unter
+         <code>src/main/resources/xsl/simpledoc.xsl</code>
+          </p>
+          <p>Eigene Transformationsdateien müssen in der Konfigurationsdatei des <span style="border:2px solid #A34AA4;padding:0px 5px;">skeleton-module</span>, den
+          <code>src/main/resources/config/skeleton/mycore.properties</code> durch Komma separiert ergänzt werden.
+         </p>
+         {{< highlight shell "linenos=table">}}##############################################################################
+# Datamodel                                                                  #
+##############################################################################
+MCR.Metadata.Type.simpledoc=true
+MCR.Metadata.Type.{objecttype-name}=true
+MCR.URIResolver.xslIncludes.objectTypes=%MCR.URIResolver.xslIncludes.objectTypes%,simpledoc.xsl,{objecttype-name}.xsl{{< /highlight >}}
+   
+<h3>4. Konfiguration der Suche</h3>
+<p>An dieser Stelle können natürlich nicht die vielfältigen Möglichkeiten, die Solr bietet
+         vorgestellt und dokumentiert werden. Dazu verweisen wir auf die Literatur und die Solr Homepage.</p>
+<p>Die Informationen hier sollen als Einstiegspunkt dienen und helfen, sich bei
+         der Konfiguration zurechtzufinden. Vor allem sollen die MyCoRe-spezifischen Besonderheiten dargestellt werden.</p>
+
+<h4>Suchfeld-Definition im Solr Core</h4>
+<p>
+           Die Definition erfolgt in der Datei <code>schema.xml</code> im Solr Core Konfigurationsverzeichnis.
+           Wir empfehlen jedoch alle Änderungen im <em>Skeleton </em>Konfigurationsverzeichnis vorzunehmen und
+           die Dateien bei Änderungen in den Solr Core zu kopieren. Dadurch lassen sich auch die Solr Konfigurationsdateien
+           mit den anderen Dateien des eigenen Projektes unter Versionskontrolle verwalten.
+
+           Die Schema Datei befindet sich unter:
+           <code>skeleton-cli\src\main\config\solr-home\skeleton\conf\schema.xml</code>
+
+           Die Syntax der Suchfelddefinitionen entnehme man dem Solr Wiki oder
+           einem guten Solr Buch.
+           </p>
+           <strong>Beispiel:</strong><br />
+           {{< highlight xml "linenos=table">}}<field name="ds.title" type="text_general" multiValued="true" stored="true" />
+            {{< /highlight >}}
+           
+<p> Das Attribut <code>type</code> referenziert eine an anderer Stelle im Schema
+        definierte Typ-Definition. In dieser ist festgelegt, wie Solr die Daten
+        beim Import und die Terme von Suchanfragen verarbeiten sollen (z.B: Tokenisierung (Zerlegung in Worte), Normalisierung (Umlaute), Stammformreduktion, ...)
+        <br />Mit dem Attribut <code>multiValued</code> wird angegeben, ob das Indexfeld wiederholbar ist.
+        ID-Werte und Felder nach denen sortiert werden soll, sollte nicht mehrfach vorkommen.
+        <br />Mit dem Attribut <code>stored</code> wird angegeben, ob neben der Solr-internen Form
+        auch noch die Ausgangsform des Feldwertes gespeichert werden soll. Gespeicherte Felder können
+        z.B. dazu genutzt werden, Trefferlisten direkt aus der XML-Rückgabe einer Solr Anfrage
+         zu generieren, ohne nochmal auf das MyCoRe Datenobjekt zugreifen zu müssen.
+         </p>
+
+           <h4>Suchfeld-Mapping per XSLT</h4>
+           <p>
+           Die Werte der Suchfelder werden mittels XSLT generiert.
+           </p>
+           <p />
+           Um ein eigenes XSLT-Stylesheet in die Verabeitungskette zu integrieren,
+           muss in der Datei <code>jspdocportal-module\src\main\resources\config\jspdocportal\mycore.properties</code>
+           das entsprechende Property erweitert werden:
+           {{< highlight shell "linenos=table">}}
+MCR.URIResolver.xslImports.solr-document
+  =%MCR.URIResolver.xslImports.solr-document%,solr/skeleton-solr.xsl{{< /highlight >}}
+           <p>
+           Die XSLT-Transformationen werden in der Datei <code>skeleton-module\src\main\resources\xsl\solr\skeleton-solr.xsl</code>
+           vorgenommen. Diese Datei produziert XML nach folgendem Vorbild:
+           </p>
+           {{< highlight xml "linenos=table">}}  <field name="feldname">feldwert</field>{{< /highlight >}}
+           <p>
+           Die Feldnamen beziehen sich auf die in der Solr Konfiguration (<code>schema.xml</code>)
+           definierten Felder.
+           </p>
+           <strong>Beispiel:</strong>
+           {{< highlight xml "linenos=table">}}  <xsl:for-each select="mods:titleInfo/*">
+    <field name="ds.title"><xsl:value-of select="text()" /></field>
+</xsl:for-each> {{< /highlight >}}
+
+
+<h3>5. Anpassung der Suchmasken und Trefferanzeige</h3>
+         <p>
+           Suchmasken können ebenfalls mit dem  <a href="{{< ref "/documentation/reference/mycore/frontend/xeditor" >}}">XEditor</a>-Framework erstellt werden.
+         </p>
+         <p>Ein Beispiel für die Definition einer einfachen Suchmasken befindet sich im <span style="border:2px solid #A34AA4;padding:0px 5px;">skeleton-module</span> unter:<br />
+         <code>src/main/resources/META-INF/resources/content/search/simple.xed</code></p>
+         <p>
+           TODO: Trefferlisten per XSLT
+          </p>
+

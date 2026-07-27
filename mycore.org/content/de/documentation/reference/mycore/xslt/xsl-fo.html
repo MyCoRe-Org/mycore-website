@@ -1,0 +1,56 @@
+
+---
+aliases:
+  - /documentation/frontend/xsl/xsl_fo/
+doc_type: reference
+product: mycore
+
+title: "XSL-FO"
+mcr_version: ['2019.06','2020.06']
+author: ['Jens Kupferschmidt']
+description: "Es wir die Integration eines XSL-FO-Formatters beschrieben."
+date: "2020-06-02"
+
+---
+<h2>XSL-FO</h2>
+<p>
+  Um ab <strong>LTS 2019-06</strong> die Erweiterungen zu XSL:FO verwenden, muss die <code>mycore-fo</code>-Komponente
+  in den <em>dependencies</em> eingetragen werden. Für <strong>LTS 2018-06</strong> ist dies noch in der <code>mycore-base</code>
+  -Komponente verankert.
+</p>
+<p>
+  {{< highlight bash "linenos=table">}}<dependency>
+  <groupId>org.mycore</groupId>
+  <artifactId>mycore-fo</artifactId>
+  <version>${mycore.version}</version>
+</dependency>{{< /highlight >}}
+</p>
+<p>
+  Mit der Komponente wird das Property <code>MCR.Layout.Transformer.Factory</code> auf 
+  <strong>org.mycore.component.fo.common.content.xml.MCRLayoutTransformerFoFactory</strong> gesetzt.
+</p>
+<p>
+  Im LayoutService von MyCoRe ist es neben der Umsetzung von
+  XML-Dateien via XSLT und dem Durchreichen von Daten auch möglich einen
+  XSL:FO-Formatter anzusprechen. Dazu muss das eingehende XML den
+  Content-Type "application/pdf" haben. Dann wird ein Spezialzweig
+  angefaßt, bei dem eine spezielle Java-Klasse aufgerufen wird, die
+  <code>org.mycore.common.fo.MCRFoFormatterInterface</code> implementiert. Im
+  MyCoRe-Kern ist dies eine Klasse, welche den FOP aufruft und das
+  Ergebnis ausliefert. Dazu muss dann eine anwenungspeziefische Klasse
+  implementiert werden, die den gewünschten XSL:FO-Formatter (z.B.
+  Antenna House) aufruft. Konfiguriert wird dies über:
+</p>
+<p>
+ {{< highlight bash "linenos=table">}}##############################################################################
+# XSL-FO Formatter
+##############################################################################
+
+  # Class that implements MCRFoFormatterInterface
+  MCR.LayoutService.FoFormatter.class=org.mycore.common.fo.MCRFoFormatterFOP
+  # Configuration file for FOP in classpath
+  MCR.LayoutService.FoFormatter.FOP.config=myConfigFile{{< /highlight >}}
+</p>
+<p>
+  Für FOP kann noch eine Konfigurationsdatei im Classpath angegeben werden, die z. B. andere Fonts einsetzt.
+</p>

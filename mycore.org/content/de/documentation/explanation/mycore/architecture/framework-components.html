@@ -1,0 +1,466 @@
+
+---
+aliases:
+  - /documentation/basics/basics_mcr_components/
+doc_type: explanation
+product: mycore
+
+title: "Komponenten des MyCoRe-Kerns"
+mcr_version: ['2023.06','2024.06']
+author: ['Jens Kupferschmidt', 'Thomas Scheffler']
+description: "
+      Die vorliegende Seite behandelt die Komponenten des MyCoRe-Kerns sowie weitere im Zusammenhang mit
+      MyCoRe nutzbare Bibliotheken.
+    "
+date: "2025-06-13"
+
+---
+    <div>
+      <h2>MyCoRe-Komponenten und Anwendungsmodule</h2>
+      <p>
+        MyCoRe ist kein monolithisches System. Vielmehr besteht der Kern aus Modulen, welche einzeln inklusive
+        ihrer Abhängigkeiten genutzt werden können. Die nachfolgende alphabetische Auflistung gibt eine Übersicht über
+        die verfügbaren Teile. Je nach Erfordernissen und Entwicklungen kann es vorkommen, dass einzelne Komponenten im
+        Laufe der MyCoRe-Entwicklung bei neuen LTS-Releases neu hinzukommen oder entfallen. Diese Dokumentation
+        spiegelt den oben genannten Release-Stand wider. Neben dieser Dokumentation sind die einzelnen Komponenten auch
+        kurz auf den entsprechenden Git-Hub in ihren Kernpunkten beschrieben (z. B.
+        <a target="blank" href="https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass">https://github.com/MyCoRe-Org/mycore/tree/master/mycore-sass</a>
+        ).
+      </p>
+      <p>
+        Daneben können durch die Anwender weitere Maven-Module hinzugefügt werden. Um bei der Abarbeitung diesen eine
+        höhere Priorität zu geben, ist dies in der pom.xml-Datei zu kennzeichnen. Entsprechend dem aktuellen
+        Resorce-Managemnt sind dann diese gültig (siehe MCR-2881 in Migartion zu 2024).
+      </p>
+
+      <h3>Priorität eigener Module</h3>
+      <p>
+        Die Priorität der eigenen Module wird in der <em>pom.xml</em> in der <em>plugins</em> Sektion festgelegt. Diese wird
+        MyCoRe-intern umgerechnet auf einen
+        Wert von +300. Applikationsmodule ohne Angabe bekommen den Wert 399. Analog ist es mit den MyCoRe-Komponenten. Diese haben
+        einen Basiswert von 200 und einen default-Wert von 299 als Priorität. mycore-base hat davon abweichend den wert von 199.
+      </p>
+      {{< highlight xml "linenos=table">}}
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addExtensions />
+            </manifest>
+            <manifestEntries>
+              <MCR-Artifact-Id>${project.artifactId}</MCR-Artifact-Id>
+              <MCR-Application-Module>${project.name}</MCR-Application-Module>
+              <Priority>${priority}</Priority>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>{{< /highlight >}}
+
+
+        <h3>Liste der Komponenten</h3>
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Prio.</th>
+            <th>Beschreibung</th>
+            <th>&nbsp;</th>
+            <th>abhängig von</th>
+          </tr>
+          <tr>
+            <td>acl</td>
+            <td>*</td>
+            <td>Access Control List System</td>
+            <td>optional</td>
+            <td>
+              base
+              <br />
+              ifs
+              <br />
+              restapi
+              <br />
+              user2
+            </td>
+          </tr>
+          <tr>
+            <td>acl-editor2</td>
+            <td>70</td>
+            <td>2. Version des Editors für die benutzten Access Control List</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>base</td>
+            <td>*</td>
+            <td>Basis für alle anderen Komponenten</td>
+            <td>required</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>bom</td>
+            <td>*</td>
+            <td>General Maven version definitions</td>
+            <td>required</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>classbrowser</td>
+            <td>25</td>
+            <td>Anzeigekomponente für Klassifikationen</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>classeditor</td>
+            <td>75</td>
+            <td>Online-Editor für Klassifikationen</td>
+            <td>required</td>
+            <td>
+              base
+              <br />
+              solr
+            </td>
+          </tr>
+          <tr>
+            <td>coma</td>
+            <td>*</td>
+            <td>Prototypische Entwicklung eines Content-Manager zu entwickeln, mit dem man
+              einen Überblick über den gesamten Bestand an Daten (evtl. auch Metadaten) hat.
+            </td>
+            <td>optional</td>
+            <td></td>
+          </tr>
+           <tr>
+            <td>cronjob</td>
+            <td>*</td>
+            <td></td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+           <tr>
+            <td>csl</td>
+            <td>*</td>
+            <td>Citation Style Language - mit mycore-csl kann man Objekte
+              in verschiedene Citations transformieren.</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+           <tr>
+            <td>fo</td>
+            <td>31</td>
+            <td>Integration von XSL:FO Formatter; FOP is supported by default</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>ifs</td>
+            <td>*</td>
+            <td>Komponente des MyCoRe-Internal-File-Systems, organisiert das Speichern der Daten</td>
+            <td>required</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>iiif</td>
+            <td>*</td>
+            <td>eine Komponente zur Einbindung von IIIF in MyCoRe</td>
+            <td>optional</td>
+            <td>base<br/>restapi</td>
+          </tr>
+          <tr>
+            <td>impex</td>
+            <td>95</td>
+            <td>generiert Import- und Export-Pakete auf Grundlage einer SOLR-Query</td>
+            <td>optional</td>
+            <td>base<br/>packer<br/>solr</td>
+          </tr>
+          <tr>
+            <td>indexing</td>
+            <td>30</td>
+            <td>Erstellung von Google-Sitemaps für angegebene Datenmodelltypen</td>
+            <td>optional</td>
+            <td>base<br/>solr</td>
+          </tr>
+          <tr>
+            <td>iview2</td>
+            <td>40</td>
+            <td>Komponente zum Erstellen von Kacheln der Bilder</td>
+            <td>optional</td>
+            <td>base<br/>iiif<br/>jobqueue<br/>media</td>
+          </tr>
+          <tr>
+            <td>jobqueue</td>
+            <td>*</td>
+            <td>Komponente zur Verwaltung von asynchronen Aufgaben</td>
+            <td>optional</td>
+            <td>base<br/>cronjob<br/>restapi</td>
+          </tr>
+          <tr>
+            <td>lod</td>
+            <td>*</td>
+            <td>Komponente für Linked Open Data</td>
+            <td>optional</td>
+            <td>base<br/>restapi</td>
+          </tr>
+          <tr>
+            <td>media</td>
+            <td>*</td>
+            <td>Werkzeuge zum Ermitteln von Medieninformationen für einzustellendes Material</td>
+            <td>optional</td>
+            <td>
+              base
+              <br />
+              ifs
+            </td>
+          </tr>
+          <tr>
+            <td>meta</td>
+            <td>*</td>
+            <td>Komponente, welche die Verweise auf alle Komponenten enthält</td>
+              <td></td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>mets</td>
+            <td>45</td>
+            <td>Komponente zur Bereitstellung von METS-Daten für die gespeicherten Derivate</td>
+            <td>optional</td>
+            <td>base<br/>solr</td>
+          </tr>
+          <tr>
+            <td>migration</td>
+            <td>35</td>
+            <td>Komponente mit Werkzeugen zur Migration auf das aktuelle MyCoRe-Release</td>
+            <td>optional</td>
+            <td>base<br/>iview2</td>
+          </tr>
+          <tr>
+            <td>mods</td>
+            <td>50</td>
+            <td>Werkzeuge zum Verarbeiten von MODS-Daten</td>
+            <td>optional</td>
+            <td>base<br/>cronjob<br/>csl<br/>jobqueue<br/>pi<br/>solr</td>
+          </tr>
+          <tr>
+            <td>neo4j</td>
+            <td>57</td>
+            <td>Bibliothek zur Arbeit mit NEO4J</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>oai</td>
+            <td>60</td>
+            <td>Implementierung eines OAI-Data-Providers für die MyCoRe-Webanwendung</td>
+            <td>optional</td>
+            <td>base<br />solr</td>
+          </tr>
+          <tr>
+            <td>ocfl</td>
+            <td>*</td>
+            <td>Implementierung einer OCFL-Versionierung</td>
+            <td>optional</td>
+            <td>base<br/>user2</td>
+          </tr>
+          <tr>
+            <td>orcid</td>
+            <td>55</td>
+            <td>ORCID Unterstützung</td>
+            <td>optional</td>
+            <td>base<br/>mods<br/>user2</td>
+          </tr>
+          <tr>
+            <td>orcid2</td>
+            <td>54</td>
+            <td>ORCID Unterstützung</td>
+            <td>optional</td>
+            <td>base<br/>mods<br/>restapi<br/>user2</td>
+          </tr>
+          <tr>
+            <td>packer</td>
+            <td>*</td>
+            <td>MyCoRe packer API</td>
+            <td>optional</td>
+            <td>base<br/>jobqueue</td>
+          </tr>
+          <tr>
+            <td>pandoc</td>
+            <td>*</td>
+            <td>Pandoc</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>pi</td>
+            <td>*</td>
+            <td>Codesammlung zur Arbeit mit persitenten Identifiern (DOI, URN, PURL)</td>
+            <td>optional</td>
+            <td>base<br/>jobqueue</td>
+          </tr>
+          <tr>
+            <td>restapi</td>
+            <td>65</td>
+            <td>Implementierung einer REST-API</td>
+            <td>optional</td>
+            <td>base<br />solr</td>
+          </tr>
+          <tr>
+            <td>sass</td>
+            <td>*</td>
+            <td>Unterstützung des Compile-Vorganges von sass-Files zu css-Files</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>solr</td>
+            <td>10</td>
+            <td>Klassen zur Indizierung und Suche mit Apache SOLR</td>
+            <td>required</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>sword</td>
+            <td>*</td>
+            <td>Implementierung einer Sword-Schnittstelle, Version 2</td>
+            <td>optional</td>
+            <td>base<br/>solr</td>
+          </tr>
+           <tr>
+            <td>tei</td>
+            <td>*</td>
+            <td>Unterstützung für den Umgang mit TEI</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>user2</td>
+            <td>15</td>
+            <td>Implementierung des Nutzer-Systems, Version 2</td>
+            <td>required</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>validation</td>
+            <td>*</td>
+            <td>Validation</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>viewer</td>
+            <td>*</td>
+            <td>Enthält den MyCoRe-Viewer für Bilder und PDFs. Das Modul kann sowohl standalone wie auch in einer
+              MyCoRe-Anwendung integriert genutzt werden.
+            </td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>wcms2</td>
+            <td>90</td>
+            <td>Implementierung eines Autorensystems für die Webanwendung, Version 2</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>webcli</td>
+            <td>80</td>
+            <td>Implementierung der Möglichkeit, Kommandos der CLI über die Webanwendung auszuführen</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>webtools</td>
+            <td>85</td>
+            <td>Enthält Web-Tools wie Session Listing oder die Prozessliste</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>wfc</td>
+            <td>*</td>
+            <td>Eine Workflow-Implementierung</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+          <tr>
+            <td>xeditor</td>
+            <td>20</td>
+            <td>Ein Gestaltungsystem für die Erstellung von Editorformularen, Version 2</td>
+            <td>optional</td>
+            <td>base</td>
+          </tr>
+        </table>
+
+      <div>
+        <h3>Liste weiterer Maven-Module</h3>
+        <p>
+          Die nun aufgelisteten zusätzlichen Maven-Module sind in <a href="https://github.com/MyCoRe-Org/" target="_blank">GitHub-MyCoRe</a>
+          zu finden.
+        </p>
+        <table class="table">
+          <tr>
+            <th>Komponente</th>
+            <th>Beschreibung</th>
+            <th>Version</th>
+          </tr>
+          <tr>
+            <td>mycore-parent</td>
+            <td>Parent pom für MyCoRe-Maven-Modulen</td>
+            <td>57-SNAPSHOT</td>
+          </tr>
+          <tr>
+            <td>datamodel-plugin</td>
+            <td>Eine Erweiterung zur Erstellung eigener Datenmodelldefinitionen in eigenen Maven-Modulen</td>
+            <td>0.9-SNAPSHOT</td>
+          </tr>
+          <tr>
+            <td>mir-mets-printer</td>
+            <td>Basis-Projekt mit dem man die PDF-Funktion des MyCoRe-Viewers benutzen kann
+            </td>
+            <td>2023.06-SNAPSHOT</td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <h3>Integration einzelner MyCoRe-Komponenten</h3>
+      </div>
+      <p>
+        MyCoRe-Komponenten können einzeln je nach Bedarf in die eigene Anwendung integriert werden. Dazu sind lediglich
+        die
+        entsprechenden Angaben in der
+        <em>pom.xml</em>
+        -Datei zu machen. Wichtig ist dabei, auf Abhängigkeiten zu achten
+        (siehe oben). Alle Komponenten sollten auch denselben
+        Versionsstand haben, um Kompatibilitätsprobleme zu vermeiden.
+        Die Integration der in den Komponenten
+        enthaltenen Teile erfolgt entsprechend den
+        <a href="https://jcp.org/en/jsr/detail?id=340">Servlet-3.1-Regeln</a>.
+      </p>
+      <p>Folgende Versionsnummern können genutzt werden:<ul>
+         <li>LTS 2023.06 -&gt; 2023.06.3-SNAPSHOT</li>
+         <li>LTS 2024.06 -&gt; 2024.06.0-SNAPSHOT</li>
+        <li>Main -&gt; 2025.02-SNAPSHOT</li>
+      </ul></p>
+      {{< highlight xml "linenos=table">}}
+<project>
+  ...
+  <properties>
+    <mycore.version>VERSIONSNUMMER</mycore.version>
+  </properties>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artififactId>mycore-base</artifactId>
+      <version>${mycore.version}</version>
+    </dependency>
+    ...
+  </dependencies>
+...
+</project>{{< /highlight >}}
+    </div>
+  

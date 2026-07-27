@@ -1,0 +1,358 @@
+
+---
+aliases:
+  - /documentation/basics/mcrobject/mcrobj_xml/
+doc_type: reference
+product: mycore
+
+title: "XML-Syntax eines MyCoRe-Objektes"
+mcr_version: ['2021.06','2022.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "
+      In diesem Abschnitt wird der Syntax der einzelnen XML-Daten-Dateien näher beschrieben. Die Kenntnis des
+      Syntax ist notwendig, um eigene Datensätze für zu erstellen.
+    "
+date: "2022-11-09"
+
+---
+      <h2>Das Metadatenmodell</h2>
+      <p>
+        Die zu speichernden Daten einer Anwendung teilen sich in unserem Modell in Metadaten und digitale Objekte. Dies
+        gilt auch für die vom Anwender entwickelten Applikationen. Unter Metadaten verstehen wir in MyCoRe alle
+        beschreibenden Daten des Objektes, die außerhalb des eigentlichen digitalen Objektes existieren und separat
+        hinzugefügt, separat gespeichert und gesucht werden können. Dem gegenüber stehen Daten welche die digitalen
+        Objekte selbst mitbringen, wie z. B. EXIF-Daten. In diesem Abschnitt werden nur erstere behandelt.
+      </p>
+      <p>
+        Um die Metadaten besser auf unterschiedlichen Datenspeichern ablegen zu können, wurde ein System von
+        XML-Strukturen entwickelt, das es gestattet, neben den eigentlichen Daten wie Titel, Autor usw. auch Struktur-
+        und Service-Informationen mit abzulegen. Die eigentlichen Nutzerdaten sind wiederum typisiert, was deren
+        speicherunabhängige Aufzeichnung erheblich vereinfacht. Es steht dem Entwickler einer Anwendung jedoch frei,
+        hier bei Bedarf weitere hinzuzufügen. Im Folgenden soll nun der Aufbau der Metadatenobjekte im Detail beschrieben
+        werden. Die Metadaten werden komplett in XML erfasst und verarbeitet. Für die Grundstrukturen und
+        Standardmetadatentypen werden seitens MyCoRe bereits XML Schema-Dateien mitgeliefert. Die Modellierung eigener
+        Datenmoelle innerhalb des <code>metadata</code>-Tags wird in einem gesonderten Abschnitt behandelt.
+      </p>
+
+      <h2>Aufbau eines MyCoRe-Objektes</h2>
+      <p>
+      {{< highlight xml "linenos=table">}}
+<?xml version="1.0" encoding="UTF-8" ?>
+<mycoreobject
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="....xsd"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    ID="..."
+    label="..." >
+ <structure>
+ ...
+ </structure>
+ <metadata xml:lang="de">
+ ...
+ </metadata>
+ <service>
+ ...
+ </service>
+</mycoreobject>{{< /highlight >}}
+      </p>
+
+      <p>
+        Die oben gezeigte Syntax stellt den Rahmen eines jeden Metadaten-Objektes dar. Diese Struktur ist immer gleich
+        und muss so eingehalten werden.
+      </p>
+      <ul>
+        <li>
+          Für <code>xsi:noNamespaceSchemaLocation</code> ist das entsprechende XMLSchema-File des Metadatentyps anzugeben
+          (document.xsd)
+        </li>
+        <li>
+          Die <code>ID</code> ist die eindeutige MCRObjectID.
+        </li>
+        <li>
+          Der <code>label</code> ist ein kurzer Text-String, der bei administrativen Arbeiten an der Datenbasis das Identifizieren
+          einzelner Datensätze erleichtern soll. Er kann maximal 256 Zeichen lang sein.
+        </li>
+        <li>Innerhalb der XML-Datenstruktur gibt es die Abschnitte <code>structure</code>, <code>metadata</code> und <code>service</code> zur Trennung von
+          Struktur-, Beschreibungs- und Wartungsdaten. Diese Tag-Namen sind reserviert und dürfen NICHT anderweitig
+          verwendet
+          werden!
+        </li>
+      </ul>
+
+      <h2>Aufbau des XML-Knotens structure</h2>
+      <p>
+        Im XML-Knoten <code>structure</code> sind alle Informationen über die Beziehung des Metadatenobjektes zu anderen Objekten
+        abgelegt. Es werden derzeit die folgenden XML-Daten unter diesem Knoten abgelegt. Die Tag-Namen <code>parents</code>/<code>parent</code>,
+        <code>children</code>/<code>child</code> und <code>derobjects</code>/<code>derobject</code> sind reserviert und dürfen NICHT anderweitig verwendet werden! Alle
+        Sub-Knoten haben im <strong>LTS 2018.06</strong> einen Aufbau wie für <code>MCRMetaLinkID</code> beschrieben. Mit 
+        <strong>LTS 2018.06</strong> hat sich dies für das Tag <code>derobjects</code> geändert.
+      </p>
+      <p>
+        In <code>parents</code> wird ein Link zu einem Elternobjekt gespeichert, sofern das referenzierende Objekt Eltern hat. Ob
+        dies der Fall ist, bestimmt die Anwendung. Das Tag dient der Gestaltung von Vererbungsbäumen und kann durch den
+        Anwender festgelegt werden. Das Thema Vererbung wird gesondert an den entsprechenden Stellen beschrieben. Die
+        Werte für
+        <code>xlink:title</code>
+        und
+        <code>xlink:label</code>
+        im
+        <code>parent</code>
+        -Objekt werden vom Anwender vorgegeben.
+      </p>
+      <p>
+        Die Informationen über die
+        <code>children</code>
+        hingegen werden durch das MyCoRe-System beim Laden der Daten automatisch
+        erzeugt
+        und dürfen nicht per Hand
+        geändert werden, da sonst das Gesamtsystem nicht mehr konsistent ist. Werden
+        die
+        Metadaten
+        eines Kindes oder eines
+        Baumes von Kindern gelöscht, so wird in diesem Teil des XML-Knotens der
+        Eintrag durch die
+        Software entfernt.
+      </p>
+      <p>
+        Dasselbe gilt unter <strong>LTS 2018.06</strong> auch für den XML-Unterknoten
+        <code>derobjects</code>. In diesem Bereich werden alle Verweise auf die an
+        das Metadatenobjekt angehängten digitalen Objekte
+        gespeichert. Jeder Eintrag verweist mittels einer Referenz auf ein
+        <a href="{{< ref "/documentation/reference/mycore/data-formats/derivate-xml" >}}">MyCoRe-Derivate</a>.
+      </p>
+      <p>
+      {{< highlight xml "linenos=table">}}
+<structure>
+  <parents class="MCRMetaLinkID">
+    <parent xlink:type="locator" xlink:href="...mcr_id..." />
+  </parents>
+  <children class="MCRMetaLinkID">
+    <child xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
+    ...
+  </children>
+  <derobjects class="MCRMetaLinkID">
+    <derobject xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
+    ...
+  </derobjects>
+</structure>{{< /highlight >}}
+      </p>
+      <p>
+        Ab <strong>LTS 2019.06</strong> wurde der Abschnitt <code>derobjects</code> umstrukturiert.
+        Für den Umstieg von LTS 2018.06 ist eine Datenmigration erforderlich!
+        Jedes <code>derobject</code> ist nun vom Metadatentyp <code>MCRMetaEnrichedLinkID</code>.
+        Dieses hat die folgenden Unterfelder:
+      <p>
+      <ul>
+        <li><code>order</code> - Die Ordnungsnummer des Derivates im MCRObject.</li>
+        <li><code>maindoc</code> - Die Startdatei für die Anzeige des Derivates.</li>
+        <li><code>title</code> - Sprachabhängiger Titel des Derivates (wiederholbar).</li>
+        <li><code>classification</code> - Klassifkationsreferenz zu Eigenschaften des Derivates (wiederholbar).</li>
+      </ul>
+      <p>
+      {{< highlight xml "linenos=table">}}
+<structure>
+  <parents class="MCRMetaLinkID">
+    <parent xlink:type="locator" xlink:href="...mcr_id..." />
+  </parents>
+  <children class="MCRMetaLinkID">
+    <child xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." />
+    ...
+  </children>
+  <derobjects class="MCRMetaEnrichedLinkID">
+    <derobject xlink:type="locator" xlink:href="...mcr_id..." xlink:label="..." xlink:title="..." >
+      <order>{number_of_derivate}</order>
+      <maindoc>{main_file_name}</maindoc>
+      <title xml:lang="{lang}">{title_lang}</title>
+      ...
+      <classification classid="{classid}" categid="categid}" />
+      ...
+    </derobject>
+    ...
+  </derobjects>
+</structure>{{< /highlight >}}
+      </p>
+
+      <h2>Aufbau des XML-Knotens metadata</h2>
+      <p>
+        Der Abschnitt <code>metadata</code> des MyCoRe-Metadatenobjektes nimmt alle Beschreibungsdaten des eigentlichen Datenmodells
+        auf.
+        Diese werden ihrerseits in vordefinierten Datentyp-Strukturen mit festgelegter Syntax abgelegt. Die Liste
+        der
+        Einzelelemente und die Reihenfolge der Typen ist dabei quasi beliebig in Anordnung und Länge. Wichtig ist
+        nur,
+        dass
+        alle Datentypen bestimmte gemeinsame Eigenschaften haben. Es ist auch jederzeit möglich, weitere Typen
+        den Projekten
+        der Anwender hinzuzufügen. Diese Definitionen sind analog der von MyCoRe mitgebrachten Vorlagen zu
+        erstellen.
+      </p>
+      <p>
+        Die Metadaten bestehen aus einer Ansammlung von Informationen rund um das multimediale Objekt. Vorrangig wird
+        dieser
+        Teil in der Suche abgefragt. Jedes Metadatum (auch Metadaten-Tag) enthält im
+        <code>class</code>
+        Attribut den Namen des
+        MCRMeta-Typs
+        bzw. der gleichnamigen MCRMeta-Java Klasse. Daneben gibt es noch ein Attribut
+        <code>heritable</code>,
+        in dem
+        festgelegt wird, ob
+        diese Metadaten vererbbar sein sollen. Es sind jeweils die booleschen Werte
+        <code>true</code>
+        oder
+        <code>false</code>
+        möglich. Das Attribute <code>notinherit</code> legt die Eigenschaft eines Elements fest, von dem Parent-Element zu erben. Auch hier sind die booleschen Werte
+        <code>true</code>
+        oder
+        <code>false</code>
+        möglich. Ist <code>heritable="true"</code> und <em>notinherit</em> nicht angegeben, so wird implizit <code>notinherit="false"</code> angenommen.
+      </p>
+      <p>
+        Für MyCoRe wurden einige Basismetadatentypen festgelegt, mit denen die Mehrzahl der bisher in Betracht kommenden
+        Anwendungen gelöst werden können. Die einzelnen Daten treten dabei als Liste auf, in denen mehrere Elemente des
+        gleichen Typs erscheinen können, beispielsweise ein Titel in verschiedenen Sprachen. Jedes Listenelement hat
+        wiederum
+        per Default ein
+        <code>type</code>
+        Attribut und in allen sinnvollen Fällen eine gemäß W3C spezifizierte Sprache im Attribut
+        <code>xml:lang</code>.
+        Die Angabe
+        der Sprache
+        im Tag <code>metadata</code> ist für alle eingeschlossenen Metadatentypen der Default-Wert.
+      </p>
+      <p>
+        Für interne Zwecke wurde ein weiteres Attribut
+        <code>inherited</code>
+        eingeführt. Dieses ist NICHT durch den Anwender zu
+        verändern!
+        Es wird gesetzt, wenn das betreffende Metadatum von
+        einem Elternteil geerbt wurde (siehe Vererbung) und gibt die Stufe der Vererbung an.
+        Diese Information ist für die Datenpräsentation sehr hilfreich.
+      </p>
+
+      <p>
+      {{< highlight xml "linenos=table">}}
+<metadata>
+  <... class="MCRMeta..." heritable="..." notinherit="...">
+   ...
+  </...>
+  ...
+</metadata>{{< /highlight >}}
+      </p>
+
+      <p>
+        Für das MyCoRe-Beispiel mit einem MODS Datenmodell werden bereits einige Metadatentypen verwendet,
+        welche dem
+        MyCoRe-Kern beigefügt sind. Die Syntax der einzelnen Typen wird in den nachfolgenden Absätzen genau
+        beschrieben.
+      </p>
+
+      <h2>Aufbau des XML-Knotens service</h2>
+      <p>
+        Für die Einrichtung eines Workflow und um die Wartung großer Datenmengen zu vereinfachen sowie für den Import /
+        Export der ACL's, wurde der XML-Abschnitt <code>service</code> in das Metadatenobjekt integriert. Hier sind Informationen wie
+        Datumsangaben, ACL's und Texte für die Verarbeitung im Batch-Betrieb enthalten. Achtung: die Tag-Namen sind fest
+        vorgegeben und dürfen NICHT anderweitig verwendet werden!
+      </p>
+      <p>
+        Die Datumsangaben <code>servdates</code> verhalten sich analog zu denen in <a href="{{< ref "/documentation/reference/mycore/data-formats/object-data-types/#datumsangaben-mcrmetaiso8601date" >}}">MCRMetaISO8601Date</a>. Folgende
+        Möglichkeiten für das Attribut <code>type</code> sind vorgesehen. Weitere Typen sind jedoch integrierbar.
+      </p>
+      <dl>
+        <dt>
+          <code>acceptdate</code>
+        </dt>
+        <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+        <dt>
+          <code>createdate</code>
+        </dt>
+        <dd>Das Erzeugungsdatum des Objektes, dieser Wert wird automatisch beim Anlegen des Objektes erzeugt und bleibt
+          immer erhalten!
+        </dd>
+        <dt>
+          <code>modifydate</code>
+        </dt>
+        <dd>Das Datum des letzten Update, dieser Wert wird automatisch beim Update des Objektes erzeugt und bleibt immer
+          erhalten!
+        </dd>
+        <dt>
+          <code>submitdate</code>
+        </dt>
+        <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+        <dt>
+          <code>validfromdate</code>
+        </dt>
+        <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+        <dt>
+          <code>validtodate</code>
+        </dt>
+        <dd>Datum aus dem Dublin Core, kann frei verwendet werden.</dd>
+      </dl>
+      <p>
+        Die <code>servacls</code> enthalten Access-Control-System-Conditions für die genutzten Permissions wie <code>read</code>, <code>writedb</code> oder
+        <code>deletedb</code>. Dieses Element ist vor allem für den Import und Export relevant. Man kann mit einem CLI-Kommando Objekte mit ihren ACLs
+        exportieren um sie zu sichern bzw. sie in ein anders System zu importieren. Wenn man die standardmässig aktivierte Vererbung
+        bei den ACLs nutzt (indem man ACLs für den Dokumenttyp definiert), gibt es keine objektspezifischen ACLs.
+        <!-- TODO: In der ACL-Doku fehlen aktuell Informationen dazu! -->
+        <!-- Eine genaue Beschreibung ist dem <a href="site:acl_integration">Abschnitt über ACL's</a> zu finden. -->
+      </p>
+      <p>
+        Im <code>servflags</code> Teil können kurze Texte untergebracht werden.
+        Hiermit können von der Anwendung Sachverhalte in textueller Form erfasst werden.
+        Die Anzahl der <code>servflag</code> Elemente ist theoretisch unbegrenzt.
+      </p>
+      <p>
+        Im <code>servmessages</code> Teil können ebenfalls kurze Texte untergebracht werden.
+        Im Gegensatz zu den <code>servflags</code> kann bei <code>servmessages</code> zusätzlich eine Datumsangabe erfasst werden.
+        Hiermit können von der Anwendung Ereignisse in textueller Form protokolliert werden.
+        Die Anzahl der <code>servmessage</code> Elemente ist theoretisch unbegrenzt.
+      </p>
+      <p>
+        Im <code>servclasses</code> Teil können beliebige Klassifikationswerte untergebracht werden.
+        Hiermit können von der Anwendung Sachverhalte mit einem kontrolliertem Vokabular erfasst werden.
+        Die Anzahl der <code>servclass</code> Elemente ist theoretisch unbegrenzt.
+      </p>
+      <p>
+        Der Abschnitt <code>servstates</code> kann dazu genutzt werden, den Status des MyCoRe-Objektes festzuhalten.
+        Der Status muss dafür als Klassifikation hinterlegt sein. Die ID der Klassifikation kann dann über das Property
+        <code>MCR.Metadata.Service.State.Classification.ID</code> (default ist <code>state</code>) angegeben werden. Welcher Status beim
+        Erstellen eines Objektes standardmässig eingetragen wird, kann durch das Property <code>MCR.Metadata.Service.State.Category.Default</code>
+        spezifiziert werden (default ist <code>submitted</code>). Ist keine Klassifikation vorhanden, wird <code>&lt;servstates /&gt;</code>
+        nicht angelegt. Die <a href="https://www.mycore.de/classifications/state.xml">State-Klassifikation</a> kann heruntergeladen und dann
+        importiert oder direkt über den folgenden CLI-Befehl geladen werden:
+      </p>
+      
+      {{< highlight bash "linenos=table">}}
+ load classification from url https://www.mycore.de/classifications/state.xml{{< /highlight >}}
+        
+      <p>Aufbau des XML-Knotens service:</p>
+      <p>
+      {{< highlight xml "linenos=table">}}
+<service>
+  <servdates class="MCRMetaISO8601Date">
+    <servdate type="...">...</servdate>
+    ...
+  </servdates>
+  <servacls class="MCRMetaAccessRule">
+    <servacl permission="...">
+    ...
+    </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+    <servflag>...</servflag>
+    ...
+  </servflags>
+  <servmessages class="MCRMetaDateLangText">
+    <servmessag>...</servmessag>
+    ...
+  </servmessages>
+  <servclasses class="MCRMetaClassification">
+    <servclass>...</servclass>
+    ...
+  </servclasses>
+  <servstates class="MCRMetaClassification">
+    <servstate classid="..." categid="..." />
+  </servstates>
+</service>{{< /highlight >}}
+      </p>
+  

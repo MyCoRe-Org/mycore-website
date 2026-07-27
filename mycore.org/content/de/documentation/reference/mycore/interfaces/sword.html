@@ -1,0 +1,105 @@
+
+---
+aliases:
+  - /documentation/interfaces/interface_sword/
+doc_type: reference
+product: mycore
+
+title: "MyCoRe-SWORD-Schnittstelle"
+mcr_version: ['2019.06','2020.06']
+author: ['Sebastian Hofmann','Kathleen Neumann']
+date: "2020-06-04"
+description: "
+    Auf dieser Seite wird die SWORDv2-Schnittstelle von MyCoRe beschrieben.
+    "
+
+---
+
+<div>
+  <div>
+    <h2>Allgemein</h2>
+    <p>
+      Der „Simple Webservice Offering Repository Deposit“-Service ist
+      eine Schnittstelle, über die Dateien mit komplexen Datenstrukturen,
+      wie z.B. zip-Dateien, übermittelt werden können. In MyCoRe sind
+      Hilfsklassen implementiert, über die eine solche Übertragung
+      durchgeführt werden kann.
+    </p>
+    <p>
+      Derzeit unterstützt MyCoRe die SWORD-Version v2. Die Designer der
+      Schnittstelle haben auf Ihrer Webseite eine
+      <a href="https://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html"
+      >Profilbeschreibung</a> veröffentlicht.
+    </p>
+    <p>
+      SWORD kann beispielsweise genutzt werden um MyCoRe an verschiedene Workflow-Systeme
+      (z.B. OJS, Goobi-Workflow) oder auch die Datendrehscheibe DeepGreen
+      anzubinden. Ein Beispiel dafür
+      ist die Ablieferung digitalisierter Objekte aus dem Goobi-Workflow, der in dem Video
+      <a href="https://www.youtube.com/watch?v=JNRKgRAyDos">Goobi ingest into MyCore using
+      the Sword interface</a> gezeigt wird. 
+    </p>
+
+  </div>
+  
+  <div>
+    <h2>Konfiguration der SWORD2-Schnittstelle</h2>
+    <p>
+      Das Konfigurieren der MyCoRe-Sword2-Schnittstelle erfolgt über ein
+      MyCoRe-Property.
+    </p>
+    <p>
+      {{< highlight bash "linenos=table">}}
+      MCR.sword.collection.WorkspaceName.CollectionName = org.mycore.application.CollectionImpl{{< /highlight >}}
+    </p>
+    <p>
+      WorkspaceName und Collection sind durch einen beliebigen Namen des Workspaces bzw. der
+      enthaltenen Collection zu ersetzen. Der Wert des Properties legt fest welche Klasse die
+      genaue Konfiguration zur Verfügung stellt. Siehe dazu die Klasse MCRSword2CollectionProvider.
+    </p>
+    <p>
+      Nach erfolgreicher Konfiguration erreicht man das Sword-Service-Dokument über den Pfad
+      <code>/sword2/sd/</code>. Ein Beispiel dafür kann in der Demo-MIR-Anwendung aufgerufen werden:
+      <a href="https://www.mycore.de/mir/sword2/sd/">https://www.mycore.de/mir/sword2/sd/</a>
+      (Nutzer: <code>administrator</code>, Passwort: <code>alleswirdgut</code>).
+    </p>
+    <!-- ToDo:
+      * ACL-Spezifikationen
+      * Implementierung für MODS
+     -->
+  </div>
+  <div>
+    <h2>Implementation eines MCRSword2CollectionProvider</h2>
+    <p>Folgend eine Erklärung der zu implementierenden Methoden.</p>
+    <p><strong>getSupportedPagacking()</strong> generiert eine Liste der unterstützten Paket-Formate. (Siehe
+      dazu <a href="https://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html#packaging"
+      >https://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html#packaging</a>)
+    </p>
+    <p>
+        <strong>getIDSupplier()</strong> liefert einen <code>MCRSword2ObjectIDSupplier</code> zurück. Dieser Supplier
+        teilt der MyCoRe-Sword2-Implementierung mit, welche Objekte aus der Anwendung in
+        der Collection aufgelistet werden sollen. Die MyCoRe-Sword2-Implementierung bietet
+        hierfür den <code>MCRSword2SolrObjectIDSupplier</code>, welcher die Liste anhand eines Solr-Query
+        erzeugt.
+    </p>
+    <p>
+        <strong>getAuthHandler()</strong> legt den <code>MCRSword2AuthHandler</code>, welcher die Authentifizierung
+        in der MyCoRe-Anwendung vornimmt. Für eine einfache Benutzer- und Password-Authentifizierung bietet die
+        MyCoRe-Sword2-Implementierung den <code>MCRSword2DefaultAuthHandler</code>.
+    </p>
+    <p>
+        <strong>getMetadataProvider()</strong> bestimmt den <code>MCRSword2MetadataProvider</code>, der benutzt wird um Metadaten eines Objektes
+        im Dublin-Core-Format zur verfügung zu stellen.
+    </p>
+    <p>
+        <strong>getIngester()</strong> legt den <code>MCRSword2Ingester</code> fest. Der <code>MCRSword2Ingester</code> ist für die Aufnahme von
+        Metadaten und Dateien (Packages) zuständig.
+    </p>
+    <p>
+        <strong>getMediaHandler()</strong> gibt den <code>MCRSword2MediaHandler</code> zurück. In Sword ist es möglich Dateien
+        nachträglich zu bearbeiten oder zu löschen. Der <code>MCRSword2MediaHandler</code> ermöglicht es einfache Binär- sowie
+        ZIP-Dateien in einem MyCoRe-Derivat abzulegen und das Löschen von Ordnern, Dateien und Derivaten (dabei
+        werden Lösch-, Lese- und Schreibrechte des angemeldeten Benutzers beachtet).
+    </p>
+  </div>
+</div>

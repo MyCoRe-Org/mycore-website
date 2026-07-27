@@ -3,6 +3,16 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavSide">
+    {{ if eq .Section "documentation" }}
+      {{ $currentPage := . }}
+      {{ with .Site.GetPage "/documentation" }}
+        <ul class="mcr-documentation-menu">
+          {{ range where .Pages.ByWeight "Params.nav_exclude" "ne" true }}
+            {{ partial "documentation_menu_node.html" (dict "page" . "current" $currentPage) }}
+          {{ end }}
+        </ul>
+      {{ end }}
+    {{ else }}
     {{ $currentPage := . }}
     {{ range .Site.Menus.main }}
       {{ if or ($.IsMenuCurrent "main" .)  (hasPrefix $currentPage.RelPermalink (print  (relLangURL .URL) "/"))}}
@@ -63,6 +73,7 @@
           </ul>
         {{ end }}
       {{ end }}
+    {{ end }}
     {{ end }}
   </div>
 </nav>

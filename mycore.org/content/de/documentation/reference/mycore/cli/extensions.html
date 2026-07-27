@@ -1,0 +1,46 @@
+
+---
+aliases:
+  - /documentation/cli/cli_extension/
+doc_type: reference
+product: mycore
+
+title: "Eigene Erweiterungen der Kommandozeilenschnittstelle (CLI)"
+mcr_version: ['2020.06','2021.06']
+author: ['Jens Kupferschmidt', 'Kathleen Neumann']
+description: "Der Abschnitt beschreibt die eigenen Erweiterungen der Kommandozeilenschnittstelle.
+    "
+date: "2021-09-02"
+
+---
+
+      <h2>Einfügen weiterer Kommandoklassen</h2>
+      <p>
+        Alle Kommandoklassen nutzen die Annotierungen von
+        <code>MCRCommandGroup</code>
+        und
+        <code>MCRCommand</code>
+        . Die Klassen sollten folgendes Codegerüst nutzen:
+      </p>
+      <p>
+      {{< highlight xml "linenos=table">}}package org.mycore.frontend.cli;
+
+import org.mycore.frontend.cli.annotation.MCRCommand;
+import org.mycore.frontend.cli.annotation.MCRCommandGroup;
+
+@MCRCommandGroup(name = "MCRObject Commands")
+public class MCRMyCommands extends MCRAbstractCommands {
+
+    @MCRCommand(syntax = "do this for all objects of type {0}", help = "Do this for MCRObjects of type {0}.", order = 10)
+    public static ... myCommand(String arg0) {
+        ...
+    }
+
+}{{< /highlight >}}
+      </p>
+      <p>Die so erstellte Klasse kann in den mycore.properties folgendermaßen eingebunden werden:</p>
+      <p>
+        <code>
+          MCR.CLI.Classes.External=%MCR.CLI.Classes.External%,org.mycore.frontend.cli.MCRMyCommands</code>
+      </p>
+      <p>So eingebundene Kommandos sind danach sowohl über das CLI, als auch die Web Schnittstelle (WebCLI) verfügbar.</p>

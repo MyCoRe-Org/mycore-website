@@ -1,6 +1,9 @@
 
 <meta charset="utf-8" />
 <meta title="{{ .Title }}" />
+{{ if .Params.robots_noindex }}
+<meta name="robots" content="noindex,follow" />
+{{ end }}
 {{ hugo.Generator }}
 <meta name="hugo.IsExtended" content="{{ hugo.IsExtended }}" />
 <meta name="hugo.BuildDate" content="{{ hugo.BuildDate }}" />

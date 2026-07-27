@@ -24,4 +24,4 @@ Nachdem der Webauftritt mycore.de seit 2013 nachhaltig und stabil mit Apache For
 hat sich die Community 2019 für einen Wechsel entschieden. Ab sofort wird der Webauftritt und damit auch die
 Dokumentation mit dem statischen Website-Generator [HUGO](https://gohugo.io/) gepflegt.
 
-Wer mehr wissen will, findet alle Informationen zum Einstieg in unserer [Entwicklerdokumentation](/documentation/developer/dev_docs/dev_docs_overview/).
+Wer mehr wissen will, findet alle Informationen zum Einstieg in unserer [Entwicklerdokumentation](/documentation/explanation/mycore/contributing/documentation-system/).
