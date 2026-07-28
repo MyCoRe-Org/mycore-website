@@ -85,6 +85,37 @@ Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
 > um Probleme mit undefinierten oder doppelt definierten Parametern im Zusammenhang mir `xsl:include` / `xsl:import` zu vermeiden.
 {.note}
 
+### Methoden in `MCRConfigurationBase` und `MCRConfiguration2` ({{<mcr-ticket "MCR-3785" >}})
+
+MyCoRe stellt die Klassen `MCRConfigurationBase` und `MCRConfiguration2` bereit, wobei `MCRConfigurationBase`
+im Wesentlichen die aus `mycore.properites`-Dateien eingelesenen Konfigurationseinträge bereitstellt und
+`MCRConfiguration2` eine *nettere* API für die Verwendung dieser Konfigurationseinträge anbietet.
+
+Ein wichtiger Unterschied ist hier, dass `MCRConfigurationBase` Einträge mit leeren Werten,
+wie alle anderen Einträge auch, bereitstellt. `MCRConfiguration2` hingegen ignoriert Einträge mit leeren Werten
+und behandelt diese wie nicht vorhandene Einträge.
+
+Hiervon abweichend haben die Methoden `MCRConfiguration2#getPropertiesMap` und `MCRConfiguration2#getSubPropertiesMap`
+jeweils alle Einträge berücksichtigt, inklusive Einträgen mit leeren Werten. Daher wurden diese Methoden
+nach `MCRConfigurationBase` verschoben und in `MCRConfiguration2` äquivalente Methoden hinzugefügt,
+die Einträge mit leeren Werten ignorieren. Zudem wurden die Namen der Methoden leicht angepasst.
+
+Dementsprechend müssen in eigenem Java-Code
+- Aufrufe von `MCRConfiguration2#getPropertiesMap` entweder durch `MCRConfigurationBase#getAllPropertiesMap`
+  oder durch `MCRConfiguration2#getAllPropertiesMap` ersetzt werden und 
+- Aufrufe von `MCRConfiguration2#getSubPropertiesMap` entweder durch `MCRConfigurationBase#getSubpropertiesMap`
+  oder durch `MCRConfiguration2#getSubpropertiesMap` ersetzt werden,
+
+je nachdem, ob man einen 1-zu-1-Ersatz für die alte Methode benötigt, oder ob man das Verhalten der neuen
+Methode bevorzugt (z.B. weil man angenommen hatte, das sich die alte Methode bereits mit den sonstigen
+Methoden aus `MCRConfiguration2` harmonisch verhalten hat).
+
+Grundsätzlich ist es empfehlenswert, jeweils die neue Methode zu verwenden, es sei denn es gibt wichtige Gründe dafür,
+Konfigurationseinträge mit leeren Werten zu verarbeiten.
+
+
+
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
