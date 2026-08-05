@@ -120,6 +120,13 @@ Um den PMD-Regeln für Singeltons gerecht zu werden wurde zudem die Methode `MCR
 in `MCRXMLMetadataManager#obtainInstance` umbenannt und die alte Methode ebenfalls als `@Deprecated`
 markiert. Auch sie wird mit dem nächsten Release entfernt.
 
+### Solr-Konfiguration: Datei `managed-schema` in `managed-schema.xml` umbenennen ({{<mcr-ticket "MCR-3802" >}})
+Im `config`-Verzeichnis aller Solr-Kerne und in den Configsets sollten die Dateien `managed-schema` in `managed-schema.xml` umbenannt werden.
+
+Das ist der von Solr bevorzugte Dateiname. Solr 9 ist noch abwärtskompatibel und unterstützt beide Formen.
+Mit Solr 10 wird nur noch die neue Variante unterstützt
+(siehe auch Solr-Ticket: [SOLR-10887](https://issues.apache.org/jira/browse/SOLR-10887)).
+
 ### Solr-Konfiguration migrieren ({{<mcr-ticket "MCR-3645" >}})
 
 #### Property-Umbenennung
