@@ -25,12 +25,13 @@
 ;   v.0.93:  - Text Editor Formatierung hinzugefügt
 ;   v.0.94:  - Ermittlung der aktuellen Eclipse Version hinzugefügt und vom Download separiert
 ;			 - AutoHotKey Version 1.1.33.02 zu 1.1.37.02
+;   v.0.95:  - fix Git Code Konfiguration: "Apply"-Button bestätigen (ab Eclipse 2026-06 neue Optionen -> mehr Tab-Schritte)
 ;
 ;----------------------------------------------------------------------------------------------------------------------
 
 ; GLOBALE VARIABLEN
 ; Programm Version
-AppVersion = v0.9
+AppVersion = v0.95
 ; Verzögerung der Tastaturanschläge in Millisekunden bei der Programmausführung
 KeyDelay = 250
 ; Basisadresse des Eclipse-Download-Servers
@@ -366,6 +367,7 @@ TextEditoren() {
 
 ; Git
 GitCode() {
+	global EclipseVersion
 	; Window -> Preferences -> Version Control (Team) -> Git
     Send, ^3
 	Send, Git Version Control
@@ -375,10 +377,16 @@ GitCode() {
 	Send, ^a
 	SendRaw, ${workspace_loc}\..\git
 	; Apply Button klicken
-	Loop, 14 {
-		Send, {Tab}
-	}
-	Send, !a
+	if (VerCompare(EclipseVersion, ">=2026-06")) {
+	   Loop, 17 {
+		  Send, {Tab}
+	  }
+    } else {
+	   Loop, 15 {
+		  Send, {Tab}
+	  }
+    }
+
 	Send, {Space}
 	; Fenster schließen
 	Sleep 3000
