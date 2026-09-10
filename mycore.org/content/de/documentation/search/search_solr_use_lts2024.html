@@ -129,6 +129,12 @@ add type main to solr core main{{< /highlight >}}
  MCR.Solr.Server.Auth.Search.Password=geheim231
 {{< /highlight >}}
 
+<div class="alert alert-info" role="alert">
+    <strong>Hinweis:</strong> Die Klasse <code>MCRSolrBasicPropertyAuthentication</code> wurde in Version 2024.06
+    durch <code>MCRSolrPropertyBasicAuthenticator</code> abgelöst und in Version 2025.06 entfernt.
+    Ab Version 2025.06 muss also <code>MCRSolrPropertyBasicAuthenticator</code> verwendet werden.
+</div>
+
 <p>
     Die Authentifizierung wird über die
     <a href="https://solr.apache.org/guide/solr/latest/deployment-guide/basic-authentication-plugin.html">Basic Authentication</a>
