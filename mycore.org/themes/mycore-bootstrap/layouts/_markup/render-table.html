@@ -1,0 +1,26 @@
+<!-- Render Hook Template -->
+<!-- This Hook Template gives Markdown tables the same Bootstrap classes the HTML pages use, -->
+<!-- because a plain table has neither padding nor borders and its cells run into each other. -->
+<!-- The wrapper keeps a wide table inside the content column and lets it scroll instead. -->
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      {{- range .THead }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>
