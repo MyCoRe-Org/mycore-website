@@ -1,0 +1,47 @@
+<!-- Render Hook Template -->
+<!-- This Hook Template gives Markdown tables the same Bootstrap classes the HTML pages use, -->
+<!-- because a plain table has neither padding nor borders and its cells run into each other. -->
+<!-- The wrapper keeps a wide table inside the content column and lets it scroll instead. -->
+<!-- Block attributes written below a table are kept: classes are added to the ones set here, -->
+<!-- every other attribute is passed through, e.g. -->
+<!--   | a | b | -->
+<!--   | - | - | -->
+<!--   | 1 | 2 | -->
+<!--   {.table-sm #my-table} -->
+{{- $classes := slice "table" "table-bordered" }}
+{{- range $name, $value := .Attributes }}
+  {{- if eq $name "class" }}
+    {{- range split $value " " }}
+      {{- with trim . " " }}
+        {{- if not (in $classes .) }}
+          {{- $classes = $classes | append . }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+<div class="table-responsive">
+  <table class="{{ delimit $classes " " }}"
+    {{- range $name, $value := .Attributes }}
+      {{- if and $value (ne $name "class") }} {{ $name | safeHTMLAttr }}="{{ $value }}"{{ end }}
+    {{- end }}>
+    <thead>
+      {{- range .THead }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>

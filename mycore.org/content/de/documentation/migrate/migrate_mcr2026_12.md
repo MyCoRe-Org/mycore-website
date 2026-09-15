@@ -47,6 +47,16 @@ Diese sind alle von Drittanbietern und im Normalfall in den Distributionen entha
 - Kleinere Neuerung 2
 - Kleinere Neuerung 3
 
+### Zentrale Vue-/Vite-Infrastruktur im neuen Modul `mycore-vue` ({{<mcr-ticket "MCR-3810" >}})
+
+Alle Vue-Anwendungen von MyCoRe nutzen jetzt eine gemeinsame Vue-/Vite-/TypeScript-Toolchain im neuen Maven-Modul
+`mycore-vue`: eine `package.json`, eine `yarn.lock` und ein `node_modules` für alle Apps. Dependency- und
+Security-Updates für Vue erfolgen damit an genau einer Stelle. Die Vue-Apps selbst bleiben in ihren fachlichen
+Modulen (`mycore-webtools`, `mycore-webcli`, `mycore-jobqueue`, `mycore-acl`); ihre Ausgabeverzeichnisse und URLs
+ändern sich nicht. Ebenfalls in das neue Modul gewandert sind das `MCRVueRootServlet` und seine i18n-Schlüssel.
+Die Alt-Frontends auf Basis von AngularJS und Grunt (METS-Editor, WCMS2, Classeditor, ACL-Editor2, Upload und
+Viewer) sind nicht betroffen und behalten ihren eigenen Build.
+
 ### Größere Neuerung 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
@@ -115,6 +125,89 @@ Konfigurationseinträge mit leeren Werten zu verarbeiten.
 
 
 
+
+### `MCRVueRootServlet` in ein neues Modul und Paket verschoben ({{<mcr-ticket "MCR-3811" >}})
+
+Das `MCRVueRootServlet` liegt nicht mehr in `mycore-webtools`, sondern im neuen Modul `mycore-vue`.
+Damit ändert sich auch sein Paket:
+
+| bisher | neu |
+| --- | --- |
+| `org.mycore.webtools.vue.MCRVueRootServlet` | `org.mycore.frontend.vue.MCRVueRootServlet` |
+
+Eine als `deprecated` markierte Kompatibilitätsklasse unter dem alten Namen gibt es nicht. Anzupassen sind daher:
+
+- jede eigene `web.xml` bzw. `web-fragment.xml`, die das Servlet über `<servlet-class>` einbindet,
+- jede eigene Ableitung des Servlets sowie alle `import`-Anweisungen im eigenen Java-Code,
+- die `pom.xml` von Anwendungen, die ihre MyCoRe-Module einzeln auflisten, statt `mycore-meta` oder die
+  MyCoRe-BOM zu verwenden. Sie benötigen zusätzlich eine Abhängigkeit auf `org.mycore:mycore-vue`.
+
+Die URL-Muster (`url-pattern`) und die Namen der `init-param` (`heading`, `properties`, `permission`,
+`wrapWebPage`) bleiben unverändert. Ein Neubau der eigenen Vue-Apps ist wegen des Umzugs nicht nötig.
+
+### i18n-Schlüssel des Vue-Servlets umbenannt ({{<mcr-ticket "MCR-3811" >}})
+
+Mit dem Servlet sind auch dessen Übersetzungen in die neue Komponente `vue` gewandert und haben dabei
+ihr Präfix gewechselt:
+
+| bisher | neu |
+| --- | --- |
+| `component.webtools.error.MCRVueRootServlet.*` | `component.vue.error.MCRVueRootServlet.*` |
+| `component.webtools.vue.error.*` | `component.vue.error.*` |
+
+Betroffen sind der Schlüssel `accessDenied` des Servlets sowie die Texte der Fehlerseiten unterhalb von
+`general`, `401`, `403` und `404`. In der englischen Fassung hießen die beiden allgemeinen Schlüssel bisher
+fälschlich `component.webtools.vue.error.genral.message` und `component.webtools.vue.error.genral.description`.
+Dieser Tippfehler wurde beim Umzug korrigiert.
+
+Wer einen dieser Texte in den eigenen `messages_de.properties` bzw. `messages_en.properties` überschrieben hat,
+muss die Schlüssel dort entsprechend umbenennen. Andernfalls greifen wieder die Standardtexte von MyCoRe.
+
+### Property `MCR.Vue.Properties` in die Komponente `vue` verschoben ({{<mcr-ticket "MCR-3811" >}})
+
+Die Property `MCR.Vue.Properties` wird nicht mehr von `mycore-webtools` vorbelegt, sondern von `mycore-vue`.
+Name und Standardwert (`MCR.NameOfProject`) bleiben gleich, die Datei wechselt von
+`components/webtools/config/mycore.properties` nach `components/vue/config/mycore.properties`.
+
+Überschreibungen in der `mycore.properties` der Anwendung wirken unverändert. Zu beachten ist lediglich die
+geänderte Komponenten-Priorität: `mycore-vue` hat Priorität 78, `mycore-webtools` hat 85. Wer den Wert in einer
+eigenen Komponente mit einer Priorität zwischen 78 und 85 setzt, überschreibt die Vorbelegung jetzt wie erwartet;
+zuvor gewann in diesem Fall die Vorbelegung aus `mycore-webtools`.
+
+### Geänderte Modul-Abhängigkeiten ({{<mcr-ticket "MCR-3811" >}})
+
+Mit dem Umzug haben sich zwei transitive Abhängigkeiten verschoben:
+
+- `mycore-webcli` hängt nicht mehr von `mycore-webtools` ab, sondern von `mycore-vue`. Anwendungen, die
+  `mycore-webtools` bisher nur transitiv über `mycore-webcli` bezogen haben, müssen es explizit in ihre
+  `pom.xml` aufnehmen.
+- `org.jsoup:jsoup` ist zusammen mit dem Servlet nach `mycore-vue` gewandert und ist in `mycore-webtools` keine
+  direkte Abhängigkeit mehr. Wer jsoup im eigenen Java-Code verwendet und es bisher transitiv über
+  `mycore-webtools` erhalten hat, muss es selbst deklarieren.
+
+Die Module `mycore-webtools`, `mycore-webcli`, `mycore-jobqueue` und `mycore-acl` ziehen `mycore-vue` jeweils
+im Scope `runtime` nach, das Servlet steht zur Laufzeit also weiterhin überall dort zur Verfügung, wo es bisher
+schon verfügbar war.
+
+### Zentraler Frontend-Build für Vue-Apps im MyCoRe-Reactor ({{<mcr-ticket "MCR-3810" >}})
+
+Dieser Schritt betrifft nur Module und Overlays, die eine eigene Vue-App innerhalb des MyCoRe-Reactors bauen.
+Anwendungen mit einem eigenständigen Frontend-Build außerhalb des Reactors sind nicht betroffen.
+
+- Die einzelnen `package.json`- und `yarn.lock`-Dateien der Apps sind entfallen. Abhängigkeiten und Build-Skripte
+  stehen zentral in `mycore-vue/package.json`, pro App gibt es ein Skript `build:<app>`.
+- `yarn install` läuft nur noch einmal, nämlich in `mycore-vue`. Der Build einer App bleibt eine Ausführung des
+  `frontend-maven-plugin` im besitzenden Modul, allerdings mit
+  `<workingDirectory>${basedir}/../mycore-vue</workingDirectory>` und dem App-Skript als `<arguments>`.
+- Der isolierte Bau eines einzelnen Moduls (`mvn -pl <modul> install`) setzt jetzt ein vorhandenes
+  `mycore-vue/node_modules` voraus. Andernfalls ist `-am` nötig, damit `mycore-vue` zuvor gebaut wird.
+- Die alten `node_modules`-Verzeichnisse in den Modulen werden bei `mvn clean` einmalig mit entfernt.
+- Die Toolchain wurde dabei vereinheitlicht und angehoben, unter anderem auf vite 8, `@vitejs/plugin-vue` 6,
+  vue-tsc 3, eslint 10 und vitest 4. Da vite 8 mit rolldown bündelt, gehören Bundler-Einstellungen jetzt unter
+  `build.rolldownOptions` statt unter das veraltete `build.rollupOptions`. `vite-plugin-eslint` und
+  `rollup-plugin-external-globals` sind entfallen.
+
+Wie eine eigene App an die gemeinsame Toolchain angeschlossen wird, beschreibt `mycore-vue/README.md`.
 
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
