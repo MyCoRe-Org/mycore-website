@@ -937,6 +937,40 @@ der Originaltitel einen Untertitel hat. Andernfalls soll die Validierung ausgela
 </div>
 
 <div>
+    <h5>Eigene Validator-Implementierungen</h5>
+<p>In bestimmten Situationen mag es einfacher sein, Validierungsregeln in Java zu implementieren,
+als über einen XPath auszudrücken; z.B. im Falle einer komplexen Passwort-Richtlinie.
+Um einen eigenen Validator einzubinden, gibt es zwei Möglichkeiten:
+Referenzierung einer <a href="{{< ref basics_configurable_instance >}}">konfigurierten Klasseninstanz</a> (empfohlen) oder
+Benennung einer Klasse und einer statischen Methode.</p>
+
+<p>Syntax (Referenzierung einer konfigurierbaren Klasseninstanz):</p>
+{{< highlight xml "linenos=table">}} <xed:validate instance="MCR.XEditor.Validators.passwordPolicy" />{{< /highlight >}}
+
+<p>Das Attribut <code>instance</code> muss den Namen einer konfigurierbaren Klasseninstanz beinhalten und
+es muss entsprechende Einträge in der Konfiguration geben. Beispiel:</p>
+
+{{< highlight xml "linenos=table">}} MCR.XEditor.Validators.passwordPolicy.Class=foo.bar.FooPasswordPolicy
+ MCR.XEditor.Validators.passwordPolicy.MinLength=16
+ MCR.XEditor.Validators.passwordPolicy.MaxLength=64{{< /highlight >}}
+
+<p>Die referenzierte Klasse muss dabei das Interface <code>MCRInstanceValidator.Validator</code> implementieren,
+wobei die abstrakten Basisklassen <code>MCRInstanceValidator.AttributeValidatorBase</code>, <code>MCRInstanceValidator.ElementValidatorBase</code> und
+insbesondere <code>MCRInstanceValidator.StringValidatorBase</code> für typische Anwendungsfälle genutzt werden können.</p>
+
+<p>Syntax (Benennung einer Klasse und einer statischen Methode):</p>
+
+{{< highlight xml "linenos=table">}} <xed:validate class="foo.bar.FooPasswordPolicy" method="validate" />{{< /highlight >}}
+
+<p>Das Attribut <code>class</code> muss den vollqualifizierten Klassennamen Namen der zu verwendenden Klasse beinhalten.
+Das Attribut <code>method</code> muss den Namen der zu verwendenden statischen Methode beinhalten.
+Diese Methode muss einen Parameter vom Typ <code>Object</code>, <code>Attribute</code>, <code>Element</code> oder <code>String</code> nehmen und
+einen Wert vom Typ <code>Boolen</code> oder <code>boolean</code> liefern.</p>
+
+</div>
+
+
+<div>
     <h5>Validierungsmeldungen ausgeben</h5>
 <p>Wenn die Eingabevalidierung fehlschlägt, wird die Variable <code>$xed-validation-failed='true'</code> gesetzt. Beispiel:</p>
 
