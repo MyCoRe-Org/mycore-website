@@ -13,7 +13,7 @@ blog/categories:
 blog/tags:
  - MyCoRe-Workshop
 
-news/frontpage: true
+news/frontpage: false
 news/title_de: "Save the date: 03.-05.11.2026"
 news/teaser_de: "Der 21. MyCoRe-Workshop findet vom 03. bis 05.11.2026 an der RWTH in Aachen statt."
 news/title_en: "Save the date: 03.-05.11.2026"
