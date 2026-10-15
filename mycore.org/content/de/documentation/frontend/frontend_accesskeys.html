@@ -1,11 +1,50 @@
 ---
 title: "Access Key Manager"
-mcr_version: ['2021.06']
+mcr_version: ['2021.06', '2025.06']
 author: ['Lennard Golsch']
 description: "Dieses Kapitel stellt mit dem Access Key Manager eine Oberfläche zur Verwaltung von Zugriffsschlüsseln vor."
 date: "2021-09-10"
 ---
-<h2 id="access-key-manager">Allgemeines</h2>
+<h2 id="access-key-manager-vue">Access Key Manager ab LTS 2025.06</h2>
+<p>
+  Ab <span class="badge badge-info">LTS 2025.06</span> steht der Access Key Manager als Vue-Anwendung in <i>mycore-acl</i> bereit.
+  Die eigentliche Komponente wird als npm-Paket
+  <a href="https://www.npmjs.com/package/@mycore-org/vue-access-key-manager"><code>@mycore-org/vue-access-key-manager</code></a>
+  bereitgestellt und kann damit auch in anderen Anwendungen verwendet werden.
+  <i>mycore-acl</i> bindet das Paket über Glue-Code (<code>src/main/vue/access-key-manager2</code>) ein, der Konfiguration,
+  Übersetzungen und Routing übernimmt, beim Maven-Build gebaut und mit dem Modul ausgeliefert wird.
+  Die Verwaltung erfolgt über die <a href="{{< ref "interface_rest_v2#accesskeys" >}}">REST-API V2</a>,
+  die erforderlichen Rechte sind unter <a href="{{< ref "accesskeys#permissions" >}}">Berechtigungen</a> beschrieben.
+  Die Anwendung wird über das <code>MCRVueRootServlet</code> eingebunden:
+</p>
+{{< highlight xml "linenos=table">}}
+<servlet>
+  <servlet-name>AccessKeyManager</servlet-name>
+  <servlet-class>org.mycore.webtools.vue.MCRVueRootServlet</servlet-class>
+  <init-param>
+    <param-name>heading</param-name>
+    <param-value>component.acl.accesskey.frontend.title.main</param-value>
+  </init-param>
+  <init-param>
+    <param-name>properties</param-name>
+    <param-value>MCR.ACL.AccessKey.Strategy.AllowedSessionPermissionTypes</param-value>
+  </init-param>
+</servlet>
+<servlet-mapping>
+  <servlet-name>AccessKeyManager</servlet-name>
+  <url-pattern>/access-key-manager/*</url-pattern>
+</servlet-mapping>{{< /highlight >}}
+<p>
+  Der Manager kann für alle Zugriffsschlüssel oder für eine bestimmte Referenz aufgerufen werden.
+  Für eine bestimmte Referenz werden die verfügbaren Typen über <code>availablePermissions</code> übergeben:
+</p>
+<ul>
+  <li><code>/access-key-manager/admin/</code></li>
+  <li><code>/access-key-manager/admin/&lt;reference&gt;</code></li>
+  <li><code>/access-key-manager/&lt;reference&gt;?availablePermissions=&lt;permissions&gt;</code>, z.B. <code>availablePermissions=read,writedb</code></li>
+</ul>
+<h2 id="access-key-manager">Access Key Manager bis LTS 2024.06</h2>
+<h3>Allgemeines</h3>
 <p>
   Für die Verwaltung von <a href="{{< ref "accesskeys" >}}">Zugriffsschlüsseln</a> steht mit dem <i>Access Key Manager</i> eine <a href="https://developer.mozilla.org/de/docs/Web/Web_Components">Web Component</a> in deutscher und englischer Sprache bereit.
   Damit lassen sich Zugriffsschlüssel betrachten, hinzufügen, aktualisieren und löschen.
@@ -17,12 +56,12 @@ date: "2021-09-10"
   Abbildung 1 zeigt einen Screenshot der eingebundenen Web Component.
 </p>
 <div>{{< mcr-figure src="/images/documentation/permissions/access_key_manager.png" label="Abbildung 1" caption="Screenshot der Access Key Manager Web Component" />}}</div>
-<h2 id="requirements">Voraussetzungen</h2>
+<h3 id="requirements">Voraussetzungen</h3>
 <p>
   Voraussetzungen für die Nutzung sind die Einbindungen von <i>accessKeyManager.js</i>, <a href="https://vuejs.org/">Vue.js</a> V2 und <a href="https://getbootstrap.com/">Bootstrap</a> V4.
   Kurzerhand kann die Web Component anschließend über <code>&lt;access-key-manager /&gt;</code> im HTML eingebunden werden, ein nutzbares Template steht bereit.
 </p>
-<h2>Konfiguration</h2>
+<h3>Konfiguration</h3>
 <p>
   Die Verwaltung geschieht über die REST-API V2, die Autorisierung geschieht über <a href="https://jwt.io/">JWT</a>.
   Dafür ist die Web Component auf die <i>WebApplicationBaseURL</i> angewiesen, die im <i>Javascript Global Namespace</i> respektive <i>window</i> Objekt unter <code>webApplicationBaseURL</code> verfügbar sein muss:

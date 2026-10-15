@@ -273,7 +273,8 @@ private static final long serialVersionUID = 1L;{{< /highlight >}}
           <p>
             Mit <a href="https://mycore.atlassian.net/browse/MCR-3331">MCR-3331</a> wurden die REST-Endpunkte
             <code>/api/v2/objects/{id}/accesskeys</code> und <code>/api/v2/objects/{id}/derivates/{derid}/accesskeys</code>
-            für <a href="{{< ref accesskeys >}}">Zugriffsschlüssel</a> entfernt. Es gibt nur noch <code>/api/v2/access-keys</code>.
+            für <a href="{{< ref accesskeys >}}">Zugriffsschlüssel</a> entfernt. Es gibt nur noch die mit LTS 2024.06.1
+            eingeführte Ressource <code>/api/v2/access-keys</code>, siehe <a href="{{< ref migrate_mcr2024_06 >}}">Migration 2024.06</a>.
             Zugriffsschlüssel werden dort über ihre UUID angesprochen, nicht mehr über das Secret. Die API wird mit
             <code>MCR.RestApi.Draft.MCRAccessKey2=true</code> aktiviert. Externe Clients müssen gegebenenfalls umgestellt werden.
           </p>
@@ -282,46 +283,14 @@ private static final long serialVersionUID = 1L;{{< /highlight >}}
             Er ist unter <code>/access-key-manager/{reference}</code> bzw. <code>/access-key-manager/admin/</code> erreichbar.
           </p>
           <p>
-            Bisher reichte für die Verwaltung von Zugriffsschlüsseln das Recht <code>writedb</code> auf dem Objekt.
-            Nun wird für jeden Zugriffsschlüssel das Recht <code>manage-access-key-{permission}</code> auf der Referenz
-            <code>{reference}</code> des Schlüssels geprüft. Dabei ist <code>{permission}</code> das Recht, das der Schlüssel
-            gewährt, und <code>{reference}</code> in der Regel eine Objekt- oder Derivat-ID. Die Prüfung erfolgt über
+            Bisher reichte für die Verwaltung von Zugriffsschlüsseln das Recht <code>writedb</code> auf dem Objekt und auf
+            <code>restapi:/</code>. Nun wird für jeden Zugriffsschlüssel das Recht <code>manage-access-key-{permission}</code>
+            auf der Referenz des Schlüssels geprüft. Dabei ist <code>{permission}</code> das Recht, das der Schlüssel gewährt,
+            und die Referenz in der Regel eine Objekt- oder Derivat-ID. Die Prüfung erfolgt über
             <code>MCRAccessManager.checkPermission({reference}, "manage-access-key-" + {permission})</code> und damit über
-            die konfigurierte Zugriffsstrategie. Das Recht <code>manage-access-key</code> auf <code>POOLPRIVILEGE</code>
-            erlaubt die Verwaltung aller Zugriffsschlüssel.
-          </p>
-          <p>
-            Für die üblichen Schlüsseltypen ergeben sich damit folgende Rechte:
-          </p>
-          <table class="table">
-            <thead>
-              <tr><th>Recht</th><th>ID</th><th>Bedeutung</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>manage-access-key-read</code></td><td>Objekt-ID</td><td>Lese-Schlüssel des Objekts verwalten</td></tr>
-              <tr><td><code>manage-access-key-writedb</code></td><td>Objekt-ID</td><td>Schreib-Schlüssel des Objekts verwalten</td></tr>
-              <tr><td><code>manage-access-key</code></td><td><code>POOLPRIVILEGE</code></td><td>alle Zugriffsschlüssel verwalten</td></tr>
-            </tbody>
-          </table>
-          <p>
-            Zusätzlich muss der Endpunkt selbst freigegeben werden. Alle Methoden von <code>/api/v2/access-keys</code>
-            erfordern das Recht <code>manage-access-key</code> auf <code>restapi:/access-keys</code> bzw. <code>restapi:/</code>.
-            Existiert nur für eine dieser IDs eine Regel, wird diese verwendet, existieren beide, müssen beide erfüllt sein.
-            Ohne Regel ist der Zugriff nur dem Superuser erlaubt. Erst danach erfolgt die Prüfung von
-            <code>manage-access-key-{permission}</code> auf der Referenz. Da diese Prüfung die eigentliche Berechtigung abbildet,
-            genügt auf <code>restapi:/access-keys</code> eine Regel für alle Rollen, die Zugriffsschlüssel verwalten sollen. Bisher war für die
-            alten Endpunkte das Recht <code>writedb</code> auf <code>restapi:/</code> erforderlich.
-          </p>
-          <p>
-            Folgende Properties wurden umbenannt:
-          </p>
-          <ul>
-            <li><code>MCR.ACL.AccessKey.Secret.Hashing</code> ⮕ <code>MCR.ACL.AccessKey.Secret.Storage.Mode</code></li>
-            <li><code>MCR.ACL.AccessKey.Secret.Hashing.Iterations</code> ⮕ <code>MCR.ACL.AccessKey.SecretProcessor.Hash.HashIterations</code></li>
-          </ul>
-          <br/>
-          <p>
-            Bestehende Zugriffsschlüssel bleiben gültig.
+            die konfigurierte Zugriffsstrategie. Zusätzlich ist das Recht <code>manage-access-key</code> auf
+            <code>restapi:/access-keys</code> erforderlich. Ohne entsprechende Regeln ist die Verwaltung nur dem Superuser erlaubt.
+            Alle Rechte sind unter <a href="{{< ref "accesskeys#permissions" >}}">Berechtigungen</a> beschrieben.
           </p>
         </li>
       </ul>

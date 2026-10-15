@@ -1,6 +1,6 @@
 ---
 title: "Zugriffsschlüssel"
-mcr_version: ['2021.06']
+mcr_version: ['2021.06', '2025.06']
 author: ['Lennard Golsch']
 description: "Zugriffsschlüssel sind die Grundlage für einen alternativen Autorierungsmechanismus, der mittels einer annehmbaren Strategie das Schreiben oder Lesen von Objekten oder Derivaten ermöglicht."
 date: "2021-09-09"
@@ -19,8 +19,9 @@ date: "2021-09-09"
     Zugriffsschlüssel können grundsätzlich deaktiviert werden.
     Die Gültigkeit kann optional zeitlich über ein Ablaufdatum beschränkt werden.
     Die <a href="{{< ref "interface_rest_v2#accesskeys" >}}">REST-API V2</a> bietet eine Möglichkeit für die Verwaltung von Zugriffsschlüsseln.
-    Dafür die Verwaltung muss ein Nutzer oder Gast mindestens über Schreibrechte verfügen.
+    Bis <span class="badge badge-info">LTS 2024.06</span> muss ein Nutzer oder Gast dafür mindestens über Schreibrechte verfügen.
     Gegebenenfalls muss die REST-API zusätzlich <a href="{{< ref "interface_rest_v2#security" >}}">aktiviert</a> werden, wenn beispielsweise die Verwaltung von Zugriffsschlüsseln für Gäste zugelassen werden soll.
+    Ab <span class="badge badge-info">LTS 2025.06</span> sind dafür eigene <a href="{{< ref "accesskeys#permissions" >}}">Berechtigungen</a> erforderlich.
     Darüber hinaus steht ein Ansatz für eine <a href="{{< ref "frontend_accesskeys" >}}">Webapplikation</a> zur Verwaltung von Zugriffsschlüsseln bereit.
   </p>
 </div>
@@ -30,14 +31,29 @@ date: "2021-09-09"
     Zusammenfassung aller Properties mit default Werten und Beispielen, die Zugriffsschlüssel betreffen:
   </p>
 {{< highlight shell "linenos=table">}}
-MCR.AccessKey.Strategy.AllowedObjectTypes=
-# MCR.AccessKey.Strategy.AllowedObjectTypes=mods,derivate
-MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=
-# MCR.AccessKey.Strategy.AllowedSessionPermissionTypes=read,writedb
-MCR.ACL.AccessKey.Secret.Hashing=true
-MCR.ACL.AccessKey.Secret.HashIterations=1000
+MCR.ACL.AccessKey.Strategy.AllowedObjectTypes=
+# MCR.ACL.AccessKey.Strategy.AllowedObjectTypes=mods,derivate
+MCR.ACL.AccessKey.Strategy.AllowedSessionPermissionTypes=read
+# MCR.ACL.AccessKey.Strategy.AllowedSessionPermissionTypes=read,writedb
 {{< /highlight >}}
+  <p>
+    Die Ablage der Secrets wird bis <span class="badge badge-info">LTS 2023.06</span> wie folgt konfiguriert:
   </p>
+{{< highlight shell "linenos=table">}}
+# plain, crypt oder hash
+MCR.ACL.AccessKey.Secret.Storage.Mode=hash
+MCR.ACL.AccessKey.Secret.Storage.Mode.Hash.Iterations=1000
+{{< /highlight >}}
+  <p>
+    Ab <span class="badge badge-info">LTS 2024.06</span> wird die Ablage über einen <i>SecretProcessor</i> konfiguriert.
+    Das Verfahren für das Hashing ist unverändert, bestehende Zugriffsschlüssel bleiben daher gültig.
+    Eine abweichend konfigurierte Anzahl an Iterationen muss in das neue Property übernommen werden.
+  </p>
+{{< highlight shell "linenos=table">}}
+MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyHashSecretProcessor
+# MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyPlainSecretProcessor
+MCR.ACL.AccessKey.SecretProcessor.Hash.HashIterations=1000
+{{< /highlight >}}
 </div>
 <div>
   <h2 id="anatomy">Struktur eines Zugriffsschlüssels</h2>
@@ -45,8 +61,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
     Strukturell betrachtet setzt sich ein Zugriffsschlüssel substanziell aus einem <i>Secret</i> und <i>Type</i> zusammen.
     Secret definiert das Geheimnis, das ein Nutzer kennen muss, um den Zugriffsschlüssel zu aktivieren.
     Der Wert kann frei gewählt werden, jedoch kann der Wert nach dem Hinzufügen des Zugriffsschlüssels nicht mehr eingesehen oder geändert werden.
-    Das Secret wird default gehasht im Backend abgelegt.
-    Hashing kann aber mit: {{< highlight "linenos=table">}}MCR.ACL.AccessKey.Secret.Hashing=false{{< /highlight >}} deaktiviert werden.
+    Das Secret wird default gehasht im Backend abgelegt, siehe <a href="{{< ref "accesskeys#configuration" >}}">Konfiguration</a>.
     Type spiegelt die Berechtigung wieder, die sich aus der Aktivierung des Zugriffsschlüssels für ein Objekt oder Derivat ergibt.
     Der Ansatz unterstützt Lese- und Schreibzugriffsschlüssel: Der Type eines Lesezugriffschlüssels wird mit dem Wert <code>read</code> beschrieben, ein Schreibzugriffsschlüssel mit dem Wert <code>writedb</code>.
   </p>
@@ -69,7 +84,55 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
   "expiration": "1631256328",
   "comment": "Test"
 }{{< /highlight >}}
+  <p>
+    Ab <span class="badge badge-info">LTS 2025.06</span> werden Zugriffsschlüssel über die REST-API nicht mehr pro Objekt,
+    sondern über eine eigene Ressource verwaltet. Ein Zugriffsschlüssel enthält deshalb zusätzlich seine Referenz
+    (<i>Reference</i>, in der Regel eine Objekt- oder Derivat-ID) und wird über eine eindeutige <i>Id</i> (UUID) angesprochen.
+    Außerdem werden Ersteller, Erstelldatum, letzter Bearbeiter und Datum der letzten Änderung
+    (<code>createdBy</code>, <code>created</code>, <code>lastModifiedBy</code>, <code>lastModified</code>) ausgegeben.
+    Beim Erstellen werden <code>secret</code>, <code>reference</code> und <code>type</code> erwartet:
   </p>
+  {{< highlight json "linenos=table">}}
+{
+  "id": "0f6a4a1e-3c2b-4f4e-9a57-5d6c1f0b7e21",
+  "secret": "mycore+accesskey==love",
+  "reference": "mir_mods_00000001",
+  "type": "read",
+  "isActive": true,
+  "comment": "Test"
+}{{< /highlight >}}
+</div>
+<div>
+  <h2 id="permissions">Berechtigungen</h2>
+  <p>
+    Bis <span class="badge badge-info">LTS 2024.06</span> reicht für die Verwaltung von Zugriffsschlüsseln das Recht
+    <code>writedb</code> auf dem Objekt bzw. Derivat sowie auf <code>restapi:/</code>.
+  </p>
+  <p>
+    Mit der neuen REST-API (ab <span class="badge badge-info">LTS 2024.06.1</span> als Draft, ab
+    <span class="badge badge-info">LTS 2025.06</span> ausschließlich) wird für jeden Zugriffsschlüssel das Recht
+    <code>manage-access-key-{type}</code> auf der Referenz des Schlüssels geprüft, also z.B.
+    <code>manage-access-key-read</code> für einen Lesezugriffsschlüssel eines Objekts.
+    Die Prüfung erfolgt über die konfigurierte Zugriffsstrategie, sodass die Rechte etwa über <code>default_mods</code>
+    vergeben werden können. Das Recht <code>manage-access-key</code> auf <code>POOLPRIVILEGE</code> erlaubt die
+    Verwaltung aller Zugriffsschlüssel.
+  </p>
+  <p>
+    Zusätzlich erfordert die REST-API das Recht <code>manage-access-key</code> auf <code>restapi:/access-keys</code>
+    bzw. <code>restapi:/</code>. Existiert nur für eine dieser IDs eine Regel, wird diese verwendet, existieren beide,
+    müssen beide erfüllt sein. Ohne Regel ist der Zugriff nur dem Superuser erlaubt.
+  </p>
+  <table class="table">
+    <thead>
+      <tr><th>Recht</th><th>ID</th><th>Bedeutung</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>manage-access-key-read</code></td><td>Objekt-/Derivat-ID</td><td>Lesezugriffsschlüssel verwalten</td></tr>
+      <tr><td><code>manage-access-key-writedb</code></td><td>Objekt-/Derivat-ID</td><td>Schreibzugriffsschlüssel verwalten</td></tr>
+      <tr><td><code>manage-access-key</code></td><td><code>POOLPRIVILEGE</code></td><td>alle Zugriffsschlüssel verwalten</td></tr>
+      <tr><td><code>manage-access-key</code></td><td><code>restapi:/access-keys</code></td><td>Zugriff auf den REST-Endpunkt</td></tr>
+    </tbody>
+  </table>
 </div>
 <div>
   <h2 id="usage">Gebrauch</h2>
@@ -82,7 +145,7 @@ MCR.ACL.AccessKey.Secret.HashIterations=1000
   <h3>Filter</h3>
   <p>
     Für die temporäre Aktivierung steht der <i>AccessKeyFilter</i> bereit, der default für das Object-Servlet aktiviert werden kann.
-    In Kombination mit der bereitgestellten Strategie kann der Filter abgeleitet aus <code>MCR.AccessKey.Strategy.AllowedSessionPermissionTypes</code> eingeschaltet werden.
+    In Kombination mit der bereitgestellten Strategie kann der Filter abgeleitet aus <code>MCR.ACL.AccessKey.Strategy.AllowedSessionPermissionTypes</code> eingeschaltet werden.
     Sofern der Filter eingeschaltet ist, wird der <i>Query-String</i> auf das Secret über den Parameter <code>accesskey</code> geprüft - beispielhaft: <code>receive/&lt;object&gt;?accesskey=&lt;secret&gt;</code>.
     Nur nur wenn der Zugriffsschlüssel zum angefragten Objekt passt, wird dieser temporär für die HTTP-Session aktiviert - ansonsten ignoriert.
     Sonderzeichen (Secret) sollten im Pfad codiert werden, siehe <a href=="https://de.wikipedia.org/wiki/URL-Encoding">URL-Encoding</a>.

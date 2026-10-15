@@ -446,9 +446,9 @@ MCR.QueuedJob.Cleaner.Selectors.failedJobs.Enabled=true{{< /highlight >}}
           <p>
             Mit <a href="https://mycore.atlassian.net/browse/MCR-3313">MCR-3313</a> wurde die Implementierung der Zugriffsschlüssel (inkl. REST-API und Rechtemangement) grundlegend überarbeitet.
             Der Storage Mode muss nun ggf. über
-            <code>MCR.ACL.AccessKey.Service.SecretProcessor.Class</code> =&gt; <code>MCR.ACL.AccessKey.Secret.Storage.Mode</code>
+            <code>MCR.ACL.AccessKey.Secret.Storage.Mode</code> =&gt; <code>MCR.ACL.AccessKey.Service.SecretProcessor.Class</code>
             konfiguriert werden, wobei <code>hash</code> nach wie vor Standard ist:
-            {{< highlight java "linenos=table">}}
+            {{< highlight properties "linenos=table">}}
 # plain
 #MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyPlainSecretProcessor
 # hash
@@ -457,13 +457,22 @@ MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.ser
 #MCR.ACL.AccessKey.Service.SecretProcessor.Class=org.mycore.mcr.acl.accesskey.service.processor.MCRAccessKeyCryptSecretProcessor{{< /highlight >}}
             Sofern <code>hash</code> eingesetzt wurde und die Iterationen angepasst wurden, müssen die Iterationen nun:
             <code>MCR.ACL.AccessKey.Secret.Storage.Mode.Hash.Iterations</code> =&gt; <code>MCR.ACL.AccessKey.SecretProcessor.Hash.HashIterations</code>
-            gesetzt werden.
+            gesetzt werden. Das Hashverfahren ist unverändert, bestehende Zugriffsschlüssel bleiben daher gültig.
           </p>
           <p>
-            Für die Verwaltung der Zugriffsschlüssel über die den Access Key Manager / REST-API sind nur granulare Brechtigungen notwendig.
-            Diese Berechtigungen bestehen aus einem Tupel, das den Referenztyp und die Berechtigung umfasst.
-            Beispielsweise für die Verwaltung von &lt;Recht, z.B. read &gt;-Zugriffsschlüssel für mods: <code>(mods, manage-access-key-&lt;z.B. read&gt;)</code>.
-            <code>(POOLPRIVILEGE, manage-access-key)</code> bietet uneingeschränkte Verwaltung aller Zugriffsschlüssel.
+            Ab LTS 2024.06.1 steht die überarbeitete REST-API unter <code>/api/v2/access-keys</code> als Draft bereit und kann mit
+            <code>MCR.RestApi.Draft.MCRAccessKey2=true</code> aktiviert werden. Standardmäßig bleiben die bisherigen Endpunkte
+            <code>/api/v2/objects/{id}/accesskeys</code> und <code>/api/v2/objects/{id}/derivates/{derid}/accesskeys</code>
+            aktiv. Diese werden mit LTS 2025.06 entfernt.
+          </p>
+          <p>
+            Für die Verwaltung der Zugriffsschlüssel über die neue REST-API sind granulare Berechtigungen notwendig, siehe
+            <a href="{{< ref "accesskeys#permissions" >}}">Berechtigungen</a>. Für jeden Zugriffsschlüssel wird das Recht
+            <code>manage-access-key-{permission}</code> auf der Referenz des Schlüssels (z.B. der Objekt-ID) über die konfigurierte
+            Zugriffsstrategie geprüft, z.B. <code>manage-access-key-read</code> auf <code>default_mods</code>.
+            <code>manage-access-key</code> auf <code>POOLPRIVILEGE</code> bietet uneingeschränkte Verwaltung aller Zugriffsschlüssel.
+            Zusätzlich ist das Recht <code>manage-access-key</code> auf <code>restapi:/access-keys</code> erforderlich.
+            Diese Regeln können bereits vor dem Umstieg auf LTS 2025.06 angelegt werden.
           </p>
         </li>
         <li>

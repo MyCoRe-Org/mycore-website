@@ -258,10 +258,96 @@ curl -D - -X PUT -u administrator:*PASSWORD*
 {{< /highlight >}}
 {{< /mcr-figure >}}
     <p></p>     
+    <h3 id="accesskeys">Verwaltung von Zugriffsschlüsseln</h3>
+    <p>
+      Ab <span class="badge badge-info">LTS 2025.06</span> werden Zugriffsschlüssel ausschließlich über die Ressource
+      <code>/access-keys</code> verwaltet. Seit <span class="badge badge-info">LTS 2024.06.1</span> steht sie bereits als Draft zur Verfügung. Die Zugriffsschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a>
+      definiert und über ihre <i>Id</i> (UUID) angesprochen. Die erforderlichen Rechte sind unter
+      <a href="{{< ref "accesskeys#permissions" >}}">Berechtigungen</a> beschrieben. Die Ressource ist als Draft markiert und muss mit
+      <code>MCR.RestApi.Draft.MCRAccessKey2=true</code> aktiviert werden.
+    </p>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4 id="get-access-keys"><span class="badge badge-secondary">GET</span> /access-keys?reference={$reference}&permissions={$permissions}&offset={$offset}&limit={$limit}</h4>
+    <p>
+      Dieser Request liefert eine Liste von Zugriffsschlüsseln zurück. Der Header <code>X-Total-Count</code> enthält die Gesamtanzahl.
+    </p>
+    <table class="table table-bordered">
+      <col width="180px" />
+      <tr>
+        <td><code>{$reference}</code></td>
+        <td>Referenz, z.B. eine Objekt-ID. Ohne das Recht <code>manage-access-key</code> auf <code>POOLPRIVILEGE</code> erforderlich.</td>
+      </tr>
+      <tr>
+        <td><code>{$permissions}</code></td>
+        <td>Kommaseparierte Liste der Typen, z.B. <code>read,writedb</code>. Ohne das Recht <code>manage-access-key</code> auf <code>POOLPRIVILEGE</code> erforderlich.</td>
+      </tr>
+      <tr>
+        <td><code>{$offset}</code></td>
+        <td>optional: Offset der Liste. Default: <code>0</code>.</td>
+      </tr>
+      <tr>
+        <td><code>{$limit}</code></td>
+        <td>optional: Größe der Liste. Default: <code>128</code>.</td>
+      </tr>
+    </table>
+    <h5 class="js-toc-ignore">Format</h5>
+    <p>
+      Die Liste wird im JSON-Format zurückgeliefert.
+    </p>
+    </div>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4><span class="badge badge-secondary">GET</span> /access-keys/{$id}</h4>
+    <p>
+      Dieser Request liefert einen Zugriffsschlüssel zurück. <code>{$id}</code> ist die UUID des Zugriffsschlüssels.
+    </p>
+    </div>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4><span class="badge badge-danger">POST</span> /access-keys</h4>
+    <p>
+      Dieser Request erstellt einen Zugriffsschlüssel. Der Zugriffsschlüssel muss im JSON-Format gesendet werden und
+      mindestens <code>secret</code>, <code>reference</code> und <code>type</code> enthalten.
+      Die Response enthält einen <code>Location</code>-Header mit der URL des neuen Zugriffsschlüssels.
+    </p>
+    </div>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4><span class="badge badge-danger">PUT</span> /access-keys/{$id}</h4>
+    <p>
+      Dieser Request ersetzt einen Zugriffsschlüssel. Der Zugriffsschlüssel muss vollständig im JSON-Format gesendet werden.
+    </p>
+    </div>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4><span class="badge badge-danger">PATCH</span> /access-keys/{$id}</h4>
+    <p>
+      Dieser Request aktualisiert einen Zugriffsschlüssel. Es werden nur die Eigenschaften berücksichtigt, die in der Anfrage enthalten sind.
+    </p>
+    </div>
+
+    <div>
+    <div class="float-right">{{<mcr-version "2024.06,2025.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <h4><span class="badge badge-danger">DELETE</span> /access-keys/{$id}</h4>
+    <p>
+      Dieser Request löscht einen Zugriffsschlüssel.
+    </p>
+    </div>
+
     <h3>Verwaltung von Zugriffsschlüsseln auf Objekte</h3>
+    <p>
+      Diese Endpunkte stehen bis <span class="badge badge-info">LTS 2024.06</span> zur Verfügung und wurden mit
+      <span class="badge badge-info">LTS 2025.06</span> entfernt, siehe <a href="#accesskeys">Verwaltung von Zugriffsschlüsseln</a>.
+    </p>
     Die Zugriffsschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4 id="get-accesskeys"><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys?offset={$offset}&limit={$limit}</h4>
     <p>
       Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Objekts zurück.
@@ -288,7 +374,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
     
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4 id="get-accesskey"><span class="badge badge-secondary">GET</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Objekts zurück.
@@ -315,7 +401,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
 
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">POST</span> /objects/{$id}/accesskeys</h4>
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Objekt.
@@ -336,7 +422,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
 
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_endcoding}</h4>
     <p>
       Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Objekt.
@@ -364,7 +450,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
     
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Objekts.
@@ -600,10 +686,14 @@ curl -D - -X PUT -u administrator:*PASSWORD*
       <p>&nbsp;</p>
 
     <h3>Verwaltung von Zugriffsschlüsseln auf Derivate</h3>
+    <p>
+      Diese Endpunkte stehen bis <span class="badge badge-info">LTS 2024.06</span> zur Verfügung und wurden mit
+      <span class="badge badge-info">LTS 2025.06</span> entfernt, siehe <a href="#accesskeys">Verwaltung von Zugriffsschlüsseln</a>.
+    </p>
     Die Zugriffsschlüssel werden im <a href="{{< ref "accesskeys#anatomy" >}}">JSON-Format</a> definiert.
     
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys?offset={$offset}&limit={$limit}</h4>
     <p>
       Dieser Request liefert eine Liste aller Zugriffsschlüssel eines MyCoRe-Derivats zurück.
@@ -634,7 +724,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
     
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-secondary">GET</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request liefert einen Zugriffsschlüssel eines MyCoRe-Derivats zurück.
@@ -665,7 +755,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
 
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">POST</span> /objects/{$id}/derivates/{$derid}/accesskeys</h4>
     <p>
       Dieser Request erstellt einen Zugriffsschlüssel für ein MyCoRe-Derivat.
@@ -690,7 +780,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
     
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">PUT</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request aktualisiert einen Zugriffsschlüssel für ein MyCoRe-Derivat.
@@ -722,7 +812,7 @@ curl -D - -X PUT -u administrator:*PASSWORD*
     </div>
 
     <div>
-    <div class="float-right">{{<mcr-version "2021.06" >}}{{<mcr-module "mycore-acl" >}}</div>
+    <div class="float-right">{{<mcr-version "2021.06 – 2024.06" >}}{{<mcr-module "mycore-acl" >}}</div>
     <h4><span class="badge badge-danger">DELETE</span> /objects/{$id}/derivates/{$derid}/accesskeys/{$secret}?secret_encoding={$secret_encoding}</h4>
     <p>
       Dieser Request löscht einen Zugriffsschlüssel eines MyCoRe-Derivats.
