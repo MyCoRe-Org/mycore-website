@@ -34,6 +34,72 @@ date: "2025-06-20"
         </p>
 
     </div>
+    <div>
+        <h3>Berechtigungen für Zugriffsschlüssel</h3>
+        <p>
+            Dieser Abschnitt betrifft nur Anwendungen, in denen <a href="{{< ref accesskeys >}}">Zugriffsschlüssel</a> aktiv sind
+            (<code>MCR.ACL.AccessKey.Strategy.AllowedObjectTypes=mods</code>, Standard in MIR).
+        </p>
+        <p>
+            Der Menüpunkt <em>Zugriffsschlüssel verwalten</em> erscheint nur noch, wenn der Nutzer das Recht
+            <code>manage-access-key-read</code> oder <code>manage-access-key-writedb</code> auf dem Objekt hat
+            (<a href="https://mycore.atlassian.net/browse/MIR-1443">MIR-1443</a>). MIR bringt dafür keine Standardregeln mit.
+            Ohne neue Regeln sieht nur der Superuser den Menüpunkt. Am Derivat gibt es den Menüpunkt nicht mehr.
+        </p>
+        <p>
+            Die Regeln werden einmalig im ACL-Editor (Nutzermenü ⮕ ACL-Editor ⮕ Tab <em>Regelzuweisungen</em>) angelegt:
+        </p>
+        <table class="table">
+            <thead>
+                <tr><th>Objekt ID</th><th>Zugriffsrecht</th><th>Regel</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>default_mods</code></td><td><code>manage-access-key-read</code></td><td>administrators and editors</td></tr>
+                <tr><td><code>default_mods</code></td><td><code>manage-access-key-writedb</code></td><td>administrators and editors</td></tr>
+                <tr><td><code>POOLPRIVILEGE</code></td><td><code>manage-access-key</code></td><td>administrators only</td></tr>
+                <tr><td><code>restapi:/access-keys</code></td><td><code>manage-access-key</code></td><td>submitters, editors and administrators</td></tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                Die Regeln <em>administrators only</em>, <em>administrators and editors</em> und
+                <em>submitters, editors and administrators</em> existieren bereits aus den MIR-Standardregeln.
+            </li>
+            <li>
+                Der Access Key Manager arbeitet über die REST-API. Ohne die Regel auf <code>restapi:/access-keys</code> schlägt
+                jeder Aufruf mit 403 fehl, auch für Administratoren. Die eigentliche Berechtigung wird anschließend über
+                <code>manage-access-key-{permission}</code> auf dem Objekt geprüft, daher genügt hier eine Regel für alle Rollen,
+                die Zugriffsschlüssel verwalten sollen.
+                Eine Regel für <code>manage-access-key</code> auf <code>restapi:/</code> sollte nicht angelegt werden, da sonst
+                beide Regeln erfüllt sein müssen.
+            </li>
+            <li>
+                Das Recht auf <code>POOLPRIVILEGE</code> ermöglicht die Verwaltung über die REST-API und
+                <code>/access-key-manager/admin/</code>, blendet aber den Menüpunkt am Objekt nicht ein.
+            </li>
+            <li>
+                Statt <code>default_mods</code> kann auch eine Kategorie wie <code>mods:state:published</code> verwendet werden.
+            </li>
+        </ul>
+        <p>
+            Damit Ersteller (Submitter) auch nach der Veröffentlichung Lese-Schlüssel für ihre eigenen Objekte verwalten dürfen,
+            muss folgendes Property gesetzt werden:
+        </p>
+        {{< highlight properties "linenos=table">}}
+MCR.Access.Strategy.CreatorAnyStatePermissions=manage-access-key-read{{< /highlight >}}
+        <p>
+            Dies gilt in jedem Status für Nutzer mit der Rolle aus <code>MCR.Access.Strategy.CreatorRole</code>
+            (in MIR <code>submitter</code>), die das Objekt angelegt haben. Mehrere Rechte werden mit Komma getrennt.
+            Die Verwaltung von Schreib-Schlüsseln sollte Erstellern nicht erlaubt werden, da Dritte damit das veröffentlichte
+            Objekt bearbeiten könnten.
+        </p>
+        <p>
+            Eigene Anpassungen von <code>modsdetails-external.xsl</code> und <code>mir-accesskey-utils.xsl</code> müssen
+            überprüft werden: Links auf <code>accesskey/manager.xml</code> werden durch
+            <code>access-key-manager/{id}</code> ersetzt, die Templates <code>isCurrentUserAllowedToManageAccessKeys</code>
+            und <code>checkRestAccessKeyPathPermission</code> entfallen.
+        </p>
+    </div>
 </div>
 
 
