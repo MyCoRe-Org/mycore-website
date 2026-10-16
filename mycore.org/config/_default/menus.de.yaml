@@ -63,6 +63,7 @@ main:
 -       {identifier: mcrobj_datadef,          parent: mcrobject,          name: Datenmodell,                   weight: -97,      url: /documentation/basics/mcrobject/mcrobj_datadef}
 -       {identifier: mcrobj_datatypes,        parent: mcrobject,          name: Datentypen,                    weight: -96,      url: /documentation/basics/mcrobject/mcrobj_datatypes}
 -       {identifier: mcrobj_commands,         parent: mcrobject,          name: Kommandos,                     weight: -95,      url: /documentation/basics/mcrobject/mcrobj_commands}
+-       {identifier: mcrobj_dedup,            parent: mcrobject,          name: Dublettenerkennung,            weight: -94,      url: /documentation/basics/mcrobject/mcrobj_dedup}
 -     {identifier: mcrderivate,             parent: basics,             name: MyCoRe-Derivate,                 weight: -97,      url: /documentation/basics/mcrderivate}
 -       {identifier: mcrder_xml,              parent: mcrderivate,        name: XML-Format,                    weight: -99,      url: /documentation/basics/mcrderivate/mcrder_xml}
 -       {identifier: mcrder_commands,         parent: mcrderivate,        name: Kommandos,                     weight: -98,      url: /documentation/basics/mcrderivate/mcrder_commands}
