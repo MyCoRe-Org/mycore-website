@@ -36,7 +36,7 @@ date: "2026-01-20"
        <script>
        document.addEventListener("DOMContentLoaded", async function(event) { 
          for (let e of document.querySelectorAll("a.maven-snapshot-link")){
-           const mavenData = await retrieveMavenData(e);
+           const mavenData = await retrieveMavenDataViaShieldsIo(e);
            if(mavenData != null){
              //console.log(mavenData.url);
              e.setAttribute("href", mavenData.url);
