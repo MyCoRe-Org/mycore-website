@@ -17,11 +17,12 @@ date: "2026-01-20"
         Bedarf in die eigene Anwendung über <a href="{{< ref "release#einbindung-der-komponenten" >}}">Maven-Dependencies eingebunden</a> werden.
       </p>
       <p>Aktuelle und vergangene Release-Versionen der MyCoRe Bibliotheken finden Sie auf Maven-Central zum Download 
-        (z.B. <a href="https://central.sonatype.com/artifact/org.mycore/mycore-base">mycore-base</a>).
+        (z.B. <a href="https://central.sonatype.com/artifact/org.mycore/mycore-base">
+          <img src="https://img.shields.io/static/v1?label=mycore-base&message=Release-Übersicht&style=flat-square&labelColor=005072&color=%2315252D" alt="mycore-base auf Maven-Central"/></a>).
         <br />
         Über Sonatype können die aktuellen SNAPSHOT-Versionen 
         (z.B. <a class="maven-snapshot-link" 
-                 data-maven-groupid="org.mycore" data-maven-artifactid="mycore-base" data-maven-version="{{< param mcr_lts_version >}}" data-maven-extension="jar">mycore-base $VERSION</a>) 
+                 data-maven-groupid="org.mycore" data-maven-artifactid="mycore-base" data-maven-version="{{< param mcr_lts_version >}}" data-maven-extension="jar">mycore-base</a>) 
         mit den aktuellsten Bugfixes bezogen werden.
         <br />
         Der Quellcode steht bei
@@ -32,24 +33,33 @@ date: "2026-01-20"
        <script>
        document.addEventListener("DOMContentLoaded", async function(event) { 
          for (let e of document.querySelectorAll("a.maven-snapshot-link")){
-           const mavenData = await retrieveMavenData(e);
+           const mavenData = await retrieveMavenDataViaShieldsIo(e);
            if(mavenData != null){
              //console.log(mavenData.url);
              e.setAttribute("href", mavenData.url);
-             e.setAttribute("data-maven-metadata-url", mavenData.metadataURL)
-             e.textContent = e.textContent.replace("$VERSION", mavenData.version ).replace("$SNAPSHOT", mavenData.snapshotVersion);
-             
-             //update maven pom xml
-             let eMvn = document.getElementById("mcr_maven_config");
-             if(eMvn) {
-                eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_VERSION", mavenData.version);
-                const mycoreParentVersion = await extractMyCoReParentVersionFromPom(mavenData.url.replaceAll("mycore-base", "mycore").replace(".jar", ".pom"));
-                eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_PARENT_VERSION", mycoreParentVersion);
-              }
-           }
+             e.setAttribute("data-maven-metadata-url", mavenData.metadataURL);
+
+             const imgUrl = "https://img.shields.io/maven-metadata/v?"
+                + "&metadataUrl="+ encodeURIComponent(retrieveMavenSnapshotsURL(e))
+                + "&style=flat-square&labelColor=005072&color=%2315252D&filter="+mavenData.version+"*&label="+e.textContent;
+             const img = document.createElement('img');
+             img.src = imgUrl;
+             img.alt = e.textContent;
+             e.replaceChildren(img);
+            }
            else {
-             e.textContent = e.textContent.replace("$VERSION", e.dataset.mavenVersion).replace("$SNAPSHOT", "");
-             e.textContent = e.textContent + " [! No SNAPSHOT found in Maven Repository !]";
+             e.textContent = " [! No SNAPSHOT found in Maven Repository !]";
+           }
+         }
+
+         //update maven pom xml
+         let eMvn = document.getElementById("mcr_maven_config");
+         if(eMvn) {
+             const mavenData = await retrieveMavenDataViaShieldsIo(eMvn);
+           if(mavenData != null){
+             eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_VERSION", mavenData.version);
+             const mycoreParentVersion = await extractMyCoReParentVersionFromPomViaShieldsIo(mavenData.url);
+             eMvn.innerHTML = eMvn.innerHTML.replace("$MYCORE_PARENT_VERSION", mycoreParentVersion);
            }
          }
        });
@@ -70,7 +80,7 @@ date: "2026-01-20"
         eigene Anwendung erforderlichen Abhängigkeiten. Um das LTS {{<param mcr_lts_version>}} in der eigenen Anwendung zu verwenden, müssen in der
         pom.xml die MyCoRe-Version und mycore-parent angepasst werden:
       </p>
-      <div id="mcr_maven_config">
+      <div id="mcr_maven_config" data-maven-groupid="org.mycore" data-maven-artifactid="mycore" data-maven-version="{{< param mcr_lts_version >}}" data-maven-extension="pom">
         {{< highlight xml "linenos=table">}}
 <project>
   ...
