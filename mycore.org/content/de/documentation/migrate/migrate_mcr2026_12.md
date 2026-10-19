@@ -209,6 +209,13 @@ Anwendungen mit einem eigenständigen Frontend-Build außerhalb des Reactors sin
 
 Wie eine eigene App an die gemeinsame Toolchain angeschlossen wird, beschreibt `mycore-vue/README.md`.
 
+### Anpassung am Interface `MCREnrichmentDebugger` ({{<mcr-ticket "MCR-3874" >}})
+
+Die Signatur von `MCREnrichmentDebugger#debugResolved(String, Element)` wurde zu
+`MCREnrichmentDebugger#debugResolved(String, MCRDataSourceResult)` geändert.
+Eigene Implementierungen müssen angepasst werden. Das Element kann nun über `MCRDataSourceResult#element()`
+abgerufen werden.
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
