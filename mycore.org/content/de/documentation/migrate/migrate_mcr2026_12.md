@@ -211,31 +211,21 @@ Wie eine eigene App an die gemeinsame Toolchain angeschlossen wird, beschreibt `
 
 ### Anlegen von Derivaten prüft `create-derivate` am Elternobjekt ({{<mcr-ticket "MCR-3856" >}})
 
-Bisher wurde beim Anlegen eines Derivats das Pool-Privileg `create-{projekt}_derivate` (Base) bzw.
-`create-derivate` (Typ) geprüft. Ein Pool-Privileg ist nicht an ein Objekt gebunden und kann daher nicht
-ausdrücken, dass ein Derivat nur an bestimmten Objekten angelegt werden darf.
+Das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate` wird beim Anlegen eines Derivats nicht mehr
+geprüft. Stattdessen muss der Benutzer am **Elternobjekt** zusätzlich zu `writedb` die Berechtigung
+`create-derivate` haben.
 
-Jetzt wird stattdessen die Berechtigung `create-derivate` am **Elternobjekt** geprüft. Die bestehende Prüfung
-von `writedb` am Elternobjekt bleibt unverändert, beide Berechtigungen müssen also erfüllt sein. Die neue Prüfung
-gilt in `MCRMetadataManager#create(MCRDerivate)`, im `MCRCreateDerivateServlet` und im `MCRDefaultUploadHandler`.
+Was zu tun ist:
 
-Das Pool-Privileg wirkt nicht mehr auf Derivate. Anzupassen sind:
-
-- ACL-Regeln für die Pool-Privilegien `create-{projekt}_derivate` und `create-derivate` bleiben ohne Wirkung. Entsprechende
-  Regeln müssen für die Berechtigung `create-derivate` an den Elternobjekten definiert werden. Welche Regeln
-  dabei berücksichtigt werden, hängt von der konfigurierten Strategie ab: Die Standardstrategie
-  `MCRDerivateIDStrategy` betrachtet nur Regeln für die exakte Objekt-ID. Strategien mit Fallback (z.B. `MIRStrategy`)
-  lösen zusätzlich `default_{base}`, `default_{type}` und `default` auf. Wer bisher allen berechtigten Benutzern
-  das Anlegen von Derivaten erlaubt hat, braucht dort eine Regel, die dieselben Benutzer abdeckt.
-- Das Pool-Privileg `create-{projekt}_mods` bzw. `create-mods` für das Anlegen von Objekten ist nicht betroffen.
-- Die Property `MCR.Access.Strategy.CreatorPermissions` hat den neuen Standardwert `writedb,create-derivate`
-  (bisher `writedb`). Ersteller eines Objekts dürfen daran damit auch Derivate anlegen. Wer die Property in der
-  eigenen `mycore.properties` überschrieben hat, muss `create-derivate` dort ergänzen, wenn dieses Verhalten
-  gewünscht ist. Die davon abgeleiteten Properties `MCR.Access.Strategy.CreatorSubmittedPermissions` und
-  `MCR.Access.Strategy.CreatorReviewPermissions` erben die Änderung, sofern sie nicht ebenfalls überschrieben wurden.
-- Eigener Java-Code, der `MCRMetadataManager#checkCreatePrivilege` für Derivat-IDs aufruft, sollte stattdessen
-  `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_CREATE_DERIVATE)` für das Elternobjekt
-  verwenden. Die Konstante `PERMISSION_CREATE_DERIVATE` ist neu.
+- **ACL-Regeln:** Für jede Regel, die bisher das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate`
+  vergeben hat, muss dieselbe Regel für die Berechtigung `create-derivate` am Objekt angelegt werden. Bei Strategien
+  mit Fallback (z.B. `MIRStrategy`) genügt eine Regel an `default`, `default_{base}` oder `default_{type}`. Die
+  Standardstrategie `MCRDerivateIDStrategy` berücksichtigt nur Regeln für die exakte Objekt-ID.
+- **Eigene `mycore.properties`:** Nur wenn `MCR.Access.Strategy.CreatorPermissions` überschrieben ist, muss
+  `create-derivate` ergänzt werden, damit Ersteller weiterhin Derivate an ihren Objekten anlegen dürfen.
+  Der neue Standardwert ist `writedb,create-derivate`.
+- **Eigener Java-Code:** Aufrufe von `MCRMetadataManager#checkCreatePrivilege` für Derivate durch
+  `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_CREATE_DERIVATE)` am Elternobjekt ersetzen.
 
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
