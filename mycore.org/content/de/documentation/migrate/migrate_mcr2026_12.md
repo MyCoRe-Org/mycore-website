@@ -209,23 +209,23 @@ Anwendungen mit einem eigenständigen Frontend-Build außerhalb des Reactors sin
 
 Wie eine eigene App an die gemeinsame Toolchain angeschlossen wird, beschreibt `mycore-vue/README.md`.
 
-### Anlegen von Derivaten prüft `create-derivate` am Elternobjekt ({{<mcr-ticket "MCR-3856" >}})
+### Anlegen von Derivaten prüft `add-derivate` am Elternobjekt ({{<mcr-ticket "MCR-3856" >}})
 
 Das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate` wird beim Anlegen eines Derivats nicht mehr
 geprüft. Stattdessen muss der Benutzer am **Elternobjekt** zusätzlich zu `writedb` die Berechtigung
-`create-derivate` haben.
+`add-derivate` haben.
 
 Was zu tun ist:
 
 - **ACL-Regeln:** Für jede Regel, die bisher das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate`
-  vergeben hat, muss dieselbe Regel für die Berechtigung `create-derivate` am Objekt angelegt werden. Bei Strategien
+  vergeben hat, muss dieselbe Regel für die Berechtigung `add-derivate` am Objekt angelegt werden. Bei Strategien
   mit Fallback (z.B. `MIRStrategy`) genügt eine Regel an `default`, `default_{base}` oder `default_{type}`. Die
   Standardstrategie `MCRDerivateIDStrategy` berücksichtigt nur Regeln für die exakte Objekt-ID.
 - **Eigene `mycore.properties`:** Nur wenn `MCR.Access.Strategy.CreatorPermissions` überschrieben ist, muss
-  `create-derivate` ergänzt werden, damit Ersteller weiterhin Derivate an ihren Objekten anlegen dürfen.
-  Der neue Standardwert ist `writedb,create-derivate`.
+  `add-derivate` ergänzt werden, damit Ersteller weiterhin Derivate an ihren Objekten anlegen dürfen.
+  Der neue Standardwert ist `writedb,add-derivate`.
 - **Eigener Java-Code:** Aufrufe von `MCRMetadataManager#checkCreatePrivilege` für Derivate durch
-  `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_CREATE_DERIVATE)` am Elternobjekt ersetzen.
+  `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_ADD_DERIVATE)` am Elternobjekt ersetzen.
 
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
