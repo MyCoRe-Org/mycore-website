@@ -18,11 +18,17 @@ date: "2000-01-01"
 Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der
 [Migrationsanleitung für MyCoRe]({{< ref migrate_mcr2026_12 >}}) noch relevant sind.
 
-### Punkt 1
+### Entfernung des Layouts CosmoL
 
-Beschreibung.
-- `comando 1`
-- `comando 2`
+Mit {{<mcr-ticket "MIR-1709">}} wurde das nicht mehr gepflegte Layout CosmoL entfernt. Anwendungen, die in ihrer
+`mycore.properties` noch
 
-> Zusätzliche Hinweise
-{.note}
+```properties
+MIR.Layout.Theme=cosmol
+```
+
+gesetzt haben, müssen auf das Layout `flatmir` umgestellt werden, da sonst keine Seite mehr gerendert werden kann:
+
+```properties
+MIR.Layout.Theme=flatmir
+```
