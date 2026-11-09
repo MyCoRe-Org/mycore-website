@@ -209,6 +209,22 @@ Anwendungen mit einem eigenständigen Frontend-Build außerhalb des Reactors sin
 
 Wie eine eigene App an die gemeinsame Toolchain angeschlossen wird, beschreibt `mycore-vue/README.md`.
 
+### Filter im Klassifikationseditor über eigene Property aktivieren ({{<mcr-ticket "MCR-3913" >}})
+
+Der Klassifikationseditor kann über dem Kategorienbaum ein Filterfeld anzeigen, das Kategorien über den
+Solr-Klassifikationsindex sucht. Bisher wurde dieses Feld nur angezeigt, wenn `MCR.Category.DAO.Class` exakt auf
+`org.mycore.solr.classification.MCRSolrCategoryDAO` gesetzt war. Unterklassen davon sowie die Indexierung über
+`MCREventedCategoryDAOImpl` und `MCRSolrClassificationEventHandler` wurden dabei nicht erkannt.
+
+Das Filterfeld wird jetzt über eine eigene Property gesteuert, die standardmäßig deaktiviert ist:
+
+```properties
+MCR.classeditor.solrFilter.enabled=true
+```
+
+Anwendungen, die den Filter nutzen, müssen die Property in ihrer `mycore.properties` setzen. Voraussetzung ist
+weiterhin ein befüllter Solr-Klassifikationsindex. MIR setzt die Property bereits.
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
