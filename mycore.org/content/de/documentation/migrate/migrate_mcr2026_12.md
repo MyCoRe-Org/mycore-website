@@ -225,6 +225,30 @@ MCR.classeditor.solrFilter.enabled=true
 Anwendungen, die den Filter nutzen, müssen die Property in ihrer `mycore.properties` setzen. Voraussetzung ist
 weiterhin ein befüllter Solr-Klassifikationsindex. MIR setzt die Property bereits.
 
+### Anlegen von Derivaten prüft `add-derivate` am Elternobjekt ({{<mcr-ticket "MCR-3856" >}})
+
+Das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate` wird beim Anlegen eines Derivats nicht mehr
+geprüft. Stattdessen muss der Benutzer am **Elternobjekt** zusätzlich zu `writedb` die Berechtigung
+`add-derivate` haben.
+
+Was zu tun ist:
+
+- **ACL-Regeln:** Für jede Regel, die bisher das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate`
+  vergeben hat, muss dieselbe Regel für die Berechtigung `add-derivate` am Objekt angelegt werden. Bei Strategien
+  mit Fallback (z.B. `MIRStrategy`) genügt eine Regel an `default`, `default_{base}` oder `default_{type}`. Die
+  Standardstrategie `MCRDerivateIDStrategy` berücksichtigt nur Regeln für die exakte Objekt-ID. Hier muss die
+  Regel für bestehende Objekte einmalig per CLI angelegt werden, z.B. für alle MODS-Objekte:
+
+  ```
+  select objects with solr query +objectType:mods in core main
+  update permission add-derivate for selected with rulefile ${app.home}/config/acl/grant-editors.xml
+  ```
+- **Eigene `mycore.properties`:** Nur wenn `MCR.Access.Strategy.CreatorPermissions` überschrieben ist, muss
+  `add-derivate` ergänzt werden, damit Ersteller weiterhin Derivate an ihren Objekten anlegen dürfen.
+  Der neue Standardwert ist `writedb,add-derivate`.
+- **Eigener Java-Code:** Aufrufe von `MCRMetadataManager#checkCreatePrivilege` für Derivate durch
+  `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_ADD_DERIVATE)` am Elternobjekt ersetzen.
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
