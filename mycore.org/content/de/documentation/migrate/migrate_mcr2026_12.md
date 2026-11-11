@@ -124,8 +124,6 @@ Grundsätzlich ist es empfehlenswert, jeweils die neue Methode zu verwenden, es 
 Konfigurationseinträge mit leeren Werten zu verarbeiten.
 
 
-
-
 ### `MCRVueRootServlet` in ein neues Modul und Paket verschoben ({{<mcr-ticket "MCR-3811" >}})
 
 Das `MCRVueRootServlet` liegt nicht mehr in `mycore-webtools`, sondern im neuen Modul `mycore-vue`.

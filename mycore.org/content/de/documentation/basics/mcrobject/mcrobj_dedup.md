@@ -6,38 +6,41 @@ date: '2026-08-18'
 
 ---
 
-Die Komponente `mycore-dedup` erkennt mögliche Dubletten anhand konfigurierbarer Kriterien. Sie ist nicht auf
-MODS-Dokumente beschränkt: Eine Anwendung kann für jeden MyCoRe-Objekttyp eigene Kriterien und einen eigenen
-Anzeigetitel bereitstellen. `mycore-mods` bringt lediglich eine fertige Konfiguration für MODS mit.
+Die Komponente `mycore-dedup` erkennt mögliche Dubletten. 
+Eine Anwendung kann für jeden MyCoRe-Objekttyp eigene Kriterien konfigurieren und einen eigenen
+Anzeigetitel bereitstellen. Die Verwendung ist nicht auf MODS-Dokumente beschränkt - 
+`mycore-mods` bringt lediglich eine fertige Konfiguration für MODS mit.
 
-Die Erkennung liefert bewusst nur **mögliche** Dubletten. Zwei Objekte gelten als mögliche Dubletten, sobald sie
+
+Die Erkennung liefert bewusst **nur mögliche Dubletten**. Zwei Objekte gelten als mögliche Dubletten, sobald sie
 mindestens ein Kriterium mit gleichem Typ und gleichem, normalisiertem Wert besitzen. Ein fachlicher Prozess oder ein
 Benutzer muss anschließend entscheiden, ob es sich tatsächlich um Dubletten handelt.
 
 ## Funktionsweise
 
-Die Komponente speichert drei Arten von Daten in der MyCoRe-Datenbank:
+Die Komponente speichert die drei folgenden Angaben in der MyCoRe-Datenbank:
 
 - Deduplication Keys aus Kriterientyp, normalisiertem Wert und Objekt-ID,
 - einen optionalen Anzeigetitel je Objekt und
-- Paare, die ein Benutzer ausdrücklich als **keine Dubletten** markiert hat.
+- Paare, die ein Benutzer ausdrücklich als *Keine-Dublette* markiert hat.
 
 Beim Anlegen, Ändern und Reparieren eines `MCRObject` führt der `MCRDeDupEventHandler` alle für dessen Objekttyp
 konfigurierten `MCRDeDupCriterionBuilder` aus. Er ersetzt die bisher gespeicherten Keys und aktualisiert den
 Anzeigetitel. Beim Löschen eines Objekts entfernt er dessen Keys, Titel und alle zugehörigen
-Keine-Dublette-Markierungen. Objekttypen ohne konfigurierte Builder erzeugen keine Keys.
+*Keine-Dublette*-Markierungen. Wenn für den Objekttyp kein Builder konfiguriert ist, werden keine Keys erzeugt.
 
-Eine Suche vergleicht also nicht bei jeder Anfrage erneut die vollständigen Metadaten, sondern nur die vorberechneten
+Eine Dubletten-Check vergleicht also nicht bei jeder Anfrage erneut die vollständigen Metadaten, sondern nur die vorberechneten
 Keys. Das macht die Abfrage schnell und erlaubt es, unterschiedliche Metadatenmodelle über dieselbe API anzusprechen.
 Eine mögliche Dublette wird durch jeden gemeinsamen Key einzeln ausgegeben. Teilen zwei Objekte beispielsweise sowohl
-einen Identifier als auch ein Titel-Autor-Kriterium, enthält die REST-Antwort zwei Einträge für dieses Paar.
+einen Identifier als auch ein *Titel-Autor*-Kriterium, enthält das Ergebnis zwei Einträge für dieses Paar.
 
 > Nach dem erstmaligen Aktivieren der Komponente besitzen bereits vorhandene Objekte noch keine Keys. Sie müssen
-> einmal repariert oder erneut gespeichert werden, damit der Event Handler die Keys und Titel aufbaut.
+> einmal repariert oder erneut gespeichert werden, damit der Event-Handler die Keys und Titel aufbaut.
+
 
 ## Abhängigkeit und Grundkonfiguration
 
-Eine Anwendung nimmt zunächst die Komponente auf. Die Versionsverwaltung erfolgt üblicherweise über die MyCoRe-BOM.
+Eine Anwendung übernimmt zunächst die Komponente als Maven-Dependency. Die Version stammt üblicherweise über die MyCoRe-BOM:
 
 ```xml
 <dependency>
@@ -46,7 +49,7 @@ Eine Anwendung nimmt zunächst die Komponente auf. Die Versionsverwaltung erfolg
 </dependency>
 ```
 
-Damit werden unter anderem das JPA-Mapping, die Event Handler, der URI-Resolver und die REST-Anwendung konfiguriert.
+Dadurch werden die Datenbank-Konfiguration (JPA-Mapping), die Event-Handler, der URI-Resolver und die REST-Anwendung konfiguriert.
 Die dafür mitgelieferten Standard-Properties lauten:
 
 ```properties
@@ -64,19 +67,19 @@ MCR.URIResolver.ModuleResolver.dedup.SessionKeyPrefixes=editor_
 MCR.DeDup.API.Resource.Packages=org.mycore.dedup.resources
 ```
 
-Die Reihenfolge der Event Handler ist relevant: `015D` wertet temporäre Keine-Dublette-Flags aus, bevor der reguläre
+Die Reihenfolge der Event-Handler ist relevant: `015D` wertet temporäre *Keine-Dublette*-Flags aus, bevor der reguläre
 Handler `020` das Objekt schreibt. `085` baut anschließend die Such-Keys auf.
 
-Für eine optionale Administrationsoberfläche kann zusätzlich `org.mycore:mycore-dedup-gui` eingebunden werden. Sie ist
-unter `{Webanwendung}/dedup/` erreichbar und zeigt mögliche Dubletten sowie Keine-Dublette-Markierungen an.
+Für eine optionale Administrationsoberfläche kann zusätzlich die Maven-Dependency `org.mycore:mycore-dedup-gui` eingebunden werden. Sie ist
+unter `/dedup/` erreichbar und zeigt mögliche Dubletten sowie *Keine-Dublette*-Markierungen an.
 
 ## Eigene Objekttypen unterstützen
 
 Für einen eigenen Objekttyp sind mindestens ein `MCRDeDupCriterionBuilder` und dessen Konfiguration notwendig. Ein
 `MCRDeDupTitleResolver` ist optional, aber für verständliche REST- und GUI-Ausgaben empfehlenswert.
 
-Angenommen, die Anwendung verwendet den Objekttyp `book` und speichert ISBNs in Elementen namens `isbn`. Ein einfacher
-Builder kann so aussehen:
+Angenommen, die Anwendung verwendet den MyCoRe-Objekt-Typ `book` und speichert ISBNs in Elementen namens `isbn`. 
+Dann kann ein einfacher Builder so aussehen:
 
 ```java
 package org.example.book.dedup;
@@ -115,7 +118,7 @@ public class BookISBNCriterionBuilder implements MCRDeDupCriterionBuilder {
 }
 ```
 
-Der Builder wird unter der tatsächlichen Typ-ID aus der `MCRObjectID` registriert:
+Der Builder wird unter der tatsächlichen Typ-ID (hier: `book`) aus der `MCRObjectID` registriert:
 
 ```properties
 MCR.DeDup.CriterionBuilder.book.isbn.Class=org.example.book.dedup.BookISBNCriterionBuilder
@@ -130,12 +133,12 @@ MCR.DeDup.CriterionBuilder.book.titleAuthor.Class=org.example.book.dedup.BookTit
 MCR.DeDup.CriterionBuilder.book.shelfmark.Class=org.example.book.dedup.BookShelfmarkCriterionBuilder
 ```
 
-Alle zurückgegebenen Mengen werden vereinigt. Ein einzelner gemeinsamer Wert genügt für einen Treffer; die verschiedenen
+Alle zurückgegebenen Ergebnisse werden vereinigt. Ein einzelner gemeinsamer Wert genügt für einen Treffer; die verschiedenen
 Builder bilden also standardmäßig eine ODER-Verknüpfung. Anwendungen, die nur eine bestimmte Kombination vergleichen
 wollen, können diese Felder in **einem** normalisierten Kriterium zusammenfassen, beispielsweise
 `MCRDeDupCriterion.of("title-author", normalizedTitle + ':' + normalizedAuthor)`.
 
-Bei eigenen Kriterien sollte Folgendes beachtet werden:
+Bei selbst erstellten Kriterien sollte Folgendes beachtet werden:
 
 - Semantisch gleiche Werte müssen identisch normalisiert werden, etwa durch Kleinschreibung, vereinheitlichte
   Leerzeichen oder das Entfernen von Trennzeichen.
@@ -198,12 +201,11 @@ MCR.DeDup.CriterionBuilder.mods.shelfmark.Class=org.mycore.mods.dedup.MCRMODSShe
 MCR.DeDup.TitleResolver.mods.Class=org.mycore.mods.dedup.MCRMODSDeDupTitleResolver
 ```
 
-Einzelne Strategien können in der Anwendung durch Überschreiben oder Entfernen des jeweiligen Properties angepasst
-werden.
+Einzelne Strategien können in der Anwendung durch Überschreiben oder Entfernen ("Leer-Setzen") des jeweiligen Properties angepasst werden.
 
 ## URI-Resolver
 
-Der URI-Resolver stellt Treffer als XML für XSLT-Stylesheets bereit. Er unterstützt zwei Aktionen.
+Der `MCRDeDupURIResolver` stellt Treffer als XML zur weiteren Verarbeitung in XSLT-Stylesheets bereit. Er unterstützt zwei Aktionen.
 
 ### Gespeichertes Objekt abfragen
 
@@ -224,7 +226,7 @@ Das Ergebnis gruppiert alle gemeinsamen Kriterien nach dem jeweils anderen Objek
 </duplicates>
 ```
 
-Bereits als keine Dubletten markierte Paare werden nicht ausgegeben. Eine ungültige Objekt-ID oder eine unbekannte
+Bereits als *Keine-Dublette* markierte Paare werden nicht ausgegeben. Eine ungültige Objekt-ID oder eine unbekannte
 Aktion führt zu einem `TransformerException`.
 
 ### Noch nicht gespeichertes Editorobjekt abfragen
@@ -238,16 +240,16 @@ gespeichert wurde. Der Resolver liest das JDOM-Metadatenelement aus der aktuelle
               select="document('dedup:duplicates-for-session:editor_book')/duplicates"/>
 ```
 
-Aus Sicherheitsgründen darf der Session-Key nur mit einem konfigurierten Präfix beginnen. Mehrere Präfixe werden durch
+Aus Sicherheitsgründen darf der Key für Session-Objekte nur mit einem konfigurierten Präfix beginnen. Mehrere Präfixe werden durch
 Kommas getrennt:
 
 ```properties
 MCR.URIResolver.ModuleResolver.dedup.SessionKeyPrefixes=editor_,myBookEditor_
 ```
 
-Der zugehörige Session-Wert muss ein `org.jdom2.Element` mit dem XML des `MCRObject` sein. Das Ergebnis hat dasselbe
+Der zugehörige Wert des Session-Objektes muss ein `org.jdom2.Element` mit dem XML des `MCRObject` sein. Das Ergebnis hat dasselbe
 Format wie oben; das `for`-Attribut enthält hierbei den Session-Key. Da das neue Objekt noch keine endgültige ID hat,
-kann diese Abfrage keine bereits gespeicherte Keine-Dublette-Markierung für das neue Objekt berücksichtigen.
+kann diese Abfrage keine bereits gespeicherte *Keine-Dublette*-Markierung für das neue Objekt berücksichtigen.
 
 ## REST-API
 
@@ -258,8 +260,8 @@ Die JSON-API liegt unter `{Webanwendung}/api/dedup`. Alle Endpunkte setzen das M
 | --- | --- | --- |
 | `GET` | `/api/dedup/duplicates` | Alle möglichen Dublettenpaare auflisten |
 | `GET` | `/api/dedup/duplicates/{id}` | Mögliche Dubletten eines Objekts auflisten |
-| `GET` | `/api/dedup/no-duplicates` | Alle Keine-Dublette-Markierungen auflisten |
-| `POST` | `/api/dedup/no-duplicates?id1={id1}&id2={id2}` | Ein Paar als keine Dubletten markieren |
+| `GET` | `/api/dedup/no-duplicates` | Alle *Keine-Dublette*-Markierungen auflisten |
+| `POST` | `/api/dedup/no-duplicates?id1={id1}&id2={id2}` | Ein Paar als *Keine-Dublette* markieren |
 | `DELETE` | `/api/dedup/no-duplicates/{markingId}` | Eine Markierung anhand ihrer Datenbank-ID entfernen |
 
 Eine Trefferantwort enthält einen Eintrag je gemeinsamem Kriterium. Die Objekt-IDs eines Paars werden unabhängig von
@@ -282,9 +284,9 @@ Fehlt ein gespeicherter Anzeigetitel, ist das entsprechende Feld `null`. Das Mar
 wiederholtes Markieren desselben ungeordneten Paars ist wirkungsgleich. Identische oder ungültige Objekt-IDs führen zu
 HTTP 400. Das Löschen liefert HTTP 204 und ist auch dann erfolgreich, wenn die angegebene Markierung nicht existiert.
 
-Eine Keine-Dublette-Markierung unterdrückt das Paar vollständig, auch wenn es mehrere Kriterien gemeinsam hat. Die
+Eine *Keine-Dublette*-Markierung unterdrückt das Paar vollständig, auch wenn es mehrere Kriterien gemeinsam hat. Die
 Antwort von `GET /api/dedup/no-duplicates` enthält zusätzlich die ID der Markierung, den erzeugenden Benutzer und den
-ISO-8601-Zeitpunkt:
+Zeitpunkt (im Format ISO-8601):
 
 ```json
 [
@@ -310,6 +312,6 @@ object.getService().addFlag("dedupNoDuplicate", "app_book_00000002");
 ```
 
 Der Flag-Typ ist mit `MCR.DeDup.NoDuplicateFlagType` konfigurierbar. Für jedes bestätigte Vergleichsobjekt wird ein
-eigenes Flag gesetzt. Der frühe Event Handler wandelt gültige Flags beim Anlegen oder Ändern in dauerhafte
-Keine-Dublette-Markierungen um und entfernt die Flags vor dem Speichern aus den Metadaten. Ungültige IDs,
+eigenes Flag gesetzt. Der erste Event-Handler wandelt gültige Flags beim Anlegen oder Ändern in dauerhafte
+*Keine-Dublette*-Markierungen um und entfernt die Flags vor dem Speichern aus den Metadaten. Ungültige IDs,
 Selbstreferenzen und doppelte Werte werden ignoriert.
