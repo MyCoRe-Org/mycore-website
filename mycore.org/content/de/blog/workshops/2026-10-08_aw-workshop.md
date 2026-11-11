@@ -11,7 +11,7 @@ blog/periods: 	2026-10
 blog/categories:
  - Workshops
 
-news/frontpage: 	true
+news/frontpage: 	false
 news/title_de: 		"MyCoRe-Workshop 2026"
 news/teaser_de: 	"Einladung zum MyCoRe-Workshop am 4. und 5. November 2026 an der RWTH in Aachen."
 news/title_en: 		"MyCoRe workshop 2026 Invitation"

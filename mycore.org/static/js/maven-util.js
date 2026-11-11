@@ -85,7 +85,7 @@ async function retrieveMavenDataViaShieldsIo(e){
       const jsonSnapshotVersionUrl = 'https://img.shields.io/badge/dynamic/xml.json'
         + '?url=' + encodeURIComponent(metadataURL)
         + '&query=' + encodeURIComponent("//snapshotVersion[extension='" + ext + "'][last()]/value")
-        + '&label=war';
+        + '&label=' + ext;
       const jsonSnapshotVersion = await fetch(jsonSnapshotVersionUrl)
         .then((response) => response.json());
       const snapshotVersion = jsonSnapshotVersion.message;

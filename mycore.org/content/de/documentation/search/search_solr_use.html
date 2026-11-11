@@ -291,6 +291,22 @@ date: "2026-03-20"
         </div>
 
         <hr>
+        <h5>HTTP-Client</h5>
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="useHttp11" checked onchange="solrConfigUpdate()">
+                    <label class="form-check-label" for="useHttp11">Solr über HTTP/1.1 ansprechen</label>
+                    <small class="form-text text-muted">
+                        Voreinstellung von MyCoRe, siehe
+                        <a href="https://issues.apache.org/jira/browse/SOLR-17502">SOLR-17502</a>.
+                        Ohne Haken kommuniziert MyCoRe über HTTP/2.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <hr>
         <h5>Tika <small class="text-muted">(optional)</small></h5>
         <div class="form-group row">
             <div class="col-sm-9 offset-sm-3">
@@ -481,6 +497,13 @@ function solrConfigUpdate() {
         lines.push('MCR.Solr.Server.Auth.Search.Class=org.mycore.solr.auth.MCRSolrPropertyBasicAuthenticator');
         lines.push('MCR.Solr.Server.Auth.Search.Username=' + (document.getElementById('searchUser').value || 'searcher'));
         lines.push('MCR.Solr.Server.Auth.Search.Password=' + (document.getElementById('searchPassword').value || ''));
+    }
+
+    // HTTP-Client
+    if (!document.getElementById('useHttp11').checked) {
+        lines.push('');
+        lines.push('# --- HTTP-Client ---');
+        lines.push('MCR.Solr.UseHttp_1_1=false');
     }
 
     // Tika
@@ -729,6 +752,7 @@ MCR.Solr.Server.Auth.Search.Password=geheim231
 {{< highlight properties "linenos=table">}}
 # HTTP-Client
 MCR.Solr.Default.UseJettyHttpClient=true
+MCR.Solr.UseHttp_1_1=true
 MCR.Solr.Default.Client.ConnectionTimeout=0
 MCR.Solr.Default.Client.ConnectionTimeout.Unit=MILLISECONDS
 MCR.Solr.Default.Client.IdleTimeout=50000
@@ -741,6 +765,13 @@ MCR.Solr.Default.ConcurrentClient.Enabled=true
 MCR.Solr.Default.ConcurrentClient.QueueSize=100
 MCR.Solr.Default.ConcurrentClient.ThreadCount=%MCR.Solr.Indexer.ThreadCount%
 {{< /highlight >}}
+
+<p>
+    <code>MCR.Solr.UseHttp_1_1</code> erzwingt HTTP/1.1 als Protokoll und ist standardmäßig aktiviert.
+    Hintergrund ist <a href="https://issues.apache.org/jira/browse/SOLR-17502">SOLR-17502</a>.
+    Mit dem Wert <code>false</code> kommuniziert MyCoRe über HTTP/2. Einzelne Indexe können den Wert über
+    <code>MCR.Solr.IndexRegistry.Index.{id}.UseHttp11</code> überschreiben.
+</p>
 
 <h2>ConfigSets laden und erweitern</h2>
 <p>
@@ -1056,6 +1087,16 @@ MCR.Solr.Proxy.WhiteList=%MCR.Solr.Proxy.WhiteList%,/mein-handler
             <td><code>MCR.Solr.Default.UseJettyHttpClient</code></td>
             <td>Jetty HTTP-Client verwenden</td>
             <td><code>true</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.UseHttp_1_1</code></td>
+            <td>HTTP/1.1 statt HTTP/2 verwenden (Workaround für SOLR-17502)</td>
+            <td><code>true</code></td>
+        </tr>
+        <tr>
+            <td><code>MCR.Solr.IndexRegistry.Index.{id}.UseHttp11</code></td>
+            <td>HTTP/1.1 für diesen Index; überschreibt <code>MCR.Solr.UseHttp_1_1</code></td>
+            <td><code>MCR.Solr.UseHttp_1_1</code></td>
         </tr>
         <tr>
             <td><code>MCR.Solr.Default.Client.IdleTimeout</code></td>
