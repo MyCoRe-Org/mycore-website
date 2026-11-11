@@ -18,6 +18,21 @@ date: "2000-01-01"
 Hier sind weitere Schritte zur MIR-Migration gelistet, die neben der
 [Migrationsanleitung für MyCoRe]({{< ref migrate_mcr2026_12 >}}) noch relevant sind.
 
+### Entfernung des Layouts CosmoL
+
+Mit {{<mcr-ticket "MIR-1709">}} wurde das nicht mehr gepflegte Layout CosmoL entfernt. Anwendungen, die in ihrer
+`mycore.properties` noch
+
+```properties
+MIR.Layout.Theme=cosmol
+```
+
+gesetzt haben, müssen auf das Layout `flatmir` umgestellt werden, da sonst keine Seite mehr gerendert werden kann:
+
+```properties
+MIR.Layout.Theme=flatmir
+```
+
 ### Modulare Metadaten- und Admin-Box
 
 Mit <a href="https://mycore.atlassian.net/browse/MIR-1661">MIR-1661</a> wurde das Stylesheet `modsmetadata.xsl`, das
