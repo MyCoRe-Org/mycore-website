@@ -236,7 +236,13 @@ Was zu tun ist:
 - **ACL-Regeln:** Für jede Regel, die bisher das Pool-Privileg `create-{projekt}_derivate` bzw. `create-derivate`
   vergeben hat, muss dieselbe Regel für die Berechtigung `add-derivate` am Objekt angelegt werden. Bei Strategien
   mit Fallback (z.B. `MIRStrategy`) genügt eine Regel an `default`, `default_{base}` oder `default_{type}`. Die
-  Standardstrategie `MCRDerivateIDStrategy` berücksichtigt nur Regeln für die exakte Objekt-ID.
+  Standardstrategie `MCRDerivateIDStrategy` berücksichtigt nur Regeln für die exakte Objekt-ID. Hier muss die
+  Regel für bestehende Objekte einmalig per CLI angelegt werden, z.B. für alle MODS-Objekte:
+
+  ```
+  select objects with solr query +objectType:mods in core main
+  update permission add-derivate for selected with rulefile ${app.home}/config/acl/grant-editors.xml
+  ```
 - **Eigene `mycore.properties`:** Nur wenn `MCR.Access.Strategy.CreatorPermissions` überschrieben ist, muss
   `add-derivate` ergänzt werden, damit Ersteller weiterhin Derivate an ihren Objekten anlegen dürfen.
   Der neue Standardwert ist `writedb,add-derivate`.
