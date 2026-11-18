@@ -108,3 +108,31 @@ MCR.URIResolver.xslIncludes.metadatabox=%MCR.URIResolver.xslIncludes.metadatabox
 > `match="field[@name='access-condition']"`) anlegen, Modul an `MCR.URIResolver.xslIncludes.metadatabox` anhängen
 > und den Feldnamen in `MIR.MetadataBox.Fields` an der gewünschten Stelle eintragen. Existieren für ein Feld zwei
 > Templates mit gleicher `priority`, bricht die Transformation mit einem Fehler ab.
+{.note}
+
+### Verbesserte Personensuche ({{<mcr-ticket "MIR-1718" >}})
+
+Die Personensuche wurde ein Stück weit verbessert, sodass Namen, deren erster Buchstabe Diakritika/Akzente hat,
+nun besser unterstützt werden (sofern der Buchstabe aus dem Bereich A-Z stammt, für andere Buchstaben, z.B.
+Griechische oder Kyrillische, wurde ein weiterer Button mit Beschriftung `…` hinzugefügt).
+
+Hierfür muss das Solr-Schema aktualisiert und die Metadaten neu indexiert werden.
+Dies kann mit den folgenden Kommandos erledigt werden:
+
+- `reload solr configuration main in core main`
+- `rebuild solr metadata index in core main`
+- `optimize solr index in core main`
+- `repair metadata search of type mods`
+
+Das zur Suche verwendete Muster wird nun nicht mehr über den Parameter `terms.regex`,
+sondern über den Parameter `regex` an das Servlet zur Personensuche übergeben.
+Entsprechende Eintragungen, z.B. in der Datei `actionmappings.xml` oder anderen Verlinkungen,
+müssen angepasst werden. 
+
+In den Mustern kann auf die spezielle Behandlung von Umlauten verzichtet werden.
+Insbesondere in der Datei `actionmappings.xml` kann also z.B. `terms.regex=%5Ba%7C%C3%A4%7C%C3%84%5D.*`
+durch `regex=a.*` ersetzt werden.
+
+Mit dem neuen Konfigurationswert `MIR.Search.PersonIndex.HideButtonRegex` kann eingestellt werden, 
+ob das zur Suche verwendete Muster angezeigt werden soll, wenn einer der Buttons verwendet wurde.
+
