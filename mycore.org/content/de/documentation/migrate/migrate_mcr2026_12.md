@@ -92,7 +92,7 @@ Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
   Sie kann verwendet werden, um einen Konfigurationseintrag als boolschen Wert zu interpretieren.  
   Ist kein Konfigurationswert vorhanden, wird `false` zurückgeliefert.
 - Die Methode `get-or-else` wurde hinzugefügt.  
-  Sie kann verwendet werden, um einen Standardwert vorzugaben, falls kein KOnfigurationswert vorhanden ist.
+  Sie kann verwendet werden, um einen Standardwert vorzugaben, falls kein Konfigurationswert vorhanden ist.
 
 > Die Verwendung von `<xsl:param name=​'MCR.Foo.Bar'>` auf oberster Ebene eines Stylesheets sollte durch
 > `<xsl:variable name=​"Bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` auf oberster Ebene des Stylesheets oder, besser,
