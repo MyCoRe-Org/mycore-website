@@ -88,13 +88,13 @@ Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
   - `map:get(mcrproperty:get-sub-properties('MCR.Foo.Bars'), 'baz')` (Hilfsmethode),
   - `mcrproperty:get-sub-properties('MCR.Foo.Bars')('baz')` (Funktionsaufruf) oder
   - `mcrproperty:get-sub-properties('MCR.Foo.Bars')?'baz'` (Lookup-Operator) ersetzt werden.
-- Die Methode `get-boolean` wurde hinzugefügt.  
+- Die Methode `mcrproperty:get-boolean` wurde hinzugefügt.  
   Sie kann verwendet werden, um einen Konfigurationseintrag als boolschen Wert zu interpretieren.  
   Ist kein Konfigurationswert vorhanden, wird `false` zurückgeliefert.
-- Die Methode `get-or-else` wurde hinzugefügt.  
+- Die Methode `mcrproperty:get-or-else` wurde hinzugefügt.  
   Sie kann verwendet werden, um einen Standardwert vorzugaben, falls kein Konfigurationswert vorhanden ist.
 
-> Die Verwendung von `<xsl:param name=​'MCR.Foo.Bar'>` auf oberster Ebene eines Stylesheets sollte durch
+> Die Verwendung von Properties als XSL-Parameter (`<xsl:param name=​'MCR.Foo.Bar'>`) auf oberster Ebene eines Stylesheets sollte durch
 > `<xsl:variable name=​"Bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` auf oberster Ebene des Stylesheets oder, besser,
 > `<xsl:variable name=​"bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` am Verwendungsort ersetzt werden,
 > um Probleme mit undefinierten oder doppelt definierten Parametern im Zusammenhang mir `xsl:include` / `xsl:import` zu vermeiden.
