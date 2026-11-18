@@ -254,6 +254,28 @@ Was zu tun ist:
 - **Eigener Java-Code:** Aufrufe von `MCRMetadataManager#checkCreatePrivilege` für Derivate durch
   `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_ADD_DERIVATE)` am Elternobjekt ersetzen.
 
+### Prüfziffern bei importierten URNs ({{<mcr-ticket "MCR-3841" >}})
+
+Bereits seit einiger Zeit integriert die DNB beim Generieren von URNs keine Prüfziffer mehr in die generierten URNs.
+
+In MyCoRe ist der vormals von der DNB zum Berechnen von Prüfziffern verwendete Algorithmus weiterhin vorhanden und
+wird weiterhin beim Generieren von URNs verwendet.
+
+Bisher wurde beim Importieren von URNs mit dem CLI-Kommando `try to control {0} with pi service {1}` oder
+`try to control {0} with pi service {1} with additional {2}` die letzte Stelle der importierten URN durch
+eine berechnete Prüfziffer ersetzt. Dies geschieht nun nicht mehr pauschal, sodass auch neuere,
+von der DNB generierte URNs korrekt (unverändert) importiert werden können.
+
+Wer einen Arbeitsablauf hat, der darauf angewiesen ist, dass beim Importieren von URNs mit einem der genannten
+Kommandos die Prüfziffer berechnet wird (oder direkt mit `MCRDNBURParser` arbeitet und auf diese Verhalten angewiesen ist),
+muss bei den betroffenen URNs nun explizit ein `?` als letztes Zeichen setzen. Endet eine URN derart,
+wird dieses `?` durch eine berechnete Prüfziffer ersetzt.
+
+> Die genannten Kommandos verändern weiterhin nur die beim Importieren in die Datenbank übernommene URN,
+> nicht die Metadaten des behandelten Objekts (z.B. den Wert im `<mods:identifier type="urn"/>`-Element
+> im Falle des MODS-Datenmodells). Die Metadaten müssen weiterhin separat aktualisiert werden.
+{.warning}
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
