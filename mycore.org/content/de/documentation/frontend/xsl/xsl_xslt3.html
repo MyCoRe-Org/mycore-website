@@ -245,40 +245,88 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
   </tr>
 </table>
 <p></p>
-<h4>mcrproperty:one()</h4>
+<h4>mcrproperty:get()</h4>
 <p>
   Diese Funktion gibt den Wert eines einzelnen Properties als String zurück.<br />
   Im Parameter <tt>key</tt> wird der Schlüssel des Properties übergeben.
 </p>
 <p>
 {{< highlight xml "linenos=table">}}
-  mcrproperty:one({key})
+  mcrproperty:get({key})
 {{< /highlight >}}
 </p>
 <p>zum Beispiel:</p>
 <p>
 {{< highlight xml "linenos=table">}}
-  <h3><xsl:value-of select="mcrproperty:one('MCR.NameOfProject')" /></h3>
+  <h3><xsl:value-of select="mcrproperty:get('MCR.NameOfProject')" /></h3>
   
   <!-- Ausgabe: -->
   <h3>MIR</h3>{{< /highlight >}}
 </p>
 
-<h4>mcrproperty:all()</h4>
+<h4>mcrproperty:get-or-else()</h4>
 <p>
-  Diese Funktion gibt eine Liste von Properties zurück.<br />
-  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+  Diese Funktion gibt den Wert eines einzelnen Properties als String zurück.<br />
+  Im Parameter <tt>key</tt> wird der Schlüssel des Properties übergeben.<br />
+  Im Parameter <tt>fallback</tt> wird ein Standardwert übergeben,
+  der zurückgegeben werden soll, wenn das Property keinen Wert hat.
 </p>
 <p>
 {{< highlight xml "linenos=table">}}
-  mcrproperty:all({keyPrefix})
+  mcrproperty:get-or-else({key}, {fallback})
 {{< /highlight >}}
 </p>
 <p>zum Beispiel:</p>
 <p>
 {{< highlight xml "linenos=table">}}
-  <xsl:variable name="props" select="mcrproperty:all('MCR.Solr.Core.')" />
-  <xsl:copy-of select="$props" />
+  <h3><xsl:value-of select="mcrproperty:get('MCR.NameOfBaseProject', 'MyCoRe')" /></h3>
+
+  <!-- Ausgabe: -->
+  <h3>MyCoRe</h3>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:get-boolean()</h4>
+<p>
+  Diese Funktion gibt den Wert eines einzelnen Properties als boolschen Wert zurück.<br />
+  Im Parameter <tt>key</tt> wird der Schlüssel des Properties übergeben.<br />
+  Wenn das Property keinen Wert hat, wird <tt>false</tt> zurückgegeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:get-boolean({key})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="show-real-user-name" select="mcrproperty:get-boolean('MIR.AdmindataBox.ShowRealUserName')" />
+  <h3><xsl:value-of select="if ($show-real-user-name) then string($user/realName) else 'Unbekannt'" /></h3>
+  <!-- Ausgabe: -->
+  <h3>Erika Mustermann</h3>{{< /highlight >}}
+</p>
+
+<h4>mcrproperty:get-sub-properties()</h4>
+<p>
+  Diese Funktion gibt Properties als <tt>map(xs:string, xs:string)</tt> zurück.<br />
+  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
+</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  mcrproperty:get-sub-properties({keyPrefix})
+{{< /highlight >}}
+</p>
+<p>zum Beispiel:</p>
+<p>
+{{< highlight xml "linenos=table">}}
+  <xsl:variable name="props" select="mcrproperty:get-sub-properties('MCR.Solr.Core.')" />
+  <properties>
+    <xsl:for-each select="map:keys($props)">
+      <xsl:variable name="key" select="."/>
+      <entry key="{$key}">
+        <xsl:value-of select="$props($key)"/>
+      </entry>
+    </xsl:for-each>
+  </properties>
   
   <!-- Ausgabe: -->
   <properties>
@@ -287,37 +335,6 @@ sind die folgenden Code-Stellen zu überarbeiten. Diese Anleitung soll Hinweise 
     <entry key="MCR.Solr.Core.main.ServerURL">http://localhost:8983/</entry>
     <entry key="MCR.Solr.Core.classification.ServerURL">http://localhost:8983/</entry>
   </properties>{{< /highlight >}}
-
-{{< highlight xml "linenos=table">}}
-  <xsl:for-each select="mcrproperty:all('MCR.Solr.Core.')/entry">
-    <span><xsl:value-of select="@key" /> = <xsl:value-of select="." /></span>
-  </xsl:for-each>
-  
-  <!-- Ausgabe: -->
-  <span>MCR.Solr.Core.main.Name = mir_main</span>
-  <span>MCR.Solr.Core.classification.Name = mir_class</span>
-  <span>MCR.Solr.Core.main.ServerURL = http://localhost:8983/</span>
-  <span>MCR.Solr.Core.classification.ServerURL = http://localhost:8983/</span>{{< /highlight >}}
-</p>
-
-<h4>mcrproperty:map()</h4>
-<p>
-  Diese Funktion gibt eine <a href="https://www.saxonica.com/html/documentation12/xsl-elements/map.html">XSL-Map</a> von Properties zurück.<br />
-  Im Parameter <tt>keyPrefix</tt> wird das Prefix für die Schlüssel der benötigten Properties übergeben.
-</p>
-<p>
-{{< highlight xml "linenos=table">}}
-  mcrproperty:map({keyPrefix})
-{{< /highlight >}}
-</p>
-<p>zum Beispiel:</p>
-<p>
-{{< highlight xml "linenos=table">}}
-  <xsl:variable name="propMap" select="mcrproperty:map('MCR.Solr.Core.')" />
-  <span><xsl:value-of select="map:get($propMap, 'MCR.Solr.Core.main.Name')" /></span>
-  
-  <!-- Ausgabe: -->
-  <span>mir_main</span>{{< /highlight >}}
 </p>
 
 <p>&nbsp;</p>

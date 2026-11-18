@@ -67,7 +67,7 @@ Beschreibung
 
 ## Migrationsschritte
 
-### Geänderte Funktionen in `property.xsl` ({{<mcr-ticket "MCR-3719" >}})
+### Geänderte Funktionen in `property.xsl` ({{<mcr-ticket "MCR-3719" >}}) / ({{<mcr-ticket "MCR-3921" >}})
 
 Durch `property.xsl` wurden ursprünglich zwei Funktionen bereitgestellt;
 eine, `one`, die den Wert zu einem Property-Namen zurückliefert und
@@ -79,15 +79,20 @@ die dasselbe tut wie `all`, dabei aber eine XSL-Map zurückliefert.
 
 Mit MCR-3719 wurden die bereitgestellten Funktionen überarbeitet:
 
-- Die Methode `one` wurde in `get` umbenannt.  
-  Aufrufe von `mcrproperty:one` müssen durch `mcrproperty:get` ersetzt werden.
-- Die Methode `map` wurde in `get-sub-properties` umbenannt.  
-  Aufrufe von `mcrproperty:map` müssen durch `mcrproperty:get-sub-properties` ersetzt werden.
-- Die Methode `all` wurde entfernt.  
+- Die Methode `mcrproperty:one` wurde in `mcrproperty:get` umbenannt.  
+  Aufrufe der Form `mcrproperty:one('MCR.Foo.Bar')` müssen durch `mcrproperty:get('MCR.Foo.Bar')` ersetzt werden.
+- Die Methode `mcrproperty:map` wurde in `mcrproperty:get-sub-properties` umbenannt.  
+  Aufrufe von `mcrproperty:map('MCR.Foo.Bars')` müssen durch `mcrproperty:get-sub-properties('MCR.Foo.Bars')` ersetzt werden.
+- Die Methode `mcrproperty:all` wurde entfernt.  
   Aufrufe der Form `mcrproperty:all('MCR.Foo.Bars')/entry[@key='baz']` müssen durch
   - `map:get(mcrproperty:get-sub-properties('MCR.Foo.Bars'), 'baz')` (Hilfsmethode),
   - `mcrproperty:get-sub-properties('MCR.Foo.Bars')('baz')` (Funktionsaufruf) oder
   - `mcrproperty:get-sub-properties('MCR.Foo.Bars')?'baz'` (Lookup-Operator) ersetzt werden.
+- Die Methode `get-boolean` wurde hinzugefügt.  
+  Sie kann verwendet werden, um einen Konfigurationseintrag als boolschen Wert zu interpretieren.  
+  Ist kein Konfigurationswert vorhanden, wird `false` zurückgeliefert.
+- Die Methode `get-or-else` wurde hinzugefügt.  
+  Sie kann verwendet werden, um einen Standardwert vorzugaben, falls kein KOnfigurationswert vorhanden ist.
 
 > Die Verwendung von `<xsl:param name=​'MCR.Foo.Bar'>` auf oberster Ebene eines Stylesheets sollte durch
 > `<xsl:variable name=​"Bar" select=​"mcrproperty:get('MCR.Foo.Bar')" />` auf oberster Ebene des Stylesheets oder, besser,
