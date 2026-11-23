@@ -2,7 +2,7 @@
 ---
 
 title: "Der Layout-Service"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2019.06','2020.06','2026.12']
 author: ['Thomas Scheffler', 'Jens Kupferschmidt']
 description: "Eine grundlegende Beschreibung des Layout-Services in MyCoRe"
 date: "2020-06-02"
@@ -68,6 +68,11 @@ date: "2020-06-02"
         Property definiert ist, aber kein passendes
         "MCR.ContentTransformer.*.Class" Property, wird automatisch der
         MCRXSLTransformer benutzt.
+      </p>
+      <p>
+        Welcher XSLT-Prozessor (z.B. Saxon oder Xalan) einen ContentTransformer ausführt, legt
+        <code>MCR.ContentTransformer.*.XSLTProcessor</code> fest. Ohne diese Angabe gilt der Standard aus
+        <code>MCR.LayoutService.XSLTProcessor</code>. Siehe <a href="{{< ref xsl_xslt3 >}}">Die Nutzung von XSLT3</a>.
       </p>
 
       <h3>Konfiguration von ContentTransformern</h3>

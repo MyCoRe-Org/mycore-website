@@ -57,6 +57,31 @@ Modulen (`mycore-webtools`, `mycore-webcli`, `mycore-jobqueue`, `mycore-acl`); i
 Die Alt-Frontends auf Basis von AngularJS und Grunt (METS-Editor, WCMS2, Classeditor, ACL-Editor2, Upload und
 Viewer) sind nicht betroffen und behalten ihren eigenen Build.
 
+### Gemeinsam genutzte XSLT-Prozessoren ({{<mcr-ticket "MCR-3830" >}})
+
+XSLT-Prozessoren (Saxon, Xalan) werden jetzt einmal pro Anwendung in einer Registry angelegt und von allen
+`MCRXSLTransformer`-Instanzen, dem `xslStyle`-Resolver, dem XSL-FO-Formatter und weiteren Stellen gemeinsam genutzt.
+Ausgewählt wird ein Prozessor nicht mehr über den Klassennamen seiner `TransformerFactory`, sondern über eine ID.
+MyCoRe bringt drei IDs mit:
+
+| ID | Implementierung | gleichzeitige Nutzung |
+| --- | --- | --- |
+| `saxon` | `net.sf.saxon.TransformerFactoryImpl` | ja |
+| `xalan` | `org.mycore.common.xsl.MCRXalanTransformerFactory` | nein (Zugriffe werden serialisiert) |
+| `slowXalan` | `org.apache.xalan.processor.TransformerFactoryImpl` | nein (Zugriffe werden serialisiert) |
+
+Weitere Neuerungen:
+
+- Saxon ist jetzt **explizit** der Standard (`MCR.LayoutService.XSLTProcessor=saxon`). Bisher wurde der Standard
+  über die JAXP-Provider-Suche ermittelt, wenn `MCR.LayoutService.TransformerFactoryClass` leer war.
+- Prozessoren lassen sich einzeln konfigurieren, für Saxon z.B. mit einer
+  [Saxon-Konfigurationsdatei](https://www.saxonica.com/documentation12/index.html#!configuration/configuration-file).
+  Siehe [Die Nutzung von XSLT3]({{< ref "xsl_xslt3" >}}).
+- `MCRTemplatesCompiler` setzt nicht mehr die JVM-weite System-Property `javax.xml.transform.TransformerFactory`,
+  sondern nutzt den Prozessor `xalan`.
+- Der Instanz-Cache von `MCRXSLTransformer` und `MCRXSL2XMLTransformer` berücksichtigt jetzt den Prozessor:
+  Dieselben Stylesheets mit unterschiedlichen Prozessoren ergeben verschiedene Transformer.
+
 ### Größere Neuerung 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
@@ -253,6 +278,70 @@ Was zu tun ist:
   Der neue Standardwert ist `writedb,add-derivate`.
 - **Eigener Java-Code:** Aufrufe von `MCRMetadataManager#checkCreatePrivilege` für Derivate durch
   `MCRAccessManager.checkPermission(objectId, MCRAccessManager.PERMISSION_ADD_DERIVATE)` am Elternobjekt ersetzen.
+
+### XSLT-Prozessor per ID statt per Klasse konfigurieren ({{<mcr-ticket "MCR-3830" >}})
+
+Alle Properties, die bisher den Klassennamen einer `TransformerFactory` erwartet haben, sind veraltet und werden
+in einem künftigen Release entfernt. Sie funktionieren vorerst weiter, erzeugen aber Warnungen im Log. Stattdessen
+ist jeweils eine Property mit der ID eines registrierten XSLT-Prozessors zu setzen:
+
+| bisher (veraltet) | neu |
+| --- | --- |
+| `MCR.LayoutService.TransformerFactoryClass=%SAXON%` | `MCR.LayoutService.XSLTProcessor=saxon` |
+| `MCR.ContentTransformer.{id}.TransformerFactoryClass=%SAXON%` | `MCR.ContentTransformer.{id}.XSLTProcessor=saxon` |
+| `MCR.ContentTransformer.{id}.TransformerFactoryClass=%XALAN%` | `MCR.ContentTransformer.{id}.XSLTProcessor=xalan` |
+| `MCR.URIResolver.ModuleResolver.xslStyle.Flavor.{flavor}.TransformerFactory.Class=…` | `MCR.URIResolver.ModuleResolver.xslStyle.Flavor.{flavor}.XSLTProcessor=saxon` |
+| `MCR.LayoutService.FoFormatter.transformerFactoryImpl=…` | `MCR.LayoutService.FoFormatter.XSLTProcessor=saxon` |
+
+Für `%SLOWXALAN%` bzw. `org.apache.xalan.processor.TransformerFactoryImpl` lautet die ID `slowXalan`. Die Kürzel
+`SAXON`, `XALAN` und `SLOWXALAN` existieren nur noch für die veralteten Properties und entfallen mit ihnen.
+
+Zu beachten:
+
+- **Veraltete Properties haben Vorrang.** MyCoRe selbst setzt nur noch die neuen `XSLTProcessor`-Properties. Ist in
+  der Anwendung zusätzlich die alte Klassen-Property gesetzt, gewinnt diese. Beim Start listet
+  `MCRLegacyXSLCheck` alle solchen Überschreibungen im Log auf. Die alte Property muss also **entfernt** und durch die
+  neue ersetzt werden; ein reines Umbenennen des Property-Schlüssels unter Beibehaltung des Klassennamens als
+  Wert führt zu einer Warnung.
+- **`MCR.LayoutService.XSLTProcessor` ist Pflicht.** Ist weder diese noch die veraltete Property gesetzt, bricht die
+  Transformation mit einer `MCRConfigurationException` ab. Wer den Wert in der eigenen `mycore.properties` geleert hat
+  (`MCR.LayoutService.TransformerFactoryClass=`), um die JAXP-Provider-Suche zu nutzen, muss stattdessen eine ID
+  setzen.
+- **Eigene `TransformerFactory`-Implementierungen** werden als neuer Eintrag registriert und dann über ihre ID
+  referenziert. Die ID darf keinen Punkt enthalten.
+
+  ```properties
+  MCR.XSLTProcessorRegistry.Entries.myFactory.Factory.Class=org.example.MyTransformerFactory
+  # nur auf true setzen, wenn die Factory nachweislich thread-sicher ist (Standard: false)
+  MCR.XSLTProcessorRegistry.Entries.myFactory.SupportsConcurrency=false
+  MCR.ContentTransformer.myExport.XSLTProcessor=myFactory
+  ```
+- **Abhängigkeit von der JVM-weiten Xalan-Einstellung:** Eigener Code, der `TransformerFactory.newInstance()` aufruft
+  und sich darauf verlassen hat, dass `MCRTemplatesCompiler` zuvor Xalan als JVM-Standard gesetzt hat, erhält jetzt
+  die JAXP-Standard-Implementierung. Solcher Code sollte auf `MCRXSLTProcessor.obtainInstance("xalan")` umgestellt
+  werden.
+- Der XEditor-Post-Processor `MCRPostProcessorXSL` bildet das (bereits veraltete) Attribut `transformer="xalan"` auf
+  `slowXalan` und `transformer="saxon"` auf `saxon` ab. Hier ist nichts zu tun.
+
+### Veraltete Java-API für Transformer-Factories ({{<mcr-ticket "MCR-3830" >}})
+
+Folgende Java-Methoden sind als `@Deprecated(forRemoval = true)` markiert und sollten ersetzt werden:
+
+| veraltet | Ersatz |
+| --- | --- |
+| `MCRXSLTransformer.obtainInstance(Class, String...)` | `MCRXSLTransformer.obtainInstanceByProcessor(String, String...)` |
+| `MCRXSL2XMLTransformer.obtainInstance(Class, String...)` | `MCRXSL2XMLTransformer.obtainInstanceByProcessor(String, String...)` |
+| Konstruktoren `MCRXSLTransformer(Class…)` und `MCRXSL2XMLTransformer(Class…)` | `obtainInstanceByProcessor(…)` bzw. `obtainInstance(String...)` für den Standard-Prozessor |
+| `MCRXSLTransformer.DEFAULT_FACTORY_CLASS` | `MCRXSLTProcessorSelector.getDefaultProcessorId()` |
+| `MCRXSLTransformer.createDefaultTransformerFactory()` | `MCRXSLTProcessor.obtainInstance()` bzw. `MCRXSLTProcessor.obtainInstance(String)` |
+| `MCRXSLStyleURIResolver.Flavor(Class, String)`, `Flavor#get/setTransformerFactory` | `Flavor(String, String)`, `Flavor#get/setXSLTProcessorId` |
+
+`MCRXSLTProcessor` (Paket `org.mycore.common.xsl`) bietet `newTemplates`, `newTransformerHandler` und
+`newTransformer` an und kümmert sich um URI-Resolver, Error-Listener und die Serialisierung der Zugriffe.
+Eine eigene `TransformerFactory` pro Aufruf anzulegen ist nicht mehr nötig.
+
+Nicht abwärtskompatibel ist der Wegfall des `protected`-Feldes `tFactory` (`SAXTransformerFactory`) in
+`MCRXSLTransformer`. Unterklassen, die dieses Feld verwendet haben, müssen angepasst werden.
 
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 

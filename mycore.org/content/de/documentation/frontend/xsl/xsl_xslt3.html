@@ -1,6 +1,6 @@
 ---
 title: "Die Nutzung von XSLT3"
-mcr_version: ['2022.06']
+mcr_version: ['2022.06','2026.12']
 author: ['Jens Kupferschmidt','Thomas Scheffler', 'Robert Stephan']
 description: "Der Abschnitt beschreibt die Nutzung von XSLT3 zur Transformation von Layouts und Daten sowie die zusätzlichen MyCoRe-XSLT3-Funktionen."
 date: "2022-10-26"
@@ -8,34 +8,74 @@ date: "2022-10-26"
 
 <h2>Standardverhalten</h2>
 <p>
-  Mit LTS 2022.06 ist Saxon und damit XSLT3 der Standardtransormer Prozess für alle Transformationen. Die Rückkehr zu XSLT1 ist über das 
-  folgende Property möglich.
+  Mit LTS 2022.06 ist Saxon und damit XSLT3 der Standardtransformer-Prozess für alle Transformationen.
+  Seit LTS 2026.12 wird der Standard-Prozessor über eine ID ausgewählt
+  ({{< mcr-ticket "MCR-3830" >}}). Die Rückkehr zu XSLT1 ist über das folgende Property möglich:
 </p>
 <p>
-  {{< highlight xml "linenos=table">}}
-  MCR.LayoutService.TransformerFactoryClass=org.apache.xalan.processor.TransformerFactoryImpl{{< /highlight >}}
+  {{< highlight properties "linenos=table">}}
+  MCR.LayoutService.XSLTProcessor=xalan{{< /highlight >}}
 </p>
-<h2>Einbindung von Saxon in die MyCoRe-Transformation</h2>
+
+<h2>XSLT-Prozessoren</h2>
 <p>
-  In MyCoRe ist es möglich, einzelne gekapselte Transformationsprozesse, z. B. für Datenexporte, generieren von PDF-Dateien
-  u. ä. bereits auf XSLT3 umzustellen, ohne dies schon für die Gesamtanwendung tun zu müssen.
-  <a target="_blank" href="https://www.saxonica.com/html/documentation/about/">Saxon</a>
-  ist dabei das Mittel der Wahl.
-  Um einen einzelnen Transformationsprozess umzustellen, sind folgende Konfigurations-Properties notwendig:
+  XSLT-Prozessoren werden in MyCoRe einmal pro Anwendung angelegt und unter einer ID registriert. Alle
+  Transformationen, die denselben Prozessor verwenden, teilen sich dessen <code>TransformerFactory</code>.
+  Folgende IDs sind vorkonfiguriert:
+</p>
+{{< highlight properties "linenos=table">}}
+MCR.XSLTProcessorRegistry.Entries.saxon.Factory.Class=net.sf.saxon.TransformerFactoryImpl
+MCR.XSLTProcessorRegistry.Entries.saxon.SupportsConcurrency=true
+MCR.XSLTProcessorRegistry.Entries.xalan.Factory.Class=org.mycore.common.xsl.MCRXalanTransformerFactory
+MCR.XSLTProcessorRegistry.Entries.xalan.SupportsConcurrency=false
+MCR.XSLTProcessorRegistry.Entries.slowXalan.Factory.Class=org.apache.xalan.processor.TransformerFactoryImpl
+MCR.XSLTProcessorRegistry.Entries.slowXalan.SupportsConcurrency=false{{< /highlight >}}
+<p>
+  <code>SupportsConcurrency</code> gibt an, ob mehrere Threads die Factory gleichzeitig nutzen dürfen. Ist der Wert
+  <code>false</code> (Standard), werden Zugriffe auf die Factory (z.B. das Kompilieren eines Stylesheets) serialisiert.
+  Die eigentlichen Transformationen laufen davon unabhängig parallel.
 </p>
 <p>
-  {{< highlight text "linenos=table">}}
+  Eigene <code>TransformerFactory</code>-Implementierungen können unter einer eigenen ID registriert werden.
+  Die ID darf keinen Punkt enthalten.
+</p>
+{{< highlight properties "linenos=table">}}
+MCR.XSLTProcessorRegistry.Entries.myFactory.Factory.Class=org.example.MyTransformerFactory
+MCR.XSLTProcessorRegistry.Entries.myFactory.SupportsConcurrency=false{{< /highlight >}}
+
+<h3>Saxon-Konfigurationsdatei</h3>
+<p>
+  Einem Prozessor können Initialisierer zugeordnet werden, die die Factory vor der ersten Nutzung konfigurieren.
+  MyCoRe liefert einen Initialisierer mit, der Saxon eine
+  <a target="_blank" href="https://www.saxonica.com/documentation12/index.html#!configuration/configuration-file">Konfigurationsdatei</a>
+  übergibt. Ein relativer Pfad wird gegen das MyCoRe-Konfigurationsverzeichnis aufgelöst.
+</p>
+{{< highlight properties "linenos=table">}}
+MCR.XSLTProcessorRegistry.Entries.saxon.Initializers.10.Class=org.mycore.common.xsl.MCRSaxonConfigurationFileInitializer
+MCR.XSLTProcessorRegistry.Entries.saxon.Initializers.10.ConfigurationFile=saxon-config.xml{{< /highlight >}}
+
+<h2>Auswahl des Prozessors für einzelne Transformationen</h2>
+<p>
+  Einzelne gekapselte Transformationsprozesse, z.B. für Datenexporte, können einen anderen Prozessor nutzen als
+  der Rest der Anwendung. Dazu wird beim ContentTransformer die ID des Prozessors angegeben:
+</p>
+<p>
+  {{< highlight properties "linenos=table">}}
   MCR.ContentTransformer.{my_process}.Class=org.mycore.common.content.transformer.MCRXSLTransformer
-  MCR.ContentTransformer.{my_process}.Stylesheet=xsl/{my_stylesheet}.xsl
-  MCR.ContentTransformer.{my_process}.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl{{< /highlight >}}
+  MCR.ContentTransformer.{my_process}.Stylesheet=xslt/{my_stylesheet}.xsl
+  MCR.ContentTransformer.{my_process}.XSLTProcessor=saxon{{< /highlight >}}
 </p>
-<p>Wird die <tt>TransformerFactoryClass</tt> nicht gesetzt, ist <a href="https://xml.apache.org/xalan-j/">Xalan</a> der Fallback.</p>
-<p>Unabhängig davon kann durch Konfiguration auch die gesamte Anwendung auf XSLT3 (Saxon) umgestellt werden, wenn dies 
-   alle verwendeten Transformations-Stylesheets unterstützen:
-{{< highlight text "linenos=table">}}
-   MCR.LayoutService.TransformerFactoryClass=net.sf.saxon.TransformerFactoryImpl
-{{< /highlight >}}
+<p>
+  Wird <code>XSLTProcessor</code> nicht gesetzt, gilt der Standard aus <code>MCR.LayoutService.XSLTProcessor</code>.
+  Für den URI-Resolver <code>xslStyle</code> wird der Prozessor je Flavor festgelegt, z.B.
+  <code>MCR.URIResolver.ModuleResolver.xslStyle.Flavor.xslt.XSLTProcessor=saxon</code>.
 </p>
+<div class="alert alert-info">
+  Bis LTS 2026.06 wurde statt der ID der Klassenname der <code>TransformerFactory</code> angegeben
+  (<code>…TransformerFactoryClass=%SAXON%</code>). Diese Properties sind veraltet, werden aber noch ausgewertet und
+  haben dabei Vorrang vor den neuen Properties. Hinweise zur Umstellung stehen in der
+  <a href="{{< ref migrate_mcr2026_12 >}}">Migrationsanleitung 2026.12</a>.
+</div>
 
 <h2>Developer-Modus</h2>
 <p>

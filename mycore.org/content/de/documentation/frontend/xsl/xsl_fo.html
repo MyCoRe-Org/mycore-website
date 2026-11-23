@@ -2,7 +2,7 @@
 ---
 
 title: "XSL-FO"
-mcr_version: ['2019.06','2020.06']
+mcr_version: ['2019.06','2020.06','2026.12']
 author: ['Jens Kupferschmidt']
 description: "Es wir die Integration eines XSL-FO-Formatters beschrieben."
 date: "2020-06-02"
@@ -45,7 +45,14 @@ date: "2020-06-02"
   # Class that implements MCRFoFormatterInterface
   MCR.LayoutService.FoFormatter.class=org.mycore.common.fo.MCRFoFormatterFOP
   # Configuration file for FOP in classpath
-  MCR.LayoutService.FoFormatter.FOP.config=myConfigFile{{< /highlight >}}
+  MCR.LayoutService.FoFormatter.FOP.config=myConfigFile
+  # XSLT processor ID for the identity transform (default: MCR.LayoutService.XSLTProcessor)
+  MCR.LayoutService.FoFormatter.XSLTProcessor=saxon{{< /highlight >}}
+</p>
+<p>
+  Seit LTS 2026.12 wird der XSLT-Prozessor, mit dem <code>MCRFoFormatterFOP</code> das XSL-FO-Dokument an FOP
+  übergibt, über eine ID ausgewählt ({{< mcr-ticket "MCR-3830" >}}). Das veraltete Property
+  <code>MCR.LayoutService.FoFormatter.transformerFactoryImpl</code> mit einem Klassennamen wird noch ausgewertet.
 </p>
 <p>
   Für FOP kann noch eine Konfigurationsdatei im Classpath angegeben werden, die z. B. andere Fonts einsetzt.
