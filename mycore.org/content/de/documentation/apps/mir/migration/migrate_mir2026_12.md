@@ -136,3 +136,86 @@ durch `regex=a.*` ersetzt werden.
 Mit dem neuen Konfigurationswert `MIR.Search.PersonIndex.HideButtonRegex` kann eingestellt werden, 
 ob das zur Suche verwendete Muster angezeigt werden soll, wenn einer der Buttons verwendet wurde.
 
+### Integration und Umbenennung des Navigation-Plugins in MIR ({{<mcr-ticket "MIR-1684" >}}, {{<mcr-ticket "MIR-1730" >}})
+
+Das [Navigations-Plugin](https://github.com/MyCoRe-Org/mir-navigation-plugin) ist ab 2026.12 Teil von MIR. 
+Hierbei wurden einige Anpassungen und Erweiterungen integriert. Insbesondere wurde das Feature an sich und 
+mit dem Feature in Verbindung stehende Dinge in "Guidance" umbenannt, um es besser von anderen Features,
+die Teil von MIR sind, abgrenzen zu können.
+
+Wer das Plugin bisher nicht verwendet hat, muss nichts tun. Wer das Plugin bisher verwendet hat,
+muss es entfernen und ein paar kleinere Anpassungen vornehmen.
+
+Die wichtigsten Unterschiede:
+
+- Für die Konfiguration einer Navigation wurde bisher die Datei mit Namen `navigation.xml` im Derivat des Typs `navigation` verwendet.  
+  Nun wird die Startdatei (per Konvention: `guidance.xml`) im Derivat des Typs `guidance` verwendet.
+- Die XML-Struktur der Konfigurationsdatei wurde überarbeitet, z.B. heißt das Root-Element nun `guidance` und nicht mehr `item`.
+- Das Feature wurde um einige Aspekte erweitert, die in der Konfigurationsdatei konfiguriert werden können; insbesondere:
+  - Listenelemente konnten bereits eine sprachabhängige Beschriftung haben.  
+    Nun kann auch die URL sprachabhängig konfiguriert werden.
+  - Listenelement konnten bisher nur absolute oder relative URLs haben.  
+    Nun kann alternativ eine XML-Datei aus demselben Derivat referenziert werden,
+    die mit dem `MCRDerivateContentTransformerServlet` gerendert wird.
+    Zudem kann nun ein URL-Pfad global konfiguriert werden,
+    der optional bei relativen URLs integriert werden kann
+    (erspart unnötige Dopplungen bei der Eingabe)
+  - Bisher konnte für das Banner nur eine relative URL zu einer Bilddatei angegeben werden.  
+    Nun können dieselben Möglichkeiten wie bei den Links von Listeneinträgen verwendet werden
+    (wobei eine Bilddatei aus demselben Derivat mit dem `MCRFileNodeServlet` ausgeliefert wird).
+    Zudem können sprachabhängig unterschiedliche Bilder und Links konfiguriert werden.
+  - Bei Bannern kann zusätzlich "Kleingedrucktes" unterhalb des Banners ausgegeben werden
+    ([Beispiel](https://macau.uni-kiel.de/receive/macau_mods_00006298)).
+  - Zwischen Banner und der Verknüpfungsliste können nun prominente Buttons für zwei spezielle Funktionen angezeigt werden
+    ([Beispiel](https://macau.uni-kiel.de/receive/macau_mods_00008326)):
+    - Ein "Über diese Serie / Zeitschrift / ..."-Button (global konfiguriert in der Konfigurationsdatei)
+    - Ein "Gedrucktes Exemplar kaufen"-Button (individuell konfiguriert für jedes Objekt, z.B. jeden Band einer Serie)
+
+Die neue XML-Struktur ist im Ticket {{<mcr-ticket "MIR-1730" >}} beschrieben.
+
+Es sind die foldenden Migrationsschritte vorzunehmen:
+
+- Die JAR-Datei des Navigations-Plugins muss entfernt werden.
+- In den Properties muss `MIR.GuidancePanel.Enabled=true` gesetzt werden.
+- Im Property `MIR.Layout.End` muss ggf. `series-layout` durch `mir-guidance-panel` ersetzt werden.
+- Aus dem Property `MCR.URIResolver.xslIncludes.MyCoReWebPage` müssen `series-panel-adapter.xsl` und  `series-panel-enricher.xsl` entfernt werden.
+- Das Property `MIR.GuidancePanel.RSS.Enabled` muss in `MIR.Metadata.Navigation.SeriesPanel.RSS.Enabled` umbenannt werden.
+- Das Property `MIR.Metadata.Navigation.SeriesPanel.RSS.Enabled` muss ggf. konfiguriert werden, da der Standardwert nun `true` ist.
+- Das Solr-Feld `root` wurde in `mods.relatedItem.root` umbenannt. Links mit `q=root:...`  müssen ggf. zu `q=mods.relatedItem.root:....` angepasst werden. Die Solr-Konfiguration muss neu geladen und der Solr-Index muss neu gebaut werden, sofern dies nicht eh im Rahmen der Migration der verbesserten Personensuche bereits geschehen ist.
+
+Zur Migration der Daten genügt das Kommando `migrate navigation`. Es führt die folgenden Kommandos aus,
+die alternativ auch einzeln ausgeführt werden können:
+
+1. `create guidance derivate type`  
+   Legt den neuen Derivat-Typ `guidance` an.
+1. `select navigation derivates`  
+   Selektiert alle Derivate mit Derivat-Typ `navigation` (und ohne Hauptdatei `guidance.xml`).
+1. `execute for selected verify navigation derivate {x}`  
+   Fürt für alle selektierten Derivate eine Scheme-Validierung der alten XML-Struktur
+   der alten Konfigurationsdatei `navigation.xml` aus und warnt, wenn eine Datei nicht valide ist
+   (bricht die weitere Verarbeitung aber nicht ab). 
+1. `execute for selected migrate navigation derivate {x}`  
+   Ändert für alle selektierten Derivate den Derivat-Typ von `navigation` in `guidance`,
+   benennt die Datei `navigation.xml` in `guidance.xml` um und trägt diese Datei als Hauptdatei des Derivats ein.
+1. `select guidance derivates`
+   Selektiert alle Derivate mit Derivat-Typ `guidance` (und mit Hauptdatei `guidance.xml`).
+1. `execute for selected migrate guidance derivate {x} main document`  
+    Transformiert den Inhalt der Hauptdatei `guidance.xml` in die neue XML-Struktur. 
+1. `execute for selected verify guidance file guidance.xml in derivate {x}`  
+   Fürt für alle selektierten Derivate eine Scheme-Validierung der neuen XML-Struktur
+   der neuen Konfigurationsdatei `guidance.xml` aus und warnt, wenn eine Datei nicht valide ist
+   (bricht die weitere Verarbeitung aber nicht ab).
+1. `delete navigation derivate type`  
+   Entfernt den alten Derivat-Typ `navigation` an.
+
+> An sich genügt das Kommando `migrate navigation`. Die Transformation ignoriert unbekannte Inhalte
+> (unbekannte Elemente oder Attribute) aus der alten XML-Struktur und übernimmt diese nicht in die
+> neue XML-Struktur. Nur wer sicher sein will, dass hier keine Informationen versehentlich verloren gehen,
+> sollte vorher `select navigation derivates` und `execute for selected verify navigation derivate {x}`
+> manuell ausführen und die ausgegebenen Warnungen studieren.
+{.note}
+
+Die generierte HTML-Struktur ist sehr vergleichbar mit der HTML-Struktur, die zuvor von dem Navigation-Plugin
+erzeugt wurde, ist aber nicht identisch. Insbesondere wurden einige `class`-Attribute umbenannt
+(Banner: `banner-link` ⮕ `mir-guidance-banner`; Verknüpfungsliste: `series-card` ⮕ `mir-guidance-items`).
+Wer das Styling der HTML-Ausgabe des Navigations-Plugins angepasst hat, muss diese Anpassungen überarbeiten.
