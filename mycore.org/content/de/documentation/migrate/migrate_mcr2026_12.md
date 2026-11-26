@@ -372,6 +372,34 @@ wird dieses `?` durch eine berechnete Prüfziffer ersetzt.
 > im Falle des MODS-Datenmodells). Die Metadaten müssen weiterhin separat aktualisiert werden.
 {.warning}
 
+### Kachel-Dateien des Bildbetrachters verwenden den vollständigen Dateinamen ({{<mcr-ticket "MCR-3891" >}})
+
+Die Kachel-Dateien (`.iview2`) unterhalb von `MCR.Module-iview2.DirectoryForTiles` wurden bisher nach dem Bildpfad
+ohne Dateiendung benannt. Dateien, die sich nur in der Endung unterscheiden (z.B. `talk.jpg` und `talk.tif` oder
+`scan.pdf` und `scan.jpg` beim PDF-Vorschaubild), teilten sich dadurch eine Kachel-Datei und überschrieben sich
+gegenseitig. Jetzt wird der vollständige Dateiname verwendet, aus `talk.iview2` wird also `talk.jpg.iview2`.
+
+Bestehende Kachel-Dateien werden nach dem Update nicht mehr gefunden. Bild- und Vorschauanzeige funktionieren erst
+wieder, wenn die Kacheln migriert sind. Dazu muss nach dem Deployment einmalig folgendes CLI-Kommando ausgeführt
+werden:
+
+```
+migrate tiles of all derivates
+```
+
+Für einzelne Derivate gibt es zusätzlich `migrate tiles of derivate {0}`. Die Migration geht für jede Kachel-Datei
+nach dem alten Schema so vor:
+
+- Passt genau eine Datei des Derivats, wird die Kachel-Datei umbenannt.
+- Passen mehrere Dateien, ist die Herkunft nicht eindeutig. Die Kachel-Datei wird gelöscht und die Kacheln aller
+  betroffenen Dateien werden neu erzeugt.
+- Passt keine Datei, ist die Kachel-Datei verwaist und wird gelöscht.
+
+Bereits migrierte Kachel-Dateien werden übersprungen, das Kommando kann also gefahrlos mehrfach ausgeführt werden.
+
+Eigener Java-Code sollte statt der als `deprecated` markierten Methode `MCRImage#getTiledFile` die Methode
+`MCRImage#getTiledPath` verwenden.
+
 ### Schritt 1 ({{<mcr-ticket "MCR-XXXX" >}})
 
 Beschreibung
